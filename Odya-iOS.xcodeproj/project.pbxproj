@@ -11,6 +11,11 @@
 		071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5232A20A99F00C7B362 /* LoginView.swift */; };
 		071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5252A20A9A000C7B362 /* Assets.xcassets */; };
 		071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */; };
+		3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */; };
+		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
+		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
+		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
+		8687BA2DF5E258000789126B /* Pods_Odya_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F72701B04B66E748DA48AB /* Pods_Odya_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +24,15 @@
 		071FA5232A20A99F00C7B362 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		071FA5252A20A9A000C7B362 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0E1B49CF54D5A494F91E307E /* Pods-Odya-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odya-iOS.release.xcconfig"; path = "Target Support Files/Pods-Odya-iOS/Pods-Odya-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginView.swift; sourceTree = "<group>"; };
+		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KakaoAuthViewModel.swift; path = "Odya-iOS/Core/Login/View/KakaoAuthViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		3E0589002A276E84005C29D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3E0589022A276E8C005C29D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		3E0589042A276EAD005C29D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3E0589052A277063005C29D9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		9D11B3AD9E19714EAF8941B5 /* Pods-Odya-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odya-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Odya-iOS/Pods-Odya-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		B0F72701B04B66E748DA48AB /* Pods_Odya_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Odya_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8687BA2DF5E258000789126B /* Pods_Odya_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +52,8 @@
 			children = (
 				071FA5202A20A99F00C7B362 /* Odya-iOS */,
 				071FA51F2A20A99F00C7B362 /* Products */,
+				830EAA2DDBA5BFEF8ECD72BE /* Pods */,
+				6D27E85E136E6999FD994DB1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,12 +68,14 @@
 		071FA5202A20A99F00C7B362 /* Odya-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3E0589042A276EAD005C29D9 /* Info.plist */,
 				071FA52F2A20ADA400C7B362 /* App */,
 				071FA5352A20AE6C00C7B362 /* Core */,
 				071FA5342A20AE6000C7B362 /* Extensions */,
 				071FA5332A20AE5900C7B362 /* Managers */,
 				071FA5252A20A9A000C7B362 /* Assets.xcassets */,
 				071FA5272A20A9A000C7B362 /* Preview Content */,
+				3E0589052A277063005C29D9 /* Config.xcconfig */,
 			);
 			path = "Odya-iOS";
 			sourceTree = "<group>";
@@ -73,6 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				071FA5212A20A99F00C7B362 /* Odya_iOSApp.swift */,
+				3E0589002A276E84005C29D9 /* AppDelegate.swift */,
+				3E0589022A276E8C005C29D9 /* SceneDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -90,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				071FA5232A20A99F00C7B362 /* LoginView.swift */,
+				3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -97,6 +119,7 @@
 		071FA5322A20ADC100C7B362 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -123,6 +146,23 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		6D27E85E136E6999FD994DB1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B0F72701B04B66E748DA48AB /* Pods_Odya_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		830EAA2DDBA5BFEF8ECD72BE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9D11B3AD9E19714EAF8941B5 /* Pods-Odya-iOS.debug.xcconfig */,
+				0E1B49CF54D5A494F91E307E /* Pods-Odya-iOS.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -130,9 +170,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 071FA52C2A20A9A000C7B362 /* Build configuration list for PBXNativeTarget "Odya-iOS" */;
 			buildPhases = (
+				8D85FD390C87BD23B69E28D8 /* [CP] Check Pods Manifest.lock */,
 				071FA51A2A20A99F00C7B362 /* Sources */,
 				071FA51B2A20A99F00C7B362 /* Frameworks */,
 				071FA51C2A20A99F00C7B362 /* Resources */,
+				510907BFE57B1B993F8A5060 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,13 +230,59 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		510907BFE57B1B993F8A5060 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Odya-iOS/Pods-Odya-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Odya-iOS/Pods-Odya-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Odya-iOS/Pods-Odya-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8D85FD390C87BD23B69E28D8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Odya-iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		071FA51A2A20A99F00C7B362 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
+				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
+				3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */,
+				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +291,7 @@
 /* Begin XCBuildConfiguration section */
 		071FA52A2A20A9A000C7B362 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E0589052A277063005C29D9 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -263,6 +352,7 @@
 		};
 		071FA52B2A20A9A000C7B362 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3E0589052A277063005C29D9 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -317,6 +407,7 @@
 		};
 		071FA52D2A20A9A000C7B362 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9D11B3AD9E19714EAF8941B5 /* Pods-Odya-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -327,6 +418,7 @@
 				DEVELOPMENT_TEAM = 7V2ZG69KPK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Odya-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -348,6 +440,7 @@
 		};
 		071FA52E2A20A9A000C7B362 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E1B49CF54D5A494F91E307E /* Pods-Odya-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -357,6 +450,7 @@
 				DEVELOPMENT_TEAM = 7V2ZG69KPK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Odya-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
