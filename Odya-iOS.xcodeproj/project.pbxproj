@@ -15,6 +15,7 @@
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
 		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
+		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		8687BA2DF5E258000789126B /* Pods_Odya_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0F72701B04B66E748DA48AB /* Pods_Odya_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		3E0589022A276E8C005C29D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3E0589042A276EAD005C29D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3E0589052A277063005C29D9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9D11B3AD9E19714EAF8941B5 /* Pods-Odya-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odya-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Odya-iOS/Pods-Odya-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B0F72701B04B66E748DA48AB /* Pods_Odya_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Odya_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				071FA5302A20ADAC00C7B362 /* Login */,
+				3E36EC722A2B596C006008E5 /* MainView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */,
+				3E36EC732A2B596C006008E5 /* MainView.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,

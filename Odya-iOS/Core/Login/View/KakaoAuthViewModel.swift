@@ -7,7 +7,10 @@
 
 import SwiftUI
 import Combine
+import KakaoSDKCommon
+import KakaoSDKAuth
 import KakaoSDKUser
+
 
 class KakaoAuthViewModel: ObservableObject {
     
@@ -16,10 +19,15 @@ class KakaoAuthViewModel: ObservableObject {
     /// 로그인 상태
     @Published var isLoggedIn: Bool = false
     
+    /// 자동로그인 확인을 위한 토큰
+    @AppStorage("accessToken") var kakaoAccessToken: String?
+    
+    /// 사용자 정보
+    @Published var userInfo: User? = nil
+    
     
     // MARK: FUNCTIONS-LOGIN
     
-    /// 카카오 로그인
     @MainActor
     func kakaoLogin() {
         Task {
@@ -30,6 +38,9 @@ class KakaoAuthViewModel: ObservableObject {
             } else {
                 // 카카오톡 실행 불가능할 경우, 웹 뷰를 이용해 로그인
                 await isLoggedIn = handleKakaoLoginWithAccount()
+            }
+            if isLoggedIn == true {
+                getUserInfoFromKakao()
             }
         }
     }
@@ -46,7 +57,7 @@ class KakaoAuthViewModel: ObservableObject {
                     print("loginWithKakaoTalk() success.")
                     
                     //do something
-                    _ = oauthToken
+                    self.kakaoAccessToken = oauthToken?.accessToken
                     
                     continuation.resume(returning: true)
                 }
@@ -66,7 +77,7 @@ class KakaoAuthViewModel: ObservableObject {
                     print("loginWithKakaoAccount() success.")
                     
                     //do something
-                    _ = oauthToken
+                    self.kakaoAccessToken = oauthToken?.accessToken
                     
                     continuation.resume(returning: true)
                 }
@@ -83,6 +94,7 @@ class KakaoAuthViewModel: ObservableObject {
         Task {
             if await handlekakaoLogout() {
                 isLoggedIn = false
+                kakaoAccessToken = nil
             }
         }
     }
@@ -102,5 +114,36 @@ class KakaoAuthViewModel: ObservableObject {
             }
         }
     }
+    
+    // MARK: FUNCTIONS-USER INFO
+    
+    /// 카카오 계정 사용자 정보 userInfo로 가져오기
+    func getUserInfoFromKakao()  {
+        UserApi.shared.me() {(user, error) in
+            if let error = error {
+                print("Error: \(error)")
+            }
+            else {
+                print("me() success.")
+
+                //do something
+                self.userInfo = user
+            }
+        }
+    }
+
+    
+    /*// 아직 기능 체크 안함
+    func updateUserInfo() {
+        UserApi.shared.updateProfile(properties: ["${CUSTOM_PROPERTY_KEY}":"${CUSTOM_PROPERTY_VALUE}"]) {(error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("updateProfile() success.")
+            }
+        }
+    } */
+    
 
 }
