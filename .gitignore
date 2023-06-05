@@ -64,3 +64,6 @@ Pods/
 !*.xcodeproj/xcshareddata/
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+#config
+Odya-iOS/*.xcconfig

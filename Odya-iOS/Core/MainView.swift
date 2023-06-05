@@ -49,8 +49,6 @@ struct MainView: View {
         guard let user = kakaoUser else {
             return "no user"
         }
-        print("id: \(user.id!)")
-        
         guard let account = user.kakaoAccount else {
             return "no account"
         }

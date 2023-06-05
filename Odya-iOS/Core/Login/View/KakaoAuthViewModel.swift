@@ -40,6 +40,7 @@ class KakaoAuthViewModel: ObservableObject {
                 await isLoggedIn = handleKakaoLoginWithAccount()
             }
             if isLoggedIn == true {
+                print("kakao login success")
                 getUserInfoFromKakao()
             }
         }
@@ -54,7 +55,7 @@ class KakaoAuthViewModel: ObservableObject {
                     continuation.resume(returning: false)
                 }
                 else {
-                    print("loginWithKakaoTalk() success.")
+                    // print("loginWithKakaoTalk() success.")
                     
                     //do something
                     self.kakaoAccessToken = oauthToken?.accessToken
@@ -74,7 +75,7 @@ class KakaoAuthViewModel: ObservableObject {
                     continuation.resume(returning: false)
                 }
                 else {
-                    print("loginWithKakaoAccount() success.")
+                    // print("loginWithKakaoAccount() success.")
                     
                     //do something
                     self.kakaoAccessToken = oauthToken?.accessToken
@@ -95,6 +96,7 @@ class KakaoAuthViewModel: ObservableObject {
             if await handlekakaoLogout() {
                 isLoggedIn = false
                 kakaoAccessToken = nil
+                print("kakao logout seccess")
             }
         }
     }
@@ -108,7 +110,7 @@ class KakaoAuthViewModel: ObservableObject {
                     continuation.resume(returning: false)
                 }
                 else {
-                    print("logout() success.")
+                    // print("logout() success.")
                     continuation.resume(returning: true)
                 }
             }
@@ -124,7 +126,7 @@ class KakaoAuthViewModel: ObservableObject {
                 print("Error: \(error)")
             }
             else {
-                print("me() success.")
+                // print("me() success.")
 
                 //do something
                 self.userInfo = user
