@@ -5,13 +5,53 @@
 //  Created by Jade Yoo on 2023/05/26.
 //
 
+import Foundation
 import SwiftUI
+import KakaoSDKUser
 
 @main
 struct Odya_iOSApp: App {
+    
+    // MARK: PROPERTIES
+    
+    // with AppDelegate.swift
+    @UIApplicationDelegateAdaptor var appDelegate: AppDelegate
+    
+    
+    /// 카카오 자동로그인 확인을 위한 토큰
+    @AppStorage("accessToken") var kakaoAccessToken: String?
+
+    
+    // MARK: BODY
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            if kakaoAccessToken != nil {
+                MainView()
+            } else {
+                KakaoLoginView()
+            }
+            // LoginView()
         }
     }
+    
+    /*/ without AppDelegate.swift
+    init() {
+        let kakaoApiKey = Bundle.main.infoDictionary?["d8b402ca46c000a2f1bff61ed7a80243"] ?? ""
+        print("kakaoApiKey: \(kakaoApiKey)")
+        
+        // kakao SDK 초기화
+        KakaoSDK.initSDK(appKey: kakaoApiKey)
+    }
+
+    var body: some Scene {
+        WindowGroup {
+            // onOpenURL()을 사용해 커스텀 URL 스킴 처리
+            ContentView().onOpenURL(perform: { url in
+                if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                    AuthController.handleOpenUrl(url: url)
+                }
+            })
+        }
+    } */
+    
 }
