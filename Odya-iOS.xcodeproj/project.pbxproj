@@ -67,6 +67,7 @@
 		071FA5202A20A99F00C7B362 /* Odya-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				07DFFC102A2F6EA6006A2FB9 /* Model */,
 				07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */,
 				071FA52F2A20ADA400C7B362 /* App */,
 				071FA5352A20AE6C00C7B362 /* Core */,
@@ -74,7 +75,6 @@
 				071FA5332A20AE5900C7B362 /* Managers */,
 				071FA5252A20A9A000C7B362 /* Assets.xcassets */,
 				071FA5272A20A9A000C7B362 /* Preview Content */,
-				073294892A2C9975008E1026 /* UserDefaults.swift */,
 			);
 			path = "Odya-iOS";
 			sourceTree = "<group>";
@@ -158,6 +158,14 @@
 				07B54E052A263B5A00F631EF /* TestView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		07DFFC102A2F6EA6006A2FB9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				073294892A2C9975008E1026 /* UserDefaults.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		0A92FC640F9E37FB54FEF841 /* Pods */ = {
