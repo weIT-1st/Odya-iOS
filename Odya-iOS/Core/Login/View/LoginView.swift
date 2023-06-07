@@ -9,11 +9,10 @@ import SwiftUI
 
 struct LoginView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        VStack(alignment: .center) {
+            // TODO: - 카카오 로그인 버튼 추가
+            
+            AppleLoginButton()
         }
         .padding()
     }

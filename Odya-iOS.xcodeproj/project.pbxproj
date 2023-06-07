@@ -11,6 +11,8 @@
 		071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5232A20A99F00C7B362 /* LoginView.swift */; };
 		071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5252A20A9A000C7B362 /* Assets.xcassets */; };
 		071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */; };
+		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
+		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
 		3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */; };
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
@@ -29,6 +31,9 @@
 		071FA5232A20A99F00C7B362 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		071FA5252A20A9A000C7B362 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
+		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		0E1B49CF54D5A494F91E307E /* Pods-Odya-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Odya-iOS.release.xcconfig"; path = "Target Support Files/Pods-Odya-iOS/Pods-Odya-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginView.swift; sourceTree = "<group>"; };
 		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KakaoAuthViewModel.swift; path = "Odya-iOS/Core/Login/View/KakaoAuthViewModel.swift"; sourceTree = SOURCE_ROOT; };
@@ -78,6 +83,8 @@
 		071FA5202A20A99F00C7B362 /* Odya-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				07DFFC102A2F6EA6006A2FB9 /* Model */,
+				07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */,
 				3E0589042A276EAD005C29D9 /* Info.plist */,
 				071FA52F2A20ADA400C7B362 /* App */,
 				071FA5352A20AE6C00C7B362 /* Core */,
@@ -121,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				071FA5232A20A99F00C7B362 /* LoginView.swift */,
+				07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */,
 				3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */,
 			);
 			path = View;
@@ -183,6 +191,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		07DFFC102A2F6EA6006A2FB9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				073294892A2C9975008E1026 /* UserDefaults.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+
 		830EAA2DDBA5BFEF8ECD72BE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,6 +331,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
+				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
+				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
 				3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */,
 				3E36EC732A2B596C006008E5 /* MainView.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
@@ -453,6 +473,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Odya-iOS/Odya-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -486,6 +507,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Odya-iOS/Odya-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
