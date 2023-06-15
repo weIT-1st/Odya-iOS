@@ -9,11 +9,22 @@ import SwiftUI
 import KakaoSDKUser
 
 struct MainView: View {
-    
+    @State private var showLocationSearchView = false
     @StateObject var kakaoAuthViewModel = KakaoAuthViewModel()
 
     var body: some View {
         VStack {
+            if showLocationSearchView {
+                LocationSearchView(showLocationSearchView: $showLocationSearchView)
+            } else {
+                LocationSearchActivationView()
+                    .onTapGesture {
+                        showLocationSearchView = true
+                    }
+            }
+            
+            Spacer()
+            
             // 사용자 정보 - 프로필 닉네임
             Text(getUserName())
             

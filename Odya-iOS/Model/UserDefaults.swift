@@ -42,9 +42,19 @@ struct AppleUserData {
     static var email: String
 }
 
+/// 최근 검색어 저장
+struct SearchData {
+    @UserDefault(key: keyEnum_Search.recentSearchText.rawValue, defaultValue: [String]())
+    static var recentSearchText: [String]
+}
+
 enum keyEnum_APPLE_USER: String {
     case userIdentifier
     case familyName
     case givenName
     case email
+}
+
+enum keyEnum_Search: String {
+    case recentSearchText
 }
