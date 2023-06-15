@@ -54,30 +54,8 @@ struct LocationSearchView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 4) {
                             ForEach(viewModel.recentSearchTexts.reversed(), id: \.self) { text in
-                                HStack {
-                                    // 최근검색어 버튼
-                                    Button {
-                                        // 검색어 대치
-                                        viewModel.queryFragment = text
-                                        viewModel.appendRecentSearch()
-                                    } label: {
-                                        Text(text)
-                                            .font(.system(size: 12))
-                                    }
-
-                                    // 삭제 버튼
-                                    Button {
-                                        viewModel.removeRecentSearch(searchText: text)
-                                    } label: {
-                                        Image(systemName: "xmark")
-                                    }
-                                }
-                                .padding(8)
-                                .background(
-                                    Capsule()
-                                        .stroke(.black, style: StrokeStyle(lineWidth: 1))
-                                )
-                                
+                                RecentSearchCell(searchText: text)
+                                    .environmentObject(viewModel)
                             }
                         }
                         .padding(.vertical, 4)

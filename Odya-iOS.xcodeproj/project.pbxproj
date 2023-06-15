@@ -12,6 +12,7 @@
 		071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5252A20A9A000C7B362 /* Assets.xcassets */; };
 		071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */; };
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
+		07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */; };
 		07AF2B142A392AE300D54780 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 07AF2B132A392AE300D54780 /* GoogleMaps */; };
 		07AF2B162A392AE300D54780 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 07AF2B152A392AE300D54780 /* GooglePlaces */; };
 		07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B182A392F0500D54780 /* LocationSearchView.swift */; };
@@ -36,6 +37,7 @@
 		071FA5252A20A9A000C7B362 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		07AF2B182A392F0500D54780 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		07AF2B1A2A392F1600D54780 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				07AF2B182A392F0500D54780 /* LocationSearchView.swift */,
 				07AF2B1A2A392F1600D54780 /* LocationSearchActivationView.swift */,
 				07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */,
+				07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
+				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
