@@ -578,6 +578,8 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
+			};
+		};
 		07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/YAtechnologies/GoogleMaps-SP";
@@ -608,6 +610,7 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDK;
+		};
 		07AF2B132A392AE300D54780 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;
