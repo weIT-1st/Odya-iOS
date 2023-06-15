@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import GooglePlaces
 import KakaoSDKCommon
 import KakaoSDKAuth
 
@@ -15,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let kakaoApiKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
-        
+        let gmsApiKey = String(describing: Bundle.main.infoDictionary?["GOOGLE_MAPS_API_KEY"] ?? "")
+        GMSPlacesClient.provideAPIKey(gmsApiKey)
         // kakao SDK 초기화
         KakaoSDK.initSDK(appKey: kakaoApiKey as! String)
         return true
