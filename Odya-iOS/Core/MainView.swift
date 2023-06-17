@@ -13,42 +13,49 @@ struct MainView: View {
     @StateObject var kakaoAuthViewModel = KakaoAuthViewModel()
 
     var body: some View {
-        VStack {
-            if showLocationSearchView {
-                LocationSearchView(showLocationSearchView: $showLocationSearchView)
-            } else {
-                LocationSearchActivationView()
-                    .onTapGesture {
-                        showLocationSearchView = true
-                    }
-            }
-            
-            Spacer()
-            
-            // 사용자 정보 - 프로필 닉네임
-            Text(getUserName())
-            
-            // logout button
-            Button(action: {kakaoAuthViewModel.kakaoLogout()}) {
-                HStack {
-                    Image(systemName: "message.fill")
-                        .foregroundColor(.black)
-                        .padding(10)
-                    Text("로그아웃")
-                        .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity)
+        NavigationView {
+            VStack {
+                if showLocationSearchView {
+                    LocationSearchView(showLocationSearchView: $showLocationSearchView)
+                } else {
+                    LocationSearchActivationView()
+                        .onTapGesture {
+                            showLocationSearchView = true
+                        }
                 }
-                .frame(width: 300, height: 45)
-                .padding(.horizontal, 10)
-                .background(.yellow)
-                .cornerRadius(4)
+                
+                Spacer()
+                
+                NavigationLink(destination: WebpTestView(), label: {Text("webp 변환 테스트하기")})
+                
+                Spacer()
+                
+                // 사용자 정보 - 프로필 닉네임
+                Text(getUserName())
+                
+                // logout button
+                Button(action: {kakaoAuthViewModel.kakaoLogout()}) {
+                    HStack {
+                        Image(systemName: "message.fill")
+                            .foregroundColor(.black)
+                            .padding(10)
+                        Text("로그아웃")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .frame(width: 300, height: 45)
+                    .padding(.horizontal, 10)
+                    .background(.yellow)
+                    .cornerRadius(4)
+                }
             }
         }
         .onAppear{
             // 메인 화면이 시작될 때 사용자 정보 초기화
             kakaoAuthViewModel.getUserInfoFromKakao()
         }
+            
     }
     
     // MARK: FUNCTIONS
