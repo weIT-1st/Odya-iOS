@@ -5,7 +5,6 @@
 //  Created by Heeoh Son on 2023/06/17.
 //
 
-import Foundation
 import UIKit
 import SwiftUI
 import webp
