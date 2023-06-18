@@ -27,7 +27,7 @@ struct Odya_iOSApp: App {
     var body: some Scene {
         WindowGroup {
             if kakaoAccessToken != nil || isAppleSignInValid {
-                MainView()
+                RootTabView()
             } else {
                 LoginView()
             }
