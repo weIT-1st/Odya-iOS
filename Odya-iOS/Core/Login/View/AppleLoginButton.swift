@@ -9,7 +9,6 @@ import AuthenticationServices
 import SwiftUI
 
 /// 애플 로그인 버튼
-/// - 현재 버튼 디자인: 기본적으로 제공되는 디자인(서체, 색상, Corner radius 모두 기본)
 struct AppleLoginButton: View {
     var body: some View {
         SignInWithAppleButton { request in
@@ -51,12 +50,12 @@ struct AppleLoginButton: View {
                     break
                 }
                 
-                
             case .failure(let error):
                 debugPrint("DEBUG: 애플 로그인 실패 with error: \(error.localizedDescription)")
             }
         }
-        .frame(height: 50)
+        .frame(height: 44)
+        .signInWithAppleButtonStyle(.white)
     }
 }
 

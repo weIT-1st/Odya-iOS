@@ -5,7 +5,6 @@
 //  Created by Heeoh Son on 2023/05/31.
 //
 
-import Foundation
 import UIKit
 import GooglePlaces
 import KakaoSDKCommon
@@ -20,9 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey(gmsApiKey)
         // kakao SDK 초기화
         KakaoSDK.initSDK(appKey: kakaoApiKey as! String)
+        // Apple Sign In 상태 확인, 유효 여부 저장
+        Task {
+            AppleUserData.isValid = await AppleSignInManager.shared.checkIfLoginWithApple()
+        }
+        
         return true
     }
-    
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         if (AuthApi.isKakaoTalkLoginUrl(url)) {
@@ -42,4 +45,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return sceneConfiguration
     }
 }
-
