@@ -29,6 +29,9 @@ struct UserDefault<T> {
 
 /// 애플 유저 데이터 저장
 struct AppleUserData {
+    @UserDefault(key: keyEnum_APPLE_USER.isValid.rawValue, defaultValue: false)
+    static var isValid: Bool
+    
     @UserDefault(key: keyEnum_APPLE_USER.userIdentifier.rawValue, defaultValue: "")
     static var userIdentifier: String
     
@@ -49,6 +52,7 @@ struct SearchData {
 }
 
 enum keyEnum_APPLE_USER: String {
+    case isValid
     case userIdentifier
     case familyName
     case givenName

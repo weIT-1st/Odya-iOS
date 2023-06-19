@@ -26,7 +26,7 @@ struct KakaoLoginView: View {
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
                 }
-                .frame(width: 300, height: 45)
+                .frame(width: 300, height: 44)
                 .padding(.horizontal, 10)
                 .background(.yellow)
                 .cornerRadius(4)

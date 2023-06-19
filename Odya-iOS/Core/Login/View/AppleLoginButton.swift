@@ -9,8 +9,9 @@ import AuthenticationServices
 import SwiftUI
 
 /// 애플 로그인 버튼
-/// - 현재 버튼 디자인: 기본적으로 제공되는 디자인(서체, 색상, Corner radius 모두 기본)
 struct AppleLoginButton: View {
+    @AppStorage("isAppleSignInValid") var isAppleSignInValid: Bool = AppleUserData.isValid
+
     var body: some View {
         SignInWithAppleButton { request in
             // AppleID 인증 요청
@@ -41,6 +42,8 @@ struct AppleLoginButton: View {
                     }
                     
                     // '최초' 로그인시에만 이름, 이메일 가져오기 가능
+                    AppleUserData.isValid = true
+                    isAppleSignInValid = true
                     
                 case let passwordCredential as ASPasswordCredential:
                     // Sign in using an existing iCloud Keychain credential.
@@ -51,12 +54,12 @@ struct AppleLoginButton: View {
                     break
                 }
                 
-                
             case .failure(let error):
                 debugPrint("DEBUG: 애플 로그인 실패 with error: \(error.localizedDescription)")
             }
         }
-        .frame(height: 50)
+        .frame(height: 44)
+        .signInWithAppleButtonStyle(.white)
     }
 }
 

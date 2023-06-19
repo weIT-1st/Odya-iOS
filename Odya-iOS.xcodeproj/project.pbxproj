@@ -13,6 +13,9 @@
 		071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */; };
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
 		07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */; };
+		07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */; };
+		07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */; };
+		07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC822A3F95DC002D36B9 /* ProfileView.swift */; };
 		07AF2B142A392AE300D54780 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 07AF2B132A392AE300D54780 /* GoogleMaps */; };
 		07AF2B162A392AE300D54780 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 07AF2B152A392AE300D54780 /* GooglePlaces */; };
 		07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B182A392F0500D54780 /* LocationSearchView.swift */; };
@@ -46,6 +49,9 @@
 		071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
+		07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInManager.swift; sourceTree = "<group>"; };
+		07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
+		07A0EC822A3F95DC002D36B9 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		07AF2B182A392F0500D54780 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		07AF2B1A2A392F1600D54780 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
@@ -158,6 +164,7 @@
 		071FA5332A20AE5900C7B362 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -173,13 +180,23 @@
 		071FA5352A20AE6C00C7B362 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */,
+				3E36EC722A2B596C006008E5 /* MainView.swift */,
+				07A0EC812A3F95BC002D36B9 /* Settings */,
 				3E800EB82A3D9F23001EA4C4 /* Webp */,
 				07B54E032A263B2700F631EF /* API_Test */,
 				071FA5302A20ADAC00C7B362 /* Login */,
-				3E36EC722A2B596C006008E5 /* MainView.swift */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		07A0EC812A3F95BC002D36B9 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				07A0EC822A3F95DC002D36B9 /* ProfileView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		07AF2B172A392EEE00D54780 /* LocationSearch */ = {
@@ -356,6 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
+				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
@@ -363,8 +381,10 @@
 				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
 				3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */,
 				3E36EC732A2B596C006008E5 /* MainView.swift in Sources */,
+				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
+				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
@@ -517,6 +537,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Odya-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -553,6 +574,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Odya-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
