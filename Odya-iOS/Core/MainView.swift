@@ -9,20 +9,11 @@ import SwiftUI
 import KakaoSDKUser
 
 struct MainView: View {
-    @State private var showLocationSearchView = false
     @StateObject var kakaoAuthViewModel = KakaoAuthViewModel()
 
     var body: some View {
         NavigationView {
             VStack {
-                if showLocationSearchView {
-                    LocationSearchView(showLocationSearchView: $showLocationSearchView)
-                } else {
-                    LocationSearchActivationView()
-                        .onTapGesture {
-                            showLocationSearchView = true
-                        }
-                }
                 
                 Spacer()
                 
