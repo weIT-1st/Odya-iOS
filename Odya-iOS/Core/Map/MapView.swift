@@ -12,7 +12,7 @@ struct MapView: UIViewRepresentable {
     // MARK: - Properties
     
     let mapView = GMSMapView()
-    let locationManager = LocationManager()
+    let locationManager = LocationManager.shared
     
     // MARK: - View
     
@@ -24,7 +24,7 @@ struct MapView: UIViewRepresentable {
         mapView.settings.compassButton = true
         
         // 유저의 현재 위치 가져오기, Camera 위치 설정
-        let location = locationManager.getCurrentLocation()
+        let location = locationManager.fetchCurrentLocation()
         let camera = GMSCameraPosition(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
         mapView.camera = camera
         

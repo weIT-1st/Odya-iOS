@@ -10,10 +10,15 @@ import CoreLocation
 /**
  위치 정보를 가져오는 Location Manager
  */
-class LocationManager: NSObject, ObservableObject {
-    private let locationManager = CLLocationManager()
+final class LocationManager: NSObject, ObservableObject {
+    // MARK: - Properties
     
-    override init() {
+    private let locationManager = CLLocationManager()
+    static let shared = LocationManager()
+    
+    // MARK: - Life cycle
+    
+    private override init() {
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -22,7 +27,9 @@ class LocationManager: NSObject, ObservableObject {
         locationManager.startUpdatingLocation() // 위치 업데이트 시작
     }
     
-    func getCurrentLocation() -> CLLocation {
+    // MARK: - Helpers
+    
+    func fetchCurrentLocation() -> CLLocation {
         return locationManager.location ?? CLLocation(latitude: 37.566508, longitude: 126.977945)
     }
 }
