@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMaps
 import GooglePlaces
 import KakaoSDKCommon
 import KakaoSDKAuth
@@ -15,8 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let kakaoApiKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
+        
         let gmsApiKey = String(describing: Bundle.main.infoDictionary?["GOOGLE_MAPS_API_KEY"] ?? "")
         GMSPlacesClient.provideAPIKey(gmsApiKey)
+        GMSServices.provideAPIKey(gmsApiKey)
+        
         // kakao SDK 초기화
         KakaoSDK.initSDK(appKey: kakaoApiKey as! String)
         // Apple Sign In 상태 확인, 유효 여부 저장

@@ -2,15 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-	</dict>
-	<key>KAKAO_NATIVE_APP_KEY</key>
-	<string>${KAKAO_NATIVE_APP_KEY}</string>
-	<key>GOOGLE_MAPS_API_KEY</key>
-	<string>${GOOGLE_MAPS_API_KEY}</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>사용자의 위치 정보를 사용합니다.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>사용자의 위치 정보를 사용합니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>사용자의 위치 정보를 사용합니다.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -22,12 +19,23 @@
 			</array>
 		</dict>
 	</array>
+	<key>GOOGLE_MAPS_API_KEY</key>
+	<string>${GOOGLE_MAPS_API_KEY}</string>
+	<key>KAKAO_NATIVE_APP_KEY</key>
+	<string>${KAKAO_NATIVE_APP_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+	</dict>
 	<key>UIBackgroundModes</key>
-	<array/>
+	<array>
+		<string>location</string>
+	</array>
 </dict>
 </plist>

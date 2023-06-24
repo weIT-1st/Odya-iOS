@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0707A1C22A45A2A100AE6E4D /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707A1C12A45A2A100AE6E4D /* MapView.swift */; };
+		0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707A1C32A45A37100AE6E4D /* HomeView.swift */; };
+		0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708FC2C2A40D2C100D152CF /* LocationManager.swift */; };
 		071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5212A20A99F00C7B362 /* Odya_iOSApp.swift */; };
 		071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5232A20A99F00C7B362 /* LoginView.swift */; };
 		071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5252A20A9A000C7B362 /* Assets.xcassets */; };
@@ -42,6 +45,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0707A1C12A45A2A100AE6E4D /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		0707A1C32A45A37100AE6E4D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0708FC2C2A40D2C100D152CF /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		071FA51E2A20A99F00C7B362 /* Odya-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Odya-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		071FA5212A20A99F00C7B362 /* Odya_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Odya_iOSApp.swift; sourceTree = "<group>"; };
 		071FA5232A20A99F00C7B362 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -91,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0708FC2E2A40D2CD00D152CF /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				0707A1C12A45A2A100AE6E4D /* MapView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		071FA5152A20A99F00C7B362 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */,
+				0708FC2C2A40D2C100D152CF /* LocationManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -181,7 +196,9 @@
 			isa = PBXGroup;
 			children = (
 				07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */,
+				0707A1C32A45A37100AE6E4D /* HomeView.swift */,
 				3E36EC722A2B596C006008E5 /* MainView.swift */,
+				0708FC2E2A40D2CD00D152CF /* Map */,
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 				3E800EB82A3D9F23001EA4C4 /* Webp */,
 				07B54E032A263B2700F631EF /* API_Test */,
@@ -373,17 +390,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
+				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
 				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
+				0707A1C22A45A2A100AE6E4D /* MapView.swift in Sources */,
 				3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */,
 				3E36EC732A2B596C006008E5 /* MainView.swift in Sources */,
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
+				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */,
