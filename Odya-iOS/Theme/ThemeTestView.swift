@@ -81,63 +81,58 @@ struct ColorTestView : View {
 
 struct TextStyleTestView : View {
     var body: some View {
-        ScrollView {
-            HStack {
-                Text("H1").h1Style()
-                Text("H2").h2Style()
-                Text("H3").h3Style()
-                Text("H4").h4Style()
-                Text("H5").h5Style()
-                Text("H6").h6Style()
-                Text("B1").b1Style()
-                Text("B2").b2Style()
-                Text("DETAIL 1").detail1Style()
-                Text("DETAIL 2").detail2Style()
-            }
+        VStack {
+            Text("H1").h1Style()
+            Text("H2").h2Style()
+            Text("H3").h3Style()
+            Text("H4").h4Style()
+            Text("H5").h5Style()
+            Text("H6").h6Style()
+            Text("B1").b1Style()
+            Text("B2").b2Style()
+            Text("DETAIL 1").detail1Style()
+            Text("DETAIL 2").detail2Style()
         }
     }
 }
 
 struct ShadowTestView : View {
     var body: some View {
-        ScrollView {
-            HStack(spacing: 20) {
-                RoundedRectangle(cornerRadius: 15)
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(.white)
-                    .cardShadow()
-                
-                RoundedRectangle(cornerRadius: 15)
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(.white)
-                    .floatingButtonShadow()
-                
-                RoundedRectangle(cornerRadius: 15)
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(.white)
-                    .profileShadow()
-                
-                RoundedRectangle(cornerRadius: 15)
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(.white)
-                    .dropBoxShadow()
-                
-                RoundedRectangle(cornerRadius: 15)
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(.white)
-                    .etcShadow()
-            }
-            .frame(maxWidth: .infinity)
-            .frame(maxHeight: .infinity)
-            .background(Color.white)
+        VStack(spacing: 20) {
+            RoundedRectangle(cornerRadius: 15)
+                .frame(width: 120, height: 120)
+                .foregroundColor(.white)
+                .cardShadow()
+            
+            RoundedRectangle(cornerRadius: 15)
+                .frame(width: 120, height: 120)
+                .foregroundColor(.white)
+                .floatingButtonShadow()
+            
+            RoundedRectangle(cornerRadius: 15)
+                .frame(width: 120, height: 120)
+                .foregroundColor(.white)
+                .profileShadow()
+            
+            RoundedRectangle(cornerRadius: 15)
+                .frame(width: 120, height: 120)
+                .foregroundColor(.white)
+                .dropBoxShadow()
+            
+            RoundedRectangle(cornerRadius: 15)
+                .frame(width: 120, height: 120)
+                .foregroundColor(.white)
+                .etcShadow()
         }
+        .frame(maxWidth: .infinity)
+        .frame(maxHeight: .infinity)
+        .background(Color.white)
     }
 }
 
 struct IconTestView : View {
     var body : some View {
         VStack {
-        
             HStack {
                 VStack {
                     IconButton("location-m") {print("location-m")}
@@ -145,7 +140,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 95)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 VStack {
                     IconButton("eye-on") {print("eye-on")}
@@ -153,7 +148,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 95)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 VStack {
                     IconButton("alarm-on") {print("alarm-on")}
@@ -161,7 +156,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 95)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 VStack {
                     IconButton("messages-on") {print("messages-on")}
@@ -169,7 +164,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 95)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 
                 VStack {
@@ -178,7 +173,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 95)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
             }
             
             HStack(alignment: .top) {
@@ -190,7 +185,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 166)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 VStack {
                     IconButton("heart-off") {print("heart-off")}
@@ -199,7 +194,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 134)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 VStack {
                     IconButton("bookmark-off") {print("bookmark-off")}
@@ -208,7 +203,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 134)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 VStack {
                     IconButton("star-off") {print("star-off")}
@@ -217,7 +212,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 134)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
                 
                 VStack {
                     IconButton("menu-hamburger") {print("menu-hamburger")}
@@ -226,7 +221,7 @@ struct IconTestView : View {
                 }
                 .frame(width: 64, height: 134)
                 .background(Color.background.normal)
-                .cornerRadius(10)
+                .cornerRadius(Radius.small)
             }
             HStack {
                 IconButton("reply") {print("reply")}
@@ -237,11 +232,11 @@ struct IconTestView : View {
                 IconButton("plus") {print("plus")}
                 IconButton("setting") {print("setting")}
             }
-            .padding(.horizontal, 25)
+            .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
             .background(Color.background.normal)
-            .cornerRadius(10)
-        }
+            .cornerRadius(Radius.small)
+        }.padding(.horizontal, GridLayout.side)
     }
 }
     
