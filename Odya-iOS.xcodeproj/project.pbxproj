@@ -53,6 +53,8 @@
 		3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549AF2A46DFD9006562F8 /* IconButton.swift */; };
 		3EF549B22A46E471006562F8 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B12A46E471006562F8 /* Radius.swift */; };
 		3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B32A46E4E3006562F8 /* GridLayout.swift */; };
+		3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */; };
+		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +102,8 @@
 		3EF549AF2A46DFD9006562F8 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		3EF549B12A46E471006562F8 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
 		3EF549B32A46E4E3006562F8 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
+		3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_bold.ttf"; sourceTree = "<group>"; };
+		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +322,8 @@
 		3EF549892A420015006562F8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */,
+				3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */,
 				3EF549902A4200EA006562F8 /* NotoSansKR-Black.otf */,
 				3EF5498C2A4200E9006562F8 /* NotoSansKR-Bold.otf */,
 				3EF5498F2A4200EA006562F8 /* NotoSansKR-Light.otf */,
@@ -422,7 +428,9 @@
 				3EF549952A4200EB006562F8 /* OFL.txt in Resources */,
 				3EF549942A4200EB006562F8 /* NotoSansKR-Thin.otf in Resources */,
 				3EF549962A4200EB006562F8 /* NotoSansKR-Light.otf in Resources */,
+				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
 				3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */,
+				3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */,
 				071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */,
 				3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */,
 				071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */,
