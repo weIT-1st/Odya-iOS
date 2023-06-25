@@ -50,11 +50,10 @@
 		<false/>
 	</dict>
 	<key>UIBackgroundModes</key>
-	<array/>
+    <array>
+        <string>location</string>
+    </array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
-	<array>
-		<string>location</string>
-	</array>
 </dict>
 </plist>
