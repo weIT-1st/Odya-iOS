@@ -42,6 +42,22 @@
 		3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */; };
 		3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */; };
 		3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */; };
+		3EF549862A419100006562F8 /* ColorStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549852A419100006562F8 /* ColorStyles.swift */; };
+		3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */; };
+		3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */; };
+		3EF549932A4200EA006562F8 /* NotoSansKR-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498C2A4200E9006562F8 /* NotoSansKR-Bold.otf */; };
+		3EF549942A4200EB006562F8 /* NotoSansKR-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498D2A4200EA006562F8 /* NotoSansKR-Thin.otf */; };
+		3EF549952A4200EB006562F8 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498E2A4200EA006562F8 /* OFL.txt */; };
+		3EF549962A4200EB006562F8 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498F2A4200EA006562F8 /* NotoSansKR-Light.otf */; };
+		3EF549972A4200EB006562F8 /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549902A4200EA006562F8 /* NotoSansKR-Black.otf */; };
+		3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF5499E2A42FE7A006562F8 /* TextStyles.swift */; };
+		3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549A52A430ECD006562F8 /* Shadow.swift */; };
+		3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549AB2A45C39D006562F8 /* ThemeTestView.swift */; };
+		3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549AF2A46DFD9006562F8 /* IconButton.swift */; };
+		3EF549B22A46E471006562F8 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B12A46E471006562F8 /* Radius.swift */; };
+		3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B32A46E4E3006562F8 /* GridLayout.swift */; };
+		3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */; };
+		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +94,22 @@
 		3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpTestView.swift; sourceTree = "<group>"; };
 		3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
+		3EF549852A419100006562F8 /* ColorStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyles.swift; sourceTree = "<group>"; };
+		3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
+		3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
+		3EF5498C2A4200E9006562F8 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
+		3EF5498D2A4200EA006562F8 /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin.otf"; sourceTree = "<group>"; };
+		3EF5498E2A4200EA006562F8 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		3EF5498F2A4200EA006562F8 /* NotoSansKR-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.otf"; sourceTree = "<group>"; };
+		3EF549902A4200EA006562F8 /* NotoSansKR-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Black.otf"; sourceTree = "<group>"; };
+		3EF5499E2A42FE7A006562F8 /* TextStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyles.swift; sourceTree = "<group>"; };
+		3EF549A52A430ECD006562F8 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
+		3EF549AB2A45C39D006562F8 /* ThemeTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTestView.swift; sourceTree = "<group>"; };
+		3EF549AF2A46DFD9006562F8 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
+		3EF549B12A46E471006562F8 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
+		3EF549B32A46E4E3006562F8 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
+		3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_bold.ttf"; sourceTree = "<group>"; };
+		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +156,7 @@
 		071FA5202A20A99F00C7B362 /* Odya-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3EF549A22A4309F7006562F8 /* Theme */,
 				07DFFC102A2F6EA6006A2FB9 /* Model */,
 				07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */,
 				3E0589042A276EAD005C29D9 /* Info.plist */,
@@ -132,7 +165,6 @@
 				071FA5352A20AE6C00C7B362 /* Core */,
 				071FA5342A20AE6000C7B362 /* Extensions */,
 				071FA5332A20AE5900C7B362 /* Managers */,
-				071FA5252A20A9A000C7B362 /* Assets.xcassets */,
 				071FA5272A20A9A000C7B362 /* Preview Content */,
 			);
 			path = "Odya-iOS";
@@ -304,6 +336,38 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		3EF549892A420015006562F8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */,
+				3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */,
+				3EF549902A4200EA006562F8 /* NotoSansKR-Black.otf */,
+				3EF5498C2A4200E9006562F8 /* NotoSansKR-Bold.otf */,
+				3EF5498F2A4200EA006562F8 /* NotoSansKR-Light.otf */,
+				3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */,
+				3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */,
+				3EF5498D2A4200EA006562F8 /* NotoSansKR-Thin.otf */,
+				3EF5498E2A4200EA006562F8 /* OFL.txt */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		3EF549A22A4309F7006562F8 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				071FA5252A20A9A000C7B362 /* Assets.xcassets */,
+				3EF549892A420015006562F8 /* Fonts */,
+				3EF549AB2A45C39D006562F8 /* ThemeTestView.swift */,
+				3EF549852A419100006562F8 /* ColorStyles.swift */,
+				3EF549B12A46E471006562F8 /* Radius.swift */,
+				3EF549B32A46E4E3006562F8 /* GridLayout.swift */,
+				3EF5499E2A42FE7A006562F8 /* TextStyles.swift */,
+				3EF549A52A430ECD006562F8 /* Shadow.swift */,
+				3EF549AF2A46DFD9006562F8 /* IconButton.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -377,8 +441,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EF549972A4200EB006562F8 /* NotoSansKR-Black.otf in Resources */,
+				3EF549952A4200EB006562F8 /* OFL.txt in Resources */,
+				3EF549942A4200EB006562F8 /* NotoSansKR-Thin.otf in Resources */,
+				3EF549962A4200EB006562F8 /* NotoSansKR-Light.otf in Resources */,
+				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
+				3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */,
+				3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */,
 				071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */,
+				3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */,
 				071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */,
+				3EF549932A4200EA006562F8 /* NotoSansKR-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,8 +466,10 @@
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
+				3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
+				3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
 				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
 				0707A1C22A45A2A100AE6E4D /* MapView.swift in Sources */,
@@ -405,13 +480,18 @@
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
+				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
+				3EF549862A419100006562F8 /* ColorStyles.swift in Sources */,
+				3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */,
+				3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */,
 				07B54E092A26474F00F631EF /* TestAPIService.swift in Sources */,
 				3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */,
 				3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */,
+				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
