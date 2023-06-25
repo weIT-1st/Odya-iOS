@@ -10,6 +10,8 @@
 		<string>NotoSansKR-Medium.otf</string>
 		<string>NotoSansKR-Regular.otf</string>
 		<string>NotoSansKR-Thin.otf</string>
+		<string>한국기계연구원_Light.ttf</string>
+		<string>한국기계연구원_bold.ttf</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
