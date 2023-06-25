@@ -68,12 +68,21 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         } else {
             recentSearchTexts.append(queryFragment)
         }
+        // 최대 20개 제한
+        limitNumberOfRecentSearch()
     }
     
     /// 최근 검색어 배열에서 검색어 삭제
     func removeRecentSearch(searchText: String) {
         if let index = recentSearchTexts.firstIndex(of: searchText) {
             recentSearchTexts.remove(at: index)
+        }
+    }
+    
+    /// 최대 20개까지의 최근 검색어 유지
+    func limitNumberOfRecentSearch() {
+        if recentSearchTexts.count > 20 {
+            recentSearchTexts.removeFirst()
         }
     }
 
