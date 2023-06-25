@@ -10,12 +10,15 @@ import SwiftUI
 struct RootTabView: View {
     var body: some View {
         TabView {
-            // 메인 홈
             MainView()
                 .tabItem {
                     Image(systemName: "house")
                 }
-            
+            // 메인 홈
+            HomeView()
+                .tabItem {
+                    Image(systemName: "house")
+                }
             // 내 정보
             ProfileView()
                 .tabItem {
