@@ -58,6 +58,10 @@
 		3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B32A46E4E3006562F8 /* GridLayout.swift */; };
 		3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */; };
 		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
+		3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B92A482B1D006562F8 /* UserAuth.swift */; };
+		3EF549BC2A4853AF006562F8 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549BB2A4853AF006562F8 /* LoginAPI.swift */; };
+		3EF549BE2A485EDE006562F8 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549BD2A485EDE006562F8 /* SignUpView.swift */; };
+		3EF549C12A497DAE006562F8 /* NicknameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549C02A497DAD006562F8 /* NicknameValidator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +114,10 @@
 		3EF549B32A46E4E3006562F8 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_bold.ttf"; sourceTree = "<group>"; };
 		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
+		3EF549B92A482B1D006562F8 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
+		3EF549BB2A4853AF006562F8 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
+		3EF549BD2A485EDE006562F8 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		3EF549C02A497DAD006562F8 /* NicknameValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameValidator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,8 +199,10 @@
 		071FA5302A20ADAC00C7B362 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				3EF549BF2A497CE1006562F8 /* ApiUtils */,
 				071FA5312A20ADB700C7B362 /* View */,
 				3E3EC3B72A38915A002BF519 /* ViewModel */,
+				3EF549BB2A4853AF006562F8 /* LoginAPI.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -203,6 +213,7 @@
 				071FA5232A20A99F00C7B362 /* LoginView.swift */,
 				07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */,
 				3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */,
+				3EF549BD2A485EDE006562F8 /* SignUpView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -297,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				073294892A2C9975008E1026 /* UserDefaults.swift */,
+				3EF549B92A482B1D006562F8 /* UserAuth.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -366,6 +378,14 @@
 				3EF549AF2A46DFD9006562F8 /* IconButton.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		3EF549BF2A497CE1006562F8 /* ApiUtils */ = {
+			isa = PBXGroup;
+			children = (
+				3EF549C02A497DAD006562F8 /* NicknameValidator.swift */,
+			);
+			path = ApiUtils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,10 +484,12 @@
 			files = (
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
+				3EF549BE2A485EDE006562F8 /* SignUpView.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
 				3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
+				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
@@ -482,6 +504,7 @@
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
+				3EF549BC2A4853AF006562F8 /* LoginAPI.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
@@ -490,6 +513,7 @@
 				3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */,
 				07B54E092A26474F00F631EF /* TestAPIService.swift in Sources */,
 				3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */,
+				3EF549C12A497DAE006562F8 /* NicknameValidator.swift in Sources */,
 				3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */,
 				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,

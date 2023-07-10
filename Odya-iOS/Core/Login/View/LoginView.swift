@@ -9,13 +9,29 @@ import SwiftUI
 
 struct LoginView: View {
     var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            KakaoLoginView()
-            AppleLoginButton()
-        }
-        .padding()
-    }
+        ZStack {
+            Color.background.normal.ignoresSafeArea()
+            
+            VStack {
+                Spacer()
+                VStack {
+                    Image("logo")
+                        .resizable()
+                        .scaledToFit()
+                    Image("catch phrase")
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.horizontal, GridLayout.columnWidth)
+                }.padding(.horizontal, GridLayout.columnWidth + GridLayout.spacing)
+                Spacer()
+                VStack(alignment: .center, spacing: 8) {
+                    KakaoLoginView()
+                    AppleLoginButton()
+                }.padding(.bottom, 60)
+            }.padding(.horizontal, GridLayout.side)
+        } // main VStack
+        
+    } // ZStack (background color)
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -17,19 +17,21 @@ struct KakaoLoginView: View {
         VStack {
             // login button
             Button(action: {kakaoAuthViewModel.kakaoLogin()}) {
-                HStack {
-                    Image(systemName: "message.fill")
-                        .foregroundColor(.black)
+                HStack(spacing: 0) {
+                    Image("kakao-icon")
+                        .resizable()
+                        .scaledToFit()
                         .padding(10)
                     Text("카카오 로그인")
-                        .font(.system(size: 17, weight: .bold))
+                        .b1Style()
                         .foregroundColor(.black)
+                        .padding(10)
                         .frame(maxWidth: .infinity)
                 }
-                .frame(width: 300, height: 44)
-                .padding(.horizontal, 10)
-                .background(.yellow)
-                .cornerRadius(4)
+                .frame(height: 44)
+                .padding(.horizontal, 8)
+                .background(Color("kakao-yellow"))
+                .cornerRadius(Radius.small)
             }
         }
     }
