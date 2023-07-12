@@ -8,29 +8,31 @@
 import SwiftUI
 
 struct TestView: View {
-    let shared = TestAPIService()
+    // MARK: - Properties
     
+    @StateObject var viewModel = TestViewModel()
     @State var name = ""
+    
+    // MARK: - Body
     
     var body: some View {
         VStack(spacing: 25) {
             TextField("이름을 입력하세요.", text: $name)
                 .submitLabel(.done)
                 .frame(height: 48)
-                .background(Color(.systemGroupedBackground))
                 .onSubmit {
-                    shared.postUsername(name: name)
+                    viewModel.submitUsername(username: name)
                 }
             
             Button {
-                shared.postUsername(name: name)
+                viewModel.submitUsername(username: name)
             } label: {
                 Text("제출")
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .frame(height: 48)
                     .frame(maxWidth: .infinity)
             }
-            .background(.black)
+            .background(.white)
 
         }
         .padding(.horizontal)

@@ -12,18 +12,11 @@ import Alamofire
 /// Test API 호출
 enum TestApiService {
     static let agent = ApiService()
-    static let base = "https://jayden-bin.kro.kr"
-    static let header: HTTPHeaders = [
-        "Content-Type" : "application/json"
-    ]
  
     static func postUsername(username: String) -> AnyPublisher<TestNetworkResponse, APIError> {
-        let urlComponents = URLComponents(string: base + "/test")!
-        let parameter: Parameters = [
-            "name" : username
-        ]
 
-        let request = AF.request(urlComponents.url!, method: .post, parameters: parameter, encoding: JSONEncoding.prettyPrinted, headers: header)
+//        let request = AF.request(urlComponents.url!, method: .post, parameters: parameter, encoding: JSONEncoding.prettyPrinted, headers: header)
+        let request = ApiClient.shared.session.request(TestRouter.postUsername(username: username))
         
         return agent.run(request)
             .map(\.value)

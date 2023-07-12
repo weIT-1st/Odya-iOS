@@ -14,6 +14,8 @@
 		071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5232A20A99F00C7B362 /* LoginView.swift */; };
 		071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5252A20A9A000C7B362 /* Assets.xcassets */; };
 		071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */; };
+		07310DA02A5ED8B30047E972 /* TestRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310D9F2A5ED8B30047E972 /* TestRouter.swift */; };
+		07310DA22A5EDCB80047E972 /* TestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DA12A5EDCB80047E972 /* TestViewModel.swift */; };
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
 		07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */; };
 		07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */; };
@@ -27,6 +29,7 @@
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B54E062A263B5A00F631EF /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B54E052A263B5A00F631EF /* TestView.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
+		07F67C952A472BD0006BCEB6 /* LocationConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F67C942A472BD0006BCEB6 /* LocationConverter.swift */; };
 		3E0588FD2A276E64005C29D9 /* KakaoLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */; };
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
@@ -80,6 +83,8 @@
 		071FA5232A20A99F00C7B362 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		071FA5252A20A9A000C7B362 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		07310D9F2A5ED8B30047E972 /* TestRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRouter.swift; sourceTree = "<group>"; };
+		07310DA12A5EDCB80047E972 /* TestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewModel.swift; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInManager.swift; sourceTree = "<group>"; };
@@ -92,6 +97,7 @@
 		07B54E052A263B5A00F631EF /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		07F67C942A472BD0006BCEB6 /* LocationConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationConverter.swift; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginView.swift; sourceTree = "<group>"; };
 		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KakaoAuthViewModel.swift; path = "Odya-iOS/Core/Login/ViewModel/KakaoAuthViewModel.swift"; sourceTree = SOURCE_ROOT; };
 		3E0589002A276E84005C29D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -237,6 +243,7 @@
 			children = (
 				07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */,
 				0708FC2C2A40D2C100D152CF /* LocationManager.swift */,
+				07F67C942A472BD0006BCEB6 /* LocationConverter.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -304,17 +311,10 @@
 		07B54E032A263B2700F631EF /* API_Test */ = {
 			isa = PBXGroup;
 			children = (
-				07B54E042A263B4200F631EF /* View */,
+				07B54E052A263B5A00F631EF /* TestView.swift */,
+				07310DA12A5EDCB80047E972 /* TestViewModel.swift */,
 			);
 			path = API_Test;
-			sourceTree = "<group>";
-		};
-		07B54E042A263B4200F631EF /* View */ = {
-			isa = PBXGroup;
-			children = (
-				07B54E052A263B5A00F631EF /* TestView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		07DFFC102A2F6EA6006A2FB9 /* Model */ = {
@@ -429,6 +429,7 @@
 			isa = PBXGroup;
 			children = (
 				3EF54A022A5BE992006562F8 /* AuthRouter.swift */,
+				07310D9F2A5ED8B30047E972 /* TestRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -539,6 +540,7 @@
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
 				3EF549BE2A485EDE006562F8 /* SignUpView.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
+				07F67C952A472BD0006BCEB6 /* LocationConverter.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
 				3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
@@ -553,6 +555,7 @@
 				3E36EC732A2B596C006008E5 /* MainView.swift in Sources */,
 				3EF549FD2A5BE92F006562F8 /* ApiLogger.swift in Sources */,
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
+				07310DA22A5EDCB80047E972 /* TestViewModel.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
@@ -578,6 +581,7 @@
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
 				3EF54A0B2A5BE9F6006562F8 /* TestApiService.swift in Sources */,
+				07310DA02A5ED8B30047E972 /* TestRouter.swift in Sources */,
 				3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */,
 				3EF54A072A5BE9B9006562F8 /* Error.swift in Sources */,
 				07AF2B1B2A392F1600D54780 /* LocationSearchActivationView.swift in Sources */,

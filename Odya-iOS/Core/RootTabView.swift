@@ -24,6 +24,11 @@ struct RootTabView: View {
                 .tabItem {
                     Image(systemName: "person")
                 }
+            // 테스트 API
+            TestView()
+                .tabItem {
+                    Image(systemName: "book")
+                }
         }
     }
 }
