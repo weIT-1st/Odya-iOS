@@ -11,7 +11,6 @@ import KakaoSDKCommon
 import KakaoSDKAuth
 import KakaoSDKUser
 
-
 class KakaoAuthViewModel: ObservableObject {
     
     // MARK: PROPERTIES
@@ -21,12 +20,38 @@ class KakaoAuthViewModel: ObservableObject {
     
     /// 자동로그인 확인을 위한 토큰
     @AppStorage("accessToken") var kakaoAccessToken: String?
+//    @AppStorage("accessToken") var hasValidKakaoAccessToken: Bool = false
     
     /// 사용자 정보
     @Published var userInfo: User? = nil
     
+//    let loginApi = KakaoLoginApi()
+    
     
     // MARK: FUNCTIONS-LOGIN
+    
+//    func hasKakaoToken() {
+//        if (AuthApi.hasToken()) {
+//            UserApi.shared.accessTokenInfo { (_, error) in
+//                if let error = error { // 유효하지 않은 토큰, 토큰 필요
+//                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+//                        self.hasValidKakaoAccessToken = false
+//                    }
+//                    else { //기타 에러
+//                        print(error)
+//                        self.hasValidKakaoAccessToken = false
+//                    }
+//                }
+//                else { // 유효한 토큰
+//                    self.hasValidKakaoAccessToken = true
+//                    // 필요 시 토큰 갱신됨
+//                }
+//            }
+//        }
+//        else { // 토큰 없음, 로그인 필요
+//            self.hasValidKakaoAccessToken = false
+//        }
+//    }
     
     @MainActor
     func kakaoLogin() {
@@ -40,8 +65,14 @@ class KakaoAuthViewModel: ObservableObject {
                 await isLoggedIn = handleKakaoLoginWithAccount()
             }
             if isLoggedIn == true {
-                print("kakao login success")
-                getUserInfoFromKakao()
+                print("kakao social login success")
+                if let token = kakaoAccessToken {
+//                    loginApi.postKakaoAuthToken(token: token)
+//                    getUserInfoFromKakao()
+                } else{
+                    print("login error")
+                }
+                
             }
         }
     }
@@ -56,10 +87,8 @@ class KakaoAuthViewModel: ObservableObject {
                 }
                 else {
                     // print("loginWithKakaoTalk() success.")
-                    
-                    //do something
                     self.kakaoAccessToken = oauthToken?.accessToken
-                    
+//                    self.hasValidKakaoAccessToken = true
                     continuation.resume(returning: true)
                 }
             }
@@ -76,10 +105,8 @@ class KakaoAuthViewModel: ObservableObject {
                 }
                 else {
                     // print("loginWithKakaoAccount() success.")
-                    
-                    //do something
                     self.kakaoAccessToken = oauthToken?.accessToken
-                    
+//                    self.hasValidKakaoAccessToken = true
                     continuation.resume(returning: true)
                 }
             }
@@ -96,6 +123,7 @@ class KakaoAuthViewModel: ObservableObject {
             if await handlekakaoLogout() {
                 isLoggedIn = false
                 kakaoAccessToken = nil
+//                self.hasValidKakaoAccessToken = false
                 print("kakao logout seccess")
             }
         }

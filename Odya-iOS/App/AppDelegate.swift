@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // kakao SDK 초기화
         KakaoSDK.initSDK(appKey: kakaoApiKey as! String)
+        
+        
         // Apple Sign In 상태 확인, 유효 여부 저장
         Task {
             AppleUserData.isValid = await AppleSignInManager.shared.checkIfLoginWithApple()
