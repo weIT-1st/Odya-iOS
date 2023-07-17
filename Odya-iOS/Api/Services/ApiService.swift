@@ -22,7 +22,7 @@ struct ApiService {
             .validate(statusCode: 200..<300)
             .publishData()
             .tryMap { result -> Response<T> in
-                // debugPrint(result)
+                debugPrint(result)
                 let statusCode = result.response?.statusCode ?? 0
                 
                 switch statusCode {
