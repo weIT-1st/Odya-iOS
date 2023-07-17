@@ -9,53 +9,44 @@ import SwiftUI
 import Alamofire
 import Combine
 
+
+enum SocialAccountType {
+    case kakao(String)
+    case apple(String)
+}
+
 struct SignUpView: View {
     @State var userInfo = UserInfo()
-        
-    @StateObject private var nicknameValidator = NicknameValidator()
-
-    @State private var validationMessage: String = "닉네임을 입력한 후 중복 확인 버튼을 눌러 주세요!"
+    @StateObject var authVM = AuthViewModel()
+    private var isKakaoAccount: Bool
     
+    init(socialType: SocialAccountType, nickname: String, email: String?, phoneNumber: String?, gender: String?) {
+        switch socialType {
+        case .kakao(let username):
+            self.isKakaoAccount = true
+            self.userInfo.username = username
+        case .apple(let idToken):
+            self.isKakaoAccount = false
+            self.userInfo.idToken = idToken
+        }
+        self.userInfo.nickname = nickname
+        self.userInfo.email = email
+        self.userInfo.phoneNumber = phoneNumber
+        self.userInfo.gender = gender ?? ""
+    }
+
     var body : some View {
         ZStack {
             Color.background.normal.ignoresSafeArea()
             
-            VStack(spacing: 10) {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("User Name")
-                        .detail1Style()
-                    TextField("User Name", text: $userInfo.username)
-                        .customTextFieldStyle()
-                }
-                
+            VStack(spacing: 15) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Nickname")
                         .detail1Style()
                     HStack {
                         TextField("Nickname", text: $userInfo.nickname)
                             .customTextFieldStyle()
-                        Button(action: {
-                            print("is valid nickname: \(userInfo.nickname)")
-                            nicknameValidator.getNicknameValidation(userInfo.nickname)
-                            if nicknameValidator.isChecking {
-                                validationMessage = "중복 확인 중..."
-                            } else {
-                                if let errorMessage = nicknameValidator.errorMessage {
-                                    validationMessage = errorMessage
-                                } else {
-                                    validationMessage = "사용 가능한 닉네임입니다."
-                                }
-                            }
-                        }) {
-                            Text("중복 검사")
-                                .detail1Style()
-                                .padding(19)
-                                .background(RoundedRectangle(cornerRadius: 5).strokeBorder(.gray.opacity(0.6)))
-                                .padding(.bottom, 5)
-                        }
-                        .disabled(userInfo.nickname == "" || nicknameValidator.isChecking)
                     }
-                    Text(validationMessage).detail2Style().foregroundColor(.gray)
                 }
                 
                 VStack(alignment: .leading, spacing: 5) {
@@ -72,7 +63,31 @@ struct SignUpView: View {
                         .customTextFieldStyle()
                 }
                 
-                Button(action: {}) {
+                Button(action: {
+                    if isKakaoAccount == true {
+                        authVM.kakaoRegister(username: userInfo.username, email: userInfo.email, phoneNumber: userInfo.phoneNumber, nickname: userInfo.nickname, gender: "M", birthday: [1999, 10, 10]) { isSuccess, errorMessage in
+                            print("SignUp Button")
+                            if isSuccess == true {
+                                print("success")
+                            } else if let message = errorMessage {
+                                print(message)
+                            } else {
+                                print("unknown error")
+                            }
+                        }
+                    } else {
+                        authVM.appleRegister(idToken: userInfo.idToken, email: userInfo.email, phoneNumber: userInfo.phoneNumber, nickname: userInfo.nickname, gender: "M", birthday: [1999, 10, 10]) { isSuccess, errorMessage in
+                            print("SignUp Button")
+                            if isSuccess == true {
+                                print("success")
+                            } else if let message = errorMessage {
+                                print(message)
+                            } else {
+                                print("unknown error")
+                            }
+                        }
+                    }
+                }) {
                     Text("sign up")
                 }
                 .padding(.vertical, 50)
@@ -85,7 +100,10 @@ struct SignUpView: View {
 
 struct SighUpView_Previews : PreviewProvider {
     static var previews: some View {
-        SignUpView()
+        var userInfo = UserInfo()
+        var kakaoAccountType = SocialAccountType.kakao("KAKAO_1234")
+        // var appleAccountType = SocialAccountType.kakao("testIdToken")
+        SignUpView(socialType: kakaoAccountType, nickname: "testNickname", email: nil, phoneNumber: nil, gender: nil)
     }
 }
 

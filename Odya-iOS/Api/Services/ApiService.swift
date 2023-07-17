@@ -35,9 +35,16 @@ struct ApiService {
                     }
                 case 400...500:
                     if let errorData = result.data {
-                        // TODO: api 2-2 카카오 로그인 토큰 유효성 실패의 경우 디코딩 타입이 다름
-                        let value = try decoder.decode(ErrorData.self, from: errorData)
-                        throw APIError.http(value)
+                        do {
+                            let value = try decoder.decode(ErrorData.self, from: errorData)
+                            throw APIError.http(value)
+                        } catch {
+                            if let kakaoLoginErrorValue = try? decoder.decode(KakaoLoginErrorResponse.self, from: errorData) {
+                                throw APIError.unauthorizedToken(kakaoLoginErrorValue)
+                            } else {
+                                throw APIError.unknown
+                            }
+                        }
                     } else {
                         throw APIError.unknown
                     }
@@ -46,6 +53,7 @@ struct ApiService {
                 }
             }
             .mapError({ (error) -> APIError in
+                // print("error: \(error.localizedDescription)")
                 if let apiError = error as? APIError {
                     return apiError
                 } else {

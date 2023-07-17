@@ -17,13 +17,14 @@ enum AuthRouter: URLRequestConvertible {
                        nickname: String,
                        gender: String,
                        birthday: [Int])
-//    case appleRegister(idToken: String,
-//                       email: String?,
-//                       nickname: String,
-//                       phoneNumber: String?,
-//                       gender: String,
-//                       birthday: [Int])
-    
+    case appleRegister(idToken: String,
+                       email: String?,
+                       nickname: String,
+                       phoneNumber: String?,
+                       gender: String,
+                       birthday: [Int])
+    case kakaoLogin(accessToken: String)
+    case appleLogin(idToken: String)
     
     var baseURL: URL {
         return URL(string: ApiClient.BASE_URL)!
@@ -33,8 +34,12 @@ enum AuthRouter: URLRequestConvertible {
         switch self {
         case .kakaoRegister:
             return "/api/v1/auth/register/kakao"
-//        case .appleRegister:
-//            return "/api/v1/auth/register/apple"
+        case .appleRegister:
+            return "/api/v1/auth/register/apple"
+        case .kakaoLogin:
+            return "/api/v1/auth/login/kakao"
+        case .appleLogin:
+            return "/api/v1/auth/login/apple"
         default:
             return ""
         }
@@ -58,16 +63,26 @@ enum AuthRouter: URLRequestConvertible {
             params["birthday"] = birthday
             return params
             
-            //        case let .appleRegister(username, email, phoneNumber, nickname, gender, birthday):
-            //            var params = Parameters()
-            //            params["username"] = username
-            //            params["email"] = email
-            //            params["phoneNumber"] = phoneNumber
-            //            params["nickname"] = nickname
-            //            params["gender"] = gender
-            //            params["birthday"] = birthday
-            //            return params
+        case let .appleRegister(username, email, phoneNumber, nickname, gender, birthday):
+            var params = Parameters()
+            params["username"] = username
+            params["email"] = email
+            params["phoneNumber"] = phoneNumber
+            params["nickname"] = nickname
+            params["gender"] = gender
+            params["birthday"] = birthday
+            return params
+            
+        case let .kakaoLogin(accessToken):
+            var params: Parameters = ["accessToken" : accessToken]
+            return params
+            
+            
+        case let .appleLogin(idToken):
+            var params: Parameters = ["idToken" : idToken]
+            return params
         }
+        
     }
     
     func asURLRequest() throws -> URLRequest {

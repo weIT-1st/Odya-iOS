@@ -25,7 +25,7 @@ struct LoginView: View {
                 }.padding(.horizontal, GridLayout.columnWidth + GridLayout.spacing)
                 Spacer()
                 VStack(alignment: .center, spacing: 8) {
-                    KakaoLoginView()
+                    KakaoLoginButton()
                     AppleLoginButton()
                 }.padding(.bottom, 60)
             }.padding(.horizontal, GridLayout.side)

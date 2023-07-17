@@ -44,7 +44,7 @@ struct MainView: View {
         }
         .onAppear{
             // 메인 화면이 시작될 때 사용자 정보 초기화
-            kakaoAuthViewModel.getUserInfoFromKakao()
+//            kakaoAuthViewModel.getUserInfoFromKakao()
         }
             
     }

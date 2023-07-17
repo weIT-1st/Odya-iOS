@@ -16,16 +16,21 @@ class KakaoAuthViewModel: ObservableObject {
     // MARK: PROPERTIES
     
     /// 로그인 상태
+    private var isKakaoLoggedIn: Bool = false
     @Published var isLoggedIn: Bool = false
     
+    /// 토큰
+    var kakaoAccessToken: String?
+    @AppStorage("WeITAuthToken") var firebaseCustomToken: String?
+    
     /// 자동로그인 확인을 위한 토큰
-    @AppStorage("accessToken") var kakaoAccessToken: String?
+//    @AppStorage("accessToken") var kakaoAccessToken: String?
 //    @AppStorage("accessToken") var hasValidKakaoAccessToken: Bool = false
     
     /// 사용자 정보
     @Published var userInfo: User? = nil
     
-//    let loginApi = KakaoLoginApi()
+    @Published var AuthApi = AuthViewModel()
     
     
     // MARK: FUNCTIONS-LOGIN
@@ -59,20 +64,32 @@ class KakaoAuthViewModel: ObservableObject {
             // 카카오톡 실행 가능 여부 확인
             if (UserApi.isKakaoTalkLoginAvailable()) {
                 // 카카오톡 실행 가능할 경우, 카카오톡 앱을 이용해 로그인
-                await isLoggedIn = handleKakaoLoginWithKakaoTalk()
+                await isKakaoLoggedIn = handleKakaoLoginWithKakaoTalk()
             } else {
                 // 카카오톡 실행 불가능할 경우, 웹 뷰를 이용해 로그인
-                await isLoggedIn = handleKakaoLoginWithAccount()
+                await isKakaoLoggedIn = handleKakaoLoginWithAccount()
             }
-            if isLoggedIn == true {
+            if isKakaoLoggedIn == true {
                 print("kakao social login success")
                 if let token = kakaoAccessToken {
-//                    loginApi.postKakaoAuthToken(token: token)
-//                    getUserInfoFromKakao()
+                    AuthApi.kakaoLogin(accessToken: token) { result in
+                        switch result {
+                        case .success(let firebaseToken):
+                            self.firebaseCustomToken = firebaseToken
+                        case .unauthorized(let data):
+                            if let newUserData = data {
+                                print("sign up view, username: \(newUserData.username), nickname: \(newUserData.nickname), email: \(newUserData.email ?? ""), gender: \(newUserData.gender ?? "")")
+                            }
+//                            SignUpView(username: newUserData.username, nickname: newUserData.nickname, email: newUserData.email, phoneNumber: newUserData.phoneNumber, gender: newUserData.gender)
+//                            self.getUserInfoFromKakao()
+                        case .error(let errorMessage):
+                            self.firebaseCustomToken = nil
+                            print("loginApi error: \(errorMessage)")
+                        }
+                    }
                 } else{
                     print("login error")
                 }
-                
             }
         }
     }
@@ -122,7 +139,8 @@ class KakaoAuthViewModel: ObservableObject {
         Task {
             if await handlekakaoLogout() {
                 isLoggedIn = false
-                kakaoAccessToken = nil
+                firebaseCustomToken = nil
+                
 //                self.hasValidKakaoAccessToken = false
                 print("kakao logout seccess")
             }
@@ -148,19 +166,19 @@ class KakaoAuthViewModel: ObservableObject {
     // MARK: FUNCTIONS-USER INFO
     
     /// 카카오 계정 사용자 정보 userInfo로 가져오기
-    func getUserInfoFromKakao()  {
-        UserApi.shared.me() {(user, error) in
-            if let error = error {
-                print("Error: \(error)")
-            }
-            else {
-                // print("me() success.")
-
-                //do something
-                self.userInfo = user
-            }
-        }
-    }
+//    func getUserInfoFromKakao(username: String, nickname: String)  {
+//        UserApi.shared.me() {(user, error) in
+//            if let error = error {
+//                print("Error: \(error)")
+//            }
+//            else {
+//                // print("me() success.")
+//
+//                //do something
+//                self.userInfo = user
+//            }
+//        }
+//    }
 
     
     /*// 아직 기능 체크 안함

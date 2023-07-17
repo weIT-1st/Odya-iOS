@@ -17,7 +17,7 @@ struct Odya_iOSApp: App {
     @UIApplicationDelegateAdaptor var appDelegate: AppDelegate
     
     /// 카카오 자동로그인 확인을 위한 토큰
-    @AppStorage("accessToken") var kakaoAccessToken: String?
+    @AppStorage("WeITAuthToken") var firebaseCustomToken: String?
 //    @AppStorage("accessToken") var hasValidKakaoAccessToken: Bool = false
     
     /// 애플 자동로그인 확인을 위한 인증 유효 여부
@@ -27,7 +27,7 @@ struct Odya_iOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if kakaoAccessToken != nil || isAppleSignInValid {
+            if firebaseCustomToken != nil || isAppleSignInValid {
                 RootTabView()
             } else {
                 LoginView()
