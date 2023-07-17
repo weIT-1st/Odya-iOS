@@ -16,7 +16,7 @@ enum SocialAccountType {
 }
 
 struct SignUpView: View {
-    @State var userInfo = UserInfo()
+    @State var userIfo = UserInfo()
     @StateObject var authVM = AuthViewModel()
     private var isKakaoAccount: Bool
     
