@@ -53,7 +53,7 @@ struct ApiService {
                 }
             }
             .mapError({ (error) -> APIError in
-                print("error: \(error.localizedDescription)")
+                // print("error: \(error.localizedDescription)")
                 if let apiError = error as? APIError {
                     return apiError
                 } else {

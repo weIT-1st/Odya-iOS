@@ -26,7 +26,6 @@
 		07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */; };
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B54E062A263B5A00F631EF /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B54E052A263B5A00F631EF /* TestView.swift */; };
-		07B54E092A26474F00F631EF /* TestAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B54E082A26474F00F631EF /* TestAPIService.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
 		3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */; };
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
@@ -92,7 +91,6 @@
 		07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
 		07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		07B54E052A263B5A00F631EF /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
-		07B54E082A26474F00F631EF /* TestAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPIService.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
@@ -182,6 +180,7 @@
 		071FA5202A20A99F00C7B362 /* Odya-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3EF549F72A5BE8C9006562F8 /* Api */,
 				3EF549A22A4309F7006562F8 /* Theme */,
 				07DFFC102A2F6EA6006A2FB9 /* Model */,
 				07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */,
@@ -217,7 +216,6 @@
 		071FA5302A20ADAC00C7B362 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				3EF549BF2A497CE1006562F8 /* ApiUtils */,
 				071FA5312A20ADB700C7B362 /* View */,
 				3E3EC3B72A38915A002BF519 /* ViewModel */,
 			);
@@ -307,7 +305,6 @@
 		07B54E032A263B2700F631EF /* API_Test */ = {
 			isa = PBXGroup;
 			children = (
-				07B54E082A26474F00F631EF /* TestAPIService.swift */,
 				07B54E042A263B4200F631EF /* View */,
 			);
 			path = API_Test;
@@ -398,12 +395,52 @@
 			path = Theme;
 			sourceTree = "<group>";
 		};
-		3EF549BF2A497CE1006562F8 /* ApiUtils */ = {
+		3EF549F72A5BE8C9006562F8 /* Api */ = {
 			isa = PBXGroup;
 			children = (
-				3EF549C02A497DAD006562F8 /* NicknameValidator.swift */,
+				3EF549FB2A5BE90A006562F8 /* Interceptor */,
+				3EF549FA2A5BE8F3006562F8 /* Routers */,
+				3EF549F82A5BE8DB006562F8 /* Services */,
+				3EF549F92A5BE8E1006562F8 /* Result */,
+				3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */,
+				3EF549FE2A5BE938006562F8 /* ApiClient.swift */,
 			);
-			path = ApiUtils;
+			path = Api;
+			sourceTree = "<group>";
+		};
+		3EF549F82A5BE8DB006562F8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3EF54A082A5BE9DA006562F8 /* ApiService.swift */,
+				3EF54A0A2A5BE9F6006562F8 /* TestApiService.swift */,
+				3EF54A0C2A5BEB22006562F8 /* AuthApiService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		3EF549F92A5BE8E1006562F8 /* Result */ = {
+			isa = PBXGroup;
+			children = (
+				3EF54A042A5BE9A8006562F8 /* Response.swift */,
+				3EF54A062A5BE9B9006562F8 /* Error.swift */,
+			);
+			path = Result;
+			sourceTree = "<group>";
+		};
+		3EF549FA2A5BE8F3006562F8 /* Routers */ = {
+			isa = PBXGroup;
+			children = (
+				3EF54A022A5BE992006562F8 /* AuthRouter.swift */,
+			);
+			path = Routers;
+			sourceTree = "<group>";
+		};
+		3EF549FB2A5BE90A006562F8 /* Interceptor */ = {
+			isa = PBXGroup;
+			children = (
+				3EF54A002A5BE96D006562F8 /* BaseInterceptor.swift */,
+			);
+			path = Interceptor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -517,10 +554,13 @@
 				0707A1C22A45A2A100AE6E4D /* MapView.swift in Sources */,
 				3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */,
 				3E36EC732A2B596C006008E5 /* MainView.swift in Sources */,
+				3EF549FD2A5BE92F006562F8 /* ApiLogger.swift in Sources */,
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
+				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
+				3EF54A012A5BE96D006562F8 /* BaseInterceptor.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
@@ -529,16 +569,19 @@
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
 				3EF549862A419100006562F8 /* ColorStyles.swift in Sources */,
 				3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */,
+				3EF54A032A5BE992006562F8 /* AuthRouter.swift in Sources */,
 				3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */,
-				07B54E092A26474F00F631EF /* TestAPIService.swift in Sources */,
 				3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */,
-				3EF549C12A497DAE006562F8 /* NicknameValidator.swift in Sources */,
 				3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */,
 				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
+				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
+				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
+				3EF54A0B2A5BE9F6006562F8 /* TestApiService.swift in Sources */,
 				3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */,
+				3EF54A072A5BE9B9006562F8 /* Error.swift in Sources */,
 				07AF2B1B2A392F1600D54780 /* LocationSearchActivationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

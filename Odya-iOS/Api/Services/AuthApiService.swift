@@ -27,7 +27,6 @@ enum AuthApiService {
         return agent.run(request)
             .map(\.value)
             .eraseToAnyPublisher()
-        
     }
     
     static func appleRegister(idToken: String,
