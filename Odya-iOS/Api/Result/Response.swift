@@ -24,3 +24,13 @@ struct TestNetworkResponse: Codable {
         case name = "originalName"
     }
 }
+
+/// 카카오 로그인 성공 시 response
+struct KakaoTokenResponse: Codable {
+    var token: String
+    
+    enum CodingKeys: String, CodingKey {
+        case token = "firebaseCustomToken"
+    }
+}
+

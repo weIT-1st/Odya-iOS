@@ -1,5 +1,5 @@
 //
-//  KakaoLoginView.swift
+//  KakaoLoginButton.swift
 //  Odya-iOS
 //
 //  Created by Heeoh Son on 2023/05/31.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct KakaoLoginView: View {
+struct KakaoLoginButton: View {
     
     // MARK: PROPERTIES
     @StateObject var kakaoAuthViewModel = KakaoAuthViewModel()
@@ -41,6 +41,6 @@ struct KakaoLoginView: View {
 // MARK: PREVIEWS
 struct KakaoLoginView_Previews: PreviewProvider {
     static var previews: some View {
-        KakaoLoginView()
+        KakaoLoginButton()
     }
 }
