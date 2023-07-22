@@ -8,11 +8,12 @@
 import SwiftUI
 
 extension View {
-    func IconButton(_ iconImage: String, action: @escaping () -> Void) -> some View {
+    func IconButton(_ iconImage: String, size: CGFloat? = 24, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(iconImage)
                 .resizable()
-                .frame(width: 24, height: 24)
+                .scaledToFit()
+                .frame(height: size) // location-s의 경우 정사각형이 아님
                 .padding(6)
         }
     }

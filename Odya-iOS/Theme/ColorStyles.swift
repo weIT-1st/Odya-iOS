@@ -8,42 +8,59 @@
 import SwiftUI
 
 extension Color {
-    // MARK: COLOR
-    static let brand        = BrandColor()
-    static let system       = SystemColor()
+    static let odya = OdyaColor()
     
-    // MARK: GRAY
-    static let label        = LabelColor()
-    static let background   = BackgroundColor()
-    static let line         = LineColor()
-    
-    // MARK: COLOR SCALE (BASE)
-    static let colorscale   = ColorScale()
-    static let grayscale    = GrayScale()
-    static let whiteopacity = WhiteOpacity()
-    static let blackopacity = BlackOpacity()
-    
-    // MARK: ELEVATION
-    static let elevation    = ElevationColor()
-}
-
-//struct OdyaColor {
+//    // MARK: COLOR
 //    static let brand        = BrandColor()
 //    static let system       = SystemColor()
+//
+//    // MARK: GRAY
 //    static let label        = LabelColor()
 //    static let background   = BackgroundColor()
 //    static let line         = LineColor()
-//    static let elevation    = ElevationColor()
+//
+//    // MARK: COLOR SCALE (BASE)
 //    static let colorscale   = ColorScale()
 //    static let grayscale    = GrayScale()
 //    static let whiteopacity = WhiteOpacity()
 //    static let blackopacity = BlackOpacity()
-//}
+//
+//    // MARK: ELEVATION
+//    static let elevation    = ElevationColor()
+}
+
+struct OdyaColor {
+    // MARK: COLOR
+    let brand        = BrandColor()
+    let system       = SystemColor()
+    
+    // MARK: GRAY
+    let label        = LabelColor()
+    let background   = BackgroundColor()
+    let line         = LineColor()
+    
+    // MARK: COLOR SCALE (BASE)
+    let colorscale   = ColorScale()
+    let grayscale    = GrayScale()
+    let whiteopacity = WhiteOpacity()
+    let blackopacity = BlackOpacity()
+    
+    // MARK: ELEVATION
+    let elevation    = ElevationColor()
+}
 
 struct BrandColor {
     let primary     = Color("base-yellow-50")
     let secondary   = Color("base-yellow-30")
     let tertiary    = Color("base-blue-50")
+}
+
+struct SystemColor {
+    let warning             = Color("warning")
+    let warningAlternative  = Color("warning_alternative")
+    let safe                = Color("safe")
+    let safeAlternative     = Color("safe_alternative")
+    let inactive            = Color("inactive")
 }
 
 struct LabelColor {
@@ -53,14 +70,6 @@ struct LabelColor {
     let inactive    = Color("base-gray-30")
     let r_normal    = Color("base-gray-50")
     let r_assistive = Color("base-gray-40")
-}
-
-struct SystemColor {
-    let warning             = Color("warning")
-    let warningAlternative  = Color("warning_alternative")
-    let safe                = Color("safe")
-    let safeAlternative     = Color("safe_alternative")
-    let inactive            = Color("inactive")
 }
 
 struct BackgroundColor {
@@ -73,15 +82,6 @@ struct BackgroundColor {
 struct LineColor {
     let normal      = Color("base-white-alpha-40")
     let alternative = Color("base-white-alpha-10")
-}
-
-struct ElevationColor {
-    let elev1 = Color("base-gray-100")
-    let elev2 = Color("base-gray-90")
-    let elev3 = Color("base-gray-80")
-    let elev4 = Color("base-gray-70")
-    let elev5 = Color("base-gray-60")
-    let elev6 = Color("base-gray-50")
 }
 
 struct ColorScale {
@@ -137,6 +137,15 @@ struct BlackOpacity {
     let baseBlackAlpha40 = Color("base-black-alpha-40")
     let baseBlackAlpha30 = Color("base-black-alpha-30")
     let baseBlackAlpha20 = Color("base-black-alpha-20")
-    let baseWhiteAlpha10 = Color("base-white-alpha-10")
-    let baseWhiteAlpha5  = Color("base-white-alpha-5")
+    let baseBlackAlpha10 = Color("base-black-alpha-10")
+    let baseBlackAlpha5  = Color("base-black-alpha-5")
+}
+
+struct ElevationColor {
+    let elev1 = Color("base-gray-100")
+    let elev2 = Color("base-gray-90")
+    let elev3 = Color("base-gray-80")
+    let elev4 = Color("base-gray-70")
+    let elev5 = Color("base-gray-60")
+    let elev6 = Color("base-gray-50")
 }

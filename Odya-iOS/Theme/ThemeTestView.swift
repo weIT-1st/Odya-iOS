@@ -9,70 +9,155 @@ import SwiftUI
 
 struct ColorTestView : View {
     var body: some View {
-        VStack {
-            HStack {
-                resizedCircle.foregroundColor(.brandColor.primary)
-                resizedCircle.foregroundColor(.brandColor.secondary)
-                resizedCircle.foregroundColor(.brandColor.tertiary)
+        ScrollView {
+            // brand
+            Section("brand") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.brand.primary)
+                    resizedCircle.foregroundColor(.odya.brand.secondary)
+                    resizedCircle.foregroundColor(.odya.brand.tertiary)
+                }
             }
             
-            HStack {
-                resizedCircle.foregroundColor(.colorScale.yellow20)
-                resizedCircle.foregroundColor(.colorScale.yellow30)
-                resizedCircle.foregroundColor(.colorScale.yellow40)
-                resizedCircle.foregroundColor(.colorScale.yellow50)
-                resizedCircle.foregroundColor(.colorScale.yellow60)
-                resizedCircle.foregroundColor(.colorScale.yellow70)
+            // system
+            Section("system") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.system.warning)
+                    resizedCircle.foregroundColor(.odya.system.warningAlternative)
+                    resizedCircle.foregroundColor(.odya.system.safe)
+                    resizedCircle.foregroundColor(.odya.system.safeAlternative)
+                    resizedCircle.foregroundColor(.odya.system.inactive)
+                }
             }
             
-            HStack {
-                resizedCircle.foregroundColor(.colorScale.blue20)
-                resizedCircle.foregroundColor(.colorScale.blue30)
-                resizedCircle.foregroundColor(.colorScale.blue40)
-                resizedCircle.foregroundColor(.colorScale.blue50)
-                resizedCircle.foregroundColor(.colorScale.blue60)
-                resizedCircle.foregroundColor(.colorScale.blue70)
+            // label
+            Section("label") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.label.normal)
+                    resizedCircle.foregroundColor(.odya.label.alternative)
+                    resizedCircle.foregroundColor(.odya.label.assistive)
+                    resizedCircle.foregroundColor(.odya.label.inactive)
+                    resizedCircle.foregroundColor(.odya.label.r_normal)
+                    resizedCircle.foregroundColor(.odya.label.r_assistive)
+                }
             }
             
-            HStack {
-                resizedCircle.foregroundColor(.system.warning)
-                resizedCircle.foregroundColor(.system.warningAlternative)
-                resizedCircle.foregroundColor(.system.safe)
-                resizedCircle.foregroundColor(.system.safeAlternative)
-                resizedCircle.foregroundColor(.system.inactive)
+            // background
+            Section("background") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.background.normal)
+                    resizedCircle.foregroundColor(.odya.background.dimmed_system)
+                    resizedCircle.foregroundColor(.odya.background.dimmed_dark)
+                    resizedCircle.foregroundColor(.odya.background.dimmed_light)
+                }
             }
             
-            HStack {
-                resizedCircle.foregroundColor(.background.normal)
-                resizedCircle.foregroundColor(.background.dimmed)
+            // line
+            Section("line") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.line.normal)
+                    resizedCircle.foregroundColor(.odya.line.alternative)
+                }
             }
             
-            HStack {
-                resizedCircle.foregroundColor(.label.normal)
-                resizedCircle.foregroundColor(.label.alternative)
-                resizedCircle.foregroundColor(.label.assistive)
-                resizedCircle.foregroundColor(.label.inactive)
-                resizedCircle.foregroundColor(.label.r_normal)
-                resizedCircle.foregroundColor(.label.r_assistive)
+            // color scale
+            Section("color scale") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.colorscale.baseYellow20)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseYellow30)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseYellow40)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseYellow50)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseYellow60)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseYellow70)
+                }
+                
+                HStack {
+                    resizedCircle.foregroundColor(.odya.colorscale.baseBlue20)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseBlue30)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseBlue40)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseBlue50)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseBlue60)
+                    resizedCircle.foregroundColor(.odya.colorscale.baseBlue70)
+                }
             }
             
-            HStack {
-                resizedCircle.foregroundColor(.line.normal)
-                resizedCircle.foregroundColor(.line.alternative)
+            // gray scale
+            Section("gray scale") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray100)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray90)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray80)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray70)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray60)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray50)
+                }
+                
+                HStack {
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray40)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray30)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray20)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray10)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray5)
+                    resizedCircle.foregroundColor(.odya.grayscale.baseGray0)
+                }
             }
             
-            HStack {
-                resizedCircle.foregroundColor(.elevation.elev1)
-                resizedCircle.foregroundColor(.elevation.elev2)
-                resizedCircle.foregroundColor(.elevation.elev3)
-                resizedCircle.foregroundColor(.elevation.elev4)
-                resizedCircle.foregroundColor(.elevation.elev5)
-                resizedCircle.foregroundColor(.elevation.elev6)
+            // white opacity
+            Section("white opacity") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha90)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha80)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha70)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha60)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha50)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha40)
+                }
+                
+                HStack {
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha30)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha20)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha10)
+                    resizedCircle.foregroundColor(.odya.whiteopacity.baseWhiteAlpha5)
+                }
+            }
+            
+            // black opacity
+            Section("black opacity") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha90)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha80)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha70)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha60)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha50)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha40)
+                }
+                
+                
+                HStack {
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha30)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha20)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha10)
+                    resizedCircle.foregroundColor(.odya.blackopacity.baseBlackAlpha5)
+                }
+            }
+            
+            
+            Section("elevation") {
+                HStack {
+                    resizedCircle.foregroundColor(.odya.elevation.elev1)
+                    resizedCircle.foregroundColor(.odya.elevation.elev2)
+                    resizedCircle.foregroundColor(.odya.elevation.elev3)
+                    resizedCircle.foregroundColor(.odya.elevation.elev4)
+                    resizedCircle.foregroundColor(.odya.elevation.elev5)
+                    resizedCircle.foregroundColor(.odya.elevation.elev6)
+                }
             }
         }
         .padding()
-        .background(Color.background.normal)
+        .background(Color.odya.background.normal)
+        .padding()
     }
+    
     var resizedCircle : some View {
         Circle()
             .frame(width: 50, height: 50)
@@ -132,22 +217,23 @@ struct ShadowTestView : View {
 
 struct IconTestView : View {
     var body : some View {
-        VStack {
+        Section("version 1.0") {
             HStack {
                 VStack {
                     IconButton("location-m") {print("location-m")}
-                    IconButton("location-s") {print("location-s")}
+                    IconButton("location-s", size: 20) {print("location-s")}
                 }
                 .frame(width: 64, height: 95)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
+                
                 
                 VStack {
                     IconButton("eye-on") {print("eye-on")}
                     IconButton("eye-off") {print("eye-off")}
                 }
                 .frame(width: 64, height: 95)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
                 
                 VStack {
@@ -155,7 +241,7 @@ struct IconTestView : View {
                     IconButton("alarm-off") {print("alarm-off")}
                 }
                 .frame(width: 64, height: 95)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
                 
                 VStack {
@@ -163,7 +249,7 @@ struct IconTestView : View {
                     IconButton("messages-off") {print("messages-off")}
                 }
                 .frame(width: 64, height: 95)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
                 
                 
@@ -172,7 +258,7 @@ struct IconTestView : View {
                     IconButton("person-off") {print("person-off")}
                 }
                 .frame(width: 64, height: 95)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
             }
             
@@ -184,16 +270,7 @@ struct IconTestView : View {
                     IconButton("direction-up") {print("direction-up")}
                 }
                 .frame(width: 64, height: 166)
-                .background(Color.background.normal)
-                .cornerRadius(Radius.small)
-                
-                VStack {
-                    IconButton("heart-off") {print("heart-off")}
-                    IconButton("heart-on") {print("heart-on")}
-                    IconButton("heart-yellow") {print("heart-yellow")}
-                }
-                .frame(width: 64, height: 134)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
                 
                 VStack {
@@ -202,7 +279,7 @@ struct IconTestView : View {
                     IconButton("bookmark-yellow") {print("bookmark-yellow")}
                 }
                 .frame(width: 64, height: 134)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
                 
                 VStack {
@@ -211,7 +288,7 @@ struct IconTestView : View {
                     IconButton("star-yellow") {print("star-yellow")}
                 }
                 .frame(width: 64, height: 134)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
                 
                 VStack {
@@ -220,11 +297,12 @@ struct IconTestView : View {
                     IconButton("menu-meatballs") {print("menu-meatballs")}
                 }
                 .frame(width: 64, height: 134)
-                .background(Color.background.normal)
+                .background(Color.odya.background.normal)
                 .cornerRadius(Radius.small)
             }
+            
             HStack {
-                IconButton("reply") {print("reply")}
+                IconButton("comment") {print("reply")}
                 IconButton("diary") {print("diary")}
                 IconButton("share") {print("share")}
                 IconButton("search") {print("search")}
@@ -233,9 +311,52 @@ struct IconTestView : View {
                 IconButton("setting") {print("setting")}
             }
             .frame(maxWidth: .infinity)
+            .background(Color.odya.background.normal)
             .padding(.vertical, 10)
-            .background(Color.background.normal)
             .cornerRadius(Radius.small)
+            
+            Section("version 1.1") {
+                HStack {
+                    VStack {
+                        HStack {
+                            IconButton("list") {print("list")}
+                            IconButton("grid") {print("grid")}
+                            IconButton("trip") {print("trip")}
+                        }
+                        HStack {
+                            IconButton("check") {print("check")}
+                            IconButton("gps") {print("gps")}
+                            IconButton("exclaim") {print("exclaim")}
+                        }
+                        HStack {
+                            IconButton("alarm") {print("alarm")}
+                            IconButton("reply") {print("reply")}
+                            IconButton("information") {print("information")}
+                        }
+                    }
+                    .padding()
+                    .background(Color.odya.background.normal)
+                    .cornerRadius(Radius.small)
+                    
+                    VStack {
+                        IconButton("pencil-m") {print("pencil-m")}
+                        IconButton("pencil-s", size: 20) {print("pencil-s")}
+                    }
+                    .frame(width: 64, height: 95)
+                    .background(Color.odya.background.normal)
+                    .cornerRadius(Radius.small)
+                    
+                    VStack {
+                        IconButton("heart-off-m") {print("heart-off-m")}
+                        IconButton("heart-on-l") {print("heart-on-l")}
+                        IconButton("heart-on-s") {print("heart-on-s")}
+                        IconButton("heart-off-s") {print("heart-off-s")}
+                    }
+                    .frame(width: 64, height: 166)
+                    .background(Color.odya.background.normal)
+                    .cornerRadius(Radius.small)
+                }
+            }
         }.padding(.horizontal, GridLayout.side)
     }
 }
