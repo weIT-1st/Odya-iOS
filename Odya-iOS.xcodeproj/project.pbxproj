@@ -41,6 +41,9 @@
 		3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */; };
 		3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */; };
 		3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */; };
+		3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */; };
+		3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */; };
+		3EBEC39E2A6B293100998EC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */; };
 		3EF549862A419100006562F8 /* ColorStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549852A419100006562F8 /* ColorStyles.swift */; };
 		3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */; };
 		3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */; };
@@ -59,7 +62,6 @@
 		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
 		3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B92A482B1D006562F8 /* UserAuth.swift */; };
 		3EF549BE2A485EDE006562F8 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549BD2A485EDE006562F8 /* SignUpView.swift */; };
-		3EF549C12A497DAE006562F8 /* NicknameValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549C02A497DAD006562F8 /* NicknameValidator.swift */; };
 		3EF549FD2A5BE92F006562F8 /* ApiLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */; };
 		3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549FE2A5BE938006562F8 /* ApiClient.swift */; };
 		3EF54A012A5BE96D006562F8 /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF54A002A5BE96D006562F8 /* BaseInterceptor.swift */; };
@@ -105,6 +107,8 @@
 		3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpTestView.swift; sourceTree = "<group>"; };
 		3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
+		3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthViewModel.swift; sourceTree = "<group>"; };
+		3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3EF549852A419100006562F8 /* ColorStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyles.swift; sourceTree = "<group>"; };
 		3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
 		3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
@@ -123,7 +127,6 @@
 		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
 		3EF549B92A482B1D006562F8 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
 		3EF549BD2A485EDE006562F8 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		3EF549C02A497DAD006562F8 /* NicknameValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameValidator.swift; sourceTree = "<group>"; };
 		3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogger.swift; sourceTree = "<group>"; };
 		3EF549FE2A5BE938006562F8 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		3EF54A002A5BE96D006562F8 /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
@@ -146,6 +149,7 @@
 				3E3EC3B32A388ADE002BF519 /* webp in Frameworks */,
 				3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */,
 				07AF2B162A392AE300D54780 /* GooglePlaces in Frameworks */,
+				3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */,
 				07AF2B142A392AE300D54780 /* GoogleMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,6 +189,7 @@
 				07DFFC102A2F6EA6006A2FB9 /* Model */,
 				07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */,
 				3E0589042A276EAD005C29D9 /* Info.plist */,
+				3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */,
 				3E0589052A277063005C29D9 /* Config.xcconfig */,
 				071FA52F2A20ADA400C7B362 /* App */,
 				071FA5352A20AE6C00C7B362 /* Core */,
@@ -332,6 +337,7 @@
 			children = (
 				3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */,
 				3EF54A0E2A5BF9BD006562F8 /* AuthViewModel.swift */,
+				3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -466,6 +472,7 @@
 				3E3EC3B52A388B55002BF519 /* KakaoSDK */,
 				07AF2B132A392AE300D54780 /* GoogleMaps */,
 				07AF2B152A392AE300D54780 /* GooglePlaces */,
+				3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */,
 			);
 			productName = "Odya-iOS";
 			productReference = 071FA51E2A20A99F00C7B362 /* Odya-iOS.app */;
@@ -501,6 +508,7 @@
 				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */,
 				3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
+				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
 			projectDirPath = "";
@@ -521,6 +529,7 @@
 				3EF549942A4200EB006562F8 /* NotoSansKR-Thin.otf in Resources */,
 				3EF549962A4200EB006562F8 /* NotoSansKR-Light.otf in Resources */,
 				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
+				3EBEC39E2A6B293100998EC6 /* GoogleService-Info.plist in Resources */,
 				3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */,
 				3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */,
 				071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */,
@@ -539,6 +548,7 @@
 			files = (
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
+				3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */,
 				3EF549BE2A485EDE006562F8 /* SignUpView.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
@@ -726,11 +736,16 @@
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Odya-iOS/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치 정보를 사용합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자의 위치 정보를 사용합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치 정보를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -763,11 +778,16 @@
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Odya-iOS/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "사용자의 위치 정보를 사용합니다.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "사용자의 위치 정보를 사용합니다.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "사용자의 위치 정보를 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -847,6 +867,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -879,6 +907,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDK;
+		};
+		3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
