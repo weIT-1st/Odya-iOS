@@ -22,7 +22,7 @@ struct MainView: View {
                 Spacer()
                 
                 // 사용자 정보 - 프로필 닉네임
-                Text(getUserName())
+//                Text(getUserName())
                 
                 // logout button
                 Button(action: {kakaoAuthViewModel.kakaoLogout()}) {
@@ -52,20 +52,20 @@ struct MainView: View {
     // MARK: FUNCTIONS
     
     /// 화면에 표시할 카카오 프로필 닉네임 가져오기
-    func getUserName() -> String {
-        let kakaoUser = kakaoAuthViewModel.userInfo
-        
-        guard let user = kakaoUser else {
-            return "no user"
-        }
-        guard let account = user.kakaoAccount else {
-            return "no account"
-        }
-        guard let nickname = account.profile?.nickname else {
-            return "no nickname"
-        }
-        return nickname
-    }
+//    func getUserName() -> String {
+//        let kakaoUser = kakaoAuthViewModel.userInfo
+//
+//        guard let user = kakaoUser else {
+//            return "no user"
+//        }
+//        guard let account = user.kakaoAccount else {
+//            return "no account"
+//        }
+//        guard let nickname = account.profile?.nickname else {
+//            return "no nickname"
+//        }
+//        return nickname
+//    }
 
 }
 

@@ -10,6 +10,7 @@ import GoogleMaps
 import GooglePlaces
 import KakaoSDKCommon
 import KakaoSDKAuth
+import FirebaseCore
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -20,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let gmsApiKey = String(describing: Bundle.main.infoDictionary?["GOOGLE_MAPS_API_KEY"] ?? "")
         GMSPlacesClient.provideAPIKey(gmsApiKey)
         GMSServices.provideAPIKey(gmsApiKey)
+        
+        // firebase SDK 초기화
+        FirebaseApp.configure()
         
         // kakao SDK 초기화
         KakaoSDK.initSDK(appKey: kakaoApiKey as! String)

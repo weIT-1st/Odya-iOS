@@ -68,3 +68,6 @@ Podfile.lock
 
 #config
 Odya-iOS/*.xcconfig
+
+# property list
+Odya-iOS/GoogleService-Info.plist

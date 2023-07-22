@@ -69,6 +69,7 @@ struct SignUpView: View {
                             print("SignUp Button")
                             if isSuccess == true {
                                 print("success")
+                                // TODO: kakao server login 다시 호출 & 파이어베이스 연동
                             } else if let message = errorMessage {
                                 print(message)
                             } else {
