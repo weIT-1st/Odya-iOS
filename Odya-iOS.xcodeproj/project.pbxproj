@@ -44,6 +44,17 @@
 		3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */; };
 		3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */; };
 		3EBEC39E2A6B293100998EC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */; };
+		3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3A12A6C38EC00998EC6 /* ComponetsTestView.swift */; };
+		3EBEC3A42A6C46B100998EC6 /* GNBButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3A32A6C46B100998EC6 /* GNBButton.swift */; };
+		3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3A52A6D28A900998EC6 /* ToggleButton.swift */; };
+		3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3A72A6D483400998EC6 /* CheckboxButton.swift */; };
+		3EBEC3AB2A6D5A3E00998EC6 /* WriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3AA2A6D5A3E00998EC6 /* WriteButton.swift */; };
+		3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3AE2A6E74DE00998EC6 /* ButtonStyles.swift */; };
+		3EBEC3B12A6E819B00998EC6 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B02A6E819B00998EC6 /* FollowButton.swift */; };
+		3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B22A6FF75D00998EC6 /* EditButton.swift */; };
+		3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */; };
+		3EBEC3B72A713F4E00998EC6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B62A713F4E00998EC6 /* Profile.swift */; };
+		3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B82A72AFAB00998EC6 /* ComponentSizeType.swift */; };
 		3EF549862A419100006562F8 /* ColorStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549852A419100006562F8 /* ColorStyles.swift */; };
 		3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */; };
 		3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */; };
@@ -109,6 +120,17 @@
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthViewModel.swift; sourceTree = "<group>"; };
 		3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3EBEC3A12A6C38EC00998EC6 /* ComponetsTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponetsTestView.swift; sourceTree = "<group>"; };
+		3EBEC3A32A6C46B100998EC6 /* GNBButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GNBButton.swift; sourceTree = "<group>"; };
+		3EBEC3A52A6D28A900998EC6 /* ToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
+		3EBEC3A72A6D483400998EC6 /* CheckboxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxButton.swift; sourceTree = "<group>"; };
+		3EBEC3AA2A6D5A3E00998EC6 /* WriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteButton.swift; sourceTree = "<group>"; };
+		3EBEC3AE2A6E74DE00998EC6 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		3EBEC3B02A6E819B00998EC6 /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
+		3EBEC3B22A6FF75D00998EC6 /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
+		3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTAButton.swift; sourceTree = "<group>"; };
+		3EBEC3B62A713F4E00998EC6 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		3EBEC3B82A72AFAB00998EC6 /* ComponentSizeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentSizeType.swift; sourceTree = "<group>"; };
 		3EF549852A419100006562F8 /* ColorStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyles.swift; sourceTree = "<group>"; };
 		3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
 		3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
@@ -184,6 +206,7 @@
 		071FA5202A20A99F00C7B362 /* Odya-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				3EBEC3A02A6C38C700998EC6 /* Components */,
 				3EF549F72A5BE8C9006562F8 /* Api */,
 				3EF549A22A4309F7006562F8 /* Theme */,
 				07DFFC102A2F6EA6006A2FB9 /* Model */,
@@ -369,6 +392,32 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		3EBEC3A02A6C38C700998EC6 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3EBEC3A12A6C38EC00998EC6 /* ComponetsTestView.swift */,
+				3EBEC3B82A72AFAB00998EC6 /* ComponentSizeType.swift */,
+				3EBEC3A92A6D59A100998EC6 /* Buttons */,
+				3EBEC3B62A713F4E00998EC6 /* Profile.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3EBEC3A92A6D59A100998EC6 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				3EF549AF2A46DFD9006562F8 /* IconButton.swift */,
+				3EBEC3A32A6C46B100998EC6 /* GNBButton.swift */,
+				3EBEC3A52A6D28A900998EC6 /* ToggleButton.swift */,
+				3EBEC3A72A6D483400998EC6 /* CheckboxButton.swift */,
+				3EBEC3AA2A6D5A3E00998EC6 /* WriteButton.swift */,
+				3EBEC3B02A6E819B00998EC6 /* FollowButton.swift */,
+				3EBEC3B22A6FF75D00998EC6 /* EditButton.swift */,
+				3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
 		3EF549892A420015006562F8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,11 +441,11 @@
 				3EF549892A420015006562F8 /* Fonts */,
 				3EF549AB2A45C39D006562F8 /* ThemeTestView.swift */,
 				3EF549852A419100006562F8 /* ColorStyles.swift */,
-				3EF549B12A46E471006562F8 /* Radius.swift */,
-				3EF549B32A46E4E3006562F8 /* GridLayout.swift */,
-				3EF5499E2A42FE7A006562F8 /* TextStyles.swift */,
 				3EF549A52A430ECD006562F8 /* Shadow.swift */,
-				3EF549AF2A46DFD9006562F8 /* IconButton.swift */,
+				3EF549B32A46E4E3006562F8 /* GridLayout.swift */,
+				3EF549B12A46E471006562F8 /* Radius.swift */,
+				3EF5499E2A42FE7A006562F8 /* TextStyles.swift */,
+				3EBEC3AE2A6E74DE00998EC6 /* ButtonStyles.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -549,16 +598,21 @@
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
 				3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */,
+				3EBEC3AB2A6D5A3E00998EC6 /* WriteButton.swift in Sources */,
 				3EF549BE2A485EDE006562F8 /* SignUpView.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
+				3EBEC3A42A6C46B100998EC6 /* GNBButton.swift in Sources */,
 				3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
+				3EBEC3B12A6E819B00998EC6 /* FollowButton.swift in Sources */,
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
+				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
 				3EF54A0D2A5BEB22006562F8 /* AuthApiService.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */,
+				3EBEC3B72A713F4E00998EC6 /* Profile.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
 				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
 				0707A1C22A45A2A100AE6E4D /* MapView.swift in Sources */,
@@ -567,6 +621,9 @@
 				3EF549FD2A5BE92F006562F8 /* ApiLogger.swift in Sources */,
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
+				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
+				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
+				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
@@ -579,12 +636,15 @@
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
 				3EF549862A419100006562F8 /* ColorStyles.swift in Sources */,
 				3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */,
+				3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */,
 				3EF54A032A5BE992006562F8 /* AuthRouter.swift in Sources */,
 				3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */,
 				3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */,
 				3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */,
 				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
+				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
+				3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,

@@ -65,8 +65,8 @@ struct SystemColor {
 
 struct LabelColor {
     let normal      = Color("base-gray-0")
-    let alternative = Color("base-gray-80")
-    let assistive   = Color("base-gray-50")
+    let alternative = Color("base-white-alpha-80")
+    let assistive   = Color("base-white-alpha-50")
     let inactive    = Color("base-gray-30")
     let r_normal    = Color("base-gray-50")
     let r_assistive = Color("base-gray-40")
@@ -74,9 +74,9 @@ struct LabelColor {
 
 struct BackgroundColor {
     let normal          = Color("base-gray-100")
-    let dimmed_system   = Color("base-gray-50")
-    let dimmed_dark     = Color("base-gray-70")
-    let dimmed_light    = Color("base-gray-20")
+    let dimmed_system   = Color("base-black-alpha-50")
+    let dimmed_dark     = Color("base-black-alpha-70")
+    let dimmed_light    = Color("base-black-alpha-20")
 }
 
 struct LineColor {
