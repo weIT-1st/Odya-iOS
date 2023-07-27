@@ -257,8 +257,8 @@ struct ButtonTestView: View {
 struct BadgeTestView: View {
     var body: some View {
         VStack {
-            Image("sparkle-m")
-            Image("sparkle-s")
+            IconButton("sparkle-m") {print("sparkle-m")}
+            IconButton("sparkle-s") {print("sparkle-s")}
         }
         .frame(width: 64, height: 95)
         .background(Color.odya.background.normal)
