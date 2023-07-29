@@ -13,13 +13,13 @@ struct SignupStepIndicator: View {
     var body: some View {
         HStack(spacing: 8) {
             Circle().frame(width: 8, height: 8)
-                .foregroundColor(step >= 1 ? .brandColor.primary : .system.inactive)
+                .foregroundColor(step >= 1 ? .odya.brand.primary : .odya.system.inactive)
             Circle().frame(width: 8, height: 8)
-                .foregroundColor(step >= 2 ? .brandColor.primary : .system.inactive)
+                .foregroundColor(step >= 2 ? .odya.brand.primary : .odya.system.inactive)
             Circle().frame(width: 8, height: 8)
-                .foregroundColor(step >= 3 ? .brandColor.primary : .system.inactive)
+                .foregroundColor(step >= 3 ? .odya.brand.primary : .odya.system.inactive)
             Circle().frame(width: 8, height: 8)
-                .foregroundColor(step >= 4 ? .brandColor.primary : .system.inactive)
+                .foregroundColor(step >= 4 ? .odya.brand.primary : .odya.system.inactive)
         }
     }
 }
@@ -34,7 +34,7 @@ struct SignupHeaderBar: View {
             }, label: {
                 Text("뒤로가기")
                     .detail2Style()
-                    .foregroundColor(step > 1 ? Color.brandColor.primary : Color.background.normal)
+                    .foregroundColor(step > 1 ? Color.odya.brand.primary : Color.odya.background.normal)
             }).disabled(step <= 1)
             
             Spacer()
@@ -48,7 +48,7 @@ struct SignupHeaderBar: View {
             }, label: {
                 Text("건너뛰기")
                     .detail2Style()
-                    .foregroundColor(Color.brandColor.primary)
+                    .foregroundColor(Color.odya.brand.primary)
             })
         }
         .frame(height: 56)
@@ -61,7 +61,7 @@ struct RegisterNicknameView: View {
     
     var body: some View {
         ZStack {
-            Color.background.normal.ignoresSafeArea()
+            Color.odya.background.normal.ignoresSafeArea()
             
             ZStack { // main
                 VStack {
@@ -72,23 +72,23 @@ struct RegisterNicknameView: View {
                 VStack(alignment: .leading) {
                     Text("오댜에서 활동할 \n이름을 알려주세요!")
                         .h3Style()
-                        .foregroundColor(.label.normal)
+                        .foregroundColor(.odya.label.normal)
                     
                     HStack(spacing: 0) {
                         TextField("홍길동", text: $nickname)
-                            .foregroundColor(.label.inactive)
+                            .foregroundColor(.odya.label.inactive)
                             .b1Style()
                             .frame(maxWidth: .infinity)
                         Button {
                             nickname = ""
                         } label: {
-                            Image(systemName: "x.circle.fill")
+                            Image("smallGreyButton-x")
                         }
                         .padding(.horizontal, 12)
                     }
                     .frame(maxHeight: 24)
                     .padding(12)
-                    .background(Color.elevation.elev3)
+                    .background(Color.odya.elevation.elev3)
                     .cornerRadius(Radius.medium)
                 }
             }.padding(.horizontal, GridLayout.side)
