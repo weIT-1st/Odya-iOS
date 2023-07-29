@@ -12,7 +12,8 @@ struct RootTabView: View {
         TabView {
             MainView()
                 .tabItem {
-                    Image(systemName: "house")
+                    GNBButton(iconImage: "location-m", text: "홈")
+//                    Image(systemName: "house")
                 }
             // 메인 홈
             HomeView()
@@ -24,7 +25,7 @@ struct RootTabView: View {
                 .tabItem {
                     Image(systemName: "person")
                 }
-        }
+        }.accentColor(.odya.brand.primary)
     }
 }
 

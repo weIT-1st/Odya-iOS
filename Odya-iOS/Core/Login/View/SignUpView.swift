@@ -37,7 +37,7 @@ struct SignUpView: View {
 
     var body : some View {
         ZStack {
-            Color.background.normal.ignoresSafeArea()
+            Color.odya.background.normal.ignoresSafeArea()
             
             VStack(spacing: 15) {
                 VStack(alignment: .leading, spacing: 5) {
