@@ -34,3 +34,27 @@ struct KakaoTokenResponse: Codable {
     }
 }
 
+/// 한줄리뷰 response
+// MARK: - Review
+struct Review: Codable {
+    let hasNext: Bool
+    let averageRating: Int
+    let content: [ReviewContent]
+}
+
+// MARK: - Content
+struct ReviewContent: Codable {
+    let id: Int
+    let placeID: String
+    let userID: Int
+    let writerNickname: String
+    let starRating: Int
+    let review: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case placeID = "placeId"
+        case userID = "userId"
+        case writerNickname, starRating, review
+    }
+}

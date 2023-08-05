@@ -14,17 +14,13 @@ enum APIError: Error {
     case unknown
 }
 
-// 1. Error 타입 정의
-//enum TestAPIError: Error {
-//    case http(ErrorData)
-//    case unknown
-//}
- 
 // ErrorData 안에 들어갈 정보 선언
 struct ErrorData: Codable {
+    var code: Int
     var message: String
     
     enum CodingKeys: String, CodingKey {
+        case code = "code"
         case message = "errorMessage"
     }
 }

@@ -14,6 +14,9 @@
 		071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5232A20A99F00C7B362 /* LoginView.swift */; };
 		071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5252A20A9A000C7B362 /* Assets.xcassets */; };
 		071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */; };
+		07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DAE2A6BB0CD0047E972 /* ReviewRouter.swift */; };
+		07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DB32A7284160047E972 /* ReviewViewModel.swift */; };
+		07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DB52A7286380047E972 /* ReviewApiService.swift */; };
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
 		07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */; };
 		07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */; };
@@ -83,6 +86,9 @@
 		071FA5232A20A99F00C7B362 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		071FA5252A20A9A000C7B362 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		07310DAE2A6BB0CD0047E972 /* ReviewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRouter.swift; sourceTree = "<group>"; };
+		07310DB32A7284160047E972 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
+		07310DB52A7286380047E972 /* ReviewApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApiService.swift; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInManager.swift; sourceTree = "<group>"; };
@@ -261,6 +267,7 @@
 				07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */,
 				0707A1C32A45A37100AE6E4D /* HomeView.swift */,
 				3E36EC722A2B596C006008E5 /* MainView.swift */,
+				07310DB02A7282D30047E972 /* Review */,
 				0708FC2E2A40D2CD00D152CF /* Map */,
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 				3E800EB82A3D9F23001EA4C4 /* Webp */,
@@ -269,6 +276,14 @@
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		07310DB02A7282D30047E972 /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				07310DB32A7284160047E972 /* ReviewViewModel.swift */,
+			);
+			path = Review;
 			sourceTree = "<group>";
 		};
 		07A0EC812A3F95BC002D36B9 /* Settings */ = {
@@ -420,6 +435,7 @@
 				3EF54A082A5BE9DA006562F8 /* ApiService.swift */,
 				3EF54A0A2A5BE9F6006562F8 /* TestApiService.swift */,
 				3EF54A0C2A5BEB22006562F8 /* AuthApiService.swift */,
+				07310DB52A7286380047E972 /* ReviewApiService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -437,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				3EF54A022A5BE992006562F8 /* AuthRouter.swift */,
+				07310DAE2A6BB0CD0047E972 /* ReviewRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -557,6 +574,7 @@
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
 				3EF54A0D2A5BEB22006562F8 /* AuthApiService.swift in Sources */,
+				07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
@@ -569,12 +587,14 @@
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
+				07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */,
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
 				3EF54A012A5BE96D006562F8 /* BaseInterceptor.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
+				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
 				07B54E062A263B5A00F631EF /* TestView.swift in Sources */,
 				3EF549862A419100006562F8 /* ColorStyles.swift in Sources */,
@@ -651,7 +671,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -707,7 +727,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
