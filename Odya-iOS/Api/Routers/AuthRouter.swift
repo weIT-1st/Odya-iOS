@@ -19,8 +19,8 @@ enum AuthRouter: URLRequestConvertible {
                        birthday: [Int])
     case appleRegister(idToken: String,
                        email: String?,
-                       nickname: String,
                        phoneNumber: String?,
+                       nickname: String,
                        gender: String,
                        birthday: [Int])
     case kakaoLogin(accessToken: String)

@@ -25,7 +25,8 @@ struct MainView: View {
 //                Text(getUserName())
                 
                 // logout button
-                Button(action: {kakaoAuthViewModel.kakaoLogout()}) {
+                Button(action: {
+                    kakaoAuthViewModel.kakaoLogout()}) {
                     HStack {
                         Image(systemName: "message.fill")
                             .foregroundColor(.black)
