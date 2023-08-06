@@ -63,9 +63,9 @@ enum AuthRouter: URLRequestConvertible {
             params["birthday"] = birthday
             return params
             
-        case let .appleRegister(username, email, phoneNumber, nickname, gender, birthday):
+        case let .appleRegister(idToken, email, phoneNumber, nickname, gender, birthday):
             var params = Parameters()
-            params["username"] = username
+            params["idToken"] = idToken
             params["email"] = email
             params["phoneNumber"] = phoneNumber
             params["nickname"] = nickname
@@ -74,12 +74,12 @@ enum AuthRouter: URLRequestConvertible {
             return params
             
         case let .kakaoLogin(accessToken):
-            var params: Parameters = ["accessToken" : accessToken]
+            let params: Parameters = ["accessToken" : accessToken]
             return params
             
             
         case let .appleLogin(idToken):
-            var params: Parameters = ["idToken" : idToken]
+            let params: Parameters = ["idToken" : idToken]
             return params
         }
         

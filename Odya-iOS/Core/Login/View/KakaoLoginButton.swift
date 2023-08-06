@@ -10,13 +10,15 @@ import SwiftUI
 struct KakaoLoginButton: View {
     
     // MARK: PROPERTIES
-    @StateObject var kakaoAuthViewModel = KakaoAuthViewModel()
+    @EnvironmentObject var kakaoAuthVM: KakaoAuthViewModel
     
     // MARK: BODY
     var body: some View {
         VStack {
             // login button
-            Button(action: {kakaoAuthViewModel.kakaoLogin()}) {
+            Button(action: {
+                kakaoAuthVM.kakaoLogin()
+            }) {
                 HStack(spacing: 0) {
                     Image("kakao-icon")
                         .resizable()

@@ -27,27 +27,28 @@ struct ApiService {
                 
                 switch statusCode {
                 case 200, 201:
-                    if let data = result.data { // 응답이 성공이고 result가 있을 때
-                        let value = try decoder.decode(T.self, from: data)
-                        return Response(value: value, response: result.response!)
-                    } else { // 응답이 성공이고 result가 없을 때 Empty를 리턴
+                    guard let data = result.data else { // 응답이 성공이고 result가 없을 때 Empty를 리턴
                         return Response(value: EmptyResponse() as! T, response: result.response!)
                     }
+                    let value = try decoder.decode(T.self, from: data)
+                    return Response(value: value, response: result.response!)
                 case 400...500:
-                    if let errorData = result.data {
-                        do {
-                            let value = try decoder.decode(ErrorData.self, from: errorData)
-                            throw APIError.http(value)
-                        } catch {
-                            if let kakaoLoginErrorValue = try? decoder.decode(KakaoLoginErrorResponse.self, from: errorData) {
-                                throw APIError.unauthorizedToken(kakaoLoginErrorValue)
-                            } else {
-                                throw APIError.unknown
-                            }
-                        }
-                    } else {
+                    guard let errorData = result.data else {
                         throw APIError.unknown
                     }
+                    guard let value = try? decoder.decode(ErrorData.self, from: errorData) else {
+                        throw APIError.unknown
+                    }
+                    
+                    if value.code == -10005 {
+                        guard let kakaoErrorValue = try? decoder.decode(KakaoLoginErrorResponse.self, from: errorData) else {
+                            throw APIError.http(value)
+                        }
+                        throw APIError.unauthorizedToken(kakaoErrorValue)
+                    } else {
+                        throw APIError.http(value)
+                    }
+                    
                 default:
                     throw APIError.unknown
                 }
