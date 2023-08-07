@@ -12,13 +12,13 @@ import SwiftUI
 struct AppleLoginButton: View {
     @AppStorage("isAppleSignInValid") var isAppleSignInValid: Bool = AppleUserData.isValid
     
-    @StateObject var AppleAuthVM = AppleAuthViewModel()
+    @EnvironmentObject var appleAuthVM: AppleAuthViewModel
     
     var body: some View {
         SignInWithAppleButton { request in
-            AppleAuthVM.handleSignInWithAppleRequest(request)
+            appleAuthVM.handleSignInWithAppleRequest(request)
         } onCompletion: { result in
-            AppleAuthVM.handleSignInWithAppleCompletion(result)
+            appleAuthVM.handleSignInWithAppleCompletion(result)
         }
         .frame(height: 44)
         .signInWithAppleButtonStyle(.white)

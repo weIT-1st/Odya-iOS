@@ -217,12 +217,12 @@ struct ButtonTestView: View {
                         
                         // small grey button
                         VStack {
-                            IconButton("smallGreyButton-x", action: {print("smallGreyButtonx")})
-                            IconButton("smallGreyButton-send", action: { print("ssmallGreyButtonsend")})
+                            IconButton("smallGreyButton-x", action: {print("smallGreyButton-x")})
+                            IconButton("smallGreyButton-send", action: { print("ssmallGreyButton-send")})
                         }
                         
                         VStack {
-                            IconButton("smallGreyButton-?-m") {print("smallGreyButton?-m")}
+                            IconButton("smallGreyButton-?-m") {print("smallGreyButton-?-m")}
                             IconButton("smallGreyButton-?-s") { print("smallGreyButton-?-s")}
                         }
                         

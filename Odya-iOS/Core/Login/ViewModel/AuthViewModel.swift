@@ -125,7 +125,7 @@ class AuthViewModel: ObservableObject {
     }
     
     /// 애플 로그인
-    func appleLogin(idToken: String, userName: String,
+    func appleLogin(idToken: String,
                     completion: @escaping (LoginResponseResult) -> Void) {
         print("AuthVM - AppleLogin() called")
         
@@ -140,7 +140,7 @@ class AuthViewModel: ObservableObject {
                     switch error {
                     case .http(let errorData):
                         print(errorData.message)
-                        if errorData.message == "\(userName): 존재하지 않는 회원입니다" {
+                        if errorData.code == -10005 {
                             completion(.unauthorized(nil))
                         } else {
                             completion(.error(errorData.message))

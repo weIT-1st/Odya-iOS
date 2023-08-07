@@ -37,7 +37,7 @@ enum AuthApiService {
                               birthday : [Int]) -> AnyPublisher<EmptyResponse, APIError> {
         // print("AuthApiService - appleRegister() called")
         
-        let request = ApiClient.shared.session.request(AuthRouter.appleRegister(idToken: idToken, email: email, nickname: nickname, phoneNumber: phoneNumber, gender: gender, birthday: birthday))
+        let request = ApiClient.shared.session.request(AuthRouter.appleRegister(idToken: idToken, email: email, phoneNumber: phoneNumber, nickname: nickname, gender: gender, birthday: birthday))
         
         return agent.run(request)
             .map(\.value)

@@ -16,21 +16,28 @@ struct Odya_iOSApp: App {
     // with AppDelegate.swift
     @UIApplicationDelegateAdaptor var appDelegate: AppDelegate
     
+    @StateObject private var appleAuthVM = AppleAuthViewModel()
+    @StateObject private var kakaoAuthVM = KakaoAuthViewModel()
+    
     /// 카카오 자동로그인 확인을 위한 토큰
-    @AppStorage("WeITAuthToken") var firebaseCustomToken: String?
+    @AppStorage("WeITAuthToken") var idToken: String?
 //    @AppStorage("accessToken") var hasValidKakaoAccessToken: Bool = false
     
     /// 애플 자동로그인 확인을 위한 인증 유효 여부
-    @AppStorage("isAppleSignInValid") var isAppleSignInValid: Bool = AppleUserData.isValid
+//    @AppStorage("isAppleSignInValid") var isAppleSignInValid: Bool = AppleUserData.isValid
 
     // MARK: BODY
-
     var body: some Scene {
         WindowGroup {
-            if firebaseCustomToken != nil || isAppleSignInValid {
+            if idToken != nil {
                 RootTabView()
+                    .onAppear {
+                        print("idToken: \(String(describing: idToken))")
+                    }
             } else {
                 LoginView()
+                    .environmentObject(appleAuthVM)
+                    .environmentObject(kakaoAuthVM)
             }
         }
     }

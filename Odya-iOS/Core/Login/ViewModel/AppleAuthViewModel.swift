@@ -14,6 +14,10 @@ class AppleAuthViewModel: ObservableObject {
     
     @Published var AuthApi = AuthViewModel()
     
+    @Published var isUnauthorized: Bool = false
+    
+    @Published var userInfo = UserInfo()
+    
     /// 토큰
     @AppStorage("WeITAuthToken") var idToken: String?
     
@@ -53,9 +57,7 @@ class AppleAuthViewModel: ObservableObject {
                     return
                 }
                 
-                let firebaseCredential = OAuthProvider.credential(withProviderID: "apple.com",
-                                                                  idToken: idTokenString,
-                                                                  rawNonce: nonce)
+                let firebaseCredential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
                 
                 Auth.auth().signIn(with: firebaseCredential) { firebaseSignInResult, error in
                     if let err = error {
@@ -74,35 +76,42 @@ class AppleAuthViewModel: ObservableObject {
                         
                         // idToken을 이용해 서버 로그인
                         if let idToken = idToken {
-                            self.doServerLogin(idToken: idToken, userName: "test")
+                            // user info
+                            // let userIdentifier = appleIDCredential.user
+                            self.userInfo.idToken = idToken
+                            if let fullName = appleIDCredential.fullName,
+                               let givenName = fullName.givenName,
+                               let familyname = fullName.familyName {
+                                self.userInfo.username = givenName + familyname
+                            }
+                            if let email = appleIDCredential.email {
+                                self.userInfo.email = email
+                            }
+                            self.doServerLogin(idToken: idToken)
                         } else {
                             print("Error in AppleAuthViewModel handleSignInWithAppleCompletion(): Invalid Token")
                             return
                         }
                     }
-                    
-                    // user info
-                    // let userIdentifier = appleIDCredential.user
-                    // let fullName = appleIDCredential.fullName
-                    // let email = appleIDCredential.email
                 }
             }
         }
     }
     
     /// 서버 로그인 api 호출
-    private func doServerLogin(idToken: String, userName: String) {
-        AuthApi.appleLogin(idToken: idToken, userName: userName) { apiResult in
+    private func doServerLogin(idToken: String) {
+        AuthApi.appleLogin(idToken: idToken) { apiResult in
             switch apiResult {
             case .success:
                 print("apple login complete")
                 self.idToken = idToken
             case .unauthorized:
                 print("Error in AppleAuthViewModel doServerLogin(): valid token but required to register")
-                // TODO: 회원가입에 필요한 유저정보 가져오기
                 // TODO: SignUpView 연결하기
+                self.isUnauthorized = true
             case .error(let errorMessage):
                 print("Error in AppleAuthViewModel doServerLogin(): \(errorMessage)")
+                
             }
         }
     }
