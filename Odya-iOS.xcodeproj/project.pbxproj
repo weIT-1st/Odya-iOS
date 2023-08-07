@@ -87,6 +87,7 @@
 		3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1E92A758A3200223366 /* RegisterDefaultInfoView.swift */; };
 		3EF7C1EC2A7ABEFB00223366 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */; };
 		3EF7C1EE2A7AE7D000223366 /* FieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1ED2A7AE7D000223366 /* FieldStyle.swift */; };
+		3EF7C1F02A8105F000223366 /* UserInfoPickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1EF2A8105F000223366 /* UserInfoPickers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -167,6 +168,7 @@
 		3EF7C1E92A758A3200223366 /* RegisterDefaultInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDefaultInfoView.swift; sourceTree = "<group>"; };
 		3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		3EF7C1ED2A7AE7D000223366 /* FieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldStyle.swift; sourceTree = "<group>"; };
+		3EF7C1EF2A8105F000223366 /* UserInfoPickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoPickers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 				3EF7C1E72A742D1400223366 /* RegisterNickname.swift */,
 				3EF7C1E92A758A3200223366 /* RegisterDefaultInfoView.swift */,
 				3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */,
+				3EF7C1EF2A8105F000223366 /* UserInfoPickers.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -662,6 +665,7 @@
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
 				3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
+				3EF7C1F02A8105F000223366 /* UserInfoPickers.swift in Sources */,
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
