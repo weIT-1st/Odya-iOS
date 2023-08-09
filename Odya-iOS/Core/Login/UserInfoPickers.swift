@@ -39,7 +39,7 @@ struct GenderPickerView: View {
             Text("남성").tag(Gender.male)
             Text("여성").tag(Gender.female)
         }
-        .pickerStyle(InlinePickerStyle())
+        .pickerStyle(WheelPickerStyle())
         .onTapGesture {
             isGenderPickerVisible.toggle()
         }
@@ -49,3 +49,4 @@ struct GenderPickerView: View {
         .background(Color.odya.elevation.elev3)
     }
 }
+

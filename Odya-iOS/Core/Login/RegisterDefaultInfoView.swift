@@ -61,21 +61,37 @@ struct RegisterDefaultInfoView: View {
                     .modifier(CustomFieldStyle())
                 })
                 
-                Button(action: {
-                    isDatePickerVisible = false
-                    isGenderPickerVisible.toggle()
-                }, label: {
+//                Button(action: {
+//                    isDatePickerVisible = false
+//                    isGenderPickerVisible.toggle()
+//                }, label: {
+//                    HStack(spacing: 0) {
+//                        Text(genderText)
+//                            .b1Style()
+//                            .foregroundColor(.odya.label.inactive)
+//
+//                        Spacer()
+//                        Image("direction-down")
+//                            .padding(.horizontal, 6)
+//                    }
+//                    .modifier(CustomFieldStyle())
+//                })
+                Menu {
+                    Button("성별") { gender = .none }
+                    Button("남성") { gender = .male }
+                    Button("여성") { gender = .female }
+                } label: {
                     HStack(spacing: 0) {
                         Text(genderText)
                             .b1Style()
                             .foregroundColor(.odya.label.inactive)
-                        
+
                         Spacer()
                         Image("direction-down")
                             .padding(.horizontal, 6)
                     }
                     .modifier(CustomFieldStyle())
-                })
+                }
             }.padding(.horizontal, GridLayout.side)
             
             VStack {
