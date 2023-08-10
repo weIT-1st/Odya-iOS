@@ -44,6 +44,7 @@
 		3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */; };
 		3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */; };
 		3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */; };
+		3E9E988E2A84C9A400909653 /* validateNicknameApiTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E988D2A84C9A400909653 /* validateNicknameApiTester.swift */; };
 		3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */; };
 		3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */; };
 		3EBEC39E2A6B293100998EC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */; };
@@ -129,6 +130,7 @@
 		3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpTestView.swift; sourceTree = "<group>"; };
 		3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
+		3E9E988D2A84C9A400909653 /* validateNicknameApiTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = validateNicknameApiTester.swift; sourceTree = "<group>"; };
 		3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthViewModel.swift; sourceTree = "<group>"; };
 		3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3EBEC3A12A6C38EC00998EC6 /* ComponetsTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponetsTestView.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				07B54E032A263B2700F631EF /* API_Test */,
 				071FA5302A20ADAC00C7B362 /* Login */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
+				3E9E988D2A84C9A400909653 /* validateNicknameApiTester.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
 				3EF54A0B2A5BE9F6006562F8 /* TestApiService.swift in Sources */,
+				3E9E988E2A84C9A400909653 /* validateNicknameApiTester.swift in Sources */,
 				3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */,
 				3EF54A072A5BE9B9006562F8 /* Error.swift in Sources */,
 				07AF2B1B2A392F1600D54780 /* LocationSearchActivationView.swift in Sources */,
