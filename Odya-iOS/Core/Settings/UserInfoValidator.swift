@@ -22,7 +22,7 @@ enum UserInfoField: String, CaseIterable {
             return nicknamePredicate.evaluate(with: value)
         case .phoneNumber:
             // 010-숫자4개-숫자4개 형식
-            let phoneNumberRegex = "^010-\\d{4}-\\d{4}$"
+            let phoneNumberRegex = "010-([0-9]{4})-([0-9]{4})"
             let phoneNumberPredicate = NSPredicate(format: "SELF MATCHES %@", phoneNumberRegex)
             return phoneNumberPredicate.evaluate(with: value)
         case .email:
