@@ -9,7 +9,7 @@ import SwiftUI
 import Alamofire
 import Combine
 
-class validatorApiTestViewModel: ObservableObject {
+class AuthValidatorApiViewModel: ObservableObject {
     var subscription = Set<AnyCancellable>()
     
     func validateNickname(nickname: String, completion: @escaping (Bool) -> Void) {
@@ -75,50 +75,3 @@ class validatorApiTestViewModel: ObservableObject {
             }.store(in: &subscription)
     }
 }
-
-//struct validatorApiTestView: View {
-//    let nickname: String = "testNickname"
-//    let email: String = "Test@test.com"
-//    let phoneNumber: String = "010-9999-9999"
-//    
-//    @State var isValid: Bool = false
-//    var retMessage: String {
-//        isValid ? "사용 가능한 닉네임입니다" : "이미 사용 중인 닉네임입니다"
-//    }
-//    
-//    @StateObject var VM = validatorApiTestViewModel()
-//    
-//    var body: some View {
-//        VStack {
-//            Text(nickname)
-//            Button("중복확인") {
-//                VM.validateNickname(nickname: nickname) { result in
-//                    isValid = result
-//                }
-//            }
-//            Text(retMessage)
-//            
-//            Text(email)
-//            Button("중복확인") {
-//                VM.validateEmail(email: email) { result in
-//                    isValid = result
-//                }
-//            }
-//            Text(retMessage)
-//            
-//            Text(phoneNumber)
-//            Button("중복확인") {
-//                VM.validatePhonenumber(phoneNumber: phoneNumber) { result in
-//                    isValid = result
-//                }
-//            }
-//            Text(retMessage)
-//        }
-//    }
-//}
-//
-//struct validatorApiTestView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        validatorApiTestView()
-//    }
-//}
