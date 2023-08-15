@@ -16,6 +16,7 @@ class AppleAuthViewModel: ObservableObject {
 
   /// 앱 내에서 사용할 idToken (= firebase token)
   @AppStorage("WeITAuthToken") var idToken: String?
+  @AppStorage("WeITAuthType") var authType: String = ""
 
   @Published var AuthApi = AuthViewModel()
 
@@ -47,6 +48,7 @@ class AppleAuthViewModel: ObservableObject {
   /// 애플 소셜 로그인 성공 시 실행되는 handler
   /// 애플 소셜 로그인 -> 파이어베이스 로그인/연동 -> 파이어베이서 토큰을 이용해 서버 로그인
   func handleSignInWithAppleCompletion(_ appleSignInResult: Result<ASAuthorization, Error>) {
+    idToken = nil
     // apple social login success
     guard case .success(let success) = appleSignInResult,
       let appleIDCredential = success.credential as? ASAuthorizationAppleIDCredential
@@ -118,6 +120,7 @@ class AppleAuthViewModel: ObservableObject {
       case .success:
         // print("로그인 성공")
         self.idToken = idToken
+        self.authType = "apple"
       case .unauthorized:
         print("Error: Valid token but required to register")
         self.isUnauthorized = true
@@ -132,6 +135,8 @@ class AppleAuthViewModel: ObservableObject {
     let firebaseAuth = Auth.auth()
     do {
       try firebaseAuth.signOut()
+      idToken = nil
+      authType = ""
     } catch let signOutError as NSError {
       print("Error signing out: %@", signOutError)
     }

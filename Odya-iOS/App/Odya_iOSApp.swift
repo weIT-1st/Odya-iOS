@@ -8,6 +8,7 @@
 import SwiftUI
 import KakaoSDKUser
 
+
 @main
 struct Odya_iOSApp: App {
     
@@ -21,7 +22,7 @@ struct Odya_iOSApp: App {
     
     /// 카카오 자동로그인 확인을 위한 토큰
     @AppStorage("WeITAuthToken") var idToken: String?
-//    @AppStorage("accessToken") var hasValidKakaoAccessToken: Bool = false
+    @AppStorage("WeITAuthType") var authType: String = ""
     
     /// 애플 자동로그인 확인을 위한 인증 유효 여부
 //    @AppStorage("isAppleSignInValid") var isAppleSignInValid: Bool = AppleUserData.isValid

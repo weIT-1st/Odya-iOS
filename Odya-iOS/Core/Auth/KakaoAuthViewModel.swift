@@ -26,6 +26,7 @@ class KakaoAuthViewModel: ObservableObject {
   /// 토큰
   var kakaoAccessToken: String?
   @AppStorage("WeITAuthToken") var idToken: String?
+  @AppStorage("WeITAuthType") var authType: String = ""
 
   /// 로그인한 회원 정보 - 회원가입 시 사용됨
   @Published var userInfo = UserInfo()
@@ -156,6 +157,7 @@ class KakaoAuthViewModel: ObservableObject {
 
         // idToken을 이용해 서버 로그인
         self.idToken = idToken
+        self.authType = "kakao"
         return
       }
     }
@@ -169,6 +171,7 @@ class KakaoAuthViewModel: ObservableObject {
     Task {
       if await handlekakaoLogout() {
         idToken = nil
+        authType = ""
         // print("kakao logout seccess")
       }
     }
