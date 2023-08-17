@@ -32,9 +32,6 @@ struct Odya_iOSApp: App {
         WindowGroup {
             if idToken != nil {
                 RootTabView()
-                    .onAppear {
-                        print("idToken: \(String(describing: idToken))")
-                    }
             } else {
                 LoginView()
                     .environmentObject(appleAuthVM)
