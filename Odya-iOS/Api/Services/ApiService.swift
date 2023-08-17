@@ -26,7 +26,7 @@ struct ApiService {
                 let statusCode = result.response?.statusCode ?? 0
                 
                 switch statusCode {
-                case 200, 201:
+                case 200, 201, 204:
                     guard let data = result.data else { // 응답이 성공이고 result가 없을 때 Empty를 리턴
                         return Response(value: EmptyResponse() as! T, response: result.response!)
                     }
@@ -40,7 +40,7 @@ struct ApiService {
                         throw APIError.unknown
                     }
                     
-                    if value.code == -10005 {
+                    if value.code == -10005 { // Unregistered user
                         guard let kakaoErrorValue = try? decoder.decode(KakaoLoginErrorResponse.self, from: errorData) else {
                             throw APIError.http(value)
                         }
