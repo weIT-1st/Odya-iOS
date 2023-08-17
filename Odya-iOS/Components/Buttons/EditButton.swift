@@ -32,7 +32,7 @@ extension View {
                 .h6Style()
                 .foregroundColor(isActive ? .odya.label.r_normal : .odya.label.inactive)
                 .padding(12)
-        }.disabled(isActive)
+        }.disabled(!isActive)
             .background(isActive ? Color.odya.brand.primary : Color.odya.system.inactive)
             .cornerRadius(Radius.medium)
     }

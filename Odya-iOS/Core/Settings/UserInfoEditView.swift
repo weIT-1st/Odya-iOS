@@ -93,8 +93,13 @@ struct NicknameEditSection: View {
         userNickname != newNickname
     }
     private var isValid: Bool {
-        UserInfoField.nickname.isValid(value: newNickname)
+            UserInfoField.nickname.isValid(value: newNickname)
     }
+    
+    @State var isShowAlert: Bool = false
+    @State var alertMessage: String = ""
+    
+    @StateObject var validatorApi = AuthValidatorApiViewModel()
 
     init(_ nickname: Binding<String>) {
         self._userNickname = nickname
@@ -108,17 +113,24 @@ struct NicknameEditSection: View {
                                   newInfo: $newNickname,
                                   infoField: .nickname)
                 UserInfoEditButton(buttonText: "변경",
-                                   isActive: isEditing) {
-                    // TODO: 닉네임 중복 확인 기능 구현
-                    
-                    // 변경 가능하면 (중복이 아니고 유효하면)
-                    if isValid {
-                        // 닉네임 변경 api
-                        userNickname = newNickname
+                                   isActive: isEditing && isValid) {
+                    // print("닉네임 변경 버튼 클릭")
+                    validatorApi.validateNickname(nickname: newNickname) { result in
+                        if result {
+                            userNickname = newNickname
+                            // TODO: 변경 api 호출
+                            alertMessage = "변경되었습니다"
+                            isShowAlert = true
+                        } else {
+                            alertMessage = "이미 사용 중인 닉네임입니다"
+                            isShowAlert = true
+                            newNickname = userNickname
+                        }
                     }
-                    // 변경 불가능하면
-                    // alert
                 }
+                .alert(alertMessage, isPresented: $isShowAlert)
+                { Button("확인", role: .cancel) {}}
+                
             }
             
             if !isEditing {
@@ -143,40 +155,48 @@ struct NicknameEditSection: View {
 
 struct PhoneNumberEditSection: View {
     @Binding var userPhoneNumber: String?
-    @State private var newPhoneNumber: String?
+    @State private var newPhoneNumber: String
     @State private var verificationCode: String = ""
     
     private var isEditing: Bool {
-        newPhoneNumber != nil && newPhoneNumber != "" && userPhoneNumber != newPhoneNumber
+        newPhoneNumber != "" && userPhoneNumber != newPhoneNumber
     }
     private var isValid: Bool {
-        UserInfoField.phoneNumber.isValid(value: newPhoneNumber ?? "")
+        UserInfoField.phoneNumber.isValid(value: newPhoneNumber)
     }
+    
+    @State var isShowAlert: Bool = false
+    @State var alertMessage: String = ""
+    
+    @StateObject var validatorApi = AuthValidatorApiViewModel()
 
     init(_ phoneNumber: Binding<String?>) {
         self._userPhoneNumber = phoneNumber
-        self._newPhoneNumber = State(initialValue: phoneNumber.wrappedValue)
+        self._newPhoneNumber = State(initialValue: phoneNumber.wrappedValue ?? "")
     }
 
     var body: some View {
         VStack(spacing: 16) {
             HStack { // 휴대폰 번호 변경
                 UserInfoTextField(info: userPhoneNumber ?? "",
-                                  newInfo: $newPhoneNumber.toUnwrapped(defaultValue: ""),
+                                  newInfo: $newPhoneNumber,
                                   infoField: .phoneNumber)
 
                 UserInfoEditButton(buttonText: "변경",
-                                   isActive: isEditing) {
-                    // TODO: 폰번호 중복 확인 기능 구현
-
-                    // 변경 가능하면 (중복이 아니고 유효하면)
-                    if isValid {
-                        // 닉네임 변경 api
-                        userPhoneNumber = newPhoneNumber
+                                   isActive: isEditing && isValid) {
+                    validatorApi.validatePhonenumber(phoneNumber: newPhoneNumber) { result in
+                        if result {
+                            // TODO: 인증 절차
+                            alertMessage = "인증번호가 전송되었습니다"
+                            isShowAlert = true
+                        } else {
+                            alertMessage = "이미 존재하는 번호입니다"
+                            isShowAlert = true
+                            newPhoneNumber = userPhoneNumber ?? ""
+                        }
                     }
-                    // 변경 불가능하면
-                    // alert
-                }
+                }.alert(alertMessage, isPresented: $isShowAlert)
+                { Button("확인", role: .cancel) {}}
             }
 
             HStack { // 인증번호 입력
@@ -190,6 +210,14 @@ struct PhoneNumberEditSection: View {
                 UserInfoEditButton(buttonText: "확인",
                                    isActive: true) {
                     // TODO: 인증번호 확인절차
+                    // 인증 성공
+                    userPhoneNumber = newPhoneNumber
+                    alertMessage = "인증되었습니다\n휴대폰 번호가 \(newPhoneNumber)으로 변경되었습니다"
+                    isShowAlert = true
+                    
+                    // 인증 실패
+//                    alertMessage = "인증에 실패하였습니다"
+//                    isShowAlert = true
                 }
             }
         }
@@ -210,6 +238,11 @@ struct EmailEditSection: View {
     private var isValid: Bool {
         UserInfoField.email.isValid(value: newEmail)
     }
+    
+    @State var isShowAlert: Bool = false
+    @State var alertMessage: String = ""
+    
+    @StateObject var validatorApi = AuthValidatorApiViewModel()
 
     init(_ email: Binding<String?>) {
         self._userEmail = email
@@ -258,17 +291,21 @@ struct EmailEditSection: View {
                 }
 
                 UserInfoEditButton(buttonText: "변경",
-                                   isActive: isEditing) {
-                    // TODO: 이메일 중복 확인 기능 구현
-                    
-                    // 변경 가능하면 (중복이 아니고 유효하면)
-                    if isValid {
-                        // 이메일 변경 api
-                        userEmail = newEmail
+                                   isActive: isEditing && isValid) {
+                    validatorApi.validateEmail(email: newEmail) { result in
+                        if result {
+                            userEmail = newEmail
+                            // TODO: 변경 api 호출
+                            alertMessage = "변경되었습니다"
+                            isShowAlert = true
+                        } else {
+                            alertMessage = "이미 존재하는 이메일입니다"
+                            isShowAlert = true
+                            newEmail = userEmail ?? ""
+                        }
                     }
-                    // 변경 불가능하면
-                    // alert
-                }
+                }.alert(alertMessage, isPresented: $isShowAlert)
+                { Button("확인", role: .cancel) {}}
             }
 
         }
