@@ -185,7 +185,6 @@ struct PhoneNumberEditSection: View {
                 TextField("인증번호를 입력해주세요", text: $verificationCode)
                     .foregroundColor(verificationCode == "" ? .odya.label.inactive : .odya.label.normal)
                     .b1Style()
-                    .frame(maxWidth: .infinity)
                     .modifier(CustomFieldStyle())
 
                 // TODO: 인증번호 확인 버튼 활성화 조건 체크
