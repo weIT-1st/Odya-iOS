@@ -19,7 +19,7 @@
 //    @State var userInfo = UserInfo()
 //    @StateObject var authVM = AuthViewModel()
 //    private var isKakaoAccount: Bool
-//    
+//
 //    init(socialType: SocialAccountType, nickname: String, email: String?, phoneNumber: String?, gender: String?) {
 //        switch socialType {
 //        case .kakao(let username):
@@ -38,7 +38,7 @@
 //    var body : some View {
 //        ZStack {
 //            Color.odya.background.normal.ignoresSafeArea()
-//            
+//
 //            VStack(spacing: 15) {
 //                VStack(alignment: .leading, spacing: 5) {
 //                    Text("Nickname")
@@ -48,21 +48,21 @@
 //                            .customTextFieldStyle()
 //                    }
 //                }
-//                
+//
 //                VStack(alignment: .leading, spacing: 5) {
 //                    Text("Email Address")
 //                        .detail1Style()
 //                    TextField("Email Address", text: $userInfo.email.toUnwrapped(defaultValue: ""))
 //                        .customTextFieldStyle()
 //                }
-//                
+//
 //                VStack(alignment: .leading, spacing: 5) {
 //                    Text("Phone Number")
 //                        .detail1Style()
 //                    TextField("Phone Number", text: $userInfo.phoneNumber.toUnwrapped(defaultValue: ""))
 //                        .customTextFieldStyle()
 //                }
-//                
+//
 //                Button(action: {
 //                    if isKakaoAccount == true {
 //                        authVM.kakaoRegister(username: userInfo.username, email: userInfo.email, phoneNumber: userInfo.phoneNumber, nickname: userInfo.nickname, gender: "M", birthday: [1999, 10, 10]) { isSuccess, errorMessage in

@@ -11,8 +11,6 @@ struct ProfileView: View {
     var body: some View {
         UserInfoEditView(userInfo: UserInfo(nickname: "길동아밥먹자"))
                 .navigationBarHidden(true)
-        
-        
     }
 }
 

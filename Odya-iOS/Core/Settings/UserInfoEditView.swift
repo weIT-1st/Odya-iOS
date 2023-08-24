@@ -8,7 +8,14 @@
 import SwiftUI
 import Foundation
     
+// MARK: User Info Edit View
+
 struct UserInfoEditView: View {
+    @AppStorage("WeITAuthToken") var idToken: String?
+    @AppStorage("WeITAuthType") var authType: String = ""
+    @StateObject var kakaoAuthVM = KakaoAuthViewModel()
+    @StateObject var appleAuthVM = AppleAuthViewModel()
+    
     @State var userInfo: UserInfo
     
     var body: some View {
@@ -44,8 +51,15 @@ struct UserInfoEditView: View {
                 
                 Button(action: {
                     print("로그아웃 클릭")
-                    // TODO: 카카오 로그아웃 기능 연결
-                    // TODO: 애플 로그아웃 구현 및 연결
+                    switch authType {
+                    case "kakao":
+                        kakaoAuthVM.kakaoLogout()
+                    case "apple":
+                        appleAuthVM.AppleLogout()
+                    default:
+                        idToken = nil
+                        authType = ""
+                    }
                 }, label: {
                     Text("로그아웃")
                         .b1Style()
@@ -69,6 +83,8 @@ struct UserInfoEditView: View {
         .background(Color.odya.elevation.elev2)
     }
 }
+
+// MARK: Nickname Edit Section
 
 struct NicknameEditSection: View {
     @Binding var userNickname: String
@@ -134,6 +150,8 @@ struct NicknameEditSection: View {
         }
     }
 } // NicknameEditSection
+
+// MARK: Phonenumber Edit Section
 
 struct PhoneNumberEditSection: View {
     @Binding var userPhoneNumber: String?
@@ -204,6 +222,9 @@ struct PhoneNumberEditSection: View {
         }
     }
 } // PhoneNumberEditSection
+
+
+// MARK: Email Edit Section
 
 struct EmailEditSection: View {
     @Binding var userEmail: String?
@@ -290,6 +311,7 @@ struct EmailEditSection: View {
     }
 }
 
+// MARK: Preview
 struct UserInfoEditView_Previews: PreviewProvider {
     static var previews: some View {
         UserInfoEditView(userInfo: UserInfo(nickname: "길동아밥먹자"))
