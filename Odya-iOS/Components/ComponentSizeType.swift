@@ -38,4 +38,15 @@ enum ComponentSizeType: String {
             return 24
         }
     }
+    
+    var FishchipButtonHeight: CGFloat {
+        switch self {
+        case .M:
+            return 24
+        case .S:
+            return 20
+        default:
+            return 24
+        }
+    }
 }
