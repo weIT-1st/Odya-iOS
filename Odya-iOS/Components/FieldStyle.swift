@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct CustomFieldStyle: ViewModifier {
+    var height: CGFloat = 48
+    var backgroundColor: Color = Color.odya.elevation.elev3
+    var radius: CGFloat = Radius.medium
     func body(content: Content) -> some View {
         content
-            .frame(height: 24)
-            .padding(12)
-            .background(Color.odya.elevation.elev3)
-            .cornerRadius(Radius.medium)
+            .frame(height: height)
+            .padding(.horizontal, 12)
+            .frame(maxWidth: .infinity)
+            .background(backgroundColor)
+            .cornerRadius(radius)
     }
 }
     
@@ -37,7 +41,7 @@ struct UserInfoTextField: View {
             TextField(newInfo == "" ? infoField.textFieldDefaultMessage() : newInfo, text: $newInfo)
                 .foregroundColor(isInfoEditing ? .odya.label.normal : .odya.label.inactive)
                 .b1Style()
-                .frame(maxWidth: .infinity)
+                
             if isInfoEditing {
                 Image(isValid ? "system-check-circle": "system-warning")
             } else if newInfo != "" {
