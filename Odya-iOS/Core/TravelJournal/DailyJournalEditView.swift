@@ -10,22 +10,23 @@ import SwiftUI
 struct DailyJournalEditView: View {
     
     // MARK: Properties
+    
     @ObservedObject var travelJournalEditVM: TravelJournalEditViewModel
     
     let index: Int
     @Binding var dailyJournal: DailyTravelJournal
     @Binding var isDatePickerVisible: Bool
     
-    // header bar
     private var dayIndexString: String {
         let dayIndex = dailyJournal.getDayIndex(startDate: travelJournalEditVM.startDate)
         return dayIndex == 0 ? "Day " : "Day \(dayIndex)"
     }
 
-    // journal content
-    let characterLimit = 200
+    private let contentCharacterLimit = 200
+
     
     // MARK: Body
+    
     var body: some View {
         VStack(spacing: 16) {
             headerBar
@@ -44,14 +45,13 @@ struct DailyJournalEditView: View {
     // MARK: Header bar
     private var headerBar: some View {
         HStack(spacing: 8) {
-            // day index
             Image("sparkle-m")
             Text(dayIndexString)
                 .h4Style()
                 .foregroundColor(.odya.brand.primary)
+            
             Spacer()
             
-            // delete button
             Button(action: {
                 travelJournalEditVM.deleteDailyJournal(dailyJournal: dailyJournal)
             }) {
@@ -61,15 +61,14 @@ struct DailyJournalEditView: View {
                     .foregroundColor(.odya.label.assistive)
             }.padding(.trailing, 8)
             
-            // relocation button
             // TODO: 꾹 눌러서 이동하는 기능 추가
             IconButton("menu-hamburger-l") {
                 print("이동 버튼 클릭")
             }.colorMultiply(Color.odya.label.assistive)
-            
         }
     }
 
+    // MARK: Selected Image List
     // TODO: 이미지 추가 기능 및 선택된 이미지 화면에 표시
     private var selectedImageList: some View {
         HStack {
@@ -94,6 +93,7 @@ struct DailyJournalEditView: View {
         }
     }
 
+    // MARK: Selected Date
     private var selectedDate: some View {
         HStack(spacing: 0) {
             Image("calendar")
@@ -127,13 +127,13 @@ struct DailyJournalEditView: View {
 
     }
 
-
+    // MARK: Content
     private var journalConent: some View {
         HStack(alignment: .top, spacing: 12) {
             Image("pen-s")
                 .colorMultiply(.odya.label.assistive)
             TextField("", text: $dailyJournal.content,
-                      prompt: Text("여행일지를 작성해주세요! (최대 \(characterLimit)자)").foregroundColor(.odya.label.assistive),
+                      prompt: Text("여행일지를 작성해주세요! (최대 \(contentCharacterLimit)자)").foregroundColor(.odya.label.assistive),
                       axis: .vertical)
             .foregroundColor(.odya.label.assistive)
             .b1Style()
@@ -149,8 +149,8 @@ struct DailyJournalEditView: View {
                 .stroke(Color.odya.line.alternative, lineWidth: 1)
         )
         .onChange(of: dailyJournal.content) { newValue in
-            if newValue.count > characterLimit {
-                dailyJournal.content = String(newValue.prefix(characterLimit))
+            if newValue.count > contentCharacterLimit {
+                dailyJournal.content = String(newValue.prefix(contentCharacterLimit))
             }
         }
     }
@@ -184,10 +184,8 @@ struct DailyJournalEditView: View {
 }
 
 
-//
-//struct DailyJournal_Previews: PreviewProvider {
-//    static var previews: some View {
-////        DailyJournalAddButton()
-//        DailyJournalEditView(dailyJournal: .constant(DailyTravelJournal()))
-//    }
-//}
+struct DailyJournal_Previews: PreviewProvider {
+    static var previews: some View {
+        DailyJournalEditView(travelJournalEditVM: TravelJournalEditViewModel(), index: 0, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
+    }
+}

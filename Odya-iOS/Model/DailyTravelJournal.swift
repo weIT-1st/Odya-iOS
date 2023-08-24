@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DailyTravelJournal: Identifiable {
     var id = UUID()
-//    var dayIndex: Int = 0
     var date: Date? = nil
     var content: String = ""
     // 사진 리스트
@@ -28,9 +27,6 @@ struct DailyTravelJournal: Identifiable {
 extension DailyTravelJournal: Equatable {
     static func == (lhs: DailyTravelJournal, rhs: DailyTravelJournal) -> Bool {
         return lhs.id == rhs.id
-//        && lhs.date == rhs.date
-//        && lhs.dayIndex == rhs.dayIndex
-//        && lhs.content == rhs.content
     }
     
     static func != (lhs: DailyTravelJournal, rhs: DailyTravelJournal) -> Bool {

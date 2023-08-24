@@ -11,17 +11,14 @@ struct TravelJournalEditView: View {
     // MARK: Properties
     
     @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
-//    @StateObject var dailyJournalEditVM = DailyJournalEditViewModel()
-    
+
     @State private var isDatePickerVisible = false
     @State private var isDailyDatePickerVisible = false
     
     private let titleCharacterLimit = 20
     
-    // register section
     @State private var isPublic: Bool = true // 커뮤니티 공개 여부
-//    @State private var isShowingAlert: Bool = false
-    
+    // @State private var isShowingAlert: Bool = false
     
     // MARK: Body
     
@@ -57,9 +54,6 @@ struct TravelJournalEditView: View {
         .onAppear {
             travelJournalEditVM.addDailyJournal()
         }
-        .onChange(of: travelJournalEditVM.dailyJournalList) { newValue in
-            travelJournalEditVM.dailyJournalList = newValue.sorted()
-        }
     } // body
     
     // MARK: Travel Info Edit Section
@@ -80,21 +74,20 @@ struct TravelJournalEditView: View {
                     }
                 }
             
-            Button(action: {isDatePickerVisible = true})
-            {
+            HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 12) {
-                    HStack(alignment: .center, spacing: 24) {
-                        Image("date-start")
-                            .colorMultiply(.odya.brand.primary)
+                    Image("date-start")
+                    Image("date-end")
+                }
+                .colorMultiply(.odya.brand.primary)
+                
+                Button(action: {isDatePickerVisible = true}) {
+                    VStack(alignment: .leading, spacing: 12) {
                         TravelDateEditView(date: travelJournalEditVM.startDate)
-                    }
-                    HStack(alignment: .center, spacing: 24) {
-                        Image("date-end")
-                            .colorMultiply(.odya.brand.primary)
                         TravelDateEditView(date: travelJournalEditVM.endDate)
-                    }
-                }.padding(.horizontal, 12)
-            }
+                    }.padding(.horizontal, 12)
+                }
+            }.padding(.horizontal, 12)
             
             Divider().frame(height: 1).background(Color.odya.line.alternative)
             
@@ -112,7 +105,7 @@ struct TravelJournalEditView: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 28)
         .background(Color.odya.background.normal)
-    } // travel info edit section
+    }
     
     // MARK: Journal List Edit Section
     private var jounalListEditSection: some View {
@@ -128,7 +121,8 @@ struct TravelJournalEditView: View {
                 ForEach(travelJournalEditVM.dailyJournalList.indices, id: \.self) { index in
                     DailyJournalEditView(travelJournalEditVM: travelJournalEditVM,
                                          index: index,
-                                         dailyJournal: $travelJournalEditVM.dailyJournalList[index], isDatePickerVisible: $isDailyDatePickerVisible)
+                                         dailyJournal: $travelJournalEditVM.dailyJournalList[index],
+                                         isDatePickerVisible: $isDailyDatePickerVisible)
                 }
             }
             
@@ -136,8 +130,7 @@ struct TravelJournalEditView: View {
                 dailyJournalAddButton
                     .padding(20)
             }
-        }
-        .background(Color.odya.background.normal)
+        }.background(Color.odya.background.normal)
     }
     
     private var dailyJournalAddButton: some View {
@@ -162,6 +155,7 @@ struct TravelJournalEditView: View {
         }
     }
     
+    // MARK: Travel Journal Register Section
     private var travelJournalRegisterSection: some View {
         VStack(spacing: 8) {
             HStack {
@@ -185,18 +179,9 @@ struct TravelJournalEditView: View {
     }
 }
 
-
-
+// MARK: Previews
 struct TravelJournalEditView_Previews: PreviewProvider {
     static var previews: some View {
         TravelJournalEditView()
-//        DailyJournal(dayN: 1)
     }
 }
-
-//
-//
-//// daily journal list
-//
-//
-//}.background(Color.odya.blackopacity.baseBlackAlpha50)

@@ -7,6 +7,29 @@
 
 import SwiftUI
 
+// MARK: Travel date view
+
+struct TravelDateEditView: View {
+    var date: Date
+    
+    var body: some View {
+        HStack(alignment: .center, spacing: 12) {
+            Text(date.dateToString(format: "yyyy년 M월 d일"))
+                .b1Style()
+                .foregroundColor(.odya.label.normal)
+            Text(date.dateToString(format: "EEEE"))
+                .b2Style()
+                .foregroundColor(.odya.label.assistive)
+        }
+    }
+    
+    
+}
+
+
+// MARK: Travel date picker
+
+/// 여행 일자 피커뷰, 시작일 마지막일을 선택
 struct TravelDatePickerView: View {
     
     // MARK: Properties
@@ -30,6 +53,7 @@ struct TravelDatePickerView: View {
     }
     
     // MARK: body
+    
     var body: some View {
         VStack(spacing: 15) {
             HStack(spacing: 8) {
@@ -78,6 +102,7 @@ struct TravelDatePickerView: View {
     }
     
     // MARK: selected date views
+    
     private var startDateView: some View {
         VStack(spacing: 0) {
             Text(selectedStartDate.dateToString(format: "yyyy년"))
@@ -142,7 +167,14 @@ struct TravelDatePickerView: View {
     }
 }
 
+
+// MARK: Daily journal date picker
+
+/// 데일리 일정 날짜 피커 뷰
 struct DailyJournalDatePicker: View {
+    
+    // MARK: Properties
+    
     @ObservedObject var travelJournalEditVM: TravelJournalEditViewModel
     @Binding var isDatePickerVisible: Bool
     
@@ -152,21 +184,18 @@ struct DailyJournalDatePicker: View {
     let endDate: Date
     
     
-    
     init(travelJournalEditVM: TravelJournalEditViewModel, isDatePickerVisible: Binding<Bool>) {
         self._travelJournalEditVM = ObservedObject(initialValue: travelJournalEditVM)
         self._isDatePickerVisible = isDatePickerVisible
-//        print(travelJournalEditVM.pickedJournalIndex ?? "error")
         
         let pickedJournal = travelJournalEditVM.dailyJournalList[travelJournalEditVM.pickedJournalIndex!]
-        
         self._selectedDate = State(initialValue: pickedJournal.date ?? Date())
         
         self.startDate = travelJournalEditVM.startDate
         self.endDate = travelJournalEditVM.endDate
-        
-        
     }
+    
+    // MARK: Body
     
     var body: some View {
         VStack(spacing: 15) {
@@ -212,38 +241,5 @@ struct DailyJournalDatePicker: View {
         .background(Color.odya.elevation.elev2)
         .cornerRadius(Radius.small)
     }
-        
-
 }
 
-struct TravelDateEditView: View {
-    var date: Date
-    
-    var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            Text(date.dateToString(format: "yyyy년 M월 d일"))
-                .b1Style()
-                .foregroundColor(.odya.label.normal)
-            Text(date.dateToString(format: "EEEE"))
-                .b2Style()
-                .foregroundColor(.odya.label.assistive)
-        }
-    }
-    
-    
-}
-
-
-
-//
-//struct TravelInfoEditSection_Previews: PreviewProvider {
-//    static var tomorrow: Date {
-//        var components = DateComponents()
-//        components.day = 1
-//        return Calendar.current.date(byAdding: components, to: Date())!
-//    }
-//
-//    static var previews: some View {
-//        TravelDatePickerView(startDate: .constant(Date()), endDate: .constant(tomorrow), isDatePickerVisible: .constant(true))
-//    }
-//}

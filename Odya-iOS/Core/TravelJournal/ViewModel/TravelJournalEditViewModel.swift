@@ -21,7 +21,7 @@ class TravelJournalEditViewModel: ObservableObject {
         return components.day ?? 0
     }
     
-    // MARK: Functions
+    // MARK: Functions - travel dates
     
     func setTravelDates(startDate: Date, endDate: Date) {
         self.startDate = startDate
@@ -34,6 +34,9 @@ class TravelJournalEditViewModel: ObservableObject {
         }
     }
     
+    
+    // MARK: Functions - register
+    
     func validateTravelJournal() -> Bool {
         return true
     }
@@ -42,18 +45,23 @@ class TravelJournalEditViewModel: ObservableObject {
         print("여행일지 등록하기 버튼 클릭")
     }
     
+    
+    // MARK: Functions - daily journal
+    
     func canAddMoreDailyJournals() -> Bool {
         return dailyJournalList.count <= duration
     }
     
-    func addDailyJournal() {
-        dailyJournalList.append(DailyTravelJournal())
+    func addDailyJournal(date: Date? = nil) {
+        if let date = date {
+            dailyJournalList.append(DailyTravelJournal(date: date))
+        } else {
+            dailyJournalList.append(DailyTravelJournal())
+        }
     }
     
     func deleteDailyJournal(dailyJournal: DailyTravelJournal) {
         dailyJournalList = dailyJournalList.filter{ $0 != dailyJournal }
     }
-    
-    
     
 }
