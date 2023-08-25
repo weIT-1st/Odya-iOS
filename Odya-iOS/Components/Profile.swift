@@ -41,7 +41,7 @@ struct ProfileImageView: View {
         switch status {
         case .withoutImage(let colorHex, let name):
             switch sizeType {
-            case .S:
+            case .XS:
                 let color = ProfileColor.getColor(from: colorHex)
                 Circle()
                     .fill(color ?? Color.odya.elevation.elev6)
@@ -53,6 +53,8 @@ struct ProfileImageView: View {
                     )
             default:
                 Image("profile")
+                    .resizable()
+                    .scaledToFill()
                     .frame(width: size, height: size)
             }
         case .withImage(let url):

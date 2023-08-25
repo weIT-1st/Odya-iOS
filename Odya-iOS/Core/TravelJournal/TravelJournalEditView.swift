@@ -7,6 +7,24 @@
 
 import SwiftUI
 
+struct TravelMateView: View {
+    private let mateUserData: FollowUserData
+    private let status: ProfileImageStatus
+    
+    init(mate: FollowUserData) {
+        self.mateUserData = mate
+        if let profileUrl = mate.profileData.profileUrl {
+            self.status = .withImage(url: URL(string: profileUrl)!)
+        } else {
+            self.status = .withoutImage(colorHex: mate.profileData.profileColor.colorHex ?? "#FFD41F", name: mate.nickname)
+        }
+    }
+    
+    var body: some View {
+        ProfileImageView(status: status, sizeType: .XS)
+    }
+}
+
 struct TravelJournalEditView: View {
   // MARK: Properties
 
@@ -24,17 +42,19 @@ struct TravelJournalEditView: View {
 
   var body: some View {
     ZStack {
-      VStack {
-        CustomNavigationBar(title: "여행일지 작성하기")
-          .frame(alignment: .top)
-        ScrollView {
-          VStack(spacing: 8) {
-            travelInfoEditSection
-            jounalListEditSection
-            travelJournalRegisterSection
-          }.background(Color.odya.blackopacity.baseBlackAlpha50)
+        NavigationView {
+            VStack {
+                CustomNavigationBar(title: "여행일지 작성하기")
+                    .frame(alignment: .top)
+                ScrollView {
+                    VStack(spacing: 8) {
+                        travelInfoEditSection
+                        jounalListEditSection
+                        travelJournalRegisterSection
+                    }.background(Color.odya.blackopacity.baseBlackAlpha50)
+                }
+            }
         }
-      }
 
       if isDatePickerVisible {
         TravelDatePickerView(
@@ -99,21 +119,42 @@ struct TravelJournalEditView: View {
 
       Divider().frame(height: 1).background(Color.odya.line.alternative)
 
-      HStack(spacing: 8) {
-        Image("person-off")
-        Text("함께 간 친구")
-          .b2Style()
-          .foregroundColor(.odya.label.normal)
-        Spacer()
-        IconButton("plus") {
-          print("함께 간 친구 추가 버튼 클릭")
+        HStack(spacing: 8) {
+            Image("person-off")
+            Text("함께 간 친구")
+                .b2Style()
+                .foregroundColor(.odya.label.normal)
+            Spacer()
+            travelMatesView
+            NavigationLink(destination: {
+                TravelMateSelectorView(travelJournalEditVM: travelJournalEditVM)
+                    .navigationBarHidden(true)
+            }) {
+                Image("plus").padding(6)
+            }
         }
-      }
     }
     .padding(.horizontal, 20)
     .padding(.vertical, 28)
     .background(Color.odya.background.normal)
   }
+    
+    private var travelMatesView: some View {
+        HStack(spacing: 0) {
+            ForEach(Array(travelJournalEditVM.travelMates.prefix(3).enumerated()), id: \.element.id) { (index, mate) in
+                TravelMateView(mate: mate)
+                    .offset(x: CGFloat(index * -4))
+            }
+            
+            if travelJournalEditVM.travelMates.count > 3 {
+                Text("외 \(travelJournalEditVM.travelMates.count - 3)명")
+                    .detail2Style()
+                    .foregroundColor(.odya.label.normal)
+                    .frame(minWidth: 32)
+                    .lineLimit(1)
+            }
+        }
+    }
 
   // MARK: Journal List Edit Section
   private var jounalListEditSection: some View {
