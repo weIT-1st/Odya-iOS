@@ -75,6 +75,7 @@
 		3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B82A72AFAB00998EC6 /* ComponentSizeType.swift */; };
 		3ED22F3A2A9853830067DE72 /* TravelMateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */; };
 		3ED22F3C2A9854730067DE72 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */; };
+		3ED22F3E2A98D7070067DE72 /* FollowUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F3D2A98D7070067DE72 /* FollowUserData.swift */; };
 		3EEBB7CD2A8E259800F0049D /* TravelJournalEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7CC2A8E259800F0049D /* TravelJournalEditView.swift */; };
 		3EEBB7CF2A8EB40A00F0049D /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7CE2A8EB40A00F0049D /* Date.swift */; };
 		3EEBB7D12A8F3A8500F0049D /* DailyJournalEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */; };
@@ -180,6 +181,7 @@
 		3EBEC3B82A72AFAB00998EC6 /* ComponentSizeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentSizeType.swift; sourceTree = "<group>"; };
 		3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMateSelectorView.swift; sourceTree = "<group>"; };
 		3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
+		3ED22F3D2A98D7070067DE72 /* FollowUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUserData.swift; sourceTree = "<group>"; };
 		3EEBB7CC2A8E259800F0049D /* TravelJournalEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalEditView.swift; sourceTree = "<group>"; };
 		3EEBB7CE2A8EB40A00F0049D /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalEditView.swift; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 				073294892A2C9975008E1026 /* UserDefaults.swift */,
 				3EF549B92A482B1D006562F8 /* UserAuth.swift */,
 				3EEBB7D62A91FACB00F0049D /* DailyTravelJournal.swift */,
+				3ED22F3D2A98D7070067DE72 /* FollowUserData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -798,6 +801,7 @@
 				078496432A84F67D00A490E3 /* FeedToolBar.swift in Sources */,
 				3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */,
 				3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */,
+				3ED22F3E2A98D7070067DE72 /* FollowUserData.swift in Sources */,
 				3EF54A032A5BE992006562F8 /* AuthRouter.swift in Sources */,
 				3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */,
 				3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */,

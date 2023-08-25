@@ -7,36 +7,6 @@
 
 import SwiftUI
 
-struct ProfileColorData: Codable {
-    var colorHex: String?
-}
-
-struct ProfileData: Codable {
-    var profileUrl: String?
-    var profileColor: ProfileColorData
-}
-
-struct FollowUserData: Codable, Identifiable, Hashable {
-    var id = UUID()
-    var userId: Int
-    var nickname: String
-    var profileData: ProfileData
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-extension FollowUserData: Equatable {
-    static func == (lhs: FollowUserData, rhs: FollowUserData) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-    static func != (lhs: FollowUserData, rhs: FollowUserData) -> Bool {
-        return !(lhs == rhs)
-    }
-}
-
 struct SelectedMateView: View {
     private let mateUserData: FollowUserData
     private let status: ProfileImageStatus
@@ -96,6 +66,7 @@ struct FollowUserView: View {
     }
 }
 
+// 테스트를 위한 임시 뷰
 struct UserProfileView: View {
     let userData: FollowUserData
     
@@ -117,7 +88,7 @@ struct TravelMateSelectorView: View {
     
     @State var isShowingTooManyMatesAlert: Bool = false
     
-    @State var selectedMatesViewHeight: CGFloat = 0
+    @State var selectedMatesViewHeight: CGFloat = 16
     
     var body: some View {
         VStack(spacing: 0) {
