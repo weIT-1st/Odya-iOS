@@ -40,7 +40,7 @@ struct TravelDatePickerView: View {
   @State private var isStartDatePicked: Bool = true
 
   var endDateLimit: Date {
-    return selectedStartDate.addDays(15) ?? selectedStartDate
+    return selectedStartDate.addDays(14) ?? selectedStartDate
   }
 
   var isDatesValid: Bool {
@@ -84,7 +84,7 @@ struct TravelDatePickerView: View {
         }) {
           Text("확인")
             .b1Style()
-            .foregroundColor(.odya.brand.primary)
+            .foregroundColor(isDatesValid ? .odya.brand.primary : .odya.label.alternative)
             .frame(maxWidth: .infinity)
             .padding(10)
         }.disabled(!isDatesValid)
@@ -158,9 +158,7 @@ struct TravelDatePickerView: View {
     .detail2Style()
     .frame(height: 350, alignment: .top)
     .onAppear {
-      if isDatesValid {
         selectedEndDate = selectedStartDate.addDays(1) ?? selectedStartDate
-      }
     }
   }
 }
@@ -186,7 +184,7 @@ struct DailyJournalDatePicker: View {
 
     let pickedJournal = travelJournalEditVM.dailyJournalList[
       travelJournalEditVM.pickedJournalIndex!]
-    self._selectedDate = State(initialValue: pickedJournal.date ?? Date())
+      self._selectedDate = State(initialValue: pickedJournal.date ?? travelJournalEditVM.startDate)
 
     self.startDate = travelJournalEditVM.startDate
     self.endDate = travelJournalEditVM.endDate
