@@ -8,32 +8,32 @@
 import SwiftUI
 
 struct HomeView: View {
-    // MARK: - Properties
-    
-    @State private var showLocationSearchView = false
+  // MARK: Properties
 
-    // MARK: - Body
-    
-    var body: some View {
-        ZStack(alignment: .top) {
-            MapView()
-                .edgesIgnoringSafeArea(.top)
-            
-            if showLocationSearchView {
-                LocationSearchView(showLocationSearchView: $showLocationSearchView)
-            } else {
-                LocationSearchActivationView()
-                    .onTapGesture {
-                        showLocationSearchView = true
-                    }
-            }
-        }
+  @State private var showLocationSearchView = false
+
+  // MARK: Body
+
+  var body: some View {
+    ZStack(alignment: .top) {
+      MapView()
+        .edgesIgnoringSafeArea(.top)
+
+      if showLocationSearchView {
+        LocationSearchView(showLocationSearchView: $showLocationSearchView)
+      } else {
+        LocationSearchActivationView()
+          .onTapGesture {
+            showLocationSearchView = true
+          }
+      }
     }
+  }
 }
 
 // MARK: - Previews
 struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
+  static var previews: some View {
+    HomeView()
+  }
 }
