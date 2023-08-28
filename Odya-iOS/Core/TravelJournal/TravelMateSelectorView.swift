@@ -187,7 +187,9 @@ struct TravelMateSelectorView: View {
       if nameToSearch.count == 0 {
         displayedFollowingUsers = followingUsers
       } else {
-        displayedFollowingUsers = followingUsers.filter { $0.nickname.contains(newValue) }
+        displayedFollowingUsers = followingUsers.filter {
+          $0.nickname.localizedCaseInsensitiveContains(newValue)
+        }
       }
     }
   }
