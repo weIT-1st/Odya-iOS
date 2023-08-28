@@ -177,6 +177,7 @@ struct TravelJournalEditView: View {
             isDatePickerVisible: $isDailyDatePickerVisible)
         }
       }
+      .animation(.linear, value: travelJournalEditVM.dailyJournalList)
 
       if travelJournalEditVM.canAddMoreDailyJournals() {
         dailyJournalAddButton
