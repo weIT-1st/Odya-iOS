@@ -379,7 +379,6 @@
 				078496462A84F71800A490E3 /* PostView.swift */,
 				078496482A84F72000A490E3 /* PostImageView.swift */,
 				0784964A2A84F72C00A490E3 /* PostContentView.swift */,
-				0784964D2A908C1800A490E3 /* RoundedEdgeShape.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -517,6 +516,7 @@
 				3EBEC3B62A713F4E00998EC6 /* Profile.swift */,
 				3EF7C1ED2A7AE7D000223366 /* FieldStyle.swift */,
 				3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */,
+				0784964D2A908C1800A490E3 /* RoundedEdgeShape.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
