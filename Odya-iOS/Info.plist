@@ -2,32 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
+	<key>CFBundleLocalizations</key>
 	<array>
-		<string>NotoSansKR-Black.otf</string>
-		<string>NotoSansKR-Bold.otf</string>
-		<string>NotoSansKR-Light.otf</string>
-		<string>NotoSansKR-Medium.otf</string>
-		<string>NotoSansKR-Regular.otf</string>
-		<string>NotoSansKR-Thin.otf</string>
-		<string>한국기계연구원_Light.ttf</string>
-		<string>한국기계연구원_bold.ttf</string>
+		<string>ko</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-	</dict>
-	<key>KAKAO_NATIVE_APP_KEY</key>
-	<string>${KAKAO_NATIVE_APP_KEY}</string>
-	<key>GOOGLE_MAPS_API_KEY</key>
-	<string>${GOOGLE_MAPS_API_KEY}</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>사용자의 위치 정보를 사용합니다.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>사용자의 위치 정보를 사용합니다.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>사용자의 위치 정보를 사용합니다.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -39,6 +17,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>GOOGLE_MAPS_API_KEY</key>
+	<string>${GOOGLE_MAPS_API_KEY}</string>
+	<key>KAKAO_NATIVE_APP_KEY</key>
+	<string>${KAKAO_NATIVE_APP_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
@@ -49,11 +31,20 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NotoSansKR-Black.otf</string>
+		<string>NotoSansKR-Bold.otf</string>
+		<string>NotoSansKR-Light.otf</string>
+		<string>NotoSansKR-Medium.otf</string>
+		<string>NotoSansKR-Regular.otf</string>
+		<string>NotoSansKR-Thin.otf</string>
+		<string>한국기계연구원_Light.ttf</string>
+		<string>한국기계연구원_bold.ttf</string>
+	</array>
 	<key>UIBackgroundModes</key>
-    <array>
-        <string>location</string>
-    </array>
-	<key>UIUserInterfaceStyle</key>
-	<string>Dark</string>
+	<array>
+		<string>location</string>
+	</array>
 </dict>
 </plist>

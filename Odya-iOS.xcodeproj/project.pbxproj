@@ -57,8 +57,8 @@
 		3E8F81912A81128100FA167E /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8F81902A81128100FA167E /* GooglePlaces */; };
 		3E8F81932A8112A500FA167E /* GoogleMapsBase in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8F81922A8112A500FA167E /* GoogleMapsBase */; };
 		3E8F81952A8112AB00FA167E /* GoogleMapsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8F81942A8112AB00FA167E /* GoogleMapsCore */; };
-		3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E98922A8B7C7300909653 /* UserInfoValidatorRouter.swift */; };
 		3E9E988E2A84C9A400909653 /* AuthValidatorApiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */; };
+		3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E98922A8B7C7300909653 /* UserInfoValidatorRouter.swift */; };
 		3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */; };
 		3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */; };
 		3EBEC39E2A6B293100998EC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */; };
@@ -161,8 +161,8 @@
 		3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpTestView.swift; sourceTree = "<group>"; };
 		3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
-		3E9E98922A8B7C7300909653 /* UserInfoValidatorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoValidatorRouter.swift; sourceTree = "<group>"; };
 		3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthValidatorApiViewModel.swift; sourceTree = "<group>"; };
+		3E9E98922A8B7C7300909653 /* UserInfoValidatorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoValidatorRouter.swift; sourceTree = "<group>"; };
 		3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthViewModel.swift; sourceTree = "<group>"; };
 		3EBEC39D2A6B293100998EC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3EBEC3A12A6C38EC00998EC6 /* ComponetsTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponetsTestView.swift; sourceTree = "<group>"; };
@@ -333,10 +333,10 @@
 			isa = PBXGroup;
 			children = (
 				3EEBB7CB2A8E240600F0049D /* TravelJournal */,
-				3E9E988F2A8B79FE00909653 /* Auth */,
 				07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */,
 				0707A1C32A45A37100AE6E4D /* HomeView.swift */,
 				3E36EC722A2B596C006008E5 /* MainView.swift */,
+				3E9E988F2A8B79FE00909653 /* Auth */,
 				07310DB02A7282D30047E972 /* Review */,
 				0708FC2E2A40D2CD00D152CF /* Map */,
 				07A0EC812A3F95BC002D36B9 /* Settings */,
@@ -684,6 +684,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 071FA5152A20A99F00C7B362;
 			packageReferences = (
@@ -803,7 +804,7 @@
 				3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */,
 				3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
-				3EF7C1F02A8105F000223366 /* UserInfoPickers.swift in Sources */,
+				3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */,
 				078496412A84F5FE00A490E3 /* FeedView.swift in Sources */,
 				3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */,
 				3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */,
@@ -874,7 +875,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -930,7 +931,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

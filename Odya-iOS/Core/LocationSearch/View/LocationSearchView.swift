@@ -80,7 +80,8 @@ struct LocationSearchView: View {
                 }
             }
         }
-        .background(.white)
+        .frame(maxWidth: .infinity)
+        .background(Color.odya.background.normal)
     }
 }
 

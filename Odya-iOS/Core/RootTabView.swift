@@ -8,22 +8,33 @@
 import SwiftUI
 
 struct RootTabView: View {
+    
+    // MARK: Body
+    
     var body: some View {
         TabView {
-            MainView()
-                .tabItem {
-                    GNBButton(iconImage: "location-m", text: "홈")
-//                    Image(systemName: "house")
-                }
-            // 메인 홈
+            // MARK: 홈
             HomeView()
                 .tabItem {
-                    Image(systemName: "house")
+                    GNBButton(iconImage: "location-m", text: "홈")
                 }
-            // 내 정보
+            
+            // MARK: 내추억
+            TravelJournalEditView() // 임시
+                .tabItem {
+                    GNBButton(iconImage: "diary", text: "내추억")
+                }
+            
+            // MARK: 피드
+            FeedView()
+                .tabItem {
+                    GNBButton(iconImage: "messages-off", text: "피드")
+                }
+            
+            // MARK: 내정보
             ProfileView()
                 .tabItem {
-                    Image(systemName: "person")
+                    GNBButton(iconImage: "person-off", text: "내정보")
                 }
         }.accentColor(.odya.brand.primary)
     }

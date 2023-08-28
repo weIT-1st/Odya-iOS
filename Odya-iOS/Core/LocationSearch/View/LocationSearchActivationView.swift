@@ -10,17 +10,23 @@ import SwiftUI
 struct LocationSearchActivationView: View {
     // MARK: - Body
     var body: some View {
-        HStack {
-            Text("어디로 가시나요?")
-                .foregroundColor(Color(.darkGray))
-                .padding(.horizontal)
-            Spacer()
-            Image(systemName: "magnifyingglass")
-                .padding(.horizontal)
+        VStack {
+            HStack {
+                Text("어디로 가시나요?")
+                    .foregroundColor(Color(.darkGray))
+                    .padding(.horizontal)
+                Spacer()
+                Image(systemName: "magnifyingglass")
+                    .padding(.horizontal)
+            }
+            .padding(.horizontal, 16)
+            .frame(height: 46)
+            .border(.white)
+            .background(Color.odya.background.normal)
         }
-        .frame(width: UIScreen.main.bounds.width - 64, height: 46)
-        .background(.white)
-        .border(.black)
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(.clear)
     }
 }
 

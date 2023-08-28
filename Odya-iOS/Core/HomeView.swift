@@ -17,6 +17,7 @@ struct HomeView: View {
     var body: some View {
         ZStack(alignment: .top) {
             MapView()
+                .edgesIgnoringSafeArea(.top)
             
             if showLocationSearchView {
                 LocationSearchView(showLocationSearchView: $showLocationSearchView)
