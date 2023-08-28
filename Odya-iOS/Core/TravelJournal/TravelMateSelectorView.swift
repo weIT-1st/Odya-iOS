@@ -101,11 +101,12 @@ struct TravelMateSelectorView: View {
         followingUserSearchBar
         followingUserListView
       }
-      .padding(.top, 34)
+      .padding(.vertical, 34)
       .background(Color.odya.elevation.elev2)
       .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
 
     }.background(Color.odya.background.normal)
+      .edgesIgnoringSafeArea(.bottom)
       .onAppear {
         selectedTravelMates = travelJournalEditVM.travelMates
         // test user
@@ -221,7 +222,7 @@ struct TravelMateSelectorView: View {
           }.frame(height: 36)
         }
       }.padding(.horizontal, GridLayout.side)
-    }.edgesIgnoringSafeArea(.bottom)
+    }
   }
 
 }
