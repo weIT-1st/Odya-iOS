@@ -47,7 +47,7 @@ struct TravelDatePickerView: View {
     let calendar = Calendar.current
     let components = calendar.dateComponents([.day], from: selectedStartDate, to: selectedEndDate)
     let duration = components.day ?? 0
-    return duration > 0 && duration <= 15
+    return duration >= 0 && duration <= 15
   }
 
   // MARK: body
@@ -158,7 +158,7 @@ struct TravelDatePickerView: View {
     .detail2Style()
     .frame(height: 350, alignment: .top)
     .onAppear {
-        selectedEndDate = selectedStartDate.addDays(1) ?? selectedStartDate
+      selectedEndDate = selectedStartDate.addDays(1) ?? selectedStartDate
     }
   }
 }
@@ -184,7 +184,7 @@ struct DailyJournalDatePicker: View {
 
     let pickedJournal = travelJournalEditVM.dailyJournalList[
       travelJournalEditVM.pickedJournalIndex!]
-      self._selectedDate = State(initialValue: pickedJournal.date ?? travelJournalEditVM.startDate)
+    self._selectedDate = State(initialValue: pickedJournal.date ?? travelJournalEditVM.startDate)
 
     self.startDate = travelJournalEditVM.startDate
     self.endDate = travelJournalEditVM.endDate
