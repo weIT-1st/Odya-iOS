@@ -24,6 +24,8 @@ struct DailyJournalEditView: View {
 
   private let contentCharacterLimit = 200
 
+  @State var isShowingDailyJournalDeleteAlert = false
+
   // MARK: Body
 
   var body: some View {
@@ -52,13 +54,26 @@ struct DailyJournalEditView: View {
       Spacer()
 
       Button(action: {
-        travelJournalEditVM.deleteDailyJournal(dailyJournal: dailyJournal)
+        isShowingDailyJournalDeleteAlert = true
       }) {
         Text("삭제하기")
           .font(Font.custom("Noto Sans KR", size: 14))
           .underline()
           .foregroundColor(.odya.label.assistive)
       }.padding(.trailing, 8)
+        .alert("해당 날짜의 여행일지를 삭제할까요?", isPresented: $isShowingDailyJournalDeleteAlert) {
+          HStack {
+            Button("취소") {
+              isShowingDailyJournalDeleteAlert = false
+            }
+            Button("삭제") {
+              isShowingDailyJournalDeleteAlert = false
+              travelJournalEditVM.deleteDailyJournal(dailyJournal: dailyJournal)
+            }
+          }
+        } message: {
+          Text("삭제된 내용은 복구될 수 없습니다.")
+        }
 
       // TODO: 꾹 눌러서 이동하는 기능 추가
       IconButton("menu-hamburger-l") {
