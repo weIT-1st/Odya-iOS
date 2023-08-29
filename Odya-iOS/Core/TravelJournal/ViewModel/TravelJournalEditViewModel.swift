@@ -11,6 +11,7 @@ class TravelJournalEditViewModel: ObservableObject {
   @Published var title: String = ""
   @Published var startDate = Date()
   @Published var endDate = Date()
+  @Published var travelMates: [FollowUserData] = []
   @Published var dailyJournalList: [DailyTravelJournal] = []
 
   @Published var pickedJournalIndex: Int? = nil

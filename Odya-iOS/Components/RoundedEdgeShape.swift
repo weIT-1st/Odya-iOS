@@ -16,6 +16,7 @@ struct RoundedEdgeShape: Shape {
   // MARK: - Properties
 
   let edgeType: EdgeType
+  var cornerRadius: CGFloat = Radius.medium
 
   // MARK: - Body
 
@@ -33,7 +34,7 @@ struct RoundedEdgeShape: Shape {
     let path = UIBezierPath(
       roundedRect: rect,
       byRoundingCorners: corners,
-      cornerRadii: CGSize(width: Radius.medium, height: Radius.medium))
+      cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
 
     return Path(path.cgPath)
   }
