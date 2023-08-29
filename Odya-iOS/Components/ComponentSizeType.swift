@@ -12,6 +12,7 @@ enum ComponentSizeType: String {
     case L
     case M
     case S
+    case XS
     
     var CTAButtonWidth: CGFloat? {
         switch self {
@@ -33,8 +34,10 @@ enum ComponentSizeType: String {
         case .L:
             return 64
         case .M:
-            return 32
+            return 40
         case .S:
+            return 32
+        case .XS:
             return 24
         }
     }
