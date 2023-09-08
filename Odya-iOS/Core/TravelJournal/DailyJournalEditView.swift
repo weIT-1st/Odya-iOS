@@ -6,17 +6,45 @@
 //
 
 import SwiftUI
+import PhotosUI
+import Photos
+
+struct selectedImageView: View {
+    let image: UIImage
+    
+    var body: some View {
+        ZStack {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 120, height: 120)
+                .cornerRadius(Radius.small)
+            Image("smallGreyButton-x-filled")
+                .offset(x: 55, y: -65)
+                .frame(width: 0, height: 0)
+        }
+    }
+}
 
 struct DailyJournalEditView: View {
 
   // MARK: Properties
 
+    @ObservedObject var imagePicker = ImagePicker()
   @ObservedObject var travelJournalEditVM: TravelJournalEditViewModel
 
   let index: Int
   @Binding var dailyJournal: DailyTravelJournal
   @Binding var isDatePickerVisible: Bool
 
+    @State private var isShowingDailyJournalDeleteAlert = false
+    @State private var isShowingImagePickerSheet = false
+    @State private var isShowingImagesPermissionDeniedAlert = false
+    
+    @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
+    
+//    @State private var selectedAssetIdentifiers: [String] = []
+    
   private var dayIndexString: String {
     let dayIndex = dailyJournal.getDayIndex(startDate: travelJournalEditVM.startDate)
     return dayIndex == 0 ? "Day " : "Day \(dayIndex)"
@@ -24,23 +52,41 @@ struct DailyJournalEditView: View {
 
   private let contentCharacterLimit = 200
 
-  @State var isShowingDailyJournalDeleteAlert = false
-
+  
   // MARK: Body
 
   var body: some View {
-    VStack(spacing: 16) {
+    VStack(spacing: 0) {
       headerBar
       selectedImageList
-      selectedDate
-      journalConent
-      taggedLocation
+            
+        VStack (spacing: 16) {
+            selectedDate
+            journalConent
+            taggedLocation
+        }
     }
     .padding(.horizontal, 20)
     .padding(.top, 16)
     .padding(.bottom, 24)
     .cornerRadius(Radius.medium)
     .background(Color.odya.elevation.elev2)
+    .sheet(isPresented: $isShowingImagePickerSheet) {
+        PhotoPickerView(imageList: $dailyJournal.images, accessStatus: imageAccessStatus)
+    }
+//    .sheet(isPresented: $isShowingImagePickerSheet) {
+//        PhotosPicker(selection: $imagePicker.imageSelections, maxSelectionCount: 15, matching: .images) {
+//            Text("select photos")
+//        }
+//    }
+//    .onChange(of: imagePicker.images) { newItems in
+//        print("--- get \(newItems.count) items ---")
+//        for newItem in newItems {
+//            debugPrint("--- newItem: \(newItem) ---")
+//            let localID = newItem.localIdentifier
+//            print("--- newIten assetId: \(localID)")
+//        }
+//    }
   }
 
   // MARK: Header bar
@@ -83,28 +129,76 @@ struct DailyJournalEditView: View {
   }
 
   // MARK: Selected Image List
-  // TODO: 이미지 추가 기능 및 선택된 이미지 화면에 표시
   private var selectedImageList: some View {
-    HStack {
-      Button(action: {
-        print("이미지 추가 버튼 클릭")
-      }) {
-        Rectangle()
-          .foregroundColor(.clear)
-          .frame(width: 120, height: 120)
-          .background(Color.odya.elevation.elev5)
-          .cornerRadius(Radius.small)
-          .overlay(
-            VStack(spacing: 0) {
-              Image("camera")
-              Text("2/15")
-                .detail2Style()
-                .foregroundColor(.odya.label.assistive)
-            }
-          )
+      ScrollView(.horizontal) {
+          HStack(spacing: 10) {
+              if dailyJournal.images.count < 15 {
+                  Button(action: {
+                      let requiredAccessLevel: PHAccessLevel = .readWrite
+                      PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
+                          imageAccessStatus = authorizationStatus
+                          switch authorizationStatus {
+                          case .authorized, .limited:
+                              isShowingImagePickerSheet = true
+                          case .denied, .restricted:
+                              // 권한이 거부된 경우 앱 설정으로 이동 제안
+                              isShowingImagesPermissionDeniedAlert = true
+                          default:
+                              break
+                          }
+                      }
+                  }) {
+                      Rectangle()
+                          .foregroundColor(.clear)
+                          .frame(width: 120, height: 120)
+                          .background(Color.odya.elevation.elev5)
+                          .cornerRadius(Radius.small)
+                          .overlay(
+                            VStack(spacing: 0) {
+                                Image("camera")
+                                Text("\(dailyJournal.images.count)/15")
+                                    .detail2Style()
+                                    .foregroundColor(.odya.label.assistive)
+                            }
+                          )
+                  }
+                  .alert("사진 액세스 권한 거부", isPresented: $isShowingImagesPermissionDeniedAlert) {
+                    HStack {
+                      Button("취소") {
+                          isShowingImagesPermissionDeniedAlert = false
+                      }
+                      Button("설정으로 이동") {
+                          isShowingImagesPermissionDeniedAlert = false
+                          if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                              UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                          }
+                      }
+                    }
+                  } message: {
+                    Text("사진 액세스 권한이 거부되었습니다. 설정 앱으로 이동하여 권한을 다시 설정하십시오.")
+                  }
+              }
+              
+              ForEach(dailyJournal.images) { imageData in
+                  Button(action: {
+                      dailyJournal.images = dailyJournal.images.filter{ $0.assetIdentifier != imageData.assetIdentifier }
+                  }) {
+                      ZStack {
+                          Image(uiImage: imageData.image)
+                              .resizable()
+                              .scaledToFill()
+                              .frame(width: 120, height: 120)
+                              .cornerRadius(Radius.small)
+                          Image("smallGreyButton-x-filled")
+                              .offset(x: 55, y: -57.5)
+                              .frame(width: 0, height: 0)
+                      }
+                  }
+              }
+              Spacer()
+          }.padding(.vertical, 16)
+              .animation(.easeInOut, value: dailyJournal.images)
       }
-      Spacer()
-    }
   }
 
   // MARK: Selected Date
@@ -198,12 +292,35 @@ struct DailyJournalEditView: View {
         .stroke(Color.odya.line.alternative, lineWidth: 1)
     )
   }
+    
+//    private func showPermissionDeniedAlert() {
+//        let alert = Alert(
+//            title: Text("사진 액세스 권한 거부"),
+//            message: Text("사진 액세스 권한이 거부되었습니다. 설정 앱으로 이동하여 권한을 다시 설정하십시오."),
+//            primaryButton: .default(Text("설정으로 이동")) {
+//                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+//                    UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+//                }
+//            },
+//            secondaryButton: .cancel(Text("취소"))
+//        )
+//        
+//        DispatchQueue.main.async {
+//            isShowingImagePickerSheet = false
+//        }
+//        
+////        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+////            // 다이얼로그를 띄우려면 이미지 피커가 닫힌 후에 실행
+////            // 다이얼로그 띄우기 전에 이미지 피커를 닫기 위해 사용
+////            UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
+////        }
+//    }
 }
 
-struct DailyJournal_Previews: PreviewProvider {
-  static var previews: some View {
-    DailyJournalEditView(
-      travelJournalEditVM: TravelJournalEditViewModel(), index: 0,
-      dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
-  }
-}
+//struct DailyJournal_Previews: PreviewProvider {
+//  static var previews: some View {
+//    DailyJournalEditView(
+//      travelJournalEditVM: TravelJournalEditViewModel(), index: 0,
+//      dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
+//  }
+//}
