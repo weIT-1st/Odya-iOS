@@ -292,35 +292,12 @@ struct DailyJournalEditView: View {
         .stroke(Color.odya.line.alternative, lineWidth: 1)
     )
   }
-    
-//    private func showPermissionDeniedAlert() {
-//        let alert = Alert(
-//            title: Text("사진 액세스 권한 거부"),
-//            message: Text("사진 액세스 권한이 거부되었습니다. 설정 앱으로 이동하여 권한을 다시 설정하십시오."),
-//            primaryButton: .default(Text("설정으로 이동")) {
-//                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-//                    UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-//                }
-//            },
-//            secondaryButton: .cancel(Text("취소"))
-//        )
-//        
-//        DispatchQueue.main.async {
-//            isShowingImagePickerSheet = false
-//        }
-//        
-////        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-////            // 다이얼로그를 띄우려면 이미지 피커가 닫힌 후에 실행
-////            // 다이얼로그 띄우기 전에 이미지 피커를 닫기 위해 사용
-////            UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
-////        }
-//    }
 }
 
-//struct DailyJournal_Previews: PreviewProvider {
-//  static var previews: some View {
-//    DailyJournalEditView(
-//      travelJournalEditVM: TravelJournalEditViewModel(), index: 0,
-//      dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
-//  }
-//}
+struct DailyJournal_Previews: PreviewProvider {
+  static var previews: some View {
+    DailyJournalEditView(
+      travelJournalEditVM: TravelJournalEditViewModel(), index: 0,
+      dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
+  }
+}
