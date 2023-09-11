@@ -25,5 +25,6 @@ struct CustomNavigationBar: View {
                 .colorMultiply(.odya.background.normal)
         }
         .padding(.horizontal, 8)
+        .frame(height: 56)
     }
 }

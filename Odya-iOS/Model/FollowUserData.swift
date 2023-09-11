@@ -36,3 +36,25 @@ extension FollowUserData: Equatable {
         return !(lhs == rhs)
     }
 }
+
+enum FollowType {
+    case following
+    case follower
+}
+
+struct FollowUser: Identifiable {
+    var id = UUID()
+    var userData: FollowUserData
+    var followType: FollowType
+    var followState: Bool
+    
+//    init(userData: FollowUserData, followType: FollowType, followState: Bool) {
+//        self.userData = userData
+//        self.followType = followType
+//        self.followState = followState
+//    }
+    
+//    mutating func changeFollowState() {
+//        self.followState.toggle()
+//    }
+}

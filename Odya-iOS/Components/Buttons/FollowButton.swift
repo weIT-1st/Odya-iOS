@@ -17,3 +17,8 @@ extension View {
         }.buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
     }
 }
+
+//struct FollowButton: View {
+//    var isFollowing: Bool
+//    var
+//}

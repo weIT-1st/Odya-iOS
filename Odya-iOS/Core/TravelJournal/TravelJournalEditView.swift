@@ -46,7 +46,7 @@ struct TravelJournalEditView: View {
       NavigationView {
         VStack {
           CustomNavigationBar(title: "여행일지 작성하기")
-            .frame(alignment: .top)
+            
           ScrollView {
             VStack(spacing: 8) {
               travelInfoEditSection
