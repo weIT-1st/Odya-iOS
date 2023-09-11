@@ -6,11 +6,36 @@
 //
 
 import SwiftUI
+import CoreLocation
+
+struct ImageData: Identifiable, Hashable {
+    var id = UUID()
+    var assetIdentifier: String
+    var image: UIImage
+    var creationDate: Date? = nil
+    var location: CLLocationCoordinate2D?
+    // exif
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+extension ImageData: Equatable {
+    static func == (lhs: ImageData, rhs: ImageData) -> Bool {
+      return lhs.assetIdentifier == rhs.assetIdentifier
+    }
+
+    static func != (lhs: ImageData, rhs: ImageData) -> Bool {
+      return lhs.assetIdentifier != rhs.assetIdentifier
+    }
+}
 
 struct DailyTravelJournal: Identifiable {
   var id = UUID()
   var date: Date? = nil
   var content: String = ""
+  var images: [ImageData] = []
   // 사진 리스트
   // 태그된 장소 정보
 
