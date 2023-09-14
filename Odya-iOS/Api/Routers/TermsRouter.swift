@@ -36,7 +36,10 @@ extension TermsRouter: TargetType {
     
     var task: Moya.Task {
         switch self {
-        default: return .requestPlain
+        case .getTermsList:
+            return .requestPlain
+        case .getTermsContent:
+            return .requestPlain
         }
     }
     

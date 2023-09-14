@@ -95,7 +95,7 @@ struct SignUpView: View {
               print("do apple register")
               authApi.appleRegister(
                 idToken: userInfo.idToken, email: userInfo.email, phoneNumber: userInfo.phoneNumber,
-                nickname: userInfo.nickname, gender: genderString, birthday: birthdayArray
+                nickname: userInfo.nickname, gender: genderString, birthday: birthdayArray, termsIdList: userInfo.termsIdList
               ) { result, errorMessage in
                 guard result else {
                   print("Error in SignUpView appleRegister() - \(String(describing: errorMessage))")
@@ -109,7 +109,7 @@ struct SignUpView: View {
               authApi.kakaoRegister(
                 username: userInfo.username, email: userInfo.email,
                 phoneNumber: userInfo.phoneNumber, nickname: userInfo.nickname,
-                gender: genderString, birthday: birthdayArray
+                gender: genderString, birthday: birthdayArray, termsIdList: userInfo.termsIdList
               ) { result, errorMessage in
                 guard result else {
                   print("Error in SignUpView kakaoRegister() - \(String(describing: errorMessage))")
