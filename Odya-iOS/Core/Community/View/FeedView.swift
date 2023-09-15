@@ -9,37 +9,43 @@ import SwiftUI
 
 struct FeedView: View {
   // MARK: - Body
-
+  
   var body: some View {
-    VStack {
-      // tool bar
-      // TODO: - 툴바 디자인 변경예정
-      FeedToolBar()
-
-      // scroll view
-      ScrollView {
-        VStack {
-          // fishchips
-          FishchipsBar()
-
-          // posts (무한)
-          ForEach(0..<10) { _ in
-            PostView()
-              .padding(.bottom, 8)
+    NavigationView {
+      VStack {
+        // tool bar
+        // TODO: - 툴바 디자인 변경예정
+        FeedToolBar()
+        
+        // scroll view
+        ScrollView {
+          VStack {
+            // fishchips
+            FishchipsBar()
+            
+            // posts (무한)
+            ForEach(0..<10) { _ in
+              NavigationLink {
+                FeedDetailView()
+              } label: {
+                PostView()
+                  .padding(.bottom, 8)
+              }
+            }
           }
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .refreshable {
+          // fetch new posts
+        }
+        .onAppear {
+          customRefreshControl()
+        }
       }
-      .refreshable {
-        // fetch new posts
-      }
-      .onAppear {
-        customRefreshControl()
-      }
+      .background(Color.odya.background.normal)
     }
-    .background(Color.odya.background.normal)
   }
-
+  
   func customRefreshControl() {
     UIRefreshControl.appearance().tintColor = .clear
     UIRefreshControl.appearance().backgroundColor = UIColor(Color.odya.brand.primary)
@@ -53,7 +59,7 @@ struct FeedView: View {
 }
 
 struct CustomRepreshView: View {
-
+  
   var body: some View {
     Text("피드에 올린 곳 오댜?")
       .foregroundColor(Color.odya.label.r_assistive)

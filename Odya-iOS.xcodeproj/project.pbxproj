@@ -35,6 +35,9 @@
 		07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */; };
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
+		19EBA7632AB42338000ABBE5 /* FeedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */; };
+		19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */; };
+		19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */; };
 		3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */; };
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
@@ -131,7 +134,7 @@
 		07310DB52A7286380047E972 /* ReviewApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApiService.swift; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
-		078496402A84F5FD00A490E3 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		078496402A84F5FD00A490E3 /* FeedView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		078496422A84F67D00A490E3 /* FeedToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedToolBar.swift; sourceTree = "<group>"; };
 		078496442A84F6A300A490E3 /* FishchipsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishchipsBar.swift; sourceTree = "<group>"; };
 		078496462A84F71800A490E3 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -148,6 +151,9 @@
 		07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailView.swift; sourceTree = "<group>"; };
+		19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCommentView.swift; sourceTree = "<group>"; };
+		19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserInfoView.swift; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
 		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthViewModel.swift; sourceTree = "<group>"; };
 		3E0589002A276E84005C29D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -378,6 +384,9 @@
 				078496462A84F71800A490E3 /* PostView.swift */,
 				078496482A84F72000A490E3 /* PostImageView.swift */,
 				0784964A2A84F72C00A490E3 /* PostContentView.swift */,
+				19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */,
+				19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */,
+				19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -756,6 +765,7 @@
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
+				19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
 				07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */,
 				3EEBB7D12A8F3A8500F0049D /* DailyJournalEditView.swift in Sources */,
@@ -790,6 +800,7 @@
 				3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */,
 				3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */,
 				3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */,
+				19EBA7632AB42338000ABBE5 /* FeedDetailView.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
 				3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */,
 				3ED22F422AAA34920067DE72 /* ImagePicker.swift in Sources */,
@@ -800,6 +811,7 @@
 				3EEBB7CD2A8E259800F0049D /* TravelJournalEditView.swift in Sources */,
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
+				19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */,
 				3E9E988E2A84C9A400909653 /* AuthValidatorApiViewModel.swift in Sources */,
 				3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */,
 				3EF54A072A5BE9B9006562F8 /* Error.swift in Sources */,
