@@ -538,6 +538,7 @@
 				3ED22F682AB5B3850067DE72 /* FollowUserView.swift */,
 			);
 			path = Follow;
+		};
 		3ED22F3F2AAA343E0067DE72 /* Image */ = {
 			isa = PBXGroup;
 			children = (
