@@ -30,14 +30,13 @@ struct Odya_iOSApp: App {
     // MARK: BODY
     var body: some Scene {
         WindowGroup {
-            TermsView()
-//            if idToken != nil {
-//                RootTabView()
-//            } else {
-//                LoginView()
-//                    .environmentObject(appleAuthVM)
-//                    .environmentObject(kakaoAuthVM)
-//            }
+            if idToken != nil {
+                RootTabView()
+            } else {
+                LoginView()
+                    .environmentObject(appleAuthVM)
+                    .environmentObject(kakaoAuthVM)
+            }
         }
     }
     

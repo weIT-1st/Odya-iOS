@@ -9,31 +9,34 @@ import SwiftUI
 
 struct TermsView: View {
   // MARK: Properties
-  
+
   @StateObject var viewModel = TermsViewModel()
   @State var showSheet: Bool = false
+  @Binding var step: Int
   @Binding var termsList: [Int]
-  
+
   // MARK: Body
-  
+
   var body: some View {
     VStack {
       Text("약관 안내")
         .h3Style()
-      
+
       List(viewModel.termsList, id: \.id) { terms in
         HStack {
           Image(systemName: "checkmark")
-            .foregroundColor(termsList.contains(terms.id) ? Color.odya.system.safe : Color.odya.system.inactive)
-          
+            .foregroundColor(
+              termsList.contains(terms.id) ? Color.odya.system.safe : Color.odya.system.inactive)
+
           if terms.isRequired {
             Text("(필수)")
               .detail1Style()
+              .foregroundColor(Color.odya.brand.primary)
           } else {
             Text("(선택)")
               .detail2Style()
           }
-          
+
           Text(terms.title)
           Spacer()
           Button {
@@ -43,18 +46,18 @@ struct TermsView: View {
           }
         }
         .sheet(isPresented: $showSheet) {
-          TermsContentSheet(id: terms.id, title: terms.title)
+          TermsContentSheet(agreedTermsList: $termsList, id: terms.id, title: terms.title)
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
             .environmentObject(viewModel)
         }
-      } // List
-      
+      }  // List
+
       CTAButton(isActive: .active, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
-        // 다음 페이지로
+        self.step += 1
       }
       .disabled(!termsList.contains(viewModel.requiredList) || viewModel.requiredList.isEmpty)
-    } // VStack
+    }  // VStack
     .task {
       viewModel.getTermsList()
     }
@@ -65,11 +68,12 @@ struct TermsContentSheet: View {
   // MARK: Properties
   @EnvironmentObject var viewModel: TermsViewModel
   @Environment(\.dismiss) var dismiss
+  @Binding var agreedTermsList: [Int]
   let id: Int
   let title: String
-  
+
   // MARK: Body
-  
+
   var body: some View {
     VStack(spacing: GridLayout.spacing) {
       // title
@@ -84,8 +88,11 @@ struct TermsContentSheet: View {
       HTMLTextView(htmlContent: viewModel.termsContent)
       Spacer()
       // consent button
-      CTAButton(isActive: .active, buttonStyle: .solid,
-                labelText: "동의하기", labelSize: .L) {
+      CTAButton(
+        isActive: .active, buttonStyle: .solid,
+        labelText: "동의하기", labelSize: .L
+      ) {
+        agreedTermsList.append(id)
         dismiss()
       }
     }
@@ -102,6 +109,6 @@ struct TermsContentSheet: View {
 
 struct TermsView_Previews: PreviewProvider {
   static var previews: some View {
-    TermsView(termsList: [1, 2 ,3])
+    TermsView(step: .constant(1), termsList: .constant([1, 2, 3]))
   }
 }

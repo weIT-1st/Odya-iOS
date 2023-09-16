@@ -45,7 +45,7 @@ struct SignupHeaderBar: View {
 
   var SignupStepIndicator: some View {
     HStack(spacing: 8) {
-      ForEach(1...4, id: \.self) { index in
+      ForEach(1...5, id: \.self) { index in
         Circle()
           .frame(width: 8, height: 8)
           .foregroundColor(step >= index ? .odya.brand.primary : .odya.system.inactive)
@@ -75,16 +75,20 @@ struct SignUpView: View {
       // contents
       switch step {
       case 1:
+          TermsView(
+            step: $step,
+            termsList: $userInfo.termsIdList)
+      case 2:
         RegisterNicknameView(
           step: $step,
           nickname: $userInfo.nickname)
-      case 2:
+      case 3:
         RegisterDefaultInfoView(
           step: $step,
           nickname: userInfo.nickname,
           birthday: $userInfo.birthday,
           gender: $userInfo.gender)
-      case 3:
+      case 4:
         ProgressView()
           .onAppear {
             let birthdayArray = getBirthdayArray(userInfo.birthday)

@@ -57,6 +57,6 @@ struct RegisterNicknameView: View {
 
 struct RegisterNicknameView_Previews: PreviewProvider {
   static var previews: some View {
-    RegisterNicknameView(step: .constant(1), nickname: .constant("홍길동"))
+    RegisterNicknameView(step: .constant(2), nickname: .constant("홍길동"))
   }
 }
