@@ -39,10 +39,11 @@ enum AuthApiService {
                               nickname: String,
                               phoneNumber: String?,
                               gender: String,
-                              birthday : [Int]) -> AnyPublisher<EmptyResponse, APIError> {
+                              birthday : [Int],
+                              termsIdList: [Int]) -> AnyPublisher<EmptyResponse, APIError> {
         // print("AuthApiService - appleRegister() called")
         
-        let request = ApiClient.shared.session.request(AuthRouter.appleRegister(idToken: idToken, email: email, phoneNumber: phoneNumber, nickname: nickname, gender: gender, birthday: birthday))
+        let request = ApiClient.shared.session.request(AuthRouter.appleRegister(idToken: idToken, email: email, phoneNumber: phoneNumber, nickname: nickname, gender: gender, birthday: birthday, termsIdList: termsIdList))
         
         return agent.run(request)
             .map(\.value)
@@ -54,10 +55,11 @@ enum AuthApiService {
                               phoneNumber: String?,
                               nickname: String,
                               gender: String,
-                              birthday: [Int]) -> AnyPublisher<EmptyResponse, APIError> {
+                              birthday: [Int],
+                              termsIdList: [Int]) -> AnyPublisher<EmptyResponse, APIError> {
         // print("AuthApiService - kakaoRegister() called")
         
-        let request = ApiClient.shared.session.request(AuthRouter.kakaoRegister(username: username, email: email, phoneNumber: phoneNumber, nickname: nickname, gender: gender, birthday: birthday))
+        let request = ApiClient.shared.session.request(AuthRouter.kakaoRegister(username: username, email: email, phoneNumber: phoneNumber, nickname: nickname, gender: gender, birthday: birthday, termsIdList: termsIdList))
         
         return agent.run(request)
             .map(\.value)

@@ -143,7 +143,7 @@ struct RegisterDefaultInfoView: View {
 struct RegisterDefaultInfoView_Previews: PreviewProvider {
   static var previews: some View {
     RegisterDefaultInfoView(
-      step: .constant(2),
+      step: .constant(3),
       nickname: "길동아밥먹자",
       birthday: .constant(Date()),
       gender: .constant(Gender.none))
