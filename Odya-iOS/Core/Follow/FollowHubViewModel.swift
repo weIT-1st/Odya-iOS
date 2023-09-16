@@ -7,15 +7,18 @@
 
 import SwiftUI
 
-class FollowListViewModel: ObservableObject {
+class FollowHubViewModel: ObservableObject {
     let userID: String
     @Published var followingUsers: [FollowUserData] = []
     @Published var followerUsers: [FollowUserData] = []
     @Published var displayedUsers: [FollowUser] = []
+//    @Published var currentFollowType: FollowType
     
     init(userID: String) {
         self.userID = userID
-        for i in 0...50 {
+//        self.currentFollowType = .following
+        
+        for i in 0...10 {
             let userA = FollowUserData(
                 userId: i, nickname: "홍길동aa\(i)",
                 profileData: ProfileData(profileColor: ProfileColorData(colorHex: "#FFD41F")))
@@ -25,6 +28,7 @@ class FollowListViewModel: ObservableObject {
                 profileData: ProfileData(profileColor: ProfileColorData(colorHex: "#FFD41F")))
             followerUsers.append(userB)
         }
+        
     }
     
     func setDisplayedUsers(followType: FollowType) {
@@ -40,6 +44,11 @@ class FollowListViewModel: ObservableObject {
             }
         }
     }
+    
+//    func setDisplayedUsersByName(name: Stirng) {
+//        displayedUsers = []
+//
+//    }
     
 //    func tapFollowButton(user: FollowUser) {
 //        user.followState.toggle()

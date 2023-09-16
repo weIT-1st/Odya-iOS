@@ -1,5 +1,5 @@
 //
-//  FollowListView.swift
+//  FollowHubView.swift
 //  Odya-iOS
 //
 //  Created by Heeoh Son on 2023/09/10.
@@ -7,87 +7,35 @@
 
 import SwiftUI
 
-struct FollowUserView: View {
-  let userData: FollowUserData
-  private let status: ProfileImageStatus
-
-  init(user: FollowUserData) {
-    self.userData = user
-    if let profileUrl = user.profileData.profileUrl {
-      self.status = .withImage(url: URL(string: profileUrl)!)
-    } else {
-      self.status = .withoutImage(
-        colorHex: user.profileData.profileColor.colorHex ?? "#FFD41F", name: user.nickname)
-    }
-  }
-
-  var body: some View {
-    NavigationLink(destination: UserProfileView(userData: userData)) {
-      HStack(spacing: 0) {
-        ProfileImageView(status: status, sizeType: .S)
-          .padding(.trailing, 12)
-        Text(userData.nickname)
-          .foregroundColor(.odya.label.normal)
-          .b1Style()
-          .padding(.trailing, 4)
-        Image("sparkle-s")
-      }
-    }
-  }
-}
-
-struct FollowingUserRowView: View {
-    var userData: FollowUserData
-    @State var followState: Bool
-    
-    var body: some View {
-        HStack {
-            FollowUserView(user: userData)
-            Spacer()
-            FollowButton(isFollowing: followState, buttonStyle: .solid) {
-                followState.toggle()
-            }
-            .animation(.default, value: followState)
-        }
-        .frame(height: 36)
-    }
-}
-
-struct FollowerUserRowView: View {
-    var userData: FollowUserData
-    
-    var body: some View {
-        HStack {
-            FollowUserView(user: userData)
-            Spacer()
-        }
-        .frame(height: 36)
-    }
-}
-
 struct FollowUserListView: View {
     var followType: FollowType
     @Binding var displayedUsers: [FollowUser]
+    var maxCountBeforeSuggestion: Int = 8
     
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                ForEach(displayedUsers) { user in
+                ForEach(Array(displayedUsers.enumerated()), id: \.element.id) { index, user in
                     switch followType {
                     case .following:
                         FollowingUserRowView(userData: user.userData, followState: user.followState)
                     case .follower:
                         FollowerUserRowView(userData: user.userData)
                     }
+                    if index == maxCountBeforeSuggestion - 1
+                        || (index < maxCountBeforeSuggestion && index == displayedUsers.count - 1) {
+                        UserSuggestionView()
+                    }
                 }
             }
-            .padding(.horizontal, GridLayout.side)
         }
     }
 }
 
 struct FollowSearchBar: View {
     var promptText: String
+    @ObservedObject var followHubVM: FollowHubViewModel
+    
     @State var nameToSearch: String = ""
     
     var body: some View {
@@ -104,31 +52,38 @@ struct FollowSearchBar: View {
         }
         .modifier(CustomFieldStyle(backgroundColor: Color.odya.elevation.elev4))
         .padding(.horizontal, GridLayout.side)
+//        .onChange(of: nameToSearch) { newValue in
+//            if newValue.count = 0 {
+//
+//            } else {
+//
+//            }
+//        }
 
     }
 }
 
-struct FollowListView: View {
+struct FollowHubView: View {
     @State private var followType: FollowType = .following
-    @ObservedObject var followListVM: FollowListViewModel
+    @ObservedObject var followHubVM: FollowHubViewModel
     
     init(userID: String) {
-        self.followListVM = FollowListViewModel(userID: userID)
+        self.followHubVM = FollowHubViewModel(userID: userID)
     }
     
     var body: some View {
         VStack {
             CustomNavigationBar(title: "친구 관리")
-            FollowSearchBar(promptText: "친구를 찾아보세요!")
+            FollowSearchBar(promptText: "친구를 찾아보세요!", followHubVM: followHubVM)
             followTypeToggle
                 .padding(.vertical, 20)
-            FollowUserListView(followType: followType, displayedUsers: $followListVM.displayedUsers)
+            FollowUserListView(followType: followType, displayedUsers: $followHubVM.displayedUsers)
         }
         .onChange(of: followType) { newValue in
-            followListVM.setDisplayedUsers(followType: newValue)
+            followHubVM.setDisplayedUsers(followType: newValue)
         }
         .onAppear {
-            followListVM.setDisplayedUsers(followType: followType)
+            followHubVM.setDisplayedUsers(followType: followType)
         }
         .background(Color.odya.background.normal)
     }
@@ -171,6 +126,6 @@ struct FollowListView: View {
 
 struct FollowListView_Previews: PreviewProvider {
     static var previews: some View {
-        FollowListView(userID: "testIdToken")
+        FollowHubView(userID: "testIdToken")
     }
 }

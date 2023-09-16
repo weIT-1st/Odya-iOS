@@ -42,11 +42,15 @@ enum FollowType {
     case follower
 }
 
-struct FollowUser: Identifiable {
+struct FollowUser: Identifiable, Hashable {
     var id = UUID()
     var userData: FollowUserData
     var followType: FollowType
     var followState: Bool
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
     
 //    init(userData: FollowUserData, followType: FollowType, followState: Bool) {
 //        self.userData = userData
