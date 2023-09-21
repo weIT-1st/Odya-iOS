@@ -23,9 +23,18 @@ struct FeedDetailView: View {
                 // -- content --
                 VStack(spacing: 8) {
                     VStack(spacing: 20) {
-                        FeedUserInfoView()
-                            .padding(.top, 16)
-                            .padding(.horizontal, GridLayout.side)
+                        HStack(alignment: .center) {
+                            FeedUserInfoView(profileImageSize: ComponentSizeType.XS.ProfileImageSize)
+                            
+                            Spacer()
+                            
+                            // 팔로우버튼
+                            FollowButton(isFollowing: false, buttonStyle: .ghost) {
+                              // follow
+                            }
+                        }
+                        .padding(.top, 16)
+                        .padding(.horizontal, GridLayout.side)
                         
                         VStack(spacing: 24) {
                             // TODO: travel journal cover
@@ -42,12 +51,15 @@ struct FeedDetailView: View {
                         
                         VStack(spacing: 16) {
                             // tags
-                            // TODO: scroll view
-                            HStack {
-                                FishchipButton(isActive: .inactive, buttonStyle: .solid, imageName: nil, labelText: "# 추억팔이", labelSize: .M) {
-                                    // action
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 8) {
+                                    FishchipButton(isActive: .active, buttonStyle: .ghost, imageName: nil, labelText: "# 추억팔이", labelSize: .S) {
+                                        // action
+                                    }
                                 }
+                                .padding(.horizontal, GridLayout.side)
                             }
+                            
                             // location, comment, heart button
                             HStack {
                                 // location
@@ -102,7 +114,7 @@ struct FeedDetailView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: CustomBackButton(),
-                                trailing: FeedShareButton())
+                                trailing: FeedMenuButton())
         } // ScrollView
         .edgesIgnoringSafeArea(.top)
     }
@@ -123,10 +135,10 @@ struct CustomBackButton: View {
 
 // MARK: - FeedShareButton
 
-struct FeedShareButton: View {
+struct FeedMenuButton: View {
     var body: some View {
-        IconButton("share") {
-            // TODO: action - share
+        IconButton("menu-kebob") {
+            // TODO: action - 신고하기 or 편집
         }
     }
 }

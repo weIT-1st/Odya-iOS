@@ -44,6 +44,30 @@ struct FeedCommentView: View {
             }
             
             // write comment btn or tf
+            Button {
+                // open bottom sheet
+            } label: {
+                HStack(alignment: .center, spacing: 16) {
+                    // user profile image
+                    Image("profile")
+                        .resizable()
+                        .frame(width: ComponentSizeType.XS.ProfileImageSize, height: ComponentSizeType.XS.ProfileImageSize)
+                    
+                    Text("댓글을 입력해주세요")
+                        .b1Style()
+                        .foregroundColor(Color.odya.label.inactive)
+                    
+                    Spacer()
+                    
+                    Image("smallGreyButton-send")
+                        .frame(width: 24, height: 24)
+                }
+                .frame(height: 48)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 4)
+                .background(Color.odya.elevation.elev5)
+                .cornerRadius(Radius.medium)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 24)
@@ -60,16 +84,10 @@ struct FeedCommentCell: View {
         VStack(spacing: 12) {
             // user, menu
             HStack {
-                HStack(spacing: 12) {
-                    // profile image
-                    // nickname
-                    Text("닉네임")
-                        .b1Style()
-                        .foregroundColor(Color.odya.label.alternative)
-                }
+                FeedUserInfoView(profileImageSize: ComponentSizeType.XS.ProfileImageSize)
                 Spacer()
                 IconButton("menu-kebob") {
-                    
+                    // action
                 }
                 .frame(width: 24, height: 24)
             }
