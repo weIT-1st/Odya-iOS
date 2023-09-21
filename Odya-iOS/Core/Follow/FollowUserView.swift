@@ -42,8 +42,9 @@ struct FollowUserView: View {
 /// 팔로잉 리스트의 row 뷰
 /// 팔로잉 유저의 프로필사진, 닉네임(팔로우 유저 뷰)과 팔로잉 버튼 포함
 struct FollowingUserRowView: View {
+    @EnvironmentObject var followHubVM: FollowHubViewModel
     
-    var userData: FollowUserData
+    let userData: FollowUserData
     @State private var followState: Bool = true
     @State private var showUnfollowingAlert: Bool = false
     
@@ -84,6 +85,8 @@ struct FollowingUserRowView: View {
 /// 팔로워 리스트의 row 뷰
 /// 팔로워 유저의 프로필사진, 닉네임(팔로우 유저 뷰)과 삭제 버튼 포함
 struct FollowerUserRowView: View {
+    @EnvironmentObject var followHubVM: FollowHubViewModel
+    
     let userData: FollowUserData
     @State private var showingFollwerDeleteAlert: Bool = false
     

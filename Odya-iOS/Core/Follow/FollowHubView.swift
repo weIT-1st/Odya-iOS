@@ -11,7 +11,7 @@ import SwiftUI
 // MARK: Follow User List View
 
 struct FollowUserListView: View {
-    @ObservedObject var followHubVM: FollowHubViewModel
+    @EnvironmentObject var followHubVM: FollowHubViewModel
     @State private var displayedUsers: [FollowUserData] = []
     
     var body: some View {
@@ -54,8 +54,10 @@ struct FollowUserListView: View {
                 switch followHubVM.currentFollowType {
                 case .following:
                     FollowingUserRowView(userData: user)
+                        .environmentObject(followHubVM)
                 case .follower:
                     FollowerUserRowView(userData: user)
+                        .environmentObject(followHubVM)
                 }
             }
             .onAppear {
@@ -93,7 +95,7 @@ struct FollowUserListView: View {
 
 struct FollowSearchBar: View {
     var promptText: String
-    @ObservedObject var followHubVM: FollowHubViewModel
+    @EnvironmentObject var followHubVM: FollowHubViewModel
     
     @State var nameToSearch: String = ""
     
@@ -134,10 +136,12 @@ struct FollowHubView: View {
     var body: some View {
         VStack {
             CustomNavigationBar(title: "친구 관리")
-            FollowSearchBar(promptText: "친구를 찾아보세요!", followHubVM: followHubVM)
+            FollowSearchBar(promptText: "친구를 찾아보세요!")
+                .environmentObject(followHubVM)
             followTypeToggle
                 .padding(.vertical, 20)
-            FollowUserListView(followHubVM: followHubVM)
+            FollowUserListView()
+                .environmentObject(followHubVM)
                 .refreshable {
                     followHubVM.initFetchData()
                     switch followHubVM.currentFollowType {
