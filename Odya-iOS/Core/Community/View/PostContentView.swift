@@ -11,16 +11,15 @@ struct PostContentView: View {
   // MARK: - Body
 
   var body: some View {
-    VStack(spacing: 12) {
+    VStack() {
       // 유저 정보
       HStack {
-        // 유저 프로필
-        Image("profile")
-          .frame(
-            width: ComponentSizeType.M.ProfileImageSize,
-            height: ComponentSizeType.M.ProfileImageSize)
-
-        FeedUserInfoView()
+        FeedUserInfoView(profileImageSize: ComponentSizeType.S.ProfileImageSize)
+        Spacer()
+        // 팔로우버튼
+        FollowButton(isFollowing: false, buttonStyle: .ghost) {
+          // follow
+        }
       }
       .frame(height: 32)
 

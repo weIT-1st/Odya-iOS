@@ -35,9 +35,6 @@
 		07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */; };
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
-		19EBA7632AB42338000ABBE5 /* FeedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */; };
-		19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */; };
-		19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */; };
 		19EBA7532AB16B7D000ABBE5 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7522AB16B7D000ABBE5 /* CombineMoya */; };
 		19EBA7552AB16B7D000ABBE5 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7542AB16B7D000ABBE5 /* Moya */; };
 		19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */; };
@@ -46,6 +43,10 @@
 		19EBA75D2AB2D38F000ABBE5 /* Terms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA75C2AB2D38F000ABBE5 /* Terms.swift */; };
 		19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA75E2AB2E332000ABBE5 /* TermsViewModel.swift */; };
 		19EBA7612AB2F027000ABBE5 /* HTMLTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7602AB2F027000ABBE5 /* HTMLTextView.swift */; };
+		19EBA7632AB42338000ABBE5 /* FeedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */; };
+		19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */; };
+		19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */; };
+		19EBA7722ABC27D8000ABBE5 /* FeedFullCommentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */; };
 		3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */; };
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
@@ -146,7 +147,7 @@
 		078496442A84F6A300A490E3 /* FishchipsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishchipsBar.swift; sourceTree = "<group>"; };
 		078496462A84F71800A490E3 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		078496482A84F72000A490E3 /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
-		0784964A2A84F72C00A490E3 /* PostContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
+		0784964A2A84F72C00A490E3 /* PostContentView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
 		0784964D2A908C1800A490E3 /* RoundedEdgeShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedEdgeShape.swift; sourceTree = "<group>"; };
 		0784964F2A9760CF00A490E3 /* FishchipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishchipButton.swift; sourceTree = "<group>"; };
 		07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInManager.swift; sourceTree = "<group>"; };
@@ -158,15 +159,16 @@
 		07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
-		19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailView.swift; sourceTree = "<group>"; };
-		19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCommentView.swift; sourceTree = "<group>"; };
-		19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserInfoView.swift; sourceTree = "<group>"; };
 		19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsRouter.swift; sourceTree = "<group>"; };
 		19EBA7582AB16E2C000ABBE5 /* TermsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		19EBA75A2AB16EAF000ABBE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		19EBA75C2AB2D38F000ABBE5 /* Terms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Terms.swift; sourceTree = "<group>"; };
 		19EBA75E2AB2E332000ABBE5 /* TermsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsViewModel.swift; sourceTree = "<group>"; };
 		19EBA7602AB2F027000ABBE5 /* HTMLTextView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = HTMLTextView.swift; sourceTree = "<group>"; };
+		19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailView.swift; sourceTree = "<group>"; };
+		19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCommentView.swift; sourceTree = "<group>"; };
+		19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = FeedUserInfoView.swift; sourceTree = "<group>"; };
+		19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFullCommentSheet.swift; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
 		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthViewModel.swift; sourceTree = "<group>"; };
 		3E0589002A276E84005C29D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 				19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */,
 				19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */,
 				19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */,
+				19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */,
 				3E25FAB72A814BAC00ADF6E2 /* SettingView.swift in Sources */,
 				3EBEC3B12A6E819B00998EC6 /* FollowButton.swift in Sources */,
+				19EBA7722ABC27D8000ABBE5 /* FeedFullCommentSheet.swift in Sources */,
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
 				3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */,
