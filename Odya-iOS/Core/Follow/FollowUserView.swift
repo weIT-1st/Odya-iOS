@@ -44,18 +44,23 @@ struct FollowUserView: View {
 struct FollowingUserRowView: View {
     @EnvironmentObject var followHubVM: FollowHubViewModel
     
-    let userData: FollowUserData
+    let followUser: FollowUserData
     @State private var followState: Bool = true
     @State private var showUnfollowingAlert: Bool = false
     
+    init(of followUser: FollowUserData) {
+        self.followUser = followUser
+    }
+    
     var body: some View {
         HStack {
-            FollowUserView(user: userData)
+            FollowUserView(user: followUser)
             Spacer()
             FollowButton(isFollowing: followState, buttonStyle: .solid) {
                 if followState == false { // do following
                     followState = true
                     // following api
+                    followHubVM.createFollow(followUser.userId)
                 } else { // do unfollowing
                     showUnfollowingAlert = true
                 }
@@ -73,6 +78,7 @@ struct FollowingUserRowView: View {
                 Button("삭제") {
                     followState = false
                     // unfollowing api
+                    followHubVM.deleteFollow(followUser.userId)
                     showUnfollowingAlert = false
                 }
             }
@@ -87,12 +93,16 @@ struct FollowingUserRowView: View {
 struct FollowerUserRowView: View {
     @EnvironmentObject var followHubVM: FollowHubViewModel
     
-    let userData: FollowUserData
+    let followUser: FollowUserData
     @State private var showingFollwerDeleteAlert: Bool = false
+    
+    init(of followUser: FollowUserData) {
+        self.followUser = followUser
+    }
     
     var body: some View {
         HStack {
-            FollowUserView(user: userData)
+            FollowUserView(user: followUser)
             Spacer()
             Button(action: {
                 showingFollwerDeleteAlert = true

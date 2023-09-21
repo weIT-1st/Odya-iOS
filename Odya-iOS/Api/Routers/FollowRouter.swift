@@ -108,7 +108,7 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
         case let .create(_, followingID),
             let .delete(_, followingID):
             let params = ["followingId" : followingID]
-            return .requestParameters(parameters: params, encoding: ParameterEncoding.self as! ParameterEncoding)
+            return .requestParameters(parameters: params, encoding: JSONEncoding.default)
         case let .getFollowing(_, _, page, size, sortType),
             let .getFollower(_, _, page, size, sortType):
             let params: [String: Any] = [

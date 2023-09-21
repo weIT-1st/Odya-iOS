@@ -53,10 +53,10 @@ struct FollowUserListView: View {
             Group {
                 switch followHubVM.currentFollowType {
                 case .following:
-                    FollowingUserRowView(userData: user)
+                    FollowingUserRowView(of: user)
                         .environmentObject(followHubVM)
                 case .follower:
-                    FollowerUserRowView(userData: user)
+                    FollowerUserRowView(of: user)
                         .environmentObject(followHubVM)
                 }
             }
