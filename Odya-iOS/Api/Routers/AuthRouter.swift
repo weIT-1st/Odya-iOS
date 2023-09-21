@@ -18,13 +18,15 @@ enum AuthRouter: URLRequestConvertible {
                        phoneNumber: String?,
                        nickname: String,
                        gender: String,
-                       birthday: [Int])
+                       birthday: [Int],
+                       termsIdList: [Int])
     case kakaoRegister(username: String,
                        email: String?,
                        phoneNumber: String?,
                        nickname: String,
                        gender: String,
-                       birthday: [Int])
+                       birthday: [Int],
+                       termsIdList: [Int])
     case validateNickname(value: String)
     case validateEmail(value: String)
     case validatePhonenumber(value: String)
@@ -69,7 +71,7 @@ enum AuthRouter: URLRequestConvertible {
         case let .kakaoLogin(accessToken):
             let params: Parameters = ["accessToken" : accessToken]
             return params
-        case let .appleRegister(idToken, email, phoneNumber, nickname, gender, birthday):
+        case let .appleRegister(idToken, email, phoneNumber, nickname, gender, birthday, termsIdList):
             var params = Parameters()
             params["idToken"] = idToken
             params["email"] = email
@@ -77,8 +79,9 @@ enum AuthRouter: URLRequestConvertible {
             params["nickname"] = nickname
             params["gender"] = gender
             params["birthday"] = birthday
+            params["termsIdList"] = termsIdList
             return params
-        case let .kakaoRegister(username, email, phoneNumber, nickname, gender, birthday):
+        case let .kakaoRegister(username, email, phoneNumber, nickname, gender, birthday, termsIdList):
             var params = Parameters()
             params["username"] = username
             params["email"] = email
@@ -86,6 +89,7 @@ enum AuthRouter: URLRequestConvertible {
             params["nickname"] = nickname
             params["gender"] = gender
             params["birthday"] = birthday
+            params["termsIdList"] = termsIdList
             return params
         case .validateNickname(let value), .validateEmail(let value), .validatePhonenumber(let value):
             return ["value": value]

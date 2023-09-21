@@ -28,6 +28,7 @@ class AuthViewModel: ObservableObject {
     nickname: String,
     gender: String,
     birthday: [Int],
+    termsIdList: [Int],
     completion: @escaping (Bool, String?) -> Void
   ) {
     print("AuthVM - kakaoRegister() called")
@@ -36,7 +37,7 @@ class AuthViewModel: ObservableObject {
 
     AuthApiService.kakaoRegister(
       username: username, email: email, phoneNumber: phoneNumber, nickname: nickname,
-      gender: gender, birthday: birthday
+      gender: gender, birthday: birthday, termsIdList: termsIdList
     )
     .sink { apiCompletion in
       switch apiCompletion {
@@ -69,6 +70,7 @@ class AuthViewModel: ObservableObject {
     nickname: String,
     gender: String,
     birthday: [Int],
+    termsIdList: [Int],
     completion: @escaping (Bool, String?) -> Void
   ) {
     print("AuthVM - appleRegister() called")
@@ -77,7 +79,7 @@ class AuthViewModel: ObservableObject {
 
     AuthApiService.appleRegister(
       idToken: idToken, email: email, nickname: nickname, phoneNumber: phoneNumber, gender: gender,
-      birthday: birthday
+      birthday: birthday, termsIdList: termsIdList
     )
     .sink { apiCompletion in
       switch apiCompletion {
