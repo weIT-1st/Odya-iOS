@@ -13,12 +13,12 @@ struct TravelMateView: View {
 
   init(mate: FollowUserData) {
     self.mateUserData = mate
-    if let profileUrl = mate.profileData.profileUrl {
-      self.status = .withImage(url: URL(string: profileUrl)!)
-    } else {
-      self.status = .withoutImage(
-        colorHex: mate.profileData.profileColor.colorHex ?? "#FFD41F", name: mate.nickname)
-    }
+      if let profileColor = mate.profile.profileColor {
+          self.status = .withoutImage(
+            colorHex: profileColor.colorHex, name: mate.nickname)
+      } else {
+          self.status = .withImage(url: URL(string: mate.profile.profileUrl)!)
+      }
   }
 
   var body: some View {

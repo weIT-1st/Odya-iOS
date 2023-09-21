@@ -7,23 +7,33 @@
 
 import SwiftUI
 
-struct ProfileColorData: Codable {
-    var colorHex: String?
+enum FollowType {
+    case following
+    case follower
 }
 
-struct ProfileData: Codable {
-    var profileUrl: String?
-    var profileColor: ProfileColorData
+// MARK: Follow Count
+struct FollowCount: Codable {
+    var followingCount: Int = 0
+    var followerCount: Int = 0
 }
 
-struct FollowUserData: Codable, Identifiable, Hashable {
+// MARK: fetch following/follwer users
+struct FollowUserListResponse: Codable {
+    var hasNext: Bool
+    var content: [FollowUserData]
+}
+
+
+// MARK: Follow User Data
+struct FollowUserData: Codable, Identifiable {
     var id = UUID()
     var userId: Int
     var nickname: String
-    var profileData: ProfileData
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+    var profile: ProfileData
+
+    private enum CodingKeys: String, CodingKey {
+        case userId, nickname, profile
     }
 }
 
@@ -37,11 +47,7 @@ extension FollowUserData: Equatable {
     }
 }
 
-enum FollowType {
-    case following
-    case follower
-}
-
+// MARK: Follow User
 struct FollowUser: Identifiable, Hashable {
     var id = UUID()
     var userData: FollowUserData
@@ -51,14 +57,6 @@ struct FollowUser: Identifiable, Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    
-//    init(userData: FollowUserData, followType: FollowType, followState: Bool) {
-//        self.userData = userData
-//        self.followType = followType
-//        self.followState = followState
-//    }
-    
-//    mutating func changeFollowState() {
-//        self.followState.toggle()
-//    }
 }
+
+

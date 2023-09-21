@@ -10,6 +10,7 @@ import SwiftUI
 struct RootTabView: View {
 
   // MARK: Body
+    let token: String
 
   var body: some View {
     TabView {
@@ -32,7 +33,7 @@ struct RootTabView: View {
         }
 
       // MARK: 내정보
-      ProfileView()
+      ProfileView(token: token)
         .tabItem {
           GNBButton(iconImage: "person-off", text: "내정보")
         }
@@ -42,6 +43,6 @@ struct RootTabView: View {
 
 struct RootTabView_Previews: PreviewProvider {
   static var previews: some View {
-    RootTabView()
+    RootTabView(token: "testIdToken")
   }
 }

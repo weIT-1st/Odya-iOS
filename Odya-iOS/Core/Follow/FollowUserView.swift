@@ -11,18 +11,18 @@ import SwiftUI
 /// 팔로우 유저의 프로필 사진과 닉네임을 포함
 /// 클릭 시 해당 유저의 프로필 뷰로 이동
 struct FollowUserView: View {
-  let userData: FollowUserData
+  private let userData: FollowUserData
   private let status: ProfileImageStatus
 
-  init(user: FollowUserData) {
-    self.userData = user
-    if let profileUrl = user.profileData.profileUrl {
-      self.status = .withImage(url: URL(string: profileUrl)!)
-    } else {
-      self.status = .withoutImage(
-        colorHex: user.profileData.profileColor.colorHex ?? "#FFD41F", name: user.nickname)
+    init(user: FollowUserData) {
+        self.userData = user
+        if let profileColor = user.profile.profileColor {
+            self.status = .withoutImage(
+                colorHex: profileColor.colorHex, name: user.nickname)
+        } else {
+            self.status = .withImage(url: URL(string: user.profile.profileUrl)!)
+        }
     }
-  }
 
   var body: some View {
     NavigationLink(destination: UserProfileView(userData: userData)) {
@@ -42,9 +42,10 @@ struct FollowUserView: View {
 /// 팔로잉 리스트의 row 뷰
 /// 팔로잉 유저의 프로필사진, 닉네임(팔로우 유저 뷰)과 팔로잉 버튼 포함
 struct FollowingUserRowView: View {
+    
     var userData: FollowUserData
-    @State var showUnfollowingAlert: Bool = false
-    @State var followState: Bool
+    @State private var followState: Bool = true
+    @State private var showUnfollowingAlert: Bool = false
     
     var body: some View {
         HStack {
@@ -83,8 +84,8 @@ struct FollowingUserRowView: View {
 /// 팔로워 리스트의 row 뷰
 /// 팔로워 유저의 프로필사진, 닉네임(팔로우 유저 뷰)과 삭제 버튼 포함
 struct FollowerUserRowView: View {
-    var userData: FollowUserData
-    @State var showingFollwerDeleteAlert: Bool = false
+    let userData: FollowUserData
+    @State private var showingFollwerDeleteAlert: Bool = false
     
     var body: some View {
         HStack {

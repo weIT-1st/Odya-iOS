@@ -7,30 +7,89 @@
 
 import SwiftUI
 
+
+// MARK: Follow User List View
+
 struct FollowUserListView: View {
-    var followType: FollowType
-    @Binding var displayedUsers: [FollowUser]
-    var maxCountBeforeSuggestion: Int = 8
+    @ObservedObject var followHubVM: FollowHubViewModel
+    @State private var displayedUsers: [FollowUserData] = []
     
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                ForEach(Array(displayedUsers.enumerated()), id: \.element.id) { index, user in
-                    switch followType {
-                    case .following:
-                        FollowingUserRowView(userData: user.userData, followState: user.followState)
-                    case .follower:
-                        FollowerUserRowView(userData: user.userData)
-                    }
-                    if index == maxCountBeforeSuggestion - 1
-                        || (index < maxCountBeforeSuggestion && index == displayedUsers.count - 1) {
-                        UserSuggestionView()
-                    }
+                // 팔로워/팔로잉 유저가 없는 경우 바로 추천 뷰
+                if shouldShowUserSuggestion() {
+                    UserSuggestionView(followHubVM: followHubVM)
+                }
+                
+                showList(of: displayedUsers)
+                
+                // 더 많은 유저를 로딩할 때 나오는 로딩 뷰
+                if followHubVM.isLoading && !followHubVM.isRefreshing {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
                 }
             }
         }
+        .onAppear {
+            displayedUsers = followHubVM.currentFollowType == .following ? followHubVM.followingUsers : followHubVM.followerUsers
+        }
+        .refreshable {
+            followHubVM.initFetchData()
+            switch followHubVM.currentFollowType {
+            case .following:
+                followHubVM.fetchFollowingUsers()
+            case .follower:
+                followHubVM.fetchFollowerUsers()
+            }
+        }
+    }
+    
+    /// 팔로워/팔로잉 리스트 뷰 & 알 수도 있는 친구 추천 뷰
+    /// 마지막 팔로잉/팔로워 유저가 나오면 fetch api 호출(무한스크롤)
+    private func showList(of users: [FollowUserData]) -> some View {
+        ForEach(users) { user in
+            Group {
+                switch followHubVM.currentFollowType {
+                case .following:
+                    FollowingUserRowView(userData: user)
+                case .follower:
+                    FollowerUserRowView(userData: user)
+                }
+            }
+            .onAppear {
+                if users.last == user {
+                    followHubVM.fetchMoreSubject.send()
+                }
+            }
+            
+            if shouldShowUserSuggestion(before: user) {
+                UserSuggestionView(followHubVM: followHubVM)
+            }
+        }
+    }
+    
+    /// 알 수도 있는 친구 뷰를 띄워야 하는지 확인
+    /// 15번째 팔로잉/팔로워 뒤에 추천이 나옴, 친구 수가 15명 미만이면 가장 마지막 친구 뒤에 나옴
+    /// parameter user가 nil이면서 displayedUsers가 비어있을 경우 즉 팔로워/팔로잉 친구가 없을 경우 추천이 나옴
+    private func shouldShowUserSuggestion(before user: FollowUserData? = nil) -> Bool {
+        let maxCount = 15
+        let usersCount = displayedUsers.count
+        let indexBeforeSuggestion = min(maxCount, usersCount) - 1
+        
+        guard let user = user else {
+            return indexBeforeSuggestion < 0
+        }
+            
+        if indexBeforeSuggestion >= 0 {
+            return displayedUsers[indexBeforeSuggestion] == user
+        }
+        return false
     }
 }
+
+// MARK: Follow Search Bar
 
 struct FollowSearchBar: View {
     var promptText: String
@@ -52,23 +111,24 @@ struct FollowSearchBar: View {
         }
         .modifier(CustomFieldStyle(backgroundColor: Color.odya.elevation.elev4))
         .padding(.horizontal, GridLayout.side)
-//        .onChange(of: nameToSearch) { newValue in
-//            if newValue.count = 0 {
-//
-//            } else {
-//
-//            }
-//        }
+        .onChange(of: nameToSearch) { newValue in
+            if newValue.count == 0 {
+
+            } else {
+
+            }
+        }
 
     }
 }
 
+// MARK: Follow Hub View
+
 struct FollowHubView: View {
-    @State private var followType: FollowType = .following
     @ObservedObject var followHubVM: FollowHubViewModel
     
-    init(userID: String) {
-        self.followHubVM = FollowHubViewModel(userID: userID)
+    init(token: String, userID: Int, followCount: FollowCount) {
+        self.followHubVM = FollowHubViewModel(token: token, userID: userID, followCount: followCount)
     }
     
     var body: some View {
@@ -77,13 +137,16 @@ struct FollowHubView: View {
             FollowSearchBar(promptText: "친구를 찾아보세요!", followHubVM: followHubVM)
             followTypeToggle
                 .padding(.vertical, 20)
-            FollowUserListView(followType: followType, displayedUsers: $followHubVM.displayedUsers)
-        }
-        .onChange(of: followType) { newValue in
-            followHubVM.setDisplayedUsers(followType: newValue)
-        }
-        .onAppear {
-            followHubVM.setDisplayedUsers(followType: followType)
+            FollowUserListView(followHubVM: followHubVM)
+                .refreshable {
+                    followHubVM.initFetchData()
+                    switch followHubVM.currentFollowType {
+                    case .following:
+                        followHubVM.fetchFollowingUsers()
+                    case .follower:
+                        followHubVM.fetchFollowerUsers()
+                    }
+                }
         }
         .background(Color.odya.background.normal)
     }
@@ -97,12 +160,12 @@ struct FollowHubView: View {
             RoundedRectangle(cornerRadius: 50)
                 .frame(width: 91.7, height: 36)
                 .foregroundColor(.odya.brand.primary)
-                .offset(x: followType == .following ? 47.15 : -47.15)
-                .animation(.easeInOut, value: followType)
+                .offset(x: followHubVM.currentFollowType == .following ? 47.15 : -47.15)
+                .animation(.easeInOut, value: followHubVM.currentFollowType)
             
             HStack(spacing: 2) {
                 Button(action: {
-                    followType = .follower
+                    followHubVM.currentFollowType = .follower
                 }) {
                     Text("팔로워")
                         .b1Style()
@@ -111,7 +174,7 @@ struct FollowHubView: View {
                         .frame(width: 92)
                 }
                 Button(action: {
-                    followType = .following
+                    followHubVM.currentFollowType = .following
                 }) {
                     Text("팔로잉")
                         .b1Style()
@@ -124,8 +187,8 @@ struct FollowHubView: View {
     }
 }
 
-struct FollowListView_Previews: PreviewProvider {
-    static var previews: some View {
-        FollowHubView(userID: "testIdToken")
-    }
-}
+//struct FollowListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FollowHubView(token: "testIdToken", userID: 1, followCount: FollowCount())
+//    }
+//}

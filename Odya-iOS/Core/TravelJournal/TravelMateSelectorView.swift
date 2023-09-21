@@ -13,12 +13,12 @@ struct SelectedMateView: View {
 
   init(mate: FollowUserData) {
     self.mateUserData = mate
-    if let profileUrl = mate.profileData.profileUrl {
-      self.status = .withImage(url: URL(string: profileUrl)!)
-    } else {
+//    if let profileUrl = mate.profileData.profileUrl {
+//      self.status = .withImage(url: URL(string: profileUrl)!)
+//    } else {
       self.status = .withoutImage(
-        colorHex: mate.profileData.profileColor.colorHex ?? "#FFD41F", name: mate.nickname)
-    }
+        colorHex: mate.profile.profileColor!.colorHex ?? "#FFD41F", name: mate.nickname)
+//    }
   }
 
   var body: some View {
@@ -39,34 +39,34 @@ struct SelectedMateView: View {
   }
 }
 
-struct FollowUserView: View {
-  let userData: FollowUserData
-  private let status: ProfileImageStatus
-
-  init(user: FollowUserData) {
-    self.userData = user
-    if let profileUrl = user.profileData.profileUrl {
-      self.status = .withImage(url: URL(string: profileUrl)!)
-    } else {
-      self.status = .withoutImage(
-        colorHex: user.profileData.profileColor.colorHex ?? "#FFD41F", name: user.nickname)
-    }
-  }
-
-  var body: some View {
-    NavigationLink(destination: UserProfileView(userData: userData)) {
-      HStack(spacing: 0) {
-        ProfileImageView(status: status, sizeType: .S)
-          .padding(.trailing, 12)
-        Text(userData.nickname)
-          .foregroundColor(.odya.label.normal)
-          .b1Style()
-          .padding(.trailing, 4)
-        Image("sparkle-s")
-      }
-    }
-  }
-}
+//struct FollowUserView: View {
+//  let userData: FollowUserData
+//  private let status: ProfileImageStatus
+//
+//  init(user: FollowUserData) {
+//    self.userData = user
+//    if let profileUrl = user.profileData.profileUrl {
+//      self.status = .withImage(url: URL(string: profileUrl)!)
+//    } else {
+//      self.status = .withoutImage(
+//        colorHex: user.profileData.profileColor.colorHex ?? "#FFD41F", name: user.nickname)
+//    }
+//  }
+//
+//  var body: some View {
+//    NavigationLink(destination: UserProfileView(userData: userData)) {
+//      HStack(spacing: 0) {
+//        ProfileImageView(status: status, sizeType: .S)
+//          .padding(.trailing, 12)
+//        Text(userData.nickname)
+//          .foregroundColor(.odya.label.normal)
+//          .b1Style()
+//          .padding(.trailing, 4)
+//        Image("sparkle-s")
+//      }
+//    }
+//  }
+//}
 
 // 테스트를 위한 임시 뷰
 struct UserProfileView: View {
@@ -99,7 +99,7 @@ struct TravelMateSelectorView: View {
 
       VStack(spacing: 16) {
         followingUserSearchBar
-        followingUserListView
+//        followingUserListView
       }
       .padding(.vertical, 34)
       .background(Color.odya.elevation.elev2)
@@ -110,13 +110,13 @@ struct TravelMateSelectorView: View {
       .onAppear {
         selectedTravelMates = travelJournalEditVM.travelMates
         // test user
-        for i in 0...10 {
-          let user = FollowUserData(
-            userId: i, nickname: "홍길동aa\(i)",
-            profileData: ProfileData(profileColor: ProfileColorData(colorHex: "#FFD41F")))
-          followingUsers.append(user)
-          displayedFollowingUsers.append(user)
-        }
+//        for i in 0...10 {
+//          let user = FollowUserData(
+//            userId: i, nickname: "홍길동aa\(i)",
+//            profileData: ProfileData(profileColor: ProfileColorData(colorHex: "#FFD41F")))
+//          followingUsers.append(user)
+//          displayedFollowingUsers.append(user)
+//        }
       }
       .alert("함께 간 친구는 10명까지 선택 가능합니다.", isPresented: $isShowingTooManyMatesAlert) {
         Button("확인") {
@@ -195,35 +195,35 @@ struct TravelMateSelectorView: View {
     }
   }
 
-  private var followingUserListView: some View {
-    ScrollView {
-      VStack(spacing: 16) {
-        ForEach(displayedFollowingUsers) { user in
-          HStack {
-            FollowUserView(user: user)
-            Spacer()
-            IconButton("plus-circle") {
-              if selectedTravelMates.count >= 10 {
-                isShowingTooManyMatesAlert = true
-              } else {
-                selectedTravelMates.insert(user, at: 0)
-              }
-            }
-            .colorMultiply(
-              selectedTravelMates.contains { mate in
-                mate.userId == user.userId
-              } ? .odya.label.inactive : .odya.brand.primary
-            )
-            .frame(height: 36)
-            .disabled(
-              selectedTravelMates.contains { mate in
-                mate.userId == user.userId
-              })
-          }.frame(height: 36)
-        }
-      }.padding(.horizontal, GridLayout.side)
-    }
-  }
+//  private var followingUserListView: some View {
+//    ScrollView {
+//      VStack(spacing: 16) {
+//        ForEach(displayedFollowingUsers) { user in
+//          HStack {
+//            FollowUserView(user: user)
+//            Spacer()
+//            IconButton("plus-circle") {
+//              if selectedTravelMates.count >= 10 {
+//                isShowingTooManyMatesAlert = true
+//              } else {
+//                selectedTravelMates.insert(user, at: 0)
+//              }
+//            }
+//            .colorMultiply(
+//              selectedTravelMates.contains { mate in
+//                mate.userId == user.userId
+//              } ? .odya.label.inactive : .odya.brand.primary
+//            )
+//            .frame(height: 36)
+//            .disabled(
+//              selectedTravelMates.contains { mate in
+//                mate.userId == user.userId
+//              })
+//          }.frame(height: 36)
+//        }
+//      }.padding(.horizontal, GridLayout.side)
+//    }
+//  }
 
 }
 
