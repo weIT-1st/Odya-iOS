@@ -59,7 +59,6 @@ struct FollowingUserRowView: View {
             FollowButton(isFollowing: followState, buttonStyle: .solid) {
                 if followState == false { // do following
                     followState = true
-                    // following api
                     followHubVM.createFollow(followUser.userId)
                 } else { // do unfollowing
                     showUnfollowingAlert = true
@@ -77,7 +76,6 @@ struct FollowingUserRowView: View {
                 }
                 Button("삭제") {
                     followState = false
-                    // unfollowing api
                     followHubVM.deleteFollow(followUser.userId)
                     showUnfollowingAlert = false
                 }

@@ -37,9 +37,13 @@ enum FollowRouter {
                      size: Int,
                      sortType: FollowSortingType)
     case searchFollowingByNickname(token: String,
-                                   size: Int,
+                                   size: Int? = nil,
                                    nickname: String,
-                                   lastID: Int)
+                                   lastID: Int? = nil)
+    case searchFollowerByNickname(token: String,
+                                   size: Int? = nil,
+                                   nickname: String,
+                                   lastID: Int? = nil)
     case suggestUser(token: String,
                      size: Int,
                      lastID: Int? = nil)
@@ -62,8 +66,10 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
             return "/api/v1/follows/\(userID)/followings"
         case let .getFollower(_, userID, _, _, _):
             return "/api/v1/follows/\(userID)/followers"
-        case let .searchFollowingByNickname(_, size, nickname, lastID):
-            return "/api/v1/follows/followings/search?size=\(size)&nickname=\(nickname)&lastId=\(lastID)"
+        case .searchFollowingByNickname:
+            return "/api/v1/follows/followings/search"
+        case .searchFollowerByNickname:
+            return "/api/v1/follows/followiers/search"
         case .suggestUser:
             return "/api/v1/follows/may-know"
         case let .getVisitingUser(_, placeID):
@@ -97,6 +103,7 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
             let .getFollowing(token, _, _, _, _),
             let .getFollower(token, _, _, _, _),
             let .searchFollowingByNickname(token, _, _, _),
+            let .searchFollowerByNickname(token, _, _, _),
             let .suggestUser(token, _, _),
             let .getVisitingUser(token, _):
             return ["Authorization" : "Bearer \(token)"]
@@ -116,6 +123,17 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
                 "size": size,
                 "sortType": sortType.toString()
             ]
+            return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+        case let .searchFollowingByNickname(_, size, nickname, lastID),
+            let .searchFollowerByNickname(_, size, nickname, lastID):
+            var params: [String: Any] = [:]
+            if let size = size {
+                params["size"] = size
+            }
+            params["nickname"] = nickname
+            if let lastId = lastID {
+                params["lastId"] = lastId
+            }
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         case let .suggestUser(_, size, lastID):
             var params: [String: Any] = [:]

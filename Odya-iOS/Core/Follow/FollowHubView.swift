@@ -12,14 +12,19 @@ import SwiftUI
 
 struct FollowUserListView: View {
     @EnvironmentObject var followHubVM: FollowHubViewModel
-    @State private var displayedUsers: [FollowUserData] = []
+    @Binding var displayedUsers: [FollowUserData]
+    
+    init(of users: Binding<[FollowUserData]>) {
+        self._displayedUsers = users
+    }
     
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
                 // 팔로워/팔로잉 유저가 없는 경우 바로 추천 뷰
                 if shouldShowUserSuggestion() {
-                    UserSuggestionView(followHubVM: followHubVM)
+                    UserSuggestionView()
+                        .environmentObject(followHubVM)
                 }
                 
                 showList(of: displayedUsers)
@@ -30,18 +35,6 @@ struct FollowUserListView: View {
                     ProgressView()
                     Spacer()
                 }
-            }
-        }
-        .onAppear {
-            displayedUsers = followHubVM.currentFollowType == .following ? followHubVM.followingUsers : followHubVM.followerUsers
-        }
-        .refreshable {
-            followHubVM.initFetchData()
-            switch followHubVM.currentFollowType {
-            case .following:
-                followHubVM.fetchFollowingUsers()
-            case .follower:
-                followHubVM.fetchFollowerUsers()
             }
         }
     }
@@ -67,7 +60,8 @@ struct FollowUserListView: View {
             }
             
             if shouldShowUserSuggestion(before: user) {
-                UserSuggestionView(followHubVM: followHubVM)
+                UserSuggestionView()
+                    .environmentObject(followHubVM)
             }
         }
     }
@@ -91,36 +85,96 @@ struct FollowUserListView: View {
     }
 }
 
+struct SearchedUserListView: View {
+    @EnvironmentObject var followHubVM: FollowHubViewModel
+    
+    let nameToSearch: String
+    @State var searchedFollowingUser: [FollowUserData] = []
+    @State var searchedFollowerUser: [FollowUserData] = []
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                showList(of: searchedFollowingUser, followType: .following)
+                showList(of: searchedFollowerUser, followType: .follower)
+                
+                // 검색 결과를 로딩할 때 나오는 로딩 뷰
+                if followHubVM.isLoadingSearchResult {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+            }
+        }
+        .onAppear {
+            (searchedFollowingUser, searchedFollowerUser) = followHubVM.searchFollowerUsers(by: nameToSearch)
+        }
+        .onChange(of: nameToSearch) { newValue in
+            (searchedFollowingUser, searchedFollowerUser) = followHubVM.searchFollowerUsers(by: newValue)
+        }
+        .refreshable {
+            followHubVM.initFollowingUsers { _ in
+                followHubVM.initFollowerUsers { _ in
+                    (searchedFollowingUser, searchedFollowerUser) = followHubVM.searchFollowerUsers(by: nameToSearch)
+                }
+            }
+        }
+    }
+    
+    private func showList(of users: [FollowUserData], followType: FollowType) -> some View {
+        ForEach(users) { user in
+            switch followType {
+            case .following:
+                FollowingUserRowView(of: user)
+                    .environmentObject(followHubVM)
+            case .follower:
+                FollowerUserRowView(of: user)
+                    .environmentObject(followHubVM)
+            }
+        }
+    }
+}
+
 // MARK: Follow Search Bar
 
 struct FollowSearchBar: View {
     var promptText: String
     @EnvironmentObject var followHubVM: FollowHubViewModel
     
-    @State var nameToSearch: String = ""
+    @State private var input: String = ""
+    @Binding var nameToSearch: String
+    @Binding var searchResultsDisplayed: Bool
+//    @State private var isChanged: Bool = true
     
     var body: some View {
         HStack {
-          TextField(
-            nameToSearch, text: $nameToSearch,
-            prompt: Text(promptText)
-              .foregroundColor(.odya.label.inactive)
-          )
-          .b1Style()
-
-          IconButton("search") {}
-            .disabled(nameToSearch.count == 0)
+            TextField(
+                input, text: $input,
+                prompt: Text(promptText)
+                    .foregroundColor(.odya.label.inactive)
+            )
+            .foregroundColor(input != nameToSearch ? .odya.label.normal : .odya.label.inactive)
+            .b1Style()
+            
+            if input != "" {
+                IconButton("smallGreyButton-x-filled") {
+                    input = ""
+                    nameToSearch = ""
+                    searchResultsDisplayed = false
+                }
+            }
+            IconButton("search") {
+                nameToSearch = input
+                searchResultsDisplayed = true
+            }.disabled(input.count == 0 || input == nameToSearch)
         }
         .modifier(CustomFieldStyle(backgroundColor: Color.odya.elevation.elev4))
         .padding(.horizontal, GridLayout.side)
-        .onChange(of: nameToSearch) { newValue in
-            if newValue.count == 0 {
-
-            } else {
-
+        .onChange(of: input) { newValue in
+            if newValue == "" {
+                searchResultsDisplayed = false
             }
         }
-
     }
 }
 
@@ -128,6 +182,9 @@ struct FollowSearchBar: View {
 
 struct FollowHubView: View {
     @ObservedObject var followHubVM: FollowHubViewModel
+    @State var displayedUsers: [FollowUserData] = []
+    @State var nameToSearch: String = ""
+    @State var searchResultsDisplayed: Bool = false
     
     init(token: String, userID: Int, followCount: FollowCount) {
         self.followHubVM = FollowHubViewModel(token: token, userID: userID, followCount: followCount)
@@ -136,23 +193,54 @@ struct FollowHubView: View {
     var body: some View {
         VStack {
             CustomNavigationBar(title: "친구 관리")
-            FollowSearchBar(promptText: "친구를 찾아보세요!")
+            FollowSearchBar(promptText: "친구를 찾아보세요!", nameToSearch: $nameToSearch, searchResultsDisplayed: $searchResultsDisplayed)
                 .environmentObject(followHubVM)
-            followTypeToggle
-                .padding(.vertical, 20)
-            FollowUserListView()
-                .environmentObject(followHubVM)
-                .refreshable {
-                    followHubVM.initFetchData()
-                    switch followHubVM.currentFollowType {
-                    case .following:
-                        followHubVM.fetchFollowingUsers()
-                    case .follower:
-                        followHubVM.fetchFollowerUsers()
+            
+            if !searchResultsDisplayed {
+                followTypeToggle
+                    .padding(.vertical, 20)
+                FollowUserListView(of: $displayedUsers)
+                    .environmentObject(followHubVM)
+                    .refreshable {
+                        followHubVM.isRefreshing = true
+                        switch followHubVM.currentFollowType {
+                        case .following:
+                            followHubVM.initFollowingUsers() { result in
+                                if result {
+                                    displayedUsers = followHubVM.followingUsers
+                                }
+                            }
+                        case .follower:
+                            followHubVM.initFollowerUsers() { result in
+                                if result {
+                                    displayedUsers = followHubVM.followerUsers
+                                }
+                            }
+                        }
                     }
-                }
+            } else {
+                SearchedUserListView(nameToSearch: nameToSearch)
+                    .padding(.top, 20)
+                    .environmentObject(followHubVM)
+            }
         }
         .background(Color.odya.background.normal)
+        .onAppear{
+            followHubVM.initFollowingUsers() { result in
+                if followHubVM.currentFollowType == .following && result {
+                    displayedUsers = followHubVM.followingUsers
+                }
+            }
+            followHubVM.initFollowerUsers() { result in
+                if followHubVM.currentFollowType == .follower && result {
+                    displayedUsers = followHubVM.followerUsers
+                }
+            }
+        }
+        .onChange(of: followHubVM.currentFollowType) { newValue in
+            displayedUsers = newValue == .following
+            ? followHubVM.followingUsers : followHubVM.followerUsers
+        }
     }
     
     private var followTypeToggle: some View {

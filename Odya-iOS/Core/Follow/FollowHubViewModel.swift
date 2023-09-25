@@ -21,22 +21,23 @@ class FollowHubViewModel: ObservableObject {
     
     var fetchMoreSubject = PassthroughSubject<(), Never>()
     var suggestMoreSubject = PassthroughSubject<(), Never>()
+    // var searchMoreSubject = PassthroughSubject<(String), Never>()
     
     // user info required for API calls
     let idToken: String
     let userID: Int
     
-    // follow
-    let usersFetchSize: Int = 20
-    let usersSuggestionSize: Int = 10
-    let usersSortingType: FollowSortingType = .latest
-    
-    @Published var isLoading: Bool = false
-    @Published var isRefreshing: Bool = false
     @Published var currentFollowType: FollowType
     @Published var followCount: FollowCount
     
     // fetch following/follwer users
+//    let usersFetchSize: Int = 20
+//    let usersSuggestionSize: Int = 10
+//    let usersSortingType: FollowSortingType = .latest
+    
+    @Published var isLoading: Bool = false
+    @Published var isRefreshing: Bool = false
+
     var followingPage: Int = 0
     var hasNextFollowingPage: Bool = true
     @Published var followingUsers: [FollowUserData] = []
@@ -46,9 +47,21 @@ class FollowHubViewModel: ObservableObject {
     @Published var followerUsers: [FollowUserData] = []
 
     // suggest user
+    @Published var isLoadingSuggestion: Bool = false
+    
     var lastIdOfSuggestion: Int? = nil
     var hasNextSuggestion: Bool = true
     @Published var suggestedUsers: [FollowUserData] = []
+    
+    // search by name
+    @Published var isLoadingSearchResult: Bool = false
+
+    // var lastIdOfFollowingSearchResult: Int? = nil
+    //var hasNextFollowingSearchResult: Bool = true
+
+    //var lastIdOfFollowerSearchResult: Int? = nil
+    // var hasNextFollowerSearchResult: Bool = true
+    
     
     // MARK: Init
     
@@ -58,18 +71,14 @@ class FollowHubViewModel: ObservableObject {
         self.followCount = followCount
         self.currentFollowType = .following
         
-        self.fetchFollowingUsers()
-        self.fetchFollowerUsers()
-        self.suggestUsers()
-        
         fetchMoreSubject.sink { [weak self] _ in
             guard let self = self else { return }
             if !self.isLoading {
                 switch currentFollowType {
                 case .following:
-                    self.fetchFollowingUsers()
+                    self.fetchFollowingUsers() {_ in}
                 case .follower:
-                    self.fetchFollowingUsers()
+                    self.fetchFollowingUsers() {_ in}
                 }
             }
         }.store(in: &subscription)
@@ -80,9 +89,11 @@ class FollowHubViewModel: ObservableObject {
                 self.suggestUsers()
             }
         }.store(in: &subscription)
+        
     }
     
     // MARK: follow / unfollow
+    
     func createFollow(_ followingID: Int) {
         followProvider.requestPublisher(.create(token: self.idToken, followingID: followingID))
             .sink { completion in
@@ -115,19 +126,42 @@ class FollowHubViewModel: ObservableObject {
     
     // MARK: Fetch Follow Users
     
-    func initFetchData() {
-        isRefreshing = true
+//    func initFetchData() {
+//        switch self.currentFollowType {
+//        case .follower:
+//            self.followerPage = 0;
+//            self.hasNextFollowerPage = true
+//            self.followerUsers = []
+//        case .following:
+//            self.followingPage = 0;
+//            self.hasNextFollowingPage = true
+//            self.followingUsers = []
+//        }
+//    }
+    
+    func initFollowingUsers(completion: @escaping (Bool) -> Void) {
+        followingPage = 0;
+        hasNextFollowingPage = true
+        followingUsers = []
         
-        self.followingPage = 0;
-        self.hasNextFollowingPage = true
-        self.followingUsers = []
-        
-        self.followerPage = 0;
-        self.hasNextFollowingPage = true
-        self.followerUsers = []
+        fetchFollowingUsers() { _ in
+            completion(true)
+        }
     }
     
-    func fetchFollowingUsers() {
+    func initFollowerUsers(completion: @escaping (Bool) -> Void) {
+        followerPage = 0;
+        hasNextFollowerPage = true
+        followerUsers = []
+        
+        fetchFollowerUsers() { _ in
+            completion(true)
+        }
+    }
+    
+    private func fetchFollowingUsers(size: Int = 20,
+                                     sortType: FollowSortingType = .latest,
+                                     completion: @escaping (Bool) -> Void) {
         if self.hasNextFollowingPage == false {
             print("all following users are fetched")
             return
@@ -136,14 +170,16 @@ class FollowHubViewModel: ObservableObject {
         self.isLoading = true
         
         followProvider.requestPublisher(
-            .getFollowing(token: self.idToken, userID: self.userID, page: self.followingPage, size: self.usersFetchSize, sortType: self.usersSortingType))
-        .sink { completion in
+            .getFollowing(token: self.idToken, userID: self.userID, page: self.followingPage, size: size, sortType: sortType))
+        .sink { apiCompletion in
             self.isLoading = false
             self.isRefreshing = false
-            switch completion {
+            
+            switch apiCompletion {
             case .finished:
                 self.followingPage += 1
-                 print("fetch \(self.followingPage)th following users: now \(self.followingUsers.count) users are fetched")
+                // print("fetch \(self.followingPage)th following users: now \(self.followingUsers.count) users are fetched")
+                completion(true)
             case .failure(let error):
                 if let errorData = try? error.response?.map(ErrorData.self) {
                     print(errorData.message)
@@ -161,7 +197,9 @@ class FollowHubViewModel: ObservableObject {
         .store(in: &subscription)
     }
     
-    func fetchFollowerUsers() {
+    private func fetchFollowerUsers(size: Int = 20,
+                                    sortType: FollowSortingType = .latest,
+                                    completion: @escaping (Bool) -> Void){
         if self.hasNextFollowerPage == false {
             print("all follower users are fetched")
             return
@@ -170,13 +208,16 @@ class FollowHubViewModel: ObservableObject {
         self.isLoading = true
         
         followProvider.requestPublisher(
-            .getFollower(token: self.idToken, userID: self.userID, page: self.followerPage, size: self.usersFetchSize, sortType: self.usersSortingType))
-        .sink { completion in
+            .getFollower(token: self.idToken, userID: self.userID, page: self.followerPage, size: size, sortType: sortType))
+        .sink { apiCompletion in
             self.isLoading = false
-            switch completion {
+            self.isRefreshing = false
+            
+            switch apiCompletion {
             case .finished:
                 self.followerPage += 1
                 // print("fetch \(self.followerPage)th following users: now \(self.followerUsers.count) users are fetched")
+                completion(true)
             case .failure(let error):
                 if let errorData = try? error.response?.map(ErrorData.self) {
                     print(errorData.message)
@@ -196,24 +237,26 @@ class FollowHubViewModel: ObservableObject {
     
     // MARK: Suggest User
     
-    func suggestUsers() {
+    func initSuggestData() {
+        self.lastIdOfSuggestion = nil
+        self.hasNextSuggestion = true
+        self.suggestedUsers = []
+    }
+    
+    func suggestUsers(size: Int = 10) {
         if self.hasNextSuggestion == false {
             print("no more suggestion")
             return
         }
         
-        self.isLoading = true
+        self.isLoadingSuggestion = true
         
         followProvider.requestPublisher(
-            .suggestUser(token: self.idToken, size: self.usersSuggestionSize, lastID: self.lastIdOfSuggestion))
+            .suggestUser(token: self.idToken, size: size, lastID: self.lastIdOfSuggestion))
         .sink { completion in
-            self.isLoading = false
             switch completion {
             case .finished:
-                self.lastIdOfSuggestion = nil
-                if let lastUser = self.suggestedUsers.last {
-                    self.lastIdOfSuggestion = lastUser.userId
-                }
+                self.isLoadingSuggestion = false
                  print("suggest total \(self.suggestedUsers.count) users")
             case .failure(let error):
                 if let errorData = try? error.response?.map(ErrorData.self) {
@@ -228,8 +271,158 @@ class FollowHubViewModel: ObservableObject {
             
             self.hasNextSuggestion = responseData.hasNext
             self.suggestedUsers += responseData.content
+            if let lastUser = self.suggestedUsers.last {
+                self.lastIdOfSuggestion = lastUser.userId
+            } else {
+                self.lastIdOfSuggestion = nil
+            }
         }
         .store(in: &subscription)
     }
     
+    // MARK: Search Users By Nickname
+    
+    func searchFollowerUsers(by nickname: String) -> ([FollowUserData], [FollowUserData]) {
+        var followingResult: [FollowUserData] = []
+        var followerResult: [FollowUserData] = []
+        var isBreak: Bool
+        
+        isLoadingSearchResult = true
+        
+        // following
+        if !hasNextFollowingPage {
+            // hasNextFollowingSearchResult = false
+            followingResult = followingUsers.filter{ $0.nickname.contains(nickname) }
+        } else { // if followCount.followingCount < 100 {
+            isBreak = !self.hasNextFollowingPage
+            while !isBreak {
+                fetchFollowingUsers(size: 100) { _ in
+                    isBreak = !self.hasNextFollowingPage
+                }
+            }
+            // hasNextFollowingSearchResult = false
+            followingResult = followingUsers.filter{ $0.nickname.contains(nickname) }
+        }
+//        else {
+//            fetchSearchedFollowings(by: nickname, result: searchedUsers) { result in
+//                followingResult = result
+//            }
+//        }
+        
+        // follower
+        if !hasNextFollowerPage {
+           //  hasNextFollowerSearchResult = false
+            followerResult = followerUsers.filter{ newUser in
+                newUser.nickname.contains(nickname)
+                && followingResult.filter({$0.userId == newUser.userId}).isEmpty
+            }
+            
+        } else { // if followCount.followerCount < 100 {
+            isBreak = !self.hasNextFollowerPage
+            while !isBreak {
+                fetchFollowerUsers() { _ in
+                    isBreak = !self.hasNextFollowerPage
+                }
+            }
+            // hasNextFollowerSearchResult = false
+            followerResult = followerUsers.filter{ newUser in
+                newUser.nickname.contains(nickname)
+                && followingResult.filter({$0.userId == newUser.userId}).isEmpty
+            }
+        }
+//        else {
+//            fetchSearcedFollowers(by: nickname, result: searchedUsers) { result in
+//                searchedUsers = result
+//            }
+//        }
+        
+        isLoadingSearchResult = false
+        
+        return (followingResult, followerResult)
+    }
+    
+    
+    /*
+    private func fetchSearchedFollowings(by nickname: String,
+                                         result: [FollowUserData],
+                                         completion: @escaping ([FollowUserData]) -> Void) {
+        if self.isLoadingSearchResult {
+            return
+        }
+        
+        self.isLoadingSearchResult = true
+        var newResult = result
+        
+        followProvider.requestPublisher(.searchFollowingByNickname(token: self.idToken, nickname: nickname, lastID: self.lastIdOfFollowingSearchResult))
+            .sink { apiCompletion in
+                switch apiCompletion {
+                case .finished:
+                    self.isLoadingSearchResult = false
+                    completion(newResult)
+                case .failure(let error):
+                    if let errorData = try? error.response?.map(ErrorData.self) {
+                        print(errorData.message)
+                    }
+                }
+            } receiveValue: { response in
+                guard let responseData = try? response.map(FollowUserListResponse.self) else {
+                    print("Error: following users response decoding error")
+                    return
+                }
+                
+                self.hasNextFollowingSearchResult = responseData.hasNext
+                for newUser in responseData.content {
+                    if !result.contains(newUser) {
+                        newResult.append(newUser)
+                    }
+                }
+                if let lastUser = responseData.content.last {
+                    self.lastIdOfFollowingSearchResult = lastUser.userId
+                } else {
+                    self.lastIdOfFollowingSearchResult = nil
+                }
+            }.store(in: &subscription)
+    }
+    
+    private func fetchSearcedFollowers(by nickname: String,
+                                       result: [FollowUserData],
+                                       completion: @escaping ([FollowUserData]) -> Void) {
+        if self.isLoadingSearchResult {
+            return
+        }
+        
+        self.isLoadingSearchResult = true
+        var newResult = result
+        
+        followProvider.requestPublisher(.searchFollowerByNickname(token: self.idToken, nickname: nickname, lastID: self.lastIdOfFollowerSearchResult))
+            .sink { apiCompletion in
+                switch apiCompletion {
+                case .finished:
+                    self.isLoadingSearchResult = false
+                    completion(newResult)
+                case .failure(let error):
+                    if let errorData = try? error.response?.map(ErrorData.self) {
+                        print(errorData.message)
+                    }
+                }
+            } receiveValue: { response in
+                guard let responseData = try? response.map(FollowUserListResponse.self) else {
+                    print("Error: following users response decoding error")
+                    return
+                }
+                
+                self.hasNextFollowerSearchResult = responseData.hasNext
+                for newUser in responseData.content {
+                    if !result.contains(newUser) {
+                        newResult.append(newUser)
+                    }
+                }
+                if let lastUser = responseData.content.last {
+                    self.lastIdOfFollowerSearchResult = lastUser.userId
+                } else {
+                    self.lastIdOfFollowerSearchResult = nil
+                }
+            }.store(in: &subscription)
+    }
+     */
 }
