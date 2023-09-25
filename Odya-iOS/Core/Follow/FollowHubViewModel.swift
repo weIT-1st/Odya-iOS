@@ -292,7 +292,9 @@ class FollowHubViewModel: ObservableObject {
         // following
         if !hasNextFollowingPage {
             // hasNextFollowingSearchResult = false
-            followingResult = followingUsers.filter{ $0.nickname.contains(nickname) }
+            followingResult = followingUsers.filter{
+                $0.nickname.localizedCaseInsensitiveContains(nickname)
+            }
         } else { // if followCount.followingCount < 100 {
             isBreak = !self.hasNextFollowingPage
             while !isBreak {
@@ -301,7 +303,9 @@ class FollowHubViewModel: ObservableObject {
                 }
             }
             // hasNextFollowingSearchResult = false
-            followingResult = followingUsers.filter{ $0.nickname.contains(nickname) }
+            followingResult = followingUsers.filter{
+                $0.nickname.localizedCaseInsensitiveContains(nickname)
+            }
         }
 //        else {
 //            fetchSearchedFollowings(by: nickname, result: searchedUsers) { result in
@@ -313,7 +317,7 @@ class FollowHubViewModel: ObservableObject {
         if !hasNextFollowerPage {
            //  hasNextFollowerSearchResult = false
             followerResult = followerUsers.filter{ newUser in
-                newUser.nickname.contains(nickname)
+                newUser.nickname.localizedCaseInsensitiveContains(nickname)
                 && followingResult.filter({$0.userId == newUser.userId}).isEmpty
             }
             
@@ -326,7 +330,7 @@ class FollowHubViewModel: ObservableObject {
             }
             // hasNextFollowerSearchResult = false
             followerResult = followerUsers.filter{ newUser in
-                newUser.nickname.contains(nickname)
+                newUser.nickname.localizedCaseInsensitiveContains(nickname)
                 && followingResult.filter({$0.userId == newUser.userId}).isEmpty
             }
         }
