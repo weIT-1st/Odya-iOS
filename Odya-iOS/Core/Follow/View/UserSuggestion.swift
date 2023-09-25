@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// MARK: Suggested User View
+
+/// 알 수도 있는 친구 추천 리스트의 추천된 유저 뷰
 struct SuggestedUserView: View {
     @EnvironmentObject var followHubVM: FollowHubViewModel
     
@@ -28,18 +31,18 @@ struct SuggestedUserView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Circle()
-                .foregroundColor(.yellow)
-                .frame(width: 64, height: 64)
+            ProfileImageView(status: profileImageStatus, sizeType: .L)
             
             VStack {
                 Text("\(suggestedUser.nickname)")
                     .b1Style()
                     .foregroundColor(.odya.label.normal)
                     .lineLimit(1)
+                /* 개발 보류... !!
                 Text("함께 아는 친구 n명")
                     .detail2Style()
                     .foregroundColor(.odya.label.assistive)
+                 */
             }.frame(maxHeight: 35)
             
             FollowButton(isFollowing: followState, buttonStyle: .solid) {
@@ -69,6 +72,9 @@ struct SuggestedUserView: View {
     }
 }
 
+// MARK: User Suggestion View
+
+/// 알 수도 있는 친구 추천 리스트 뷰
 struct UserSuggestionView: View {
     @EnvironmentObject var followHubVM: FollowHubViewModel
     
@@ -78,14 +84,13 @@ struct UserSuggestionView: View {
                 .h6Style()
                 .foregroundColor(.odya.label.normal)
             
-            
-            if followHubVM.isLoadingSuggestion {
+            if followHubVM.isLoadingSuggestion {            // 로딩 중
                 HStack {
                     Spacer()
                     ProgressView()
                     Spacer()
                 }
-            } else if followHubVM.suggestedUsers.isEmpty {
+            } else if followHubVM.suggestedUsers.isEmpty {  // 추천 친구 없음
                 HStack {
                     Spacer()
                     Text("추천 가능한 친구가 없어요!!")
@@ -93,7 +98,7 @@ struct UserSuggestionView: View {
                         .foregroundColor(.odya.label.assistive)
                     Spacer()
                 }.padding(.bottom, 24)
-            } else {
+            } else {                                        // 추천 친구 있음
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 32) {
                         ForEach(followHubVM.suggestedUsers) { suggestedUser in
@@ -110,8 +115,7 @@ struct UserSuggestionView: View {
         .background(Color.odya.elevation.elev2)
         .cornerRadius(Radius.medium)
         .onAppear {
-            followHubVM.initSuggestData()
-            followHubVM.suggestUsers()
+            followHubVM.getSuggestion() { _ in }
         }
     }
     

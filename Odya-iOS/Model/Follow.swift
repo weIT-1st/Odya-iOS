@@ -46,17 +46,3 @@ extension FollowUserData: Equatable {
         return !(lhs == rhs)
     }
 }
-
-// MARK: Follow User
-struct FollowUser: Identifiable, Hashable {
-    var id = UUID()
-    var userData: FollowUserData
-    var followType: FollowType
-    var followState: Bool
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-

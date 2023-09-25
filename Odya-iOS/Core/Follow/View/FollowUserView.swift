@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: Follow User View
+
 /// 팔로워/팔로잉 리스트에서 팔로우유저 뷰
 /// 팔로우 유저의 프로필 사진과 닉네임을 포함
 /// 클릭 시 해당 유저의 프로필 뷰로 이동
@@ -38,6 +40,8 @@ struct FollowUserView: View {
     }
   }
 }
+
+// MARK: Following User Row View
 
 /// 팔로잉 리스트의 row 뷰
 /// 팔로잉 유저의 프로필사진, 닉네임(팔로우 유저 뷰)과 팔로잉 버튼 포함
@@ -85,6 +89,8 @@ struct FollowingUserRowView: View {
         }
     }
 }
+
+// MARK: Follower User Row View
 
 /// 팔로워 리스트의 row 뷰
 /// 팔로워 유저의 프로필사진, 닉네임(팔로우 유저 뷰)과 삭제 버튼 포함

@@ -21,7 +21,8 @@ class FollowHubViewModel: ObservableObject {
     
     var fetchMoreSubject = PassthroughSubject<(), Never>()
     var suggestMoreSubject = PassthroughSubject<(), Never>()
-    // var searchMoreSubject = PassthroughSubject<(String), Never>()
+    
+    
     
     // user info required for API calls
     let idToken: String
@@ -31,10 +32,6 @@ class FollowHubViewModel: ObservableObject {
     @Published var followCount: FollowCount
     
     // fetch following/follwer users
-//    let usersFetchSize: Int = 20
-//    let usersSuggestionSize: Int = 10
-//    let usersSortingType: FollowSortingType = .latest
-    
     @Published var isLoading: Bool = false
     @Published var isRefreshing: Bool = false
 
@@ -56,11 +53,15 @@ class FollowHubViewModel: ObservableObject {
     // search by name
     @Published var isLoadingSearchResult: Bool = false
 
-    // var lastIdOfFollowingSearchResult: Int? = nil
-    //var hasNextFollowingSearchResult: Bool = true
+    /*/ 닉네임 검색 api 사용 시 필요
+    var searchMoreSubject = PassthroughSubject<(String), Never>() // 무한스크롤 적용
 
-    //var lastIdOfFollowerSearchResult: Int? = nil
-    // var hasNextFollowerSearchResult: Bool = true
+    var lastIdOfFollowingSearchResult: Int? = nil
+    var hasNextFollowingSearchResult: Bool = true
+
+    var lastIdOfFollowerSearchResult: Int? = nil
+    var hasNextFollowerSearchResult: Bool = true
+     */
     
     
     // MARK: Init
@@ -71,6 +72,7 @@ class FollowHubViewModel: ObservableObject {
         self.followCount = followCount
         self.currentFollowType = .following
         
+        /// 팔로워 / 팔로잉 리스트 무한스크롤
         fetchMoreSubject.sink { [weak self] _ in
             guard let self = self else { return }
             if !self.isLoading {
@@ -83,10 +85,11 @@ class FollowHubViewModel: ObservableObject {
             }
         }.store(in: &subscription)
         
+        /// 알 수도 있는 친구 무한스크롤
         suggestMoreSubject.sink { [weak self] _ in
             guard let self = self else { return }
-            if !self.isLoading {
-                self.suggestUsers()
+            if !self.isLoadingSuggestion {
+                self.suggestUsers() { _ in }
             }
         }.store(in: &subscription)
         
@@ -94,6 +97,7 @@ class FollowHubViewModel: ObservableObject {
     
     // MARK: follow / unfollow
     
+    /// 팔로우 실행
     func createFollow(_ followingID: Int) {
         followProvider.requestPublisher(.create(token: self.idToken, followingID: followingID))
             .sink { completion in
@@ -109,6 +113,7 @@ class FollowHubViewModel: ObservableObject {
             .store(in: &subscription)
     }
     
+    /// 언팔로우 실행
     func deleteFollow(_ followingID: Int) {
         followProvider.requestPublisher(.delete(token: self.idToken, followingID: followingID))
             .sink { completion in
@@ -124,21 +129,10 @@ class FollowHubViewModel: ObservableObject {
             .store(in: &subscription)
     }
     
+    
     // MARK: Fetch Follow Users
     
-//    func initFetchData() {
-//        switch self.currentFollowType {
-//        case .follower:
-//            self.followerPage = 0;
-//            self.hasNextFollowerPage = true
-//            self.followerUsers = []
-//        case .following:
-//            self.followingPage = 0;
-//            self.hasNextFollowingPage = true
-//            self.followingUsers = []
-//        }
-//    }
-    
+    /// 팔로잉 유저 리스트 첫 번째 페이지를 받아옴
     func initFollowingUsers(completion: @escaping (Bool) -> Void) {
         followingPage = 0;
         hasNextFollowingPage = true
@@ -149,6 +143,7 @@ class FollowHubViewModel: ObservableObject {
         }
     }
     
+    /// 팔로워 유저 리스트 첫 번째 페이지를 받아옴
     func initFollowerUsers(completion: @escaping (Bool) -> Void) {
         followerPage = 0;
         hasNextFollowerPage = true
@@ -159,6 +154,8 @@ class FollowHubViewModel: ObservableObject {
         }
     }
     
+    /// api를 통해 팔로잉 유저 리스트를 받아오는 함수
+    /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
     private func fetchFollowingUsers(size: Int = 20,
                                      sortType: FollowSortingType = .latest,
                                      completion: @escaping (Bool) -> Void) {
@@ -197,6 +194,8 @@ class FollowHubViewModel: ObservableObject {
         .store(in: &subscription)
     }
     
+    /// api를 통해 팔로워 유저 리스트를 받아오는 함수
+    /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
     private func fetchFollowerUsers(size: Int = 20,
                                     sortType: FollowSortingType = .latest,
                                     completion: @escaping (Bool) -> Void){
@@ -235,15 +234,24 @@ class FollowHubViewModel: ObservableObject {
         .store(in: &subscription)
     }
     
+    
     // MARK: Suggest User
     
-    func initSuggestData() {
+    /// 알 수도 있는 친구 추천 리스트 첫 번째 페이지를 받아옴
+    func getSuggestion(completion: @escaping (Bool) -> Void) {
         self.lastIdOfSuggestion = nil
         self.hasNextSuggestion = true
         self.suggestedUsers = []
+        
+        suggestUsers() { _ in
+            completion(true)
+        }
     }
     
-    func suggestUsers(size: Int = 10) {
+    /// api를 통해 알 수도 있는 친구 추천 리스트를 받아오는 함수
+    /// size: 한 페이지에 포함된 유저 수
+    private func suggestUsers(size: Int = 10,
+                              completion: @escaping (Bool) -> Void) {
         if self.hasNextSuggestion == false {
             print("no more suggestion")
             return
@@ -253,11 +261,12 @@ class FollowHubViewModel: ObservableObject {
         
         followProvider.requestPublisher(
             .suggestUser(token: self.idToken, size: size, lastID: self.lastIdOfSuggestion))
-        .sink { completion in
-            switch completion {
+        .sink { apiCompletion in
+            switch apiCompletion {
             case .finished:
                 self.isLoadingSuggestion = false
-                 print("suggest total \(self.suggestedUsers.count) users")
+                // print("suggest total \(self.suggestedUsers.count) users")
+                completion(true)
             case .failure(let error):
                 if let errorData = try? error.response?.map(ErrorData.self) {
                     print(errorData.message)
@@ -280,9 +289,12 @@ class FollowHubViewModel: ObservableObject {
         .store(in: &subscription)
     }
     
+    
     // MARK: Search Users By Nickname
     
-    func searchFollowerUsers(by nickname: String) -> ([FollowUserData], [FollowUserData]) {
+    /// 닉네임으로 팔로워/팔로잉 유저 검색
+    /// (검색하고자 하는 닉네임을 포함한 팔로잉 리스트, 닉네임을 포함한 팔로워 리스트) 를 리턴
+    func searchFollowUsers(by nickname: String) -> ([FollowUserData], [FollowUserData]) {
         var followingResult: [FollowUserData] = []
         var followerResult: [FollowUserData] = []
         var isBreak: Bool
@@ -307,11 +319,11 @@ class FollowHubViewModel: ObservableObject {
                 $0.nickname.localizedCaseInsensitiveContains(nickname)
             }
         }
-//        else {
-//            fetchSearchedFollowings(by: nickname, result: searchedUsers) { result in
-//                followingResult = result
-//            }
-//        }
+        /* else {
+            fetchSearchedFollowings(by: nickname, result: searchedUsers) { result in
+                followingResult = result
+            }
+        } */
         
         // follower
         if !hasNextFollowerPage {
@@ -334,11 +346,11 @@ class FollowHubViewModel: ObservableObject {
                 && followingResult.filter({$0.userId == newUser.userId}).isEmpty
             }
         }
-//        else {
-//            fetchSearcedFollowers(by: nickname, result: searchedUsers) { result in
-//                searchedUsers = result
-//            }
-//        }
+        /* else {
+            fetchSearcedFollowers(by: nickname, result: searchedUsers) { result in
+                searchedUsers = result
+            }
+        } */
         
         isLoadingSearchResult = false
         
