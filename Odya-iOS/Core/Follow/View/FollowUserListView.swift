@@ -22,12 +22,6 @@ struct FollowUserListView: View {
   var body: some View {
     ScrollView {
       VStack(spacing: 16) {
-        // 팔로워/팔로잉 유저가 없는 경우 바로 추천 뷰
-        if shouldShowUserSuggestion() {
-          UserSuggestionView()
-            .environmentObject(followHubVM)
-        }
-
         showList(of: displayedUsers)
 
         // 더 많은 유저를 로딩할 때 나오는 로딩 뷰
@@ -36,6 +30,12 @@ struct FollowUserListView: View {
           ProgressView()
           Spacer()
         }
+          
+          // 팔로워/팔로잉 유저가 없는 경우 바로 추천 뷰
+          if shouldShowUserSuggestion() {
+            UserSuggestionView()
+              .environmentObject(followHubVM)
+          }
       }
     }
   }
@@ -111,17 +111,30 @@ struct SearchedUserListView: View {
       }
     }
     .onAppear {
-      (searchedFollowingUser, searchedFollowerUser) = followHubVM.searchFollowUsers(
-        by: nameToSearch)
+        followHubVM.searchFollowUsers(by: nameToSearch) { success in
+            if success {
+                searchedFollowingUser = followHubVM.followingSearchResult
+                searchedFollowerUser = followHubVM.followerSearchResult
+            }
+        }
     }
     .onChange(of: nameToSearch) { newValue in
-      (searchedFollowingUser, searchedFollowerUser) = followHubVM.searchFollowUsers(by: newValue)
+        followHubVM.searchFollowUsers(by: newValue) { success in
+            if success {
+                searchedFollowingUser = followHubVM.followingSearchResult
+                searchedFollowerUser = followHubVM.followerSearchResult
+            }
+        }
     }
     .refreshable {
       followHubVM.initFollowingUsers { _ in
         followHubVM.initFollowerUsers { _ in
-          (searchedFollowingUser, searchedFollowerUser) = followHubVM.searchFollowUsers(
-            by: nameToSearch)
+            followHubVM.searchFollowUsers(by: nameToSearch) { success in
+                if success {
+                    searchedFollowingUser = followHubVM.followingSearchResult
+                    searchedFollowerUser = followHubVM.followerSearchResult
+                }
+            }
         }
       }
     }

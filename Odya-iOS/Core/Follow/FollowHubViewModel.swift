@@ -49,7 +49,9 @@ class FollowHubViewModel: ObservableObject {
   @Published var suggestedUsers: [FollowUserData] = []
 
   // search by name
-  @Published var isLoadingSearchResult: Bool = false
+    @Published var isLoadingSearchResult: Bool = false
+    @Published var followingSearchResult: [FollowUserData] = []
+    @Published var followerSearchResult: [FollowUserData] = []
 
   /*/ 닉네임 검색 api 사용 시 필요
     var searchMoreSubject = PassthroughSubject<(String), Never>() // 무한스크롤 적용
@@ -131,83 +133,86 @@ class FollowHubViewModel: ObservableObject {
   // MARK: Fetch Follow Users
 
   /// 팔로잉 유저 리스트 첫 번째 페이지를 받아옴
-  func initFollowingUsers(completion: @escaping (Bool) -> Void) {
-    followingPage = 0
-    hasNextFollowingPage = true
-    followingUsers = []
-
-    fetchFollowingUsers { _ in
-      completion(true)
+    func initFollowingUsers(completion: @escaping (Bool) -> Void) {
+        followingPage = 0
+        hasNextFollowingPage = true
+        followingUsers = []
+        
+        fetchFollowingUsers { _ in
+            completion(true)
+        }
     }
-  }
 
   /// 팔로워 유저 리스트 첫 번째 페이지를 받아옴
-  func initFollowerUsers(completion: @escaping (Bool) -> Void) {
-    followerPage = 0
-    hasNextFollowerPage = true
-    followerUsers = []
-
-    fetchFollowerUsers { _ in
-      completion(true)
+    func initFollowerUsers(completion: @escaping (Bool) -> Void) {
+        followerPage = 0
+        hasNextFollowerPage = true
+        followerUsers = []
+        
+        fetchFollowerUsers { _ in
+            completion(true)
+        }
     }
-  }
 
   /// api를 통해 팔로잉 유저 리스트를 받아오는 함수
   /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
-  private func fetchFollowingUsers(
-    size: Int = 20,
-    sortType: FollowSortingType = .latest,
-    completion: @escaping (Bool) -> Void
-  ) {
-    if self.hasNextFollowingPage == false {
-      print("all following users are fetched")
-      return
-    }
-
-    self.isLoading = true
-
-    followProvider.requestPublisher(
-      .getFollowing(
-        token: self.idToken, userID: self.userID, page: self.followingPage, size: size,
-        sortType: sortType)
-    )
-    .sink { apiCompletion in
-      self.isLoading = false
-      self.isRefreshing = false
-
-      switch apiCompletion {
-      case .finished:
-        self.followingPage += 1
-        // print("fetch \(self.followingPage)th following users: now \(self.followingUsers.count) users are fetched")
-        completion(true)
-      case .failure(let error):
-        if let errorData = try? error.response?.map(ErrorData.self) {
-          print(errorData.message)
+    private func fetchFollowingUsers(size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void) {
+        if self.hasNextFollowingPage == false {
+            print("all following users are fetched")
+            return
         }
-      }
-    } receiveValue: { response in
-      guard let responseData = try? response.map(FollowUserListResponse.self) else {
-        print("Error: following users response decoding error")
-        return
-      }
-
-      self.hasNextFollowingPage = responseData.hasNext
-      self.followingUsers += responseData.content
+        
+        if self.isLoading {
+            // print("following users are already loading")
+            return
+        }
+        
+        self.isLoading = true
+        
+        followProvider.requestPublisher(
+            .getFollowing(
+                token: self.idToken, userID: self.userID, page: self.followingPage, size: size,
+                sortType: sortType)
+        )
+        .sink { apiCompletion in
+            self.isLoading = false
+            self.isRefreshing = false
+            
+            switch apiCompletion {
+            case .finished:
+                self.followingPage += 1
+                 print("fetch \(self.followingPage)th following users: now \(self.followingUsers.count) users are fetched")
+                completion(true)
+            case .failure(let error):
+                if let errorData = try? error.response?.map(ErrorData.self) {
+                    print(errorData.message)
+                }
+            }
+        } receiveValue: { response in
+            guard let responseData = try? response.map(FollowUserListResponse.self) else {
+                print("Error: following users response decoding error")
+                return
+            }
+            
+            self.hasNextFollowingPage = responseData.hasNext
+            self.followingUsers += responseData.content
+        }
+        .store(in: &subscription)
     }
-    .store(in: &subscription)
-  }
 
   /// api를 통해 팔로워 유저 리스트를 받아오는 함수
   /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
-  private func fetchFollowerUsers(
-    size: Int = 20,
-    sortType: FollowSortingType = .latest,
-    completion: @escaping (Bool) -> Void
+  private func fetchFollowerUsers(size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void
   ) {
     if self.hasNextFollowerPage == false {
       print("all follower users are fetched")
       return
     }
+      
+      if self.isLoading {
+          print("follower users are already loading")
+          return
+      }
 
     self.isLoading = true
 
@@ -223,7 +228,7 @@ class FollowHubViewModel: ObservableObject {
       switch apiCompletion {
       case .finished:
         self.followerPage += 1
-        // print("fetch \(self.followerPage)th following users: now \(self.followerUsers.count) users are fetched")
+         print("fetch \(self.followerPage)th following users: now \(self.followerUsers.count) users are fetched")
         completion(true)
       case .failure(let error):
         if let errorData = try? error.response?.map(ErrorData.self) {
@@ -302,69 +307,122 @@ class FollowHubViewModel: ObservableObject {
   // MARK: Search Users By Nickname
 
   /// 닉네임으로 팔로워/팔로잉 유저 검색
-  /// (검색하고자 하는 닉네임을 포함한 팔로잉 리스트, 닉네임을 포함한 팔로워 리스트) 를 리턴
-  func searchFollowUsers(by nickname: String) -> ([FollowUserData], [FollowUserData]) {
-    var followingResult: [FollowUserData] = []
-    var followerResult: [FollowUserData] = []
-    var isBreak: Bool
-
-    isLoadingSearchResult = true
-
-    // following
-    if !hasNextFollowingPage {
-      // hasNextFollowingSearchResult = false
-      followingResult = followingUsers.filter {
-        $0.nickname.localizedCaseInsensitiveContains(nickname)
-      }
-    } else {  // if followCount.followingCount < 100 {
-      isBreak = !self.hasNextFollowingPage
-      while !isBreak {
-        fetchFollowingUsers(size: 100) { _ in
-          isBreak = !self.hasNextFollowingPage
-        }
-      }
-      // hasNextFollowingSearchResult = false
-      followingResult = followingUsers.filter {
-        $0.nickname.localizedCaseInsensitiveContains(nickname)
-      }
-    }
-    /* else {
-            fetchSearchedFollowings(by: nickname, result: searchedUsers) { result in
-                followingResult = result
+    func searchFollowUsers(by nickname: String,
+                           completion: @escaping (Bool) -> Void) {
+        followingSearchResult = []
+        followerSearchResult = []
+        
+        searchFollowingUsers(by: nickname) { success in
+            if success {
+                self.searchFollowerUsers(by: nickname) { success in
+                    if success {
+                        completion(true)
+                    }
+                }
             }
-        } */
-
-    // follower
-    if !hasNextFollowerPage {
-      //  hasNextFollowerSearchResult = false
-      followerResult = followerUsers.filter { newUser in
-        newUser.nickname.localizedCaseInsensitiveContains(nickname)
-          && followingResult.filter({ $0.userId == newUser.userId }).isEmpty
-      }
-
-    } else {  // if followCount.followerCount < 100 {
-      isBreak = !self.hasNextFollowerPage
-      while !isBreak {
-        fetchFollowerUsers { _ in
-          isBreak = !self.hasNextFollowerPage
         }
-      }
-      // hasNextFollowerSearchResult = false
-      followerResult = followerUsers.filter { newUser in
-        newUser.nickname.localizedCaseInsensitiveContains(nickname)
-          && followingResult.filter({ $0.userId == newUser.userId }).isEmpty
-      }
     }
-    /* else {
-            fetchSearcedFollowers(by: nickname, result: searchedUsers) { result in
-                searchedUsers = result
+
+    /// 닉네임으로 팔로잉 유저 검색
+    func searchFollowingUsers(by nickname: String, completion: @escaping (Bool) -> Void) {
+        isLoadingSearchResult = true
+
+        if hasNextFollowingPage {
+            fetchAllFollowingUsers() { [self] allUsers in
+                followingSearchResult = allUsers.filter {
+                    $0.nickname.localizedCaseInsensitiveContains(nickname)
+                }
+                isLoadingSearchResult = false
+                completion(true)
             }
-        } */
+        } else {   
+            followingSearchResult = followingUsers.filter {
+                $0.nickname.localizedCaseInsensitiveContains(nickname)
+            }
+            isLoadingSearchResult = false
+            completion(true)
+        }
+        
+        /*
+        fetchSearchedFollowings(by: nickname, result: searchedUsers) { result in
+            followingResult = result
+        }
+        */
+    }
+    
+    /// 닉네임으로 팔로워 유저 검색
+    private func searchFollowerUsers(by nickname: String, completion: @escaping (Bool) -> Void) {
+        isLoadingSearchResult = true
 
-    isLoadingSearchResult = false
+        if hasNextFollowerPage {
+            fetchAllFollowerUsers() { [self] allUsers in
+                followerSearchResult = allUsers.filter { searchedUser in
+                    searchedUser.nickname.localizedCaseInsensitiveContains(nickname)
+                    && followingSearchResult.filter({ $0.userId == searchedUser.userId}).isEmpty
+                }
+                isLoadingSearchResult = false
+                completion(true)
+            }
+        } else {
+            followerSearchResult = followerUsers.filter { searchedUser in
+                searchedUser.nickname.localizedCaseInsensitiveContains(nickname)
+                && followingSearchResult.filter({ $0.userId == searchedUser.userId}).isEmpty
+            }
+            isLoadingSearchResult = false
+            completion(true)
+        }
+        /*
+        fetchSearchedFollowings(by: nickname, result: searchedUsers) { result in
+            followingResult = result
+        }
+        */
+    }
+    
+    /// 모든 팔로잉 유저를 받아옴
+    private func fetchAllFollowingUsers(completion: @escaping ([FollowUserData]) -> Void) {
+        var allFollowingUsers: [FollowUserData] = []
 
-    return (followingResult, followerResult)
-  }
+        func fetchNextPage() {
+            fetchFollowingUsers(size: 100) { success in
+                if success {
+                    if self.hasNextFollowingPage {
+                        fetchNextPage()
+                    } else {
+                        print("get all following users")
+                        allFollowingUsers = self.followingUsers
+                        completion(allFollowingUsers)
+                    }
+                } else {
+                    completion([])
+                }
+            }
+        }
+
+        fetchNextPage()
+    }
+    
+    /// 모든 팔로워 유저를 받아옴
+    private func fetchAllFollowerUsers(completion: @escaping ([FollowUserData]) -> Void) {
+        var allFollowerUsers: [FollowUserData] = []
+
+        func fetchNextPage() {
+            fetchFollowerUsers(size: 100) { success in
+                if success {
+                    if self.hasNextFollowerPage {
+                        fetchNextPage()
+                    } else {
+                        print("get all follower users")
+                        allFollowerUsers = self.followerUsers
+                        completion(allFollowerUsers)
+                    }
+                } else {
+                    completion([])
+                }
+            }
+        }
+
+        fetchNextPage()
+    }
 
   /*
     private func fetchSearchedFollowings(by nickname: String,
