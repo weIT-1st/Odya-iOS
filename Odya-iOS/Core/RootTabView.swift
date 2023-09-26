@@ -10,7 +10,11 @@ import SwiftUI
 struct RootTabView: View {
 
   // MARK: Body
-    let token: String
+    @ObservedObject var profileVM: ProfileViewModel
+    
+    init(token: String) {
+        profileVM = ProfileViewModel(idToken: token)
+    }
 
   var body: some View {
     TabView {
@@ -25,6 +29,7 @@ struct RootTabView: View {
         .tabItem {
           GNBButton(iconImage: "diary", text: "내추억")
         }
+        .environmentObject(profileVM)
 
       // MARK: 피드
       FeedView()
@@ -33,10 +38,11 @@ struct RootTabView: View {
         }
 
       // MARK: 내정보
-      ProfileView(token: token)
+      ProfileView()
         .tabItem {
           GNBButton(iconImage: "person-off", text: "내정보")
         }
+        .environmentObject(profileVM)
     }.accentColor(.odya.brand.primary)
   }
 }

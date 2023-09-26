@@ -13,12 +13,11 @@ struct SelectedMateView: View {
 
   init(mate: FollowUserData) {
     self.mateUserData = mate
-//    if let profileUrl = mate.profileData.profileUrl {
-//      self.status = .withImage(url: URL(string: profileUrl)!)
-//    } else {
-      self.status = .withoutImage(
-        colorHex: mate.profile.profileColor!.colorHex ?? "#FFD41F", name: mate.nickname)
-//    }
+      if let profileColor = mate.profile.profileColor {
+          self.status = .withoutImage(colorHex: profileColor.colorHex, name: mate.nickname)
+      } else {
+          self.status = .withImage(url: URL(string: mate.profile.profileUrl)!)
+      }
   }
 
   var body: some View {
@@ -39,35 +38,6 @@ struct SelectedMateView: View {
   }
 }
 
-//struct FollowUserView: View {
-//  let userData: FollowUserData
-//  private let status: ProfileImageStatus
-//
-//  init(user: FollowUserData) {
-//    self.userData = user
-//    if let profileUrl = user.profileData.profileUrl {
-//      self.status = .withImage(url: URL(string: profileUrl)!)
-//    } else {
-//      self.status = .withoutImage(
-//        colorHex: user.profileData.profileColor.colorHex ?? "#FFD41F", name: user.nickname)
-//    }
-//  }
-//
-//  var body: some View {
-//    NavigationLink(destination: UserProfileView(userData: userData)) {
-//      HStack(spacing: 0) {
-//        ProfileImageView(status: status, sizeType: .S)
-//          .padding(.trailing, 12)
-//        Text(userData.nickname)
-//          .foregroundColor(.odya.label.normal)
-//          .b1Style()
-//          .padding(.trailing, 4)
-//        Image("sparkle-s")
-//      }
-//    }
-//  }
-//}
-
 // 테스트를 위한 임시 뷰
 struct UserProfileView: View {
   let userData: FollowUserData
@@ -79,52 +49,79 @@ struct UserProfileView: View {
 
 struct TravelMateSelectorView: View {
   @Environment(\.presentationMode) private var presentationMode
-
-  @ObservedObject var travelJournalEditVM: TravelJournalEditViewModel
+    @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+    
+    @ObservedObject var followHubVM: FollowHubViewModel
 
   @State var selectedTravelMates: [FollowUserData] = []
-  @State var followingUsers: [FollowUserData] = []
+  @State var searchedResults: [FollowUserData] = []
   @State var displayedFollowingUsers: [FollowUserData] = []
 
   @State var nameToSearch: String = ""
-
+  @State var searchResultsDisplayed: Bool = false
+    
   @State var isShowingTooManyMatesAlert: Bool = false
 
   @State var selectedMatesViewHeight: CGFloat = 16
 
-  var body: some View {
-    VStack(spacing: 0) {
-      headerBar
-      selectedMatesView
-
-      VStack(spacing: 16) {
-        followingUserSearchBar
-//        followingUserListView
-      }
-      .padding(.vertical, 34)
-      .background(Color.odya.elevation.elev2)
-      .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
-
-    }.background(Color.odya.background.normal)
-      .edgesIgnoringSafeArea(.bottom)
-      .onAppear {
-        selectedTravelMates = travelJournalEditVM.travelMates
-        // test user
-//        for i in 0...10 {
-//          let user = FollowUserData(
-//            userId: i, nickname: "홍길동aa\(i)",
-//            profileData: ProfileData(profileColor: ProfileColorData(colorHex: "#FFD41F")))
-//          followingUsers.append(user)
-//          displayedFollowingUsers.append(user)
-//        }
-      }
-      .alert("함께 간 친구는 10명까지 선택 가능합니다.", isPresented: $isShowingTooManyMatesAlert) {
-        Button("확인") {
-          isShowingTooManyMatesAlert = false
-        }
-      }.accentColor(Color.odya.brand.primary)
-
-  }
+    init(token: String, userId: Int, followCount: FollowCount) {
+        self.followHubVM = FollowHubViewModel(token: token, userID: userId, followCount: followCount)
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            headerBar
+            selectedMatesView
+            
+            VStack(spacing: 16) {
+                FollowSearchBar(promptText: "닉네임 검색", nameToSearch: $nameToSearch, searchResultsDisplayed: $searchResultsDisplayed)
+                followingUserListView
+            }
+            .padding(.vertical, 34)
+            .background(Color.odya.elevation.elev2)
+            .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
+            
+        }.background(Color.odya.background.normal)
+            .edgesIgnoringSafeArea(.bottom)
+            .onAppear {
+                selectedTravelMates = travelJournalEditVM.travelMates
+                followHubVM.initFollowingUsers { result in
+                    if result {
+                        displayedFollowingUsers = followHubVM.followingUsers
+                    }
+                }
+            }
+            .onChange(of: searchResultsDisplayed) { newValue in
+                if newValue == false {
+                    displayedFollowingUsers = followHubVM.followingUsers
+                }
+            }
+            .onChange(of: nameToSearch) { newValue in
+                if searchResultsDisplayed {
+                    followHubVM.searchFollowingUsers(by: newValue) { success in
+                        displayedFollowingUsers = followHubVM.followingSearchResult
+                    }
+                }
+            }
+            .refreshable {
+                if searchResultsDisplayed {
+                    followHubVM.initFollowingUsers { _ in
+                        followHubVM.searchFollowingUsers(by: nameToSearch) { success in
+                            displayedFollowingUsers = followHubVM.followingSearchResult
+                        }
+                    }
+                } else {
+                    followHubVM.initFollowingUsers { _ in
+                        displayedFollowingUsers = followHubVM.followingUsers
+                    }
+                }
+            }
+            .alert("함께 간 친구는 10명까지 선택 가능합니다.", isPresented: $isShowingTooManyMatesAlert) {
+                Button("확인") {
+                    isShowingTooManyMatesAlert = false
+                }
+            }.accentColor(Color.odya.brand.primary)
+    }
 
   private var headerBar: some View {
     ZStack {
@@ -170,65 +167,40 @@ struct TravelMateSelectorView: View {
     }
   }
 
-  private var followingUserSearchBar: some View {
-    HStack {
-      TextField(
-        nameToSearch, text: $nameToSearch,
-        prompt: Text("닉네임 검색")
-          .foregroundColor(.odya.label.inactive)
-      )
-      .b1Style()
-
-      IconButton("search") {}
-        .disabled(nameToSearch.count == 0)
-    }
-    .modifier(CustomFieldStyle(backgroundColor: Color.odya.elevation.elev4))
-    .padding(.horizontal, GridLayout.side)
-    .onChange(of: nameToSearch) { newValue in
-      if nameToSearch.count == 0 {
-        displayedFollowingUsers = followingUsers
-      } else {
-        displayedFollowingUsers = followingUsers.filter {
-          $0.nickname.localizedCaseInsensitiveContains(newValue)
+  private var followingUserListView: some View {
+    ScrollView {
+      VStack(spacing: 16) {
+        ForEach(displayedFollowingUsers) { user in
+          HStack {
+            FollowUserView(user: user)
+            Spacer()
+            IconButton("plus-circle") {
+              if selectedTravelMates.count >= 10 {
+                isShowingTooManyMatesAlert = true
+              } else {
+                selectedTravelMates.insert(user, at: 0)
+              }
+            }
+            .colorMultiply(
+              selectedTravelMates.contains { mate in
+                mate.userId == user.userId
+              } ? .odya.label.inactive : .odya.brand.primary
+            )
+            .frame(height: 36)
+            .disabled(
+              selectedTravelMates.contains { mate in
+                mate.userId == user.userId
+              })
+          }.frame(height: 36)
         }
-      }
+      }.padding(.horizontal, GridLayout.side)
     }
   }
 
-//  private var followingUserListView: some View {
-//    ScrollView {
-//      VStack(spacing: 16) {
-//        ForEach(displayedFollowingUsers) { user in
-//          HStack {
-//            FollowUserView(user: user)
-//            Spacer()
-//            IconButton("plus-circle") {
-//              if selectedTravelMates.count >= 10 {
-//                isShowingTooManyMatesAlert = true
-//              } else {
-//                selectedTravelMates.insert(user, at: 0)
-//              }
-//            }
-//            .colorMultiply(
-//              selectedTravelMates.contains { mate in
-//                mate.userId == user.userId
-//              } ? .odya.label.inactive : .odya.brand.primary
-//            )
-//            .frame(height: 36)
-//            .disabled(
-//              selectedTravelMates.contains { mate in
-//                mate.userId == user.userId
-//              })
-//          }.frame(height: 36)
-//        }
-//      }.padding(.horizontal, GridLayout.side)
-//    }
+}
+
+//struct TravelMateSelectorView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    TravelMateSelectorView(travelJournalEditVM: TravelJournalEditViewModel())
 //  }
-
-}
-
-struct TravelMateSelectorView_Previews: PreviewProvider {
-  static var previews: some View {
-    TravelMateSelectorView(travelJournalEditVM: TravelJournalEditViewModel())
-  }
-}
+//}

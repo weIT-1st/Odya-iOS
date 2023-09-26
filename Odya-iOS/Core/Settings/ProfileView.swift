@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var profileVM : ProfileViewModel
-    
-    init(token: String) {
-        profileVM = ProfileViewModel(idToken: token)
-    }
+    @EnvironmentObject var profileVM : ProfileViewModel
     
     var body: some View {
         NavigationView {
@@ -105,8 +101,8 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView(token: "testIdToken")
-    }
-}
+//struct ProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileView()
+//    }
+//}

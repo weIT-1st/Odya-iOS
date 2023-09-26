@@ -29,6 +29,7 @@ struct TravelMateView: View {
 struct TravelJournalEditView: View {
   // MARK: Properties
 
+  @EnvironmentObject var profileVM: ProfileViewModel
   @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
 
   @State private var isDatePickerVisible = false
@@ -128,7 +129,8 @@ struct TravelJournalEditView: View {
         Spacer()
         travelMatesView
         NavigationLink(destination: {
-          TravelMateSelectorView(travelJournalEditVM: travelJournalEditVM)
+            TravelMateSelectorView(token: profileVM.idToken, userId: profileVM.userID ?? -1, followCount: profileVM.followCount)
+                .environmentObject(travelJournalEditVM)
             .navigationBarHidden(true)
         }) {
           Image("plus").padding(6)
