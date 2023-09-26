@@ -583,14 +583,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		3EEBB7CB2A8E240600F0049D /* TravelJournal */ = {
+		3EE9CA2A2AC2E127003A2E85 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3EEBB7DC2A97388000F0049D /* ViewModel */,
 				3EEBB7CC2A8E259800F0049D /* TravelJournalEditView.swift */,
 				3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */,
 				3EEBB7D22A8F50B300F0049D /* TravelDateView.swift */,
 				3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3EEBB7CB2A8E240600F0049D /* TravelJournal */ = {
+			isa = PBXGroup;
+			children = (
+				3EE9CA2A2AC2E127003A2E85 /* View */,
+				3EEBB7DC2A97388000F0049D /* ViewModel */,
 			);
 			path = TravelJournal;
 			sourceTree = "<group>";

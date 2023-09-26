@@ -13,11 +13,11 @@ struct SelectedMateView: View {
 
   init(mate: FollowUserData) {
     self.mateUserData = mate
-      if let profileColor = mate.profile.profileColor {
-          self.status = .withoutImage(colorHex: profileColor.colorHex, name: mate.nickname)
-      } else {
-          self.status = .withImage(url: URL(string: mate.profile.profileUrl)!)
-      }
+    if let profileColor = mate.profile.profileColor {
+      self.status = .withoutImage(colorHex: profileColor.colorHex, name: mate.nickname)
+    } else {
+      self.status = .withImage(url: URL(string: mate.profile.profileUrl)!)
+    }
   }
 
   var body: some View {
@@ -49,9 +49,9 @@ struct UserProfileView: View {
 
 struct TravelMateSelectorView: View {
   @Environment(\.presentationMode) private var presentationMode
-    @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
-    
-    @ObservedObject var followHubVM: FollowHubViewModel
+  @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+
+  @ObservedObject var followHubVM: FollowHubViewModel
 
   @State var selectedTravelMates: [FollowUserData] = []
   @State var searchedResults: [FollowUserData] = []
@@ -59,69 +59,71 @@ struct TravelMateSelectorView: View {
 
   @State var nameToSearch: String = ""
   @State var searchResultsDisplayed: Bool = false
-    
+
   @State var isShowingTooManyMatesAlert: Bool = false
 
   @State var selectedMatesViewHeight: CGFloat = 16
 
-    init(token: String, userId: Int, followCount: FollowCount) {
-        self.followHubVM = FollowHubViewModel(token: token, userID: userId, followCount: followCount)
-    }
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            headerBar
-            selectedMatesView
-            
-            VStack(spacing: 16) {
-                FollowSearchBar(promptText: "닉네임 검색", nameToSearch: $nameToSearch, searchResultsDisplayed: $searchResultsDisplayed)
-                followingUserListView
+  init(token: String, userId: Int, followCount: FollowCount) {
+    self.followHubVM = FollowHubViewModel(token: token, userID: userId, followCount: followCount)
+  }
+
+  var body: some View {
+    VStack(spacing: 0) {
+      headerBar
+      selectedMatesView
+
+      VStack(spacing: 16) {
+        FollowSearchBar(
+          promptText: "닉네임 검색", nameToSearch: $nameToSearch,
+          searchResultsDisplayed: $searchResultsDisplayed)
+        followingUserListView
+      }
+      .padding(.vertical, 34)
+      .background(Color.odya.elevation.elev2)
+      .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
+
+    }.background(Color.odya.background.normal)
+      .edgesIgnoringSafeArea(.bottom)
+      .onAppear {
+        selectedTravelMates = travelJournalEditVM.travelMates
+        followHubVM.initFollowingUsers { result in
+          if result {
+            displayedFollowingUsers = followHubVM.followingUsers
+          }
+        }
+      }
+      .onChange(of: searchResultsDisplayed) { newValue in
+        if newValue == false {
+          displayedFollowingUsers = followHubVM.followingUsers
+        }
+      }
+      .onChange(of: nameToSearch) { newValue in
+        if searchResultsDisplayed {
+          followHubVM.searchFollowingUsers(by: newValue) { success in
+            displayedFollowingUsers = followHubVM.followingSearchResult
+          }
+        }
+      }
+      .refreshable {
+        if searchResultsDisplayed {
+          followHubVM.initFollowingUsers { _ in
+            followHubVM.searchFollowingUsers(by: nameToSearch) { success in
+              displayedFollowingUsers = followHubVM.followingSearchResult
             }
-            .padding(.vertical, 34)
-            .background(Color.odya.elevation.elev2)
-            .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
-            
-        }.background(Color.odya.background.normal)
-            .edgesIgnoringSafeArea(.bottom)
-            .onAppear {
-                selectedTravelMates = travelJournalEditVM.travelMates
-                followHubVM.initFollowingUsers { result in
-                    if result {
-                        displayedFollowingUsers = followHubVM.followingUsers
-                    }
-                }
-            }
-            .onChange(of: searchResultsDisplayed) { newValue in
-                if newValue == false {
-                    displayedFollowingUsers = followHubVM.followingUsers
-                }
-            }
-            .onChange(of: nameToSearch) { newValue in
-                if searchResultsDisplayed {
-                    followHubVM.searchFollowingUsers(by: newValue) { success in
-                        displayedFollowingUsers = followHubVM.followingSearchResult
-                    }
-                }
-            }
-            .refreshable {
-                if searchResultsDisplayed {
-                    followHubVM.initFollowingUsers { _ in
-                        followHubVM.searchFollowingUsers(by: nameToSearch) { success in
-                            displayedFollowingUsers = followHubVM.followingSearchResult
-                        }
-                    }
-                } else {
-                    followHubVM.initFollowingUsers { _ in
-                        displayedFollowingUsers = followHubVM.followingUsers
-                    }
-                }
-            }
-            .alert("함께 간 친구는 10명까지 선택 가능합니다.", isPresented: $isShowingTooManyMatesAlert) {
-                Button("확인") {
-                    isShowingTooManyMatesAlert = false
-                }
-            }.accentColor(Color.odya.brand.primary)
-    }
+          }
+        } else {
+          followHubVM.initFollowingUsers { _ in
+            displayedFollowingUsers = followHubVM.followingUsers
+          }
+        }
+      }
+      .alert("함께 간 친구는 10명까지 선택 가능합니다.", isPresented: $isShowingTooManyMatesAlert) {
+        Button("확인") {
+          isShowingTooManyMatesAlert = false
+        }
+      }.accentColor(Color.odya.brand.primary)
+  }
 
   private var headerBar: some View {
     ZStack {

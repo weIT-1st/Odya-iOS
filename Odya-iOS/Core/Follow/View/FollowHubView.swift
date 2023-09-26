@@ -105,16 +105,16 @@ struct FollowHubView: View {
     }
     .background(Color.odya.background.normal)
     .onAppear {
-        followHubVM.initFollowingUsers { success in
-            followHubVM.initFollowerUsers { _ in }
-            if success {
-                displayedUsers = followHubVM.followingUsers
-            }
+      followHubVM.initFollowingUsers { success in
+        followHubVM.initFollowerUsers { _ in }
+        if success {
+          displayedUsers = followHubVM.followingUsers
         }
+      }
     }
     .onDisappear {
-        followHubVM.currentFollowType = .following
-        nameToSearch = ""
+      followHubVM.currentFollowType = .following
+      nameToSearch = ""
     }
     .onChange(of: followHubVM.currentFollowType) { newValue in
       displayedUsers =
