@@ -30,8 +30,8 @@ struct Odya_iOSApp: App {
     // MARK: BODY
     var body: some Scene {
         WindowGroup {
-            if idToken != nil {
-                RootTabView()
+            if let token = idToken {
+                RootTabView(token: token)
             } else {
                 LoginView()
                     .environmentObject(appleAuthVM)

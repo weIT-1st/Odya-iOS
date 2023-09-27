@@ -25,9 +25,13 @@ extension Date {
 extension String {
     func toDate(format: String = "yyyy-MM-dd") -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
         dateFormatter.dateFormat = format
-        return dateFormatter.date(from: self)
+        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
+        if let date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            return nil
+        }
     }
     
 }
