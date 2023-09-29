@@ -445,6 +445,15 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		3EE9CA1E2AB6C69E003A2E85 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */,
+				3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		07AF2B172A392EEE00D54780 /* LocationSearch */ = {
 			isa = PBXGroup;
 			children = (
@@ -571,22 +580,6 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
-		3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */ = {
-			isa = PBXGroup;
-			children = (
-				3EE9CA2C2AC2EE0E003A2E85 /* TravelJournalDetailBottomSheet.swift */,
-				3EE9CA2E2AC2EE8F003A2E85 /* TravelJournalDetailView.swift */,
-				3EE9CA382AC41605003A2E85 /* DailyJournalView.swift */,
-				3EE9CA3A2AC44FE2003A2E85 /* DailyJournalViewModel.swift */,
-			);
-			path = TravelJournalDetail;
-			sourceTree = "<group>";
-		};
-		3EEBB7CB2A8E240600F0049D /* TravelJournal */ = {
-			isa = PBXGroup;
-			children = (
-				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
-				3EEBB7DC2A97388000F0049D /* ViewModel */,
 		3ED22F612AADBBF70067DE72 /* Follow */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,15 +587,6 @@
 				3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */,
 			);
 			path = Follow;
-			sourceTree = "<group>";
-		};
-		3EE9CA1E2AB6C69E003A2E85 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */,
-				3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3EE9CA292AC197AF003A2E85 /* View */ = {
@@ -616,6 +600,27 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		3EEBB7CB2A8E240600F0049D /* TravelJournal */ = {
+			isa = PBXGroup;
+			children = (
+				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
+				3EE9CA2A2AC2E127003A2E85 /* View */,
+				3EEBB7DC2A97388000F0049D /* ViewModel */,
+			);
+			path = TravelJournal;
+			sourceTree = "<group>";
+		};
+		3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */ = {
+			isa = PBXGroup;
+			children = (
+				3EE9CA2C2AC2EE0E003A2E85 /* TravelJournalDetailBottomSheet.swift */,
+				3EE9CA2E2AC2EE8F003A2E85 /* TravelJournalDetailView.swift */,
+				3EE9CA382AC41605003A2E85 /* DailyJournalView.swift */,
+				3EE9CA3A2AC44FE2003A2E85 /* DailyJournalViewModel.swift */,
+			);
+			path = TravelJournalDetail;
+			sourceTree = "<group>";
+		};
 		3EE9CA2A2AC2E127003A2E85 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -625,15 +630,6 @@
 				3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		3EEBB7CB2A8E240600F0049D /* TravelJournal */ = {
-			isa = PBXGroup;
-			children = (
-				3EE9CA2A2AC2E127003A2E85 /* View */,
-				3EEBB7DC2A97388000F0049D /* ViewModel */,
-			);
-			path = TravelJournal;
 			sourceTree = "<group>";
 		};
 		3EEBB7DC2A97388000F0049D /* ViewModel */ = {
