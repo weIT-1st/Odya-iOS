@@ -15,8 +15,6 @@ struct SplarkleIcon: View {
 }
 
 struct DailyJournalView: View {
-    @StateObject var dailyJournalVM = DailyJournalViewModel()
-    
     let dayN: Int
     let dateString: String
     let content: String
@@ -25,7 +23,7 @@ struct DailyJournalView: View {
     var images: [UIImage] = []
     
     var displayedImages: [UIImage] {
-        if dailyJournalVM.isExpanded {
+        if isExpanded {
             return images
         } else {
             return isFeedType ? Array(images.prefix(2)) : Array(images.prefix(9))
@@ -34,6 +32,7 @@ struct DailyJournalView: View {
     
     @Binding var isFeedType: Bool
     @Binding var isAllExpanded: Bool
+    @State var isExpanded: Bool = false
     let imageListWidth: CGFloat = UIScreen.main.bounds.width - GridLayout.side * 2 - 50 // 50 = DayN VStack width
     
     
@@ -75,14 +74,14 @@ struct DailyJournalView: View {
             // Content VStack
             VStack(spacing: 16) {
                 Button(action: {
-                    dailyJournalVM.switchExpansionState()
+                    isExpanded.toggle()
                 }) {
                     HStack {
                         Text(dateString)
                             .b1Style()
                             .foregroundColor(.odya.label.assistive)
                         Spacer()
-                        Image(dailyJournalVM.isExpanded ? "direction-up" : "direction-down")
+                        Image(isExpanded ? "direction-up" : "direction-down")
                     }.frame(height: 36)
                 }
                 
@@ -92,7 +91,7 @@ struct DailyJournalView: View {
                 Text(content)
                     .detail2Style()
                     .foregroundColor(.odya.label.normal)
-                    .lineLimit(dailyJournalVM.isExpanded ? nil : 2)
+                    .lineLimit(isExpanded ? nil : 2)
                 
                 // image list
                 if isFeedType {
@@ -104,9 +103,9 @@ struct DailyJournalView: View {
                 placeInfo
             }
             .padding(.bottom, 40)
-            .animation(.easeInOut, value: dailyJournalVM.isExpanded)
+            .animation(.easeInOut, value: isExpanded)
             .onChange(of: isAllExpanded) { newValue in
-                dailyJournalVM.setExpansionState(to: newValue)
+                isExpanded = newValue
             }
             
         }

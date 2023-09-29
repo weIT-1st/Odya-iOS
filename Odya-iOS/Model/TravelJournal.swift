@@ -75,7 +75,7 @@ struct TravelJournalData: Identifiable, Codable {
                                  writer:
                                     FollowUserData(userId: 1,
                                                    nickname: "testNickname",
-                                                   profileData:
+                                                   profile:
                                                     ProfileData(profileUrl: "testAuthenticatedUrl",
                                                                 profileColor: ProfileColorData(colorHex: "#ffd42c"))),
                                  dailyJournals: [
