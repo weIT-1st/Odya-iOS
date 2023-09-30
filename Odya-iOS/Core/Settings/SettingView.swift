@@ -9,12 +9,12 @@ import SwiftUI
 
 struct SettingView: View {
     var body: some View {
-        NavigationView {
+//        NavigationView {
             VStack {
                 CustomNavigationBar(title: "환경설정")
                 settingViewMainSection
             }.background(Color.odya.background.normal)
-        }.ignoresSafeArea()
+//        }.ignoresSafeArea()
     } // body
     
     var settingViewMainSection: some View {
