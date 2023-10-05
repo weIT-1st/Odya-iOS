@@ -22,8 +22,9 @@ struct CustomNavigationBar: View {
                 .foregroundColor(.odya.label.normal)
             Spacer()
             IconButton("direction-right") {}.disabled(true)
-                .colorMultiply(.odya.background.normal)
+                .colorMultiply(.clear)
         }
         .padding(.horizontal, 8)
+        .frame(height: 56)
     }
 }

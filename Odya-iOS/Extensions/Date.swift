@@ -21,3 +21,17 @@ extension Date {
         return Calendar.current.date(byAdding: components, to: self)
     }
 }
+
+extension String {
+    func toDate(format: String = "yyyy-MM-dd") -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
+        if let date = dateFormatter.date(from: self) {
+            return date
+        } else {
+            return nil
+        }
+    }
+    
+}

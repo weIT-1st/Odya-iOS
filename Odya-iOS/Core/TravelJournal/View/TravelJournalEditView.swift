@@ -13,11 +13,11 @@ struct TravelMateView: View {
 
   init(mate: FollowUserData) {
     self.mateUserData = mate
-    if let profileUrl = mate.profileData.profileUrl {
-      self.status = .withImage(url: URL(string: profileUrl)!)
-    } else {
+    if let profileColor = mate.profile.profileColor {
       self.status = .withoutImage(
-        colorHex: mate.profileData.profileColor.colorHex ?? "#FFD41F", name: mate.nickname)
+        colorHex: profileColor.colorHex, name: mate.nickname)
+    } else {
+      self.status = .withImage(url: URL(string: mate.profile.profileUrl)!)
     }
   }
 
@@ -29,6 +29,7 @@ struct TravelMateView: View {
 struct TravelJournalEditView: View {
   // MARK: Properties
 
+  @EnvironmentObject var profileVM: ProfileViewModel
   @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
 
   @State private var isDatePickerVisible = false
@@ -46,7 +47,7 @@ struct TravelJournalEditView: View {
       NavigationView {
         VStack {
           CustomNavigationBar(title: "여행일지 작성하기")
-            .frame(alignment: .top)
+
           ScrollView {
             VStack(spacing: 8) {
               travelInfoEditSection
@@ -128,8 +129,12 @@ struct TravelJournalEditView: View {
         Spacer()
         travelMatesView
         NavigationLink(destination: {
-          TravelMateSelectorView(travelJournalEditVM: travelJournalEditVM)
-            .navigationBarHidden(true)
+          TravelMateSelectorView(
+            token: profileVM.idToken, userId: profileVM.userID ?? -1,
+            followCount: profileVM.followCount
+          )
+          .environmentObject(travelJournalEditVM)
+          .navigationBarHidden(true)
         }) {
           Image("plus").padding(6)
         }
