@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct FeedCommentView: View {
+    // MARK: Properties
+    @State private var showCommentSheet = false
+    @State private var showFullCommentSheet = false
+    
     // MARK: Body
     
     var body: some View {
@@ -15,6 +19,7 @@ struct FeedCommentView: View {
             // full comment button
             Button {
                 // action: open bottom sheet
+                showCommentSheet.toggle()
             } label: {
                 HStack(spacing: 10) {
                     Text("12개의 댓글 더보기")
@@ -33,6 +38,10 @@ struct FeedCommentView: View {
                         .stroke(Color.odya.line.alternative, lineWidth: 1)
                 )
             }
+            .sheet(isPresented: $showCommentSheet) {
+                FeedFullCommentSheet(isEditing: false)
+                    .presentationDetents([.medium, .large])
+            }
 
             // comments top 2
             VStack(spacing: 16) {
@@ -43,9 +52,10 @@ struct FeedCommentView: View {
                 FeedCommentCell()
             }
             
-            // write comment btn or tf
+            // write comment btn
             Button {
                 // open bottom sheet
+                showFullCommentSheet.toggle()
             } label: {
                 HStack(alignment: .center, spacing: 16) {
                     // user profile image
@@ -60,6 +70,8 @@ struct FeedCommentView: View {
                     Spacer()
                     
                     Image("smallGreyButton-send")
+                        .renderingMode(.template)
+                        .foregroundColor(Color.odya.label.assistive)
                         .frame(width: 24, height: 24)
                 }
                 .frame(height: 48)
@@ -67,6 +79,10 @@ struct FeedCommentView: View {
                 .padding(.vertical, 4)
                 .background(Color.odya.elevation.elev5)
                 .cornerRadius(Radius.medium)
+            }
+            .sheet(isPresented: $showFullCommentSheet) {
+                FeedFullCommentSheet(isEditing: true)
+                    .presentationDetents([.large])
             }
         }
         .frame(maxWidth: .infinity)
@@ -86,19 +102,24 @@ struct FeedCommentCell: View {
             HStack {
                 FeedUserInfoView(profileImageSize: ComponentSizeType.XS.ProfileImageSize)
                 Spacer()
-                IconButton("menu-kebob") {
-                    // action
+                Menu {
+                    Button("수정") {
+                        // action: 댓글 수정
+                    }
+                    Button("삭제") {
+                        // action: 댓글 삭제
+                    }
+                } label: {
+                    Image("menu-kebob")
+                        .frame(width: 24, height: 24)
                 }
-                .frame(width: 24, height: 24)
             }
             
             // comment text
             Text("형제는 오륜의 하나요, 한 몸을 쪼갠 것이다. 그러므로 부귀와 화복을 같이 하는 것이다.")
                 .detail2Style()
                 .foregroundColor(Color.odya.label.assistive)
-                .frame(alignment: .topLeading)
-                .frame(maxWidth: .infinity)
-                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .topLeading)
         }
     }
 }

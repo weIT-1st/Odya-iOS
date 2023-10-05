@@ -30,7 +30,7 @@ struct PostContentView: View {
       .detail2Style()
       .multilineTextAlignment(.leading)
       .foregroundColor(Color.odya.label.normal)
-      .frame(alignment: .topLeading)
+      .frame(maxWidth: .infinity, alignment: .topLeading)
       .lineLimit(2)
 
       // 장소, 좋아요, 댓글

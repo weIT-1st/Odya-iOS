@@ -8,18 +8,26 @@
 import SwiftUI
 
 struct FeedDetailView: View {
+    // MARK: Properties
+    
+    let testImageUrlString = "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+    
     // MARK: Body
     
     var body: some View {
         ScrollView {
             VStack(spacing: -16) {
                 // images
-                Image("logo-rect")
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: UIScreen.main.bounds.width,
-                           height: UIScreen.main.bounds.width)
-                    .background(.blue)
-                
+                AsyncImage(url: URL(string: testImageUrlString)!, content: { image in
+                    image.resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .clipped()
+                }, placeholder: {
+                    ProgressView()
+                })
+                .frame(width: UIScreen.main.bounds.width,
+                       height: UIScreen.main.bounds.width)
+
                 // -- content --
                 VStack(spacing: 8) {
                     VStack(spacing: 20) {
@@ -37,10 +45,14 @@ struct FeedDetailView: View {
                         .padding(.horizontal, GridLayout.side)
                         
                         VStack(spacing: 24) {
-                            // TODO: travel journal cover
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundColor(.white)
-                                .frame(height: 100)
+                            // 여행일지
+                            JournalCoverButton(profileImageUrl: nil,
+                                               labelText: "여행일지 더보기",
+                                               coverImageUrl: URL(string: testImageUrlString)!,
+                                               journalTitle: "2020 컴공과 졸업여행",
+                                               isHot: true) {
+                                // action
+                            }
                             
                             // feed text
                             Text("오늘 졸업 여행으로 오이도에 다녀왔어요! 생각보다 추웠지만 너무 재밌었습니다! 맛있는 회도 먹고 친구들과 좋은 시간도 보내고 왔습니다 ㅎㅎ 다들 졸업 축하해 ~ 어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구어쩌구 저쩌구")
@@ -87,7 +99,7 @@ struct FeedDetailView: View {
                                             .detail1Style()
                                             .foregroundColor(Color.odya.label.normal)
                                     }
-                                    HStack(spacing: 0) {
+                                    HStack(spacing: 4) {
                                         Image("heart-off-m")
                                             .frame(width: 24, height: 24)
                                         // number of heart
@@ -136,9 +148,20 @@ struct CustomBackButton: View {
 // MARK: - FeedShareButton
 
 struct FeedMenuButton: View {
+    @State private var showActionSheet = false
+    
     var body: some View {
-        IconButton("menu-kebob") {
-            // TODO: action - 신고하기 or 편집
+        IconButton("menu-kebab-l") {
+            showActionSheet.toggle()
+        }
+        .frame(width: 36, height: 36, alignment: .center)
+        .confirmationDialog("", isPresented: $showActionSheet) {
+            Button("공유") {
+                // action: 공유
+            }
+            Button("신고하기", role: .destructive) {
+                // action: 신고
+            }
         }
     }
 }

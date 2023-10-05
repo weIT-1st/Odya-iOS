@@ -30,7 +30,6 @@ struct Odya_iOSApp: App {
     // MARK: BODY
     var body: some Scene {
         WindowGroup {
-            FeedView()
             if let token = idToken {
                 RootTabView(token: token)
             } else {

@@ -12,37 +12,44 @@ struct FeedView: View {
   
   var body: some View {
     NavigationView {
-      VStack {
-        // tool bar
-        // TODO: - 툴바 디자인 변경예정
-        FeedToolBar()
-        
-        // scroll view
-        ScrollView {
-          VStack {
-            // fishchips
-            FishchipsBar()
-            
-            // posts (무한)
-            ForEach(0..<10) { _ in
-              NavigationLink {
-                FeedDetailView()
-              } label: {
-                PostView()
-                  .padding(.bottom, 8)
+      ZStack(alignment: .bottomTrailing) {
+        VStack {
+          // tool bar
+          // TODO: - 툴바 디자인 변경예정
+          FeedToolBar()
+          
+          // scroll view
+          ScrollView {
+            VStack {
+              // fishchips
+              FishchipsBar()
+              
+              // posts (무한)
+              ForEach(0..<10) { _ in
+                NavigationLink {
+                  FeedDetailView()
+                } label: {
+                  PostView()
+                    .padding(.bottom, 8)
+                }
               }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .refreshable {
+            // fetch new posts
+          }
+          .onAppear {
+            customRefreshControl()
+          }
         }
-        .refreshable {
-          // fetch new posts
+        .background(Color.odya.background.normal)
+        
+        WriteButton {
+          // action: 작성하기 뷰
         }
-        .onAppear {
-          customRefreshControl()
-        }
-      }
-      .background(Color.odya.background.normal)
+        .padding(20)
+      } // ZStack
     }
   }
   

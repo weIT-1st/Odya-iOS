@@ -45,14 +45,18 @@ extension View {
                     // hot
                     if isHot {
                         Text("HOT🔥")
-                            .font(.custom("NotoSansKR-Regular", size: 8))
+                            .font(.custom("NotoSansKR-Bold", size: 8))
                             .foregroundColor(Color.odya.label.alternative)
+                            .padding(4)
+                            .background(
+                                RoundedRectangle(cornerRadius: Radius.small)
+                                    .foregroundColor(Color.odya.system.warning)
+                            )
                     }
                 }
             }
             .padding(.horizontal, 20)
-            .padding(.top, 16)
-            .padding(.bottom, 12)
+            .padding(.vertical, 12)
             .background(
                 AsyncImage(url: coverImageUrl, content: { phase in
                     switch phase {
