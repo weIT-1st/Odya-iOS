@@ -35,6 +35,7 @@
 		07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */; };
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
+		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
 		19EBA7532AB16B7D000ABBE5 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7522AB16B7D000ABBE5 /* CombineMoya */; };
 		19EBA7552AB16B7D000ABBE5 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7542AB16B7D000ABBE5 /* Moya */; };
 		19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */; };
@@ -175,6 +176,7 @@
 		07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
 		19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsRouter.swift; sourceTree = "<group>"; };
 		19EBA7582AB16E2C000ABBE5 /* TermsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		19EBA75A2AB16EAF000ABBE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -566,6 +568,7 @@
 				3EBEC3B22A6FF75D00998EC6 /* EditButton.swift */,
 				3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */,
 				0784964F2A9760CF00A490E3 /* FishchipButton.swift */,
+				195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -903,6 +906,7 @@
 				19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3EE9CA392AC41605003A2E85 /* DailyJournalView.swift in Sources */,
+				195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
