@@ -11,7 +11,7 @@ struct PostContentView: View {
   // MARK: - Body
 
   var body: some View {
-    VStack() {
+    VStack {
       // 유저 정보
       HStack {
         FeedUserInfoView(profileImageSize: ComponentSizeType.S.ProfileImageSize)

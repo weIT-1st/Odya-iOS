@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FeedView: View {
   // MARK: - Body
-  
+
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -17,13 +17,13 @@ struct FeedView: View {
           // tool bar
           // TODO: - 툴바 디자인 변경예정
           FeedToolBar()
-          
+
           // scroll view
           ScrollView {
             VStack {
               // fishchips
               FishchipsBar()
-              
+
               // posts (무한)
               ForEach(0..<10) { _ in
                 NavigationLink {
@@ -44,15 +44,15 @@ struct FeedView: View {
           }
         }
         .background(Color.odya.background.normal)
-        
+
         WriteButton {
           // action: 작성하기 뷰
         }
         .padding(20)
-      } // ZStack
+      }  // ZStack
     }
   }
-  
+
   func customRefreshControl() {
     UIRefreshControl.appearance().tintColor = .clear
     UIRefreshControl.appearance().backgroundColor = UIColor(Color.odya.brand.primary)
@@ -66,7 +66,7 @@ struct FeedView: View {
 }
 
 struct CustomRepreshView: View {
-  
+
   var body: some View {
     Text("피드에 올린 곳 오댜?")
       .foregroundColor(Color.odya.label.r_assistive)
