@@ -7,14 +7,51 @@
 
 import SwiftUI
 
-//struct TravelMateList: View {
-//
-//}
+
+private struct OffsetPreferenceKey: PreferenceKey {
+    static var defaultValue: CGPoint = .zero
+    static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) { }
+}
+
+struct OffsettableScrollView<T: View>: View {
+    let axes: Axis.Set
+    let showsIndicator: Bool
+    let onOffsetChanged: (CGPoint) -> Void
+    let content: T
+    
+    init(axes: Axis.Set = .vertical,
+         showsIndicator: Bool = true,
+         onOffsetChanged: @escaping (CGPoint) -> Void = { _ in },
+         @ViewBuilder content: () -> T
+    ) {
+        self.axes = axes
+        self.showsIndicator = showsIndicator
+        self.onOffsetChanged = onOffsetChanged
+        self.content = content()
+    }
+    
+    var body: some View {
+        ScrollView(axes, showsIndicators: showsIndicator) {
+            GeometryReader { proxy in
+                Color.clear.preference(
+                    key: OffsetPreferenceKey.self,
+                    value: proxy.frame(
+                        in: .named("ScrollViewOrigin")
+                    ).origin
+                )
+            }
+            .frame(width: 0, height: 0)
+            content
+        }
+        .coordinateSpace(name: "ScrollViewOrigin")
+        .onPreferenceChange(OffsetPreferenceKey.self,
+                            perform: onOffsetChanged)
+    }
+}
 
 struct JournalDetailBottomSheet: View {
-    
-    @Binding var isSheetOn: PresentationDetent
-    
+    @EnvironmentObject var bottomSheetVM: BottomSheetViewModel
+
     let title: String
     let startDate: Date
     let endDate: Date
@@ -31,8 +68,7 @@ struct JournalDetailBottomSheet: View {
         return endDate.dateToString(format: "yyyy.MM.dd")
     }
 
-    init(isSheetOn: Binding<PresentationDetent>, travelJournal: TravelJournalData) {
-        self._isSheetOn = isSheetOn
+    init (travelJournal: TravelJournalData) {
         title = travelJournal.title
         startDate = travelJournal.travelStartDate.toDate()!
         endDate = travelJournal.travelEndDate.toDate()!
@@ -49,50 +85,52 @@ struct JournalDetailBottomSheet: View {
                 )
             )
         }
+        
     }
     
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            journalInfo
+        ZStack {
+            OffsettableScrollView { point in
+                if point.y != 0 {
+                    bottomSheetVM.isScrollAtTop = point.y > 0
+                }
+            } content: {
+                journalInfo
+                    .padding(.horizontal, GridLayout.side)
+                    .padding(.top, 30)
+                    .padding(.bottom, 12)
+       
+                VStack(spacing: 24){
+                    viewModeSelector
+                    
+                    ForEach(self.contents) { dailyJournal in
+                        let dayN: Int = Int(dailyJournal.travelDate.timeIntervalSince(self.startDate))
+                        DailyJournalView(dayN: dayN, dailyJournal: dailyJournal, isFeedType: $isFeedType, isAllExpanded: $isAllExpanded)
+                    }
+                    
+                }
+                .padding(.top, 25)
                 .padding(.horizontal, GridLayout.side)
-                .padding(.vertical, 12)
+                .background(Color.odya.elevation.elev1)
+                .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
+            }.disabled(!bottomSheetVM.isSheetOn)
             
-            VStack(spacing: 24){
-                HStack {
-                    Button(action: {
-                        isAllExpanded.toggle()
-                    }) {
-                        Text(!isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
-                            .b1Style()
-                            .foregroundColor(.odya.label.alternative)
-                    }
-                    Spacer()
-                    IconButton("feed") {
-                        isFeedType = true
-                    }
-                    .colorMultiply(isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
-                    IconButton("grid") {
-                        isFeedType = false
-                    }
-                    .colorMultiply(!isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
-
-                }
-
-                ForEach(self.contents) { dailyJournal in
-                    let dayN: Int = Int(dailyJournal.travelDate.timeIntervalSince(self.startDate))
-                    DailyJournalView(dayN: dayN, dailyJournal: dailyJournal, isFeedType: $isFeedType, isAllExpanded: $isAllExpanded)
-                }
-
+            // drag indicator
+            VStack {
+                Capsule()
+                    .fill(Color.odya.label.assistive)
+                    .frame(width: 80, height: 4)
+                    .padding(.vertical, 15)
+                Spacer()
             }
-            .padding(.top, 25)
-            .padding(.horizontal, GridLayout.side)
-            .background(Color.odya.elevation.elev1)
-            .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
-            
             
         }
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .background(Color.odya.background.dimmed_system)
+        .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.medium))
         .ignoresSafeArea(edges: [.bottom])
+
     }
     
     
@@ -102,7 +140,7 @@ struct JournalDetailBottomSheet: View {
             Text(title)
                 .h5Style()
                 .foregroundColor(.odya.label.normal)
-                .lineLimit(isSheetOn == .journalDetailOn ? 1 : nil)
+                .lineLimit(bottomSheetVM.isSheetOn ? 1 : nil)
                 .padding(.vertical)
             
             HStack {
@@ -134,10 +172,33 @@ struct JournalDetailBottomSheet: View {
             }
         }
     }
+    
+    private var viewModeSelector: some View {
+        HStack {
+            Button(action: {
+                isAllExpanded.toggle()
+            }) {
+                Text(!isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
+                    .b1Style()
+                    .foregroundColor(.odya.label.alternative)
+            }
+            Spacer()
+            IconButton("feed") {
+                isFeedType = true
+            }
+            .colorMultiply(isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+            IconButton("grid") {
+                isFeedType = false
+            }
+            .colorMultiply(!isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+            
+        }
+    }
 }
 
 struct JournalDetailBottomSheet_Previews: PreviewProvider {
     static var previews: some View {
-        JournalDetailBottomSheet(isSheetOn: .constant(.journalDetailOn), travelJournal: TravelJournalData.getDummy())
+        TravelJournalDetailView()
+//        JournalDetailBottomSheet(isSheetOn: .constant(.journalDetailOn), travelJournal: TravelJournalData.getDummy())
     }
 }
