@@ -13,7 +13,7 @@ struct RootTabView: View {
     @ObservedObject var profileVM: ProfileViewModel
     
     init(token: String) {
-        profileVM = ProfileViewModel(idToken: token)
+        profileVM = ProfileViewModel()
     }
 
   var body: some View {

@@ -13,6 +13,7 @@ import Moya
 
 enum MyError: Error {
     case decodingError(String)
+    case tokenError
 }
 
 class ProfileViewModel: ObservableObject {
@@ -21,7 +22,10 @@ class ProfileViewModel: ObservableObject {
     private lazy var followProvider = MoyaProvider<FollowRouter>(plugins: [plugin])
     private var subscription = Set<AnyCancellable>()
     
-    let idToken: String
+    @Published var idTokenManager = IdTokenManager()
+    @AppStorage("WeITAuthToken") var idToken: String?
+    
+    @Published var isFetching: Bool = false
     
     @Published var userID: Int? = nil
     @Published var nickname: String = ""
@@ -32,30 +36,50 @@ class ProfileViewModel: ObservableObject {
     @Published var profileData: ProfileData = ProfileData(profileUrl: "https://objectstorage.ap-chuncheon-1.oraclecloud.com/p/0wFrAwWxeRqeXG2gq38hIP4o0RpirOq9N0bwgctw51KZE43OtSraBRE4qGBL97P7/n/axivk99fjind/b/Odya-stable/o/default_profile.png", profileColor: nil)
     @Published var followCount = FollowCount()
     
-    init(idToken: String) {
-        self.idToken = idToken
-    }
-    
-//    @MainActor
     func fetchDataAsync() async {
+        guard let idToken = idToken else {
+            return
+        }
+        
+        isFetching = true
+        
         do {
-            try await getUserInfo()
+            try await getUserInfo(of: idToken)
             
-            // After getUserInfoAsync(), other requests can be made concurrently.
-            async let followCountResponse = getFollowCount()
+            // getUserInfo()를 통해 유저 정보를 가져온 후 순차적으로 진행됨
+            async let followCountResponse = getFollowCount(idToken: idToken)
             self.followCount = try await followCountResponse
+            
+            isFetching = false
         } catch {
-            print("Fetching failed with error:", error)
+            switch error {
+            case MyError.tokenError:
+                print("token error")
+                if await idTokenManager.refreshToken() {
+                    await self.fetchDataAsync()
+                }
+                
+            default:
+                print("Fetching failed with error:", error)
+            }
         }
     }
     
-    func getUserInfo() async throws {
+    private func getUserInfo(of idToken: String) async throws {
         return try await withCheckedThrowingContinuation{ continuation in
-            userProvider.request(.getUserInfo(token: self.idToken)) { result in
+            userProvider.request(.getUserInfo(token: idToken)) { result in
                 switch result {
                 case .success(let response):
-                    debugPrint(response)
+                    // debugPrint(response)
                     guard let responseData = try? response.map(UserData.self) else {
+                        if let errorData = try? response.map(ErrorData.self) {
+                            // print(errorData.message)
+                            if errorData.code == -11000 {
+                                continuation.resume(throwing: MyError.tokenError)
+                                return
+                            }
+                        }
+                        
                         continuation.resume(throwing: MyError.decodingError("user data response decoding error"))
                         return
                     }
@@ -82,14 +106,14 @@ class ProfileViewModel: ObservableObject {
         }
     }
     
-    func getFollowCount() async throws -> FollowCount {
+    private func getFollowCount(idToken: String) async throws -> FollowCount {
         return try await withCheckedThrowingContinuation { continuation in
             guard let userID = self.userID else {
                 continuation.resume(throwing: MyError.decodingError("invalid userID"))
                 return
             }
             
-            followProvider.request(.count(token: self.idToken, userID: userID)) { result in
+            followProvider.request(.count(token: idToken, userID: userID)) { result in
                 switch result {
                 case .success(let response):
                     guard let responseData = try? response.map(FollowCount.self) else {
