@@ -20,7 +20,7 @@ struct RootTabView: View {
         }
 
       // MARK: 내추억
-      MyJournalsView()  // 임시
+      MyJournalsView()
         .tabItem {
           GNBButton(iconImage: "diary", text: "내추억")
         }

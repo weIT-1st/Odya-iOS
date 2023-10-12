@@ -29,7 +29,7 @@ struct Odya_iOSApp: App {
     var body: some Scene {
         WindowGroup {
             if let token = idToken {
-                RootTabView(token: token)
+                RootTabView()
                     .onAppear {
                         /// 토큰 갱신 및 유저 정보 가져오기
                         Task {
