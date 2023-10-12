@@ -8,14 +8,14 @@
 import SwiftUI
 
 class DailyJournalViewModel: ObservableObject {
-    @Published var isExpanded: Bool = false
-    // var dailyJournal: DailyTravelJournal
-    
-    func setExpansionState(to state: Bool) {
-        self.isExpanded = state
-    }
-    
-    func switchExpansionState() {
-        self.isExpanded.toggle()
-    }
+  @Published var isExpanded: Bool = false
+  // var dailyJournal: DailyTravelJournal
+
+  func setExpansionState(to state: Bool) {
+    self.isExpanded = state
+  }
+
+  func switchExpansionState() {
+    self.isExpanded.toggle()
+  }
 }

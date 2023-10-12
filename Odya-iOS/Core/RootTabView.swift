@@ -25,7 +25,7 @@ struct RootTabView: View {
         }
 
       // MARK: 내추억
-      TravelJournalEditView()  // 임시
+      MyJournalsView()  // 임시
         .tabItem {
           GNBButton(iconImage: "diary", text: "내추억")
         }
