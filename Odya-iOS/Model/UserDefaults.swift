@@ -27,6 +27,18 @@ struct UserDefault<T> {
     }
 }
 
+/// 내 정보
+struct MyData {
+    @UserDefault(key: keyEnum_MyData.userId.rawValue, defaultValue: -1)
+    var userID: Int
+    
+    @UserDefault(key: keyEnum_MyData.nickname.rawValue, defaultValue: "")
+    var nickname: String
+    
+    @UserDefault(key: keyEnum_MyData.profile.rawValue, defaultValue: "")
+    var profile: String
+}
+
 /// 애플 유저 데이터 저장
 struct AppleUserData {
     @UserDefault(key: keyEnum_APPLE_USER.isValid.rawValue, defaultValue: false)
@@ -49,6 +61,12 @@ struct AppleUserData {
 struct SearchData {
     @UserDefault(key: keyEnum_Search.recentSearchText.rawValue, defaultValue: [String]())
     static var recentSearchText: [String]
+}
+
+enum keyEnum_MyData: String {
+    case userId
+    case nickname
+    case profile
 }
 
 enum keyEnum_APPLE_USER: String {

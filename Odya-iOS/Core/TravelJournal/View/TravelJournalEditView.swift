@@ -130,7 +130,7 @@ struct TravelJournalEditView: View {
         travelMatesView
         NavigationLink(destination: {
           TravelMateSelectorView(
-            token: profileVM.idToken, userId: profileVM.userID ?? -1,
+            token: profileVM.idToken ?? "", userId: profileVM.userID ?? -1,
             followCount: profileVM.followCount
           )
           .environmentObject(travelJournalEditVM)

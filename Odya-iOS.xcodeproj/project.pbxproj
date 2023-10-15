@@ -55,6 +55,7 @@
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
 		3E3EC3B32A388ADE002BF519 /* webp in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B22A388ADE002BF519 /* webp */; };
 		3E3EC3B62A388B55002BF519 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B52A388B55002BF519 /* KakaoSDK */; };
+		3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2B2AD6941C00034FBB /* AppDataManager.swift */; };
 		3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
 		3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */; };
@@ -192,6 +193,7 @@
 		3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoField.swift; sourceTree = "<group>"; };
 		3E25FABA2A8434CC00ADF6E2 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpViewModel.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
 		3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpTestView.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 		071FA5332A20AE5900C7B362 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				3E414B2B2AD6941C00034FBB /* AppDataManager.swift */,
 				07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */,
 				0708FC2C2A40D2C100D152CF /* LocationManager.swift */,
 			);
@@ -917,6 +920,7 @@
 				3EE9CA392AC41605003A2E85 /* DailyJournalView.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
+				3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
