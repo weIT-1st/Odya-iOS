@@ -7,6 +7,34 @@
 
 import SwiftUI
 
+private struct NoJournalView: View {
+    
+    var body: some View {
+        VStack {
+            Text("작성된 여행일지가 없어요!")
+                .h6Style()
+                .foregroundColor(.odya.label.normal)
+            
+            ZStack {
+                CTAButton(
+                    isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기", labelSize: ComponentSizeType.L,
+                    action: {})
+                
+                NavigationLink( destination: TravelJournalComposeView()
+                    .navigationBarHidden(true)
+                ) {
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: ComponentSizeType.L.CTAButtonWidth, height: 48)
+                }
+            }
+        }
+        
+    }
+    
+}
+
+
 /// 내 추억 뷰
 struct MyJournalsView: View {
   let nickname: String = "이은재"
@@ -16,6 +44,8 @@ struct MyJournalsView: View {
 
   var body: some View {
     NavigationView {
+//        NoJournalView()
+        
       ZStack(alignment: .bottomTrailing) {
         ScrollView(showsIndicators: false) {
           VStack(spacing: 50) {
@@ -42,10 +72,12 @@ struct MyJournalsView: View {
           .padding(.vertical, 48)
         }
 
-        WriteButton {}
-          .offset(x: -(GridLayout.side), y: -(GridLayout.side))
-      }.background(Color.odya.background.normal)
-    }
+          NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
+              WriteButton()
+                  .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+          }
+      }
+    }.background(Color.odya.background.normal)
   }
 
   // MARK: My Travel Journal List

@@ -212,7 +212,7 @@ struct ButtonTestView: View {
                 VStack {
                     HStack {
                         VStack {
-                            WriteButton() { print("write button clicked") }
+//                            WriteButton() { print("write button clicked") }
                         }
                         
                         // small grey button

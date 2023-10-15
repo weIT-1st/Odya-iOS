@@ -8,6 +8,7 @@
 import SwiftUI
 
 class TravelJournalEditViewModel: ObservableObject {
+    
   @Published var title: String = ""
   @Published var startDate = Date()
   @Published var endDate = Date()

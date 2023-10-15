@@ -64,8 +64,8 @@ struct TravelMateSelectorView: View {
 
   @State var selectedMatesViewHeight: CGFloat = 16
 
-  init(token: String, userId: Int, followCount: FollowCount) {
-    self.followHubVM = FollowHubViewModel(token: token, userID: userId, followCount: followCount)
+  init(token: String, userId: Int) {
+    self.followHubVM = FollowHubViewModel(token: token, userID: userId, followCount: FollowCount())
   }
 
   var body: some View {
