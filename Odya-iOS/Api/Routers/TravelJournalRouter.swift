@@ -8,19 +8,93 @@
 import SwiftUI
 import Moya
 
+struct TravelJournalContentRequest: Codable {
+    var content: String
+    var placeId: String?
+    var latitudes: [Double]
+    var longitudes: [Double]
+    var travelDate: [Int]
+    var contentImageNames: [String]
+}
+
+struct TravelJournalContentUpdateRequest: Codable {
+    var content: String
+    var placeId: String?
+    var latitudes: [Double]
+    var longitudes: [Double]
+    var travelDate: [Int]
+    var updateContentImageNames: [String]
+    var deleteContentImageIds: [Int64]
+    var contentImageNames: [String]
+    var updateImageTotalCount: Int
+}
+
+struct TravelJournalRequest: Codable {
+    var title: String
+    var travelStartDate: [Int]
+    var travelEndDate: [Int]
+    var visibility: String
+    var travelCompanionIds: [Int64]
+    var travelCompanionNames: [String]
+    var travelJournalContentRequests: [TravelJournalContentRequest]
+    var travelDurationDays: Int
+    var contentImageNameTotalCount: Int
+}
+
+struct TravelJournalUpdateRequest: Codable {
+    var title: String
+    var travelStartDate: [Int]
+    var travelEndDate: [Int]
+    var visibility: String
+    var travelCompanionIds: [Int64]
+    var travelCompanionNames: [String]
+    var travelDurationDays: Int
+    var updateTravelCompanionTotalCount: Int
+}
+
+
 enum TravelJournalRouter {
-    case create(token: String, journal: TravelJournalData, images: [UIImage])
+    case create(token: String,
+                title: String,
+                startDate: [Int],
+                endDate: [Int],
+                visibility: String,
+                travelMateIds: [Int64],
+                travelMateNames: [String],
+                dailyJournals: [DailyTravelJournal],
+                travelDuration: Int,
+                imagesTotalCount: Int,
+                images: [(data: Data, name: String)])
     case searchById(token: String, journalId: Int)
     case getJournals(token: String, size: Int?, lastId: Int?)
     case getMyJournals(token: String, size: Int?, lastId: Int?)
     case getFriendsJournals(token: String, size: Int?, lastId: Int?)
     case getRecommendedJournals(token: String, size: Int?, lastId: Int?)
     case getTaggedJournals(token: String, size: Int?, lastId: Int?)
-    case edit(token: String, journalId: Int)
-    case editContent(token: String, journalId: Int, contentId: Int)
+    case edit(token: String, journalId: Int,
+              title: String,
+              startDate: [Int],
+              endDate: [Int],
+              visibility: String,
+              travelMateIds: [Int64],
+              travelMateNames: [String],
+              travelDuration: Int,
+              newTravelMatesCount: Int)
+    case editContent(token: String, journalId: Int, contentId: Int,
+                     content: String,
+                     placeId: String?,
+                     latitudes: [Double],
+                     longitudes: [Double],
+                     date: [Int],
+                     newImageNames: [String],
+                     deletedImageIds: [Int64],
+                     imageNames: [String],
+                     newImageTotalCount: Int,
+                     images: [(data: Data, name: String)])
     case delete(token: String, journalId: Int)
     case deleteContent(token: String, journalId: Int, contentId: Int)
     case deleteTravelMates(token: String, journalId: Int)
+
 }
 
 extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
@@ -34,10 +108,10 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
         case .create, .getJournals:
             return "/api/v1/travel-journals"
         case let .searchById(_, journalId),
-            let .edit(_, journalId),
+            let .edit(_, journalId, _, _, _, _, _, _, _, _),
             let .delete(_, journalId):
             return "/api/v1/travel-journals/\(journalId)"
-        case let .editContent(_, journalId, contentId),
+        case let .editContent(_, journalId, contentId, _, _, _, _, _, _, _, _, _, _),
             let .deleteContent(_, journalId, contentId):
             return "/api/v1/travel-journals/\(journalId)/\(contentId)"
         case let .deleteTravelMates(_, journalId):
@@ -69,25 +143,79 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
     var task: Moya.Task {
         switch self {
             // TODO: Create, Edit, EditContent
-        case let .create(_, journal, images):
-            var params: [String: Any] = [:]
-            params["title"] = journal.title
-            params["travelStartDate"] = journal.travelStartDate
-            params["travelEndDate"] = journal.travelEndDate
-            params["visibility"] = journal.visibility
-            params["travelCompanionIds"] = journal.travelMates.map { $0.userId }
-//            params["travelJournalContentRequests"] =
-//            travelJournalContentRequests(List<Object>): 여행 일지 콘텐츠 목록(Not Null) travelJournalContentRequests.content(String): 여행 일지 콘텐츠 내용(Nullable) travelJournalContentRequests.placeId(String): 여행 일지 콘텐츠 장소 아이디(Nullable) travelJournalContentRequests.latitudes(List<Double>): 여행 일지 콘텐츠 위도 목록(Nullable) travelJournalContentRequests.longitudes(List<Double>): 여행 일지 콘텐츠 경도 목록(Nullable) travelJournalContentRequests.travelDate(String): 여행 일지 콘텐츠 일자(Not Null) travelJournalContentRequests.contentImageNames(List<String>): 여행 일지 콘텐츠 사진 제목 + 형식(Not NULL)
+        case let .create(_, title, startDate, endDate, visibility, travelMateIds, travelMateNames, dailyJournals, travelDuration, imagesTotalCount, images):
             
-            var multipartData = [MultipartFormData]()
-//            let jsonType = try? JSONEncoder().encode(params)
-//            let formData = MultipartFormData(provider: .data(jsonType!), name: "travel-journal", fileName: "travel-journal", mimeType: "application/json")
-//            multipartData.append(formData)
-//
-//            for (index, image) in images.enumerated() {
-//                multipartData.append(MultipartFormData(provider: .data(images), name: "travel-journal-content-image", fileName: "example_file\(index).webp", mimeType: "image/webp"))
-//            }
-            return .uploadMultipart(multipartData)
+            var travelJournalContents: [TravelJournalContentRequest] = []
+            for dailyJournal in dailyJournals {
+                travelJournalContents.append(
+                    TravelJournalContentRequest(content: dailyJournal.content,
+                                                latitudes: dailyJournal.latitudes,
+                                                longitudes: dailyJournal.longitudes,
+                                                travelDate: dailyJournal.date?.toIntArray() ?? [],
+                                                contentImageNames: dailyJournal.images.map{ $0.imageName }))
+            }
+            
+            var travelJournal = TravelJournalRequest(title: title,
+                                                     travelStartDate: startDate,
+                                                     travelEndDate: endDate,
+                                                     visibility: visibility,
+                                                     travelCompanionIds: travelMateIds,
+                                                     travelCompanionNames: travelMateNames,
+                                                     travelJournalContentRequests: travelJournalContents,
+                                                     travelDurationDays: travelDuration,
+                                                     contentImageNameTotalCount: imagesTotalCount)
+            var formData: [MultipartFormData] = []
+            do {
+                let travelJournalJSONData = try JSONEncoder().encode(travelJournal)
+                formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal", fileName: "travel-journal", mimeType: "application/json"))
+                
+                for image in images {
+                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image", fileName: "\(image.name).webp", mimeType: "image/webp"))
+                }
+            } catch {
+                print("JSON 인코딩 에러: \(error)")
+            }
+            return .uploadMultipart(formData)
+        case let .edit(_, _, title, startDate, endDate, visibility, travelMateIds, travelMateNames, travelDuration, newTravelMatesCount):
+            var newTravelJournal = TravelJournalUpdateRequest(title: title,
+                                                     travelStartDate: startDate,
+                                                     travelEndDate: endDate,
+                                                     visibility: visibility,
+                                                     travelCompanionIds: travelMateIds,
+                                                     travelCompanionNames: travelMateNames,
+                                                     travelDurationDays: travelDuration,
+                                                     updateTravelCompanionTotalCount: newTravelMatesCount)
+            var formData: [MultipartFormData] = []
+            do {
+                let travelJournalJSONData = try JSONEncoder().encode(newTravelJournal)
+                formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal-update", fileName: "travel-journal", mimeType: "application/json"))
+            } catch {
+                print("JSON 인코딩 에러: \(error)")
+            }
+            return .uploadMultipart(formData)
+        case let .editContent(_, _, _, content, placeId, latitudes, longitudes, date, newImageNames, deletedImageIds, imageNames, newImageTotalCount, images):
+            var newTravelJournalContent =
+            TravelJournalContentUpdateRequest(content: content,
+                                              placeId: placeId,
+                                              latitudes: latitudes,
+                                              longitudes: longitudes,
+                                              travelDate: date,
+                                              updateContentImageNames: newImageNames,
+                                              deleteContentImageIds: deletedImageIds,
+                                              contentImageNames: imageNames,
+                                              updateImageTotalCount: newImageTotalCount)
+            var formData: [MultipartFormData] = []
+            do {
+                let travelJournalJSONData = try JSONEncoder().encode(newTravelJournalContent)
+                formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal-content-image-update", fileName: "travel-journal", mimeType: "application/json"))
+                
+                for image in images {
+                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image-update", fileName: "\(image.name).webp", mimeType: "image/webp"))
+                }
+            } catch {
+                print("JSON 인코딩 에러: \(error)")
+            }
+            return .uploadMultipart(formData)
         case let .getJournals(_, size, lastId),
             let .getMyJournals(_, size, lastId),
             let .getFriendsJournals(_, size, lastId),
@@ -108,15 +236,15 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
     
     var headers: [String : String]? {
         switch self {
-        case let .create(token, _, _),
+        case let .create(token, _, _, _, _, _, _, _, _, _, _),
             let .searchById(token, _),
             let .getJournals(token, _, _),
             let .getMyJournals(token, _, _),
             let .getFriendsJournals(token, _, _),
             let .getRecommendedJournals(token, _, _),
             let .getTaggedJournals(token, _, _),
-            let .edit(token, _),
-            let .editContent(token, _, _),
+            let .edit(token, _, _, _, _, _, _, _, _, _),
+            let .editContent(token, _, _, _, _, _, _, _, _, _, _, _, _),
             let .delete(token, _),
             let .deleteContent(token, _, _),
             let .deleteTravelMates(token, _):

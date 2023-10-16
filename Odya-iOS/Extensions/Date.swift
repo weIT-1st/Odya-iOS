@@ -15,6 +15,12 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    func toIntArray() -> [Int] {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
+        return [components.year ?? 0, components.month ?? 0, components.day ?? 0]
+    }
+    
     func addDays(_ daysToAdd: Int) -> Date? {
         var components = DateComponents()
         components.day = daysToAdd
