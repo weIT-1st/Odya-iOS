@@ -10,7 +10,8 @@ import SwiftUI
 struct DailyJournalEditView: View {
 
   // MARK: Properties
-    @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+//    @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+    @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
     
     let index: Int
     @Binding var dailyJournal: DailyTravelJournal
@@ -23,7 +24,10 @@ struct DailyJournalEditView: View {
             headerBar
             DailyJournalContentEditView(index: index, dailyJournal: $dailyJournal, isDatePickerVisible: $isDatePickerVisible)
                 .environmentObject(travelJournalEditVM)
-        }.background(Color.odya.background.normal)
+                .padding(.horizontal, GridLayout.side)
+        }
+        .padding(.bottom, 24)
+        .background(Color.odya.background.normal)
         
     }
     
@@ -43,8 +47,8 @@ struct DailyJournalEditView: View {
     }
 }
 
-//struct DailyJournalEditView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    DailyJournalEditView()
-//  }
-//}
+struct DailyJournalEditView_Previews: PreviewProvider {
+  static var previews: some View {
+      DailyJournalEditView(index: 1, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
+  }
+}

@@ -32,8 +32,10 @@ struct DailyJournalView: View {
 
   @Binding var isFeedType: Bool
   @Binding var isAllExpanded: Bool
+//    @Binding var isEditViewShowing: Bool
+    
   @State var isExpanded: Bool = false
-    @State var isEditViewShowing: Bool = false
+    
   let imageListWidth: CGFloat = UIScreen.main.bounds.width - GridLayout.side * 2 - 50  // 50 = DayN VStack width
 
   init(
@@ -47,6 +49,7 @@ struct DailyJournalView: View {
     self.placeLoc = "서울특별시 중구"
     self._isFeedType = isFeedType
     self._isAllExpanded = isAllExpanded
+//      self._isEditViewShowing = isEditViewShowing
 
     for i in 1...10 {
       let image = UIImage(named: "photo_example \(i)")
@@ -91,7 +94,7 @@ struct DailyJournalView: View {
               
               Menu {
                   Button("편집하기") {
-                      isEditViewShowing = true
+                      // isEditViewShowing = true
                   }
                   Button("삭제하기", role: .destructive) {print("delete")}
               } label: {
