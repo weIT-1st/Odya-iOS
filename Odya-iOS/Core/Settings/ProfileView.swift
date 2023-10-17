@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @EnvironmentObject var profileVM : ProfileViewModel
+    @StateObject var profileVM = ProfileViewModel()
     
     var body: some View {
         NavigationView {
@@ -30,7 +30,7 @@ struct ProfileView: View {
             }.background(Color.odya.background.normal)
         }
         .onAppear {
-            Task.init {
+            Task {
                 await profileVM.fetchDataAsync()
             }
         }
@@ -62,7 +62,7 @@ struct ProfileView: View {
     
     private var followTotal: some View {
         NavigationLink(
-            destination: FollowHubView(token: profileVM.idToken, userID: profileVM.userID ?? -1, followCount: profileVM.followCount)
+            destination: FollowHubView(token: profileVM.idToken ?? "", userID: profileVM.userID, followCount: profileVM.followCount)
                 .navigationBarHidden(true)
         ) {
             HStack(spacing: 20) {
@@ -89,7 +89,7 @@ struct ProfileView: View {
                 }
                 Spacer()
             }
-            .frame(width: .infinity, height: 80)
+            .frame(height: 80)
             .background(Color.odya.whiteopacity.baseWhiteAlpha20)
             .cornerRadius(Radius.large)
             .overlay (
@@ -101,8 +101,8 @@ struct ProfileView: View {
     }
 }
 
-//struct ProfileView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProfileView()
-//    }
-//}
+struct ProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileView()
+    }
+}
