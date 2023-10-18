@@ -49,6 +49,13 @@ struct FeedView: View {
           // action: 작성하기 뷰
         }
         .padding(20)
+        
+        // 테스트
+        NavigationLink(destination: LocationTagView()) {
+          Text("바텀시트 열기")
+            .padding(20)
+            .background(Color.blue)
+        }
       }  // ZStack
     }
   }

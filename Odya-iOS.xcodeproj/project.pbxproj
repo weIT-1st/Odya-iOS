@@ -36,6 +36,8 @@
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
+		199EB6F62ADFB389004EF4B1 /* LocationTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6F52ADFB389004EF4B1 /* LocationTagView.swift */; };
+		199EB6F82ADFCDD0004EF4B1 /* LocationTagSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6F72ADFCDD0004EF4B1 /* LocationTagSearchView.swift */; };
 		19EBA7532AB16B7D000ABBE5 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7522AB16B7D000ABBE5 /* CombineMoya */; };
 		19EBA7552AB16B7D000ABBE5 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7542AB16B7D000ABBE5 /* Moya */; };
 		19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */; };
@@ -60,8 +62,8 @@
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
 		3E3EC3B32A388ADE002BF519 /* webp in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B22A388ADE002BF519 /* webp */; };
 		3E3EC3B62A388B55002BF519 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B52A388B55002BF519 /* KakaoSDK */; };
-		3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */; };
 		3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2B2AD6941C00034FBB /* AppDataManager.swift */; };
+		3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */; };
 		3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
 		3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */; };
@@ -184,6 +186,8 @@
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
+		199EB6F52ADFB389004EF4B1 /* LocationTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTagView.swift; sourceTree = "<group>"; };
+		199EB6F72ADFCDD0004EF4B1 /* LocationTagSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTagSearchView.swift; sourceTree = "<group>"; };
 		19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsRouter.swift; sourceTree = "<group>"; };
 		19EBA7582AB16E2C000ABBE5 /* TermsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		19EBA75A2AB16EAF000ABBE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -204,8 +208,8 @@
 		3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoField.swift; sourceTree = "<group>"; };
 		3E25FABA2A8434CC00ADF6E2 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
+		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
 		3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpViewModel.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
 		3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpTestView.swift; sourceTree = "<group>"; };
@@ -475,6 +479,7 @@
 		07AF2B172A392EEE00D54780 /* LocationSearch */ = {
 			isa = PBXGroup;
 			children = (
+				199EB6F42ADFB370004EF4B1 /* LocationTag */,
 				07AF2B1F2A39301A00D54780 /* ViewModel */,
 				07AF2B1E2A39300D00D54780 /* View */,
 			);
@@ -513,6 +518,15 @@
 				3EE9CA232AB6C9FE003A2E85 /* ProfileData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		199EB6F42ADFB370004EF4B1 /* LocationTag */ = {
+			isa = PBXGroup;
+			children = (
+				199EB6F52ADFB389004EF4B1 /* LocationTagView.swift */,
+				199EB6F72ADFCDD0004EF4B1 /* LocationTagSearchView.swift */,
+			);
+			path = LocationTag;
 			sourceTree = "<group>";
 		};
 		3E800EB82A3D9F23001EA4C4 /* Webp */ = {
@@ -927,6 +941,8 @@
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
 				19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
+				199EB6F62ADFB389004EF4B1 /* LocationTagView.swift in Sources */,
+				199EB6F82ADFCDD0004EF4B1 /* LocationTagSearchView.swift in Sources */,
 				07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */,
 				3EEBB7D12A8F3A8500F0049D /* DailyJournalEditView.swift in Sources */,
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
@@ -1155,7 +1171,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = 230615_DeviceAvailable;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = ODYA_Development_Provisioning_Profile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1171,10 +1187,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Odya-iOS/Odya-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1199,6 +1217,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = 230829_distribution_provisioning_profile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
