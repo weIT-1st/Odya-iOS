@@ -11,37 +11,11 @@ struct PostContentView: View {
   // MARK: - Body
 
   var body: some View {
-    VStack(spacing: 12) {
+    VStack {
       // 유저 정보
       HStack {
-        // 유저 프로필
-        Image("profile")
-          .frame(
-            width: ComponentSizeType.M.ProfileImageSize,
-            height: ComponentSizeType.M.ProfileImageSize)
-
-        HStack(spacing: 4) {
-          // 유저 닉네임
-          Text("닉네임")
-            .b1Style()
-            .foregroundColor(Color.odya.label.normal)
-
-          // sparkle-s
-          Image("sparkle-s")
-
-          // dot
-          Text("·")
-            .detail1Style()
-            .foregroundColor(Color.odya.label.assistive)
-
-          // 상대 날짜
-          Text("2일전")
-            .detail1Style()
-            .foregroundColor(Color.odya.label.assistive)
-        }
-
+        FeedUserInfoView(profileImageSize: ComponentSizeType.S.ProfileImageSize)
         Spacer()
-
         // 팔로우버튼
         FollowButton(isFollowing: false, buttonStyle: .ghost) {
           // follow
@@ -54,8 +28,9 @@ struct PostContentView: View {
         "오늘 졸업 여행으로 오이도에 다녀왔어요! 생각보다 추웠지만 너무 재밌었습니다! 맛있는 회도 먹고 친구들과 좋은 시간도 보내고 왔습니다 ㅎㅎ 다들 졸업 축하해 ~"
       )
       .detail2Style()
+      .multilineTextAlignment(.leading)
       .foregroundColor(Color.odya.label.normal)
-      .frame(alignment: .topLeading)
+      .frame(maxWidth: .infinity, alignment: .topLeading)
       .lineLimit(2)
 
       // 장소, 좋아요, 댓글
