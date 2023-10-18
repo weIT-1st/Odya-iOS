@@ -85,6 +85,7 @@ struct FeedCommentView: View {
       .sheet(isPresented: $showFullCommentSheet) {
         FeedFullCommentSheet(isEditing: true)
           .presentationDetents([.large])
+          .presentationDragIndicator(.visible)
       }
     }
     .frame(maxWidth: .infinity)

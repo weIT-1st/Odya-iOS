@@ -20,10 +20,6 @@ struct FeedFullCommentSheet: View {
   // MARK: Body
   var body: some View {
     VStack(spacing: 0) {
-      if isEditing {
-        Image("homeIndicator")
-      }
-
       VStack {
         ScrollView {
           VStack(spacing: 16) {
