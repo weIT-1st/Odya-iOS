@@ -7,6 +7,40 @@
 
 import SwiftUI
 
+private struct NoJournalView: View {
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            Image("noJournalImg")
+                .resizable()
+                .scaledToFit()
+            Text("작성된 여행일지가 없어요!")
+                .h6Style()
+                .foregroundColor(.odya.label.normal)
+                .padding(.bottom, 80)
+            ZStack {
+                CTAButton(
+                    isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기", labelSize: ComponentSizeType.L,
+                    action: {})
+                
+                NavigationLink( destination: TravelJournalComposeView()
+                    .navigationBarHidden(true)
+                ) {
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: ComponentSizeType.L.CTAButtonWidth, height: 48)
+                }
+            }
+            
+            Spacer()
+        }.background(Color.odya.background.normal)
+        
+    }
+    
+}
+
+
 /// 내 추억 뷰
 struct MyJournalsView: View {
   let nickname: String = "이은재"
@@ -15,37 +49,44 @@ struct MyJournalsView: View {
   // MARK: Body
 
   var body: some View {
-    NavigationView {
-      ZStack(alignment: .bottomTrailing) {
-        ScrollView(showsIndicators: false) {
-          VStack(spacing: 50) {
-            HStack {
-              Text("\(nickname)님, \n지난 여행을 다시 볼까요?")
-                .h3Style()
-                .foregroundColor(.odya.label.normal)
-              Spacer()
-              Circle().frame(width: 40, height: 40)
-            }.padding(.bottom, 20)
+      NavigationView {
+          NoJournalView()
 
-            NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
-              RandomJounalCardView(
-                title: "연우와 행복했던 부산여행", startDate: "2023-06-01".toDate(format: "yyyy-MM-dd")!,
-                endDate: "2023-06-04".toDate(format: "yyyy-MM-dd")!)
-            }
+          ZStack(alignment: .bottomTrailing) {
+              Color.odya.background.normal
+                  .ignoresSafeArea()
 
-            myTravelJournalList
-            myFavoriteTravelJournalList
-            myTaggedTravelJournalList
-            myReviewList
+              ScrollView(showsIndicators: false) {
+                  VStack(spacing: 50) {
+                      HStack {
+                          Text("\(nickname)님, \n지난 여행을 다시 볼까요?")
+                              .h3Style()
+                              .foregroundColor(.odya.label.normal)
+                          Spacer()
+                          Circle().frame(width: 40, height: 40)
+                      }.padding(.bottom, 20)
+                      
+                      NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
+                          RandomJounalCardView(
+                            title: "연우와 행복했던 부산여행", startDate: "2023-06-01".toDate(format: "yyyy-MM-dd")!,
+                            endDate: "2023-06-04".toDate(format: "yyyy-MM-dd")!)
+                      }
+                      
+                      myTravelJournalList
+                      myFavoriteTravelJournalList
+                      myTaggedTravelJournalList
+                      myReviewList
+                  }
+                  .padding(.horizontal, GridLayout.side)
+                  .padding(.vertical, 48)
+              }
+              
+              NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
+                  WriteButton()
+                      .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+              }
           }
-          .padding(.horizontal, GridLayout.side)
-          .padding(.vertical, 48)
-        }
-
-        WriteButton {}
-          .offset(x: -(GridLayout.side), y: -(GridLayout.side))
-      }.background(Color.odya.background.normal)
-    }
+      }
   }
 
   // MARK: My Travel Journal List

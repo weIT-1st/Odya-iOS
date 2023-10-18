@@ -32,7 +32,10 @@ struct DailyJournalView: View {
 
   @Binding var isFeedType: Bool
   @Binding var isAllExpanded: Bool
+//    @Binding var isEditViewShowing: Bool
+    
   @State var isExpanded: Bool = false
+    
   let imageListWidth: CGFloat = UIScreen.main.bounds.width - GridLayout.side * 2 - 50  // 50 = DayN VStack width
 
   init(
@@ -46,6 +49,7 @@ struct DailyJournalView: View {
     self.placeLoc = "서울특별시 중구"
     self._isFeedType = isFeedType
     self._isAllExpanded = isAllExpanded
+//      self._isEditViewShowing = isEditViewShowing
 
     for i in 1...10 {
       let image = UIImage(named: "photo_example \(i)")
@@ -75,17 +79,28 @@ struct DailyJournalView: View {
 
       // Content VStack
       VStack(spacing: 16) {
-        Button(action: {
-          isExpanded.toggle()
-        }) {
-          HStack {
-            Text(dateString)
-              .b1Style()
-              .foregroundColor(.odya.label.assistive)
-            Spacer()
-            Image(isExpanded ? "direction-up" : "direction-down")
-          }.frame(height: 36)
-        }
+          HStack(spacing: 10) {
+              Button(action: {
+                  isExpanded.toggle()
+              }) {
+                  HStack {
+                      Text(dateString)
+                          .b1Style()
+                          .foregroundColor(.odya.label.assistive)
+                      Spacer()
+                      Image(isExpanded ? "direction-up" : "direction-down")
+                  }.frame(height: 36)
+              }
+              
+              Menu {
+                  Button("편집하기") {
+                      // isEditViewShowing = true
+                  }
+                  Button("삭제하기", role: .destructive) {print("delete")}
+              } label: {
+                  Image("menu-kebob")
+              }
+          }
 
         Divider().frame(height: 1).background(Color.odya.line.alternative)
 
