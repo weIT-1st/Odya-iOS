@@ -8,7 +8,6 @@
 import SwiftUI
 import KakaoSDKUser
 
-
 @main
 struct Odya_iOSApp: App {
     
@@ -33,12 +32,10 @@ struct Odya_iOSApp: App {
                     .onAppear {
                         /// 토큰 갱신 및 유저 정보 가져오기
                         Task {
-                            do {
-                                if await appDataManager.refreshToken() {
-                                    try await appDataManager.initMyData()
+                            appDataManager.refreshToken() { success in
+                                if success {
+                                    appDataManager.initMyData()
                                 }
-                            } catch {
-                                print("Data initialzing failed with error:", error)
                             }
                         }
                     }

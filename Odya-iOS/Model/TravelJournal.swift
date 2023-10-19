@@ -91,3 +91,8 @@ struct TravelJournalData: Identifiable, Codable {
                                  travelMates: [])
     }
 }
+
+struct TravelJournalResponse: Codable {
+    var hasNext: Bool
+    var content: [TravelJournalData]
+}

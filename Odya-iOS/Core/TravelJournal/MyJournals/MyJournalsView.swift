@@ -43,49 +43,61 @@ private struct NoJournalView: View {
 
 /// 내 추억 뷰
 struct MyJournalsView: View {
-  let nickname: String = "이은재"
-  @State var isOn: Bool = true
+
+    @StateObject var VM = MyJournalsViewModel()
+  @State private var isOn: Bool = true
 
   // MARK: Body
 
   var body: some View {
       NavigationView {
-          NoJournalView()
+          if VM.myJournals.isEmpty {
+              NoJournalView()
+          }
 
-          ZStack(alignment: .bottomTrailing) {
-              Color.odya.background.normal
-                  .ignoresSafeArea()
-
-              ScrollView(showsIndicators: false) {
-                  VStack(spacing: 50) {
-                      HStack {
-                          Text("\(nickname)님, \n지난 여행을 다시 볼까요?")
-                              .h3Style()
-                              .foregroundColor(.odya.label.normal)
-                          Spacer()
-                          Circle().frame(width: 40, height: 40)
-                      }.padding(.bottom, 20)
-                      
-                      NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
-                          RandomJounalCardView(
-                            title: "연우와 행복했던 부산여행", startDate: "2023-06-01".toDate(format: "yyyy-MM-dd")!,
-                            endDate: "2023-06-04".toDate(format: "yyyy-MM-dd")!)
+          else {
+              ZStack(alignment: .bottomTrailing) {
+                  Color.odya.background.normal
+                      .ignoresSafeArea()
+                  
+                  ScrollView(showsIndicators: false) {
+                      VStack(spacing: 50) {
+                          HStack {
+                              Text("\(VM.nickname)님, \n지난 여행을 다시 볼까요?")
+                                  .h3Style()
+                                  .foregroundColor(.odya.label.normal)
+                              Spacer()
+                              ProfileImageView(of: VM.nickname, profileData: VM.profile, size: .M)
+                          }.padding(.bottom, 20)
+                          
+                          NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
+                              RandomJounalCardView(
+                                title: "연우와 행복했던 부산여행", startDate: "2023-06-01".toDate(format: "yyyy-MM-dd")!,
+                                endDate: "2023-06-04".toDate(format: "yyyy-MM-dd")!)
+                          }
+                          
+                          myTravelJournalList
+                          myFavoriteTravelJournalList
+                          myTaggedTravelJournalList
+                          myReviewList
                       }
-                      
-                      myTravelJournalList
-                      myFavoriteTravelJournalList
-                      myTaggedTravelJournalList
-                      myReviewList
+                      .padding(.horizontal, GridLayout.side)
+                      .padding(.vertical, 48)
                   }
-                  .padding(.horizontal, GridLayout.side)
-                  .padding(.vertical, 48)
-              }
-              
-              NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
-                  WriteButton()
-                      .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+                  
+                  NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
+                      WriteButton()
+                          .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+                  }
               }
           }
+      }
+      .onAppear {
+          VM.getMyData()
+          Task {
+              await VM.fetchDataAsync()
+          }
+          
       }
   }
 

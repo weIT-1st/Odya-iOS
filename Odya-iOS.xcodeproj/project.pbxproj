@@ -60,10 +60,11 @@
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
 		3E3EC3B32A388ADE002BF519 /* webp in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B22A388ADE002BF519 /* webp */; };
 		3E3EC3B62A388B55002BF519 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B52A388B55002BF519 /* KakaoSDK */; };
-		3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */; };
 		3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2B2AD6941C00034FBB /* AppDataManager.swift */; };
+		3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */; };
 		3E414B302ADC0ED000034FBB /* DailyJournalContentEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */; };
 		3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */; };
+		3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */; };
 		3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
 		3E800EC12A3E1561001EA4C4 /* WebpTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */; };
@@ -206,10 +207,11 @@
 		3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoField.swift; sourceTree = "<group>"; };
 		3E25FABA2A8434CC00ADF6E2 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
+		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
 		3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalContentEditView.swift; sourceTree = "<group>"; };
 		3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalComposeView.swift; sourceTree = "<group>"; };
+		3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalViewModel.swift; sourceTree = "<group>"; };
 		3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpViewModel.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
 		3E800EC02A3E1561001EA4C4 /* WebpTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpTestView.swift; sourceTree = "<group>"; };
@@ -673,6 +675,7 @@
 				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
 				3E414B312ADC15EE00034FBB /* TravelJournalEdit */,
 				3EEBB7DC2A97388000F0049D /* ViewModel */,
+				3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */,
 			);
 			path = TravelJournal;
 			sourceTree = "<group>";
@@ -945,6 +948,7 @@
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3EE9CA392AC41605003A2E85 /* DailyJournalView.swift in Sources */,
 				195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */,
+				3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */,

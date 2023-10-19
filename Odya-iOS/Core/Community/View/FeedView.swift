@@ -45,9 +45,9 @@ struct FeedView: View {
         }
         .background(Color.odya.background.normal)
 
-        WriteButton {
+//        WriteButton {
           // action: 작성하기 뷰
-        }
+//        }
         .padding(20)
       }  // ZStack
     }
