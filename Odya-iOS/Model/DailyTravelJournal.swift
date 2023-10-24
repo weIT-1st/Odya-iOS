@@ -12,6 +12,7 @@ struct ImageData: Identifiable, Hashable {
     var id = UUID()
     var assetIdentifier: String
     var image: UIImage
+    var imageName: String = ""
     var creationDate: Date? = nil
     var location: CLLocationCoordinate2D?
     // exif
@@ -36,8 +37,9 @@ struct DailyTravelJournal: Identifiable {
   var date: Date? = nil
   var content: String = ""
   var images: [ImageData] = []
-  // 사진 리스트
-  // 태그된 장소 정보
+    var placeId: String? = nil
+    var latitudes: [Double] = []
+    var longitudes: [Double] = []
 
   func getDayIndex(startDate: Date) -> Int {
     let calendar = Calendar.current

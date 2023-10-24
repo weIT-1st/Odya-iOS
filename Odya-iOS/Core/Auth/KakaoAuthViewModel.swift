@@ -143,6 +143,7 @@ class KakaoAuthViewModel: ObservableObject {
 
       // idToken 유효성 확인
       let currentUser = Auth.auth().currentUser
+        
       currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
         if let error = error {
           print("Error: \(error.localizedDescription)")
@@ -158,6 +159,7 @@ class KakaoAuthViewModel: ObservableObject {
         // idToken을 이용해 서버 로그인
         self.idToken = idToken
         self.authType = "kakao"
+          
         return
       }
     }
