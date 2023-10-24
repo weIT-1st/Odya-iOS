@@ -18,6 +18,7 @@
 		07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DB32A7284160047E972 /* ReviewViewModel.swift */; };
 		07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DB52A7286380047E972 /* ReviewApiService.swift */; };
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
+		07589E682AE80B0B00867FAD /* TopicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E672AE80B0B00867FAD /* TopicLayout.swift */; };
 		07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */; };
 		078496412A84F5FE00A490E3 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078496402A84F5FD00A490E3 /* FeedView.swift */; };
 		078496432A84F67D00A490E3 /* FeedToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078496422A84F67D00A490E3 /* FeedToolBar.swift */; };
@@ -27,6 +28,7 @@
 		0784964B2A84F72C00A490E3 /* PostContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0784964A2A84F72C00A490E3 /* PostContentView.swift */; };
 		0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0784964D2A908C1800A490E3 /* RoundedEdgeShape.swift */; };
 		078496502A9760CF00A490E3 /* FishchipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0784964F2A9760CF00A490E3 /* FishchipButton.swift */; };
+		079303C92AE3525E008550B3 /* TopicGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079303C82AE3525E008550B3 /* TopicGridView.swift */; };
 		07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */; };
 		07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */; };
 		07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A0EC822A3F95DC002D36B9 /* ProfileView.swift */; };
@@ -116,7 +118,6 @@
 		3EE9CA392AC41605003A2E85 /* DailyJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA382AC41605003A2E85 /* DailyJournalView.swift */; };
 		3EE9CA3D2AC84D95003A2E85 /* MyJournalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA3C2AC84D95003A2E85 /* MyJournalsView.swift */; };
 		3EE9CA3F2AC94FDB003A2E85 /* MyJournalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA3E2AC94FDA003A2E85 /* MyJournalCardView.swift */; };
-		3EE9CA432ACEE8D1003A2E85 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 3EE9CA422ACEE8D1003A2E85 /* PopupView */; };
 		3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7CC2A8E259800F0049D /* TravelJournalComposeView.swift */; };
 		3EEBB7CF2A8EB40A00F0049D /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7CE2A8EB40A00F0049D /* Date.swift */; };
 		3EEBB7D12A8F3A8500F0049D /* DailyJournalEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */; };
@@ -170,6 +171,7 @@
 		07310DB32A7284160047E972 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		07310DB52A7286380047E972 /* ReviewApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApiService.swift; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		07589E672AE80B0B00867FAD /* TopicLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicLayout.swift; sourceTree = "<group>"; };
 		07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		078496402A84F5FD00A490E3 /* FeedView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		078496422A84F67D00A490E3 /* FeedToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedToolBar.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 		0784964A2A84F72C00A490E3 /* PostContentView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = PostContentView.swift; sourceTree = "<group>"; };
 		0784964D2A908C1800A490E3 /* RoundedEdgeShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedEdgeShape.swift; sourceTree = "<group>"; };
 		0784964F2A9760CF00A490E3 /* FishchipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishchipButton.swift; sourceTree = "<group>"; };
+		079303C82AE3525E008550B3 /* TopicGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicGridView.swift; sourceTree = "<group>"; };
 		07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInManager.swift; sourceTree = "<group>"; };
 		07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		07A0EC822A3F95DC002D36B9 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -305,7 +308,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3EE9CA432ACEE8D1003A2E85 /* PopupView in Frameworks */,
 				3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */,
 				3E3EC3B62A388B55002BF519 /* KakaoSDK in Frameworks */,
 				3E8F81912A81128100FA167E /* GooglePlaces in Frameworks */,
@@ -531,6 +533,8 @@
 			isa = PBXGroup;
 			children = (
 				199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */,
+				079303C82AE3525E008550B3 /* TopicGridView.swift */,
+				07589E672AE80B0B00867FAD /* TopicLayout.swift */,
 			);
 			path = CommunityCompose;
 			sourceTree = "<group>";
@@ -817,7 +821,6 @@
 				3E8F81942A8112AB00FA167E /* GoogleMapsCore */,
 				19EBA7522AB16B7D000ABBE5 /* CombineMoya */,
 				19EBA7542AB16B7D000ABBE5 /* Moya */,
-				3EE9CA422ACEE8D1003A2E85 /* PopupView */,
 			);
 			productName = "Odya-iOS";
 			productReference = 071FA51E2A20A99F00C7B362 /* Odya-iOS.app */;
@@ -856,7 +859,6 @@
 				07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
 				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */,
-				3EE9CA412ACEE8D0003A2E85 /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
 			projectDirPath = "";
@@ -898,6 +900,7 @@
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
 				3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */,
 				3EE9CA1B2AB5D67A003A2E85 /* FollowRouter.swift in Sources */,
+				07589E682AE80B0B00867FAD /* TopicLayout.swift in Sources */,
 				3EEBB7CF2A8EB40A00F0049D /* Date.swift in Sources */,
 				3EE9CA282AC19758003A2E85 /* FollowUserListView.swift in Sources */,
 				3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */,
@@ -920,6 +923,7 @@
 				3EE9CA2F2AC2EE8F003A2E85 /* TravelJournalDetailView.swift in Sources */,
 				19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */,
 				3EF54A0D2A5BEB22006562F8 /* AuthApiService.swift in Sources */,
+				079303C92AE3525E008550B3 /* TopicGridView.swift in Sources */,
 				07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */,
 				078496502A9760CF00A490E3 /* FishchipButton.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
@@ -1314,14 +1318,6 @@
 				minimumVersion = 10.0.0;
 			};
 		};
-		3EE9CA412ACEE8D0003A2E85 /* XCRemoteSwiftPackageReference "PopupView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/PopupView.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1379,11 +1375,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
-		};
-		3EE9CA422ACEE8D1003A2E85 /* PopupView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3EE9CA412ACEE8D0003A2E85 /* XCRemoteSwiftPackageReference "PopupView" */;
-			productName = PopupView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
