@@ -11,27 +11,38 @@ struct FeedUserInfoView: View {
   // MARK: Properties
 
   let profileImageSize: CGFloat
+  let writer: Writer
+  let createDate: String
 
   // MARK: Init
 
-  init(profileImageSize: CGFloat) {
-    self.profileImageSize = profileImageSize
-  }
+    init(profileImageSize: CGFloat, writer: Writer, createDate: String) {
+        self.profileImageSize = profileImageSize
+        self.writer = writer
+        self.createDate = createDate
+    }
 
   // MARK: Body
 
   var body: some View {
     HStack(spacing: 12) {
       // 유저 프로필
-      Image("profile")
-        .resizable()
-        .frame(
-          width: profileImageSize,
-          height: profileImageSize)
+        AsyncImage(
+            url: URL(string: writer.profile.profileUrl),
+            content: { image in
+                image.resizable()
+                    .frame(width: profileImageSize, height: profileImageSize)
+            },
+            placeholder: {
+                Image("profile")
+                    .frame(width: profileImageSize, height: profileImageSize)
+            }
+        )
+
 
       HStack(spacing: 4) {
         // 유저 닉네임
-        Text("닉네임")
+        Text(writer.nickname)
           .b1Style()
           .foregroundColor(Color.odya.label.normal)
 
@@ -43,19 +54,11 @@ struct FeedUserInfoView: View {
           .detail1Style()
           .foregroundColor(Color.odya.label.assistive)
 
-        // 상대 날짜
-        Text("2일전")
+        // TODO: 상대 날짜
+        Text(createDate)
           .detail1Style()
           .foregroundColor(Color.odya.label.assistive)
       }
     }
-  }
-}
-
-// MARK: - Preview
-
-struct FeedUserInfoView_Previews: PreviewProvider {
-  static var previews: some View {
-    FeedUserInfoView(profileImageSize: ComponentSizeType.S.ProfileImageSize)
   }
 }

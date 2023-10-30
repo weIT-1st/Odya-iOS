@@ -57,9 +57,10 @@ struct Writer: Codable {
 // MARK: - FeedDetail
 struct FeedDetail: Codable {
     let communityID: Int
-    let content, visibility, placeID: String
-    let travelJournal: LinkedTravelJournal
-    let topic: Topic
+    let content, visibility: String
+    let placeID: String?
+    let travelJournal: LinkedTravelJournal?
+    let topic: Topic?
     let communityContentImages: [CommunityContentImage]
     let communityCommentCount, communityLikeCount: Int
     let isUserLiked: Bool

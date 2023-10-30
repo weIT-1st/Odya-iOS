@@ -13,7 +13,7 @@ struct FeedView: View {
   @StateObject private var viewModel = FeedViewModel()
   
   // MARK: - Body
-
+  
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -21,25 +21,30 @@ struct FeedView: View {
           // tool bar
           // TODO: - 툴바 디자인 변경예정
           FeedToolBar()
-
+          
           // scroll view
           ScrollView(showsIndicators: false) {
             VStack(spacing: 4) {
               // fishchips
               FishchipsBar()
-
+              
               // posts (무한)
               ForEach(viewModel.state.content, id: \.communityID) { content in
                 VStack(spacing: 0) {
                   PostImageView(urlString: content.communityMainImageURL)
                   NavigationLink {
-                    FeedDetailView()
+                    FeedDetailView(
+                      communityId: content.communityID,
+                      writer: content.writer,
+                      createDate: content.createdDate
+                    )
                   } label: {
                     PostContentView(
                       contentText: content.communityContent,
                       commentCount: content.communityCommentCount,
                       likeCount: content.communityLikeCount,
-                      createDate: content.createdDate
+                      createDate: content.createdDate,
+                      writer: content.writer
                     )
                   }
                 }
@@ -54,14 +59,14 @@ struct FeedView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
           }
           .refreshable {
-            // fetch new posts
+            viewModel.refreshFeed()
           }
           .onAppear {
             customRefreshControl()
           }
         }
         .background(Color.odya.background.normal)
-
+        
         NavigationLink {
           
         } label: {
@@ -74,7 +79,7 @@ struct FeedView: View {
       }
     }
   }
-
+  
   /// 새로고침 뷰 커스텀
   func customRefreshControl() {
     UIRefreshControl.appearance().tintColor = .clear

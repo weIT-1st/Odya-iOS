@@ -19,6 +19,7 @@ final class FeedViewModel: ObservableObject {
     private lazy var communityProvider = MoyaProvider<CommunityRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
     private var subscription = Set<AnyCancellable>()
     
+    /// 피드 내용, 페이지 정보 저장
     struct FeedState {
         var content: [FeedContent] = []
         var page: Int = 1
@@ -26,7 +27,7 @@ final class FeedViewModel: ObservableObject {
     }
     
     @Published private(set) var state = FeedState()
-    
+        
     // MARK: - Read
     
     /// 커뮤니티 전체게시글 조회
@@ -53,5 +54,11 @@ final class FeedViewModel: ObservableObject {
                 }
             }
             .store(in: &subscription)
+    }
+    
+    /// 전체글 새로고침
+    func refreshFeed() {
+        self.state = FeedState()
+        fetchNextPageIfPossible()
     }
 }

@@ -139,7 +139,7 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
             var params: [String: Any] = [:]
             params["size"] = size
             if let lastId = lastID {
-                params["lastId"] = lastID
+                params["lastId"] = lastId
             }
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
         default:

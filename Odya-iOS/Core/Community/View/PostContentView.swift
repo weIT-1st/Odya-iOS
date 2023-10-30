@@ -14,14 +14,16 @@ struct PostContentView: View {
   let commentCount: Int
   let likeCount: Int
   let createDate: String
+  let writer: Writer
   
   // MARK: Init
   
-  init(contentText: String, commentCount: Int, likeCount: Int, createDate: String) {
+  init(contentText: String, commentCount: Int, likeCount: Int, createDate: String, writer: Writer) {
     self.contentText = contentText
     self.commentCount = commentCount
     self.likeCount = likeCount
     self.createDate = createDate
+    self.writer = writer
   }
   
   // MARK: Body
@@ -30,7 +32,11 @@ struct PostContentView: View {
     VStack {
       // 유저 정보
       HStack {
-        FeedUserInfoView(profileImageSize: ComponentSizeType.S.ProfileImageSize)
+        FeedUserInfoView(
+          profileImageSize: ComponentSizeType.S.ProfileImageSize,
+          writer: writer,
+          createDate: createDate
+        )
         Spacer()
         // 팔로우버튼
         FollowButton(isFollowing: false, buttonStyle: .ghost) {
@@ -124,6 +130,6 @@ struct PostContentView: View {
 // MARK: - Preview
 struct PostContentView_Previews: PreviewProvider {
   static var previews: some View {
-    PostContentView(contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, createDate: "2023-01-01")
+    PostContentView(contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, createDate: "2023-01-01", writer: Writer(userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false))
   }
 }
