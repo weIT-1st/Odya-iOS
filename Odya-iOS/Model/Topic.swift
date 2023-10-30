@@ -8,8 +8,8 @@
 import Foundation
 
 struct Topic: Codable {
-    let id: Int
-    let word: String
+  let id: Int
+  let word: String
 }
 
 typealias TopicList = [Topic]

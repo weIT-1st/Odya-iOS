@@ -14,12 +14,12 @@ enum FeedToggleType {
 
 struct FeedView: View {
   // MARK: Properties
-  
+
   @StateObject private var viewModel = FeedViewModel()
   @State private var selectedFeedToggle = FeedToggleType.all
-  
+
   // MARK: - Body
-  
+
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
@@ -27,13 +27,13 @@ struct FeedView: View {
           // tool bar
           // TODO: - 툴바 디자인 변경예정
           FeedToolBar()
-          
+
           ScrollView(showsIndicators: false) {
             // fishchips
             FishchipsBar()
             // toggle
             feedToggleSelectionView
-            
+
             ScrollView {
               LazyVStack(spacing: 4) {
                 // posts (무한)
@@ -66,7 +66,7 @@ struct FeedView: View {
               }
               .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-          } // ScrollView
+          }  // ScrollView
           .refreshable {
             switch selectedFeedToggle {
             case .all:
@@ -80,9 +80,9 @@ struct FeedView: View {
           }
         }
         .background(Color.odya.background.normal)
-        
+
         NavigationLink {
-          
+
         } label: {
           WriteButton()
         }
@@ -93,7 +93,7 @@ struct FeedView: View {
       }
     }
   }
-  
+
   /// 새로고침 뷰 커스텀
   func customRefreshControl() {
     UIRefreshControl.appearance().tintColor = .clear
@@ -105,7 +105,7 @@ struct FeedView: View {
     UIRefreshControl.appearance().attributedTitle = NSAttributedString(
       string: "피드에 올린 곳 오댜?", attributes: attribute as [NSAttributedString.Key: Any])
   }
-  
+
   /// 토글: 전체글보기, 친구글보기
   private var feedToggleSelectionView: some View {
     HStack(spacing: 16) {
@@ -119,10 +119,12 @@ struct FeedView: View {
           Text("전체 보기")
             .detail1Style()
         }
-        .foregroundColor(selectedFeedToggle == .all ? Color.odya.brand.primary : Color.odya.label.inactive)
+        .foregroundColor(
+          selectedFeedToggle == .all ? Color.odya.brand.primary : Color.odya.label.inactive
+        )
         .padding(.bottom, 12)
       }
-      
+
       Button {
         selectedFeedToggle = .friend
         viewModel.refreshFriendFeed()
@@ -132,7 +134,9 @@ struct FeedView: View {
           Text("친구글만 보기")
             .detail1Style()
         }
-        .foregroundColor(selectedFeedToggle == .friend ? Color.odya.brand.primary : Color.odya.label.inactive)
+        .foregroundColor(
+          selectedFeedToggle == .friend ? Color.odya.brand.primary : Color.odya.label.inactive
+        )
         .padding(.bottom, 12)
       }
     }

@@ -13,123 +13,126 @@ struct FeedDetailView: View {
     "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
 
   @StateObject private var viewModel = FeedDetailViewModel()
-    /// 탭뷰 사진 인덱스
-    @State private var imageIndex: Int = 0
+  /// 탭뷰 사진 인덱스
+  @State private var imageIndex: Int = 0
 
-    /// 커뮤니티 아이디
+  /// 커뮤니티 아이디
   let communityId: Int
-    /// 작성자
-    let writer: Writer
-    /// 작성일
-    let createDate: String
+  /// 작성자
+  let writer: Writer
+  /// 작성일
+  let createDate: String
 
   // MARK: Init
 
-    init(communityId: Int, writer: Writer, createDate: String) {
-        self.communityId = communityId
-        self.writer = writer
-        self.createDate = createDate
-    }
+  init(communityId: Int, writer: Writer, createDate: String) {
+    self.communityId = communityId
+    self.writer = writer
+    self.createDate = createDate
+  }
 
   // MARK: Body
 
   var body: some View {
     ZStack(alignment: .top) {
       ScrollView {
-          VStack(spacing: -16) {
-            // images
-              TabView(selection: $imageIndex) {
-                  if viewModel.feedDetail != nil {
-                      ForEach(0..<viewModel.feedDetail.communityContentImages.count, id: \.self) { index in
-                          VStack {
-                              AsyncImage(
-                                url: URL(string: viewModel.feedDetail.communityContentImages[index].imageURL)!,
-                                content: { image in
-                                  image.resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(
-                                      width: UIScreen.main.bounds.width,
-                                      height: UIScreen.main.bounds.width)
-                                    .clipped()
-                                },
-                                placeholder: {
-                                  ProgressView()
-                                }
-                              )
-                          }
-                          .tag(index)
-                      }
-                  }
-
-              }
-              .tabViewStyle(.page(indexDisplayMode: .automatic))
-              .frame(
-                width: UIScreen.main.bounds.width,
-                height: UIScreen.main.bounds.width)
-
-            // -- content --
-            VStack(spacing: 8) {
-              VStack(spacing: 20) {
-                HStack(alignment: .center) {
-                    FeedUserInfoView(
-                        profileImageSize: ComponentSizeType.XS.ProfileImageSize, writer: writer, createDate: createDate)
-
-                  Spacer()
-
-                  // 팔로우버튼
-                  FollowButton(isFollowing: false, buttonStyle: .ghost) {
-                    // follow
-                  }
+        VStack(spacing: -16) {
+          // images
+          TabView(selection: $imageIndex) {
+            if viewModel.feedDetail != nil {
+              ForEach(0..<viewModel.feedDetail.communityContentImages.count, id: \.self) { index in
+                VStack {
+                  AsyncImage(
+                    url: URL(string: viewModel.feedDetail.communityContentImages[index].imageURL)!,
+                    content: { image in
+                      image.resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(
+                          width: UIScreen.main.bounds.width,
+                          height: UIScreen.main.bounds.width
+                        )
+                        .clipped()
+                    },
+                    placeholder: {
+                      ProgressView()
+                    }
+                  )
                 }
-                .padding(.top, 16)
-                .padding(.horizontal, GridLayout.side)
+                .tag(index)
+              }
+            }
 
-                VStack(spacing: 24) {
-                  // 여행일지
-                  JournalCoverButton(
-                    profileImageUrl: nil,
-                    labelText: "여행일지 더보기",
-                    coverImageUrl: URL(string: testImageUrlString)!,
-                    journalTitle: "2020 컴공과 졸업여행",
-                    isHot: true
-                  ) {
-                    // action
-                  }
+          }
+          .tabViewStyle(.page(indexDisplayMode: .automatic))
+          .frame(
+            width: UIScreen.main.bounds.width,
+            height: UIScreen.main.bounds.width)
 
-                  // feed text
-                  Text(viewModel.feedDetail?.content ?? "")
+          // -- content --
+          VStack(spacing: 8) {
+            VStack(spacing: 20) {
+              HStack(alignment: .center) {
+                FeedUserInfoView(
+                  profileImageSize: ComponentSizeType.XS.ProfileImageSize, writer: writer,
+                  createDate: createDate)
+
+                Spacer()
+
+                // 팔로우버튼
+                FollowButton(isFollowing: false, buttonStyle: .ghost) {
+                  // follow
+                }
+              }
+              .padding(.top, 16)
+              .padding(.horizontal, GridLayout.side)
+
+              VStack(spacing: 24) {
+                // 여행일지
+                JournalCoverButton(
+                  profileImageUrl: nil,
+                  labelText: "여행일지 더보기",
+                  coverImageUrl: URL(string: testImageUrlString)!,
+                  journalTitle: "2020 컴공과 졸업여행",
+                  isHot: true
+                ) {
+                  // action
+                }
+
+                // feed text
+                Text(viewModel.feedDetail?.content ?? "")
                   .detail2Style()
                   .frame(maxWidth: .infinity, alignment: .leading)
                   .multilineTextAlignment(.leading)
-                }
-                .padding(.horizontal, GridLayout.side)
+              }
+              .padding(.horizontal, GridLayout.side)
 
-                VStack(spacing: 16) {
-                  // tags
-                    if viewModel.feedDetail?.topic != nil {
-                        HStack(spacing: 8) {
-                          FishchipButton(
-                            isActive: .active, buttonStyle: .ghost, imageName: nil, labelText: viewModel.feedDetail?.topic?.word ?? "",
-                            labelSize: .S
-                          ) {
-                            // action
-                          }
-                        }
-                        .padding(.horizontal, GridLayout.side)
-                    }
-
-                  // location, comment, heart button
-                  HStack {
-                      locationView
-                    Spacer(minLength: 28)
-                    HStack(spacing: 12) {
-                        commentView
-                        likeView
+              VStack(spacing: 16) {
+                // tags
+                if viewModel.feedDetail?.topic != nil {
+                  HStack(spacing: 8) {
+                    FishchipButton(
+                      isActive: .active, buttonStyle: .ghost, imageName: nil,
+                      labelText: viewModel.feedDetail?.topic?.word ?? "",
+                      labelSize: .S
+                    ) {
+                      // action
                     }
                   }
-                  .frame(maxWidth: .infinity)
-                  .padding(.horizontal, 18)
-                  .padding(.vertical, 8)
+                  .padding(.horizontal, GridLayout.side)
+                }
+
+                // location, comment, heart button
+                HStack {
+                  locationView
+                  Spacer(minLength: 28)
+                  HStack(spacing: 12) {
+                    commentView
+                    likeView
+                  }
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 18)
+                .padding(.vertical, 8)
               }
               .frame(maxWidth: .infinity)
 
@@ -167,43 +170,43 @@ struct FeedDetailView: View {
       }
     }
   }
-    
-    private var locationView: some View {
-        HStack(spacing: 4) {
-          Image("location-m")
-            .renderingMode(.template)
-            .foregroundColor(Color.odya.label.assistive)
-            .frame(width: 24, height: 24)
-          // 장소명
-          Text("오이도오이도오이도오이도오이도오이도오이도")
-            .lineLimit(1)
-            .multilineTextAlignment(.leading)
-            .detail2Style()
-            .foregroundColor(Color.odya.label.assistive)
-        }
+
+  private var locationView: some View {
+    HStack(spacing: 4) {
+      Image("location-m")
+        .renderingMode(.template)
+        .foregroundColor(Color.odya.label.assistive)
+        .frame(width: 24, height: 24)
+      // 장소명
+      Text("오이도오이도오이도오이도오이도오이도오이도")
+        .lineLimit(1)
+        .multilineTextAlignment(.leading)
+        .detail2Style()
+        .foregroundColor(Color.odya.label.assistive)
     }
-    
-    private var commentView: some View {
-        HStack(spacing: 4) {
-          Image("comment")
-            .frame(width: 24, height: 24)
-          // number of comment
-            Text("\(viewModel.feedDetail?.communityCommentCount ?? 0)")
-            .detail1Style()
-            .foregroundColor(Color.odya.label.normal)
-        }
+  }
+
+  private var commentView: some View {
+    HStack(spacing: 4) {
+      Image("comment")
+        .frame(width: 24, height: 24)
+      // number of comment
+      Text("\(viewModel.feedDetail?.communityCommentCount ?? 0)")
+        .detail1Style()
+        .foregroundColor(Color.odya.label.normal)
     }
-    
-    private var likeView: some View {
-        HStack(spacing: 4) {
-          Image("heart-off-m")
-            .frame(width: 24, height: 24)
-          // number of heart
-            Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
-            .detail1Style()
-            .foregroundColor(Color.odya.label.normal)
-        }
+  }
+
+  private var likeView: some View {
+    HStack(spacing: 4) {
+      Image("heart-off-m")
+        .frame(width: 24, height: 24)
+      // number of heart
+      Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
+        .detail1Style()
+        .foregroundColor(Color.odya.label.normal)
     }
+  }
 }
 
 // MARK: - FeedShareButton
@@ -231,6 +234,10 @@ struct FeedMenuButton: View {
 
 struct FeedDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    FeedDetailView(communityId: 1, writer: Writer(userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false), createDate: "2023-10-30")
+    FeedDetailView(
+      communityId: 1,
+      writer: Writer(
+        userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false),
+      createDate: "2023-10-30")
   }
 }

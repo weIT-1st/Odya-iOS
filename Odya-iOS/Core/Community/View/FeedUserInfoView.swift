@@ -16,29 +16,28 @@ struct FeedUserInfoView: View {
 
   // MARK: Init
 
-    init(profileImageSize: CGFloat, writer: Writer, createDate: String) {
-        self.profileImageSize = profileImageSize
-        self.writer = writer
-        self.createDate = createDate
-    }
+  init(profileImageSize: CGFloat, writer: Writer, createDate: String) {
+    self.profileImageSize = profileImageSize
+    self.writer = writer
+    self.createDate = createDate
+  }
 
   // MARK: Body
 
   var body: some View {
     HStack(spacing: 12) {
       // 유저 프로필
-        AsyncImage(
-            url: URL(string: writer.profile.profileUrl),
-            content: { image in
-                image.resizable()
-                    .frame(width: profileImageSize, height: profileImageSize)
-            },
-            placeholder: {
-                Image("profile")
-                    .frame(width: profileImageSize, height: profileImageSize)
-            }
-        )
-
+      AsyncImage(
+        url: URL(string: writer.profile.profileUrl),
+        content: { image in
+          image.resizable()
+            .frame(width: profileImageSize, height: profileImageSize)
+        },
+        placeholder: {
+          Image("profile")
+            .frame(width: profileImageSize, height: profileImageSize)
+        }
+      )
 
       HStack(spacing: 4) {
         // 유저 닉네임

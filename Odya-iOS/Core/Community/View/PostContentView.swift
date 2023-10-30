@@ -9,15 +9,15 @@ import SwiftUI
 
 struct PostContentView: View {
   // MARK: Properties
-  
+
   let contentText: String
   let commentCount: Int
   let likeCount: Int
   let createDate: String
   let writer: Writer
-  
+
   // MARK: Init
-  
+
   init(contentText: String, commentCount: Int, likeCount: Int, createDate: String, writer: Writer) {
     self.contentText = contentText
     self.commentCount = commentCount
@@ -25,9 +25,9 @@ struct PostContentView: View {
     self.createDate = createDate
     self.writer = writer
   }
-  
+
   // MARK: Body
-  
+
   var body: some View {
     VStack {
       // 유저 정보
@@ -44,7 +44,7 @@ struct PostContentView: View {
         }
       }
       .frame(height: 32)
-      
+
       // 게시글 내용
       Text(contentText)
         .detail2Style()
@@ -52,7 +52,7 @@ struct PostContentView: View {
         .foregroundColor(Color.odya.label.normal)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .lineLimit(2)
-      
+
       /// 장소, 좋아요, 댓글
       VStack {
         HStack {
@@ -65,28 +65,28 @@ struct PostContentView: View {
       }
       .background(Color.odya.elevation.elev3)
       .cornerRadius(Radius.medium)
-      
+
     }  // VStack
     .padding(.vertical, 16)
     .padding(.horizontal, 18)
     .background(Color.odya.elevation.elev2)
     .clipShape(RoundedEdgeShape(edgeType: .bottom))
   }
-  
+
   /// Location
   private var locationView: some View {
     HStack(spacing: 4) {
       Image("location-m")
         .renderingMode(.template)
         .foregroundColor(Color.odya.label.assistive)
-      
+
       // 장소명
       Text("오이도")
         .detail2Style()
         .foregroundColor(Color.odya.label.assistive)
     }
   }
-  
+
   /// Like
   private var likeView: some View {
     HStack(spacing: 4) {
@@ -98,7 +98,7 @@ struct PostContentView: View {
           .renderingMode(.template)
           .foregroundColor(Color.odya.label.assistive)
       }
-      
+
       // 좋아요 수
       Text("\(likeCount)")
         .detail1Style()
@@ -106,7 +106,7 @@ struct PostContentView: View {
     }
     .padding(.trailing, 12)
   }
-  
+
   /// Comment
   private var commentView: some View {
     HStack(spacing: 4) {
@@ -118,7 +118,7 @@ struct PostContentView: View {
           .renderingMode(.template)
           .foregroundColor(Color.odya.label.assistive)
       }
-      
+
       // 댓글 수
       Text("\(commentCount)")
         .detail1Style()
@@ -130,6 +130,9 @@ struct PostContentView: View {
 // MARK: - Preview
 struct PostContentView_Previews: PreviewProvider {
   static var previews: some View {
-    PostContentView(contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, createDate: "2023-01-01", writer: Writer(userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false))
+    PostContentView(
+      contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, createDate: "2023-01-01",
+      writer: Writer(
+        userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false))
   }
 }

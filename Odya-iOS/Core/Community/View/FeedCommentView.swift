@@ -103,7 +103,11 @@ struct FeedCommentCell: View {
     VStack(spacing: 12) {
       // user, menu
       HStack {
-        FeedUserInfoView(profileImageSize: ComponentSizeType.XS.ProfileImageSize, writer: Writer(userID: 1, nickname: "닉네임", profile: ProfileData(profileUrl: ""), isFollowing: false), createDate: "2023-10-30")
+        FeedUserInfoView(
+          profileImageSize: ComponentSizeType.XS.ProfileImageSize,
+          writer: Writer(
+            userID: 1, nickname: "닉네임", profile: ProfileData(profileUrl: ""), isFollowing: false),
+          createDate: "2023-10-30")
         Spacer()
         Menu {
           Button("수정") {
