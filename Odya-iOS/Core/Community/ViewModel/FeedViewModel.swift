@@ -22,7 +22,7 @@ final class FeedViewModel: ObservableObject {
     /// 피드 내용, 페이지 정보 저장
     struct FeedState {
         var content: [FeedContent] = []
-        var page: Int = 1
+        var lastId: Int? = nil
         var canLoadNextPage = true
     }
     
@@ -31,14 +31,14 @@ final class FeedViewModel: ObservableObject {
     // MARK: - Read
     
     /// 커뮤니티 전체게시글 조회
-    func fetchNextPageIfPossible() {
+    func fetchAllFeedNextPageIfPossible() {
         guard state.canLoadNextPage else { return }
         
-        communityProvider.requestPublisher(.getAllCommunity(size: 10, lastId: nil, sortType: FeedSortType.lastest.rawValue))
+        communityProvider.requestPublisher(.getAllCommunity(size: 10, lastId: state.lastId ?? nil, sortType: FeedSortType.lastest.rawValue))
             .sink { completion in
                 switch completion {
                 case .finished:
-                    print("피드 조회 완료")
+                    print("전체 피드 조회 완료")
                 case .failure(let error):
                     if let errorData = try? error.response?.map(ErrorData.self) {
                         print(errorData.message)
@@ -48,7 +48,35 @@ final class FeedViewModel: ObservableObject {
             } receiveValue: { response in
                 if let data = try? response.map(Feed.self) {
                     self.state.content += data.content
-                    self.state.page += 1
+                    self.state.lastId = data.content.last?.communityID
+                    self.state.canLoadNextPage = data.hasNext
+                }
+            }
+            .store(in: &subscription)
+    }
+    
+    /// 전체글 새로고침
+    func refreshAllFeed() {
+        self.state = FeedState()
+        fetchAllFeedNextPageIfPossible()
+    }
+    
+    /// 커뮤니티 친구글 조회
+    func fetchFriendFeedNextPageIfPossible() {
+        communityProvider.requestPublisher(.getFriendsCommunity(size: 10, lastId: state.lastId ?? nil, sortType: FeedSortType.lastest.rawValue))
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("친구글 피드 조회 완료")
+                case .failure(let error):
+                    if let errorData = try? error.response?.map(ErrorData.self) {
+                        print(errorData.message)
+                    }
+                }
+            } receiveValue: { response in
+                if let data = try? response.map(Feed.self) {
+                    self.state.content += data.content
+                    self.state.lastId = data.content.last?.communityID
                     self.state.canLoadNextPage = data.hasNext
                     print(self.state.content)
                 }
@@ -56,9 +84,10 @@ final class FeedViewModel: ObservableObject {
             .store(in: &subscription)
     }
     
-    /// 전체글 새로고침
-    func refreshFeed() {
+    /// 친구글 새로고침
+    func refreshFriendFeed() {
         self.state = FeedState()
-        fetchNextPageIfPossible()
+        fetchFriendFeedNextPageIfPossible()
     }
+    
 }

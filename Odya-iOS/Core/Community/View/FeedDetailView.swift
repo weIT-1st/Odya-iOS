@@ -16,8 +16,11 @@ struct FeedDetailView: View {
     /// 탭뷰 사진 인덱스
     @State private var imageIndex: Int = 0
 
+    /// 커뮤니티 아이디
   let communityId: Int
+    /// 작성자
     let writer: Writer
+    /// 작성일
     let createDate: String
 
   // MARK: Init
@@ -117,39 +120,11 @@ struct FeedDetailView: View {
 
                   // location, comment, heart button
                   HStack {
-                    // location
-                    HStack(spacing: 4) {
-                      Image("location-m")
-                        .renderingMode(.template)
-                        .foregroundColor(Color.odya.label.assistive)
-                        .frame(width: 24, height: 24)
-                      // 장소명
-                      Text("오이도오이도오이도오이도오이도오이도오이도")
-                        .lineLimit(1)
-                        .multilineTextAlignment(.leading)
-                        .detail2Style()
-                        .foregroundColor(Color.odya.label.assistive)
-                    }
-
+                      locationView
                     Spacer(minLength: 28)
-
                     HStack(spacing: 12) {
-                      HStack(spacing: 4) {
-                        Image("comment")
-                          .frame(width: 24, height: 24)
-                        // number of comment
-                          Text("\(viewModel.feedDetail?.communityCommentCount ?? 0)")
-                          .detail1Style()
-                          .foregroundColor(Color.odya.label.normal)
-                      }
-                      HStack(spacing: 4) {
-                        Image("heart-off-m")
-                          .frame(width: 24, height: 24)
-                        // number of heart
-                          Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
-                          .detail1Style()
-                          .foregroundColor(Color.odya.label.normal)
-                      }
+                        commentView
+                        likeView
                     }
                   }
                   .frame(maxWidth: .infinity)
@@ -192,6 +167,43 @@ struct FeedDetailView: View {
       }
     }
   }
+    
+    private var locationView: some View {
+        HStack(spacing: 4) {
+          Image("location-m")
+            .renderingMode(.template)
+            .foregroundColor(Color.odya.label.assistive)
+            .frame(width: 24, height: 24)
+          // 장소명
+          Text("오이도오이도오이도오이도오이도오이도오이도")
+            .lineLimit(1)
+            .multilineTextAlignment(.leading)
+            .detail2Style()
+            .foregroundColor(Color.odya.label.assistive)
+        }
+    }
+    
+    private var commentView: some View {
+        HStack(spacing: 4) {
+          Image("comment")
+            .frame(width: 24, height: 24)
+          // number of comment
+            Text("\(viewModel.feedDetail?.communityCommentCount ?? 0)")
+            .detail1Style()
+            .foregroundColor(Color.odya.label.normal)
+        }
+    }
+    
+    private var likeView: some View {
+        HStack(spacing: 4) {
+          Image("heart-off-m")
+            .frame(width: 24, height: 24)
+          // number of heart
+            Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
+            .detail1Style()
+            .foregroundColor(Color.odya.label.normal)
+        }
+    }
 }
 
 // MARK: - FeedShareButton
