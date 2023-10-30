@@ -81,11 +81,9 @@ struct FeedView: View {
         }
         .background(Color.odya.background.normal)
 
-        NavigationLink {
-
-        } label: {
+        NavigationLink(destination: CommunityComposeView(), label: {
           WriteButton()
-        }
+        })
         .padding(20)
       }  // ZStack
       .task {
