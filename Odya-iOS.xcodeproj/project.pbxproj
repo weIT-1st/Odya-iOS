@@ -20,6 +20,9 @@
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
 		07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E692AE9345100867FAD /* AuthInterceptor.swift */; };
 		07589E6C2AEFC7F300867FAD /* FeedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E6B2AEFC7F300867FAD /* FeedDetailViewModel.swift */; };
+		07589E6E2AF021E300867FAD /* FishchipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E6D2AF021E300867FAD /* FishchipsViewModel.swift */; };
+		07589E702AF023C200867FAD /* TopicRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E6F2AF023C200867FAD /* TopicRouter.swift */; };
+		07589E722AF0253E00867FAD /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E712AF0253E00867FAD /* Topic.swift */; };
 		0761F1992AD8046200FB87AA /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0761F1982AD8046200FB87AA /* FeedViewModel.swift */; };
 		0761F19B2AD804FA00FB87AA /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0761F19A2AD804FA00FB87AA /* Community.swift */; };
 		07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */; };
@@ -172,6 +175,9 @@
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		07589E692AE9345100867FAD /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		07589E6B2AEFC7F300867FAD /* FeedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewModel.swift; sourceTree = "<group>"; };
+		07589E6D2AF021E300867FAD /* FishchipsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishchipsViewModel.swift; sourceTree = "<group>"; };
+		07589E6F2AF023C200867FAD /* TopicRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicRouter.swift; sourceTree = "<group>"; };
+		07589E712AF0253E00867FAD /* Topic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
 		0761F1982AD8046200FB87AA /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		0761F19A2AD804FA00FB87AA /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
@@ -450,6 +456,7 @@
 			children = (
 				0761F1982AD8046200FB87AA /* FeedViewModel.swift */,
 				07589E6B2AEFC7F300867FAD /* FeedDetailViewModel.swift */,
+				07589E6D2AF021E300867FAD /* FishchipsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -531,6 +538,7 @@
 				3EE9CA212AB6C8E2003A2E85 /* UserData.swift */,
 				3EE9CA232AB6C9FE003A2E85 /* ProfileData.swift */,
 				0761F19A2AD804FA00FB87AA /* Community.swift */,
+				07589E712AF0253E00867FAD /* Topic.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -777,6 +785,7 @@
 				3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */,
 				3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */,
 				195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */,
+				07589E6F2AF023C200867FAD /* TopicRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -901,6 +910,7 @@
 				3EE9CA282AC19758003A2E85 /* FollowUserListView.swift in Sources */,
 				3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */,
 				3EEBB7D92A94CD6D00F0049D /* TravelJournalEditViewModel.swift in Sources */,
+				07589E702AF023C200867FAD /* TopicRouter.swift in Sources */,
 				3EBEC3AB2A6D5A3E00998EC6 /* WriteButton.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
@@ -913,6 +923,7 @@
 				3EE9CA202AB6C6C3003A2E85 /* ProfileViewModel.swift in Sources */,
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
 				3EE9CA2D2AC2EE0E003A2E85 /* TravelJournalDetailBottomSheet.swift in Sources */,
+				07589E722AF0253E00867FAD /* Topic.swift in Sources */,
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
 				3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
@@ -925,6 +936,7 @@
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				3EF7C1EC2A7ABEFB00223366 /* SignUpView.swift in Sources */,
 				3EF7C1E82A742D1400223366 /* RegisterNicknameView.swift in Sources */,
+				07589E6E2AF021E300867FAD /* FishchipsViewModel.swift in Sources */,
 				3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */,
 				3EBEC3B72A713F4E00998EC6 /* Profile.swift in Sources */,
 				19EBA75D2AB2D38F000ABBE5 /* Terms.swift in Sources */,

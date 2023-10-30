@@ -1,42 +1,43 @@
 //
-//  FeedDetailViewModel.swift
+//  FishchipsViewModel.swift
 //  Odya-iOS
 //
-//  Created by Jade Yoo on 2023/10/30.
+//  Created by Jade Yoo on 2023/10/31.
 //
 
 import SwiftUI
 import Combine
 import Moya
 
-final class FeedDetailViewModel: ObservableObject {
+final class FishchipsViewModel: ObservableObject {
     // MARK: Properties
+    
     /// Provider
     @AppStorage("WeITAuthToken") var idToken: String?
     private let logPlugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
     private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
-    private lazy var communityProvider = MoyaProvider<CommunityRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
+    private lazy var topicProvider = MoyaProvider<TopicRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
     private var subscription = Set<AnyCancellable>()
     
-    /// 피드 디테일
-    @Published var feedDetail: FeedDetail!
-        
+    /// 토픽 리스트 저장
+    @Published var topicList: [Topic] = []
+    
     // MARK: - Read
-    /// 게시글 상세조회
-    func fetchFeedDetail(id: Int) {
-        communityProvider.requestPublisher(.getCommunityDetail(communityId: id))
+    /// 토픽 리스트 조회
+    func fetchTopicList() {
+        topicProvider.requestPublisher(.getTopicList)
             .sink { completion in
                 switch completion {
                 case .finished:
-                    print("피드 디테일 조회 완료")
+                    print("토픽 리스트 조회")
                 case .failure(let error):
                     if let errorData = try? error.response?.map(ErrorData.self) {
                         print(errorData.message)
                     }
                 }
             } receiveValue: { response in
-                if let data = try? response.map(FeedDetail.self) {
-                    self.feedDetail = data
+                if let data = try? response.map(TopicList.self) {
+                    self.topicList = data
                 }
             }
             .store(in: &subscription)

@@ -83,11 +83,6 @@ struct CommunityContentImage: Codable {
     }
 }
 
-struct Topic: Codable {
-    let id: Int
-    let topic: String
-}
-
 struct LinkedTravelJournal: Codable {
     let travelJournalID: Int
     let title, mainImageURL: String

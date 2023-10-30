@@ -109,7 +109,7 @@ struct FeedDetailView: View {
                     if viewModel.feedDetail?.topic != nil {
                         HStack(spacing: 8) {
                           FishchipButton(
-                            isActive: .active, buttonStyle: .ghost, imageName: nil, labelText: viewModel.feedDetail?.topic?.topic ?? "",
+                            isActive: .active, buttonStyle: .ghost, imageName: nil, labelText: viewModel.feedDetail?.topic?.word ?? "",
                             labelSize: .S
                           ) {
                             // action

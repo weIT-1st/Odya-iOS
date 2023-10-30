@@ -8,29 +8,29 @@
 import SwiftUI
 
 struct FishchipsBar: View {
+    // MARK: Properties
+    
+    @StateObject private var viewModel = FishchipsViewModel()
+    
   // MARK: - Body
 
   var body: some View {
     ScrollView(.horizontal) {
       HStack(spacing: 8) {
-        FishchipButton(
-          isActive: .active, buttonStyle: .solid, imageName: nil, labelText: "전체 글보기", labelSize: .M
-        ) {
-          // action
-        }
-
-        FishchipButton(
-          isActive: .active, buttonStyle: .ghost, imageName: nil, labelText: "친구글만 보기",
-          labelSize: .M
-        ) {
-          // action
-        }
-
-        // TODO: fishchip 받아와서 동적으로 만들기
-
+          ForEach(viewModel.topicList, id: \.id) { topic in
+              FishchipButton(
+                isActive: .inactive, buttonStyle: .solid, imageName: nil, labelText: topic.word,
+                  labelSize: .S
+              ) {
+                // action
+              }
+          }
       }  // HStack
       .padding(.leading, 20)
       .frame(height: 48, alignment: .leading)
+      .onAppear {
+          viewModel.fetchTopicList()
+      }
     }  // ScrollView
   }
 }
