@@ -8,29 +8,46 @@
 import SwiftUI
 
 struct FeedView: View {
+  // MARK: Properties
+  
+  @StateObject private var viewModel = FeedViewModel()
+  
   // MARK: - Body
 
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
-        VStack {
+        VStack(spacing: 0) {
           // tool bar
           // TODO: - 툴바 디자인 변경예정
           FeedToolBar()
 
           // scroll view
-          ScrollView {
-            VStack {
+          ScrollView(showsIndicators: false) {
+            VStack(spacing: 4) {
               // fishchips
               FishchipsBar()
 
               // posts (무한)
-              ForEach(0..<10) { _ in
-                NavigationLink {
-                  FeedDetailView()
-                } label: {
-                  PostView()
-                    .padding(.bottom, 8)
+              ForEach(viewModel.state.content, id: \.communityID) { content in
+                VStack(spacing: 0) {
+                  PostImageView(urlString: content.communityMainImageURL)
+                  NavigationLink {
+                    FeedDetailView()
+                  } label: {
+                    PostContentView(
+                      contentText: content.communityContent,
+                      commentCount: content.communityCommentCount,
+                      likeCount: content.communityLikeCount,
+                      createDate: content.createdDate
+                    )
+                  }
+                }
+                .padding(.bottom, 8)
+                .onAppear {
+                  if viewModel.state.content.last == content {
+                    viewModel.fetchNextPageIfPossible()
+                  }
                 }
               }
             }
@@ -45,14 +62,20 @@ struct FeedView: View {
         }
         .background(Color.odya.background.normal)
 
-        WriteButton {
-          // action: 작성하기 뷰
+        NavigationLink {
+          
+        } label: {
+          WriteButton()
         }
         .padding(20)
       }  // ZStack
+      .task {
+        viewModel.fetchNextPageIfPossible()
+      }
     }
   }
 
+  /// 새로고침 뷰 커스텀
   func customRefreshControl() {
     UIRefreshControl.appearance().tintColor = .clear
     UIRefreshControl.appearance().backgroundColor = UIColor(Color.odya.brand.primary)
@@ -62,17 +85,6 @@ struct FeedView: View {
     ]
     UIRefreshControl.appearance().attributedTitle = NSAttributedString(
       string: "피드에 올린 곳 오댜?", attributes: attribute as [NSAttributedString.Key: Any])
-  }
-}
-
-struct CustomRepreshView: View {
-
-  var body: some View {
-    Text("피드에 올린 곳 오댜?")
-      .foregroundColor(Color.odya.label.r_assistive)
-      .background(Color.odya.brand.primary)
-      .frame(maxWidth: .infinity)
-      .frame(height: 60)
   }
 }
 

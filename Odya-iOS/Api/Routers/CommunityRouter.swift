@@ -89,4 +89,8 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
     var authorizationType: Moya.AuthorizationType? {
         return .bearer
     }
+    
+    var validationType: ValidationType {
+        return .successCodes
+    }
 }
