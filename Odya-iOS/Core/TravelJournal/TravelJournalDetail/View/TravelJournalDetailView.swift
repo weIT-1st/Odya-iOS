@@ -12,8 +12,9 @@ struct TravelJournalDetailView: View {
 //  private let availableDetent: Set<PresentationDetent> = [.journalDetailOff, .journalDetailOn]
 
   @StateObject var bottomSheetVM = BottomSheetViewModel()
+  @StateObject var journalDetialVM = TravelJournalDetailViewModel()
 
-  // travel Journal Data || VM
+  @Binding var journalId: Int
 
   var body: some View {
     ZStack {
@@ -24,6 +25,9 @@ struct TravelJournalDetailView: View {
 
         headerBar
 
+        if journalDetialVM.journalDetail == nil {
+          ProfressView()
+        }
         JournalDetailBottomSheet(travelJournal: TravelJournalData.getDummy())
           .environmentObject(bottomSheetVM)
           .frame(height: UIScreen.main.bounds.height)
@@ -52,12 +56,10 @@ struct TravelJournalDetailView: View {
       }  // geometry
     }
     .onAppear {
-//      selectedDetent = .journalDetailOff
+      journalDetialVM.getJournalDetail(journalId: journalId)
       bottomSheetVM.isSheetOn = false
+      // selectedDetent = .journalDetailOff
     }
-//    .onChange(of: bottomSheetVM.isSheetOn) { newValue in
-//      print("isSheetOn: \(newValue)")
-//    }
   }
 
   private var headerBar: some View {
@@ -76,7 +78,7 @@ struct TravelJournalDetailView: View {
           }
           Spacer()
           IconButton("star-off") {
-            print("clicked")
+            // print("clicked")
           }
           IconButton("menu-kebab-l") {}
         }
@@ -92,6 +94,7 @@ struct TravelJournalDetailView: View {
 
 struct TravelJournalDetailView_Previews: PreviewProvider {
   static var previews: some View {
-    TravelJournalDetailView()
+    MyJournalsView()
+    // TravelJournalDetailView(journalId: 1)
   }
 }

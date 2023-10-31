@@ -22,11 +22,7 @@ class TravelJournalDetailViewModel: ObservableObject {
     
     var isJournalDetailLoading: Bool = false
     
-    @Published var journalDetail: TravelJournalDetailData
-    
-//    init(journalId: Int){
-//
-//    }
+    @Published var journalDetail: TravelJournalDetailData? = nil
     
     func getJournalDetail(journalId: Int) {
         guard let idToken = idToken else {
