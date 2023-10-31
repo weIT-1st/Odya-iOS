@@ -8,6 +8,12 @@
 import SwiftUI
 import Photos
 
+/// 커뮤니티 작성 모드
+enum CommunityComposeMode {
+    case create
+    case edit
+}
+
 /// 커뮤니티 게시글 작성 뷰
 struct CommunityComposeView: View {
   // MARK: Properties
@@ -31,7 +37,8 @@ struct CommunityComposeView: View {
   private let screenWidth = UIScreen.main.bounds.width
   /// 탭뷰 Dot indicator 높이
   private let dotIndicatorHeight: CGFloat = 44
-
+  /// 커뮤니티 작성 모드
+  let composeMode: CommunityComposeMode
   /// 테스트 이미지 주소
   let testImageUrlString =
     "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
@@ -49,29 +56,33 @@ struct CommunityComposeView: View {
           ZStack(alignment: .bottom) {
             // tabview
             TabView(selection: $imageIndex) {
-                if imageList.isEmpty {
-                    Image("logo-rect")
-                        .frame(width: screenWidth, height: screenWidth)
-                } else {
-                    ForEach(0..<imageList.count, id: \.self) { index in
-                        VStack(spacing: 0) {
-                            Image(uiImage: imageList[index].image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: screenWidth, height: screenWidth, alignment: .center)
-                                .clipped()
-                            Spacer()
+                switch composeMode {
+                case .create:
+                    if imageList.isEmpty {
+                        Image("logo-rect")
+                            .frame(width: screenWidth, height: screenWidth)
+                    } else {
+                        ForEach(0..<imageList.count, id: \.self) { index in
+                            VStack(spacing: 0) {
+                                Image(uiImage: imageList[index].image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: screenWidth, height: screenWidth, alignment: .center)
+                                    .clipped()
+                                Spacer()
+                            }
+                            .tag(index)
                         }
-                        .tag(index)
+                    }
+                case .edit:
+                    ForEach(0..<5) { index in
+                      VStack(spacing: 0) {
+                        SquareAsyncImage(url: testImageUrlString)
+                        Spacer()
+                      }
+                      .tag(index)
                     }
                 }
-//              ForEach(0..<5) { index in
-//                VStack(spacing: 0) {
-//                  SquareAsyncImage(url: testImageUrlString)
-//                  Spacer()
-//                }
-//                .tag(index)
-//              }
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .frame(height: UIScreen.main.bounds.width + dotIndicatorHeight, alignment: .top)
@@ -102,7 +113,10 @@ struct CommunityComposeView: View {
           .padding(.bottom, 20)
 
           // 작성완료 버튼
-            CTAButton(isActive: validate() ? .active : .inactive, buttonStyle: .solid, labelText: "작성완료", labelSize: .L) {
+            CTAButton(isActive: validate() ? .active : .inactive,
+                      buttonStyle: .solid,
+                      labelText: composeMode == .create ? "작성완료" : "수정완료",
+                      labelSize: .L) {
             // action: 여행일지 생성
                 viewModel.createCommunity(content: textContent, placeId: nil, travelJournalId: nil, topicId: nil, imageData: imageList)
                 presentationMode.wrappedValue.dismiss()
@@ -235,6 +249,6 @@ struct CommunityComposeView: View {
 // MARK: - Previews
 struct CommunityComposeView_Previews: PreviewProvider {
   static var previews: some View {
-    CommunityComposeView()
+      CommunityComposeView(composeMode: .edit)
   }
 }

@@ -15,7 +15,8 @@ struct FeedDetailView: View {
   @StateObject private var viewModel = FeedDetailViewModel()
   /// 탭뷰 사진 인덱스
   @State private var imageIndex: Int = 0
-
+  /// 편집화면 토글
+  @State private var showEditView = false
   /// 커뮤니티 아이디
   let communityId: Int
   /// 작성자
@@ -157,6 +158,9 @@ struct FeedDetailView: View {
     .task {
       viewModel.fetchFeedDetail(id: communityId)
     }
+    .fullScreenCover(isPresented: $showEditView) {
+        CommunityComposeView(composeMode: .edit)
+    }
   }
 
   private var navigationBar: some View {
@@ -165,7 +169,7 @@ struct FeedDetailView: View {
         CustomNavigationBar(title: "")
         HStack {
           Spacer()
-          FeedMenuButton()
+          FeedMenuButton(showEditView: $showEditView, writerId: writer.userID)
         }
         .padding(.trailing, 12)
       }
@@ -214,6 +218,10 @@ struct FeedDetailView: View {
 
 struct FeedMenuButton: View {
   @State private var showActionSheet = false
+    
+  @Binding var showEditView: Bool
+    
+  let writerId: Int
 
   var body: some View {
     IconButton("menu-kebab-l") {
@@ -221,12 +229,27 @@ struct FeedMenuButton: View {
     }
     .frame(width: 36, height: 36, alignment: .center)
     .confirmationDialog("", isPresented: $showActionSheet) {
-      Button("공유") {
-        // action: 공유
-      }
-      Button("신고하기", role: .destructive) {
-        // action: 신고
-      }
+        /// 내가 작성한 글인 경우
+        if writerId == MyData.userID {
+            Button("편집") {
+                // action: 편집
+                showEditView.toggle()
+            }
+            Button("공유") {
+                // action: 공유
+            }
+            Button("삭제", role: .destructive) {
+                // action: 삭제
+            }
+        } else {
+            // 타인의 글인 경우
+            Button("공유") {
+              // action: 공유
+            }
+            Button("신고하기", role: .destructive) {
+              // action: 신고
+            }
+        }
     }
   }
 }

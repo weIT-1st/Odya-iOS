@@ -81,7 +81,7 @@ struct FeedView: View {
         }
         .background(Color.odya.background.normal)
 
-        NavigationLink(destination: CommunityComposeView(), label: {
+        NavigationLink(destination: CommunityComposeView(composeMode: .create), label: {
           WriteButton()
         })
         .padding(20)

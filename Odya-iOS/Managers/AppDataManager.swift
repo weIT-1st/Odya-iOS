@@ -70,7 +70,7 @@ class AppDataManager: ObservableObject {
           }
 
           var myData = MyData()
-          myData.userID = responseData.userID ?? -1
+          MyData.userID = responseData.userID ?? -1
           myData.nickname = responseData.nickname
           myData.profile = responseData.profileData.encodeToString()
 
