@@ -77,14 +77,20 @@ struct MyJournalsView: View {
                           }
                           
                           myTravelJournalList
-                          myFavoriteTravelJournalList
-                          myTaggedTravelJournalList
+                          
+                          if !VM.bookmarkedJournals.isEmpty {
+                              myBookmarkedTravelJournalList
+                          }
+                          if !VM.taggedJournals.isEmpty {
+                              myTaggedTravelJournalList
+                          }
                           myReviewList
                       }
                       .padding(.horizontal, GridLayout.side)
                       .padding(.vertical, 48)
                   }
                   
+                  // write button
                   NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
                       WriteButton()
                           .offset(x: -(GridLayout.side), y: -(GridLayout.side))
@@ -110,12 +116,12 @@ struct MyJournalsView: View {
         .foregroundColor(.odya.label.normal)
         .padding(.bottom, 32)
 
-      ForEach(Array(1...5), id: \.self) { journal in
+        ForEach(VM.myJournals, id: \.id) { journal in
         NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
-          TravelJournalCardView(
-            title: "이번 해에 두 번째 방문하는 돼지런한 서울 여행",
-            startDate: "2023-06-01".toDate(format: "yyyy-MM-dd")!,
-            endDate: "2023-06-04".toDate(format: "yyyy-MM-dd")!)
+            TravelJournalCardView(
+                title: journal.title,
+                startDate: journal.travelStartDate,
+                endDate: journal.travelEndDate)
         }.padding(.bottom, 12)
       }
     }
@@ -123,7 +129,7 @@ struct MyJournalsView: View {
 
   // MARK: My Favorite Travel Journal List
 
-  private var myFavoriteTravelJournalList: some View {
+  private var myBookmarkedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
       Text("즐겨찾는 여행일지")
         .h4Style()
@@ -132,10 +138,10 @@ struct MyJournalsView: View {
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
-          ForEach(Array(1...5), id: \.self) { journal in
+                ForEach(VM.bookmarkedJournals, id: \.id) { journal in
             NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
               TravelJournalSmallCardView(
-                title: "ㅇㅇ이랑 행복했던 경주여행", date: "2023.05.28".toDate(format: "yyyy-MM-dd")!)
+                title: journal.title, date: journal.travelStartDate)
             }.overlay {
               FavoriteJournalCardOverlayMenuView()
             }
@@ -157,10 +163,10 @@ struct MyJournalsView: View {
 
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
-          ForEach(Array(1...5), id: \.self) { journal in
+            ForEach(VM.taggedJournals, id: \.id) { journal in
             NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
               TravelJournalSmallCardView(
-                title: "ㅇㅇ이랑 행복했던 경주여행", date: "2023.05.28".toDate(format: "yyyy-MM-dd")!)
+                title: journal.title, date: journal.travelStartDate)
             }
             .overlay {
               TaggedJournalCardOverlayMenuView()

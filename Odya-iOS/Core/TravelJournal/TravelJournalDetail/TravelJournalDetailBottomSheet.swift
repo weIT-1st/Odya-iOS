@@ -71,8 +71,8 @@ struct JournalDetailBottomSheet: View {
 
   init(travelJournal: TravelJournalData) {
     title = travelJournal.title
-    startDate = travelJournal.travelStartDate.toDate()!
-    endDate = travelJournal.travelEndDate.toDate()!
+    startDate = travelJournal.travelStartDate
+    endDate = travelJournal.travelEndDate
 
     for i in 1...15 {
       self.contents.append(

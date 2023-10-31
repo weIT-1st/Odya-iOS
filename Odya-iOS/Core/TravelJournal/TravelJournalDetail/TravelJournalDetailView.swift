@@ -9,8 +9,8 @@ import PopupView
 import SwiftUI
 
 struct TravelJournalDetailView: View {
-  @State var selectedDetent: PresentationDetent = .journalDetailOff
-  private let availableDetent: Set<PresentationDetent> = [.journalDetailOff, .journalDetailOn]
+//  @State var selectedDetent: PresentationDetent = .journalDetailOff
+//  private let availableDetent: Set<PresentationDetent> = [.journalDetailOff, .journalDetailOn]
 
   @StateObject var bottomSheetVM = BottomSheetViewModel()
 
@@ -53,12 +53,12 @@ struct TravelJournalDetailView: View {
       }  // geometry
     }
     .onAppear {
-      selectedDetent = .journalDetailOff
+//      selectedDetent = .journalDetailOff
       bottomSheetVM.isSheetOn = false
     }
-    .onChange(of: bottomSheetVM.isSheetOn) { newValue in
-      print("isSheetOn: \(newValue)")
-    }
+//    .onChange(of: bottomSheetVM.isSheetOn) { newValue in
+//      print("isSheetOn: \(newValue)")
+//    }
   }
 
   private var headerBar: some View {
