@@ -77,7 +77,7 @@ enum ReviewRouter: URLRequestConvertible {
             params["review"] = review
             return params
         case .deleteReview(_):
-            var params = Parameters()
+            let params = Parameters()
             return params
         case let .readPlaceIdReview(_, size, sortType, lastId):
             var params = Parameters()

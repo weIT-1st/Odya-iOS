@@ -38,6 +38,8 @@ struct Odya_iOSApp: App {
                                 }
                             }
                         }
+                        /// 탭해서 키보드 내리기
+                        UIApplication.shared.hideKeyboardOnTap()
                     }
             } else {
                 LoginView()

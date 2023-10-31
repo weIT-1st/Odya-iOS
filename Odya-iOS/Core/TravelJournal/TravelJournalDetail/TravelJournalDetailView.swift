@@ -5,7 +5,6 @@
 //  Created by Heeoh Son on 2023/09/26.
 //
 
-import PopupView
 import SwiftUI
 
 struct TravelJournalDetailView: View {
