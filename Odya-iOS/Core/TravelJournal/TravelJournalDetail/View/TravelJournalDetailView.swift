@@ -12,9 +12,9 @@ struct TravelJournalDetailView: View {
 //  private let availableDetent: Set<PresentationDetent> = [.journalDetailOff, .journalDetailOn]
 
   @StateObject var bottomSheetVM = BottomSheetViewModel()
-  @StateObject var journalDetialVM = TravelJournalDetailViewModel()
+  @StateObject var journalDetailVM = TravelJournalDetailViewModel()
 
-  @Binding var journalId: Int
+  let journalId: Int
 
   var body: some View {
     ZStack {
@@ -25,38 +25,39 @@ struct TravelJournalDetailView: View {
 
         headerBar
 
-        if journalDetialVM.journalDetail == nil {
-          ProfressView()
-        }
-        JournalDetailBottomSheet(travelJournal: TravelJournalData.getDummy())
-          .environmentObject(bottomSheetVM)
-          .frame(height: UIScreen.main.bounds.height)
-          .offset(y: bottomSheetVM.minHeight)
-          .offset(y: bottomSheetVM.sheetOffset)
-          .gesture(
-            DragGesture()
-              .onChanged { value in
-                withAnimation {
-                  if !bottomSheetVM.isSheetOn {
-                    bottomSheetVM.sheetOffset = value.translation.height
-                  } else if bottomSheetVM.isScrollAtTop {
-                    print(value.translation.height)
-                  }
-                }
-              }
-              .onEnded { value in
-                withAnimation {
-                  if !bottomSheetVM.isSheetOn || bottomSheetVM.isScrollAtTop {
-                    bottomSheetVM.setSheetHeight(value, geometry)
-                  }
-                }
-
-              }
-          )
+          if let journalDetail = journalDetailVM.journalDetail {
+              JournalDetailBottomSheet(travelJournal: journalDetail)
+                  .environmentObject(bottomSheetVM)
+                  .frame(height: UIScreen.main.bounds.height)
+                  .offset(y: bottomSheetVM.minHeight)
+                  .offset(y: bottomSheetVM.sheetOffset)
+                  .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            withAnimation {
+                                if !bottomSheetVM.isSheetOn {
+                                    bottomSheetVM.sheetOffset = value.translation.height
+                                } else if bottomSheetVM.isScrollAtTop {
+                                    print(value.translation.height)
+                                }
+                            }
+                        }
+                        .onEnded { value in
+                            withAnimation {
+                                if !bottomSheetVM.isSheetOn || bottomSheetVM.isScrollAtTop {
+                                    bottomSheetVM.setSheetHeight(value, geometry)
+                                }
+                            }
+                            
+                        }
+                  )
+          } else {
+              ProgressView()
+          }
       }  // geometry
     }
     .onAppear {
-      journalDetialVM.getJournalDetail(journalId: journalId)
+        journalDetailVM.getJournalDetail(journalId: journalId)
       bottomSheetVM.isSheetOn = false
       // selectedDetent = .journalDetailOff
     }

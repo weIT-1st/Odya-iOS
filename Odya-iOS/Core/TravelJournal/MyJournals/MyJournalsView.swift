@@ -70,7 +70,7 @@ struct MyJournalsView: View {
                               ProfileImageView(of: VM.nickname, profileData: VM.profile, size: .M)
                           }.padding(.bottom, 20)
                           
-                          NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
+                          NavigationLink(destination: TravelJournalDetailView(journalId: 1).navigationBarHidden(true)) {
                               RandomJounalCardView(
                                 title: "연우와 행복했던 부산여행", startDate: "2023-06-01".toDate(format: "yyyy-MM-dd")!,
                                 endDate: "2023-06-04".toDate(format: "yyyy-MM-dd")!)
@@ -117,7 +117,7 @@ struct MyJournalsView: View {
         .padding(.bottom, 32)
 
         ForEach(VM.myJournals, id: \.id) { journal in
-        NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
+            NavigationLink(destination: TravelJournalDetailView(journalId: journal.journalId).navigationBarHidden(true)) {
             TravelJournalCardView(
                 title: journal.title,
                 startDate: journal.travelStartDate,
@@ -139,7 +139,7 @@ struct MyJournalsView: View {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
                 ForEach(VM.bookmarkedJournals, id: \.id) { journal in
-            NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
+                    NavigationLink(destination: TravelJournalDetailView(journalId: journal.journalId).navigationBarHidden(true)) {
               TravelJournalSmallCardView(
                 title: journal.title, date: journal.travelStartDate)
             }.overlay {
@@ -164,7 +164,7 @@ struct MyJournalsView: View {
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 10) {
             ForEach(VM.taggedJournals, id: \.id) { journal in
-            NavigationLink(destination: TravelJournalDetailView().navigationBarHidden(true)) {
+                NavigationLink(destination: TravelJournalDetailView(journalId: journal.journalId).navigationBarHidden(true)) {
               TravelJournalSmallCardView(
                 title: journal.title, date: journal.travelStartDate)
             }

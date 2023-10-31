@@ -13,7 +13,8 @@ import SwiftUI
 //    var profile: ProfileData
 //}
 
-class DailyJournalImage: Codable {
+struct DailyJournalImage: Codable, Identifiable {
+    var id = UUID()
     var imageId: Int
     var imageName: String
     var imageUrl: String
@@ -25,7 +26,8 @@ class DailyJournalImage: Codable {
     }
 }
 
-class DailyJournal: Codable {
+struct DailyJournal: Identifiable, Codable {
+    var id = UUID()
     var dailyJournalId: Int
     var content: String
     var placeId: String?
@@ -47,14 +49,14 @@ class DailyJournal: Codable {
     }
 }
 
-class TravelMate: Codable {
+struct TravelMate: Codable {
     var userId: Int?
     var nickname: String?
     var profileUrl: String?
     var isRegistered: Bool
 }
 
-class TravelJournalDetailData: Codable {
+struct TravelJournalDetailData: Codable {
     var journalId: Int = -1
     var title: String
     var startDateString: String
@@ -84,12 +86,12 @@ class TravelJournalDetailData: Codable {
 }
 
 // 3 - 6. 여행일지 목록 조회
-class travelMateSimple: Codable {
+struct travelMateSimple: Codable {
     var username: String
     var profileUrl: String
 }
 
-class TravelJournalData: Codable, Identifiable {
+struct TravelJournalData: Codable, Identifiable {
     var id = UUID()
     var journalId: Int
     var title: String
@@ -118,13 +120,13 @@ class TravelJournalData: Codable, Identifiable {
     }
 }
 
-class TravelJournalList: Codable {
+struct TravelJournalList: Codable {
     var hasNext: Bool
     var content: [TravelJournalData]
 }
 
 // 7. 태그된 여행일지 목록 조회
-class TaggedJournalData: Codable, Identifiable {
+struct TaggedJournalData: Codable, Identifiable {
     var id = UUID()
     var journalId : Int
     var title : String
@@ -144,7 +146,7 @@ class TaggedJournalData: Codable, Identifiable {
     }
 }
 
-class TaggedJournalList: Codable {
+struct TaggedJournalList: Codable {
     var hasNext: Bool
     var content: [TaggedJournalData]
 }
