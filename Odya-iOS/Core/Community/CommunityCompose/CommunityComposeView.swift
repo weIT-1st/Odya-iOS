@@ -6,15 +6,27 @@
 //
 
 import SwiftUI
+import Photos
 
 /// 커뮤니티 게시글 작성 뷰
 struct CommunityComposeView: View {
   // MARK: Properties
-
+    
+  /// 사진 리스트
+  @State private var imageList: [ImageData] = []
+  /// 사진 접근 권한
+  @State private var photoAccessStatus: PHAuthorizationStatus?
+  /// 사진 피커 토글
+  @State private var showPhotoPicker: Bool = true
   /// 탭뷰 사진 인덱스
   @State private var imageIndex: Int = 0
   /// 게시글 텍스트
   @State private var textContent: String = ""
+  /// 선택된 토픽
+  @State private var selectedTopic: String? = nil
+    
+  /// 화면 너비
+  private let screenWidth = UIScreen.main.bounds.width
   /// 탭뷰 Dot indicator 높이
   private let dotIndicatorHeight: CGFloat = 44
 
@@ -35,13 +47,29 @@ struct CommunityComposeView: View {
           ZStack(alignment: .bottom) {
             // tabview
             TabView(selection: $imageIndex) {
-              ForEach(0..<5) { index in
-                VStack(spacing: 0) {
-                  SquareAsyncImage(url: testImageUrlString)
-                  Spacer()
+                if imageList.isEmpty {
+                    Image("logo-rect")
+                        .frame(width: screenWidth, height: screenWidth)
+                } else {
+                    ForEach(0..<imageList.count, id: \.self) { index in
+                        VStack(spacing: 0) {
+                            Image(uiImage: imageList[index].image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: screenWidth, height: screenWidth, alignment: .center)
+                                .clipped()
+                            Spacer()
+                        }
+                        .tag(index)
+                    }
                 }
-                .tag(index)
-              }
+//              ForEach(0..<5) { index in
+//                VStack(spacing: 0) {
+//                  SquareAsyncImage(url: testImageUrlString)
+//                  Spacer()
+//                }
+//                .tag(index)
+//              }
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .frame(height: UIScreen.main.bounds.width + dotIndicatorHeight, alignment: .top)
@@ -66,30 +94,47 @@ struct CommunityComposeView: View {
             Text("토픽")
               .h6Style()
               .foregroundColor(Color.odya.label.normal)
-            TopicGridView()
-
+            TopicGridView(selectedTopic: $selectedTopic)
           }
           .padding(.horizontal, GridLayout.side)
           .padding(.bottom, 20)
 
           // 작성완료 버튼
-          CTAButton(isActive: .active, buttonStyle: .solid, labelText: "작성완료", labelSize: .L) {
+            CTAButton(isActive: validate() ? .active : .inactive, buttonStyle: .solid, labelText: "작성완료", labelSize: .L) {
             // action: 여행일지 생성
           }
           .padding(.bottom, 22)
+          .disabled(!validate())  // 사진 or 내용이 없으면 비활성화
         }
       }  // ScrollView
+      .background(Color.odya.background.normal)
     }  // VStack
     .toolbar(.hidden)
+    .onAppear {
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+            self.photoAccessStatus = status
+        }
+    }
+    .sheet(isPresented: $showPhotoPicker) {
+        PhotoPickerView(imageList: $imageList, accessStatus: photoAccessStatus ?? .notDetermined)
+    }
   }
+    
+    func validate() -> Bool {
+        if imageList.isEmpty || textContent == "" {
+            return false
+        } else {
+            return true
+        }
+    }
 
   private var navigationBar: some View {
     ZStack(alignment: .center) {
       CustomNavigationBar(title: "피드 작성하기")
       HStack {
         Spacer()
-        NavigationLink {
-          // action: 이미지 피커 열기
+        Button {
+            showPhotoPicker.toggle()
         } label: {
           Text("사진편집")
             .b1Style()

@@ -11,7 +11,7 @@ struct TopicGridView: View {
   // MARK: Properties
 
   /// 선택된 토픽
-  @State private var selectedTopic: String = ""
+  @Binding var selectedTopic: String?
 
   /// color
   let activeTextColor = Color.odya.background.normal
@@ -39,7 +39,11 @@ struct TopicGridView: View {
               .background(topic == selectedTopic ? activeBackgroundColor : inactiveBackgroundColor)
               .cornerRadius(100)
               .onTapGesture {
-                selectedTopic = topic
+                  if selectedTopic == topic {
+                      selectedTopic = nil
+                  } else {
+                      selectedTopic = topic
+                  }
               }
           }
         }
@@ -54,6 +58,6 @@ struct TopicGridView: View {
 // MARK: - Previews
 struct TopicGridView_Previews: PreviewProvider {
   static var previews: some View {
-    TopicGridView()
+      TopicGridView(selectedTopic: .constant(nil))
   }
 }
