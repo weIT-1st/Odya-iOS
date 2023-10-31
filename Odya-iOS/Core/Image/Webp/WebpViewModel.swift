@@ -73,7 +73,7 @@ class WebpViewModel: ObservableObject {
         print("\(webpImages.count) images converted to WebP")
         print("Bytes: \(totalByte) bytes, Time: \(getElapsedTime(start: startDate)) 초")
         
-        webpImages = []
+//        webpImages = []
        
     }
     

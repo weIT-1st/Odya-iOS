@@ -10,6 +10,7 @@ import SwiftUI
 struct TopicGridView: View {
   // MARK: Properties
 
+  @StateObject private var viewModel = TopicListViewModel()
   /// 선택된 토픽
   @Binding var selectedTopic: String?
 
@@ -19,30 +20,25 @@ struct TopicGridView: View {
   let activeBackgroundColor = Color.odya.brand.primary
   let inactiveBackgroundColor = Color.odya.system.inactive
 
-  /// 테스트 토픽 리스트
-  let testTopicList = [
-    "바다여행", "캠핑여행", "식도락", "취미여행", "휴양지", "여름여행", "가을여행", "겨울여행", "지역축제", "가족여행", "커플여행",
-  ]
-
   // MARK: Body
 
   var body: some View {
     VStack {
       ScrollView(.vertical, showsIndicators: false) {
         TopicLayout {
-          ForEach(testTopicList, id: \.self) { topic in
-            Text(topic)
+          ForEach(viewModel.topicList, id: \.self.id) { topic in
+            Text(topic.word)
               .detail1Style()
-              .foregroundColor(topic == selectedTopic ? activeTextColor : inactiveTextColor)
+              .foregroundColor(topic.word == selectedTopic ? activeTextColor : inactiveTextColor)
               .padding(.horizontal, 12)
               .padding(.vertical, 8)
-              .background(topic == selectedTopic ? activeBackgroundColor : inactiveBackgroundColor)
+              .background(topic.word == selectedTopic ? activeBackgroundColor : inactiveBackgroundColor)
               .cornerRadius(100)
               .onTapGesture {
-                  if selectedTopic == topic {
+                  if selectedTopic == topic.word {
                       selectedTopic = nil
                   } else {
-                      selectedTopic = topic
+                      selectedTopic = topic.word
                   }
               }
           }
@@ -52,6 +48,9 @@ struct TopicGridView: View {
     .padding(12)
     .background(Color.odya.elevation.elev4)
     .cornerRadius(Radius.medium)
+    .onAppear {
+        viewModel.fetchTopicList()
+    }
   }
 }
 

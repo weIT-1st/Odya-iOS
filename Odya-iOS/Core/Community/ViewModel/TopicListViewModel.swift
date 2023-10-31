@@ -1,5 +1,5 @@
 //
-//  FishchipsViewModel.swift
+//  TopicListViewModel.swift
 //  Odya-iOS
 //
 //  Created by Jade Yoo on 2023/10/31.
@@ -9,7 +9,7 @@ import Combine
 import Moya
 import SwiftUI
 
-final class FishchipsViewModel: ObservableObject {
+final class TopicListViewModel: ObservableObject {
   // MARK: Properties
 
   /// Provider

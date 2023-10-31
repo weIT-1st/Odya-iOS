@@ -11,7 +11,9 @@ import Photos
 /// 커뮤니티 게시글 작성 뷰
 struct CommunityComposeView: View {
   // MARK: Properties
-    
+  @Environment(\.presentationMode) var presentationMode
+
+  @State private var viewModel = CommunityComposeViewModel()
   /// 사진 리스트
   @State private var imageList: [ImageData] = []
   /// 사진 접근 권한
@@ -102,6 +104,8 @@ struct CommunityComposeView: View {
           // 작성완료 버튼
             CTAButton(isActive: validate() ? .active : .inactive, buttonStyle: .solid, labelText: "작성완료", labelSize: .L) {
             // action: 여행일지 생성
+                viewModel.createCommunity(content: textContent, placeId: nil, travelJournalId: nil, topicId: nil, imageData: imageList)
+                presentationMode.wrappedValue.dismiss()
           }
           .padding(.bottom, 22)
           .disabled(!validate())  // 사진 or 내용이 없으면 비활성화

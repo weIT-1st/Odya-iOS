@@ -35,7 +35,7 @@ struct FeedDetailView: View {
 
   var body: some View {
     ZStack(alignment: .top) {
-      ScrollView {
+      ScrollView(showsIndicators: false) {
         VStack(spacing: -16) {
           // images
           TabView(selection: $imageIndex) {
@@ -61,7 +61,6 @@ struct FeedDetailView: View {
                 .tag(index)
               }
             }
-
           }
           .tabViewStyle(.page(indexDisplayMode: .automatic))
           .frame(
@@ -69,83 +68,85 @@ struct FeedDetailView: View {
             height: UIScreen.main.bounds.width)
 
           // -- content --
-          VStack(spacing: 8) {
-            VStack(spacing: 20) {
-              HStack(alignment: .center) {
-                FeedUserInfoView(
-                  profileImageSize: ComponentSizeType.XS.ProfileImageSize, writer: writer,
-                  createDate: createDate)
+            // 탭뷰 가로 스크롤 잘 안돼서 스크롤뷰로 한번 더 묶음
+            ScrollView {
+                VStack(spacing: 8) {
+                  VStack(spacing: 20) {
+                    HStack(alignment: .center) {
+                      FeedUserInfoView(
+                        profileImageSize: ComponentSizeType.XS.ProfileImageSize, writer: writer,
+                        createDate: createDate)
 
-                Spacer()
+                      Spacer()
 
-                // 팔로우버튼
-                FollowButton(isFollowing: false, buttonStyle: .ghost) {
-                  // follow
-                }
-              }
-              .padding(.top, 16)
-              .padding(.horizontal, GridLayout.side)
-
-              VStack(spacing: 24) {
-                // 여행일지
-                JournalCoverButton(
-                  profileImageUrl: nil,
-                  labelText: "여행일지 더보기",
-                  coverImageUrl: URL(string: testImageUrlString)!,
-                  journalTitle: "2020 컴공과 졸업여행",
-                  isHot: true
-                ) {
-                  // action
-                }
-
-                // feed text
-                Text(viewModel.feedDetail?.content ?? "")
-                  .detail2Style()
-                  .frame(maxWidth: .infinity, alignment: .leading)
-                  .multilineTextAlignment(.leading)
-              }
-              .padding(.horizontal, GridLayout.side)
-
-              VStack(spacing: 16) {
-                // tags
-                if viewModel.feedDetail?.topic != nil {
-                  HStack(spacing: 8) {
-                    FishchipButton(
-                      isActive: .active, buttonStyle: .ghost, imageName: nil,
-                      labelText: viewModel.feedDetail?.topic?.word ?? "",
-                      labelSize: .S
-                    ) {
-                      // action
+                      // 팔로우버튼
+                      FollowButton(isFollowing: false, buttonStyle: .ghost) {
+                        // follow
+                      }
                     }
-                  }
-                  .padding(.horizontal, GridLayout.side)
-                }
+                    .padding(.top, 16)
+                    .padding(.horizontal, GridLayout.side)
 
-                // location, comment, heart button
-                HStack {
-                  locationView
-                  Spacer(minLength: 28)
-                  HStack(spacing: 12) {
-                    commentView
-                    likeView
-                  }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, 18)
-                .padding(.vertical, 8)
-              }
-              .frame(maxWidth: .infinity)
+                    VStack(spacing: 24) {
+                      // 여행일지
+                      JournalCoverButton(
+                        profileImageUrl: nil,
+                        labelText: "여행일지 더보기",
+                        coverImageUrl: URL(string: testImageUrlString)!,
+                        journalTitle: "2020 컴공과 졸업여행",
+                        isHot: true
+                      ) {
+                        // action
+                      }
 
-              // -- comment --
-              FeedCommentView()
+                      // feed text
+                      Text(viewModel.feedDetail?.content ?? "")
+                        .detail2Style()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                    }
+                    .padding(.horizontal, GridLayout.side)
+
+                    VStack(spacing: 16) {
+                      // tags
+                      if viewModel.feedDetail?.topic != nil {
+                        HStack(spacing: 8) {
+                          FishchipButton(
+                            isActive: .active, buttonStyle: .ghost, imageName: nil,
+                            labelText: viewModel.feedDetail?.topic?.word ?? "",
+                            labelSize: .S
+                          ) {
+                            // action
+                          }
+                        }
+                        .padding(.horizontal, GridLayout.side)
+                      }
+
+                      // location, comment, heart button
+                      HStack {
+                        locationView
+                        Spacer(minLength: 28)
+                        HStack(spacing: 12) {
+                          commentView
+                          likeView
+                        }
+                      }
+                      .frame(maxWidth: .infinity)
+                      .padding(.horizontal, 18)
+                      .padding(.vertical, 8)
+                    }
+                    .frame(maxWidth: .infinity)
+
+                    // -- comment --
+                    FeedCommentView()
+                  }
+                  .background(Color.odya.background.normal)
+                  .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
+
+                }  // VStack
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .background(Color.odya.background.normal)
-            .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
-
-          }  // VStack
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-
       }  // ScrollView
       .edgesIgnoringSafeArea(.top)
       .toolbar(.hidden)

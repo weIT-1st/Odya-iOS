@@ -10,7 +10,7 @@ import SwiftUI
 struct FishchipsBar: View {
   // MARK: Properties
 
-  @StateObject private var viewModel = FishchipsViewModel()
+  @StateObject private var viewModel = TopicListViewModel()
 
   // MARK: - Body
 

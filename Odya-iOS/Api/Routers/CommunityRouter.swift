@@ -10,6 +10,7 @@ import Moya
 
 enum CommunityRouter {
   // 1. 생성
+  case createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int64?, topicId: Int64?, images: [(data: Data, name: String)])
   // 2. 상세 조회
   case getCommunityDetail(communityId: Int)
   // 3. 전체 목록 조회
@@ -30,6 +31,8 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
 
   var path: String {
     switch self {
+    case .createCommunity:
+        return "/api/v1/communities"
     case .getCommunityDetail(let communityId):
       return "/api/v1/communities/\(communityId)"
     case .getAllCommunity:
@@ -47,6 +50,8 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
     switch self {
     case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity:
       return .get
+    case .createCommunity:
+        return .post
     case .deleteCommunity:
       return .delete
     }
@@ -54,6 +59,20 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
 
   var task: Moya.Task {
     switch self {
+    case .createCommunity(let content, let visibility, let placeId, let travelJournalId, let topicId, let images):
+        var formData = [MultipartFormData]()
+        var body: [String: Any] = [:]
+        body["content"] = content
+        body["visibility"] = visibility
+        body["placeId"] = placeId
+        body["travelJournalId"] = travelJournalId
+        body["topicId"] = topicId
+        let encodedBody = try? JSONSerialization.data(withJSONObject: body)
+        formData.append(MultipartFormData(provider: .data(encodedBody ?? Data()), name: "community", fileName: "community", mimeType: "application/json"))
+        for image in images {
+            formData.append(MultipartFormData(provider: .data(image.data), name: "community-content-image", fileName: "\(image.name).webp", mimeType: "image/webp"))
+        }
+        return .uploadMultipart(formData)
     case .getCommunityDetail:
       return .requestPlain
     case .getAllCommunity(let size, let lastId, let sortType):
