@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 private struct NoJournalView: View {
     
     var body: some View {
@@ -129,10 +130,7 @@ struct MyJournalsView: View {
 
         ForEach(VM.myJournals, id: \.id) { journal in
             NavigationLink(destination: TravelJournalDetailView(journalId: journal.journalId).navigationBarHidden(true)) {
-            TravelJournalCardView(
-                title: journal.title,
-                startDate: journal.travelStartDate,
-                endDate: journal.travelEndDate)
+            TravelJournalCardView(journal: journal)
         }.padding(.bottom, 12)
       }
     }
