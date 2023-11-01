@@ -51,15 +51,19 @@ struct MyJournalsView: View {
 
   var body: some View {
       NavigationView {
-          if VM.myJournals.isEmpty {
-              NoJournalView()
-          }
-
-          else {
-              ZStack(alignment: .bottomTrailing) {
-                  Color.odya.background.normal
-                      .ignoresSafeArea()
-                  
+          ZStack(alignment: .bottomTrailing) {
+              Color.odya.background.normal
+                  .ignoresSafeArea()
+              
+              if VM.isMyJournalsLoading {
+                  ProgressView()
+              }
+              
+              else if VM.myJournals.isEmpty {
+                  NoJournalView()
+              }
+              
+              else {
                   ScrollView(showsIndicators: false) {
                       VStack(spacing: 50) {
                           HStack {
@@ -72,8 +76,8 @@ struct MyJournalsView: View {
                           
                           NavigationLink(destination: TravelJournalDetailView(journalId: 1).navigationBarHidden(true)) {
                               RandomJounalCardView(
-                                title: "연우와 행복했던 부산여행", startDate: "2023-06-01".toDate(format: "yyyy-MM-dd")!,
-                                endDate: "2023-06-04".toDate(format: "yyyy-MM-dd")!)
+                                title: VM.myJournals[0].title, startDate: VM.myJournals[0].travelStartDate,
+                                endDate: VM.myJournals[0].travelEndDate)
                           }
                           
                           myTravelJournalList
@@ -101,10 +105,17 @@ struct MyJournalsView: View {
       .onAppear {
           VM.getMyData()
           Task {
+              VM.initData()
               await VM.fetchDataAsync()
           }
-          
       }
+      .refreshable {
+          Task {
+              VM.initData()
+              await VM.fetchDataAsync()
+          }
+      }
+
   }
 
   // MARK: My Travel Journal List

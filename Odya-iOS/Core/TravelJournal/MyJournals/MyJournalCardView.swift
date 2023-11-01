@@ -87,6 +87,7 @@ struct TravelJournalCardView: View {
     self.title = title
     self.travelDateString =
       "\(startDate.dateToString(format: "yyyy.MM.dd")) ~ \(endDate.dateToString(format: "yyyy.MM.dd"))"
+    // TODO: location, placeId
     self.locationString = "해운대 해수욕장"
   }
 
@@ -109,14 +110,14 @@ struct TravelJournalCardView: View {
   private var journalInfo: some View {
     HStack {
       VStack(alignment: .leading) {
-        Text("연우랑 행복했던 부산여행")
+        Text(title)
           .b1Style()
-        Text("2023.06.01 ~ 2023.06.04")
+        Text(travelDateString)
           .detail2Style()
           .foregroundColor(.odya.label.assistive)
         HStack {
           Image("location-s")
-          Text("해운대 해수욕장")
+          Text(locationString)
             .detail2Style()
         }
       }.foregroundColor(.odya.label.normal)

@@ -116,7 +116,7 @@ struct TravelJournalData: Codable, Identifiable {
         case startDateString = "travelStartDate"
         case endDateString = "travelEndDate"
         case writer
-        case travelMates = "travleJournalCompanions"
+        case travelMates = "travelCompanionSimpleResponses"
     }
 }
 

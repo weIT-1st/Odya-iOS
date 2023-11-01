@@ -24,7 +24,7 @@ struct TravelJournalContentUpdateRequest: Codable {
     var longitudes: [Double]
     var travelDate: [Int]
     var updateContentImageNames: [String]
-    var deleteContentImageIds: [Int64]
+    var deleteContentImageIds: [Int]
     var contentImageNames: [String]
     var updateImageTotalCount: Int
 }
@@ -34,7 +34,7 @@ struct TravelJournalRequest: Codable {
     var travelStartDate: [Int]
     var travelEndDate: [Int]
     var visibility: String
-    var travelCompanionIds: [Int64]
+    var travelCompanionIds: [Int]
     var travelCompanionNames: [String]
     var travelJournalContentRequests: [TravelJournalContentRequest]
     var travelDurationDays: Int
@@ -46,7 +46,7 @@ struct TravelJournalUpdateRequest: Codable {
     var travelStartDate: [Int]
     var travelEndDate: [Int]
     var visibility: String
-    var travelCompanionIds: [Int64]
+    var travelCompanionIds: [Int]
     var travelCompanionNames: [String]
     var travelDurationDays: Int
     var updateTravelCompanionTotalCount: Int
@@ -59,7 +59,7 @@ enum TravelJournalRouter {
                 startDate: [Int],
                 endDate: [Int],
                 visibility: String,
-                travelMateIds: [Int64],
+                travelMateIds: [Int],
                 travelMateNames: [String],
                 dailyJournals: [DailyTravelJournal],
                 travelDuration: Int,
@@ -70,7 +70,7 @@ enum TravelJournalRouter {
               startDate: [Int],
               endDate: [Int],
               visibility: String,
-              travelMateIds: [Int64],
+              travelMateIds: [Int],
               travelMateNames: [String],
               travelDuration: Int,
               newTravelMatesCount: Int)
@@ -81,7 +81,7 @@ enum TravelJournalRouter {
                      longitudes: [Double],
                      date: [Int],
                      newImageNames: [String],
-                     deletedImageIds: [Int64],
+                     deletedImageIds: [Int],
                      imageNames: [String],
                      newImageTotalCount: Int,
                      images: [(data: Data, name: String)])
@@ -162,7 +162,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                                 latitudes: dailyJournal.latitudes,
                                                 longitudes: dailyJournal.longitudes,
                                                 travelDate: dailyJournal.date?.toIntArray() ?? [],
-                                                contentImageNames: dailyJournal.images.map{ $0.imageName }))
+                                                contentImageNames: dailyJournal.images.map{ $0.imageName + ".webp" }))
             }
             
             let travelJournal = TravelJournalRequest(title: title,
@@ -180,7 +180,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                 formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal", fileName: "travel-journal", mimeType: "application/json"))
                 
                 for image in images {
-                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image", fileName: "\(image.name).webp", mimeType: "image/webp"))
+                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image", fileName: "\(image.name)", mimeType: "image/webp"))
                 }
             } catch {
                 print("JSON 인코딩 에러: \(error)")

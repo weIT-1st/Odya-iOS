@@ -17,8 +17,9 @@ struct DailyJournalComposeView: View {
     @Binding var dailyJournal: DailyTravelJournal
     @Binding var isDatePickerVisible: Bool
     
+    @State var isShowingImagePickerSheet = false
+    
     @State private var isShowingDailyJournalDeleteAlert = false
-    @State private var isShowingImagePickerSheet = false
     @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
     
     private var dayIndexString: String {
@@ -31,7 +32,7 @@ struct DailyJournalComposeView: View {
   var body: some View {
     VStack(spacing: 0) {
       headerBar
-        DailyJournalContentEditView(index: index, dailyJournal: $dailyJournal, isDatePickerVisible: $isDatePickerVisible)
+        DailyJournalContentEditView(index: index, dailyJournal: $dailyJournal, isShowingImagePickerSheet: $isShowingImagePickerSheet, isDatePickerVisible: $isDatePickerVisible)
             .environmentObject(travelJournalEditVM)
     }
     .padding(.horizontal, 20)

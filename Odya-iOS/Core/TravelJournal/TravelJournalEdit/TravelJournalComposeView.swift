@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum PrivacyType {
-    case global
-    case friendsOnly
-    case personal
-}
-
 // 선택된 함꼐 간 친구 프로필 뷰
 //private struct TravelMateProfileView: View {
 //  private let mateUserData: FollowUserData
@@ -138,19 +132,20 @@ private struct TravelJournalInfoEditView: View {
 
 
 struct TravelJournalComposeView: View {
-  // MARK: Properties
-
-  @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
-
+    // MARK: Properties
+    
+    @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
+    
+    @State var isShowingImagePickerSheet = false
+    
     @State var isDatePickerVisible = false
-  @State private var isDailyDatePickerVisible = false
+    @State private var isDailyDatePickerVisible = false
     
     @State private var isDismissAlertVisible = false
     @State private var isRegisterAlertVisible = false
-
-    @State private var privacyType: PrivacyType = .global  // 커뮤니티 공개 여부
+    
     var privacyTypeToggleOffset: CGFloat {
-        switch self.privacyType {
+        switch travelJournalEditVM.privacyType {
         case .global:
             return -90
         case .friendsOnly:
@@ -161,134 +156,140 @@ struct TravelJournalComposeView: View {
     }
     
     @Environment(\.dismiss) var dismiss
-
-  // MARK: Body
-
-  var body: some View {
-    ZStack {
-        Color.odya.background.normal
-            .edgesIgnoringSafeArea(.bottom)
-        
-      NavigationView {
-        VStack {
-            ZStack {
-                CustomNavigationBar(title: "여행일지 작성하기")
-                HStack {
-                    IconButton("direction-left") {
-                        isDismissAlertVisible = true
-                    }.padding(.leading, 8)
-                    Spacer()
+    
+    // MARK: Body
+    
+    var body: some View {
+        ZStack {
+            Color.odya.background.normal
+                .edgesIgnoringSafeArea(.bottom)
+            
+            NavigationView {
+                VStack {
+                    ZStack {
+                        CustomNavigationBar(title: "여행일지 작성하기")
+                        HStack {
+                            IconButton("direction-left") {
+                                isDismissAlertVisible = true
+                            }.padding(.leading, 8)
+                            Spacer()
+                        }
+                    }
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 8) {
+                            TravelJournalInfoEditView(isDatePickerVisible: $isDatePickerVisible)
+                                .environmentObject(travelJournalEditVM)
+                            jounalListEditSection
+                            travelJournalRegisterSection
+                        }
+                        .background(Color.odya.blackopacity.baseBlackAlpha50)
+                    }
                 }
             }
-
-          ScrollView(showsIndicators: false) {
-            VStack(spacing: 8) {
-                TravelJournalInfoEditView(isDatePickerVisible: $isDatePickerVisible)
-                    .environmentObject(travelJournalEditVM)
-              jounalListEditSection
-              travelJournalRegisterSection
+            
+            // 여행일지 날짜 선택 뷰
+            if isDatePickerVisible {
+                TravelDatePickerView(
+                    travelJournalEditVM: travelJournalEditVM, isDatePickerVisible: $isDatePickerVisible
+                )
+                .padding(GridLayout.side)
+                .frame(maxHeight: .infinity)
+                .background(Color.odya.blackopacity.baseBlackAlpha80)
             }
-            .background(Color.odya.blackopacity.baseBlackAlpha50)
-          }
+            
+            // 데일리 일정 날짜 선태 뷰
+            if isDailyDatePickerVisible {
+                DailyJournalDatePicker(
+                    travelJournalEditVM: travelJournalEditVM, isDatePickerVisible: $isDailyDatePickerVisible
+                )
+                .padding(GridLayout.side)
+                .frame(maxHeight: .infinity)
+                .background(Color.odya.blackopacity.baseBlackAlpha80)
+            }
         }
-      }
-
-        // 여행일지 날짜 선택 뷰
-      if isDatePickerVisible {
-        TravelDatePickerView(
-          travelJournalEditVM: travelJournalEditVM, isDatePickerVisible: $isDatePickerVisible
-        )
-        .padding(GridLayout.side)
-        .frame(maxHeight: .infinity)
-        .background(Color.odya.blackopacity.baseBlackAlpha80)
-      }
-
-        // 데일리 일정 날짜 선태 뷰
-      if isDailyDatePickerVisible {
-        DailyJournalDatePicker(
-          travelJournalEditVM: travelJournalEditVM, isDatePickerVisible: $isDailyDatePickerVisible
-        )
-        .padding(GridLayout.side)
-        .frame(maxHeight: .infinity)
-        .background(Color.odya.blackopacity.baseBlackAlpha80)
-      }
-    }
-    .onAppear {
-      travelJournalEditVM.addDailyJournal()
-    }
-    .confirmationDialog("", isPresented: $isDismissAlertVisible) {
-        Button("임시저장") { print("임시저장 클릭") }
-        Button("작성취소", role: .destructive) {
-            print("작성취소 클릭")
-            dismiss()
+        .onAppear {
+            travelJournalEditVM.addDailyJournal()
         }
-        Button("취소", role: .cancel) { print("취소 클릭") }
-    } message: {
-        Text("작성 중인 글을 취소하시겠습니까?\n작성 취소 선택시, 작성된 글은 저장되지 않습니다.")
-    }
-    .alert("작성한 여행일지를\n등록하시겠습니까?", isPresented: $isRegisterAlertVisible) {
-        Button("취소") {
-            isRegisterAlertVisible = false
+        .confirmationDialog("", isPresented: $isDismissAlertVisible) {
+            Button("임시저장") { print("임시저장 클릭") }
+            Button("작성취소", role: .destructive) {
+                print("작성취소 클릭")
+                dismiss()
+            }
+            Button("취소", role: .cancel) { print("취소 클릭") }
+        } message: {
+            Text("작성 중인 글을 취소하시겠습니까?\n작성 취소 선택시, 작성된 글은 저장되지 않습니다.")
         }
-        Button("등록") {
-            isRegisterAlertVisible = false
-            // 검사
-            // api
+        .alert("작성한 여행일지를\n등록하시겠습니까?", isPresented: $isRegisterAlertVisible) {
+            Button("취소") {
+                isRegisterAlertVisible = false
+            }
+            Button("등록") {
+                isRegisterAlertVisible = false
+                // 검사
+                if ( travelJournalEditVM.validateTravelJournal()) {
+                    // api
+                    Task {
+                        await travelJournalEditVM.registerTravelJournal()
+                    }
+                    dismiss()
+                }
+            }
+        }
+    }  // body
+    
+    // MARK: Journal List Edit Section
+    private var jounalListEditSection: some View {
+        VStack(alignment: .leading) {
+            Text("여행일지 및 사진")
+                .foregroundColor(.odya.label.normal)
+                .h4Style()
+                .padding(.horizontal, 20)
+                .padding(.top, 28)
+                .padding(.bottom, 24)
+            
+            VStack(spacing: 8) {
+                ForEach(travelJournalEditVM.dailyJournalList.indices, id: \.self) { index in
+                    DailyJournalComposeView(
+                        index: index,
+                        dailyJournal: $travelJournalEditVM.dailyJournalList[index],
+                        isDatePickerVisible: $isDailyDatePickerVisible)
+                    .environmentObject(travelJournalEditVM)
+                }
+            }
+            .animation(.linear, value: travelJournalEditVM.dailyJournalList)
+            
+            if travelJournalEditVM.canAddMoreDailyJournals() {
+                dailyJournalAddButton
+                    .padding(20)
+            }
+        }.background(Color.odya.background.normal)
+    }
+    
+    private var dailyJournalAddButton: some View {
+        Button(action: {
+            travelJournalEditVM.addDailyJournal()
+        }) {
+            HStack(spacing: 8) {
+                Image("plus-bold")
+                Text("일정 추가하기")
+                    .b1Style()
+                    .foregroundColor(.odya.label.assistive)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 16)
+            .cornerRadius(Radius.medium)
+            .background(Color.odya.elevation.elev2)
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.medium)
+                    .strokeBorder(Color.odya.label.assistive, lineWidth: 2)
+            )
         }
     }
-  }  // body
-
-  // MARK: Journal List Edit Section
-  private var jounalListEditSection: some View {
-    VStack(alignment: .leading) {
-      Text("여행일지 및 사진")
-        .foregroundColor(.odya.label.normal)
-        .h4Style()
-        .padding(.horizontal, 20)
-        .padding(.top, 28)
-        .padding(.bottom, 24)
-
-      VStack(spacing: 8) {
-        ForEach(travelJournalEditVM.dailyJournalList.indices, id: \.self) { index in
-          DailyJournalComposeView(
-            index: index,
-            dailyJournal: $travelJournalEditVM.dailyJournalList[index],
-            isDatePickerVisible: $isDailyDatePickerVisible)
-          .environmentObject(travelJournalEditVM)
-        }
-      }
-      .animation(.linear, value: travelJournalEditVM.dailyJournalList)
-
-      if travelJournalEditVM.canAddMoreDailyJournals() {
-        dailyJournalAddButton
-          .padding(20)
-      }
-    }.background(Color.odya.background.normal)
-  }
-
-  private var dailyJournalAddButton: some View {
-    Button(action: {
-      travelJournalEditVM.addDailyJournal()
-    }) {
-      HStack(spacing: 8) {
-        Image("plus-bold")
-        Text("일정 추가하기")
-          .b1Style()
-          .foregroundColor(.odya.label.assistive)
-      }
-      .frame(maxWidth: .infinity)
-      .padding(.horizontal, 20)
-      .padding(.vertical, 16)
-      .cornerRadius(Radius.medium)
-      .background(Color.odya.elevation.elev2)
-      .overlay(
-        RoundedRectangle(cornerRadius: Radius.medium)
-          .strokeBorder(Color.odya.label.assistive, lineWidth: 2)
-      )
-    }
-  }
-
-  // MARK: Travel Journal Register Section
+    
+    // MARK: Travel Journal Register Section
     private var travelJournalRegisterSection: some View {
         VStack(spacing: 8) {
             VStack(spacing: 18) {
@@ -315,47 +316,47 @@ struct TravelJournalComposeView: View {
     }
     
     private var privacyTypeToggle: some View {
-      ZStack {
-        RoundedRectangle(cornerRadius: 50)
-          .frame(width: 284, height: 40)
-          .foregroundColor(.odya.elevation.elev5)
-
-        RoundedRectangle(cornerRadius: 50)
-          .frame(width: 100, height: 36)
-          .foregroundColor(.odya.brand.primary)
-          .offset(x: privacyTypeToggleOffset)
-          .animation(.easeInOut, value: privacyType)
-
-        HStack(spacing: 12) {
-          Button(action: {
-              privacyType = .global
-          }) {
-            Text("전체공개")
-              .b1Style()
-              .foregroundColor(privacyType == .global ? .odya.label.r_normal : .odya.label.inactive)
-              .frame(width: 59)
-              .padding(10)
-          }
-            Button(action: {
-                privacyType = .friendsOnly
-            }) {
-              Text("친구공개")
-                .b1Style()
-                .foregroundColor(privacyType == .friendsOnly ? .odya.label.r_normal : .odya.label.inactive)
-                .frame(width: 59)
-                .padding(10)
-            }
-            Button(action: {
-                privacyType = .personal
-            }) {
-              Text("비공개")
-                .b1Style()
-                .foregroundColor(privacyType == .personal ? .odya.label.r_normal : .odya.label.inactive)
-                .frame(width: 59)
-                .padding(10)
-            }
-        }.frame(height: 40)
-      }
+        ZStack {
+            RoundedRectangle(cornerRadius: 50)
+                .frame(width: 284, height: 40)
+                .foregroundColor(.odya.elevation.elev5)
+            
+            RoundedRectangle(cornerRadius: 50)
+                .frame(width: 100, height: 36)
+                .foregroundColor(.odya.brand.primary)
+                .offset(x: privacyTypeToggleOffset)
+                .animation(.easeInOut, value: travelJournalEditVM.privacyType)
+            
+            HStack(spacing: 12) {
+                Button(action: {
+                    travelJournalEditVM.privacyType = .global
+                }) {
+                    Text("전체공개")
+                        .b1Style()
+                        .foregroundColor(travelJournalEditVM.privacyType == .global ? .odya.label.r_normal : .odya.label.inactive)
+                        .frame(width: 59)
+                        .padding(10)
+                }
+                Button(action: {
+                    travelJournalEditVM.privacyType = .friendsOnly
+                }) {
+                    Text("친구공개")
+                        .b1Style()
+                        .foregroundColor(travelJournalEditVM.privacyType == .friendsOnly ? .odya.label.r_normal : .odya.label.inactive)
+                        .frame(width: 59)
+                        .padding(10)
+                }
+                Button(action: {
+                    travelJournalEditVM.privacyType = .personal
+                }) {
+                    Text("비공개")
+                        .b1Style()
+                        .foregroundColor(travelJournalEditVM.privacyType == .personal ? .odya.label.r_normal : .odya.label.inactive)
+                        .frame(width: 59)
+                        .padding(10)
+                }
+            }.frame(height: 40)
+        }
     }
 }
 

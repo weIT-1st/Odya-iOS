@@ -17,7 +17,7 @@ struct DailyJournalContentEditView: View {
     
     // image
     @ObservedObject var imagePicker = ImagePicker()
-    @State private var isShowingImagePickerSheet = false
+    @Binding var isShowingImagePickerSheet: Bool
     @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
     
     // date
@@ -215,6 +215,8 @@ struct DailyJournalContentEditView: View {
 
 struct DailyJournalContentEditView_Previews: PreviewProvider {
     static var previews: some View {
-        DailyJournalContentEditView(index: 1, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
+        TravelJournalComposeView()
+
+//        DailyJournalContentEditView(index: 1, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
     }
 }

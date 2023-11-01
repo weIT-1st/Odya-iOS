@@ -25,7 +25,7 @@ class MyJournalsViewModel: ObservableObject {
     var userId: Int = MyData().userID
     
     // loadingFlag
-    var isMyJournalsLoading: Bool = false
+    @Published var isMyJournalsLoading: Bool = false
     var isBookmarkedJournalsLoading: Bool = false
     var isTaggedJournalsLoading: Bool = false
     
@@ -58,6 +58,23 @@ class MyJournalsViewModel: ObservableObject {
         self.userId = myData.userID
     }
     
+    func initData() {
+        // travel journals
+        // @Published var randomJournal: TravelJournalData
+        myJournals = []
+        bookmarkedJournals = []
+        taggedJournals = []
+        // 내가 쓴 한글리뷰 리스트
+        
+        // flags for Infinite Scroll
+        lastIdOfMyJournals = nil
+        hasNextMyJournals = true
+        lastIdOfBookmarkedJournals = nil
+        hasNextBookmarkedJournals = true
+        lastIdOfTaggedJournals = nil
+        hasNextTaggedJournals = true
+    }
+    
     func fetchDataAsync() async {
         guard let idToken = idToken else {
             return
@@ -73,7 +90,10 @@ class MyJournalsViewModel: ObservableObject {
             return
         }
         
-        self.isMyJournalsLoading = true
+        DispatchQueue.main.async {
+            self.isMyJournalsLoading = true
+        }
+        
         journalProvider.requestPublisher(.getMyJournals(token: idToken, size: nil, lastId: self.lastIdOfMyJournals))
             .filterSuccessfulStatusCodes()
             .sink { completion in
