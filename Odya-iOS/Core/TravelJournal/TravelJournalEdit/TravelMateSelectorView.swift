@@ -30,10 +30,12 @@ struct SelectedMateView: View {
 
 // 테스트를 위한 임시 뷰
 struct UserProfileView: View {
-  let userData: FollowUserData
+//  let userData: FollowUserData
+    let userId: Int
+    let nickname: String
 
   var body: some View {
-    Text(userData.nickname)
+    Text(nickname)
   }
 }
 

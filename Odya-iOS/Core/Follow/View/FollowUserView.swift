@@ -16,7 +16,7 @@ struct FollowUserView: View {
   let user: FollowUserData
 
   var body: some View {
-      NavigationLink(destination: UserProfileView(userData: user)) {
+      NavigationLink(destination: UserProfileView(userId: user.userId, nickname: user.nickname)) {
       HStack(spacing: 0) {
           ProfileImageView(of: user.nickname, profileData: user.profile, size: .S)
           .padding(.trailing, 12)

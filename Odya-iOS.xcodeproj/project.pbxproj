@@ -74,6 +74,8 @@
 		3E26C37F2AF0E80E003607A8 /* DailyJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C37C2AF0E80D003607A8 /* DailyJournalViewModel.swift */; };
 		3E26C3802AF0E80E003607A8 /* BottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C37D2AF0E80D003607A8 /* BottomSheetViewModel.swift */; };
 		3E26C3822AF16790003607A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3812AF16790003607A8 /* ImageManager.swift */; };
+		3E26C3842AF394AF003607A8 /* OffsettableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */; };
+		3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3852AF3956F003607A8 /* TravelMatesView.swift */; };
 		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AC2A388AA5002BF519 /* Alamofire */; };
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
@@ -237,6 +239,8 @@
 		3E26C37C2AF0E80D003607A8 /* DailyJournalViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyJournalViewModel.swift; sourceTree = "<group>"; };
 		3E26C37D2AF0E80D003607A8 /* BottomSheetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetViewModel.swift; sourceTree = "<group>"; };
 		3E26C3812AF16790003607A8 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsettableScrollView.swift; sourceTree = "<group>"; };
+		3E26C3852AF3956F003607A8 /* TravelMatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMatesView.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
@@ -576,6 +580,8 @@
 				3E26C3742AF0E7EC003607A8 /* DailyJournalView.swift */,
 				3E26C3762AF0E7EC003607A8 /* TravelJournalDetailBottomSheet.swift */,
 				3E26C3752AF0E7EC003607A8 /* TravelJournalDetailView.swift */,
+				3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */,
+				3E26C3852AF3956F003607A8 /* TravelMatesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1035,11 +1041,13 @@
 				19EBA7612AB2F027000ABBE5 /* HTMLTextView.swift in Sources */,
 				3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */,
 				3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */,
+				3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */,
 				3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */,
 				3EE9CA352AC3C2E8003A2E85 /* TravelJournal.swift in Sources */,
 				3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */,
 				3EF54A032A5BE992006562F8 /* AuthRouter.swift in Sources */,
 				3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */,
+				3E26C3842AF394AF003607A8 /* OffsettableScrollView.swift in Sources */,
 				3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */,
 				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				3EE9CA3F2AC94FDB003A2E85 /* MyJournalCardView.swift in Sources */,

@@ -49,7 +49,8 @@ struct DailyJournal: Identifiable, Codable {
     }
 }
 
-struct TravelMate: Codable {
+struct TravelMate: Codable, Identifiable {
+    var id = UUID()
     var userId: Int?
     var nickname: String?
     var profileUrl: String?
@@ -81,7 +82,7 @@ struct TravelJournalDetailData: Codable {
         case endDateString = "travelEndDate"
         case visibility, isBookmarked, writer
         case dailyJournals = "travelJournalContents"
-        case travelMates = "travleJournalCompanions"
+        case travelMates = "travelJournalCompanions"
     }
 }
 

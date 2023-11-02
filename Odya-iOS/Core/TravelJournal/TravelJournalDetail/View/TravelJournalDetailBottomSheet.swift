@@ -7,56 +7,17 @@
 
 import SwiftUI
 
-private struct OffsetPreferenceKey: PreferenceKey {
-  static var defaultValue: CGPoint = .zero
-  static func reduce(value: inout CGPoint, nextValue: () -> CGPoint) {}
-}
-
-struct OffsettableScrollView<T: View>: View {
-  let axes: Axis.Set
-  let showsIndicator: Bool
-  let onOffsetChanged: (CGPoint) -> Void
-  let content: T
-
-  init(
-    axes: Axis.Set = .vertical,
-    showsIndicator: Bool = true,
-    onOffsetChanged: @escaping (CGPoint) -> Void = { _ in },
-    @ViewBuilder content: () -> T
-  ) {
-    self.axes = axes
-    self.showsIndicator = showsIndicator
-    self.onOffsetChanged = onOffsetChanged
-    self.content = content()
-  }
-
-  var body: some View {
-    ScrollView(axes, showsIndicators: showsIndicator) {
-      GeometryReader { proxy in
-        Color.clear.preference(
-          key: OffsetPreferenceKey.self,
-          value: proxy.frame(
-            in: .named("ScrollViewOrigin")
-          ).origin
-        )
-      }
-      .frame(width: 0, height: 0)
-      content
-    }
-    .coordinateSpace(name: "ScrollViewOrigin")
-    .onPreferenceChange(
-      OffsetPreferenceKey.self,
-      perform: onOffsetChanged)
-  }
-}
-
 struct JournalDetailBottomSheet: View {
+    
+  // MARK: Properties
+    
   @EnvironmentObject var bottomSheetVM: BottomSheetViewModel
 
   let title: String
   let startDate: Date
   let endDate: Date
   var contents: [DailyJournal] = []
+  var mates: [TravelMate] = []
 
   @State private var isFeedType: Bool = true
   @State private var isAllExpanded: Bool = false
@@ -73,24 +34,12 @@ struct JournalDetailBottomSheet: View {
     title = travelJournal.title
     startDate = travelJournal.travelStartDate
     endDate = travelJournal.travelEndDate
-
-      for i in 1...15 {
-          self.contents.append(
-            DailyJournal(
-                dailyJournalId: i,
-                content:
-                    "형제는 오륜의 하나요, 한 몸을 쪼갠 것이다. 그러므로 부귀와 화복을 같이 하는 것이다. 그런데 형제도 형제 나름이다.충청. 전라. 경상의 삼도가 만나는 어름에 사는 연생원이라는 양반이 아들 형제를 두었는데 형의 이름 놀부요, 동생의 이름은 흥부였다. 틀림없는 한 어머니 소생이건만 흥부는 마음씨 착하고 효행이 지극하며 동기간의 우애가 극진한데, 놀부는 부모에게는 불효이고 동기간에 우애가 조금도 없으니, 그 마음 쓰는 것이 괴상하였다. 모든사람, 오장에 육부를 가졌지만 놀부는 당초부터 오장에 칠부였다. 말하자면 심술보가 하나 더 있어 심술보가 한번만 뒤집히면 심사를 야단스럽게도 피웠다.",
-                placeId: "",
-                latitudes: [],
-                longitudes: [],
-                travelDateString: "2023-06-01",
-                images: []
-            )
-          )
-      }
-
+    contents = travelJournal.dailyJournals
+    mates = travelJournal.travelMates
   }
-
+ 
+    // MARK: Body
+    
   var body: some View {
     ZStack {
       OffsettableScrollView { point in
@@ -134,48 +83,56 @@ struct JournalDetailBottomSheet: View {
     .background(Color.odya.background.dimmed_system)
     .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.medium))
     .ignoresSafeArea(edges: [.bottom])
-
-  }
-
-  private var journalInfo: some View {
-    VStack(alignment: .leading) {
-      // 여행 제목
-      Text(title)
-        .h5Style()
-        .foregroundColor(.odya.label.normal)
-        .lineLimit(bottomSheetVM.isSheetOn ? 1 : nil)
-        .padding(.vertical)
-
-      HStack {
-        Button(action: {}) {
-          // 함께 간 친구
-          // TODO: 함께 간 친구 데이터에서 프로필 사진 가져오기
-          // TODO: 친구 수에 따라 프로필 이미지 수, 더보기까지의 간격 조정하기
-          HStack(spacing: 0) {
-            Circle()
-              .frame(width: 32, height: 32)
-            Circle()
-              .frame(width: 32, height: 32)
-              .offset(x: -8)
-
-            Text("더보기")
-              .detail2Style()
-              .foregroundColor(.odya.label.normal)
-              .padding(.vertical, 10)
-              .padding(.horizontal, 12)
-          }
-        }
-
-        Spacer()
-
-        // 여행 기간
-        Text("\(startDateString) ~ \(endDateString)")
-          .detail2Style()
-          .foregroundColor(.odya.label.assistive)
-      }
+    .sheet(isPresented: $showTravelMateList) {
+        TravelMatesView(mates: mates)
+            .presentationDetents([.medium])
     }
+
   }
 
+    // MARK: Journal Info
+    private var journalInfo: some View {
+        VStack(alignment: .leading) {
+            // 여행 제목
+            Text(title)
+                .h5Style()
+                .foregroundColor(.odya.label.normal)
+                .lineLimit(bottomSheetVM.isSheetOn ? 1 : nil)
+                .padding(.vertical)
+            
+            HStack {
+                Button(action: {}) {
+                    HStack(spacing: 0) {
+                        let displayedMates = mates.filter({ $0.isRegistered }).prefix(2)
+                        ForEach(Array(displayedMates.enumerated()), id: \.element.id) { index, mate in
+                            if let url = mate.profileUrl {
+                                ProfileImageView(profileUrl: url, size: .S)
+                                    .offset(x: index == 1 ? -8 : 0)
+                            }
+                        }
+                        
+                        if mates.count > 2 {
+                            Text("더보기")
+                                .detail2Style()
+                                .foregroundColor(.odya.label.normal)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 12)
+                                .offset(x: -8)
+                        }
+                    }
+                }
+                
+                Spacer()
+                
+                // 여행 기간
+                Text("\(startDateString) ~ \(endDateString)")
+                    .detail2Style()
+                    .foregroundColor(.odya.label.assistive)
+            }
+        }
+    }
+
+    // MARK: View Mode Selector
   private var viewModeSelector: some View {
     HStack {
       Button(action: {

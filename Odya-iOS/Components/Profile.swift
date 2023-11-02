@@ -46,6 +46,11 @@ struct ProfileImageView: View {
         self.sizeType = size
     }
     
+    init(profileUrl: String, size: ComponentSizeType) {
+        self.status = .withImage(url: URL(string: profileUrl)!)
+        self.sizeType = size
+    }
+    
     var body: some View {
         switch status {
         case .withoutImage(let colorHex, let name):

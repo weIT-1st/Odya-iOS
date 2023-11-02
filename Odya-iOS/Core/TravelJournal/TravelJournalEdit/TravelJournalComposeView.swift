@@ -7,27 +7,6 @@
 
 import SwiftUI
 
-// 선택된 함꼐 간 친구 프로필 뷰
-//private struct TravelMateProfileView: View {
-//  private let mateUserData: FollowUserData
-//  private let status: ProfileImageStatus
-//
-//  init(mate: FollowUserData) {
-//    self.mateUserData = mate
-//    if let profileColor = mate.profile.profileColor {
-//      self.status = .withoutImage(
-//        colorHex: profileColor.colorHex, name: mate.nickname)
-//    } else {
-//      self.status = .withImage(url: URL(string: mate.profile.profileUrl)!)
-//    }
-//  }
-//
-//  var body: some View {
-//      ProfileImageView(of: <#T##String#>, profileData: <#T##ProfileData#>, size: <#T##ComponentSizeType#>)
-//    ProfileImageView(status: status, sizeType: .XS)
-//  }
-//}
-
 // MARK: Travel Info Edit Section
 private struct TravelJournalInfoEditView: View {
     @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
@@ -35,7 +14,7 @@ private struct TravelJournalInfoEditView: View {
     private let titleCharacterLimit = 20
     @Binding var isDatePickerVisible: Bool
     @AppStorage("WeITAuthToken") var idToken: String?
-//    var myData = MyData()
+    var userId = MyData().userID
     
     var body: some View {
       VStack(alignment: .leading, spacing: 24) {
@@ -101,7 +80,7 @@ private struct TravelJournalInfoEditView: View {
             travelMatesView
             NavigationLink(destination: {
                 TravelMateSelectorView(
-                    token: idToken ?? "", userId: -1)
+                    token: idToken ?? "", userId: userId)
                 .environmentObject(travelJournalEditVM)
                 .navigationBarHidden(true)
             }) {

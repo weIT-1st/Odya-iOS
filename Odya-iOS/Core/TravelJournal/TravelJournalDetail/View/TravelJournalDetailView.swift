@@ -13,7 +13,7 @@ struct TravelJournalDetailView: View {
 
   @StateObject var bottomSheetVM = BottomSheetViewModel()
   @StateObject var journalDetailVM = TravelJournalDetailViewModel()
-
+    
   let journalId: Int
 
   var body: some View {
@@ -52,7 +52,11 @@ struct TravelJournalDetailView: View {
                         }
                   )
           } else {
-              ProgressView()
+              VStack {
+                  Spacer()
+                  ProgressView()
+                      .frame(height: 250)
+              }
           }
       }  // geometry
     }
