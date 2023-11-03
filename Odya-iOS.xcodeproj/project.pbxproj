@@ -49,6 +49,7 @@
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
 		199EB76F2AF0A904004EF4B1 /* CommunityComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */; };
+		19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F0D2AF4976E00D29B49 /* Color.swift */; };
 		19EBA7532AB16B7D000ABBE5 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7522AB16B7D000ABBE5 /* CombineMoya */; };
 		19EBA7552AB16B7D000ABBE5 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7542AB16B7D000ABBE5 /* Moya */; };
 		19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */; };
@@ -211,6 +212,7 @@
 		199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
 		199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeViewModel.swift; sourceTree = "<group>"; };
+		19D17F0D2AF4976E00D29B49 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsRouter.swift; sourceTree = "<group>"; };
 		19EBA7582AB16E2C000ABBE5 /* TermsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = TermsView.swift; sourceTree = "<group>"; };
 		19EBA75A2AB16EAF000ABBE5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				3EE9CA302AC3B64C003A2E85 /* PresentationDetent.swift */,
 				3EE9CA322AC3BD46003A2E85 /* ModalBackground.swift */,
 				199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */,
+				19D17F0D2AF4976E00D29B49 /* Color.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -884,12 +887,12 @@
 			);
 			mainGroup = 071FA5152A20A99F00C7B362;
 			packageReferences = (
-				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
+				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				3E3EC3AE2A388AC0002BF519 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
-				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */,
+				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */,
 				3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
-				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
+				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
@@ -954,6 +957,7 @@
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
 				3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
+				19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */,
 				3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */,
 				3EE9CA2F2AC2EE8F003A2E85 /* TravelJournalDetailView.swift in Sources */,
 				19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */,
@@ -1321,7 +1325,7 @@
 				minimumVersion = 15.0.0;
 			};
 		};
-		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -1337,7 +1341,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */ = {
+		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/awxkee/webp.swift.git";
 			requirement = {
@@ -1353,7 +1357,7 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
+		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -1376,7 +1380,7 @@
 		};
 		3E3EC3AC2A388AA5002BF519 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */ = {
@@ -1386,7 +1390,7 @@
 		};
 		3E3EC3B22A388ADE002BF519 /* webp */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */;
+			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */;
 			productName = webp;
 		};
 		3E3EC3B52A388B55002BF519 /* KakaoSDK */ = {
@@ -1416,7 +1420,7 @@
 		};
 		3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */

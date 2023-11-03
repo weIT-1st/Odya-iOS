@@ -31,6 +31,9 @@ struct FeedUserInfoView: View {
         url: URL(string: writer.profile.profileUrl),
         content: { image in
           image.resizable()
+            .aspectRatio(contentMode: .fit)
+            .background(Color.init(hex: writer.profile.profileColor?.colorHex ?? "#FFFFFF"))
+            .clipShape(Circle())
             .frame(width: profileImageSize, height: profileImageSize)
         },
         placeholder: {
