@@ -15,7 +15,7 @@ final class FeedViewModel: ObservableObject {
   /// Provider
   @AppStorage("WeITAuthToken") var idToken: String?
   private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: .default))
+    configuration: .init(logOptions: [.successResponseBody, .errorResponseBody]))
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
@@ -68,6 +68,8 @@ final class FeedViewModel: ObservableObject {
 
   /// 커뮤니티 친구글 조회
   func fetchFriendFeedNextPageIfPossible() {
+    guard state.canLoadNextPage else { return }
+      
     communityProvider.requestPublisher(
       .getFriendsCommunity(
         size: 10, lastId: state.lastId ?? nil, sortType: FeedSortType.lastest.rawValue)
@@ -97,5 +99,36 @@ final class FeedViewModel: ObservableObject {
     self.state = FeedState()
     fetchFriendFeedNextPageIfPossible()
   }
+  
+    /// 토픽으로 전체글 조회
+    func fetchTopicFeedNextPageIfPossible(topicId: Int) {
+        guard state.canLoadNextPage else { return }
+        
+        communityProvider.requestPublisher(.getAllCommunityByTopic(size: 10, lastId: state.lastId ?? nil, sortType: FeedSortType.lastest.rawValue, topicId: topicId))
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("토픽 아이디\(topicId) 조회 완료")
+                case .failure(let error):
+                    if let errorData = try? error.response?.map(ErrorData.self) {
+                      print(errorData.message)
+                    }
+                }
+            } receiveValue: { response in
+                if let data = try? response.map(Feed.self) {
+                  self.state.content += data.content
+                  self.state.lastId = data.content.last?.communityID
+                  self.state.canLoadNextPage = data.hasNext
+                  print(self.state.content)
+                }
+            }
+            .store(in: &subscription)
 
+    }
+    
+    /// 토픽글 새로고침
+    func refreshTopicFeed(topicId: Int) {
+        self.state = FeedState()
+        fetchTopicFeedNextPageIfPossible(topicId: topicId)
+    }
 }

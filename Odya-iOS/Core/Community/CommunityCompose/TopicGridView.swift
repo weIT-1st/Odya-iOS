@@ -12,7 +12,7 @@ struct TopicGridView: View {
 
   @StateObject private var viewModel = TopicListViewModel()
   /// 선택된 토픽
-  @Binding var selectedTopic: String?
+  @Binding var selectedTopic: Int?
 
   /// color
   let activeTextColor = Color.odya.background.normal
@@ -29,16 +29,16 @@ struct TopicGridView: View {
           ForEach(viewModel.topicList, id: \.self.id) { topic in
             Text(topic.word)
               .detail1Style()
-              .foregroundColor(topic.word == selectedTopic ? activeTextColor : inactiveTextColor)
+              .foregroundColor(topic.id == selectedTopic ? activeTextColor : inactiveTextColor)
               .padding(.horizontal, 12)
               .padding(.vertical, 8)
-              .background(topic.word == selectedTopic ? activeBackgroundColor : inactiveBackgroundColor)
+              .background(topic.id == selectedTopic ? activeBackgroundColor : inactiveBackgroundColor)
               .cornerRadius(100)
               .onTapGesture {
-                  if selectedTopic == topic.word {
+                  if selectedTopic == topic.id {
                       selectedTopic = nil
                   } else {
-                      selectedTopic = topic.word
+                      selectedTopic = topic.id
                   }
               }
           }

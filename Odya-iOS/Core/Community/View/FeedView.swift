@@ -17,6 +17,8 @@ struct FeedView: View {
 
   @StateObject private var viewModel = FeedViewModel()
   @State private var selectedFeedToggle = FeedToggleType.all
+  /// 선택된 토픽 아이디
+  @State private var selectedTopicId = -1
 
   // MARK: - Body
 
@@ -30,7 +32,9 @@ struct FeedView: View {
 
           ScrollView(showsIndicators: false) {
             // fishchips
-            FishchipsBar()
+            if selectedFeedToggle == .all {
+              FishchipsBar(selectedTopicId: $selectedTopicId)
+            }
             // toggle
             feedToggleSelectionView
 
@@ -41,11 +45,7 @@ struct FeedView: View {
                   VStack(spacing: 0) {
                     PostImageView(urlString: content.communityMainImageURL)
                     NavigationLink {
-                      FeedDetailView(
-                        communityId: content.communityID,
-                        writer: content.writer,
-                        createDate: content.createdDate
-                      )
+                      FeedDetailView(communityId: content.communityID)
                     } label: {
                       PostContentView(
                         contentText: content.communityContent,
@@ -59,7 +59,18 @@ struct FeedView: View {
                   .padding(.bottom, 8)
                   .onAppear {
                     if viewModel.state.content.last == content {
-                      viewModel.fetchAllFeedNextPageIfPossible()
+                      switch selectedFeedToggle {
+                      case .all:
+                        if selectedTopicId > 0 {
+                          // 선택된 토픽이 있는 경우
+                          viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
+                        } else {
+                          // 없는경우(전체 조회)
+                          viewModel.fetchAllFeedNextPageIfPossible()
+                        }
+                      case .friend:
+                        viewModel.fetchFriendFeedNextPageIfPossible()
+                      }
                     }
                   }
                 }
@@ -70,13 +81,24 @@ struct FeedView: View {
           .refreshable {
             switch selectedFeedToggle {
             case .all:
-              viewModel.refreshAllFeed()
+              if selectedTopicId > 0 {
+                viewModel.refreshTopicFeed(topicId: selectedTopicId)
+              } else {
+                viewModel.refreshAllFeed()
+              }
             case .friend:
               viewModel.refreshFriendFeed()
             }
           }
           .onAppear {
             customRefreshControl()
+          }
+          .onChange(of: selectedTopicId) { newValue in
+            if newValue > 0 {
+              viewModel.refreshTopicFeed(topicId: selectedTopicId)
+            } else if newValue == -1 {
+              viewModel.refreshAllFeed()
+            }
           }
         }
         .background(Color.odya.background.normal)

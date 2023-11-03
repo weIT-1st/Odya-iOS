@@ -14,7 +14,7 @@ final class FeedDetailViewModel: ObservableObject {
   /// Provider
   @AppStorage("WeITAuthToken") var idToken: String?
   private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: .default))
+    configuration: .init(logOptions: [.successResponseBody, .errorResponseBody]))
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
@@ -45,6 +45,7 @@ final class FeedDetailViewModel: ObservableObject {
         }
       } receiveValue: { response in
         if let data = try? response.map(FeedDetail.self) {
+            print("피드 디테일 디코딩 완료---------------------------------------")
           self.feedDetail = data
         }
       }

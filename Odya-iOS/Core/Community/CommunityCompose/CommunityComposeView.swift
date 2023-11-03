@@ -31,7 +31,7 @@ struct CommunityComposeView: View {
   /// 게시글 텍스트
   @State private var textContent: String = ""
   /// 선택된 토픽
-  @State private var selectedTopic: String? = nil
+  @State private var selectedTopicId: Int? = nil
     
   /// 화면 너비
   private let screenWidth = UIScreen.main.bounds.width
@@ -107,7 +107,7 @@ struct CommunityComposeView: View {
             Text("토픽")
               .h6Style()
               .foregroundColor(Color.odya.label.normal)
-            TopicGridView(selectedTopic: $selectedTopic)
+            TopicGridView(selectedTopic: $selectedTopicId)
           }
           .padding(.horizontal, GridLayout.side)
           .padding(.bottom, 20)
@@ -118,7 +118,7 @@ struct CommunityComposeView: View {
                       labelText: composeMode == .create ? "작성완료" : "수정완료",
                       labelSize: .L) {
             // action: 여행일지 생성
-                viewModel.createCommunity(content: textContent, placeId: nil, travelJournalId: nil, topicId: nil, imageData: imageList)
+                viewModel.createCommunity(content: textContent, placeId: nil, travelJournalId: nil, topicId: selectedTopicId, imageData: imageList)
                 presentationMode.wrappedValue.dismiss()
           }
           .padding(.bottom, 22)

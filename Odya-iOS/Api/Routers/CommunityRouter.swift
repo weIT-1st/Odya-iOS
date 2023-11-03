@@ -10,7 +10,7 @@ import Moya
 
 enum CommunityRouter {
   // 1. 생성
-  case createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int64?, topicId: Int64?, images: [(data: Data, name: String)])
+  case createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, images: [(data: Data, name: String)])
   // 2. 상세 조회
   case getCommunityDetail(communityId: Int)
   // 3. 전체 목록 조회
@@ -19,8 +19,12 @@ enum CommunityRouter {
   case getMyCommunity(size: Int?, lastId: Int?, sortType: String?)
   // 5. 친구 목록 조회
   case getFriendsCommunity(size: Int?, lastId: Int?, sortType: String?)
-  // 6. 수정
-  // 7. 삭제
+  // 6. 토픽으로 전체 목록 조회
+  case getAllCommunityByTopic(size: Int?, lastId: Int?, sortType: String?, topicId: Int)
+  // 7. 좋아요 누른 목록 조회
+  // 8. 댓글 단 목록 조회
+  // 9. 수정
+  // 10. 삭제
   case deleteCommunity(communityId: Int)
 }
 
@@ -41,20 +45,22 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/communities/me"
     case .getFriendsCommunity:
       return "/api/v1/communities/friends"
+    case .getAllCommunityByTopic(_, _, _, let topicId):
+      return "/api/v1/communities/topic/\(topicId)"
     case .deleteCommunity(let communityId):
       return "/api/v1/communities/\(communityId)"
     }
   }
 
   var method: Moya.Method {
-    switch self {
-    case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity:
-      return .get
-    case .createCommunity:
-        return .post
-    case .deleteCommunity:
-      return .delete
-    }
+      switch self {
+      case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity, .getAllCommunityByTopic:
+          return .get
+      case .createCommunity:
+          return .post
+      case .deleteCommunity:
+          return .delete
+      }
   }
 
   var task: Moya.Task {
@@ -88,6 +94,12 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       params["sortType"] = sortType
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     case .getFriendsCommunity(let size, let lastId, let sortType):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["lastId"] = lastId
+      params["sortType"] = sortType
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    case .getAllCommunityByTopic(let size, let lastId, let sortType, _):
       var params: [String: Any] = [:]
       params["size"] = size
       params["lastId"] = lastId
