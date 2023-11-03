@@ -10,12 +10,11 @@ import UIKit
 
 extension UIImage {
     func resizeAsync(maxSize: CGFloat) -> UIImage? {
-        let scaleFactor = max(maxSize / self.size.width, maxSize / self.size.height)
-        
-        if scaleFactor >= 1.0 {
+        if self.size.width <= 1024 && self.size.height <= 1024 {
             return self
         }
         
+        let scaleFactor = min(maxSize / self.size.width, maxSize / self.size.height)
         let scaledWidth = self.size.width * scaleFactor
         let scaledHeight = self.size.height * scaleFactor
         let colorSpace = CGColorSpaceCreateDeviceRGB()
