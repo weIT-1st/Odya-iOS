@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FeedDetailView: View {
   // MARK: Properties
+    @Environment(\.presentationMode) var presentationMode
+    
   let testImageUrlString =
     "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
 
@@ -17,6 +19,8 @@ struct FeedDetailView: View {
   @State private var imageIndex: Int = 0
   /// 편집화면 토글
   @State private var showEditView = false
+  /// 액션시트 토글
+  @State private var showActionSheet = false
   /// 커뮤니티 아이디
   let communityId: Int
   /// 작성자
@@ -161,6 +165,15 @@ struct FeedDetailView: View {
     .fullScreenCover(isPresented: $showEditView) {
         CommunityComposeView(composeMode: .edit)
     }
+    .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
+        Button {
+            presentationMode.wrappedValue.dismiss()
+        } label: {
+            Text("닫기")
+        }
+    } message: {
+        Text(viewModel.alertMessage)
+    }
   }
 
   private var navigationBar: some View {
@@ -169,12 +182,44 @@ struct FeedDetailView: View {
         CustomNavigationBar(title: "")
         HStack {
           Spacer()
-          FeedMenuButton(showEditView: $showEditView, writerId: writer.userID)
+          feedMenuButton
         }
         .padding(.trailing, 12)
       }
     }
   }
+    
+    private var feedMenuButton: some View {
+        IconButton("menu-kebab-l") {
+          showActionSheet.toggle()
+        }
+        .frame(width: 36, height: 36, alignment: .center)
+        .confirmationDialog("", isPresented: $showActionSheet) {
+            /// 내가 작성한 글인 경우
+            if writer.userID == MyData.userID {
+                Button("편집") {
+                    // action: 편집
+                    showEditView.toggle()
+                }
+                Button("공유") {
+                    // action: 공유
+                }
+                Button("삭제", role: .destructive) {
+                    // action: 삭제
+                    viewModel.deleteCommunity(id: communityId)
+//                    presentationMode.wrappedValue.dismiss()
+                }
+            } else {
+                // 타인의 글인 경우
+                Button("공유") {
+                  // action: 공유
+                }
+                Button("신고하기", role: .destructive) {
+                  // action: 신고
+                }
+            }
+        }
+    }
 
   private var locationView: some View {
     HStack(spacing: 4) {
@@ -210,46 +255,6 @@ struct FeedDetailView: View {
       Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
         .detail1Style()
         .foregroundColor(Color.odya.label.normal)
-    }
-  }
-}
-
-// MARK: - FeedShareButton
-
-struct FeedMenuButton: View {
-  @State private var showActionSheet = false
-    
-  @Binding var showEditView: Bool
-    
-  let writerId: Int
-
-  var body: some View {
-    IconButton("menu-kebab-l") {
-      showActionSheet.toggle()
-    }
-    .frame(width: 36, height: 36, alignment: .center)
-    .confirmationDialog("", isPresented: $showActionSheet) {
-        /// 내가 작성한 글인 경우
-        if writerId == MyData.userID {
-            Button("편집") {
-                // action: 편집
-                showEditView.toggle()
-            }
-            Button("공유") {
-                // action: 공유
-            }
-            Button("삭제", role: .destructive) {
-                // action: 삭제
-            }
-        } else {
-            // 타인의 글인 경우
-            Button("공유") {
-              // action: 공유
-            }
-            Button("신고하기", role: .destructive) {
-              // action: 신고
-            }
-        }
     }
   }
 }
