@@ -47,7 +47,7 @@ platform :ios do
     versionNum = version[re, 0]
 
     if (versionNum)
-      increment_version_number(
+      increment_version_number_in_xcodeproj(
         version_number: versionNum
       )
     elsif (version == 'major' || version == 'minor' || version == 'patch')
