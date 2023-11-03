@@ -221,7 +221,7 @@
 		19EBA7602AB2F027000ABBE5 /* HTMLTextView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = HTMLTextView.swift; sourceTree = "<group>"; };
 		19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailView.swift; sourceTree = "<group>"; };
 		19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCommentView.swift; sourceTree = "<group>"; };
-		19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = FeedUserInfoView.swift; sourceTree = "<group>"; };
+		19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserInfoView.swift; sourceTree = "<group>"; };
 		19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFullCommentSheet.swift; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
 		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthViewModel.swift; sourceTree = "<group>"; };
@@ -358,7 +358,9 @@
 				071FA51F2A20A99F00C7B362 /* Products */,
 				3E8F818D2A81127600FA167E /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		071FA51F2A20A99F00C7B362 /* Products */ = {
 			isa = PBXGroup;
