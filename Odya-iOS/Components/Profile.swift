@@ -59,7 +59,7 @@ struct ProfileImageView: View {
                 let color = ProfileColor.getColor(from: colorHex)
                 Circle()
                     .fill(color ?? Color.odya.elevation.elev6)
-                    .frame(width: ComponentSizeType.S.ProfileImageSize, height: ComponentSizeType.S.ProfileImageSize)
+                    .frame(width: ComponentSizeType.XS.ProfileImageSize, height: ComponentSizeType.XS.ProfileImageSize)
                     .overlay(
                         Text(String(name.prefix(1)))
                             .foregroundColor(.white)

@@ -46,9 +46,9 @@ struct TravelDatePickerView: View {
   var isDatesValid: Bool {
     let calendar = Calendar.current
     let components = calendar.dateComponents([.day], from: selectedStartDate, to: selectedEndDate)
-      guard let day = components.day else {
-          return false
-      }
+    guard let day = components.day else {
+      return false
+    }
     let duration = day + 1
     return duration > 0 && duration <= 15
   }

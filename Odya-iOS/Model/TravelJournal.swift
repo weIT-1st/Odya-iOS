@@ -49,12 +49,27 @@ struct DailyJournal: Identifiable, Codable {
     }
 }
 
+extension DailyJournal: Equatable {
+  static func == (lhs: DailyJournal, rhs: DailyJournal) -> Bool {
+    return lhs.id == rhs.id
+  }
+
+  static func != (lhs: DailyJournal, rhs: DailyJournal) -> Bool {
+    return lhs.id != rhs.id
+  }
+
+}
+
 struct TravelMate: Codable, Identifiable {
     var id = UUID()
     var userId: Int?
     var nickname: String?
     var profileUrl: String?
     var isRegistered: Bool
+    
+    private enum CodingKeys: String, CodingKey {
+        case userId, nickname, profileUrl, isRegistered
+    }
 }
 
 struct TravelJournalDetailData: Codable {
@@ -89,7 +104,7 @@ struct TravelJournalDetailData: Codable {
 // 3 - 6. 여행일지 목록 조회
 struct travelMateSimple: Codable {
     var username: String
-    var profileUrl: String
+    var profileUrl: String?
 }
 
 struct TravelJournalData: Codable, Identifiable {

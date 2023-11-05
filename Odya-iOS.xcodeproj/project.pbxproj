@@ -95,6 +95,8 @@
 		3E8F81952A8112AB00FA167E /* GoogleMapsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8F81942A8112AB00FA167E /* GoogleMapsCore */; };
 		3E9E988E2A84C9A400909653 /* AuthValidatorApiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */; };
 		3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E98922A8B7C7300909653 /* UserInfoValidatorRouter.swift */; };
+		3EB938152AF531780041FE5B /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB938142AF531780041FE5B /* AsyncImageView.swift */; };
+		3EB938172AF795A60041FE5B /* NoJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB938162AF795A60041FE5B /* NoJournalView.swift */; };
 		3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */; };
 		3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */; };
 		3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3A12A6C38EC00998EC6 /* ComponetsTestView.swift */; };
@@ -252,6 +254,8 @@
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthValidatorApiViewModel.swift; sourceTree = "<group>"; };
 		3E9E98922A8B7C7300909653 /* UserInfoValidatorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoValidatorRouter.swift; sourceTree = "<group>"; };
+		3EB938142AF531780041FE5B /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
+		3EB938162AF795A60041FE5B /* NoJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoJournalView.swift; sourceTree = "<group>"; };
 		3EBEC3922A6B1D7F00998EC6 /* AppleAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthViewModel.swift; sourceTree = "<group>"; };
 		3EBEC3A12A6C38EC00998EC6 /* ComponetsTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponetsTestView.swift; sourceTree = "<group>"; };
 		3EBEC3A32A6C46B100998EC6 /* GNBButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GNBButton.swift; sourceTree = "<group>"; };
@@ -599,12 +603,8 @@
 		3E414B312ADC15EE00034FBB /* TravelJournalEdit */ = {
 			isa = PBXGroup;
 			children = (
-				3EEBB7CC2A8E259800F0049D /* TravelJournalComposeView.swift */,
-				3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */,
-				3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */,
-				3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */,
-				3EEBB7D22A8F50B300F0049D /* TravelDateView.swift */,
-				3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */,
+				3EB938182AF79D9E0041FE5B /* View */,
+				3EEBB7DC2A97388000F0049D /* ViewModel */,
 			);
 			path = TravelJournalEdit;
 			sourceTree = "<group>";
@@ -639,6 +639,37 @@
 				3EF7C1EF2A8105F000223366 /* UserInfoPickerView.swift */,
 			);
 			path = SignUp;
+			sourceTree = "<group>";
+		};
+		3EB938182AF79D9E0041FE5B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3EEBB7CC2A8E259800F0049D /* TravelJournalComposeView.swift */,
+				3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */,
+				3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */,
+				3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */,
+				3EEBB7D22A8F50B300F0049D /* TravelDateView.swift */,
+				3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3EB938192AF79DB60041FE5B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3EB938162AF795A60041FE5B /* NoJournalView.swift */,
+				3EE9CA3E2AC94FDA003A2E85 /* MyJournalCardView.swift */,
+				3EE9CA3C2AC84D95003A2E85 /* MyJournalsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3EB9381A2AF79DC10041FE5B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3EBEC3A02A6C38C700998EC6 /* Components */ = {
@@ -681,6 +712,7 @@
 				3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */,
 				3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */,
 				3ED22F412AAA34920067DE72 /* ImagePicker.swift */,
+				3EB938142AF531780041FE5B /* AsyncImageView.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -726,8 +758,8 @@
 		3EE9CA402AC953CD003A2E85 /* MyJournals */ = {
 			isa = PBXGroup;
 			children = (
-				3EE9CA3C2AC84D95003A2E85 /* MyJournalsView.swift */,
-				3EE9CA3E2AC94FDA003A2E85 /* MyJournalCardView.swift */,
+				3EB9381A2AF79DC10041FE5B /* ViewModel */,
+				3EB938192AF79DB60041FE5B /* View */,
 			);
 			path = MyJournals;
 			sourceTree = "<group>";
@@ -738,8 +770,6 @@
 				3EE9CA402AC953CD003A2E85 /* MyJournals */,
 				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
 				3E414B312ADC15EE00034FBB /* TravelJournalEdit */,
-				3EEBB7DC2A97388000F0049D /* ViewModel */,
-				3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */,
 			);
 			path = TravelJournal;
 			sourceTree = "<group>";
@@ -970,6 +1000,7 @@
 				07589E722AF0253E00867FAD /* Topic.swift in Sources */,
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
 				3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */,
+				3EB938172AF795A60041FE5B /* NoJournalView.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
 				3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */,
 				19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */,
@@ -1028,6 +1059,7 @@
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */,
 				3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */,
+				3EB938152AF531780041FE5B /* AsyncImageView.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
@@ -1263,11 +1295,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Odya-iOS/Odya-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1292,7 +1325,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = 230829_distribution_provisioning_profile;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = ODYA_Development_Provisioning_Profile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

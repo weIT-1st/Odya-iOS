@@ -165,6 +165,11 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                                 contentImageNames: dailyJournal.images.map{ $0.imageName + ".webp" }))
             }
             
+            print("함께 간 친구: \(travelMateIds.count)명")
+//            for i in 0..<travelMateIds.count {
+//                print("\(travelMateIds[i]), \(travelMateNames[i])")
+//            }
+            
             let travelJournal = TravelJournalRequest(title: title,
                                                      travelStartDate: startDate,
                                                      travelEndDate: endDate,

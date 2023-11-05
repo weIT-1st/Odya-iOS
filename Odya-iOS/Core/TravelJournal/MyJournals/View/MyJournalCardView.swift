@@ -7,41 +7,25 @@
 
 import SwiftUI
 
-struct asyncJournalImage: View {
-    let url: String
-    let width: CGFloat
-    let height: CGFloat
-    
-    var body: some View {
-        AsyncImage(url: URL(string: url)) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: width, height: height)
-                .cornerRadius(15)
-        } placeholder: {
-            Text("loading ...")
-                .frame(width: width, height: height)
-        }
-    }
-
-}
-
 // MARK: Random Journal Card View
 
 /// 내 추억 뷰에서 내 여행일지 중 하나를 랜덤으로 보여주기 위한 가장 큰 크기의 카드 뷰
 struct RandomJounalCardView: View {
   let cardHeight: CGFloat = 475
+  let cardWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
 
   var title: String
   var travelDateString: String
   var locationString: String
+  var imageUrl: String
 
-  init(title: String, startDate: Date, endDate: Date) {
-    self.title = title
+  init(journal: TravelJournalData) {
+    self.title = journal.title
     self.travelDateString =
-      "\(startDate.dateToString(format: "yyyy.MM.dd")) ~ \(endDate.dateToString(format: "yyyy.MM.dd"))"
+      "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
+    // TODO: location, placeId
     self.locationString = "해운대 해수욕장"
+    self.imageUrl = journal.imageUrl
   }
 
   var body: some View {
@@ -50,9 +34,11 @@ struct RandomJounalCardView: View {
       shadowBox.offset(y: -20)
 
       // main content
-      RoundedRectangle(cornerRadius: Radius.large)
-        .foregroundColor(.white)
-        .frame(height: cardHeight)
+      AsyncImageView(
+        url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
+      //      RoundedRectangle(cornerRadius: Radius.large)
+      //        .foregroundColor(.white)
+      //        .frame(height: cardHeight)
 
       VStack {
         Spacer()
@@ -100,26 +86,23 @@ struct TravelJournalCardView: View {
   var title: String
   var travelDateString: String
   var locationString: String
-    var imageUrl: String
+  var imageUrl: String
 
   @State private var isMarked: Bool = true
 
-    init(journal: TravelJournalData) {
-        self.title = journal.title
+  init(journal: TravelJournalData) {
+    self.title = journal.title
     self.travelDateString =
-        "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
+      "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
     // TODO: location, placeId
     self.locationString = "해운대 해수욕장"
-        self.imageUrl = journal.imageUrl
+    self.imageUrl = journal.imageUrl
   }
 
   var body: some View {
     ZStack {
-        asyncJournalImage(url: imageUrl, width: cardWidth, height: cardHeight)
-//      Image(imageUrl)
-//            .resizable()
-//            .scaledToFill()
-//            .cornerRadius(Radius.large)
+      AsyncImageView(
+        url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
 
       StarButton(isActive: isMarked, isYellowWhenActive: true) {
         isMarked.toggle()
@@ -164,10 +147,13 @@ struct TravelJournalSmallCardView: View {
 
   var title: String
   var dateString: String
+  var imageUrl: String
 
-  init(title: String, date: Date) {
+  init(title: String, date: Date, imageUrl: String) {
     self.title = title
-    self.dateString = "\(date.dateToString(format: "yyyy.MM.dd"))"
+    self.dateString =
+      date.dateToString(format: "yyyy.MM.dd")
+    self.imageUrl = imageUrl
   }
 
   var body: some View {

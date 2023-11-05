@@ -13,7 +13,7 @@ struct SelectedMateView: View {
   var body: some View {
     VStack(spacing: 12) {
       VStack(spacing: 0) {
-          ProfileImageView(of: mate.nickname, profileData: mate.profile, size: .L)
+        ProfileImageView(of: mate.nickname, profileData: mate.profile, size: .L)
           .padding(.top, 16)
         Image("smallGreyButton-x-filled")
           .offset(x: 27.5, y: -55)
@@ -30,9 +30,9 @@ struct SelectedMateView: View {
 
 // 테스트를 위한 임시 뷰
 struct UserProfileView: View {
-//  let userData: FollowUserData
-    let userId: Int
-    let nickname: String
+  //  let userData: FollowUserData
+  let userId: Int
+  let nickname: String
 
   var body: some View {
     Text(nickname)

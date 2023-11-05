@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ImageGridView: View {
     var columns: [GridItem]
-    var images: [UIImage]
+    var images: [String]
     var imageSize: CGFloat
     var spacing: CGFloat
     
-    init(images: [UIImage], totalWidth: CGFloat, spacing: CGFloat = 0, count: Int = 3) {
+    init(images: [String], totalWidth: CGFloat, spacing: CGFloat = 0, count: Int = 3) {
         self.images = images
         self.spacing = spacing
         let imageSize = (totalWidth - ((CGFloat(count) - 1) * spacing)) / CGFloat(count)
@@ -25,11 +25,17 @@ struct ImageGridView: View {
     var body: some View {
         VStack {
             LazyVGrid(columns: columns, spacing: spacing) {
-                ForEach(images, id: \.self) { anImage in
-                    Image(uiImage: anImage)
-                        .resizable()
-                        .frame(height: imageSize)
-                        .scaledToFit()
+                ForEach(images, id: \.self) { imageUrl in
+                    AsyncImage(url: URL(string: imageUrl)) { image in
+                        image
+                            .resizable()
+                            .frame(width: imageSize, height: imageSize)
+                            .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width: imageSize, height: imageSize * 4/3)
+                    }
+                        
                         
                 }
             }

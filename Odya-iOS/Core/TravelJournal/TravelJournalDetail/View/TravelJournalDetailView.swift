@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct TravelJournalDetailView: View {
-//  @State var selectedDetent: PresentationDetent = .journalDetailOff
-//  private let availableDetent: Set<PresentationDetent> = [.journalDetailOff, .journalDetailOn]
+  //  @State var selectedDetent: PresentationDetent = .journalDetailOff
+  //  private let availableDetent: Set<PresentationDetent> = [.journalDetailOff, .journalDetailOn]
 
   @StateObject var bottomSheetVM = BottomSheetViewModel()
   @StateObject var journalDetailVM = TravelJournalDetailViewModel()
-    
+
   let journalId: Int
 
   var body: some View {
@@ -25,43 +25,43 @@ struct TravelJournalDetailView: View {
 
         headerBar
 
-          if let journalDetail = journalDetailVM.journalDetail {
-              JournalDetailBottomSheet(travelJournal: journalDetail)
-                  .environmentObject(bottomSheetVM)
-                  .frame(height: UIScreen.main.bounds.height)
-                  .offset(y: bottomSheetVM.minHeight)
-                  .offset(y: bottomSheetVM.sheetOffset)
-                  .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            withAnimation {
-                                if !bottomSheetVM.isSheetOn {
-                                    bottomSheetVM.sheetOffset = value.translation.height
-                                } else if bottomSheetVM.isScrollAtTop {
-                                    print(value.translation.height)
-                                }
-                            }
-                        }
-                        .onEnded { value in
-                            withAnimation {
-                                if !bottomSheetVM.isSheetOn || bottomSheetVM.isScrollAtTop {
-                                    bottomSheetVM.setSheetHeight(value, geometry)
-                                }
-                            }
-                            
-                        }
-                  )
-          } else {
-              VStack {
-                  Spacer()
-                  ProgressView()
-                      .frame(height: 250)
-              }
+        if let journalDetail = journalDetailVM.journalDetail {
+          JournalDetailBottomSheet(travelJournal: journalDetail)
+            .environmentObject(bottomSheetVM)
+            .frame(height: UIScreen.main.bounds.height)
+            .offset(y: bottomSheetVM.minHeight)
+            .offset(y: bottomSheetVM.sheetOffset)
+            .gesture(
+              DragGesture()
+                .onChanged { value in
+                  withAnimation {
+                    if !bottomSheetVM.isSheetOn {
+                      bottomSheetVM.sheetOffset = value.translation.height
+                    } else if bottomSheetVM.isScrollAtTop {
+                      print(value.translation.height)
+                    }
+                  }
+                }
+                .onEnded { value in
+                  withAnimation {
+                    if !bottomSheetVM.isSheetOn || bottomSheetVM.isScrollAtTop {
+                      bottomSheetVM.setSheetHeight(value, geometry)
+                    }
+                  }
+
+                }
+            )
+        } else {
+          VStack {
+            Spacer()
+            ProgressView()
+              .frame(height: 250)
           }
+        }
       }  // geometry
     }
     .onAppear {
-        journalDetailVM.getJournalDetail(journalId: journalId)
+      journalDetailVM.getJournalDetail(journalId: journalId)
       bottomSheetVM.isSheetOn = false
       // selectedDetent = .journalDetailOff
     }
