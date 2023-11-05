@@ -69,21 +69,21 @@ struct MyJournalsView: View {
           }
         }
       }
-    }
-    .onAppear {
-      VM.getMyData()
-      Task {
-        VM.initData()
-        await VM.fetchDataAsync()
+      .onAppear {
+        VM.getMyData()
+        Task {
+          VM.initData()
+          await VM.fetchDataAsync()
+        }
+      }
+      .refreshable {
+        Task {
+          VM.initData()
+          await VM.fetchDataAsync()
+        }
       }
     }
-    .refreshable {
-      Task {
-        VM.initData()
-        await VM.fetchDataAsync()
-      }
-    }
-
+    
   }
 
   // MARK: My Travel Journal List

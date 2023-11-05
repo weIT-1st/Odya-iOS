@@ -35,7 +35,7 @@ struct TravelJournalDetailView: View {
               DragGesture()
                 .onChanged { value in
                   withAnimation {
-                    if !bottomSheetVM.isSheetOn {
+                      if !bottomSheetVM.isSheetOn && bottomSheetVM.isScrollAtTop {
                       bottomSheetVM.sheetOffset = value.translation.height
                     } else if bottomSheetVM.isScrollAtTop {
                       print(value.translation.height)
