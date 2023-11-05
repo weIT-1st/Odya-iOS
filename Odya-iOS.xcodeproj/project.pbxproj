@@ -272,7 +272,7 @@
 		3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		3ED22F3D2A98D7070067DE72 /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		3ED22F412AAA34920067DE72 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		3ED22F432AAA355B0067DE72 /* DailyJournalEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DailyJournalEditViewModel.swift; path = ../DailyJournalEditViewModel.swift; sourceTree = "<group>"; };
+		3ED22F432AAA355B0067DE72 /* DailyJournalEditViewModel.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DailyJournalEditViewModel.swift; sourceTree = "<group>"; };
 		3ED22F622AADBC100067DE72 /* FollowHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubView.swift; sourceTree = "<group>"; };
 		3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubViewModel.swift; sourceTree = "<group>"; };
 		3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSuggestion.swift; sourceTree = "<group>"; };

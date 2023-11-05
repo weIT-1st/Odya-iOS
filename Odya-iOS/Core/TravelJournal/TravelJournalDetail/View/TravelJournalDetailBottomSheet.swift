@@ -103,6 +103,7 @@ struct JournalDetailBottomSheet: View {
     .sheet(isPresented: $showTravelMateList) {
       TravelMatesView(mates: mates)
         .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
     }
 
   }
@@ -118,7 +119,9 @@ struct JournalDetailBottomSheet: View {
         .padding(.vertical)
 
       HStack {
-        Button(action: {}) {
+        Button(action: {
+            showTravelMateList = true
+        }) {
           HStack(spacing: 0) {
             let displayedMates = mates.filter({ $0.isRegistered }).prefix(2)
             ForEach(Array(displayedMates.enumerated()), id: \.element.id) { index, mate in

@@ -12,8 +12,7 @@ private struct MateRowView: View {
 
   var body: some View {
     HStack(spacing: 0) {
-      Circle()
-        .frame(width: 32, height: 32)  // S
+      ProfileImageView(profileUrl: mate.profileUrl ?? "", size: .S)
         .padding(.trailing, 12)
 
       Text(mate.nickname ?? "No Nickname")
@@ -38,7 +37,7 @@ struct TravelMatesView: View {
         Text("함께 간 친구")
           .h4Style()
           .foregroundColor(.odya.label.normal)
-          .padding(.bottom, 26)
+          .padding(.vertical, 26)
         Spacer()
       }
 
