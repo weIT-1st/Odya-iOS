@@ -164,7 +164,7 @@ struct DailyJournalContentEditView: View {
           .odya.label.assistive),
         axis: .vertical
       )
-      .foregroundColor(.odya.label.assistive)
+      .foregroundColor(.odya.label.normal)
       .b1Style()
       .frame(minHeight: 90, alignment: .top)
     }
