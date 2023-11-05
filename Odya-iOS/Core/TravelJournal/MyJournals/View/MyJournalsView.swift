@@ -39,12 +39,13 @@ struct MyJournalsView: View {
                 ProfileImageView(of: VM.nickname, profileData: VM.profile, size: .M)
               }.padding(.bottom, 20)
 
+              let randomJournal = VM.myJournals.randomElement() ?? VM.myJournals[0]
               NavigationLink(
-                destination: TravelJournalDetailView(journalId: VM.myJournals[0].journalId)
+                destination: TravelJournalDetailView(journalId: randomJournal.journalId)
                   .navigationBarHidden(true)
               ) {
                 RandomJounalCardView(
-                  journal: VM.myJournals.randomElement()!)
+                  journal: randomJournal)
               }
 
               myTravelJournalList
