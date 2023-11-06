@@ -5,34 +5,39 @@
 //  Created by Heeoh Son on 2023/10/16.
 //
 
-import SwiftUI
 import Photos
+import SwiftUI
 
 struct DailyJournalComposeView: View {
 
   // MARK: Properties
-    @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
-    
-    let index: Int
-    @Binding var dailyJournal: DailyTravelJournal
-    @Binding var isDatePickerVisible: Bool
-    
-    @State private var isShowingDailyJournalDeleteAlert = false
-    @State private var isShowingImagePickerSheet = false
-    @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
-    
-    private var dayIndexString: String {
-      let dayIndex = dailyJournal.getDayIndex(startDate: travelJournalEditVM.startDate)
-      return dayIndex == 0 ? "Day " : "Day \(dayIndex)"
-    }
-    
+  @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+
+  let index: Int
+  @Binding var dailyJournal: DailyTravelJournal
+  @Binding var isDatePickerVisible: Bool
+
+  @State var isShowingImagePickerSheet = false
+
+  @State private var isShowingDailyJournalDeleteAlert = false
+  @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
+
+  private var dayIndexString: String {
+    let dayIndex = dailyJournal.getDayIndex(startDate: travelJournalEditVM.startDate)
+    return dayIndex == 0 ? "Day " : "Day \(dayIndex)"
+  }
+
   // MARK: Body
 
   var body: some View {
     VStack(spacing: 0) {
       headerBar
-        DailyJournalContentEditView(index: index, dailyJournal: $dailyJournal, isDatePickerVisible: $isDatePickerVisible)
-            .environmentObject(travelJournalEditVM)
+      DailyJournalContentEditView(
+        index: index, dailyJournal: $dailyJournal,
+        isShowingImagePickerSheet: $isShowingImagePickerSheet,
+        isDatePickerVisible: $isDatePickerVisible
+      )
+      .environmentObject(travelJournalEditVM)
     }
     .padding(.horizontal, 20)
     .padding(.top, 16)
@@ -65,10 +70,10 @@ struct DailyJournalComposeView: View {
       }.padding(.trailing, 8)
         .alert("해당 날짜의 여행일지를 삭제할까요?", isPresented: $isShowingDailyJournalDeleteAlert) {
           HStack {
-              Button("취소", role: .cancel) {
+            Button("취소", role: .cancel) {
               isShowingDailyJournalDeleteAlert = false
             }
-              Button("삭제", role: .destructive) {
+            Button("삭제", role: .destructive) {
               isShowingDailyJournalDeleteAlert = false
               travelJournalEditVM.deleteDailyJournal(dailyJournal: dailyJournal)
             }
@@ -84,13 +89,12 @@ struct DailyJournalComposeView: View {
     }
   }
 
-  
 }
 
 struct DailyJournalComposeView_Previews: PreviewProvider {
   static var previews: some View {
-      TravelJournalComposeView()
-//      DailyJournalComposeView(
-//        index: 1, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
+    TravelJournalComposeView()
+    //      DailyJournalComposeView(
+    //        index: 1, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
   }
 }

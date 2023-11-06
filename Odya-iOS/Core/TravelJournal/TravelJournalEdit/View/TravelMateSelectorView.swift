@@ -8,28 +8,18 @@
 import SwiftUI
 
 struct SelectedMateView: View {
-  private let mateUserData: FollowUserData
-  private let status: ProfileImageStatus
-
-  init(mate: FollowUserData) {
-    self.mateUserData = mate
-    if let profileColor = mate.profile.profileColor {
-      self.status = .withoutImage(colorHex: profileColor.colorHex, name: mate.nickname)
-    } else {
-      self.status = .withImage(url: URL(string: mate.profile.profileUrl)!)
-    }
-  }
+  let mate: FollowUserData
 
   var body: some View {
     VStack(spacing: 12) {
       VStack(spacing: 0) {
-        ProfileImageView(status: status, sizeType: .L)
+        ProfileImageView(of: mate.nickname, profileData: mate.profile, size: .L)
           .padding(.top, 16)
         Image("smallGreyButton-x-filled")
           .offset(x: 27.5, y: -55)
           .frame(width: 0, height: 0)
       }
-      Text(mateUserData.nickname)
+      Text(mate.nickname)
         .detail2Style()
         .foregroundColor(.odya.label.normal)
         .lineLimit(1)
@@ -40,10 +30,12 @@ struct SelectedMateView: View {
 
 // 테스트를 위한 임시 뷰
 struct UserProfileView: View {
-  let userData: FollowUserData
+  //  let userData: FollowUserData
+  let userId: Int
+  let nickname: String
 
   var body: some View {
-    Text(userData.nickname)
+    Text(nickname)
   }
 }
 

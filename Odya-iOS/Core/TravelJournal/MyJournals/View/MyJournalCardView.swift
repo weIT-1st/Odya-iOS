@@ -12,16 +12,20 @@ import SwiftUI
 /// 내 추억 뷰에서 내 여행일지 중 하나를 랜덤으로 보여주기 위한 가장 큰 크기의 카드 뷰
 struct RandomJounalCardView: View {
   let cardHeight: CGFloat = 475
+  let cardWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
 
   var title: String
   var travelDateString: String
   var locationString: String
+  var imageUrl: String
 
-  init(title: String, startDate: Date, endDate: Date) {
-    self.title = title
+  init(journal: TravelJournalData) {
+    self.title = journal.title
     self.travelDateString =
-      "\(startDate.dateToString(format: "yyyy.MM.dd")) ~ \(endDate.dateToString(format: "yyyy.MM.dd"))"
+      "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
+    // TODO: location, placeId
     self.locationString = "해운대 해수욕장"
+    self.imageUrl = journal.imageUrl
   }
 
   var body: some View {
@@ -30,9 +34,11 @@ struct RandomJounalCardView: View {
       shadowBox.offset(y: -20)
 
       // main content
-      RoundedRectangle(cornerRadius: Radius.large)
-        .foregroundColor(.white)
-        .frame(height: cardHeight)
+      AsyncImageView(
+        url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
+      //      RoundedRectangle(cornerRadius: Radius.large)
+      //        .foregroundColor(.white)
+      //        .frame(height: cardHeight)
 
       VStack {
         Spacer()
@@ -80,20 +86,23 @@ struct TravelJournalCardView: View {
   var title: String
   var travelDateString: String
   var locationString: String
+  var imageUrl: String
 
   @State private var isMarked: Bool = true
 
-  init(title: String, startDate: Date, endDate: Date) {
-    self.title = title
+  init(journal: TravelJournalData) {
+    self.title = journal.title
     self.travelDateString =
-      "\(startDate.dateToString(format: "yyyy.MM.dd")) ~ \(endDate.dateToString(format: "yyyy.MM.dd"))"
+      "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
+    // TODO: location, placeId
     self.locationString = "해운대 해수욕장"
+    self.imageUrl = journal.imageUrl
   }
 
   var body: some View {
     ZStack {
-      RoundedRectangle(cornerRadius: Radius.large)
-        .foregroundColor(.white)
+      AsyncImageView(
+        url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
 
       StarButton(isActive: isMarked, isYellowWhenActive: true) {
         isMarked.toggle()
@@ -109,14 +118,14 @@ struct TravelJournalCardView: View {
   private var journalInfo: some View {
     HStack {
       VStack(alignment: .leading) {
-        Text("연우랑 행복했던 부산여행")
+        Text(title)
           .b1Style()
-        Text("2023.06.01 ~ 2023.06.04")
+        Text(travelDateString)
           .detail2Style()
           .foregroundColor(.odya.label.assistive)
         HStack {
           Image("location-s")
-          Text("해운대 해수욕장")
+          Text(locationString)
             .detail2Style()
         }
       }.foregroundColor(.odya.label.normal)
@@ -138,10 +147,13 @@ struct TravelJournalSmallCardView: View {
 
   var title: String
   var dateString: String
+  var imageUrl: String
 
-  init(title: String, date: Date) {
+  init(title: String, date: Date, imageUrl: String) {
     self.title = title
-    self.dateString = "\(date.dateToString(format: "yyyy.MM.dd"))"
+    self.dateString =
+      date.dateToString(format: "yyyy.MM.dd")
+    self.imageUrl = imageUrl
   }
 
   var body: some View {

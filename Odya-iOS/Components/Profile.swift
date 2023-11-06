@@ -37,6 +37,20 @@ struct ProfileImageView: View {
         return sizeType.ProfileImageSize
     }
     
+    init(of nickname: String, profileData: ProfileData, size: ComponentSizeType) {
+        if let profileColor = profileData.profileColor {
+            self.status = .withoutImage(colorHex: profileColor.colorHex, name: nickname)
+        } else {
+            self.status = .withImage(url: URL(string: profileData.profileUrl)!)
+        }
+        self.sizeType = size
+    }
+    
+    init(profileUrl: String, size: ComponentSizeType) {
+        self.status = .withImage(url: URL(string: profileUrl)!)
+        self.sizeType = size
+    }
+    
     var body: some View {
         switch status {
         case .withoutImage(let colorHex, let name):
@@ -45,7 +59,7 @@ struct ProfileImageView: View {
                 let color = ProfileColor.getColor(from: colorHex)
                 Circle()
                     .fill(color ?? Color.odya.elevation.elev6)
-                    .frame(width: ComponentSizeType.S.ProfileImageSize, height: ComponentSizeType.S.ProfileImageSize)
+                    .frame(width: ComponentSizeType.XS.ProfileImageSize, height: ComponentSizeType.XS.ProfileImageSize)
                     .overlay(
                         Text(String(name.prefix(1)))
                             .foregroundColor(.white)
@@ -79,9 +93,9 @@ struct ProfileImageView: View {
     }
 }
 
-struct ProfileImageView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileImageView(status: .withoutImage(colorHex: "#FFD41F", name: "손희오"), sizeType: .L)
-//        ProfileImageView(status: .withImage(url: URL(string: "https://image.tmdb.org/t/p/w500//r2J02Z2OpNTctfOSN1Ydgii51I3.jpg")!), sizeType: .L)
-    }
-}
+//struct ProfileImageView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileImageView(status: .withoutImage(colorHex: "#FFD41F", name: "손희오"), sizeType: .L)
+////        ProfileImageView(status: .withImage(url: URL(string: "https://image.tmdb.org/t/p/w500//r2J02Z2OpNTctfOSN1Ydgii51I3.jpg")!), sizeType: .L)
+//    }
+//}

@@ -15,7 +15,7 @@ enum MyError: Error {
     case unknown(String)
     case decodingError(String)
     case apiError(ErrorData)
-//    case tokenError
+    case tokenError
 }
 
 class ProfileViewModel: ObservableObject {
@@ -48,28 +48,28 @@ class ProfileViewModel: ObservableObject {
     }
     
     func fetchDataAsync() async {
-        guard let idToken = idToken else {
-            return
-        }
-        
-        do {
-            try await getFollowCount(idToken: idToken)
-        } catch {
-            switch error {
-            case MyError.apiError(let error):
-                if error.code == -11000 {
-                    print("Invalid Token")
-                    if await appDataManager.refreshToken() {
-                        await self.fetchDataAsync()
-                    }
-                } else {
-                    print("Fetching failed with error:", error)
-                }
-
-            default:
-                print("Fetching failed with error:", error)
-            }
-        }
+//        guard let idToken = idToken else {
+//            return
+//        }
+//
+//        do {
+//            try await getFollowCount(idToken: idToken)
+//        } catch {
+//            switch error {
+//            case MyError.apiError(let error):
+//                if error.code == -11000 {
+//                    print("Invalid Token")
+//                    if await appDataManager.refreshToken() {
+//                        await self.fetchDataAsync()
+//                    }
+//                } else {
+//                    print("Fetching failed with error:", error)
+//                }
+//
+//            default:
+//                print("Fetching failed with error:", error)
+//            }
+//        }
     }
     
     
