@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RootTabView: View {
 
+    @EnvironmentObject var alertManager: AlertManager
+    
   // MARK: Body
 
   var body: some View {
@@ -21,6 +23,7 @@ struct RootTabView: View {
 
       // MARK: 내추억
       MyJournalsView()
+        .environmentObject(alertManager)
         .tabItem {
           GNBButton(iconImage: "diary", text: "내추억")
         }

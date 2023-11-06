@@ -86,6 +86,7 @@
 		3E414B302ADC0ED000034FBB /* DailyJournalContentEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */; };
 		3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */; };
 		3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */; };
+		3E6330F32AF8F17B009FC4F4 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6330F22AF8F17B009FC4F4 /* AlertManager.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
 		3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */; };
 		3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */; };
@@ -249,6 +250,7 @@
 		3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalContentEditView.swift; sourceTree = "<group>"; };
 		3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalComposeView.swift; sourceTree = "<group>"; };
 		3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalViewModel.swift; sourceTree = "<group>"; };
+		3E6330F22AF8F17B009FC4F4 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
 		3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 				07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */,
 				0708FC2C2A40D2C100D152CF /* LocationManager.swift */,
 				3E26C3812AF16790003607A8 /* ImageManager.swift */,
+				3E6330F22AF8F17B009FC4F4 /* AlertManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -977,6 +980,7 @@
 			files = (
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
+				3E6330F32AF8F17B009FC4F4 /* AlertManager.swift in Sources */,
 				3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */,
 				3EE9CA1B2AB5D67A003A2E85 /* FollowRouter.swift in Sources */,
 				07589E682AE80B0B00867FAD /* TopicLayout.swift in Sources */,

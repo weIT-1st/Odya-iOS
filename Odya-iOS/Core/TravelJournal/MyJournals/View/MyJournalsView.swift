@@ -10,6 +10,8 @@ import SwiftUI
 /// 내 추억 뷰
 struct MyJournalsView: View {
 
+    @EnvironmentObject var alertManager: AlertManager
+    
   @StateObject var VM = MyJournalsViewModel()
   @State private var isOn: Bool = true
 
@@ -63,7 +65,10 @@ struct MyJournalsView: View {
           }
 
           // write button
-          NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
+          NavigationLink(
+            destination: TravelJournalComposeView()
+                .environmentObject(alertManager)
+                .navigationBarHidden(true)) {
             WriteButton()
               .offset(x: -(GridLayout.side), y: -(GridLayout.side))
           }

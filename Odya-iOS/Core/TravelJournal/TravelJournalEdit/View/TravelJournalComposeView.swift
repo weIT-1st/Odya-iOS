@@ -113,6 +113,7 @@ private struct TravelJournalInfoEditView: View {
 struct TravelJournalComposeView: View {
   // MARK: Properties
 
+  @EnvironmentObject var alertManager: AlertManager
   @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
 
   @State var isShowingImagePickerSheet = false
@@ -210,7 +211,19 @@ struct TravelJournalComposeView: View {
         if travelJournalEditVM.validateTravelJournal() {
           // api
           Task {
-            await travelJournalEditVM.registerTravelJournal()
+              await travelJournalEditVM.registerTravelJournal() { success, errorMsg in
+                  if success {
+                      DispatchQueue.main.async {
+                          alertManager.showAlertOfTravelJournalCreation = true
+                      }
+                  } else {
+                      DispatchQueue.main.async {
+                          alertManager.showFailureAlertOfTravelJournalCreation = true
+                      }
+                      print(errorMsg)
+                  }
+                  
+              }
           }
           dismiss()
         }

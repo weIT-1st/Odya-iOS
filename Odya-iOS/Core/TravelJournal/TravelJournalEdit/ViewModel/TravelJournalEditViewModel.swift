@@ -40,6 +40,7 @@ class TravelJournalEditViewModel: ObservableObject {
   @AppStorage("WeITAuthToken") var idToken: String?
 
   var isJournalCreating: Bool = false
+  var showCompletePopup: Bool = false
 
   // travel journal data
   @Published var title: String = ""
@@ -160,6 +161,7 @@ class TravelJournalEditViewModel: ObservableObject {
             continuation.resume(throwing: MyError.apiError(errorData))
           } catch {
             print("여행일지 작성 성공")
+            self.showCompletePopup = true
             continuation.resume(returning: true)  // 여행일지 작성 성공
           }
 
@@ -171,7 +173,7 @@ class TravelJournalEditViewModel: ObservableObject {
     }
   }
 
-  func registerTravelJournal() async {
+    func registerTravelJournal(completion: @escaping(Bool, String) -> Void) async {
     print("여행일지 등록하기 버튼 클릭")
     guard let idToken = idToken else {
       return
@@ -188,21 +190,26 @@ class TravelJournalEditViewModel: ObservableObject {
       _ = try await createJournalAPI(idToken: idToken, webpImages: webPImages)
 
       self.isJournalCreating = false
+      completion(true, "")
       // print("여행일지 등록 성공")
     } catch {
       self.isJournalCreating = false
       if let myError = error as? MyError {
         switch myError {
         case .apiError(let errorData):
-          print("API Error Code: \(errorData.code), Message: \(errorData.message)")
+            completion(false, errorData.message)
+//          print("API Error Code: \(errorData.code), Message: \(errorData.message)")
         case .unknown(let message):
-          print("Unknown error: \(message)")
+            completion(false, message)
+//          print("Unknown error: \(message)")
 
         default:
-          print("Error: something error during Creating journal")
+            completion(false, "여행일지 생성 중 예기치 못한 오류가 발생하였습니다.")
+//          print("Error: something error during Creating journal")
         }
       } else {
-        print("An unexpected error occurred: \(error)")
+          completion(false, "여행일지 생성 중 예기치 못한 오류가 발생하였습니다.")
+//        print("An unexpected error occurred: \(error)")
       }
     }
 
