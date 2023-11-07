@@ -40,11 +40,11 @@ extension Date {
     }
   
   /**
-   # toCustomRelativeString
+   # toRelativeString
    - Note: 기획 기준에 따라 상대날짜로 변환
    - Returns: '방금전', '1일전' 등의 문자열
    */
-  func toCustomRelativeString() -> String {
+  func toRelativeString() -> String {
     var dateToString = ""
     // 방금전: 3시간
     if -self.timeIntervalSinceNow < 3 * 60 * 60 {
@@ -52,9 +52,10 @@ extension Date {
     } else if self.year == Date.now.year && self.month == Date.now.month && self.day == Date.now.day {
       // 오늘
       dateToString = "오늘"
-    } else if -self.timeIntervalSinceNow < 60 * 60 * 24 * 30 {
+    } else if self > Calendar.current.date(byAdding: .day, value: -30, to: Date.now)! {
       // 1일전 ~ 30일전
-      dateToString = toRelativeString()
+      let difference = Calendar.current.numberOfDaysBetween(self, and: Date.now)
+      return "\(difference)일전"
     } else if self.year == Date.now.year {
       // 올해
       dateToString = self.dateToString(format: "M월 dd일")
@@ -62,20 +63,6 @@ extension Date {
       // 그외
       dateToString = self.dateToString(format: "yyyy년 M월 dd일")
     }
-    return dateToString
-  }
-  
-  /**
-   # toRelativeString
-   - Note: 기본제공되는 상대날짜 변환 포매터 사용
-   - Returns: 상대날짜 문자열
-   */
-  func toRelativeString() -> String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.locale = Locale(identifier: "ko_KR")
-    formatter.dateTimeStyle = .numeric
-    formatter.unitsStyle = .short
-    let dateToString = formatter.localizedString(for: self, relativeTo: .now)
     return dateToString
   }
 }
@@ -92,4 +79,14 @@ extension String {
         }
     }
     
+}
+
+extension Calendar {
+  func numberOfDaysBetween(_ from: Date, and to: Date) -> Int {
+    let fromDate = startOfDay(for: from)
+    let toDate = startOfDay(for: to)
+    let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
+    
+    return numberOfDays.day!
+  }
 }

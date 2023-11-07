@@ -18,7 +18,8 @@ extension String {
     return dateFormatter.date(from: self) ?? Date()
   }
   
-  func toOdyaRelativeDateString() -> String {
-    return self.toExtendedDate().toCustomRelativeString()
+  /// 날짜형식 데이터 String -> Date -> 상대날짜 String으로 변환
+  func toCustomRelativeDateString() -> String {
+    return self.toExtendedDate().toRelativeString()
   }
 }

@@ -57,7 +57,7 @@ struct FeedUserInfoView: View {
           .foregroundColor(Color.odya.label.assistive)
 
         // TODO: 상대 날짜
-        Text(createDate.toOdyaRelativeDateString())
+        Text(createDate.toCustomRelativeDateString())
           .detail1Style()
           .foregroundColor(Color.odya.label.assistive)
       }
