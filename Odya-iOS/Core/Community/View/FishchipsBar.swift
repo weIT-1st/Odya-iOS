@@ -20,7 +20,10 @@ struct FishchipsBar: View {
       HStack(spacing: 8) {
         ForEach(viewModel.topicList, id: \.id) { topic in
           FishchipButton(
-            isActive: selectedTopicId == topic.id ? .active : .inactive, buttonStyle: .solid, imageName: nil, labelText: topic.word,
+            isActive: .active,
+            buttonStyle: selectedTopicId == topic.id ? .solid : .basic,
+            imageName: nil,
+            labelText: topic.word,
             labelSize: .S
           ) {
             print("Fishchip Clicked")

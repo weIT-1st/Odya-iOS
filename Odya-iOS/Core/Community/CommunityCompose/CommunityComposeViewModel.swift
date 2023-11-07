@@ -27,7 +27,7 @@ final class CommunityComposeViewModel: ObservableObject {
   @Published var isSubmitted: Bool = false
   
   // MARK: Create
-  func createCommunity(content: String, visibility: String = "PUBLIC", placeId: String?, travelJournalId: Int?, topicId: Int?, imageData: [ImageData]) {
+  func createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, imageData: [ImageData]) {
     let uiImageList = imageData.map { $0.image }
     _Concurrency.Task {
       let _ = await webpConverter.processImages(uiImages: uiImageList)
