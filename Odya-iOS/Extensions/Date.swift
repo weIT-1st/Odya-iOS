@@ -71,7 +71,7 @@ extension String {
     func toDate(format: String = "yyyy-MM-dd") -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        dateFormatter.timeZone = TimeZone(identifier: "ko_KR")
+        dateFormatter.timeZone = TimeZone(identifier: "GMT") // 시간대를 GMT로 설정
         if let date = dateFormatter.date(from: self) {
             return date
         } else {

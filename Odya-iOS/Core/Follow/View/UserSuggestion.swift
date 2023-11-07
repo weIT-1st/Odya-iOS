@@ -13,28 +13,17 @@ import SwiftUI
 struct SuggestedUserView: View {
   @EnvironmentObject var followHubVM: FollowHubViewModel
 
-  private let suggestedUser: FollowUserData
-  private let profileImageStatus: ProfileImageStatus
+  let user: FollowUserData
 
   @State private var followState: Bool = false
   @State private var showUnfollowingAlert: Bool = false
 
-  init(user: FollowUserData) {
-    self.suggestedUser = user
-    if let profileColor = user.profile.profileColor {
-      self.profileImageStatus = .withoutImage(
-        colorHex: profileColor.colorHex, name: user.nickname)
-    } else {
-      self.profileImageStatus = .withImage(url: URL(string: user.profile.profileUrl)!)
-    }
-  }
-
   var body: some View {
     VStack(spacing: 16) {
-      ProfileImageView(status: profileImageStatus, sizeType: .L)
+        ProfileImageView(of: user.nickname, profileData: user.profile, size: .L)
 
       VStack {
-        Text("\(suggestedUser.nickname)")
+        Text("\(user.nickname)")
           .b1Style()
           .foregroundColor(.odya.label.normal)
           .lineLimit(1)
@@ -48,7 +37,7 @@ struct SuggestedUserView: View {
       FollowButton(isFollowing: followState, buttonStyle: .solid) {
         if followState == false {  // do following
           followState = true
-          followHubVM.createFollow(suggestedUser.userId)
+          followHubVM.createFollow(user.userId)
         } else {  // do unfollowing
           showUnfollowingAlert = true
         }
@@ -61,7 +50,7 @@ struct SuggestedUserView: View {
           }
           Button("삭제") {
             followState = false
-            followHubVM.deleteFollow(suggestedUser.userId)
+            followHubVM.deleteFollow(user.userId)
             showUnfollowingAlert = false
           }
         }

@@ -13,25 +13,14 @@ import SwiftUI
 /// 팔로우 유저의 프로필 사진과 닉네임을 포함
 /// 클릭 시 해당 유저의 프로필 뷰로 이동
 struct FollowUserView: View {
-  private let userData: FollowUserData
-  private let status: ProfileImageStatus
-
-  init(user: FollowUserData) {
-    self.userData = user
-    if let profileColor = user.profile.profileColor {
-      self.status = .withoutImage(
-        colorHex: profileColor.colorHex, name: user.nickname)
-    } else {
-      self.status = .withImage(url: URL(string: user.profile.profileUrl)!)
-    }
-  }
+  let user: FollowUserData
 
   var body: some View {
-    NavigationLink(destination: UserProfileView(userData: userData)) {
+      NavigationLink(destination: UserProfileView(userId: user.userId, nickname: user.nickname)) {
       HStack(spacing: 0) {
-        ProfileImageView(status: status, sizeType: .S)
+          ProfileImageView(of: user.nickname, profileData: user.profile, size: .S)
           .padding(.trailing, 12)
-        Text(userData.nickname)
+          Text(user.nickname)
           .foregroundColor(.odya.label.normal)
           .b1Style()
           .padding(.trailing, 4)

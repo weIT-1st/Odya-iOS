@@ -95,11 +95,15 @@ struct PhotoPickerView: UIViewControllerRepresentable {
                         
                         DispatchQueue.main.async {
                             let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: [assetID], options: nil)
-                            let imageCreationDate = assetResults.firstObject?.creationDate
+                            let imageName = assetResults.firstObject?.localIdentifier ?? ""
+                            let imageCreationDate =  assetResults.firstObject?.creationDate
                             let imageLocation = assetResults.firstObject?.location?.coordinate
+                            
+                            print(imageName)
                             
                             let newImageData = ImageData(assetIdentifier: assetID,
                                                          image: image,
+                                                         imageName: imageName,
                                                          creationDate: imageCreationDate,
                                                          location: imageLocation)
                             
