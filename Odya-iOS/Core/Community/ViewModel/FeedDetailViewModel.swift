@@ -45,7 +45,6 @@ final class FeedDetailViewModel: ObservableObject {
         }
       } receiveValue: { response in
         if let data = try? response.map(FeedDetail.self) {
-          print("피드 디테일 디코딩 완료---------------------------------------")
           self.feedDetail = data
         }
       }
