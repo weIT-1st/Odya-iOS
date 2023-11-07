@@ -88,7 +88,6 @@ final class FeedViewModel: ObservableObject {
         self.state.content += data.content
         self.state.lastId = data.content.last?.communityID
         self.state.canLoadNextPage = data.hasNext
-        print(self.state.content)
       }
     }
     .store(in: &subscription)

@@ -62,4 +62,31 @@ final class CommunityComposeViewModel: ObservableObject {
   }
   
   // MARK: Update
+  func updateCommunity(communityId: Int, content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, deleteImageIds: [Int]?, updateImageData: [ImageData]) {
+    let uiImageList = updateImageData.map { $0.image }
+    _Concurrency.Task {
+      let _ = await webpConverter.processImages(uiImages: uiImageList)
+      let webpImageList = webpConverter.webpImages
+      var finalImageList = [(data: Data, name: String)]()
+      for index in 0..<webpImageList.count {
+        finalImageList.append((data: webpImageList[index], name: updateImageData[index].imageName))
+      }
+      
+      communityProvider.requestPublisher(.updateCommunity(communityId: communityId, content: content, visibility: visibility, placeId: placeId, travelJournalId: travelJournalId, topicId: topicId, deleteImageIds: deleteImageIds, updateImages: finalImageList))
+        .sink { completion in
+          switch completion {
+          case .finished:
+            print("커뮤니티 수정 완료")
+            self.isSubmitted = true
+          case .failure(let error):
+            if let errorData = try? error.response?.map(ErrorData.self) {
+              print(errorData.message)
+            }
+          }
+        } receiveValue: { response in
+          print(response)
+        }
+        .store(in: &subscription)
+    }
+  }
 }

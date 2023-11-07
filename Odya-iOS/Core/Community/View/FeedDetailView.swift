@@ -40,21 +40,7 @@ struct FeedDetailView: View {
             TabView(selection: $imageIndex) {
               ForEach(0..<viewModel.feedDetail.communityContentImages.count, id: \.self) { index in
                 VStack {
-                  AsyncImage(
-                    url: URL(string: viewModel.feedDetail.communityContentImages[index].imageURL)!,
-                    content: { image in
-                      image.resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(
-                          width: UIScreen.main.bounds.width,
-                          height: UIScreen.main.bounds.width
-                        )
-                        .clipped()
-                    },
-                    placeholder: {
-                      ProgressView()
-                    }
-                  )
+                  SquareAsyncImage(url: viewModel.feedDetail.communityContentImages[index].imageURL)
                 }
                 .tag(index)
               }
@@ -164,7 +150,14 @@ struct FeedDetailView: View {
       viewModel.fetchFeedDetail(id: communityId)
     }
     .fullScreenCover(isPresented: $showEditView) {
-      CommunityComposeView(composeMode: .edit)
+      CommunityComposeView(
+        communityId: viewModel.feedDetail.communityID,
+        textContent: viewModel.feedDetail.content,
+        privacyType: CommunityPrivacyType(rawValue: viewModel.feedDetail.visibility) ?? .global,
+        selectedTopicId: viewModel.feedDetail.topic?.id,
+        originalImageList: viewModel.feedDetail.communityContentImages,
+        showPhotoPicker: false,
+        composeMode: .edit)
     }
     .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
       Button {

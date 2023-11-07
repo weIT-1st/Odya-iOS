@@ -10,15 +10,15 @@ import Photos
 
 /// 커뮤니티 공개 타입
 enum CommunityPrivacyType: String, CaseIterable {
-  case global = "전체공개"
-  case friendOnly = "친구공개"
+  case global = "PUBLIC"
+  case friendOnly = "FRIEND_ONLY"
   
-  var visibility: String {
+  var description: String {
     switch self {
     case .global:
-      return "PUBLIC"
+      return "전체공개"
     case .friendOnly:
-      return "FRIEND_ONLY"
+      return "친구공개"
     }
   }
 }
@@ -34,32 +34,42 @@ struct CommunityComposeView: View {
   // MARK: Properties
   @Environment(\.presentationMode) var presentationMode
   
+  /// 커뮤니티 아이디
+  var communityId: Int = -1
+  /// 게시글 텍스트
+  @State var textContent: String = ""
+  /// 공개범위
+  @State var privacyType: CommunityPrivacyType = .global
+  /// 장소 아이디
+  // TODO: placeId
+  /// 여행일지 아이디
+  // TODO: travelJournalId
+  /// 선택된 토픽 아이디
+  @State var selectedTopicId: Int? = nil
+  /// 기존 사진 url
+  @State var originalImageList: [CommunityContentImage] = []
+  /// 삭제할 이미지 아이디
+  @State private var deleteImageIdList: [Int] = []
+  /// 사진 피커 토글
+  @State var showPhotoPicker: Bool = true
+  
+  /// 뷰모델
   @State private var viewModel = CommunityComposeViewModel()
-  /// 사진 리스트
+  /// 추가할 사진 리스트
   @State private var imageList: [ImageData] = []
   /// 사진 접근 권한
   @State private var photoAccessStatus: PHAuthorizationStatus?
-  /// 사진 피커 토글
-  @State private var showPhotoPicker: Bool = true
+
   /// 탭뷰 사진 인덱스
   @State private var imageIndex: Int = 0
-  /// 게시글 텍스트
-  @State private var textContent: String = ""
-  /// 선택된 토픽
-  @State private var selectedTopicId: Int? = nil
   
   /// 화면 너비
   private let screenWidth = UIScreen.main.bounds.width
   /// 탭뷰 Dot indicator 높이
   private let dotIndicatorHeight: CGFloat = 44
-  /// 공개범위
-  @State private var privacyType: CommunityPrivacyType = .global
 
   /// 커뮤니티 작성 모드
   let composeMode: CommunityComposeMode
-  /// 테스트 이미지 주소
-  let testImageUrlString =
-  "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
   
   // MARK: - Body
   
@@ -74,33 +84,61 @@ struct CommunityComposeView: View {
           ZStack(alignment: .bottom) {
             // tabview
             TabView(selection: $imageIndex) {
-              switch composeMode {
-              case .create:
-                if imageList.isEmpty {
-                  Image("logo-rect")
-                    .frame(width: screenWidth, height: screenWidth)
-                } else {
-                  ForEach(0..<imageList.count, id: \.self) { index in
-                    VStack(spacing: 0) {
-                      Image(uiImage: imageList[index].image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: screenWidth, height: screenWidth, alignment: .center)
-                        .clipped()
-                      Spacer()
-                    }
-                    .tag(index)
-                  }
+              // 기존 등록된 이미지
+              ForEach(0..<originalImageList.count, id: \.self) { index in
+                VStack(spacing: 0) {
+                  SquareAsyncImage(url: originalImageList[index].imageURL)
+                  Spacer()
                 }
-              case .edit:
-                ForEach(0..<5) { index in
+                .tag(index)
+              }
+              
+              // 생성
+              if composeMode == .create && imageList.isEmpty {
+                Image("logo-rect")
+                  .frame(width: screenWidth, height: screenWidth)
+              } else {
+                ForEach(0..<imageList.count, id: \.self) { index in
                   VStack(spacing: 0) {
-                    SquareAsyncImage(url: testImageUrlString)
+                    Image(uiImage: imageList[index].image)
+                      .resizable()
+                      .aspectRatio(contentMode: .fit)
+                      .frame(width: screenWidth, height: screenWidth, alignment: .center)
+                      .clipped()
                     Spacer()
                   }
-                  .tag(index)
+                  .tag(originalImageList.count + index)
                 }
               }
+//              switch composeMode {
+//              case .create:
+//                // 생성
+//                if imageList.isEmpty {
+//                  Image("logo-rect")
+//                    .frame(width: screenWidth, height: screenWidth)
+//                } else {
+//                  ForEach(0..<imageList.count, id: \.self) { index in
+//                    VStack(spacing: 0) {
+//                      Image(uiImage: imageList[index].image)
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .frame(width: screenWidth, height: screenWidth, alignment: .center)
+//                        .clipped()
+//                      Spacer()
+//                    }
+//                    .tag(index)
+//                  }
+//                }
+//              case .edit:
+//                // 수정
+//                ForEach(0..<originalImageList.count, id: \.self) { index in
+//                  VStack(spacing: 0) {
+//                    SquareAsyncImage(url: originalImageList[index].imageURL)
+//                    Spacer()
+//                  }
+//                  .tag(index)
+//                }
+//              }
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .frame(height: UIScreen.main.bounds.width + dotIndicatorHeight, alignment: .top)
@@ -142,11 +180,18 @@ struct CommunityComposeView: View {
                     labelText: composeMode == .create ? "작성완료" : "수정완료",
                     labelSize: .L) {
             // action: 여행일지 생성
-            viewModel.createCommunity(content: textContent, visibility: privacyType.visibility, placeId: nil, travelJournalId: nil, topicId: selectedTopicId, imageData: imageList)
+            switch composeMode {
+            case .create:
+              viewModel.createCommunity(content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: nil, topicId: selectedTopicId, imageData: imageList)
+            case .edit:
+              viewModel.updateCommunity(communityId: communityId, content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: nil, topicId: selectedTopicId, deleteImageIds: deleteImageIdList, updateImageData: imageList)
+              break
+            }
+
             presentationMode.wrappedValue.dismiss()
           }
-                    .padding(.bottom, 22)
-                    .disabled(!validate())  // 사진 or 내용이 없으면 비활성화
+          .padding(.bottom, 22)
+          .disabled(!validate())  // 사진 or 내용이 없으면 비활성화
         }
       }  // ScrollView
       .background(Color.odya.background.normal)
@@ -163,7 +208,7 @@ struct CommunityComposeView: View {
   }
   
   func validate() -> Bool {
-    if imageList.isEmpty || textContent == "" {
+    if (imageList.isEmpty && originalImageList.isEmpty) || textContent == "" {
       return false
     } else {
       return true
@@ -284,7 +329,7 @@ struct CommunityComposeView: View {
       HStack(spacing: 0) {
         ForEach(CommunityPrivacyType.allCases, id: \.self) { privacy in
           VStack {
-            Text(privacy.rawValue)
+            Text(privacy.description)
               .b1Style()
               .foregroundColor(privacyType == privacy ? .odya.label.r_normal : .odya.label.inactive)
           }
