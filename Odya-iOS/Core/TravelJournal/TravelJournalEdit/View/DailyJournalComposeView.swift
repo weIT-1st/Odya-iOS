@@ -32,7 +32,7 @@ struct DailyJournalComposeView: View {
   var body: some View {
     VStack(spacing: 0) {
       headerBar
-      DailyJournalContentEditView(
+      ContentComposeView(
         index: index, dailyJournal: $dailyJournal,
         isShowingImagePickerSheet: $isShowingImagePickerSheet,
         isDatePickerVisible: $isDatePickerVisible
@@ -45,7 +45,7 @@ struct DailyJournalComposeView: View {
     .cornerRadius(Radius.medium)
     .background(Color.odya.elevation.elev2)
     .sheet(isPresented: $isShowingImagePickerSheet) {
-      PhotoPickerView(imageList: $dailyJournal.images, accessStatus: imageAccessStatus)
+      PhotoPickerView(imageList: $dailyJournal.selectedImages, accessStatus: imageAccessStatus)
     }
 
   }

@@ -8,7 +8,7 @@
 import Photos
 import SwiftUI
 
-struct DailyJournalContentEditView: View {
+struct ContentComposeView: View {
 
   @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
 
@@ -48,7 +48,7 @@ struct DailyJournalContentEditView: View {
   private var selectedImageList: some View {
     ScrollView(.horizontal) {
       HStack(spacing: 10) {
-        if dailyJournal.images.count < 15 {
+        if dailyJournal.selectedImages.count < 15 {
           Button(action: {
             let requiredAccessLevel: PHAccessLevel = .readWrite
             PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
@@ -72,7 +72,7 @@ struct DailyJournalContentEditView: View {
               .overlay(
                 VStack(spacing: 0) {
                   Image("camera")
-                  Text("\(dailyJournal.images.count)/15")
+                  Text("\(dailyJournal.selectedImages.count)/15")
                     .detail2Style()
                     .foregroundColor(.odya.label.assistive)
                 }
@@ -95,9 +95,9 @@ struct DailyJournalContentEditView: View {
           }
         }
 
-        ForEach(dailyJournal.images) { imageData in
+        ForEach(dailyJournal.selectedImages) { imageData in
           Button(action: {
-            dailyJournal.images = dailyJournal.images.filter {
+            dailyJournal.selectedImages = dailyJournal.selectedImages.filter {
               $0.assetIdentifier != imageData.assetIdentifier
             }
           }) {
@@ -115,7 +115,7 @@ struct DailyJournalContentEditView: View {
         }
         Spacer()
       }.padding(.vertical, 16)
-        .animation(.easeInOut, value: dailyJournal.images)
+        .animation(.easeInOut, value: dailyJournal.selectedImages)
     }
   }
 
@@ -212,7 +212,7 @@ struct DailyJournalContentEditView: View {
   }
 }
 
-struct DailyJournalContentEditView_Previews: PreviewProvider {
+struct ContentComposeView_Previews: PreviewProvider {
   static var previews: some View {
     TravelJournalComposeView()
 

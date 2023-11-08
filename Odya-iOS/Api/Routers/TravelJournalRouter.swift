@@ -162,7 +162,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                                 latitudes: dailyJournal.latitudes,
                                                 longitudes: dailyJournal.longitudes,
                                                 travelDate: dailyJournal.date?.toIntArray() ?? [],
-                                                contentImageNames: dailyJournal.images.map{ $0.imageName + ".webp" }))
+                                                contentImageNames: dailyJournal.selectedImages.map{ $0.imageName + ".webp" }))
             }
             
             print("함께 간 친구: \(travelMateIds.count)명")

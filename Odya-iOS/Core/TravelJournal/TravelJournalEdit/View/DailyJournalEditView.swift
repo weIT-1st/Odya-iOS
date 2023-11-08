@@ -13,9 +13,9 @@ struct DailyJournalEditView: View {
   //    @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
   @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
 
-  let index: Int
-  @Binding var dailyJournal: DailyTravelJournal
-  @Binding var isDatePickerVisible: Bool
+  let dayN: Int
+  @Binding var dailyJournal: DailyJournal
+  @State var isDatePickerVisible: Bool = false
   @State private var isShowingImagePickerSheet = false
 
   // MARK: Body
@@ -23,8 +23,8 @@ struct DailyJournalEditView: View {
   var body: some View {
     VStack(spacing: 0) {
       headerBar
-      DailyJournalContentEditView(
-        index: index, dailyJournal: $dailyJournal,
+      ContentEditView(
+        dailyJournal: dailyJournal,
         isShowingImagePickerSheet: $isShowingImagePickerSheet,
         isDatePickerVisible: $isDatePickerVisible
       )
@@ -38,7 +38,7 @@ struct DailyJournalEditView: View {
 
   private var headerBar: some View {
     ZStack {
-      CustomNavigationBar(title: "Day 1")
+      CustomNavigationBar(title: "Day \(dayN)")
       HStack {
         Spacer()
         Button(action: {}) {
@@ -52,10 +52,10 @@ struct DailyJournalEditView: View {
   }
 }
 
-struct DailyJournalEditView_Previews: PreviewProvider {
-  static var previews: some View {
-    DailyJournalEditView(
-      index: 1, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false)
-    )
-  }
-}
+//struct DailyJournalEditView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    DailyJournalEditView(
+//        dayN: 1, dailyJournal: .constant(DailyJournal())
+////    )
+//  }
+//}

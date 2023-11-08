@@ -12,7 +12,9 @@ struct JournalDetailBottomSheet: View {
   // MARK: Properties
 
   @EnvironmentObject var bottomSheetVM: BottomSheetViewModel
+  @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
 
+  let journalId: Int
   let title: String
   let startDate: Date
   let endDate: Date
@@ -22,6 +24,7 @@ struct JournalDetailBottomSheet: View {
   @State private var isFeedType: Bool = true
   @State private var isAllExpanded: Bool = false
   @State private var showTravelMateList: Bool = false
+  @State private var isEditViewShowing: Bool = false
 
   var startDateString: String {
     return startDate.dateToString(format: "yyyy.MM.dd")
@@ -31,6 +34,7 @@ struct JournalDetailBottomSheet: View {
   }
 
   init(travelJournal: TravelJournalDetailData) {
+      journalId = travelJournal.journalId
     title = travelJournal.title
     startDate = travelJournal.travelStartDate
     endDate = travelJournal.travelEndDate
@@ -72,9 +76,8 @@ struct JournalDetailBottomSheet: View {
                 }
               }.frame(width: 50)
 
-              DailyJournalView(
-                dailyJournal: dailyJournal, isFeedType: $isFeedType,
-                isAllExpanded: $isAllExpanded)
+                DailyJournalView(journalId: journalId, dailyJournal: dailyJournal, isFeedType: $isFeedType,
+                isAllExpanded: $isAllExpanded, isEditViewShowing: $isEditViewShowing)
             }
           }
 
@@ -105,7 +108,6 @@ struct JournalDetailBottomSheet: View {
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
     }
-
   }
 
   // MARK: Journal Info

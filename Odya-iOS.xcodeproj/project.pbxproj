@@ -83,7 +83,7 @@
 		3E3EC3B62A388B55002BF519 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B52A388B55002BF519 /* KakaoSDK */; };
 		3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2B2AD6941C00034FBB /* AppDataManager.swift */; };
 		3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */; };
-		3E414B302ADC0ED000034FBB /* DailyJournalContentEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */; };
+		3E414B302ADC0ED000034FBB /* ContentComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */; };
 		3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */; };
 		3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
@@ -137,6 +137,7 @@
 		3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7D22A8F50B300F0049D /* TravelDateView.swift */; };
 		3EEBB7D72A91FACC00F0049D /* DailyTravelJournal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7D62A91FACB00F0049D /* DailyTravelJournal.swift */; };
 		3EEBB7D92A94CD6D00F0049D /* TravelJournalEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EEBB7D82A94CD6D00F0049D /* TravelJournalEditViewModel.swift */; };
+		3EF00B232AFB768500D05B2A /* ContentEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF00B222AFB768500D05B2A /* ContentEditView.swift */; };
 		3EF549862A419100006562F8 /* ColorStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549852A419100006562F8 /* ColorStyles.swift */; };
 		3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */; };
 		3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */; };
@@ -246,7 +247,7 @@
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
-		3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalContentEditView.swift; sourceTree = "<group>"; };
+		3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentComposeView.swift; sourceTree = "<group>"; };
 		3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalComposeView.swift; sourceTree = "<group>"; };
 		3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalViewModel.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
@@ -295,6 +296,7 @@
 		3EEBB7D22A8F50B300F0049D /* TravelDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDateView.swift; sourceTree = "<group>"; };
 		3EEBB7D62A91FACB00F0049D /* DailyTravelJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTravelJournal.swift; sourceTree = "<group>"; };
 		3EEBB7D82A94CD6D00F0049D /* TravelJournalEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalEditViewModel.swift; sourceTree = "<group>"; };
+		3EF00B222AFB768500D05B2A /* ContentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentEditView.swift; path = ../../../../../../../ContentEditView.swift; sourceTree = "<group>"; };
 		3EF549852A419100006562F8 /* ColorStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyles.swift; sourceTree = "<group>"; };
 		3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
 		3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
@@ -646,8 +648,9 @@
 			children = (
 				3EEBB7CC2A8E259800F0049D /* TravelJournalComposeView.swift */,
 				3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */,
+				3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */,
 				3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */,
-				3E414B2F2ADC0ED000034FBB /* DailyJournalContentEditView.swift */,
+				3EF00B222AFB768500D05B2A /* ContentEditView.swift */,
 				3EEBB7D22A8F50B300F0049D /* TravelDateView.swift */,
 				3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */,
 			);
@@ -1106,9 +1109,10 @@
 				3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */,
 				3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */,
 				3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */,
-				3E414B302ADC0ED000034FBB /* DailyJournalContentEditView.swift in Sources */,
+				3E414B302ADC0ED000034FBB /* ContentComposeView.swift in Sources */,
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
 				19EBA7592AB16E2C000ABBE5 /* TermsView.swift in Sources */,
+				3EF00B232AFB768500D05B2A /* ContentEditView.swift in Sources */,
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
