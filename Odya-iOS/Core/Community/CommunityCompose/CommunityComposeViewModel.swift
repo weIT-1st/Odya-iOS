@@ -21,28 +21,24 @@ final class CommunityComposeViewModel: ObservableObject {
   private var subscription = Set<AnyCancellable>()
   
   /// 이미지 webp 변환
-  let webpConverter = WebpViewModel()
+  let webpConverter = WebPImageManager()
   
   /// 작성완료 여부
   @Published var isSubmitted: Bool = false
   
   // MARK: Create
+  /// 커뮤니티 생성
   func createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, imageData: [ImageData]) {
-    let uiImageList = imageData.map { $0.image }
     _Concurrency.Task {
-      let _ = await webpConverter.processImages(uiImages: uiImageList)
+      let _ = await webpConverter.processImages(images: imageData)
       let webpImageList = webpConverter.webpImages
-      var finalImageList = [(data: Data, name: String)]()
-      for index in 0..<webpImageList.count {
-        finalImageList.append((data: webpImageList[index], name: imageData[index].imageName))
-      }
       
       communityProvider.requestPublisher(.createCommunity(content: content,
                                                           visibility: visibility,
                                                           placeId: placeId,
                                                           travelJournalId: travelJournalId,
                                                           topicId: topicId,
-                                                          images: finalImageList)
+                                                          images: webpImageList)
       )
       .sink { completion in
         switch completion {
@@ -62,17 +58,13 @@ final class CommunityComposeViewModel: ObservableObject {
   }
   
   // MARK: Update
+  /// 커뮤니티 수정
   func updateCommunity(communityId: Int, content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, deleteImageIds: [Int]?, updateImageData: [ImageData]) {
-    let uiImageList = updateImageData.map { $0.image }
     _Concurrency.Task {
-      let _ = await webpConverter.processImages(uiImages: uiImageList)
+      let _ = await webpConverter.processImages(images: updateImageData)
       let webpImageList = webpConverter.webpImages
-      var finalImageList = [(data: Data, name: String)]()
-      for index in 0..<webpImageList.count {
-        finalImageList.append((data: webpImageList[index], name: updateImageData[index].imageName))
-      }
       
-      communityProvider.requestPublisher(.updateCommunity(communityId: communityId, content: content, visibility: visibility, placeId: placeId, travelJournalId: travelJournalId, topicId: topicId, deleteImageIds: deleteImageIds, updateImages: finalImageList))
+      communityProvider.requestPublisher(.updateCommunity(communityId: communityId, content: content, visibility: visibility, placeId: placeId, travelJournalId: travelJournalId, topicId: topicId, deleteImageIds: deleteImageIds, updateImages: webpImageList))
         .sink { completion in
           switch completion {
           case .finished:

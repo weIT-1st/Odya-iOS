@@ -14,7 +14,7 @@ private struct TravelJournalInfoEditView: View {
   private let titleCharacterLimit = 20
   @Binding var isDatePickerVisible: Bool
   @AppStorage("WeITAuthToken") var idToken: String?
-  var userId = MyData().userID
+  var userId = MyData.userID
 
   var body: some View {
     VStack(alignment: .leading, spacing: 24) {

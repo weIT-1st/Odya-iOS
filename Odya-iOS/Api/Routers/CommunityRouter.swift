@@ -10,7 +10,7 @@ import Moya
 
 enum CommunityRouter {
   // 1. 생성
-  case createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, images: [(data: Data, name: String)])
+  case createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, images: [(data: Data, imageName: String)])
   // 2. 상세 조회
   case getCommunityDetail(communityId: Int)
   // 3. 전체 목록 조회
@@ -24,7 +24,7 @@ enum CommunityRouter {
   // 7. 좋아요 누른 목록 조회
   // 8. 댓글 단 목록 조회
   // 9. 수정
-  case updateCommunity(communityId: Int, content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, deleteImageIds: [Int]?, updateImages: [(data: Data, name: String)])
+  case updateCommunity(communityId: Int, content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, deleteImageIds: [Int]?, updateImages: [(data: Data, imageName: String)])
   // 10. 삭제
   case deleteCommunity(communityId: Int)
 }
@@ -81,7 +81,7 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       let encodedBody = try? JSONSerialization.data(withJSONObject: body)
       formData.append(MultipartFormData(provider: .data(encodedBody ?? Data()), name: "community", fileName: "community", mimeType: "application/json"))
       for image in images {
-        formData.append(MultipartFormData(provider: .data(image.data), name: "community-content-image", fileName: "\(image.name).webp", mimeType: "image/webp"))
+        formData.append(MultipartFormData(provider: .data(image.data), name: "community-content-image", fileName: "\(image.imageName).webp", mimeType: "image/webp"))
       }
       return .uploadMultipart(formData)
     case .getCommunityDetail:
@@ -122,7 +122,7 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       let encodedBody = try? JSONSerialization.data(withJSONObject: body)
       formData.append(MultipartFormData(provider: .data(encodedBody ?? Data()), name: "update-community", fileName: "community", mimeType: "application/json"))
       for image in updateImages {
-        formData.append(MultipartFormData(provider: .data(image.data), name: "update-community-content-image", fileName: "\(image.name).webp", mimeType: "image/webp"))
+        formData.append(MultipartFormData(provider: .data(image.data), name: "update-community-content-image", fileName: "\(image.imageName).webp", mimeType: "image/webp"))
       }
       return .uploadMultipart(formData)
     case .deleteCommunity:
