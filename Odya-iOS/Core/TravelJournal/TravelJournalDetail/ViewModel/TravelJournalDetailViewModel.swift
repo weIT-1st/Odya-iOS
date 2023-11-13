@@ -23,10 +23,16 @@ class TravelJournalDetailViewModel: ObservableObject {
   var isJournalDetailLoading: Bool = false
     var isJournalDeleting: Bool = false
     var deletingDailyJournalId: [Int] = []
+
     
-
   @Published var journalDetail: TravelJournalDetailData? = nil
+  @Published var isFeedType: Bool = true
+  @Published var isAllExpanded: Bool = false
+  @Published var isEditViewShowing: Bool = false
+    
+    @Published var editedDailyJournal: DailyJournal? = nil
 
+    // MARK: Functions
   func getJournalDetail(journalId: Int) {
     guard let idToken = idToken else {
       return
@@ -98,7 +104,7 @@ class TravelJournalDetailViewModel: ObservableObject {
                 self.isJournalDeleting = false
                 completion(true, "")
             case .failure(let error):
-                self.deletingDailyJournalId = self.deletingDailyJournalId.filter{ $0 != journalId }
+                self.isJournalDeleting = false
 
               guard let apiError = try? error.response?.map(ErrorData.self) else {
                 // error data decoding error handling

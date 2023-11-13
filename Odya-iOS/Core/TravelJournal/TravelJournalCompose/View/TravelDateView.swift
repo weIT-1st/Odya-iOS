@@ -32,7 +32,7 @@ struct TravelDatePickerView: View {
 
   // MARK: Properties
 
-  @ObservedObject var travelJournalEditVM: TravelJournalEditViewModel
+  @ObservedObject var journalComposeVM: JournalComposeViewModel
   @Binding var isDatePickerVisible: Bool
 
   @State private var selectedStartDate: Date = Date()
@@ -82,7 +82,7 @@ struct TravelDatePickerView: View {
         }
 
         Button(action: {
-          travelJournalEditVM.setTravelDates(startDate: selectedStartDate, endDate: selectedEndDate)
+            journalComposeVM.setTravelDates(startDate: selectedStartDate, endDate: selectedEndDate)
           isDatePickerVisible = false
         }) {
           Text("확인")
@@ -97,8 +97,8 @@ struct TravelDatePickerView: View {
     .background(Color.odya.elevation.elev2)
     .cornerRadius(Radius.small)
     .onAppear {
-      selectedStartDate = travelJournalEditVM.startDate
-      selectedEndDate = travelJournalEditVM.endDate
+      selectedStartDate = journalComposeVM.startDate
+      selectedEndDate = journalComposeVM.endDate
     }
   }
 
@@ -173,7 +173,7 @@ struct DailyJournalDatePicker: View {
 
   // MARK: Properties
 
-  @ObservedObject var travelJournalEditVM: TravelJournalEditViewModel
+  @ObservedObject var journalComposeVM: JournalComposeViewModel
   @Binding var isDatePickerVisible: Bool
 
   @State private var selectedDate: Date
@@ -181,16 +181,16 @@ struct DailyJournalDatePicker: View {
   let startDate: Date
   let endDate: Date
 
-  init(travelJournalEditVM: TravelJournalEditViewModel, isDatePickerVisible: Binding<Bool>) {
-    self._travelJournalEditVM = ObservedObject(initialValue: travelJournalEditVM)
+  init(journalComposeVM: JournalComposeViewModel, isDatePickerVisible: Binding<Bool>) {
+    self._journalComposeVM = ObservedObject(initialValue: journalComposeVM)
     self._isDatePickerVisible = isDatePickerVisible
 
-    let pickedJournal = travelJournalEditVM.dailyJournalList[
-      travelJournalEditVM.pickedJournalIndex!]
-    self._selectedDate = State(initialValue: pickedJournal.date ?? travelJournalEditVM.startDate)
+    let pickedJournal = journalComposeVM.dailyJournalList[
+        journalComposeVM.pickedJournalIndex!]
+    self._selectedDate = State(initialValue: pickedJournal.date ?? journalComposeVM.startDate)
 
-    self.startDate = travelJournalEditVM.startDate
-    self.endDate = travelJournalEditVM.endDate
+    self.startDate = journalComposeVM.startDate
+    self.endDate = journalComposeVM.endDate
   }
 
   // MARK: Body
@@ -210,7 +210,7 @@ struct DailyJournalDatePicker: View {
 
       HStack {
         Button(action: {
-          travelJournalEditVM.pickedJournalIndex = nil
+            journalComposeVM.pickedJournalIndex = nil
           isDatePickerVisible = false
         }) {
           Text("취소")
@@ -221,10 +221,10 @@ struct DailyJournalDatePicker: View {
         }
 
         Button(action: {
-          travelJournalEditVM.setJournalDate(selectedDate: selectedDate)
-          travelJournalEditVM.pickedJournalIndex = nil
+            journalComposeVM.setJournalDate(selectedDate: selectedDate)
+            journalComposeVM.pickedJournalIndex = nil
           isDatePickerVisible = false
-          travelJournalEditVM.dailyJournalList.sort()
+            journalComposeVM.dailyJournalList.sort()
         }) {
           Text("확인")
             .b1Style()

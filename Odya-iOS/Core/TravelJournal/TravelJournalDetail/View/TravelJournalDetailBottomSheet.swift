@@ -21,10 +21,7 @@ struct JournalDetailBottomSheet: View {
   var contents: [DailyJournal] = []
   var mates: [TravelMate] = []
 
-  @State private var isFeedType: Bool = true
-  @State private var isAllExpanded: Bool = false
   @State private var showTravelMateList: Bool = false
-  @State private var isEditViewShowing: Bool = false
 
   var startDateString: String {
     return startDate.dateToString(format: "yyyy.MM.dd")
@@ -60,15 +57,15 @@ struct JournalDetailBottomSheet: View {
           viewModeSelector
 
           ForEach(self.contents, id: \.id) { dailyJournal in
-            let dayN: Int = Int(dailyJournal.travelDate.timeIntervalSince(self.startDate) / 86400)
+            let dayN: Int = Int(dailyJournal.travelDate.timeIntervalSince(self.startDate) / 86400) + 1
             HStack(alignment: .top, spacing: 16) {
               VStack(spacing: 12) {
-                Text("Day\(dayN + 1)")
+                Text("Day\(dayN)")
                   .b1Style()
                   .foregroundColor(.odya.label.normal)
                   .frame(height: 12)
                   .padding(.bottom, 7)
-                SplarkleIcon()
+                SparkleIcon()
                 if dailyJournal != self.contents.last {
                   Rectangle()
                     .frame(width: 4)
@@ -76,8 +73,7 @@ struct JournalDetailBottomSheet: View {
                 }
               }.frame(width: 50)
 
-                DailyJournalView(journalId: journalId, dailyJournal: dailyJournal, isFeedType: $isFeedType,
-                isAllExpanded: $isAllExpanded, isEditViewShowing: $isEditViewShowing)
+                DailyJournalView(journalId: journalId, dailyJournal: dailyJournal)
             }
           }
 
@@ -158,21 +154,21 @@ struct JournalDetailBottomSheet: View {
   private var viewModeSelector: some View {
     HStack {
       Button(action: {
-        isAllExpanded.toggle()
+          journalDetailVM.isAllExpanded.toggle()
       }) {
-        Text(!isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
+          Text(!journalDetailVM.isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
           .b1Style()
           .foregroundColor(.odya.label.alternative)
       }
       Spacer()
       IconButton("feed") {
-        isFeedType = true
+          journalDetailVM.isFeedType = true
       }
-      .colorMultiply(isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+      .colorMultiply(journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
       IconButton("grid") {
-        isFeedType = false
+          journalDetailVM.isFeedType = false
       }
-      .colorMultiply(!isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+      .colorMultiply(!journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
 
     }
   }

@@ -64,12 +64,18 @@ struct TravelJournalDetailView: View {
                             .frame(height: 250)
                     }
                 }
+                
+                
+                if let journal = journalDetailVM.journalDetail,
+                   let editedJournal = journalDetailVM.editedDailyJournal {
+                    DailyJournalEditView(journal: journal, editedJournal: editedJournal)
+                        .environmentObject(journalDetailVM)
+                }
             }  // geometry
         }
         .onAppear {
             journalDetailVM.getJournalDetail(journalId: journalId)
             bottomSheetVM.isSheetOn = false
-            // selectedDetent = .journalDetailOff
         }
         .alert("해당 여행일지를 삭제할까요?", isPresented: $isShowingJournalDeletionAlert) {
             HStack {

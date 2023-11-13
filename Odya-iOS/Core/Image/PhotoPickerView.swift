@@ -67,7 +67,6 @@ struct PhotoPickerView: UIViewControllerRepresentable {
         }
          */
         
-        
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             parent.presentationMode.wrappedValue.dismiss()
             guard !results.isEmpty else {
@@ -106,18 +105,12 @@ struct PhotoPickerView: UIViewControllerRepresentable {
                                                          imageName: imageName,
                                                          creationDate: imageCreationDate,
                                                          location: imageLocation)
-                            
-                            // debugPrint("new Image Data: \(newImageData)")
-                            
                             newImageList.insert(newImageData, at: 0)
                         }
                         
                         self.group.leave() // 이미지 로드 완료를 알림
                     }
                 }
-//                else {
-//                    debugPrint("cannot be loaded: \(imageResult)")
-//                }
             }
             
             group.notify(queue: .main) {

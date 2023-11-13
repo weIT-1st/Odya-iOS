@@ -11,6 +11,8 @@ import SwiftUI
 struct MyJournalsView: View {
 
   @StateObject var VM = MyJournalsViewModel()
+
+  // TODO: 즐겨찾기
   @State private var isOn: Bool = true
 
   // MARK: Body

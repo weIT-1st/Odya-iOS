@@ -28,7 +28,7 @@ enum PrivacyType {
   }
 }
 
-class TravelJournalEditViewModel: ObservableObject {
+class JournalComposeViewModel: ObservableObject {
   // moya
   private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
   private lazy var journalProvider = MoyaProvider<TravelJournalRouter>(plugins: [plugin])
@@ -39,6 +39,7 @@ class TravelJournalEditViewModel: ObservableObject {
 
   @AppStorage("WeITAuthToken") var idToken: String?
 
+  // loading flag
   var isJournalCreating: Bool = false
 
   // travel journal data

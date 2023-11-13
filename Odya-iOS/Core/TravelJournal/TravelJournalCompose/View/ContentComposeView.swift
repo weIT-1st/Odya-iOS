@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentComposeView: View {
 
-  @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+  @EnvironmentObject var journalComposeVM: JournalComposeViewModel
 
   let index: Int
   @Binding var dailyJournal: DailyTravelJournal
@@ -125,7 +125,7 @@ struct ContentComposeView: View {
       Image("calendar")
         .colorMultiply(.odya.label.assistive)
       Button(action: {
-        travelJournalEditVM.pickedJournalIndex = index
+          journalComposeVM.pickedJournalIndex = index
         isDatePickerVisible = true
       }) {
         HStack {
