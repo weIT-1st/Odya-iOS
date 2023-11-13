@@ -125,7 +125,7 @@ struct ContentComposeView: View {
       Image("calendar")
         .colorMultiply(.odya.label.assistive)
       Button(action: {
-          journalComposeVM.pickedJournalIndex = index
+        journalComposeVM.pickedJournalIndex = index
         isDatePickerVisible = true
       }) {
         HStack {

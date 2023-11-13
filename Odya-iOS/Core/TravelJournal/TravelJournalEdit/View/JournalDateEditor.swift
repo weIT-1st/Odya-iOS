@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: Daily journal date editor
 
 /// 데일리 일정 날짜 피커 뷰
+/// 데일리 일정 수정 시에 사용됨
 struct DailyJournalDateEditor: View {
 
   // MARK: Properties
@@ -20,7 +21,10 @@ struct DailyJournalDateEditor: View {
   let startDate: Date
   let endDate: Date
 
-  init(editedDate: Binding<Date>, travelStartDate: Date, travelEndDate: Date, isDatePickerVisible: Binding<Bool>) {
+  init(
+    editedDate: Binding<Date>, travelStartDate: Date, travelEndDate: Date,
+    isDatePickerVisible: Binding<Bool>
+  ) {
     self._isDatePickerVisible = isDatePickerVisible
     self._selectedDate = editedDate
     self._newDate = State(initialValue: editedDate.wrappedValue)
@@ -73,4 +77,3 @@ struct DailyJournalDateEditor: View {
     .cornerRadius(Radius.small)
   }
 }
-

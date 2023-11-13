@@ -75,7 +75,7 @@ struct DailyJournalComposeView: View {
             }
             Button("삭제", role: .destructive) {
               isShowingDailyJournalDeleteAlert = false
-                journalComposeVM.deleteDailyJournal(dailyJournal: dailyJournal)
+              journalComposeVM.deleteDailyJournal(dailyJournal: dailyJournal)
             }
           }
         } message: {

@@ -14,6 +14,7 @@ struct JournalDetailBottomSheet: View {
   @EnvironmentObject var bottomSheetVM: BottomSheetViewModel
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
 
+  // journal info
   let journalId: Int
   let title: String
   let startDate: Date
@@ -21,7 +22,8 @@ struct JournalDetailBottomSheet: View {
   var contents: [DailyJournal] = []
   var mates: [TravelMate] = []
 
-  @State private var showTravelMateList: Bool = false
+  /// 함께 간 친구 더보기 바텀시트 화면 표시 여부
+  @State private var isShowingTravelMateList: Bool = false
 
   var startDateString: String {
     return startDate.dateToString(format: "yyyy.MM.dd")
@@ -31,7 +33,7 @@ struct JournalDetailBottomSheet: View {
   }
 
   init(travelJournal: TravelJournalDetailData) {
-      journalId = travelJournal.journalId
+    journalId = travelJournal.journalId
     title = travelJournal.title
     startDate = travelJournal.travelStartDate
     endDate = travelJournal.travelEndDate
@@ -57,12 +59,13 @@ struct JournalDetailBottomSheet: View {
           viewModeSelector
 
           ForEach(self.contents, id: \.id) { dailyJournal in
-            let dayN: Int = Int(dailyJournal.travelDate.timeIntervalSince(self.startDate) / 86400) + 1
+            let dayN: Int =
+              Int(dailyJournal.travelDate.timeIntervalSince(self.startDate) / 86400) + 1
             HStack(alignment: .top, spacing: 16) {
+              // dayN Stack
               VStack(spacing: 12) {
                 Text("Day\(dayN)")
-                  .b1Style()
-                  .foregroundColor(.odya.label.normal)
+                  .b1Style().foregroundColor(.odya.label.normal)
                   .frame(height: 12)
                   .padding(.bottom, 7)
                 SparkleIcon()
@@ -73,10 +76,10 @@ struct JournalDetailBottomSheet: View {
                 }
               }.frame(width: 50)
 
-                DailyJournalView(journalId: journalId, dailyJournal: dailyJournal)
+              DailyJournalView(journalId: journalId, dailyJournal: dailyJournal)
             }
           }
-
+          Spacer()
         }
         .padding(.top, 25)
         .padding(.bottom, 200)
@@ -99,7 +102,7 @@ struct JournalDetailBottomSheet: View {
     .background(Color.odya.background.dimmed_system)
     .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.medium))
     .ignoresSafeArea(edges: [.bottom])
-    .sheet(isPresented: $showTravelMateList) {
+    .sheet(isPresented: $isShowingTravelMateList) {
       TravelMatesView(mates: mates)
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
@@ -116,9 +119,10 @@ struct JournalDetailBottomSheet: View {
         .lineLimit(bottomSheetVM.isSheetOn ? 1 : nil)
         .padding(.vertical)
 
+      // 함께 간 친구
       HStack {
         Button(action: {
-            showTravelMateList = true
+          isShowingTravelMateList = true
         }) {
           HStack(spacing: 0) {
             let displayedMates = mates.filter({ $0.isRegistered }).prefix(2)
@@ -154,21 +158,23 @@ struct JournalDetailBottomSheet: View {
   private var viewModeSelector: some View {
     HStack {
       Button(action: {
-          journalDetailVM.isAllExpanded.toggle()
+        journalDetailVM.isAllExpanded.toggle()
       }) {
-          Text(!journalDetailVM.isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
+        Text(!journalDetailVM.isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
           .b1Style()
           .foregroundColor(.odya.label.alternative)
       }
       Spacer()
       IconButton("feed") {
-          journalDetailVM.isFeedType = true
+        journalDetailVM.isFeedType = true
       }
-      .colorMultiply(journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+      .colorMultiply(
+        journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
       IconButton("grid") {
-          journalDetailVM.isFeedType = false
+        journalDetailVM.isFeedType = false
       }
-      .colorMultiply(!journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+      .colorMultiply(
+        !journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
 
     }
   }

@@ -46,7 +46,7 @@ private struct TravelJournalInfoEditView: View {
     )
     .onChange(of: journalComposeVM.title) { newValue in
       if newValue.count > titleCharacterLimit {
-          journalComposeVM.title = String(newValue.prefix(titleCharacterLimit))
+        journalComposeVM.title = String(newValue.prefix(titleCharacterLimit))
       }
     }
   }
@@ -170,7 +170,7 @@ struct TravelJournalComposeView: View {
       // 여행일지 날짜 선택 뷰
       if isDatePickerVisible {
         TravelDatePickerView(
-            journalComposeVM: journalComposeVM, isDatePickerVisible: $isDatePickerVisible
+          journalComposeVM: journalComposeVM, isDatePickerVisible: $isDatePickerVisible
         )
         .padding(GridLayout.side)
         .background(Color.odya.blackopacity.baseBlackAlpha80)
@@ -179,7 +179,7 @@ struct TravelJournalComposeView: View {
       // 데일리 일정 날짜 선태 뷰
       if isDailyDatePickerVisible {
         DailyJournalDatePicker(
-            journalComposeVM: journalComposeVM, isDatePickerVisible: $isDailyDatePickerVisible
+          journalComposeVM: journalComposeVM, isDatePickerVisible: $isDailyDatePickerVisible
         )
         .padding(GridLayout.side)
         .frame(maxHeight: .infinity)
@@ -187,7 +187,7 @@ struct TravelJournalComposeView: View {
       }
     }
     .onAppear {
-        journalComposeVM.addDailyJournal()
+      journalComposeVM.addDailyJournal()
     }
     .confirmationDialog("", isPresented: $isDismissAlertVisible) {
       Button("임시저장") { print("임시저장 클릭") }
@@ -248,7 +248,7 @@ struct TravelJournalComposeView: View {
 
   private var dailyJournalAddButton: some View {
     Button(action: {
-        journalComposeVM.addDailyJournal()
+      journalComposeVM.addDailyJournal()
     }) {
       HStack(spacing: 8) {
         Image("plus-bold")
@@ -308,36 +308,36 @@ struct TravelJournalComposeView: View {
 
       HStack(spacing: 12) {
         Button(action: {
-            journalComposeVM.privacyType = .global
+          journalComposeVM.privacyType = .global
         }) {
           Text("전체공개")
             .b1Style()
             .foregroundColor(
-                journalComposeVM.privacyType == .global
+              journalComposeVM.privacyType == .global
                 ? .odya.label.r_normal : .odya.label.inactive
             )
             .frame(width: 59)
             .padding(10)
         }
         Button(action: {
-            journalComposeVM.privacyType = .friendsOnly
+          journalComposeVM.privacyType = .friendsOnly
         }) {
           Text("친구공개")
             .b1Style()
             .foregroundColor(
-                journalComposeVM.privacyType == .friendsOnly
+              journalComposeVM.privacyType == .friendsOnly
                 ? .odya.label.r_normal : .odya.label.inactive
             )
             .frame(width: 59)
             .padding(10)
         }
         Button(action: {
-            journalComposeVM.privacyType = .personal
+          journalComposeVM.privacyType = .personal
         }) {
           Text("비공개")
             .b1Style()
             .foregroundColor(
-                journalComposeVM.privacyType == .personal
+              journalComposeVM.privacyType == .personal
                 ? .odya.label.r_normal : .odya.label.inactive
             )
             .frame(width: 59)

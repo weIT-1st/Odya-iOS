@@ -587,9 +587,9 @@
 		3E26C3732AF0E7D6003607A8 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3E26C3742AF0E7EC003607A8 /* DailyJournalView.swift */,
-				3E26C3762AF0E7EC003607A8 /* TravelJournalDetailBottomSheet.swift */,
 				3E26C3752AF0E7EC003607A8 /* TravelJournalDetailView.swift */,
+				3E26C3762AF0E7EC003607A8 /* TravelJournalDetailBottomSheet.swift */,
+				3E26C3742AF0E7EC003607A8 /* DailyJournalView.swift */,
 				3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */,
 				3E26C3852AF3956F003607A8 /* TravelMatesView.swift */,
 			);
@@ -689,9 +689,9 @@
 		3EB938192AF79DB60041FE5B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3EE9CA3C2AC84D95003A2E85 /* MyJournalsView.swift */,
 				3EB938162AF795A60041FE5B /* NoJournalView.swift */,
 				3EE9CA3E2AC94FDA003A2E85 /* MyJournalCardView.swift */,
-				3EE9CA3C2AC84D95003A2E85 /* MyJournalsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

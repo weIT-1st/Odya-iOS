@@ -44,12 +44,9 @@ class MyJournalsViewModel: ObservableObject {
   var lastIdOfTaggedJournals: Int? = nil
   var hasNextTaggedJournals: Bool = true
 
-  // 모두 비동기적으로 가져올 것
-  // refresh, onAppear -> fetch
-  // 무한스크롤 - 내 여행일지, 즐겨찾는 여행일지, 태그된 여행일지
-  // 내 여행일지랑 한줄리뷰는 - 10개 정도씩 가져오고 더보기 같은 버튼이 있어야 될 거 같은데...? 아니다 가능은 하겠다
-  // 즐겨찾기랑 태그는 가로스크롤이니까 땡기면 더 가져오면 되는데
+  // MARK: Get My Data
 
+  /// user defaults에서 유저 정보 가져옴
   func getMyData() {
     let myData = MyData()
     self.nickname = myData.nickname
@@ -57,6 +54,9 @@ class MyJournalsViewModel: ObservableObject {
     self.userId = myData.userID
   }
 
+  // MARK: Fetch Data
+
+  /// Fetch Data를 하기 전 초기화
   func initData() {
     // travel journals
     // @Published var randomJournal: TravelJournalData
@@ -74,6 +74,8 @@ class MyJournalsViewModel: ObservableObject {
     hasNextTaggedJournals = true
   }
 
+  /// api를 통해 여행일지들을 가져옴
+  /// 내 여행일지, 즐겨찾기된 여행일지, 테그된 여행일지 가져올 수 있음
   func fetchDataAsync() async {
     guard let idToken = idToken else {
       return
@@ -83,6 +85,8 @@ class MyJournalsViewModel: ObservableObject {
     getBookmarkedJournals(idToken: idToken)
     getTaggedJournals(idToken: idToken)
   }
+
+  // MARK: Get My Journals
 
   private func getMyJournals(idToken: String) {
     if isMyJournalsLoading || !hasNextMyJournals {
@@ -135,6 +139,8 @@ class MyJournalsViewModel: ObservableObject {
     }.store(in: &subscription)
   }
 
+  // MARK: Get Bookmarked Journals
+
   private func getBookmarkedJournals(idToken: String) {
     if isBookmarkedJournalsLoading || !hasNextBookmarkedJournals {
       return
@@ -183,6 +189,8 @@ class MyJournalsViewModel: ObservableObject {
     }.store(in: &subscription)
   }
 
+  // MARK: Get Tagged Journals
+
   private func getTaggedJournals(idToken: String) {
     if isTaggedJournalsLoading || !hasNextTaggedJournals {
       return
@@ -230,8 +238,5 @@ class MyJournalsViewModel: ObservableObject {
       }
     }.store(in: &subscription)
   }
-
-  // onAppear -> fetch All, update myData
-  //
 
 }
