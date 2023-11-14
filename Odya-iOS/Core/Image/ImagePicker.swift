@@ -8,52 +8,52 @@
 
 import SwiftUI
 import PhotosUI
-
-class ImagePicker: ObservableObject {
-    
-    @Published var images: [PHAsset] = []
-    
-    @Published var imageSelections: [PhotosPickerItem] = [] {
-        didSet {
-            Task {
-                if !imageSelections.isEmpty {
-                    try await loadTransferable(from: imageSelections)
-                    await clearImageSelections()
-//                    imageSelections = []
-                }
-            }
-        }
-    }
-    
-    func loadTransferable(from imageSelections: [PhotosPickerItem]) async throws {
-        print("ImagePicker - loadTransferable() called")
-        do {
-            for selectedImage in imageSelections {
-//                if let data = try await selectedImage.loadTransferable(type: Data.self) {
-//                    if let uiImage = UIImage(data: data),
-                if selectedImage.itemIdentifier != nil {
-                    let result = PHAsset.fetchAssets(withLocalIdentifiers: [selectedImage.itemIdentifier!], options: nil)
-                    if let asset = result.firstObject {
-                        await self.appendImage(asset)
-                    }
-                }
-            }
-        }
-//        catch {
-//            print(error.localizedDescription)
+//
+//class ImagePicker: ObservableObject {
+//
+//    @Published var images: [PHAsset] = []
+//
+//    @Published var imageSelections: [PhotosPickerItem] = [] {
+//        didSet {
+//            Task {
+//                if !imageSelections.isEmpty {
+//                    try await loadTransferable(from: imageSelections)
+//                    await clearImageSelections()
+////                    imageSelections = []
+//                }
+//            }
 //        }
-    }
-    
-    @MainActor
-    func appendImage(_ asset: PHAsset) {
-        self.images.append(asset)
-    }
-    
-    @MainActor
-    func clearImageSelections() {
-        self.imageSelections = []
-    }
-}
+//    }
+//
+//    func loadTransferable(from imageSelections: [PhotosPickerItem]) async throws {
+//        print("ImagePicker - loadTransferable() called")
+//        do {
+//            for selectedImage in imageSelections {
+////                if let data = try await selectedImage.loadTransferable(type: Data.self) {
+////                    if let uiImage = UIImage(data: data),
+//                if selectedImage.itemIdentifier != nil {
+//                    let result = PHAsset.fetchAssets(withLocalIdentifiers: [selectedImage.itemIdentifier!], options: nil)
+//                    if let asset = result.firstObject {
+//                        await self.appendImage(asset)
+//                    }
+//                }
+//            }
+//        }
+////        catch {
+////            print(error.localizedDescription)
+////        }
+//    }
+//
+//    @MainActor
+//    func appendImage(_ asset: PHAsset) {
+//        self.images.append(asset)
+//    }
+//
+//    @MainActor
+//    func clearImageSelections() {
+//        self.imageSelections = []
+//    }
+//}
 
 
 //import Foundation

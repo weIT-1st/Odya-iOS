@@ -13,16 +13,31 @@ struct DailyJournalEditView: View {
 
   // MARK: Properties
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
-  @ObservedObject var journalEditVM: JournalEditViewModel
+  @ObservedObject var journalEditVM: DailyJournalEditViewModel
 
   @State private var isDatePickerVisible: Bool = false
   @State private var isShowingImagePickerSheet = false
   @State private var isDismissAlertVisible: Bool = false
 
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
+  
+  // daily journal data
+  @State private var date: Date
+  @State private var content: String
+  @State private var placeId: String?
+  @State private var latitudes: [Double] = []
+  @State private var longitudes: [Double] = []
+  @State private var fetchedImages: [DailyJournalImage] = []
+  @State private var selectedImages: [ImageData] = []
 
   init(journal: TravelJournalDetailData, editedJournal: DailyJournal) {
-    self.journalEditVM = JournalEditViewModel(journal: journal, dailyJournal: editedJournal)
+    self.journalEditVM = DailyJournalEditViewModel(journal: journal, dailyJournal: editedJournal)
+    self._date = State(initialValue: editedJournal.travelDate)
+    self._content = State(initialValue: editedJournal.content)
+    self._placeId = State(initialValue: editedJournal.placeId)
+    self._latitudes = State(initialValue: editedJournal.latitudes)
+    self._longitudes = State(initialValue: editedJournal.longitudes)
+    self._fetchedImages = State(initialValue: editedJournal.images)
   }
 
   // MARK: Body
@@ -33,7 +48,14 @@ struct DailyJournalEditView: View {
         headerBar
         ContentEditView(
           isDatePickerVisible: $isDatePickerVisible,
-          isShowingImagePickerSheet: $isShowingImagePickerSheet
+          isShowingImagePickerSheet: $isShowingImagePickerSheet,
+          date: $date,
+          content: $content,
+          placeId: $placeId,
+          latitudes: $latitudes,
+          longitudes: $longitudes,
+          fetchedImages: $fetchedImages,
+          selectedImages: $selectedImages
         )
         .environmentObject(journalEditVM)
         .padding(.horizontal, GridLayout.side)
@@ -42,7 +64,7 @@ struct DailyJournalEditView: View {
 
       if isDatePickerVisible {
         DailyJournalDateEditor(
-          editedDate: $journalEditVM.date, travelStartDate: journalEditVM.startDate,
+          editedDate: $date, travelStartDate: journalEditVM.startDate,
           travelEndDate: journalEditVM.endDate, isDatePickerVisible: $isDatePickerVisible
         )
         .padding(GridLayout.side)
@@ -51,8 +73,11 @@ struct DailyJournalEditView: View {
       }
     }
     .background(Color.odya.background.normal)
+    .onDisappear {
+      journalDetailVM.getJournalDetail(journalId: journalEditVM.journalId)
+    }
     .sheet(isPresented: $isShowingImagePickerSheet) {
-      PhotoPickerView(imageList: $journalEditVM.selectedImages, accessStatus: imageAccessStatus)
+      PhotoPickerView(imageList: $selectedImages, accessStatus: imageAccessStatus)
     }
     .confirmationDialog("", isPresented: $isDismissAlertVisible) {
       Button("작성취소", role: .destructive) {
@@ -66,7 +91,7 @@ struct DailyJournalEditView: View {
 
   private var headerBar: some View {
     ZStack {
-      let dayN: Int = Int(journalEditVM.date.timeIntervalSince(journalEditVM.startDate) / 86400) + 1
+      let dayN: Int = Int(date.timeIntervalSince(journalEditVM.startDate) / 86400) + 1
       CustomNavigationBar(title: "Day \(dayN)")
       HStack {
         IconButton("direction-left") {
@@ -76,7 +101,7 @@ struct DailyJournalEditView: View {
         Button(action: {
           journalDetailVM.editedDailyJournal = nil
           Task {
-            await journalEditVM.updateDailyJournal()
+            await journalEditVM.updateDailyJournal(date: date, content: content, placeId: placeId, latitudes: latitudes, longitudes: longitudes, fetchedImages: fetchedImages, selectedImages: selectedImages)
           }
         }) {
           Text("수정 완료")

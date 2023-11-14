@@ -16,7 +16,6 @@ struct ContentComposeView: View {
   @Binding var dailyJournal: DailyTravelJournal
 
   // image
-  @ObservedObject var imagePicker = ImagePicker()
   @Binding var isShowingImagePickerSheet: Bool
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
 

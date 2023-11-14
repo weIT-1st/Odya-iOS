@@ -372,7 +372,9 @@
 				071FA51F2A20A99F00C7B362 /* Products */,
 				3E8F818D2A81127600FA167E /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		071FA51F2A20A99F00C7B362 /* Products */ = {
 			isa = PBXGroup;
@@ -399,8 +401,10 @@
 				071FA5332A20AE5900C7B362 /* Managers */,
 				071FA5272A20A9A000C7B362 /* Preview Content */,
 			);
+			indentWidth = 2;
 			path = "Odya-iOS";
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		071FA5272A20A9A000C7B362 /* Preview Content */ = {
 			isa = PBXGroup;
