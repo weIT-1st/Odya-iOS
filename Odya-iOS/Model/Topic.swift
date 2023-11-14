@@ -13,3 +13,9 @@ struct Topic: Codable {
 }
 
 typealias TopicList = [Topic]
+
+/// 피드 디테일 조회시 가져오는 토픽 데이터 모델
+struct FeedDetailTopic: Codable {
+    let id: Int
+    let topic: String
+}

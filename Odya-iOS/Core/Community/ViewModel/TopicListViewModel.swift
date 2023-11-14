@@ -1,5 +1,5 @@
 //
-//  FishchipsViewModel.swift
+//  TopicListViewModel.swift
 //  Odya-iOS
 //
 //  Created by Jade Yoo on 2023/10/31.
@@ -9,13 +9,13 @@ import Combine
 import Moya
 import SwiftUI
 
-final class FishchipsViewModel: ObservableObject {
+final class TopicListViewModel: ObservableObject {
   // MARK: Properties
 
   /// Provider
   @AppStorage("WeITAuthToken") var idToken: String?
   private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: .verbose))
+    configuration: .init(logOptions: [.successResponseBody, .errorResponseBody]))
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var topicProvider = MoyaProvider<TopicRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])

@@ -46,7 +46,7 @@ struct Writer: Codable {
   let userID: Int
   let nickname: String
   let profile: ProfileData
-  let isFollowing: Bool
+  let isFollowing: Bool?
 
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
@@ -59,19 +59,20 @@ struct FeedDetail: Codable {
   let communityID: Int
   let content, visibility: String
   let placeID: String?
+  let writer: Writer
   let travelJournal: LinkedTravelJournal?
-  let topic: Topic?
+  let topic: FeedDetailTopic?
   let communityContentImages: [CommunityContentImage]
   let communityCommentCount, communityLikeCount: Int
   let isUserLiked: Bool
+  let createdDate: String
 
-  enum CodingKeys: String, CodingKey {
-    case communityID = "communityId"
-    case content, visibility
-    case placeID = "placeId"
-    case travelJournal, topic, communityContentImages, communityCommentCount, communityLikeCount,
-      isUserLiked
-  }
+    enum CodingKeys: String, CodingKey {
+        case communityID = "communityId"
+        case content, visibility
+        case placeID = "placeId"
+        case writer, travelJournal, topic, communityContentImages, communityCommentCount, communityLikeCount, isUserLiked, createdDate
+    }
 }
 
 struct CommunityContentImage: Codable {
