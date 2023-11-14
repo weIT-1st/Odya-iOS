@@ -403,6 +403,7 @@
 			);
 			path = "Odya-iOS";
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		071FA5272A20A9A000C7B362 /* Preview Content */ = {
 			isa = PBXGroup;
