@@ -42,7 +42,7 @@ class ProfileViewModel: ObservableObject {
     
     init() {
         let myData = MyData()
-        self.userID = myData.userID
+        self.userID = MyData.userID
         self.nickname = myData.nickname
         self.profileData = myData.profile.decodeToProileData()
     }
