@@ -23,7 +23,7 @@ struct PostContentView: View {
     self.commentCount = commentCount
     self.likeCount = likeCount
     self.createDate = createDate
-    self.writer = writer
+    self.writer = writer    
   }
 
   // MARK: Body
@@ -33,7 +33,7 @@ struct PostContentView: View {
       // 유저 정보
       HStack {
         FeedUserInfoView(
-          profileImageSize: ComponentSizeType.S.ProfileImageSize,
+          profileImageSize: .S,
           writer: writer,
           createDate: createDate
         )

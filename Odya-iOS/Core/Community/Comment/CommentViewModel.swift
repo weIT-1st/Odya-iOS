@@ -14,28 +14,30 @@ class CommentViewModel: ObservableObject {
   /// Provider
   @AppStorage("WeITAuthToken") var idToken: String?
   private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: .verbose))
+    configuration: .init(logOptions: .errorResponseBody))
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var commentProvider = MoyaProvider<CommunityCommentRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
   
-  /// 댓글 내용, 페이지 정보 저장
+  /// 전체 댓글 내용, 페이지 정보 저장
   struct CommentState {
     var content: [CommentContent] = []
     var lastId: Int? = nil
     var canLoadNextPage = true
   }
-
+  
+  /// 전체 댓글 상태
   @Published private(set) var state = CommentState()
   
-  // MARK: - Create
-
-  // MARK: - Read
-  func fetchCommentNextPageIfPossible(communityId: Int) {
+  // MARK: - CRUD
+  /// 댓글 생성
+  
+  /// 댓글 조회
+  func fetchCommentNextPageIfPossible(communityId: Int, size: Int = 10) {
     guard state.canLoadNextPage else { return }
     
-    commentProvider.requestPublisher(.getComment(communityId: communityId, size: 10, lastId: state.lastId ?? nil))
+    commentProvider.requestPublisher(.getComment(communityId: communityId, size: size, lastId: state.lastId ?? nil))
       .sink { completion in
         switch completion {
         case .finished:
@@ -54,7 +56,8 @@ class CommentViewModel: ObservableObject {
       }
       .store(in: &subscription)
   }
-  // MARK: - Update
   
-  // MARK: - Delete
+  /// 댓글 수정
+  
+  /// 댓글 삭제
 }

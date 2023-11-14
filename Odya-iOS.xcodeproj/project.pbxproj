@@ -521,9 +521,7 @@
 				078496482A84F72000A490E3 /* PostImageView.swift */,
 				0784964A2A84F72C00A490E3 /* PostContentView.swift */,
 				19EBA7622AB42338000ABBE5 /* FeedDetailView.swift */,
-				19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */,
 				19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */,
-				19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -589,6 +587,8 @@
 		19683AFC2B030B8B003D6013 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
+				19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */,
+				19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */,
 				19683AFD2B030BEE003D6013 /* CommentViewModel.swift */,
 			);
 			path = Comment;
