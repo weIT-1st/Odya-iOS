@@ -46,6 +46,8 @@
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
+		19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFD2B030BEE003D6013 /* CommentViewModel.swift */; };
+		19683B002B031244003D6013 /* CommunityComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFF2B031244003D6013 /* CommunityComment.swift */; };
 		199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */; };
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
@@ -217,6 +219,8 @@
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
+		19683AFD2B030BEE003D6013 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		19683AFF2B031244003D6013 /* CommunityComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComment.swift; sourceTree = "<group>"; };
 		199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeView.swift; sourceTree = "<group>"; };
 		199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
@@ -500,9 +504,10 @@
 		0784963F2A84F45800A490E3 /* Community */ = {
 			isa = PBXGroup;
 			children = (
-				199EB6F92AE2202A004EF4B1 /* CommunityCompose */,
 				0784964C2A84F79200A490E3 /* View */,
 				0761F1972AD8043F00FB87AA /* ViewModel */,
+				199EB6F92AE2202A004EF4B1 /* CommunityCompose */,
+				19683AFC2B030B8B003D6013 /* Comment */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -574,10 +579,19 @@
 				3EE9CA342AC3C2E8003A2E85 /* TravelJournal.swift */,
 				3EE9CA212AB6C8E2003A2E85 /* UserData.swift */,
 				3EE9CA232AB6C9FE003A2E85 /* ProfileData.swift */,
-				0761F19A2AD804FA00FB87AA /* Community.swift */,
 				07589E712AF0253E00867FAD /* Topic.swift */,
+				0761F19A2AD804FA00FB87AA /* Community.swift */,
+				19683AFF2B031244003D6013 /* CommunityComment.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		19683AFC2B030B8B003D6013 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				19683AFD2B030BEE003D6013 /* CommentViewModel.swift */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 		199EB6F92AE2202A004EF4B1 /* CommunityCompose */ = {
@@ -1051,6 +1065,7 @@
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
+				19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */,
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */,
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
@@ -1061,6 +1076,7 @@
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
 				199EB76F2AF0A904004EF4B1 /* CommunityComposeViewModel.swift in Sources */,
 				3E26C3782AF0E7EC003607A8 /* TravelJournalDetailView.swift in Sources */,
+				19683B002B031244003D6013 /* CommunityComment.swift in Sources */,
 				3ED22F3C2A9854730067DE72 /* CustomNavigationBar.swift in Sources */,
 				3EF54A012A5BE96D006562F8 /* BaseInterceptor.swift in Sources */,
 				078496492A84F72000A490E3 /* PostImageView.swift in Sources */,
