@@ -20,7 +20,7 @@ struct DailyJournalEditView: View {
   @State private var isDismissAlertVisible: Bool = false
 
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
-  
+
   // daily journal data
   @State private var date: Date
   @State private var content: String
@@ -101,7 +101,9 @@ struct DailyJournalEditView: View {
         Button(action: {
           journalDetailVM.editedDailyJournal = nil
           Task {
-            await journalEditVM.updateDailyJournal(date: date, content: content, placeId: placeId, latitudes: latitudes, longitudes: longitudes, fetchedImages: fetchedImages, selectedImages: selectedImages)
+            await journalEditVM.updateDailyJournal(
+              date: date, content: content, placeId: placeId, latitudes: latitudes,
+              longitudes: longitudes, fetchedImages: fetchedImages, selectedImages: selectedImages)
           }
         }) {
           Text("수정 완료")

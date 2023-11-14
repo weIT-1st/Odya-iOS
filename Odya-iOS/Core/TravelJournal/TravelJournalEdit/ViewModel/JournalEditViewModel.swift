@@ -43,10 +43,12 @@ class DailyJournalEditViewModel: ObservableObject {
   // MARK: update daily journal
 
   /// 데일리 일정 업데이트 api 호출
-  func updateDailyJournalAPI(idToken: String, date: Date, content: String,
-                             placeId: String?, latitudes: [Double], longitudes: [Double],
-                             deletedImagesId: [Int],
-                             webpImages: [(data: Data, name: String)]) async throws
+  func updateDailyJournalAPI(
+    idToken: String, date: Date, content: String,
+    placeId: String?, latitudes: [Double], longitudes: [Double],
+    deletedImagesId: [Int],
+    webpImages: [(data: Data, name: String)]
+  ) async throws
     -> Bool
   {
     return try await withCheckedThrowingContinuation { continuation in
@@ -86,10 +88,12 @@ class DailyJournalEditViewModel: ObservableObject {
 
   /// 데일리 일정 업데이트해주는 함수
   /// 새로 선택된 사진을 리사이징,  webp 변환한 후 api 호출
-  func updateDailyJournal(date: Date, content: String,
-                          placeId: String?, latitudes: [Double], longitudes: [Double],
-                          fetchedImages: [DailyJournalImage],
-                          selectedImages: [ImageData]) async {
+  func updateDailyJournal(
+    date: Date, content: String,
+    placeId: String?, latitudes: [Double], longitudes: [Double],
+    fetchedImages: [DailyJournalImage],
+    selectedImages: [ImageData]
+  ) async {
     guard let idToken = self.idToken else {
       return
     }
@@ -104,20 +108,22 @@ class DailyJournalEditViewModel: ObservableObject {
       // webp 변환하기
       let webPImages = await webPImageManager.processImages(images: selectedImages)
       // debugPrint(UIImage(data: webPImages[0].0)!.size.width)
-      
+
       // 기존 이미지 중 삭제된 이미지 찾기
-      let deletedImagesId: [Int] = originalJournal.images.filter{ !fetchedImages.contains($0) }.map { $0.imageId }
+      let deletedImagesId: [Int] = originalJournal.images.filter { !fetchedImages.contains($0) }.map
+      { $0.imageId }
       debugPrint(deletedImagesId)
-      
+
       // api 호출
-      _ = try await updateDailyJournalAPI(idToken: idToken,
-                                          date: date,
-                                          content: content,
-                                          placeId: placeId,
-                                          latitudes: latitudes,
-                                          longitudes: longitudes,
-                                          deletedImagesId: deletedImagesId,
-                                          webpImages: webPImages)
+      _ = try await updateDailyJournalAPI(
+        idToken: idToken,
+        date: date,
+        content: content,
+        placeId: placeId,
+        latitudes: latitudes,
+        longitudes: longitudes,
+        deletedImagesId: deletedImagesId,
+        webpImages: webPImages)
 
       self.updatingDailyJournalsId = self.updatingDailyJournalsId.filter { $0 != journalId }
       // print("여행일지 수정 성공")
