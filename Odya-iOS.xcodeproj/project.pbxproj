@@ -45,6 +45,7 @@
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
+		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
 		199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */; };
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
@@ -215,6 +216,7 @@
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
+		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
 		199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeView.swift; sourceTree = "<group>"; };
 		199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
@@ -868,8 +870,9 @@
 				3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */,
 				3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */,
 				3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */,
-				195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */,
 				07589E6F2AF023C200867FAD /* TopicRouter.swift */,
+				195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */,
+				19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -1121,6 +1124,7 @@
 				3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */,
 				3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */,
 				3E414B302ADC0ED000034FBB /* DailyJournalContentEditView.swift in Sources */,
+				19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */,
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
 				19EBA7592AB16E2C000ABBE5 /* TermsView.swift in Sources */,
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
