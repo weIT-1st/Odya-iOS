@@ -90,7 +90,7 @@
 		3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */; };
 		3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */; };
 		3E699A882AFF6B6100850E9A /* SparkleIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A872AFF6B6100850E9A /* SparkleIcon.swift */; };
-		3E699A8D2B00A8DB00850E9A /* JournalDateEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A8C2B00A8DB00850E9A /* JournalDateEditor.swift */; };
+		3E699A8D2B00A8DB00850E9A /* DailyJournalDateEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
 		3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */; };
 		3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */; };
@@ -119,7 +119,7 @@
 		3ED22F3C2A9854730067DE72 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */; };
 		3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F3D2A98D7070067DE72 /* Follow.swift */; };
 		3ED22F422AAA34920067DE72 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F412AAA34920067DE72 /* ImagePicker.swift */; };
-		3ED22F442AAA355B0067DE72 /* JournalEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F432AAA355B0067DE72 /* JournalEditViewModel.swift */; };
+		3ED22F442AAA355B0067DE72 /* DailyJournalEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F432AAA355B0067DE72 /* DailyJournalEditViewModel.swift */; };
 		3ED22F632AADBC100067DE72 /* FollowHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F622AADBC100067DE72 /* FollowHubView.swift */; };
 		3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */; };
 		3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */; };
@@ -259,7 +259,7 @@
 		3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalComposeView.swift; sourceTree = "<group>"; };
 		3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalViewModel.swift; sourceTree = "<group>"; };
 		3E699A872AFF6B6100850E9A /* SparkleIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkleIcon.swift; sourceTree = "<group>"; };
-		3E699A8C2B00A8DB00850E9A /* JournalDateEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDateEditor.swift; sourceTree = "<group>"; };
+		3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDateEditor.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
 		3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
@@ -283,7 +283,7 @@
 		3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		3ED22F3D2A98D7070067DE72 /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		3ED22F412AAA34920067DE72 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		3ED22F432AAA355B0067DE72 /* JournalEditViewModel.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = JournalEditViewModel.swift; sourceTree = "<group>"; };
+		3ED22F432AAA355B0067DE72 /* DailyJournalEditViewModel.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = DailyJournalEditViewModel.swift; sourceTree = "<group>"; };
 		3ED22F622AADBC100067DE72 /* FollowHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubView.swift; sourceTree = "<group>"; };
 		3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubViewModel.swift; sourceTree = "<group>"; };
 		3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSuggestion.swift; sourceTree = "<group>"; };
@@ -694,7 +694,7 @@
 			children = (
 				3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */,
 				3EF00B222AFB768500D05B2A /* ContentEditView.swift */,
-				3E699A8C2B00A8DB00850E9A /* JournalDateEditor.swift */,
+				3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -824,7 +824,7 @@
 		3EEBB7DC2A97388000F0049D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				3ED22F432AAA355B0067DE72 /* JournalEditViewModel.swift */,
+				3ED22F432AAA355B0067DE72 /* DailyJournalEditViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1056,7 +1056,7 @@
 				079303C92AE3525E008550B3 /* TopicGridView.swift in Sources */,
 				07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */,
 				078496502A9760CF00A490E3 /* FishchipButton.swift in Sources */,
-				3E699A8D2B00A8DB00850E9A /* JournalDateEditor.swift in Sources */,
+				3E699A8D2B00A8DB00850E9A /* DailyJournalDateEditor.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				3EF7C1EC2A7ABEFB00223366 /* SignUpView.swift in Sources */,
 				3EF7C1E82A742D1400223366 /* RegisterNicknameView.swift in Sources */,
@@ -1070,7 +1070,7 @@
 				3E26C3772AF0E7EC003607A8 /* DailyJournalView.swift in Sources */,
 				3ED22F632AADBC100067DE72 /* FollowHubView.swift in Sources */,
 				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
-				3ED22F442AAA355B0067DE72 /* JournalEditViewModel.swift in Sources */,
+				3ED22F442AAA355B0067DE72 /* DailyJournalEditViewModel.swift in Sources */,
 				3EE9CA1D2AB6C44B003A2E85 /* UserRouter.swift in Sources */,
 				0707A1C22A45A2A100AE6E4D /* MapView.swift in Sources */,
 				19D17F122AFA00CE00D29B49 /* String.swift in Sources */,
