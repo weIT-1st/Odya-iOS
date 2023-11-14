@@ -85,7 +85,7 @@ class AppDataManager: ObservableObject {
                 do {
                     let responseData = try response.map(UserData.self)
                     var myData = MyData()
-                    myData.userID = responseData.userID ?? -1
+                    MyData.userID = responseData.userID ?? -1
                     myData.nickname = responseData.nickname
                     myData.profile = responseData.profileData.encodeToString()
                 } catch {

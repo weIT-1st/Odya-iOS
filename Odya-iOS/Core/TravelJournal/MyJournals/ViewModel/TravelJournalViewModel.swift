@@ -22,7 +22,7 @@ class MyJournalsViewModel: ObservableObject {
   @AppStorage("WeITAuthToken") var idToken: String?
   @Published var nickname: String = MyData().nickname
   @Published var profile: ProfileData = MyData().profile.decodeToProileData()
-  var userId: Int = MyData().userID
+  var userId: Int = MyData.userID
 
   // loadingFlag
   @Published var isMyJournalsLoading: Bool = false
@@ -54,7 +54,7 @@ class MyJournalsViewModel: ObservableObject {
     let myData = MyData()
     self.nickname = myData.nickname
     self.profile = myData.profile.decodeToProileData()
-    self.userId = myData.userID
+    self.userId = MyData.userID
   }
 
   func initData() {

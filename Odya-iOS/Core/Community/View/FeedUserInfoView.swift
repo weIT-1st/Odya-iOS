@@ -31,6 +31,9 @@ struct FeedUserInfoView: View {
         url: URL(string: writer.profile.profileUrl),
         content: { image in
           image.resizable()
+            .aspectRatio(contentMode: .fit)
+            .background(Color.init(hex: writer.profile.profileColor?.colorHex ?? "#FFFFFF"))
+            .clipShape(Circle())
             .frame(width: profileImageSize, height: profileImageSize)
         },
         placeholder: {
@@ -54,7 +57,7 @@ struct FeedUserInfoView: View {
           .foregroundColor(Color.odya.label.assistive)
 
         // TODO: 상대 날짜
-        Text(createDate)
+        Text(createDate.toCustomRelativeDateString())
           .detail1Style()
           .foregroundColor(Color.odya.label.assistive)
       }
