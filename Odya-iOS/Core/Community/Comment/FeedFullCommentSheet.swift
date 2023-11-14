@@ -16,7 +16,6 @@ struct FeedFullCommentSheet: View {
   
   @EnvironmentObject var viewModel: CommentViewModel
   @FocusState private var focusedField: FocusField?
-  @State private var commentText = ""
   
   let isEditing: Bool
   let communityId: Int
@@ -72,15 +71,21 @@ struct FeedFullCommentSheet: View {
                        profileData: MyData().profile.decodeToProileData(),
                        size: ComponentSizeType.XS)
 
-      TextField("댓글을 입력해주세요", text: $commentText)
+      TextField("댓글을 입력해주세요", text: $viewModel.newCommentText)
         .focused($focusedField, equals: .comment)
 
       Spacer()
-
-      Image("smallGreyButton-send")
-        .renderingMode(.template)
-        .foregroundColor(Color.odya.label.assistive)
-        .frame(width: 24, height: 24)
+      
+      Button {
+        // action: 댓글 생성
+        viewModel.createComment(communityId: communityId)
+      } label: {
+        Image("smallGreyButton-send")
+          .renderingMode(.template)
+          .foregroundColor(Color.odya.label.assistive)
+          .frame(width: 24, height: 24)
+      }
+      .disabled(viewModel.newCommentText.isEmpty || viewModel.isProcessing)
     }
     .frame(height: 48)
     .padding(.horizontal, 16)

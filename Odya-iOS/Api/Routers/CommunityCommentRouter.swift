@@ -55,7 +55,7 @@ extension CommunityCommentRouter: TargetType, AccessTokenAuthorizable {
     case .createComment(_, let content):
       var params: [String: Any] = [:]
       params["content"] = content
-      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
       
     case .getComment(_, let size, let lastId):
       var params: [String: Any] = [:]
@@ -66,7 +66,7 @@ extension CommunityCommentRouter: TargetType, AccessTokenAuthorizable {
     case .patchComment(_, _, let content):
       var params: [String: Any] = [:]
       params["content"] = content
-      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
       
     case .deleteComment:
       return .requestPlain

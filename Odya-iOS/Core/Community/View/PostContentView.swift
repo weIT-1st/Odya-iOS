@@ -23,7 +23,7 @@ struct PostContentView: View {
     self.commentCount = commentCount
     self.likeCount = likeCount
     self.createDate = createDate
-    self.writer = writer    
+    self.writer = writer
   }
 
   // MARK: Body
