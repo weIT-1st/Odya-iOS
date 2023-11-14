@@ -175,6 +175,13 @@ struct FeedCommentCell: View {
         .foregroundColor(Color.odya.label.assistive)
         .frame(maxWidth: .infinity, alignment: .topLeading)
     }
+    .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
+      Button("닫기", role: .cancel) {
+        // action?
+      }
+    } message: {
+      Text(viewModel.alertMessage)
+    }
   }
 }
 

@@ -33,9 +33,13 @@ class CommentViewModel: ObservableObject {
   // 댓글 전체보기 프로퍼티
   /// 입력한 댓글 텍스트
   @Published var newCommentText: String = ""
-  @Published var hasTextFieldFocus: Bool = false
   /// 네트워크 통신중 flag
   @Published var isProcessing: Bool = false
+  
+  // Alert
+  @Published var showAlert: Bool = false
+  @Published var alertTitle: String = ""
+  @Published var alertMessage: String = ""
   
   // MARK: - CRUD
   /// 댓글 생성
@@ -51,9 +55,7 @@ class CommentViewModel: ObservableObject {
           self.state.canLoadNextPage = true
           self.fetchCommentNextPageIfPossible(communityId: communityId)
         case .failure(let error):
-          if let errorData = try? error.response?.map(ErrorData.self) {
-            print(errorData.message)
-          }
+          self.handleErrorData(error: error)
         }
         
         self.isProcessing = false
@@ -73,9 +75,7 @@ class CommentViewModel: ObservableObject {
         case .finished:
           print("댓글 조회 완료")
         case .failure(let error):
-          if let errorData = try? error.response?.map(ErrorData.self) {
-            print(errorData.message)
-          }
+          self.handleErrorData(error: error)
         }
       } receiveValue: { response in
         if let data = try? response.map(Comment.self) {
@@ -103,13 +103,24 @@ class CommentViewModel: ObservableObject {
           print("댓글 삭제 완료")
           self.refreshComment(communityId: communityId, size: 2)
         case .failure(let error):
-          if let errorData = try? error.response?.map(ErrorData.self) {
-            print(errorData.message)
-          }
+          self.handleErrorData(error: error)
         }
       } receiveValue: { response in
         
       }
       .store(in: &subscription)
+  }
+  
+  // MARK: Helper functions
+  func handleErrorData(error: MoyaError) {
+    if let errorData = try? error.response?.map(ErrorData.self) {
+      alertTitle = "Error \(errorData.code)"
+      alertMessage = errorData.message
+      showAlert = true
+    } else {
+      alertTitle = "Unknown Error!"
+      alertMessage = "알 수 없는 오류 발생"
+      showAlert = true
+    }
   }
 }
