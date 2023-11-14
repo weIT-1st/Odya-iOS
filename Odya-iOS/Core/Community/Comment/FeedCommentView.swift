@@ -41,7 +41,8 @@ struct FeedCommentView: View {
       // 댓글 2개만 미리보기
       VStack(spacing: 16) {
         ForEach(viewModel.state.content.prefix(2), id: \.communityCommentID) { content in
-          FeedCommentCell(content: content)
+          FeedCommentCell(communityId: communityId, content: content)
+            .environmentObject(viewModel)
           
           if content.communityCommentID != viewModel.state.content.last?.communityCommentID {
             Divider()
@@ -135,10 +136,11 @@ struct FeedCommentCell: View {
   // MARK: Properties
   
   @EnvironmentObject var viewModel: CommentViewModel
+  let communityId: Int
   var content: CommentContent
   
-  // MARK: Init
-  init(content: CommentContent) {
+  init(communityId: Int, content: CommentContent) {
+    self.communityId = communityId
     self.content = content
   }
   
@@ -159,6 +161,7 @@ struct FeedCommentCell: View {
           }
           Button("삭제") {
             // action: 댓글 삭제
+            viewModel.deleteComment(communityId: communityId, commentId: content.communityCommentID)
           }
         } label: {
           Image("menu-kebob")

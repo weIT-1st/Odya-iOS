@@ -35,7 +35,8 @@ struct FeedFullCommentSheet: View {
         ScrollView {
           VStack(spacing: 16) {
             ForEach(viewModel.state.content, id: \.communityCommentID) { content in
-              FeedCommentCell(content: content)
+              FeedCommentCell(communityId: communityId, content: content)
+                .environmentObject(viewModel)
                 .onAppear {
                   // 마지막 댓글일때 다음 댓글 가져오기
                   if content.communityCommentID == viewModel.state.content.last?.communityCommentID {

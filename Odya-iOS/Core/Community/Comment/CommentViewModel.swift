@@ -87,7 +87,29 @@ class CommentViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  /// 댓글 새로고침
+  func refreshComment(communityId: Int, size: Int = 10) {
+    self.state = CommentState()
+    fetchCommentNextPageIfPossible(communityId: communityId, size: size)
+  }
   /// 댓글 수정
   
   /// 댓글 삭제
+  func deleteComment(communityId: Int, commentId: Int) {
+    commentProvider.requestPublisher(.deleteComment(communityId: communityId, commentId: commentId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          print("댓글 삭제 완료")
+          self.refreshComment(communityId: communityId, size: 2)
+        case .failure(let error):
+          if let errorData = try? error.response?.map(ErrorData.self) {
+            print(errorData.message)
+          }
+        }
+      } receiveValue: { response in
+        
+      }
+      .store(in: &subscription)
+  }
 }
