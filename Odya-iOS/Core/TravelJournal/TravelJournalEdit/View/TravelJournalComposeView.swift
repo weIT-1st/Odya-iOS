@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: Travel Info Edit Section
 private struct TravelJournalInfoEditView: View {
-  @EnvironmentObject var journalComposeVM: JournalComposeViewModel
+  @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
 
   private let titleCharacterLimit = 20
   @Binding var isDatePickerVisible: Bool
@@ -35,7 +35,7 @@ private struct TravelJournalInfoEditView: View {
   /// 여행일지 이름
   private var titleTextField: some View {
     TextField(
-      "", text: $journalComposeVM.title,
+      "", text: $travelJournalEditVM.title,
       prompt: Text("여행일지 이름")
         .foregroundColor(.odya.label.assistive)
     )
@@ -44,9 +44,9 @@ private struct TravelJournalInfoEditView: View {
     .modifier(
       CustomFieldStyle(height: 45, backgroundColor: .odya.elevation.elev2, radius: Radius.small)
     )
-    .onChange(of: journalComposeVM.title) { newValue in
+    .onChange(of: travelJournalEditVM.title) { newValue in
       if newValue.count > titleCharacterLimit {
-        journalComposeVM.title = String(newValue.prefix(titleCharacterLimit))
+        travelJournalEditVM.title = String(newValue.prefix(titleCharacterLimit))
       }
     }
   }
@@ -62,8 +62,8 @@ private struct TravelJournalInfoEditView: View {
 
       Button(action: { isDatePickerVisible = true }) {
         VStack(alignment: .leading, spacing: 12) {
-          TravelDateEditView(date: journalComposeVM.startDate)
-          TravelDateEditView(date: journalComposeVM.endDate)
+          TravelDateEditView(date: travelJournalEditVM.startDate)
+          TravelDateEditView(date: travelJournalEditVM.endDate)
         }.padding(.horizontal, 12)
       }
     }.padding(.horizontal, 12)
@@ -82,7 +82,7 @@ private struct TravelJournalInfoEditView: View {
         TravelMateSelectorView(
           token: idToken ?? "", userId: userId
         )
-        .environmentObject(journalComposeVM)
+        .environmentObject(travelJournalEditVM)
         .navigationBarHidden(true)
       }) {
         Image("plus").padding(6)
@@ -93,14 +93,14 @@ private struct TravelJournalInfoEditView: View {
   // 선택된 함깨 간 친구
   private var travelMatesView: some View {
     HStack(spacing: 0) {
-      ForEach(Array(journalComposeVM.travelMates.prefix(3).enumerated()), id: \.element.id) {
+      ForEach(Array(travelJournalEditVM.travelMates.prefix(3).enumerated()), id: \.element.id) {
         (index, mate) in
         ProfileImageView(of: mate.nickname, profileData: mate.profile, size: .XS)
           .offset(x: CGFloat(index * -4))
       }
 
-      if journalComposeVM.travelMates.count > 3 {
-        Text("외 \(journalComposeVM.travelMates.count - 3)명")
+      if travelJournalEditVM.travelMates.count > 3 {
+        Text("외 \(travelJournalEditVM.travelMates.count - 3)명")
           .detail2Style()
           .foregroundColor(.odya.label.normal)
           .frame(width: 33)
@@ -113,7 +113,7 @@ private struct TravelJournalInfoEditView: View {
 struct TravelJournalComposeView: View {
   // MARK: Properties
 
-  @StateObject var journalComposeVM = JournalComposeViewModel()
+  @StateObject var travelJournalEditVM = TravelJournalEditViewModel()
 
   @State var isShowingImagePickerSheet = false
 
@@ -124,7 +124,7 @@ struct TravelJournalComposeView: View {
   @State private var isRegisterAlertVisible = false
 
   var privacyTypeToggleOffset: CGFloat {
-    switch journalComposeVM.privacyType {
+    switch travelJournalEditVM.privacyType {
     case .global:
       return -90
     case .friendsOnly:
@@ -158,7 +158,7 @@ struct TravelJournalComposeView: View {
           ScrollView(showsIndicators: false) {
             VStack(spacing: 8) {
               TravelJournalInfoEditView(isDatePickerVisible: $isDatePickerVisible)
-                .environmentObject(journalComposeVM)
+                .environmentObject(travelJournalEditVM)
               jounalListEditSection
               travelJournalRegisterSection
             }
@@ -170,16 +170,17 @@ struct TravelJournalComposeView: View {
       // 여행일지 날짜 선택 뷰
       if isDatePickerVisible {
         TravelDatePickerView(
-          journalComposeVM: journalComposeVM, isDatePickerVisible: $isDatePickerVisible
+          travelJournalEditVM: travelJournalEditVM, isDatePickerVisible: $isDatePickerVisible
         )
         .padding(GridLayout.side)
+        .frame(maxHeight: .infinity)
         .background(Color.odya.blackopacity.baseBlackAlpha80)
       }
 
       // 데일리 일정 날짜 선태 뷰
       if isDailyDatePickerVisible {
         DailyJournalDatePicker(
-          journalComposeVM: journalComposeVM, isDatePickerVisible: $isDailyDatePickerVisible
+          travelJournalEditVM: travelJournalEditVM, isDatePickerVisible: $isDailyDatePickerVisible
         )
         .padding(GridLayout.side)
         .frame(maxHeight: .infinity)
@@ -187,7 +188,7 @@ struct TravelJournalComposeView: View {
       }
     }
     .onAppear {
-      journalComposeVM.addDailyJournal()
+      travelJournalEditVM.addDailyJournal()
     }
     .confirmationDialog("", isPresented: $isDismissAlertVisible) {
       Button("임시저장") { print("임시저장 클릭") }
@@ -206,10 +207,10 @@ struct TravelJournalComposeView: View {
       Button("등록") {
         isRegisterAlertVisible = false
         // 검사
-        if journalComposeVM.validateTravelJournal() {
+        if travelJournalEditVM.validateTravelJournal() {
           // api
           Task {
-            await journalComposeVM.registerTravelJournal()
+            await travelJournalEditVM.registerTravelJournal()
           }
           dismiss()
         }
@@ -228,18 +229,18 @@ struct TravelJournalComposeView: View {
         .padding(.bottom, 24)
 
       VStack(spacing: 8) {
-        ForEach(journalComposeVM.dailyJournalList.indices, id: \.self) { index in
+        ForEach(travelJournalEditVM.dailyJournalList.indices, id: \.self) { index in
           DailyJournalComposeView(
             index: index,
-            dailyJournal: $journalComposeVM.dailyJournalList[index],
+            dailyJournal: $travelJournalEditVM.dailyJournalList[index],
             isDatePickerVisible: $isDailyDatePickerVisible
           )
-          .environmentObject(journalComposeVM)
+          .environmentObject(travelJournalEditVM)
         }
       }
-      .animation(.linear, value: journalComposeVM.dailyJournalList)
+      .animation(.linear, value: travelJournalEditVM.dailyJournalList)
 
-      if journalComposeVM.canAddMoreDailyJournals() {
+      if travelJournalEditVM.canAddMoreDailyJournals() {
         dailyJournalAddButton
           .padding(20)
       }
@@ -248,7 +249,7 @@ struct TravelJournalComposeView: View {
 
   private var dailyJournalAddButton: some View {
     Button(action: {
-      journalComposeVM.addDailyJournal()
+      travelJournalEditVM.addDailyJournal()
     }) {
       HStack(spacing: 8) {
         Image("plus-bold")
@@ -304,40 +305,40 @@ struct TravelJournalComposeView: View {
         .frame(width: 100, height: 36)
         .foregroundColor(.odya.brand.primary)
         .offset(x: privacyTypeToggleOffset)
-        .animation(.easeInOut, value: journalComposeVM.privacyType)
+        .animation(.easeInOut, value: travelJournalEditVM.privacyType)
 
       HStack(spacing: 12) {
         Button(action: {
-          journalComposeVM.privacyType = .global
+          travelJournalEditVM.privacyType = .global
         }) {
           Text("전체공개")
             .b1Style()
             .foregroundColor(
-              journalComposeVM.privacyType == .global
+              travelJournalEditVM.privacyType == .global
                 ? .odya.label.r_normal : .odya.label.inactive
             )
             .frame(width: 59)
             .padding(10)
         }
         Button(action: {
-          journalComposeVM.privacyType = .friendsOnly
+          travelJournalEditVM.privacyType = .friendsOnly
         }) {
           Text("친구공개")
             .b1Style()
             .foregroundColor(
-              journalComposeVM.privacyType == .friendsOnly
+              travelJournalEditVM.privacyType == .friendsOnly
                 ? .odya.label.r_normal : .odya.label.inactive
             )
             .frame(width: 59)
             .padding(10)
         }
         Button(action: {
-          journalComposeVM.privacyType = .personal
+          travelJournalEditVM.privacyType = .personal
         }) {
           Text("비공개")
             .b1Style()
             .foregroundColor(
-              journalComposeVM.privacyType == .personal
+              travelJournalEditVM.privacyType == .personal
                 ? .odya.label.r_normal : .odya.label.inactive
             )
             .frame(width: 59)

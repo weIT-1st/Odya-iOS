@@ -25,6 +25,7 @@ struct TravelJournalContentUpdateRequest: Codable {
     var travelDate: [Int]
     var updateContentImageNames: [String]
     var deleteContentImageIds: [Int]
+    var contentImageNames: [String]
     var updateImageTotalCount: Int
 }
 
@@ -81,6 +82,7 @@ enum TravelJournalRouter {
                      date: [Int],
                      newImageNames: [String],
                      deletedImageIds: [Int],
+                     imageNames: [String],
                      newImageTotalCount: Int,
                      images: [(data: Data, name: String)])
     case delete(token: String, journalId: Int)
@@ -114,7 +116,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             let .edit(_, journalId, _, _, _, _, _, _, _, _),
             let .delete(_, journalId):
             return "/api/v1/travel-journals/\(journalId)"
-        case let .editContent(_, journalId, contentId, _, _, _, _, _, _, _, _, _),
+        case let .editContent(_, journalId, contentId, _, _, _, _, _, _, _, _, _, _),
             let .deleteContent(_, journalId, contentId):
             return "/api/v1/travel-journals/\(journalId)/\(contentId)"
         case let .deleteTravelMates(_, journalId):
@@ -160,7 +162,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                                 latitudes: dailyJournal.latitudes,
                                                 longitudes: dailyJournal.longitudes,
                                                 travelDate: dailyJournal.date?.toIntArray() ?? [],
-                                                contentImageNames: dailyJournal.selectedImages.map{ $0.imageName + ".webp" }))
+                                                contentImageNames: dailyJournal.images.map{ $0.imageName + ".webp" }))
             }
             
             print("함께 간 친구: \(travelMateIds.count)명")
@@ -206,7 +208,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                 print("JSON 인코딩 에러: \(error)")
             }
             return .uploadMultipart(formData)
-        case let .editContent(_, _, _, content, placeId, latitudes, longitudes, date, newImageNames, deletedImageIds, newImageTotalCount, images):
+        case let .editContent(_, _, _, content, placeId, latitudes, longitudes, date, newImageNames, deletedImageIds, imageNames, newImageTotalCount, images):
             let newTravelJournalContent =
             TravelJournalContentUpdateRequest(content: content,
                                               placeId: placeId,
@@ -215,14 +217,15 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                               travelDate: date,
                                               updateContentImageNames: newImageNames,
                                               deleteContentImageIds: deletedImageIds,
+                                              contentImageNames: imageNames,
                                               updateImageTotalCount: newImageTotalCount)
             var formData: [MultipartFormData] = []
             do {
                 let travelJournalJSONData = try JSONEncoder().encode(newTravelJournalContent)
-                formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal-content-update", fileName: "travel-journal", mimeType: "application/json"))
+                formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal-content-image-update", fileName: "travel-journal", mimeType: "application/json"))
                 
                 for image in images {
-                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image-update", fileName: "\(image.name)", mimeType: "image/webp"))
+                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image-update", fileName: "\(image.name).webp", mimeType: "image/webp"))
                 }
             } catch {
                 print("JSON 인코딩 에러: \(error)")
@@ -257,7 +260,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             let .getRecommendedJournals(token, _, _),
             let .getTaggedJournals(token, _, _),
             let .edit(token, _, _, _, _, _, _, _, _, _),
-            let .editContent(token, _, _, _, _, _, _, _, _, _, _, _),
+            let .editContent(token, _, _, _, _, _, _, _, _, _, _, _, _),
             let .delete(token, _),
             let .deleteContent(token, _, _),
             let .deleteTravelMates(token, _),

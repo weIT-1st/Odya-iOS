@@ -12,18 +12,16 @@ struct JournalDetailBottomSheet: View {
   // MARK: Properties
 
   @EnvironmentObject var bottomSheetVM: BottomSheetViewModel
-  @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
 
-  // journal info
-  let journalId: Int
   let title: String
   let startDate: Date
   let endDate: Date
   var contents: [DailyJournal] = []
   var mates: [TravelMate] = []
 
-  /// 함께 간 친구 더보기 바텀시트 화면 표시 여부
-  @State private var isShowingTravelMateList: Bool = false
+  @State private var isFeedType: Bool = true
+  @State private var isAllExpanded: Bool = false
+  @State private var showTravelMateList: Bool = false
 
   var startDateString: String {
     return startDate.dateToString(format: "yyyy.MM.dd")
@@ -33,7 +31,6 @@ struct JournalDetailBottomSheet: View {
   }
 
   init(travelJournal: TravelJournalDetailData) {
-    journalId = travelJournal.journalId
     title = travelJournal.title
     startDate = travelJournal.travelStartDate
     endDate = travelJournal.travelEndDate
@@ -59,16 +56,15 @@ struct JournalDetailBottomSheet: View {
           viewModeSelector
 
           ForEach(self.contents, id: \.id) { dailyJournal in
-            let dayN: Int =
-              Int(dailyJournal.travelDate.timeIntervalSince(self.startDate) / 86400) + 1
+            let dayN: Int = Int(dailyJournal.travelDate.timeIntervalSince(self.startDate) / 86400)
             HStack(alignment: .top, spacing: 16) {
-              // dayN Stack
               VStack(spacing: 12) {
-                Text("Day\(dayN)")
-                  .b1Style().foregroundColor(.odya.label.normal)
+                Text("Day\(dayN + 1)")
+                  .b1Style()
+                  .foregroundColor(.odya.label.normal)
                   .frame(height: 12)
                   .padding(.bottom, 7)
-                SparkleIcon()
+                SplarkleIcon()
                 if dailyJournal != self.contents.last {
                   Rectangle()
                     .frame(width: 4)
@@ -76,10 +72,12 @@ struct JournalDetailBottomSheet: View {
                 }
               }.frame(width: 50)
 
-              DailyJournalView(journalId: journalId, dailyJournal: dailyJournal)
+              DailyJournalView(
+                dailyJournal: dailyJournal, isFeedType: $isFeedType,
+                isAllExpanded: $isAllExpanded)
             }
           }
-          Spacer()
+
         }
         .padding(.top, 25)
         .padding(.bottom, 200)
@@ -102,11 +100,12 @@ struct JournalDetailBottomSheet: View {
     .background(Color.odya.background.dimmed_system)
     .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.medium))
     .ignoresSafeArea(edges: [.bottom])
-    .sheet(isPresented: $isShowingTravelMateList) {
+    .sheet(isPresented: $showTravelMateList) {
       TravelMatesView(mates: mates)
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
     }
+
   }
 
   // MARK: Journal Info
@@ -119,10 +118,9 @@ struct JournalDetailBottomSheet: View {
         .lineLimit(bottomSheetVM.isSheetOn ? 1 : nil)
         .padding(.vertical)
 
-      // 함께 간 친구
       HStack {
         Button(action: {
-          isShowingTravelMateList = true
+            showTravelMateList = true
         }) {
           HStack(spacing: 0) {
             let displayedMates = mates.filter({ $0.isRegistered }).prefix(2)
@@ -158,23 +156,21 @@ struct JournalDetailBottomSheet: View {
   private var viewModeSelector: some View {
     HStack {
       Button(action: {
-        journalDetailVM.isAllExpanded.toggle()
+        isAllExpanded.toggle()
       }) {
-        Text(!journalDetailVM.isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
+        Text(!isAllExpanded ? "전부 펼쳐보기" : "전부 접기")
           .b1Style()
           .foregroundColor(.odya.label.alternative)
       }
       Spacer()
       IconButton("feed") {
-        journalDetailVM.isFeedType = true
+        isFeedType = true
       }
-      .colorMultiply(
-        journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+      .colorMultiply(isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
       IconButton("grid") {
-        journalDetailVM.isFeedType = false
+        isFeedType = false
       }
-      .colorMultiply(
-        !journalDetailVM.isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
+      .colorMultiply(!isFeedType ? Color.odya.brand.primary : Color.odya.label.normal)
 
     }
   }

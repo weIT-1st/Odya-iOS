@@ -11,55 +11,64 @@ import SwiftUI
 struct MyJournalsView: View {
 
   @StateObject var VM = MyJournalsViewModel()
-
-  // TODO: 즐겨찾기
   @State private var isOn: Bool = true
 
   // MARK: Body
 
   var body: some View {
     NavigationView {
+
       ZStack(alignment: .bottomTrailing) {
         Color.odya.background.normal
           .ignoresSafeArea()
 
-        ProgressView()
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .frame(alignment: .center)
+        if VM.isMyJournalsLoading {
+          ProgressView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(alignment: .center)
+        } else if VM.myJournals.isEmpty {
+          NoJournalView()
+        } else {
+          ScrollView(showsIndicators: false) {
+            VStack(spacing: 50) {
+              HStack {
+                Text("\(VM.nickname)님, \n지난 여행을 다시 볼까요?")
+                  .h3Style()
+                  .foregroundColor(.odya.label.normal)
+                Spacer()
+                ProfileImageView(of: VM.nickname, profileData: VM.profile, size: .M)
+              }.padding(.bottom, 20)
 
-        if !VM.isMyJournalsLoading {
-          if VM.myJournals.isEmpty {
-            NoJournalView()
-          } else {
-            ScrollView(showsIndicators: false) {
-              VStack(spacing: 50) {
-                headerBar
-
-                randomMainBoard
-
-                myTravelJournalList
-
-                if !VM.bookmarkedJournals.isEmpty {
-                  myBookmarkedTravelJournalList
-                }
-
-                if !VM.taggedJournals.isEmpty {
-                  myTaggedTravelJournalList
-                }
-                myReviewList
+              let randomJournal = VM.myJournals.randomElement() ?? VM.myJournals[0]
+              NavigationLink(
+                destination: TravelJournalDetailView(journalId: randomJournal.journalId)
+                  .navigationBarHidden(true)
+              ) {
+                RandomJounalCardView(
+                  journal: randomJournal)
               }
-              .padding(.horizontal, GridLayout.side)
-              .padding(.vertical, 48)
-            }
 
-            // write button
-            NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
-              WriteButton()
-                .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+              myTravelJournalList
+
+              if !VM.bookmarkedJournals.isEmpty {
+                myBookmarkedTravelJournalList
+              }
+              if !VM.taggedJournals.isEmpty {
+                myTaggedTravelJournalList
+              }
+              myReviewList
             }
+            .padding(.horizontal, GridLayout.side)
+            .padding(.vertical, 48)
           }
-        }  // if !VM.isMyJournalsLoading
-      }  // ZStack
+
+          // write button
+          NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
+            WriteButton()
+              .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+          }
+        }
+      }
       .onAppear {
         VM.getMyData()
         Task {
@@ -73,31 +82,8 @@ struct MyJournalsView: View {
           await VM.fetchDataAsync()
         }
       }
-
-    }  // Navigation View
-  }
-
-  private var headerBar: some View {
-    HStack {
-      Text("\(VM.nickname)님, \n지난 여행을 다시 볼까요?")
-        .h3Style()
-        .foregroundColor(.odya.label.normal)
-      Spacer()
-      ProfileImageView(of: VM.nickname, profileData: VM.profile, size: .M)
-    }.padding(.bottom, 20)
-  }
-
-  private var randomMainBoard: some View {
-    VStack(spacing: 0) {
-      let randomJournal = VM.myJournals.randomElement() ?? VM.myJournals[0]
-      NavigationLink(
-        destination: TravelJournalDetailView(journalId: randomJournal.journalId)
-          .navigationBarHidden(true)
-      ) {
-        RandomJounalCardView(
-          journal: randomJournal)
-      }
     }
+    
   }
 
   // MARK: My Travel Journal List
