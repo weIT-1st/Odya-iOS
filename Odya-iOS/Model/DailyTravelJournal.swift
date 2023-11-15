@@ -36,7 +36,7 @@ struct DailyTravelJournal: Identifiable {
   var id = UUID()
   var date: Date? = nil
   var content: String = ""
-  var images: [ImageData] = []
+  var selectedImages: [ImageData] = []
     var placeId: String? = nil
     var latitudes: [Double] = []
     var longitudes: [Double] = []

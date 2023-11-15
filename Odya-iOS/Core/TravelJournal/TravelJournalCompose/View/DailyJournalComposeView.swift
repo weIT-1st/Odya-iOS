@@ -11,7 +11,7 @@ import SwiftUI
 struct DailyJournalComposeView: View {
 
   // MARK: Properties
-  @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+  @EnvironmentObject var journalComposeVM: JournalComposeViewModel
 
   let index: Int
   @Binding var dailyJournal: DailyTravelJournal
@@ -23,7 +23,7 @@ struct DailyJournalComposeView: View {
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
 
   private var dayIndexString: String {
-    let dayIndex = dailyJournal.getDayIndex(startDate: travelJournalEditVM.startDate)
+    let dayIndex = dailyJournal.getDayIndex(startDate: journalComposeVM.startDate)
     return dayIndex == 0 ? "Day " : "Day \(dayIndex)"
   }
 
@@ -32,12 +32,12 @@ struct DailyJournalComposeView: View {
   var body: some View {
     VStack(spacing: 0) {
       headerBar
-      DailyJournalContentEditView(
+      ContentComposeView(
         index: index, dailyJournal: $dailyJournal,
         isShowingImagePickerSheet: $isShowingImagePickerSheet,
         isDatePickerVisible: $isDatePickerVisible
       )
-      .environmentObject(travelJournalEditVM)
+      .environmentObject(journalComposeVM)
     }
     .padding(.horizontal, 20)
     .padding(.top, 16)
@@ -45,7 +45,7 @@ struct DailyJournalComposeView: View {
     .cornerRadius(Radius.medium)
     .background(Color.odya.elevation.elev2)
     .sheet(isPresented: $isShowingImagePickerSheet) {
-      PhotoPickerView(imageList: $dailyJournal.images, accessStatus: imageAccessStatus)
+      PhotoPickerView(imageList: $dailyJournal.selectedImages, accessStatus: imageAccessStatus)
     }
 
   }
@@ -75,7 +75,7 @@ struct DailyJournalComposeView: View {
             }
             Button("삭제", role: .destructive) {
               isShowingDailyJournalDeleteAlert = false
-              travelJournalEditVM.deleteDailyJournal(dailyJournal: dailyJournal)
+              journalComposeVM.deleteDailyJournal(dailyJournal: dailyJournal)
             }
           }
         } message: {
