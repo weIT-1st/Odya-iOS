@@ -26,6 +26,16 @@ struct DailyJournalImage: Codable, Identifiable {
     }
 }
 
+extension DailyJournalImage: Equatable {
+    static func == (lhs: DailyJournalImage, rhs: DailyJournalImage) -> Bool {
+      return lhs.imageId == rhs.imageId
+    }
+
+    static func != (lhs: DailyJournalImage, rhs: DailyJournalImage) -> Bool {
+      return lhs.imageId != rhs.imageId
+    }
+}
+
 struct DailyJournal: Identifiable, Codable {
     var id = UUID()
     var dailyJournalId: Int
