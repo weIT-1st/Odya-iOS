@@ -36,6 +36,9 @@ struct RandomJounalCardView: View {
       // main content
       AsyncImageView(
         url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
+      //      RoundedRectangle(cornerRadius: Radius.large)
+      //        .foregroundColor(.white)
+      //        .frame(height: cardHeight)
 
       VStack {
         Spacer()
@@ -52,17 +55,12 @@ struct RandomJounalCardView: View {
 
   private var journalInfo: some View {
     HStack {
-      VStack(alignment: .leading, spacing: 0) {
+      VStack(alignment: .leading) {
         Text(title)
           .b1Style()
-          .lineLimit(1)
-          .frame(height: 13)
-          .padding(.bottom, 12)
         Text(travelDateString)
           .detail2Style()
           .foregroundColor(.odya.label.assistive)
-          .frame(height: 9)
-          .padding(.bottom, 16)
         HStack {
           Image("location-s")
           Text(locationString)
@@ -119,17 +117,12 @@ struct TravelJournalCardView: View {
 
   private var journalInfo: some View {
     HStack {
-      VStack(alignment: .leading, spacing: 0) {
+      VStack(alignment: .leading) {
         Text(title)
           .b1Style()
-          .lineLimit(1)
-          .frame(height: 13)
-          .padding(.bottom, 12)
         Text(travelDateString)
           .detail2Style()
           .foregroundColor(.odya.label.assistive)
-          .frame(height: 9)
-          .padding(.bottom, 16)
         HStack {
           Image("location-s")
           Text(locationString)
@@ -165,9 +158,7 @@ struct TravelJournalSmallCardView: View {
 
   var body: some View {
     ZStack {
-      AsyncImageView(
-        url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
-
+      RoundedRectangle(cornerRadius: Radius.large)
       LinearGradient(
         stops: [
           Gradient.Stop(color: .black.opacity(0.5), location: 0.00),
