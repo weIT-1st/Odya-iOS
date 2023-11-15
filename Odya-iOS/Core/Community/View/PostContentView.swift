@@ -33,7 +33,7 @@ struct PostContentView: View {
       // 유저 정보
       HStack {
         FeedUserInfoView(
-          profileImageSize: ComponentSizeType.S.ProfileImageSize,
+          profileImageSize: .S,
           writer: writer,
           createDate: createDate
         )

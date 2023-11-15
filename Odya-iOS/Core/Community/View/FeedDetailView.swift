@@ -57,7 +57,7 @@ struct FeedDetailView: View {
                 VStack(spacing: 20) {
                   HStack(alignment: .center) {
                     FeedUserInfoView(
-                      profileImageSize: ComponentSizeType.XS.ProfileImageSize,
+                      profileImageSize: ComponentSizeType.XS,
                       writer: viewModel.feedDetail.writer,
                       createDate: viewModel.feedDetail.createdDate
                     )
@@ -125,7 +125,8 @@ struct FeedDetailView: View {
                   .frame(maxWidth: .infinity)
                   
                   // -- comment --
-                  FeedCommentView()
+                  FeedCommentView(communityId: communityId,
+                                  totalCommentCount: viewModel.feedDetail.communityCommentCount)
                 }
                 .background(Color.odya.background.normal)
                 .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: Radius.large))
