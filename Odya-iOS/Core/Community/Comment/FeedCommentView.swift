@@ -10,10 +10,7 @@ import SwiftUI
 struct FeedCommentView: View {
   // MARK: Properties
   
-  /// 커뮤니티 댓글 시트 토글
-  @State private var showCommentSheet = false
-  /// 커뮤니티 댓글 전체 시트 토글
-  @State private var showFullCommentSheet = false
+
   /// 뷰모델
   @StateObject private var viewModel = CommentViewModel()
   
@@ -67,7 +64,7 @@ struct FeedCommentView: View {
   private var fullCommentButton: some View {
     Button {
       // action: open bottom sheet
-      showCommentSheet.toggle()
+      viewModel.showCommentSheet.toggle()
     } label: {
       HStack(spacing: 10) {
         Text("\(totalCommentCount - viewModel.state.content.prefix(2).count)개의 댓글 더보기")
@@ -86,7 +83,7 @@ struct FeedCommentView: View {
           .stroke(Color.odya.line.alternative, lineWidth: 1)
       )
     }
-    .sheet(isPresented: $showCommentSheet) {
+    .sheet(isPresented: $viewModel.showCommentSheet) {
       FeedFullCommentSheet(isEditing: false, communityId: communityId)
         .environmentObject(viewModel)
         .presentationDetents([.medium, .large])
@@ -97,7 +94,7 @@ struct FeedCommentView: View {
   private var writeCommentButton: some View {
     Button {
       // open bottom sheet
-      showFullCommentSheet.toggle()
+      viewModel.showFullCommentSheet.toggle()
     } label: {
       HStack(alignment: .center, spacing: 16) {
         ProfileImageView(of: MyData().nickname,
@@ -121,7 +118,7 @@ struct FeedCommentView: View {
       .background(Color.odya.elevation.elev5)
       .cornerRadius(Radius.medium)
     }
-    .sheet(isPresented: $showFullCommentSheet) {
+    .sheet(isPresented: $viewModel.showFullCommentSheet) {
       FeedFullCommentSheet(isEditing: true, communityId: communityId)
         .environmentObject(viewModel)
         .presentationDetents([.large])
@@ -136,6 +133,7 @@ struct FeedCommentCell: View {
   // MARK: Properties
   
   @EnvironmentObject var viewModel: CommentViewModel
+  
   let communityId: Int
   var content: CommentContent
   
@@ -158,6 +156,7 @@ struct FeedCommentCell: View {
         Menu {
           Button("수정") {
             // action: 댓글 수정
+            viewModel.switchEditMode(content.communityCommentID, content.content)
           }
           Button("삭제") {
             // action: 댓글 삭제

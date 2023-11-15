@@ -30,11 +30,22 @@ class CommentViewModel: ObservableObject {
   /// 전체 댓글 상태
   @Published private(set) var state = CommentState()
   
+  /// 커뮤니티 댓글 시트 토글
+  @Published var showCommentSheet = false
+  /// 커뮤니티 댓글 전체 시트 토글
+  @Published var showFullCommentSheet = false
+  
   // 댓글 전체보기 프로퍼티
   /// 입력한 댓글 텍스트
   @Published var newCommentText: String = ""
   /// 네트워크 통신중 flag
   @Published var isProcessing: Bool = false
+  
+  // 댓글 수정 프로퍼티
+  /// 댓글 수정중 여부
+  @Published var isUpdatingComment: Bool = false
+  /// 수정중인 댓글 아이디
+  @Published var updatedCommentId: Int = -1
   
   // Alert
   @Published var showAlert: Bool = false
@@ -59,9 +70,7 @@ class CommentViewModel: ObservableObject {
         }
         
         self.isProcessing = false
-      } receiveValue: { response in
-        
-      }
+      } receiveValue: { _ in }
       .store(in: &subscription)
   }
   
@@ -92,7 +101,23 @@ class CommentViewModel: ObservableObject {
     self.state = CommentState()
     fetchCommentNextPageIfPossible(communityId: communityId, size: size)
   }
+  
   /// 댓글 수정
+  func patchComment(communityId: Int) {
+    commentProvider.requestPublisher(.patchComment(communityId: communityId, commentId: updatedCommentId, content: newCommentText))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          print("댓글 수정 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { _ in
+        self.switchEditMode()
+        self.refreshComment(communityId: communityId)
+      }
+      .store(in: &subscription)
+  }
   
   /// 댓글 삭제
   func deleteComment(communityId: Int, commentId: Int) {
@@ -105,9 +130,7 @@ class CommentViewModel: ObservableObject {
         case .failure(let error):
           self.handleErrorData(error: error)
         }
-      } receiveValue: { response in
-        
-      }
+      } receiveValue: { _ in }
       .store(in: &subscription)
   }
   
@@ -121,6 +144,19 @@ class CommentViewModel: ObservableObject {
       alertTitle = "Unknown Error!"
       alertMessage = "알 수 없는 오류 발생"
       showAlert = true
+    }
+  }
+  
+  func switchEditMode(_ commentId: Int = -1, _ originalContent: String = "") {
+    if isUpdatingComment {
+      isUpdatingComment = false
+      updatedCommentId = commentId
+      newCommentText = originalContent
+    } else {
+      isUpdatingComment = true
+      updatedCommentId = commentId
+      newCommentText = originalContent
+      showFullCommentSheet = true
     }
   }
 }

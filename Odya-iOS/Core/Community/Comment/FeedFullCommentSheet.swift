@@ -57,7 +57,7 @@ struct FeedFullCommentSheet: View {
       .padding(.vertical, 24)
       .padding(.horizontal, GridLayout.side)
       .onAppear {
-        if isEditing {
+        if isEditing || viewModel.isUpdatingComment {
           self.focusedField = .comment
         }
       }
@@ -78,8 +78,12 @@ struct FeedFullCommentSheet: View {
       Spacer()
       
       Button {
-        // action: 댓글 생성
-        viewModel.createComment(communityId: communityId)
+        // action: 댓글 생성 or 수정
+        if viewModel.isUpdatingComment {
+          viewModel.patchComment(communityId: communityId)
+        } else {
+          viewModel.createComment(communityId: communityId)
+        }
       } label: {
         Image("smallGreyButton-send")
           .renderingMode(.template)
