@@ -14,6 +14,7 @@ func getElapsedTime(start: Date) -> TimeInterval {
     let elapsedTime = end.timeIntervalSince(start)
     return elapsedTime
 }
+var totalByte: Int = 0
 
 class WebPImageManager: ObservableObject {
     
@@ -32,7 +33,7 @@ class WebPImageManager: ObservableObject {
     func convertImageToWebPAsync(image: UIImage) async -> Data? {
         return await withCheckedContinuation { continuation in
             DispatchQueue.global().async {
-                if let webPData: Data = try? WebPEncoder().encode(image, config: .preset(.picture, quality: 90)) {
+                if let webPData: Data = try? WebPEncoder().encode(image, config: .preset(.picture, quality: 85)) {
                     continuation.resume(returning: webPData)
                 } else {
                     continuation.resume(returning: nil)
@@ -67,7 +68,7 @@ class WebPImageManager: ObservableObject {
                         Task {
                             self.webpImages.append((data:webPData, imageName: imageData.imageName + ".webp"))
                             // test !!!
-//                            totalByte += webPData.count
+                            totalByte += webPData.count
 //                            let byteArray = [UInt8](webPData)
                         }
                     }
@@ -81,7 +82,7 @@ class WebPImageManager: ObservableObject {
             self.isLoading = false
         }
 
-        print("\(webpImages.count) images converted to WebP")
+        print("\(webpImages.count) images converted to WebP: \(totalByte) bytes")
         print("Time: \(getElapsedTime(start: startDate)) 초")
         return webpImages
     }
