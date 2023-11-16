@@ -8,15 +8,14 @@
 import Photos
 import SwiftUI
 
-struct DailyJournalContentEditView: View {
+struct ContentComposeView: View {
 
-  @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+  @EnvironmentObject var journalComposeVM: JournalComposeViewModel
 
   let index: Int
   @Binding var dailyJournal: DailyTravelJournal
 
   // image
-  @ObservedObject var imagePicker = ImagePicker()
   @Binding var isShowingImagePickerSheet: Bool
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
 
@@ -48,7 +47,7 @@ struct DailyJournalContentEditView: View {
   private var selectedImageList: some View {
     ScrollView(.horizontal) {
       HStack(spacing: 10) {
-        if dailyJournal.images.count < 15 {
+        if dailyJournal.selectedImages.count < 15 {
           Button(action: {
             let requiredAccessLevel: PHAccessLevel = .readWrite
             PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
@@ -72,7 +71,7 @@ struct DailyJournalContentEditView: View {
               .overlay(
                 VStack(spacing: 0) {
                   Image("camera")
-                  Text("\(dailyJournal.images.count)/15")
+                  Text("\(dailyJournal.selectedImages.count)/15")
                     .detail2Style()
                     .foregroundColor(.odya.label.assistive)
                 }
@@ -95,9 +94,9 @@ struct DailyJournalContentEditView: View {
           }
         }
 
-        ForEach(dailyJournal.images) { imageData in
+        ForEach(dailyJournal.selectedImages) { imageData in
           Button(action: {
-            dailyJournal.images = dailyJournal.images.filter {
+            dailyJournal.selectedImages = dailyJournal.selectedImages.filter {
               $0.assetIdentifier != imageData.assetIdentifier
             }
           }) {
@@ -115,7 +114,7 @@ struct DailyJournalContentEditView: View {
         }
         Spacer()
       }.padding(.vertical, 16)
-        .animation(.easeInOut, value: dailyJournal.images)
+        .animation(.easeInOut, value: dailyJournal.selectedImages)
     }
   }
 
@@ -125,7 +124,7 @@ struct DailyJournalContentEditView: View {
       Image("calendar")
         .colorMultiply(.odya.label.assistive)
       Button(action: {
-        travelJournalEditVM.pickedJournalIndex = index
+        journalComposeVM.pickedJournalIndex = index
         isDatePickerVisible = true
       }) {
         HStack {
@@ -212,7 +211,7 @@ struct DailyJournalContentEditView: View {
   }
 }
 
-struct DailyJournalContentEditView_Previews: PreviewProvider {
+struct ContentComposeView_Previews: PreviewProvider {
   static var previews: some View {
     TravelJournalComposeView()
 

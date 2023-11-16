@@ -98,9 +98,7 @@ struct PhotoPickerView: UIViewControllerRepresentable {
             
             self.group.leave() // 이미지 로드 완료를 알림
           }
-          
         }
-        
       }
       
       group.notify(queue: .main) {
