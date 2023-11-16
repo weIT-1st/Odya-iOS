@@ -41,7 +41,7 @@ struct UserProfileView: View {
 
 struct TravelMateSelectorView: View {
   @Environment(\.presentationMode) private var presentationMode
-  @EnvironmentObject var travelJournalEditVM: TravelJournalEditViewModel
+  @EnvironmentObject var travelJournalEditVM: JournalComposeViewModel
 
   @ObservedObject var followHubVM: FollowHubViewModel
 
