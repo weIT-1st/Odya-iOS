@@ -310,7 +310,7 @@
 		3EEBB7D22A8F50B300F0049D /* TravelDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDateView.swift; sourceTree = "<group>"; };
 		3EEBB7D62A91FACB00F0049D /* DailyTravelJournal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyTravelJournal.swift; sourceTree = "<group>"; };
 		3EEBB7D82A94CD6D00F0049D /* TravelJournalEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalEditViewModel.swift; sourceTree = "<group>"; };
-		3EF00B222AFB768500D05B2A /* ContentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ContentEditView.swift; path = ../../../../../../../ContentEditView.swift; sourceTree = "<group>"; };
+		3EF00B222AFB768500D05B2A /* ContentEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentEditView.swift; sourceTree = "<group>"; };
 		3EF549852A419100006562F8 /* ColorStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyles.swift; sourceTree = "<group>"; };
 		3EF5498A2A4200E9006562F8 /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
 		3EF5498B2A4200E9006562F8 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
