@@ -23,6 +23,14 @@ struct FeedDetailView: View {
   /// 커뮤니티 아이디
   let communityId: Int
   
+  // Follow
+  /// 팔로잉 취소 버튼 탭 alert
+  @State private var showUnfollowAlert: Bool = false
+  /// 팔로우버튼 뷰모델
+  @State private var followViewModel = FollowButtonViewModel()
+  /// 팔로우 상태 토글
+  @State private var followState: Bool = false
+  
   // MARK: Init
   
   init(communityId: Int) {
@@ -63,11 +71,8 @@ struct FeedDetailView: View {
                     )
                     
                     Spacer()
-                    if viewModel.feedDetail.writer.userID != MyData.userID  {
-                      // 팔로우버튼
-                      FollowButton(isFollowing: false, buttonStyle: .ghost) {
-                        // follow
-                      }
+                    if viewModel.feedDetail.writer.userID != MyData.userID {
+                      followButton
                     }
                   }
                   .padding(.top, 16)
@@ -96,17 +101,7 @@ struct FeedDetailView: View {
                   VStack(spacing: 16) {
                     // tag
                     if viewModel.feedDetail?.topic != nil {
-                      HStack(spacing: 8) {
-                        FishchipButton(
-                          isActive: .active, buttonStyle: .basic, imageName: nil,
-                          labelText: "# \(viewModel.feedDetail?.topic?.topic ?? "")",
-                          labelSize: .S
-                        ) {
-                          // action
-                        }
-                        Spacer()
-                      }
-                      .padding(.horizontal, GridLayout.side)
+                      tagView
                     }
                     
                     // location, comment, heart button
@@ -257,6 +252,47 @@ struct FeedDetailView: View {
         .detail1Style()
         .foregroundColor(Color.odya.label.normal)
     }
+  }
+  
+  private var followButton: some View {
+    VStack(spacing: 0) {
+      FollowButton(isFollowing: followState, buttonStyle: .ghost) {
+        if followState {
+          // 이미 팔로우하고 있는 경우 -> 팔로우취소
+          showUnfollowAlert = true
+        } else {
+          // 팔로우하지 않은 경우 -> 팔로우
+          followState = true
+          followViewModel.createFollow(viewModel.feedDetail.writer.userID)
+        }
+      }
+    }
+    .onAppear {
+      self.followState = viewModel.feedDetail.writer.isFollowing ?? false
+    }
+    .alert("팔로잉을 취소하시겠습니까?", isPresented: $showUnfollowAlert) {
+      Button("닫기", role: .cancel) { }
+      Button("삭제", role: .destructive) {
+        followState = false
+        followViewModel.deleteFollow(viewModel.feedDetail.writer.userID)
+      }
+    } message: {
+      Text("팔로잉 취소는 알람이 가지 않으며, 커뮤니티 게시글 등의 구독이 취소됩니다.")
+    }
+  }
+  
+  private var tagView: some View {
+    HStack(spacing: 8) {
+      FishchipButton(
+        isActive: .active, buttonStyle: .basic, imageName: nil,
+        labelText: "# \(viewModel.feedDetail?.topic?.topic ?? "")",
+        labelSize: .S
+      ) {
+        // action
+      }
+      Spacer()
+    }
+    .padding(.horizontal, GridLayout.side)
   }
 }
 

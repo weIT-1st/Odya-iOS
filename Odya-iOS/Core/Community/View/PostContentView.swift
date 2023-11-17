@@ -9,7 +9,15 @@ import SwiftUI
 
 struct PostContentView: View {
   // MARK: Properties
+  // Follow
+  /// 팔로잉 취소 버튼 탭 alert
+  @State private var showUnfollowAlert: Bool = false
+  /// 팔로우버튼 뷰모델
+  @State private var followViewModel = FollowButtonViewModel()
+  /// 팔로우 상태 토글
+  @State private var followState: Bool
 
+  // Feed Content
   let contentText: String
   let commentCount: Int
   let likeCount: Int
@@ -24,6 +32,7 @@ struct PostContentView: View {
     self.likeCount = likeCount
     self.createDate = createDate
     self.writer = writer
+    self.followState = writer.isFollowing ?? false
   }
 
   // MARK: Body
@@ -39,8 +48,8 @@ struct PostContentView: View {
         )
         Spacer()
         // 팔로우버튼
-        FollowButton(isFollowing: false, buttonStyle: .ghost) {
-          // follow
+        if writer.userID != MyData.userID {
+          followButton
         }
       }
       .frame(height: 32)
@@ -123,6 +132,31 @@ struct PostContentView: View {
       Text("\(commentCount)")
         .detail1Style()
         .foregroundColor(Color.odya.label.assistive)
+    }
+  }
+  
+  /// Follow
+  private var followButton: some View {
+    VStack(spacing: 0) {
+      FollowButton(isFollowing: followState, buttonStyle: .ghost) {
+        if followState == true {
+          // 이미 팔로우하고 있는 경우 -> 팔로우취소
+          showUnfollowAlert = true
+        } else {
+          // 팔로우하지 않은 경우 -> 팔로우
+          followState = true
+          followViewModel.createFollow(writer.userID)
+        }
+      }
+    }
+    .alert("팔로잉을 취소하시겠습니까?", isPresented: $showUnfollowAlert) {
+      Button("닫기", role: .cancel) { }
+      Button("삭제", role: .destructive) {
+        followState = false
+        followViewModel.deleteFollow(writer.userID)
+      }
+    } message: {
+      Text("팔로잉 취소는 알람이 가지 않으며, 커뮤니티 게시글 등의 구독이 취소됩니다.")
     }
   }
 }
