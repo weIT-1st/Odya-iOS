@@ -109,8 +109,8 @@ struct FeedDetailView: View {
                       locationView
                       Spacer(minLength: 28)
                       HStack(spacing: 12) {
-                        commentView
                         likeView
+                        commentView
                       }
                     }
                     .frame(maxWidth: .infinity)
@@ -241,8 +241,11 @@ struct FeedDetailView: View {
   private var likeView: some View {
     HStack(spacing: 4) {
       if viewModel.feedDetail.isUserLiked {
-        Image("heart-on-m")
-          .frame(width: 24, height: 24)
+        IconButton("heart-on-m") {
+          
+        }
+//        Image("heart-on-m")
+//          .frame(width: 24, height: 24)
       } else {
         Image("heart-off-m")
           .frame(width: 24, height: 24)

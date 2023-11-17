@@ -26,6 +26,7 @@ struct FeedContent: Codable, Equatable {
   let writer: Writer
   //    let travelJournalSimpleResponse
   let communityCommentCount, communityLikeCount: Int
+  let isUserLiked: Bool
   let createdDate: String
 
   enum CodingKeys: String, CodingKey {
@@ -33,6 +34,7 @@ struct FeedContent: Codable, Equatable {
     case communityContent
     case communityMainImageURL = "communityMainImageUrl"
     case writer, communityCommentCount, communityLikeCount, createdDate
+    case isUserLiked
     //        case placeID = "placeId"
     //        case travelJournalSimpleResponse
   }

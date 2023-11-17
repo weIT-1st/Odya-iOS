@@ -48,11 +48,13 @@ struct FeedView: View {
                       FeedDetailView(communityId: content.communityID)
                     } label: {
                       PostContentView(
+                        communityId: content.communityID,
                         contentText: content.communityContent,
                         commentCount: content.communityCommentCount,
                         likeCount: content.communityLikeCount,
                         createDate: content.createdDate,
-                        writer: content.writer
+                        writer: content.writer,
+                        isUserLiked: content.isUserLiked
                       )
                     }
                   }

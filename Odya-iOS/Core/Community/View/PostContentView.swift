@@ -13,26 +13,33 @@ struct PostContentView: View {
   /// 팔로잉 취소 버튼 탭 alert
   @State private var showUnfollowAlert: Bool = false
   /// 팔로우버튼 뷰모델
-  @State private var followViewModel = FollowButtonViewModel()
+  @StateObject private var followViewModel = FollowButtonViewModel()
   /// 팔로우 상태 토글
   @State private var followState: Bool
+  
+  // Like
+  @StateObject private var likeViewModel = CommunityLikeViewModel()
 
   // Feed Content
+  let communityId: Int
   let contentText: String
   let commentCount: Int
-  let likeCount: Int
+  @State var likeCount: Int
   let createDate: String
   let writer: Writer
+  @State var isUserLiked: Bool
 
   // MARK: Init
 
-  init(contentText: String, commentCount: Int, likeCount: Int, createDate: String, writer: Writer) {
+  init(communityId: Int, contentText: String, commentCount: Int, likeCount: Int, createDate: String, writer: Writer, isUserLiked: Bool) {
+    self.communityId = communityId
     self.contentText = contentText
     self.commentCount = commentCount
     self.likeCount = likeCount
     self.createDate = createDate
     self.writer = writer
     self.followState = writer.isFollowing ?? false
+    self.isUserLiked = isUserLiked
   }
 
   // MARK: Body
@@ -101,11 +108,25 @@ struct PostContentView: View {
     HStack(spacing: 4) {
       // 좋아요 버튼
       Button {
-        // action
+        if isUserLiked {
+          // 좋아요 삭제
+          isUserLiked = false
+          likeCount -= 1
+          likeViewModel.deleteLike(communityId: communityId)
+        } else {
+          // 좋아요 생성
+          isUserLiked = true
+          likeCount += 1
+          likeViewModel.createLike(communityId: communityId)
+        }
       } label: {
-        Image("heart-off-m")
-          .renderingMode(.template)
-          .foregroundColor(Color.odya.label.assistive)
+        if isUserLiked {
+          Image("heart-on-s")
+        } else {
+          Image("heart-off-m")
+            .renderingMode(.template)
+            .foregroundColor(Color.odya.label.assistive)
+        }
       }
 
       // 좋아요 수
@@ -119,14 +140,9 @@ struct PostContentView: View {
   /// Comment
   private var commentView: some View {
     HStack(spacing: 4) {
-      // 댓글 버튼
-      Button {
-        // action
-      } label: {
-        Image("comment")
-          .renderingMode(.template)
-          .foregroundColor(Color.odya.label.assistive)
-      }
+      Image("comment")
+        .renderingMode(.template)
+        .foregroundColor(Color.odya.label.assistive)
 
       // 댓글 수
       Text("\(commentCount)")
@@ -165,8 +181,8 @@ struct PostContentView: View {
 struct PostContentView_Previews: PreviewProvider {
   static var previews: some View {
     PostContentView(
-      contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, createDate: "2023-01-01",
+      communityId: 1, contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, createDate: "2023-01-01",
       writer: Writer(
-        userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false))
+        userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false), isUserLiked: true)
   }
 }
