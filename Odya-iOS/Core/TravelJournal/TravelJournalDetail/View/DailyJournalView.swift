@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-struct SplarkleIcon: View {
-  var body: some View {
-    Image("sparkle-filled")
-      .shadow(color: .odya.brand.primary.opacity(0.8), radius: 9, x: 0, y: 0)
-  }
-}
-
 struct DailyJournalView: View {
+
+  @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
+
+  // journal data
+  let journalId: Int
+  let dailyJournal: DailyJournal
   let dateString: String
   let content: String
   let placeName: String
@@ -25,40 +24,33 @@ struct DailyJournalView: View {
     if isExpanded {
       return images
     } else {
-      return isFeedType ? Array(images.prefix(2)) : Array(images.prefix(9))
+      return journalDetailVM.isFeedType ? Array(images.prefix(2)) : Array(images.prefix(9))
     }
   }
 
-  @Binding var isFeedType: Bool
-  @Binding var isAllExpanded: Bool
-  //    @Binding var isEditViewShowing: Bool
-
-  @State var isExpanded: Bool = false
-
   let imageListWidth: CGFloat = UIScreen.main.bounds.width - GridLayout.side * 2 - 50  // 50 = DayN VStack width
 
-  init(
-    dailyJournal: DailyJournal, isFeedType: Binding<Bool>,
-    isAllExpanded: Binding<Bool>
-  ) {
+  /// 데일리 일정 내용이 펼쳐져 있는지 여부
+  @State private var isExpanded: Bool = false
+
+  /// 데일리 일정 삭제 확인 알림 화면 표시 여부
+  @State private var isShowingJournalDeletionAlert: Bool = false
+
+  // 데일리 일정 삭제 실패 시 뜨는 알림 화면 표시 여부
+  @State private var isShowingJournalDeletionFailureAlert: Bool = false
+
+  /// 데일리 일정 삭제 실패 메시지
+  @State private var failureMessage: String = ""
+
+  init(journalId: Int, dailyJournal: DailyJournal) {
+    self.journalId = journalId
+    self.dailyJournal = dailyJournal
+
     self.dateString = dailyJournal.travelDate.dateToString(format: "yyyy.MM.dd")
     self.content = dailyJournal.content
     self.placeName = "덕수궁 돌담길"
     self.placeLoc = "서울특별시 중구"
     self.images = dailyJournal.images
-    self._isFeedType = isFeedType
-    self._isAllExpanded = isAllExpanded
-    //      self._isEditViewShowing = isEditViewShowing
-
-    //    for i in 1...10 {
-    //      let image = UIImage(named: "photo_example \(i)")
-    //      if let image = image {
-    //        self.images.append(image)
-    //
-    //      } else {
-    //        print("error")
-    //      }
-    //    }
   }
 
   var body: some View {
@@ -78,9 +70,12 @@ struct DailyJournalView: View {
 
         Menu {
           Button("편집하기") {
-            // isEditViewShowing = true
+            print("edit")
+            journalDetailVM.editedDailyJournal = dailyJournal
           }
-          Button("삭제하기", role: .destructive) { print("delete") }
+          Button("삭제하기", role: .destructive) {
+            isShowingJournalDeletionAlert = true
+          }
         } label: {
           Image("menu-kebob")
         }
@@ -98,7 +93,7 @@ struct DailyJournalView: View {
       }
 
       // image list
-      if isFeedType {
+      if journalDetailVM.isFeedType {
         imageFeedView
       } else {
         ImageGridView(
@@ -109,13 +104,42 @@ struct DailyJournalView: View {
     }
     .padding(.bottom, 40)
     .animation(.easeInOut, value: isExpanded)
-    .onChange(of: isAllExpanded) { newValue in
+    .onChange(of: journalDetailVM.isAllExpanded) { newValue in
       isExpanded = newValue
-
     }
+    .alert("해당 날짜의 여행일지를 삭제할까요?", isPresented: $isShowingJournalDeletionAlert) {
+      HStack {
+        Button("취소", role: .cancel) {
+          isShowingJournalDeletionAlert = false
+        }
+        Button("삭제", role: .destructive) {
+          isShowingJournalDeletionAlert = false
+          journalDetailVM.deleteDailyJournal(
+            journalId: journalId, dailyJournalId: dailyJournal.dailyJournalId
+          ) { success, errMsg in
+            if success {
+              print("delete")
+            } else {
+              failureMessage = errMsg
+              isShowingJournalDeletionFailureAlert = true
+            }
 
+          }
+        }
+      }
+
+    } message: {
+      Text("삭제된 내용은 복구될 수 없습니다.")
+    }
+    .alert(failureMessage, isPresented: $isShowingJournalDeletionFailureAlert) {
+      Button("확인") {
+        isShowingJournalDeletionFailureAlert = false
+        failureMessage = ""
+      }
+    }
   }
 
+  /// 피드 형식일 때 이미지 뷰
   private var imageFeedView: some View {
     VStack(spacing: 15) {
       ForEach(displayedImages, id: \.id) { anImage in
@@ -156,16 +180,5 @@ struct DailyJournalView: View {
 struct MyPreviewProvider_Previews: PreviewProvider {
   static var previews: some View {
     TravelJournalDetailView(journalId: 1)
-    //    DailyJournalView(
-    //      dayN: 1,
-    //      dailyJournal: DailyJournal(
-    //        dailyJournalId: 1,
-    //        content:
-    //          "형제는 오륜의 하나요, 한 몸을 쪼갠 것이다. 그러므로 부귀와 화복을 같이 하는 것이다. 그런데 형제도 형제 나름이다.충청. 전라. 경상의 삼도가 만나는 어름에 사는 연생원이라는 양반이 아들 형제를 두었는데 형의 이름 놀부요, 동생의 이름은 흥부였다. 틀림없는 한 어머니 소생이건만 흥부는 마음씨 착하고 효행이 지극하며 동기간의 우애가 극진한데, 놀부는 부모에게는 불효이고 동기간에 우애가 조금도 없으니, 그 마음 쓰는 것이 괴상하였다. 모든사람, 오장에 육부를 가졌지만 놀부는 당초부터 오장에 칠부였다. 말하자면 심술보가 하나 더 있어 심술보가 한번만 뒤집히면 심사를 야단스럽게도 피웠다.",
-    //        latitudes: [],
-    //        longitudes: [],
-    //        travelDateString: "2023-06-01",
-    //        images: []
-    //      ), isFeedType: .constant(true), isAllExpanded: .constant(false))
   }
 }

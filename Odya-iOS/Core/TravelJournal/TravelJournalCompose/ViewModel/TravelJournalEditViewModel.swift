@@ -28,7 +28,7 @@ enum PrivacyType {
   }
 }
 
-class TravelJournalEditViewModel: ObservableObject {
+class JournalComposeViewModel: ObservableObject {
   // moya
   private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
   private lazy var journalProvider = MoyaProvider<TravelJournalRouter>(plugins: [plugin])
@@ -39,6 +39,7 @@ class TravelJournalEditViewModel: ObservableObject {
 
   @AppStorage("WeITAuthToken") var idToken: String?
 
+  // loading flag
   var isJournalCreating: Bool = false
   var showCompletePopup: Bool = false
 
@@ -87,12 +88,12 @@ class TravelJournalEditViewModel: ObservableObject {
 
     // 여행 일지 콘텐츠의 이미지 제목이 비어있는 경우
     if dailyJournalList.contains(where: { dailyJournal in
-      dailyJournal.images.contains { $0.imageName == "" }
+      dailyJournal.selectedImages.contains { $0.imageName == "" }
     }) {
       return false
     }
     // 여행 일지 콘텐츠의 이미지 제목 개수가 15개를 초과하는 경우
-    if dailyJournalList.contains(where: { $0.images.count > 15 }) {
+    if dailyJournalList.contains(where: { $0.selectedImages.count > 15 }) {
       return false
     }
     // 여행 이미지가 비어있는 경우
@@ -100,7 +101,7 @@ class TravelJournalEditViewModel: ObservableObject {
     // 여행 일지 콘텐츠의 이미지 이름 개수와 실제 이미지 개수가 다를 경우
 
     // 여행 이미지가 225개를 초과하는 경우
-    if dailyJournalList.map({ $0.images.count }).reduce(0, +) > 225 {
+    if dailyJournalList.map({ $0.selectedImages.count }).reduce(0, +) > 225 {
       return false
     }
 
@@ -183,7 +184,7 @@ class TravelJournalEditViewModel: ObservableObject {
 
     do {
       // webp 변환하기
-      let images = dailyJournalList.flatMap { $0.images }
+      let images = dailyJournalList.flatMap { $0.selectedImages }
       let webPImages = await webPImageManager.processImages(images: images)
 
       // api 호출
