@@ -105,6 +105,13 @@ class JournalComposeViewModel: ObservableObject {
       return false
     }
 
+    // 여행 이미지 리사이징이 제대로 처리 안된 경우
+    if dailyJournalList.flatMap({$0.selectedImages}).contains(where: {
+      max($0.image.size.width, $0.image.size.height) > 1024
+    }) {
+      return false
+    }
+    
     // 여행 일지의 시작일이 여행 일지의 종료일보다 늦을 경우
     if startDate > endDate {
       return false
@@ -186,6 +193,9 @@ class JournalComposeViewModel: ObservableObject {
       // webp 변환하기
       let images = dailyJournalList.flatMap { $0.selectedImages }
       let webPImages = await webPImageManager.processImages(images: images)
+      
+//      print(images.count)
+//      print(webPImages.count)
 
       // api 호출
       _ = try await createJournalAPI(idToken: idToken, webpImages: webPImages)

@@ -24,46 +24,45 @@ struct MyJournalsView: View {
       ZStack(alignment: .bottomTrailing) {
         Color.odya.background.normal
           .ignoresSafeArea()
-
-        ProgressView()
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .frame(alignment: .center)
-
-        if !VM.isMyJournalsLoading {
-          if VM.myJournals.isEmpty {
-            NoJournalView()
-          } else {
-            ScrollView(showsIndicators: false) {
-              VStack(spacing: 50) {
-                headerBar
-
-                randomMainBoard
-
-                myTravelJournalList
-
-                if !VM.bookmarkedJournals.isEmpty {
-                  myBookmarkedTravelJournalList
-                }
-
-                if !VM.taggedJournals.isEmpty {
-                  myTaggedTravelJournalList
-                }
-                myReviewList
+        
+        if VM.isMyJournalsLoading {
+          ProgressView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(alignment: .center)
+        }
+        
+        else if VM.myJournals.isEmpty {
+          NoJournalView()
+        }
+        
+        else {
+          ScrollView(showsIndicators: false) {
+            VStack(spacing: 50) {
+              headerBar
+              
+              randomMainBoard
+              
+              myTravelJournalList
+              
+              if !VM.bookmarkedJournals.isEmpty {
+                myBookmarkedTravelJournalList
               }
-              .padding(.horizontal, GridLayout.side)
-              .padding(.vertical, 48)
+              if !VM.taggedJournals.isEmpty {
+                myTaggedTravelJournalList
+              }
+              
+              myReviewList
             }
-
+            .padding(.horizontal, GridLayout.side)
+            .padding(.vertical, 48)
+          } // Scroll View
+          
           // write button
-          NavigationLink(
-            destination: TravelJournalComposeView()
-                .environmentObject(alertManager)
-                .navigationBarHidden(true)) {
-                  WriteButton()
-                    .offset(x: -(GridLayout.side), y: -(GridLayout.side))
-                }
+          NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
+            WriteButton()
+              .offset(x: -(GridLayout.side), y: -(GridLayout.side))
           }
-        }  // if !VM.isMyJournalsLoading
+        }
       }  // ZStack
       .onAppear {
         VM.getMyData()
