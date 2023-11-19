@@ -8,6 +8,20 @@
 import SwiftUI
 import Moya
 
+// Test
+func checkRequestSize(_ formData:  [MultipartFormData] ) -> Void {
+  var multipartDataSize: Int = 0
+  
+  for multipartData in formData {
+    if case .data(let data) = multipartData.provider {
+      multipartDataSize += data.count
+    }
+  }
+  
+  print("MultipartFormData 데이터 크기: \(multipartDataSize) bytes")
+}
+
+
 struct TravelJournalContentRequest: Codable {
     var content: String
     var placeId: String?
@@ -162,11 +176,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                                 travelDate: dailyJournal.date?.toIntArray() ?? [],
                                                 contentImageNames: dailyJournal.selectedImages.map{ $0.imageName + ".webp" }))
             }
-            
-            print("함께 간 친구: \(travelMateIds.count)명")
-//            for i in 0..<travelMateIds.count {
-//                print("\(travelMateIds[i]), \(travelMateNames[i])")
-//            }
+
             
             let travelJournal = TravelJournalRequest(title: title,
                                                      travelStartDate: startDate,
@@ -185,9 +195,11 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                 for image in images {
                     formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image", fileName: "\(image.name)", mimeType: "image/webp"))
                 }
+              
             } catch {
                 print("JSON 인코딩 에러: \(error)")
             }
+          // checkRequestSize(formData)
             return .uploadMultipart(formData)
         case let .edit(_, _, title, startDate, endDate, visibility, travelMateIds, travelMateNames, travelDuration, newTravelMatesCount):
             let newTravelJournal = TravelJournalUpdateRequest(title: title,
