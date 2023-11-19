@@ -42,13 +42,16 @@ struct MyJournalsView: View {
               
               myTravelJournalList
               
-              if !VM.bookmarkedJournals.isEmpty {
+              if VM.isBookmarkedJournalsLoading
+                  || !VM.bookmarkedJournals.isEmpty {
                 myBookmarkedTravelJournalList
               }
               
-              if !VM.taggedJournals.isEmpty {
+              if VM.isTaggedJournalsLoading
+                  || !VM.taggedJournals.isEmpty {
                 myTaggedTravelJournalList
               }
+              
               myReviewList
             }
             .padding(.horizontal, GridLayout.side)
@@ -117,6 +120,7 @@ struct MyJournalsView: View {
             true)
         ) {
           TravelJournalCardView(journal: journal)
+            .environmentObject(VM)
         }.padding(.bottom, 12)
       }
     }
@@ -130,22 +134,33 @@ struct MyJournalsView: View {
         .h4Style()
         .foregroundColor(.odya.label.normal)
         .padding(.bottom, 32)
-
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 10) {
-          ForEach(VM.bookmarkedJournals, id: \.id) { journal in
-            NavigationLink(
-              destination: TravelJournalDetailView(journalId: journal.journalId)
-                .navigationBarHidden(true)
-            ) {
-              TravelJournalSmallCardView(
-                title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
-            }.overlay {
-              FavoriteJournalCardOverlayMenuView()
-            }
-          }
+      
+      ZStack(alignment: .center) {
+        if VM.isBookmarkedJournalsLoading {
+          ProgressView()
+            .frame(height: 250)
+            .frame(maxWidth: .infinity)
         }
-      }
+        
+        else {
+          ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+              ForEach(VM.bookmarkedJournals, id: \.id) { journal in
+                NavigationLink(
+                  destination: TravelJournalDetailView(journalId: journal.journalId)
+                    .navigationBarHidden(true)
+                ) {
+                  TravelJournalSmallCardView(
+                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
+                }.overlay {
+                  FavoriteJournalCardOverlayMenuView(journalId: journal.journalId)
+                    .environmentObject(VM)
+                }
+              } // ForEach
+            }
+          } // ScrollView
+        }
+      } // ZStack
 
     }
   }
@@ -153,29 +168,39 @@ struct MyJournalsView: View {
   // MARK: My Tagged Travel Journal List
 
   private var myTaggedTravelJournalList: some View {
-    return VStack(alignment: .leading, spacing: 0) {
+    VStack(alignment: .leading, spacing: 0) {
       Text("태그된 여행일지")
         .h4Style()
         .foregroundColor(.odya.label.normal)
         .padding(.bottom, 32)
-
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 10) {
-          ForEach(VM.taggedJournals, id: \.id) { journal in
-            NavigationLink(
-              destination: TravelJournalDetailView(journalId: journal.journalId)
-                .navigationBarHidden(true)
-            ) {
-              TravelJournalSmallCardView(
-                title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
-            }
-            .overlay {
-              TaggedJournalCardOverlayMenuView()
-            }
-          }
+      
+      ZStack(alignment: .center) {
+        if VM.isTaggedJournalsLoading {
+          ProgressView()
+            .frame(height: 250)
+            .frame(maxWidth: .infinity)
         }
-      }
-
+        
+        else {
+          ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+              ForEach(VM.taggedJournals, id: \.id) { journal in
+                NavigationLink(
+                  destination: TravelJournalDetailView(journalId: journal.journalId)
+                    .navigationBarHidden(true)
+                ) {
+                  TravelJournalSmallCardView(
+                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
+                }
+                .overlay {
+                  TaggedJournalCardOverlayMenuView(journalId: journal.journalId)
+                    .environmentObject(VM)
+                }
+              } // ForEach
+            }
+          } // ScrollView
+        }
+      } // ZStack
     }
   }
 

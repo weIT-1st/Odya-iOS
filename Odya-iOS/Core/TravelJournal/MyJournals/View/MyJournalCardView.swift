@@ -82,17 +82,24 @@ struct RandomJounalCardView: View {
 
 /// 내 추억 뷰에서 내 여행일지를 보여주기 위한 기본 크기의 카드 뷰
 struct TravelJournalCardView: View {
+  @EnvironmentObject var myJournalsVM: MyJournalsViewModel
+  @StateObject var bookmarkManager = JournalBookmarkManager()
+  
   let cardHeight: CGFloat = 250
   let cardWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
 
+  let journalId: Int
   var title: String
   var travelDateString: String
   var locationString: String
   var imageUrl: String
 
-  @State private var isMarked: Bool = true
+  var isMarked: Bool {
+    myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
+  }
 
   init(journal: TravelJournalData) {
+    self.journalId = journal.journalId
     self.title = journal.title
     self.travelDateString =
       "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
@@ -107,7 +114,9 @@ struct TravelJournalCardView: View {
         url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
 
       StarButton(isActive: isMarked, isYellowWhenActive: true) {
-        isMarked.toggle()
+        bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
+          myJournalsVM.updateBookmarkedJournals()
+        }
       }.offset(x: cardWidth / 2 - 25, y: -(cardHeight / 2 - 25))
 
       VStack {
@@ -289,14 +298,22 @@ struct MyReviewCardView: View {
 
 /// 즐겨찾기된 여행일지 카드뷰에 오버레이 되는 메뉴 바
 struct FavoriteJournalCardOverlayMenuView: View {
-  @State private var isActive: Bool = true
+  @EnvironmentObject var myJournalsVM: MyJournalsViewModel
+  @StateObject var bookmarkManager = JournalBookmarkManager()
+  
+  let journalId: Int
+  var isMarked: Bool {
+    myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
+  }
 
   var body: some View {
     VStack {
       HStack {
         Spacer()
-        StarButton(isActive: isActive, isYellowWhenActive: true) {
-          isActive.toggle()
+        StarButton(isActive: isMarked, isYellowWhenActive: true) {
+          bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
+            myJournalsVM.updateBookmarkedJournals()
+          }
         }
       }.padding(10)
       Spacer()
@@ -306,13 +323,21 @@ struct FavoriteJournalCardOverlayMenuView: View {
 
 /// 태그된 여행일지 카드뷰에 오버레이 되는 메뉴 바
 struct TaggedJournalCardOverlayMenuView: View {
-  @State private var isActive: Bool = true
+  @EnvironmentObject var myJournalsVM: MyJournalsViewModel
+  @StateObject var bookmarkManager = JournalBookmarkManager()
+  
+  let journalId: Int
+  var isMarked: Bool {
+    myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
+  }
 
   var body: some View {
     VStack {
       HStack {
-        StarButton(isActive: isActive, isYellowWhenActive: true) {
-          isActive.toggle()
+        StarButton(isActive: isMarked, isYellowWhenActive: true) {
+          bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
+            myJournalsVM.updateBookmarkedJournals()
+          }
         }
         Spacer()
         Menu {

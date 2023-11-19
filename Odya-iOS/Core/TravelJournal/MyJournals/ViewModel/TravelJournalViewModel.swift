@@ -140,6 +140,19 @@ class MyJournalsViewModel: ObservableObject {
   }
 
   // MARK: Get Bookmarked Journals
+  
+  func updateBookmarkedJournals() {
+    guard let idToken = idToken else {
+      return
+    }
+    
+    isBookmarkedJournalsLoading = false
+    hasNextBookmarkedJournals = true
+    lastIdOfBookmarkedJournals = nil
+    bookmarkedJournals = []
+    
+    getBookmarkedJournals(idToken: idToken)
+  }
 
   private func getBookmarkedJournals(idToken: String) {
     if isBookmarkedJournalsLoading || !hasNextBookmarkedJournals {
