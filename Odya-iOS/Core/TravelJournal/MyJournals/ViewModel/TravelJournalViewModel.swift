@@ -28,6 +28,7 @@ class MyJournalsViewModel: ObservableObject {
   @Published var isMyJournalsLoading: Bool = false
   var isBookmarkedJournalsLoading: Bool = false
   var isTaggedJournalsLoading: Bool = false
+  var isTravelMateDeleting: Bool = false
 
   // travel journals
   // @Published var randomJournal: TravelJournalData
@@ -203,6 +204,19 @@ class MyJournalsViewModel: ObservableObject {
   }
 
   // MARK: Get Tagged Journals
+  
+  func updateTaggedJournals() {
+    guard let idToken = idToken else {
+      return
+    }
+    
+    isTaggedJournalsLoading = false
+    hasNextTaggedJournals = true
+    lastIdOfTaggedJournals = nil
+    taggedJournals = []
+    
+    getTaggedJournals(idToken: idToken)
+  }
 
   private func getTaggedJournals(idToken: String) {
     if isTaggedJournalsLoading || !hasNextTaggedJournals {
@@ -252,4 +266,49 @@ class MyJournalsViewModel: ObservableObject {
     }.store(in: &subscription)
   }
 
+  // MARK: Delete Tag
+  func deleteTagging(of journalId: Int, completion: @escaping (Bool) -> Void) {
+    guard let idToken = idToken else {
+      return
+    }
+    
+    if isTravelMateDeleting {
+      return
+    }
+    
+    isTravelMateDeleting = true
+    journalProvider.requestPublisher(.deleteTravelMates(token: idToken, journalId: journalId))
+    .filterSuccessfulStatusCodes()
+    .sink { apiCompletion in
+      switch apiCompletion {
+      case .finished:
+        self.isTravelMateDeleting = false
+        completion(true)
+      case .failure(let error):
+        self.isTravelMateDeleting = false
+        
+        guard let apiError = try? error.response?.map(ErrorData.self) else {
+          // error data decoding error handling
+          print("deleteTravelMate - ErrorData decoding error")
+          completion(false)
+          return
+        }
+
+        if apiError.code == -11000 {
+          self.appDataManager.refreshToken { success in
+            // token error handling
+            if success {
+              self.deleteTagging(of: journalId) { _ in}
+              return
+            }
+          }
+        }
+        
+        // other api error handling
+        print("deleteTravelMate - something error")
+        completion(false)
+      }
+    } receiveValue: { _ in }
+    .store(in: &subscription)
+  }
 }

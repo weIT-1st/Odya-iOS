@@ -147,11 +147,11 @@ struct MyJournalsView: View {
             HStack(spacing: 10) {
               ForEach(VM.bookmarkedJournals, id: \.id) { journal in
                 NavigationLink(
-                  destination: TravelJournalDetailView(journalId: journal.journalId)
+                  destination: TravelJournalDetailView(journalId: journal.journalId, nickname: journal.writer.nickname)
                     .navigationBarHidden(true)
                 ) {
                   TravelJournalSmallCardView(
-                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
+                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl, writer: journal.writer)
                 }.overlay {
                   FavoriteJournalCardOverlayMenuView(journalId: journal.journalId)
                     .environmentObject(VM)
@@ -186,11 +186,11 @@ struct MyJournalsView: View {
             HStack(spacing: 10) {
               ForEach(VM.taggedJournals, id: \.id) { journal in
                 NavigationLink(
-                  destination: TravelJournalDetailView(journalId: journal.journalId)
+                  destination: TravelJournalDetailView(journalId: journal.journalId, nickname: journal.writer.nickname)
                     .navigationBarHidden(true)
                 ) {
                   TravelJournalSmallCardView(
-                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
+                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl, writer: journal.writer)
                 }
                 .overlay {
                   TaggedJournalCardOverlayMenuView(journalId: journal.journalId)

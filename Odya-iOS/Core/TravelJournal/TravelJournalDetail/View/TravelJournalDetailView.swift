@@ -15,12 +15,18 @@ struct TravelJournalDetailView: View {
   @StateObject var bookmarkManager = JournalBookmarkManager()
 
   let journalId: Int
+  let writerNickname: String
 
   var isBookmarked: Bool {
     guard let journal = journalDetailVM.journalDetail else {
       return false
     }
     return journal.isBookmarked
+  }
+  
+  init(journalId: Int, nickname: String = "") {
+    self.journalId = journalId
+    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
   }
   
   /// 메뉴 버튼 클릭 시에 메뉴 화면 표시 여부
@@ -133,7 +139,7 @@ struct TravelJournalDetailView: View {
   private var headerBar: some View {
     VStack {
       ZStack {
-        CustomNavigationBar(title: "")
+        CustomNavigationBar(title: writerNickname)
         HStack(spacing: 8) {
           // 바텀시트 올라와 있을 경우, 백버튼 = 바텀시트 닫기 버튼
           if bottomSheetVM.isSheetOn {
@@ -145,13 +151,15 @@ struct TravelJournalDetailView: View {
             }
           }
           Spacer()
-          StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
-            bookmarkManager.setBookmarkState(isBookmarked, journalId) { newState in
-              journalDetailVM.journalDetail?.isBookmarked = newState
+          if writerNickname == "" {
+            StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
+              bookmarkManager.setBookmarkState(isBookmarked, journalId) { newState in
+                journalDetailVM.journalDetail?.isBookmarked = newState
+              }
             }
-          }
-          IconButton("menu-meatballs-l") {
-            isShowingMeatballMenu = true
+            IconButton("menu-meatballs-l") {
+              isShowingMeatballMenu = true
+            }
           }
         }
         .padding(.leading, 8)

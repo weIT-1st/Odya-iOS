@@ -164,12 +164,14 @@ struct TravelJournalSmallCardView: View {
   var title: String
   var dateString: String
   var imageUrl: String
+  var writer: FollowUserData
 
-  init(title: String, date: Date, imageUrl: String) {
+  init(title: String, date: Date, imageUrl: String, writer: FollowUserData) {
     self.title = title
     self.dateString =
       date.dateToString(format: "yyyy.MM.dd")
     self.imageUrl = imageUrl
+    self.writer = writer
   }
 
   var body: some View {
@@ -198,7 +200,8 @@ struct TravelJournalSmallCardView: View {
         .b1Style()
         .lineLimit(1)
       HStack {
-        Circle().frame(width: 24, height: 24)
+//        Circle().frame(width: 24, height: 24)
+        ProfileImageView(of: writer.nickname, profileData: writer.profile, size: .XS)
         Spacer()
         Text(dateString)
           .detail2Style()
@@ -330,6 +333,7 @@ struct TaggedJournalCardOverlayMenuView: View {
   var isMarked: Bool {
     myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
   }
+  @State private var isShowingTaggingDeletionAlert: Bool = false
 
   var body: some View {
     VStack {
@@ -341,13 +345,28 @@ struct TaggedJournalCardOverlayMenuView: View {
         }
         Spacer()
         Menu {
-          Button("삭제하기") {}
+          Button("삭제하기") {
+            isShowingTaggingDeletionAlert = true
+          }
         } label: {
           Image("menu-kebob")
         }
       }.padding(10)
       Spacer()
     }
+    .alert("해당 여행일지의 태그를 삭제하시겠습니까?", isPresented: $isShowingTaggingDeletionAlert) {
+      Button("취소") { isShowingTaggingDeletionAlert = false }
+      Button("삭제") {
+        isShowingTaggingDeletionAlert = false
+        // api
+        print("태그 삭제 클릭")
+//        myJournalsVM.deleteTagging(of: journalId) { success in
+//          if success {
+//            myJournalsVM.updateTaggedJournals()
+//          }
+//        }
+      }
+    } // alert
   }
 }
 
