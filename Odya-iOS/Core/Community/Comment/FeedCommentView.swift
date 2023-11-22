@@ -10,7 +10,6 @@ import SwiftUI
 struct FeedCommentView: View {
   // MARK: Properties
   
-
   /// 뷰모델
   @StateObject private var viewModel = CommentViewModel()
   

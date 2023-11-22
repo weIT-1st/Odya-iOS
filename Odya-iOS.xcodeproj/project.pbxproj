@@ -43,6 +43,8 @@
 		07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */; };
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
+		192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA02B0D8D7E00BD480E /* ReportView.swift */; };
+		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
@@ -223,6 +225,8 @@
 		07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		192ADAA02B0D8D7E00BD480E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
@@ -495,6 +499,7 @@
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 				0784963F2A84F45800A490E3 /* Community */,
+				192ADA9F2B0D8D5C00BD480E /* Report */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -601,6 +606,15 @@
 				19E212A92B06F515003155C0 /* ReportReason.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		192ADA9F2B0D8D5C00BD480E /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				192ADAA02B0D8D7E00BD480E /* ReportView.swift */,
+				192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		19683AFC2B030B8B003D6013 /* Comment */ = {
@@ -1062,6 +1076,7 @@
 				3EEBB7D92A94CD6D00F0049D /* TravelJournalEditViewModel.swift in Sources */,
 				07589E702AF023C200867FAD /* TopicRouter.swift in Sources */,
 				3EBEC3AB2A6D5A3E00998EC6 /* WriteButton.swift in Sources */,
+				192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
 				3EBEC3A42A6C46B100998EC6 /* GNBButton.swift in Sources */,
@@ -1123,6 +1138,7 @@
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */,
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
+				192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */,
 				19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
 				07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */,
@@ -1339,7 +1355,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1363,7 +1379,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.4;
+				MARKETING_VERSION = 0.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1385,7 +1401,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1409,7 +1425,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.4;
+				MARKETING_VERSION = 0.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

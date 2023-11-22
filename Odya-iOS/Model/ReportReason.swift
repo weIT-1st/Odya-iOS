@@ -8,7 +8,7 @@
 import Foundation
 
 /// 신고사유
-enum ReportReason {
+enum ReportReason: CaseIterable {
   case spam
   case pornography
   case swear_word

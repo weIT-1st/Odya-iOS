@@ -20,6 +20,8 @@ struct FeedDetailView: View {
   @State private var showEditView = false
   /// 액션시트 토글
   @State private var showActionSheet = false
+  /// 신고화면 토글
+  @State private var showReportView = false
   /// 커뮤니티 아이디
   let communityId: Int
   
@@ -155,6 +157,9 @@ struct FeedDetailView: View {
         showPhotoPicker: false,
         composeMode: .edit)
     }
+    .fullScreenCover(isPresented: $showReportView) {
+      ReportView(reportTarget: .community, id: communityId, isPresented: $showReportView)
+    }
     .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
       Button {
         presentationMode.wrappedValue.dismiss()
@@ -206,6 +211,7 @@ struct FeedDetailView: View {
           }
           Button("신고하기", role: .destructive) {
             // action: 신고
+            showReportView.toggle()
           }
         }
       }
@@ -241,7 +247,7 @@ struct FeedDetailView: View {
   private var likeView: some View {
     HStack(spacing: 4) {
       if viewModel.feedDetail.isUserLiked {
-        IconButton("heart-on-m") {
+        IconButton("heart-on-l") {
           
         }
 //        Image("heart-on-m")
