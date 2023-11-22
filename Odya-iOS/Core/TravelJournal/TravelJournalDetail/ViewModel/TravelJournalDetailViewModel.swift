@@ -25,6 +25,7 @@ class TravelJournalDetailViewModel: ObservableObject {
   var deletingDailyJournalId: [Int] = []
 
   @Published var journalDetail: TravelJournalDetailData? = nil
+  @Published var isMyJournal: Bool = false
   @Published var isFeedType: Bool = true
   @Published var isAllExpanded: Bool = false
   @Published var isEditViewShowing: Bool = false

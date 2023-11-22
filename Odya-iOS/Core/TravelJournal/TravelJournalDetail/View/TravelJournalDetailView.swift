@@ -93,6 +93,7 @@ struct TravelJournalDetailView: View {
     .onAppear {
       journalDetailVM.getJournalDetail(journalId: journalId)
       bottomSheetVM.isSheetOn = false
+      journalDetailVM.isMyJournal = writerNickname == ""
     }
     // 메뉴 버튼 클릭
     .confirmationDialog("", isPresented: $isShowingMeatballMenu) {

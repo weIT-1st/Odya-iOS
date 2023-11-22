@@ -10,7 +10,7 @@ import SwiftUI
 struct DailyJournalView: View {
 
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
-
+  
   // journal data
   let journalId: Int
   let dailyJournal: DailyJournal
@@ -55,6 +55,7 @@ struct DailyJournalView: View {
 
   var body: some View {
     VStack(spacing: 16) {
+      // date & menu bar
       HStack(spacing: 10) {
         Button(action: {
           isExpanded.toggle()
@@ -68,16 +69,18 @@ struct DailyJournalView: View {
           }.frame(height: 36)
         }
 
-        Menu {
-          Button("편집하기") {
-            print("edit")
-            journalDetailVM.editedDailyJournal = dailyJournal
+        if journalDetailVM.isMyJournal {
+          Menu {
+            Button("편집하기") {
+              print("edit")
+              journalDetailVM.editedDailyJournal = dailyJournal
+            }
+            Button("삭제하기", role: .destructive) {
+              isShowingJournalDeletionAlert = true
+            }
+          } label: {
+            Image("menu-kebob")
           }
-          Button("삭제하기", role: .destructive) {
-            isShowingJournalDeletionAlert = true
-          }
-        } label: {
-          Image("menu-kebob")
         }
       }
 
