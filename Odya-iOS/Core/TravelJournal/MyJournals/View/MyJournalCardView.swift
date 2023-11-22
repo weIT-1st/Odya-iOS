@@ -200,7 +200,6 @@ struct TravelJournalSmallCardView: View {
         .b1Style()
         .lineLimit(1)
       HStack {
-//        Circle().frame(width: 24, height: 24)
         ProfileImageView(of: writer.nickname, profileData: writer.profile, size: .XS)
         Spacer()
         Text(dateString)
@@ -358,13 +357,11 @@ struct TaggedJournalCardOverlayMenuView: View {
       Button("취소") { isShowingTaggingDeletionAlert = false }
       Button("삭제") {
         isShowingTaggingDeletionAlert = false
-        // api
-        print("태그 삭제 클릭")
-//        myJournalsVM.deleteTagging(of: journalId) { success in
-//          if success {
-//            myJournalsVM.updateTaggedJournals()
-//          }
-//        }
+        myJournalsVM.deleteTagging(of: journalId) { success in
+          if success {
+            myJournalsVM.updateTaggedJournals()
+          }
+        }
       }
     } // alert
   }
