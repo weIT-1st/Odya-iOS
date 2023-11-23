@@ -11,9 +11,10 @@ import Foundation
 enum ReportReason: CaseIterable {
   case spam
   case pornography
-  case swear_word
-  case over_post
-  case info_leak
+  case swearWord
+  case overPost
+  case copyrightViolation
+  case infoLeak
   case other
   
   /// 신고 status: 서버 전송시 사용
@@ -23,11 +24,13 @@ enum ReportReason: CaseIterable {
       return "SPAM"
     case .pornography:
       return "PORNOGRAPHY"
-    case .swear_word:
+    case .swearWord:
       return "SWEAR_WORD"
-    case .over_post:
+    case .overPost:
       return "OVER_POST"
-    case .info_leak:
+    case .copyrightViolation:
+      return "COPYRIGHT_VIOLATION"
+    case .infoLeak:
       return "INFO_LEAK"
     case .other:
       return "OTHER"
@@ -41,11 +44,13 @@ enum ReportReason: CaseIterable {
       return "스팸 및 홍보글"
     case .pornography:
       return "음란성이 포함된 글"
-    case .swear_word:
+    case .swearWord:
       return "욕설/생명경시/혐오/차별적인 글"
-    case .over_post:
+    case .overPost:
       return "게시글 도배"
-    case .info_leak:
+    case .copyrightViolation:
+      return "저작권 위배"
+    case .infoLeak:
       return "개인정보 노출 및 불법 정보"
     case .other:
       return "기타"
