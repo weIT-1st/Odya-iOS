@@ -42,7 +42,7 @@ final class FeedViewModel: ObservableObject {
     .sink { completion in
       switch completion {
       case .finished:
-        print("전체 피드 조회 완료")
+        print("전체 피드 조회 완료 - 다음 페이지 \(self.state.canLoadNextPage)")
       case .failure(let error):
         if let errorData = try? error.response?.map(ErrorData.self) {
           print(errorData.message)
@@ -76,7 +76,7 @@ final class FeedViewModel: ObservableObject {
     .sink { completion in
       switch completion {
       case .finished:
-        print("친구글 피드 조회 완료")
+        print("친구글 피드 조회 완료 - 다음 페이지 \(self.state.canLoadNextPage)")
       case .failure(let error):
         if let errorData = try? error.response?.map(ErrorData.self) {
           print(errorData.message)

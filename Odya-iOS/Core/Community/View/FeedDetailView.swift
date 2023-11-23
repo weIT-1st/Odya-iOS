@@ -25,11 +25,6 @@ struct FeedDetailView: View {
   /// 커뮤니티 아이디
   let communityId: Int
   
-  // Like
-  @State private var likeState: Bool = false
-  @State private var likeCount: Int = 0
-  @StateObject private var likeViewModel = CommunityLikeViewModel()
-  
   // Comment
   @State private var commentCount: Int = 0
   
@@ -119,7 +114,12 @@ struct FeedDetailView: View {
                       locationView
                       Spacer(minLength: 28)
                       HStack(spacing: 12) {
-                        likeView
+                        CommunityLikeButton(
+                          communityId: communityId,
+                          likeState: viewModel.feedDetail.isUserLiked,
+                          likeCount: viewModel.feedDetail.communityLikeCount,
+                          baseColor: .odya.label.normal
+                        )
                         commentView
                       }
                     }
@@ -252,39 +252,6 @@ struct FeedDetailView: View {
     }
     .onAppear {
       self.commentCount = viewModel.feedDetail.communityCommentCount
-    }
-  }
-  
-  private var likeView: some View {
-    HStack(spacing: 4) {
-      Button {
-        if likeState {
-          // 좋아요 삭제
-          likeState = false
-          likeCount -= 1
-          likeViewModel.deleteLike(communityId: communityId)
-        } else {
-          // 좋아요 생성
-          likeState = true
-          likeCount += 1
-          likeViewModel.createLike(communityId: communityId)
-        }
-      } label: {
-        if likeState {
-          Image("heart-on-s")
-        } else {
-          Image("heart-off-m")
-            .frame(width: 24, height: 24)
-        }
-      }
-      // number of heart
-      Text(likeCount > 99 ? "99+" : "\(likeCount)")
-        .detail1Style()
-        .foregroundColor(Color.odya.label.normal)
-    }
-    .onAppear {
-      self.likeState = viewModel.feedDetail.isUserLiked
-      self.likeCount = viewModel.feedDetail.communityLikeCount
     }
   }
   

@@ -31,7 +31,7 @@ struct FeedView: View {
             // TODO: - 툴바 디자인 변경예정
             FeedToolBar()
 
-            ScrollView(showsIndicators: false) {
+            ScrollView(.vertical, showsIndicators: false) {
               // fishchips
               if selectedFeedToggle == .all {
                 FishchipsBar(selectedTopicId: $selectedTopicId)
@@ -77,7 +77,6 @@ struct FeedView: View {
                   .padding(.bottom, 8)
                 }
               }
-              .frame(maxWidth: .infinity)
             }  // ScrollView
             .refreshable {
               switch selectedFeedToggle {
@@ -101,6 +100,11 @@ struct FeedView: View {
                 viewModel.refreshAllFeed()
               }
             }
+            .task {
+              if viewModel.state.content.isEmpty {
+                viewModel.fetchAllFeedNextPageIfPossible()
+              }
+            }
           }
           .background(Color.odya.background.normal)
 
@@ -109,11 +113,8 @@ struct FeedView: View {
           })
           .padding(20)
         }  // ZStack
-        .task {
-          viewModel.fetchAllFeedNextPageIfPossible()
-        }
+        .toolbar(.hidden)
       }
-
     }
   }
 
@@ -131,13 +132,13 @@ struct FeedView: View {
 
   /// 토글: 전체글보기, 친구글보기
   private var feedToggleSelectionView: some View {
-    HStack(spacing: 16) {
+    HStack(alignment: .center, spacing: 16) {
       Spacer()
       Button {
         selectedFeedToggle = .all
         viewModel.refreshAllFeed()
       } label: {
-        HStack(spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
           Circle().frame(width: 4, height: 4)
           Text("전체 보기")
             .detail1Style()
@@ -145,7 +146,6 @@ struct FeedView: View {
         .foregroundColor(
           selectedFeedToggle == .all ? Color.odya.brand.primary : Color.odya.label.inactive
         )
-        .padding(.bottom, 12)
       }
 
       Button {
@@ -160,9 +160,9 @@ struct FeedView: View {
         .foregroundColor(
           selectedFeedToggle == .friend ? Color.odya.brand.primary : Color.odya.label.inactive
         )
-        .padding(.bottom, 12)
       }
     }
+    .padding(.bottom, 12)
     .frame(maxWidth: .infinity)
     .padding(.horizontal, GridLayout.side)
   }
