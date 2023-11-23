@@ -15,10 +15,8 @@ class CommunityLikeViewModel: ObservableObject {
   
   /// provider
   @AppStorage("WeITAuthToken") var idToken: String?
-  private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: [.successResponseBody, .errorResponseBody]))
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
-  private lazy var communityLikeRouter = MoyaProvider<CommunityLikeRouter>(plugins: [logPlugin, authPlugin])
+  private lazy var communityLikeRouter = MoyaProvider<CommunityLikeRouter>(plugins: [authPlugin])
   private var subscription = Set<AnyCancellable>()
   
   // MARK: - Create, Delete Like

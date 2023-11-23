@@ -102,32 +102,132 @@ struct PostContentView: View {
         .foregroundColor(Color.odya.label.assistive)
     }
   }
-
+  
   /// Like
+  
+  enum HeartImage: String {
+    case mOff = "heart-off-m"
+    case lOn = "heart-on-l"
+    case sOn = "heart-on-s"
+    case sOff = "heart-off-s"
+    
+    func nextOn() -> HeartImage {
+      switch self {
+      case .mOff: return .lOn
+      case .lOn: return .sOn
+      default: return .sOn
+      }
+    }
+    
+    func nextOff() -> HeartImage {
+      switch self {
+      case .sOn: return .sOff
+      case .sOff: return .mOff
+      default: return .mOff
+      }
+    }
+  }
+  
+  @State private var likeImageName = HeartImage.mOff
+  
   private var likeView: some View {
     HStack(spacing: 4) {
-      // 좋아요 버튼
-      Button {
+      VStack {
         if isUserLiked {
-          // 좋아요 삭제
-          isUserLiked = false
-          likeCount -= 1
-          likeViewModel.deleteLike(communityId: communityId)
+          Image(likeImageName.rawValue)
         } else {
-          // 좋아요 생성
-          isUserLiked = true
-          likeCount += 1
-          likeViewModel.createLike(communityId: communityId)
-        }
-      } label: {
-        if isUserLiked {
-          Image("heart-on-s")
-        } else {
-          Image("heart-off-m")
+          Image(likeImageName.rawValue)
             .renderingMode(.template)
             .foregroundColor(Color.odya.label.assistive)
+  //            .padding(6)
+  //            .frame(width: 24, height: 24)
         }
       }
+      .onTapGesture {
+        print("좋아요 버튼 눌림!!!!")
+        if isUserLiked {
+          withAnimation(.spring()) {
+            // 좋아요 삭제
+            isUserLiked = false
+            likeCount -= 1
+            likeViewModel.deleteLike(communityId: communityId)
+            
+            likeImageName = likeImageName.nextOff()
+            print(likeImageName.rawValue)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+              likeImageName = likeImageName.nextOff()
+              print(likeImageName.rawValue)
+            }
+          }
+        } else {
+          withAnimation(.spring()) {
+            // 좋아요 생성
+            isUserLiked = true
+            likeCount += 1
+            likeViewModel.createLike(communityId: communityId)
+            
+            likeImageName = likeImageName.nextOn()
+            print(likeImageName.rawValue)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+              likeImageName = likeImageName.nextOn()
+              print(likeImageName.rawValue)
+            }
+          }
+        }
+      }
+      .onAppear {
+        likeImageName = isUserLiked ? HeartImage.sOn : HeartImage.mOff
+      }
+
+      
+      // 좋아요 버튼
+//      Button {
+//        if isUserLiked {
+//          withAnimation(.spring()) {
+//            // 좋아요 삭제
+//            isUserLiked = false
+//            likeCount -= 1
+//            likeViewModel.deleteLike(communityId: communityId)
+//
+//            likeImageName = likeImageName.nextOff()
+//            print(likeImageName.rawValue)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+//              likeImageName = likeImageName.nextOff()
+//              print(likeImageName.rawValue)
+//            }
+//          }
+//        } else {
+//          withAnimation(.spring()) {
+//            // 좋아요 생성
+//            isUserLiked = true
+//            likeCount += 1
+//            likeViewModel.createLike(communityId: communityId)
+//
+//            likeImageName = likeImageName.nextOn()
+//            print(likeImageName.rawValue)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+//              likeImageName = likeImageName.nextOn()
+//              print(likeImageName.rawValue)
+//            }
+//          }
+//        }
+//      } label: {
+//        if isUserLiked {
+//          Image(likeImageName.rawValue)
+//        } else {
+//          Image(likeImageName.rawValue)
+//            .renderingMode(.template)
+//            .foregroundColor(Color.odya.label.assistive)
+////            .padding(6)
+////            .frame(width: 24, height: 24)
+//        }
+//      }
+//      .onTapGesture {
+//        print("좋아요 버튼 눌림!!!!")
+//      }
+//      .onAppear {
+//        likeImageName = isUserLiked ? HeartImage.sOn : HeartImage.mOff
+//      }
 
       // 좋아요 수
       Text(likeCount > 99 ? "99+" : "\(likeCount)")
