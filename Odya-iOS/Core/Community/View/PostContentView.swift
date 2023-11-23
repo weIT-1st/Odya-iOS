@@ -130,7 +130,7 @@ struct PostContentView: View {
       }
 
       // 좋아요 수
-      Text("\(likeCount)")
+      Text(likeCount > 99 ? "99+" : "\(likeCount)")
         .detail1Style()
         .foregroundColor(Color.odya.label.assistive)
     }
@@ -145,7 +145,7 @@ struct PostContentView: View {
         .foregroundColor(Color.odya.label.assistive)
 
       // 댓글 수
-      Text("\(commentCount)")
+      Text(commentCount > 99 ? "99+" : "\(commentCount)")
         .detail1Style()
         .foregroundColor(Color.odya.label.assistive)
     }

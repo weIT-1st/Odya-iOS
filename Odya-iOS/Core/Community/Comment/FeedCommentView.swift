@@ -69,7 +69,7 @@ struct FeedCommentView: View {
         Text("\(totalCommentCount - viewModel.state.content.prefix(2).count)개의 댓글 더보기")
           .detail1Style()
           .foregroundColor(Color.odya.label.assistive)
-        // image >
+        Image("more-off")
       }
       .padding(.vertical, 8)
       .frame(height: 36)

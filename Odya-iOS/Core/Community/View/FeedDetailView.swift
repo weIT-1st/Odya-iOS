@@ -25,6 +25,14 @@ struct FeedDetailView: View {
   /// 커뮤니티 아이디
   let communityId: Int
   
+  // Like
+  @State private var likeState: Bool = false
+  @State private var likeCount: Int = 0
+  @StateObject private var likeViewModel = CommunityLikeViewModel()
+  
+  // Comment
+  @State private var commentCount: Int = 0
+  
   // Follow
   /// 팔로잉 취소 버튼 탭 alert
   @State private var showUnfollowAlert: Bool = false
@@ -238,28 +246,45 @@ struct FeedDetailView: View {
       Image("comment")
         .frame(width: 24, height: 24)
       // number of comment
-      Text("\(viewModel.feedDetail?.communityCommentCount ?? 0)")
+      Text(commentCount > 99 ? "99+" : "\(commentCount)")
         .detail1Style()
         .foregroundColor(Color.odya.label.normal)
+    }
+    .onAppear {
+      self.commentCount = viewModel.feedDetail.communityCommentCount
     }
   }
   
   private var likeView: some View {
     HStack(spacing: 4) {
-      if viewModel.feedDetail.isUserLiked {
-        IconButton("heart-on-l") {
-          
+      Button {
+        if likeState {
+          // 좋아요 삭제
+          likeState = false
+          likeCount -= 1
+          likeViewModel.deleteLike(communityId: communityId)
+        } else {
+          // 좋아요 생성
+          likeState = true
+          likeCount += 1
+          likeViewModel.createLike(communityId: communityId)
         }
-//        Image("heart-on-m")
-//          .frame(width: 24, height: 24)
-      } else {
-        Image("heart-off-m")
-          .frame(width: 24, height: 24)
+      } label: {
+        if likeState {
+          Image("heart-on-s")
+        } else {
+          Image("heart-off-m")
+            .frame(width: 24, height: 24)
+        }
       }
       // number of heart
-      Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
+      Text(likeCount > 99 ? "99+" : "\(likeCount)")
         .detail1Style()
         .foregroundColor(Color.odya.label.normal)
+    }
+    .onAppear {
+      self.likeState = viewModel.feedDetail.isUserLiked
+      self.likeCount = viewModel.feedDetail.communityLikeCount
     }
   }
   
