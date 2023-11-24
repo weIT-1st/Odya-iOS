@@ -35,11 +35,16 @@ class ProfileViewModel: ObservableObject {
   @Published var userID: Int
   @Published var nickname: String
   @Published var profileData: ProfileData
-  
   @Published var statistics = UserStatistics()
   
   //  flag
   var isFetchingStatistics: Bool = false
+  var isUpdatingProfileImg: Bool = false
+  
+  // profileImage
+  var webpImageManager = WebPImageManager()
+  
+  // MARK: Init
   
   init() {
     let myData = MyData()
@@ -48,6 +53,13 @@ class ProfileViewModel: ObservableObject {
     self.profileData = myData.profile.decodeToProileData()
   }
   
+  init(userId: Int, nickname: String, profile: ProfileData) {
+    self.userID = userId
+    self.nickname = nickname
+    self.profileData = profile
+  }
+  
+  // MARK: Fetch Data
   func fetchDataAsync() async {
     guard let idToken = idToken else {
       return
@@ -56,8 +68,7 @@ class ProfileViewModel: ObservableObject {
     getUserStatistics(idToken: idToken)
   }
   
-  
-  
+  // MARK: User Statistics
   private func getUserStatistics(idToken: String) {
     if isFetchingStatistics {
       return
@@ -97,5 +108,34 @@ class ProfileViewModel: ObservableObject {
           return
         }
       }.store(in: &subscription)
+  }
+  
+  // MARK: Profile Image
+  func updateProfileImage(newProfileImg: [ImageData]) async {
+    if isUpdatingProfileImg {
+      return
+    }
+    
+    isUpdatingProfileImg = true
+    
+    var newImage: (data: Data, name: String)? = nil
+    if !newProfileImg.isEmpty {
+      newImage = await webpImageManager.processImages(images: newProfileImg).first
+    }
+    
+    userProvider.requestPublisher(.updateUserProfileImage(profileImg: newImage))
+      .sink { apiCompletion in
+        switch apiCompletion {
+        case .finished:
+          self.isUpdatingProfileImg = false
+        case .failure(let error):
+          self.isUpdatingProfileImg = false
+          if let errorData = try? error.response?.map(ErrorData.self) {
+            print(errorData.message)
+          }
+          // unknown error
+        }
+      } receiveValue: { _ in }
+      .store(in: &subscription)
   }
 }

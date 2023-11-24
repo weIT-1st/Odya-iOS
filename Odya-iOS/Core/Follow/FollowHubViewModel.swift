@@ -30,7 +30,7 @@ class FollowHubViewModel: ObservableObject {
   // user info required for API calls
   @Published var appDataManager = AppDataManager()
   @AppStorage("WeITAuthToken") var idToken: String?
-  var userID: Int = MyData.userID
+  var userID: Int
 
   @Published var currentFollowType: FollowType
 
@@ -73,10 +73,16 @@ class FollowHubViewModel: ObservableObject {
      */
 
   // MARK: Init
-
-  init() {
+  init(userId: Int = MyData.userID) {
     self.currentFollowType = .following
+    self.userID = userId
     
+    initInfiniteScroll()
+  }
+  
+  // MARK: Init Infinite Scroll
+  
+  private func initInfiniteScroll() {
     /// 팔로워 / 팔로잉 리스트 무한스크롤
     fetchMoreSubject.sink { [weak self] _ in
       guard let self = self else { return }
@@ -97,14 +103,13 @@ class FollowHubViewModel: ObservableObject {
         self.suggestUsers(idToken: idToken ?? "") { _ in }
       }
     }.store(in: &subscription)
-
   }
 
   // MARK: follow / unfollow
 
   /// 팔로우 실행
   func createFollow(_ followingID: Int) {
-    guard let idToken = self.idToken else {
+    guard self.idToken != nil else {
       return
     }
     
@@ -133,7 +138,7 @@ class FollowHubViewModel: ObservableObject {
 
   /// 언팔로우 실행
   func deleteFollow(_ followingID: Int) {
-    guard let idToken = self.idToken else {
+    guard self.idToken != nil else {
       return
     }
     
@@ -164,7 +169,7 @@ class FollowHubViewModel: ObservableObject {
 
   /// 팔로잉 유저 리스트 첫 번째 페이지를 받아옴
   func initFollowingUsers(completion: @escaping (Bool) -> Void) {
-    guard let idToken = idToken else {
+    guard idToken != nil else {
        return
     }
     
@@ -179,7 +184,7 @@ class FollowHubViewModel: ObservableObject {
 
   /// 팔로워 유저 리스트 첫 번째 페이지를 받아옴
   func initFollowerUsers(completion: @escaping (Bool) -> Void) {
-    guard let idToken = self.idToken else {
+    guard self.idToken != nil else {
        return
     }
     
@@ -197,7 +202,7 @@ class FollowHubViewModel: ObservableObject {
   /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
   private func fetchFollowingUsers(size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void
   ) {
-    guard var idToken = self.idToken else {
+    guard self.idToken != nil else {
        return
     }
     
@@ -245,7 +250,7 @@ class FollowHubViewModel: ObservableObject {
   /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
   private func fetchFollowerUsers(size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void
   ) {
-    guard let idToken = self.idToken else {
+    guard self.idToken != nil else {
        return
     }
     

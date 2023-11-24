@@ -9,7 +9,8 @@ import SwiftUI
 import Photos
 
 struct ProfileView: View {
-  @StateObject var profileVM = ProfileViewModel()
+  @ObservedObject var profileVM: ProfileViewModel
+  @Environment(\.dismiss) var dismiss
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
   }
@@ -20,12 +21,12 @@ struct ProfileView: View {
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
   @State private var selectedImage: [ImageData] = []
   
-  init() {}
+  init() {
+    profileVM = ProfileViewModel()
+  }
   
   init(userId: Int, nickname: String, profile: ProfileData) {
-    profileVM.userID = userId
-    profileVM.nickname = nickname
-    profileVM.profileData = profile
+    profileVM = ProfileViewModel(userId: userId, nickname: nickname, profile: profile)
   }
 
   // MARK: Body
@@ -36,10 +37,10 @@ struct ProfileView: View {
         VStack(spacing: 24) {
           topNavigationBar
           profileImgAndNickname
+            .padding(.horizontal, GridLayout.side)
           followTotal
-        }
-        .padding(.horizontal, GridLayout.side)
-        .background(
+            .padding(.horizontal, GridLayout.side)
+        }.background(
           bgImage.offset(y: -70)
         )
         
@@ -57,12 +58,12 @@ struct ProfileView: View {
     }
   }
   
-  // MARK: Profile
+  // MARK: Navigation Bar
   
   private var topNavigationBar: some View {
-    HStack(spacing: 8) {
-      Spacer()
+    HStack(spacing: 0) {
       if isMyProfile {
+        Spacer()
         NavigationLink(
           destination: SettingView()
             .navigationBarHidden(true)
@@ -71,10 +72,17 @@ struct ProfileView: View {
             .padding(10)
         }
       } else {
-        CustomNavigationBar(title: "")
+        IconButton("direction-left") {
+          dismiss()
+        }
+        Spacer()
       }
     }
+    .padding(.horizontal, 8)
+    .frame(height: 56)
   }
+  
+  // MARK: Profile
   
   private var profileImgAndNickname: some View {
     VStack(spacing: 24) {
@@ -136,8 +144,7 @@ struct ProfileView: View {
   
   private var followTotal: some View {
     NavigationLink(
-      destination: FollowHubView()
-        .navigationBarHidden(true)
+      destination: isMyProfile ? FollowHubView().navigationBarHidden(true) : FollowHubView(userId: profileVM.userID).navigationBarHidden(true)
     ) {
       HStack(spacing: 20) {
         Spacer()
