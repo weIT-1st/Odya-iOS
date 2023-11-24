@@ -14,7 +14,7 @@ enum UserRouter {
   // 사용자 통계 조회
   case getUserStatistics(userId: Int)
   // 사용자 프로필 사진 변경
-//  case updateUserProfileImage(profileImg)
+  case updateUserProfileImage(profileImg: (data: Data, name: String)?)
 }
 
 extension UserRouter: TargetType, AccessTokenAuthorizable {
@@ -28,18 +28,29 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/users/me"
     case .getUserStatistics(let userId):
       return "/api/v1/users/\(userId)/statistics"
+    case .updateUserProfileImage:
+      return "/api/v1/users/profile"
     }
   }
   
   var method: Moya.Method {
     switch self {
-    case .getUserInfo, .getUserStatistics:
+    case .updateUserProfileImage:
+      return .patch
+    default:
       return .get
     }
   }
   
   var task: Moya.Task {
     switch self {
+    case .updateUserProfileImage(let profileImg):
+      guard let profileImg = profileImg else {
+        return .requestPlain
+      }
+      var formData: [MultipartFormData] = []
+      formData.append(MultipartFormData(provider: .data(profileImg.data), name: "profile", fileName: "\(profileImg.name)", mimeType: "image/webp"))
+      return .uploadMultipart(formData)
     default:
       return .requestPlain
     }

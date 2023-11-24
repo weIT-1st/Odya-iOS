@@ -32,7 +32,7 @@ final class AuthInterceptor: RequestInterceptor {
         /// 토큰 갱신 및 유저 정보 가져오기
         appDataManager.refreshToken { success in
             if success {
-                self.appDataManager.initMyData()
+              self.appDataManager.initMyData() { _ in }
                 print("토큰 갱신 끝! retry 시작!")
                 completion(.retryWithDelay(3))
             } else {

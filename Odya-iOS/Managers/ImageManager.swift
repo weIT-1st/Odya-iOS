@@ -51,7 +51,7 @@ class WebPImageManager: ObservableObject {
         }
 
         // test !!!
-        let startDate = Date()
+        // let startDate = Date()
 
         // 현재 webpImageData는 항상 []로 초기화되어 있음
         // 변환시킬 이미지 개수만큼 webPImageData 배열 초기화

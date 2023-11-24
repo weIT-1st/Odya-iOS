@@ -128,6 +128,12 @@ class ProfileViewModel: ObservableObject {
         switch apiCompletion {
         case .finished:
           self.isUpdatingProfileImg = false
+          self.appDataManager.initMyData() { success in
+            if success {
+              let myData = MyData()
+              self.profileData = myData.profile.decodeToProileData()
+            }
+          }
         case .failure(let error):
           self.isUpdatingProfileImg = false
           if let errorData = try? error.response?.map(ErrorData.self) {

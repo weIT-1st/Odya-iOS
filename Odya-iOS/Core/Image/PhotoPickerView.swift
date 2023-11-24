@@ -20,17 +20,6 @@ struct PhotoPickerView: UIViewControllerRepresentable {
   
   @Environment(\.presentationMode) var presentationMode
   
-//  init(imageList: Binding<[ImageData]>, accessStatus: PHAuthorizationStatus) {
-//    self._imageList = imageList
-//    self.accessStatus = accessStatus
-//  }
-//  
-//  init(image: Binding<[ImageData]>, maxImageCount: Int, accessStatus: PHAuthorizationStatus) {
-//    self._imageList = image
-//    self.maxImageCount = maxImageCount
-//    self.accessStatus = accessStatus
-//  }
-//  
   func makeUIViewController(context: Context) -> PHPickerViewController {
     let photoLibrary = PHPhotoLibrary.shared()
     

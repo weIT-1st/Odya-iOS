@@ -93,6 +93,7 @@ struct ProfileView: View {
           IconButton("camera") {
             isShowingUpdateProfileImageAlert = true
           }
+          .disabled(profileVM.isUpdatingProfileImg)
           .background(Color.odya.label.inactive)
           .cornerRadius(50)
           .offset(x: ComponentSizeType.XL.ProfileImageSize / 2 - 15, y: ComponentSizeType.XL.ProfileImageSize / 2 - 15)
@@ -115,6 +116,9 @@ struct ProfileView: View {
       Button("기본 이미지로 변경") {
         isShowingUpdateProfileImageAlert = false
         // api with Null
+        Task {
+          await profileVM.updateProfileImage(newProfileImg: [])
+        }
       }
       Button("취소", role: .cancel) { print("취소 클릭") }
     }
@@ -125,6 +129,9 @@ struct ProfileView: View {
       if newValue.count == 1 {
         print("get new profile image")
         // api with UIImage
+        Task {
+          await profileVM.updateProfileImage(newProfileImg: newValue)
+        }
         selectedImage = []
       }
     }

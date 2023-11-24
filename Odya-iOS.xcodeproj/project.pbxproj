@@ -128,6 +128,7 @@
 		3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */; };
 		3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F682AB5B3850067DE72 /* FollowUserView.swift */; };
 		3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */; };
+		3ED8DBB22B10C10500D7CF7F /* ImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */; };
 		3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1036A2AD483F2004EDCEB /* StarButton.swift */; };
 		3EE9CA1B2AB5D67A003A2E85 /* FollowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */; };
 		3EE9CA1D2AB6C44B003A2E85 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */; };
@@ -295,6 +296,7 @@
 		3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSuggestion.swift; sourceTree = "<group>"; };
 		3ED22F682AB5B3850067DE72 /* FollowUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUserView.swift; sourceTree = "<group>"; };
 		3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryAuthorizatiionChecker.swift; sourceTree = "<group>"; };
+		3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouter.swift; sourceTree = "<group>"; };
 		3EE1036A2AD483F2004EDCEB /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
 		3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRouter.swift; sourceTree = "<group>"; };
 		3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -922,6 +924,7 @@
 				07589E6F2AF023C200867FAD /* TopicRouter.swift */,
 				195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */,
 				19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */,
+				3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -1115,6 +1118,7 @@
 				199EB76F2AF0A904004EF4B1 /* CommunityComposeViewModel.swift in Sources */,
 				3E26C3782AF0E7EC003607A8 /* TravelJournalDetailView.swift in Sources */,
 				19683B002B031244003D6013 /* CommunityComment.swift in Sources */,
+				3ED8DBB22B10C10500D7CF7F /* ImageRouter.swift in Sources */,
 				3ED22F3C2A9854730067DE72 /* CustomNavigationBar.swift in Sources */,
 				3EF54A012A5BE96D006562F8 /* BaseInterceptor.swift in Sources */,
 				078496492A84F72000A490E3 /* PostImageView.swift in Sources */,
