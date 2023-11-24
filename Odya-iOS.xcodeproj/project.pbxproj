@@ -129,6 +129,7 @@
 		3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F682AB5B3850067DE72 /* FollowUserView.swift */; };
 		3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */; };
 		3ED8DBB22B10C10500D7CF7F /* ImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */; };
+		3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */; };
 		3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1036A2AD483F2004EDCEB /* StarButton.swift */; };
 		3EE9CA1B2AB5D67A003A2E85 /* FollowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */; };
 		3EE9CA1D2AB6C44B003A2E85 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */; };
@@ -297,6 +298,7 @@
 		3ED22F682AB5B3850067DE72 /* FollowUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUserView.swift; sourceTree = "<group>"; };
 		3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryAuthorizatiionChecker.swift; sourceTree = "<group>"; };
 		3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouter.swift; sourceTree = "<group>"; };
+		3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalBookmarkManager.swift; sourceTree = "<group>"; };
 		3EE1036A2AD483F2004EDCEB /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
 		3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRouter.swift; sourceTree = "<group>"; };
 		3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 				07A0EC792A3F8014002D36B9 /* AppleSignInManager.swift */,
 				0708FC2C2A40D2C100D152CF /* LocationManager.swift */,
 				3E26C3812AF16790003607A8 /* ImageManager.swift */,
+				3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1160,6 +1163,7 @@
 				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				3EE9CA3F2AC94FDB003A2E85 /* MyJournalCardView.swift in Sources */,
 				3EE9CA3D2AC84D95003A2E85 /* MyJournalsView.swift in Sources */,
+				3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
 				3E26C37F2AF0E80E003607A8 /* DailyJournalViewModel.swift in Sources */,
