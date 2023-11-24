@@ -13,8 +13,11 @@ import SwiftUI
 
 class AppDataManager: ObservableObject {
     // moya
-    private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
-    private lazy var userProvider = MoyaProvider<UserRouter>(plugins: [plugin])
+  private let logPlugin: PluginType = NetworkLoggerPlugin(
+    configuration: .init(logOptions: .verbose))
+  private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
+  private lazy var userProvider = MoyaProvider<UserRouter>(
+    session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
     private var subscription = Set<AnyCancellable>()
     
     // token
@@ -51,11 +54,11 @@ class AppDataManager: ObservableObject {
     
     func initMyData() {
         
-        guard let idToken = idToken else {
+      guard idToken != nil else {
             return
         }
         
-        userProvider.requestPublisher(.getUserInfo(token: idToken))
+      userProvider.requestPublisher(.getUserInfo)
             .filterSuccessfulStatusCodes()
             .sink { completion in
                 switch completion {

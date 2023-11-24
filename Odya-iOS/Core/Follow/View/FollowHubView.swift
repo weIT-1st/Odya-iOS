@@ -57,14 +57,14 @@ struct FollowSearchBar: View {
 /// 알 수도 있는 친구 추천을 받을 수 있음
 /// 닉네임을 통해 팔로워/팔로잉를 검색할 수 있음
 struct FollowHubView: View {
-  @ObservedObject var followHubVM: FollowHubViewModel
+  @StateObject var followHubVM = FollowHubViewModel()
   @State var displayedUsers: [FollowUserData] = []
   @State var nameToSearch: String = ""
   @State var searchResultsDisplayed: Bool = false
 
-  init(token: String, userID: Int, followCount: FollowCount) {
-    self.followHubVM = FollowHubViewModel(token: token, userID: userID, followCount: followCount)
-  }
+//  init() {
+//    self.followHubVM = FollowHubViewModel(token: token, userID: userID, followCount: followCount)
+//  }
 
   var body: some View {
     VStack {

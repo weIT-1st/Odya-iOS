@@ -127,6 +127,7 @@
 		3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */; };
 		3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */; };
 		3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F682AB5B3850067DE72 /* FollowUserView.swift */; };
+		3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */; };
 		3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1036A2AD483F2004EDCEB /* StarButton.swift */; };
 		3EE9CA1B2AB5D67A003A2E85 /* FollowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */; };
 		3EE9CA1D2AB6C44B003A2E85 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */; };
@@ -293,6 +294,7 @@
 		3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubViewModel.swift; sourceTree = "<group>"; };
 		3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSuggestion.swift; sourceTree = "<group>"; };
 		3ED22F682AB5B3850067DE72 /* FollowUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUserView.swift; sourceTree = "<group>"; };
+		3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryAuthorizatiionChecker.swift; sourceTree = "<group>"; };
 		3EE1036A2AD483F2004EDCEB /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
 		3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRouter.swift; sourceTree = "<group>"; };
 		3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
@@ -772,6 +774,7 @@
 				3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */,
 				3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */,
 				3EB938142AF531780041FE5B /* AsyncImageView.swift */,
+				3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -1099,6 +1102,7 @@
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
+				3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */,
 				19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */,
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */,

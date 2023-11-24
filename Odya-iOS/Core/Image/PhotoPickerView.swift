@@ -13,18 +13,30 @@ import Photos
 struct PhotoPickerView: UIViewControllerRepresentable {
   
   @Binding var imageList: [ImageData]
+  var maxImageCount: Int = 15
   
   var accessStatus: PHAuthorizationStatus
   var totalByte = 0
   
   @Environment(\.presentationMode) var presentationMode
   
+//  init(imageList: Binding<[ImageData]>, accessStatus: PHAuthorizationStatus) {
+//    self._imageList = imageList
+//    self.accessStatus = accessStatus
+//  }
+//  
+//  init(image: Binding<[ImageData]>, maxImageCount: Int, accessStatus: PHAuthorizationStatus) {
+//    self._imageList = image
+//    self.maxImageCount = maxImageCount
+//    self.accessStatus = accessStatus
+//  }
+//  
   func makeUIViewController(context: Context) -> PHPickerViewController {
     let photoLibrary = PHPhotoLibrary.shared()
     
     var config = PHPickerConfiguration(photoLibrary: photoLibrary)
     config.filter = .any(of: [.images, .livePhotos, .panoramas, .screenshots, .bursts, .depthEffectPhotos])
-    config.selectionLimit = 15
+    config.selectionLimit = maxImageCount
     
     if !imageList.isEmpty {
       config.preselectedAssetIdentifiers = imageList.map{ $0.assetIdentifier }

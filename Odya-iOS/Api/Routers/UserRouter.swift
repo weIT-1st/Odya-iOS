@@ -9,46 +9,54 @@ import Foundation
 import Moya
 
 enum UserRouter {
-    case getUserInfo(token: String)
+  // 사용자 정보 조회
+    case getUserInfo
+  // 사용자 통계 조회
+  case getUserStatistics(userId: Int)
+  // 사용자 프로필 사진 변경
+//  case updateUserProfileImage(profileImg)
 }
 
-extension UserRouter: TargetType {
-    var baseURL: URL {
-        return URL(string: ApiClient.BASE_URL)!
+extension UserRouter: TargetType, AccessTokenAuthorizable {
+  var baseURL: URL {
+    return URL(string: ApiClient.BASE_URL)!
+  }
+  
+  var path: String {
+    switch self {
+    case .getUserInfo:
+      return "/api/v1/users/me"
+    case .getUserStatistics(let userId):
+      return "/api/v1/users/\(userId)/statistics"
     }
-    
-    var path: String {
-        switch self {
-        case .getUserInfo:
-            return "/api/v1/users/me"
-        }
+  }
+  
+  var method: Moya.Method {
+    switch self {
+    case .getUserInfo, .getUserStatistics:
+      return .get
     }
-    
-    var method: Moya.Method {
-        switch self {
-        case .getUserInfo:
-            return .get
-        }
+  }
+  
+  var task: Moya.Task {
+    switch self {
+    default:
+      return .requestPlain
     }
-    
-    var authorizationType: AuthorizationType? {
-        switch self {
-        default:
-            return .bearer
-        }
+  }
+  
+  var headers: [String: String]? {
+    switch self {
+    default:
+      return ["Content-type": "application/json"]
     }
-    
-    var headers: [String : String]? {
-        switch self {
-        case let .getUserInfo(token):
-            return ["Authorization" : "Bearer \(token)"]
-        }
-    }
-    
-    var task: Moya.Task {
-        switch self {
-        default:
-            return .requestPlain
-        }
-    }
+  }
+  
+  var authorizationType: Moya.AuthorizationType? {
+    return .bearer
+  }
+  
+  var validationType: ValidationType {
+    return .successCodes
+  }
 }
