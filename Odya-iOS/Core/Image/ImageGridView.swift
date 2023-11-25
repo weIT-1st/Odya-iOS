@@ -29,8 +29,9 @@ struct ImageGridView: View {
                     AsyncImage(url: URL(string: imageUrl)) { image in
                         image
                             .resizable()
-                            .frame(width: imageSize, height: imageSize)
                             .aspectRatio(contentMode: .fill)
+                            .frame(width: imageSize, height: imageSize)
+                            .clipped()
                     } placeholder: {
                         ProgressView()
                             .frame(width: imageSize, height: imageSize * 4/3)

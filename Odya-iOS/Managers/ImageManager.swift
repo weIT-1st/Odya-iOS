@@ -14,6 +14,7 @@ func getElapsedTime(start: Date) -> TimeInterval {
     let elapsedTime = end.timeIntervalSince(start)
     return elapsedTime
 }
+var totalByte: Int = 0
 
 class WebPImageManager: ObservableObject {
     
@@ -32,7 +33,7 @@ class WebPImageManager: ObservableObject {
     func convertImageToWebPAsync(image: UIImage) async -> Data? {
         return await withCheckedContinuation { continuation in
             DispatchQueue.global().async {
-                if let webPData: Data = try? WebPEncoder().encode(image, config: .preset(.picture, quality: 90)) {
+                if let webPData: Data = try? WebPEncoder().encode(image, config: .preset(.picture, quality: 85)) {
                     continuation.resume(returning: webPData)
                 } else {
                     continuation.resume(returning: nil)
@@ -62,14 +63,20 @@ class WebPImageManager: ObservableObject {
             for imageData in images {
                 group.addTask {
                     // if let uiImage = imageData,
-                    if let resizedImage = imageData.image.resizeAsync(maxSize: 1024),
-                       let webPData = await self.convertImageToWebPAsync(image: resizedImage) {
-                        Task {
-                            self.webpImages.append((data:webPData, imageName: imageData.imageName + ".webp"))
-                            // test !!!
-//                            totalByte += webPData.count
-//                            let byteArray = [UInt8](webPData)
-                        }
+                  if let resizedImage = imageData.image.resizeAsync(maxSize: 1024){
+                    if let webPData = await self.convertImageToWebPAsync(image: resizedImage) {
+                      Task {
+                        self.webpImages.append((data:webPData, imageName: imageData.imageName + ".webp"))
+                        // test !!!
+                        // totalByte += webPData.count
+
+                      }
+                    }else {
+                      print("webp error")
+                      
+                    }
+                  } else {
+                      print("resizing error")
                     }
                 }
             }
@@ -81,8 +88,8 @@ class WebPImageManager: ObservableObject {
             self.isLoading = false
         }
 
-        print("\(webpImages.count) images converted to WebP")
-        print("Time: \(getElapsedTime(start: startDate)) 초")
+        // print("\(webpImages.count) images converted to WebP: \(totalByte) bytes")
+        // print("Time: \(getElapsedTime(start: startDate)) 초")
         return webpImages
     }
 }

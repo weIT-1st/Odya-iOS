@@ -10,7 +10,6 @@ import SwiftUI
 import PhotosUI
 import Photos
 
-
 struct PhotoPickerView: UIViewControllerRepresentable {
   
   @Binding var imageList: [ImageData]
@@ -58,15 +57,6 @@ struct PhotoPickerView: UIViewControllerRepresentable {
       self.parent = parent
     }
     
-    /*/ 원본 사진 바이트 수 체크
-     private func getByteSize(image: UIImage) {
-     if let imageData = image.jpegData(compressionQuality: 1.0) {
-     let originalSize = imageData.count
-     self.parent.totalByte += originalSize
-     }
-     }
-     */
-    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
       parent.presentationMode.wrappedValue.dismiss()
       guard !results.isEmpty else {
@@ -99,7 +89,7 @@ struct PhotoPickerView: UIViewControllerRepresentable {
               let imageLocation = assetResults.firstObject?.location?.coordinate
               
               let newImageData = ImageData(assetIdentifier: assetID,
-                                           image: image,
+                                           image: image.resizeAsync(maxSize: 1024) ?? image,
                                            imageName: imageName,
                                            creationDate: imageCreationDate,
                                            location: imageLocation)
@@ -113,10 +103,6 @@ struct PhotoPickerView: UIViewControllerRepresentable {
       
       group.notify(queue: .main) {
         self.parent.imageList = newImageList.filter{ newImageAssetIdentifiers.contains($0.assetIdentifier) }
-        print(self.parent.imageList.count)
-        for imageData in self.parent.imageList {
-          print(imageData.assetIdentifier)
-        }
       }
     }
     

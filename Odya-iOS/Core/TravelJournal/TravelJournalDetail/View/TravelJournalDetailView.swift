@@ -12,9 +12,24 @@ struct TravelJournalDetailView: View {
 
   @StateObject var bottomSheetVM = BottomSheetViewModel()
   @StateObject var journalDetailVM = TravelJournalDetailViewModel()
+  @StateObject var bookmarkManager = JournalBookmarkManager()
 
   let journalId: Int
+  let writerNickname: String
 
+  var isBookmarked: Bool {
+    guard let journal = journalDetailVM.journalDetail else {
+      return false
+    }
+    return journal.isBookmarked
+  }
+  
+  init(journalId: Int, nickname: String = "") {
+    self.journalId = journalId
+    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
+  }
+  
+  /// 메뉴 버튼 클릭 시에 메뉴 화면 표시 여부
   @State private var isShowingMeatballMenu: Bool = false
 
   /// 데일리 일정 삭제 확인 알림 화면 표시 여부
@@ -26,14 +41,16 @@ struct TravelJournalDetailView: View {
   /// 데일리 일정 삭제 실패 시 뜨는 오류 메시지
   @State private var failureMessage: String = ""
 
+  // MARK: Body
+  
   var body: some View {
-    ZStack {
+    ZStack() {
       GeometryReader { geometry in
         // TODO: map
-        Color.odya.brand.primary
+        Color.odya.elevation.elev4
           .ignoresSafeArea()
 
-        headerBar
+          headerBar
 
         if let journalDetail = journalDetailVM.journalDetail {
           JournalDetailBottomSheet(travelJournal: journalDetail)
@@ -61,11 +78,8 @@ struct TravelJournalDetailView: View {
                 }
             )
         } else {
-          VStack {
-            Spacer()
             ProgressView()
-              .frame(height: 250)
-          }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
 
         if let journal = journalDetailVM.journalDetail,
@@ -79,7 +93,9 @@ struct TravelJournalDetailView: View {
     .onAppear {
       journalDetailVM.getJournalDetail(journalId: journalId)
       bottomSheetVM.isSheetOn = false
+      journalDetailVM.isMyJournal = writerNickname == ""
     }
+    // 메뉴 버튼 클릭
     .confirmationDialog("", isPresented: $isShowingMeatballMenu) {
       Button("공유") { print("공유 클릭") }
       // Button("수정") { print("수정 클릭") }
@@ -88,6 +104,7 @@ struct TravelJournalDetailView: View {
       }
       Button("닫기", role: .cancel) { print("닫기 클릭") }
     }
+    // 여행일지 삭제 클릭 시 alert
     .alert("해당 여행일지를 삭제할까요?", isPresented: $isShowingJournalDeletionAlert) {
       HStack {
         Button("취소", role: .cancel) {
@@ -119,10 +136,11 @@ struct TravelJournalDetailView: View {
 
   }
 
+  // MARK: Header bar
   private var headerBar: some View {
     VStack {
       ZStack {
-        CustomNavigationBar(title: "")
+        CustomNavigationBar(title: writerNickname)
         HStack(spacing: 8) {
           // 바텀시트 올라와 있을 경우, 백버튼 = 바텀시트 닫기 버튼
           if bottomSheetVM.isSheetOn {
@@ -134,11 +152,15 @@ struct TravelJournalDetailView: View {
             }
           }
           Spacer()
-          IconButton("star-off") {
-            // print("clicked")
-          }
-          IconButton("menu-meatballs-l") {
-            isShowingMeatballMenu = true
+          if writerNickname == "" {
+            StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
+              bookmarkManager.setBookmarkState(isBookmarked, journalId) { newState in
+                journalDetailVM.journalDetail?.isBookmarked = newState
+              }
+            }
+            IconButton("menu-meatballs-l") {
+              isShowingMeatballMenu = true
+            }
           }
         }
         .padding(.leading, 8)
