@@ -92,7 +92,7 @@ struct FollowerUserRowView: View {
               .stroke(Color.odya.label.inactive)
           )
       }
-      .alert("팔로잉을 취소하시겠습니까?", isPresented: $showingFollwerDeleteAlert) {
+      .alert("팔로워를 삭제하시겠습니까?", isPresented: $showingFollwerDeleteAlert) {
         HStack {
           Button("취소") {
             showingFollwerDeleteAlert = false
