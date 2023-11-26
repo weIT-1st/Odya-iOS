@@ -100,7 +100,6 @@ struct ProfileView: View {
       // profile image
       ZStack {
         ProfileImageView(profileUrl: profileVM.profileUrl, size: .XL)
-//        ProfileImageView(of: profileVM.nickname, profileData: profileVM.profileData, size: .XL)
         
         if isMyProfile {
           IconButton("camera") {
