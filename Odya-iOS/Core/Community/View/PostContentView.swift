@@ -39,9 +39,7 @@ struct PostContentView: View {
         )
         Spacer()
         // 팔로우버튼
-        FollowButton(isFollowing: false, buttonStyle: .ghost) {
-          // follow
-        }
+        FollowButtonWithAlertAndApi(userId: writer.userID, buttonStyle: .ghost, followState: writer.isFollowing ?? false)
       }
       .frame(height: 32)
 
