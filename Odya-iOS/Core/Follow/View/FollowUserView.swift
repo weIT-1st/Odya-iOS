@@ -53,7 +53,9 @@ struct FollowingUserRowView: View {
     HStack {
       FollowUserView(user: followUser)
       Spacer()
-      FollowButtonWithAlertAndApi(userId: followUser.userId, buttonStyle: .solid)
+      if followHubVM.userID == MyData.userID {
+        FollowButtonWithAlertAndApi(userId: followUser.userId, buttonStyle: .solid)
+      }
     }
     .frame(height: 36)
     .padding(.horizontal, GridLayout.side)
@@ -78,35 +80,41 @@ struct FollowerUserRowView: View {
     HStack {
       FollowUserView(user: followUser)
       Spacer()
-      Button(action: {
-        showingFollwerDeleteAlert = true
-        print("팔로워 삭제")
-      }) {
-        Text("삭제")
-          .foregroundColor(Color.odya.label.inactive)
-          .frame(width: 36)
-          .detail1Style()
-          .padding(8)
-          .overlay(
-            RoundedRectangle(cornerRadius: Radius.small)
-              .stroke(Color.odya.label.inactive)
-          )
-      }
-      .alert("팔로워를 삭제하시겠습니까?", isPresented: $showingFollwerDeleteAlert) {
-        HStack {
-          Button("취소") {
-            showingFollwerDeleteAlert = false
-          }
-          Button("삭제") {
-            print("팔로워 삭제됨")
-            showingFollwerDeleteAlert = false
-          }
-        }
-      } message: {
-        Text("팔로워 삭제는 알림이 가지 않으며, 삭제 시 특정 여행일지 및 게시글이 노출되지 않습니다.")
+      if followHubVM.userID == MyData.userID {
+        followerDeletionButton
       }
     }
     .frame(height: 36)
     .padding(.horizontal, GridLayout.side)
+  }
+  
+  private var followerDeletionButton: some View {
+    Button(action: {
+      showingFollwerDeleteAlert = true
+      print("팔로워 삭제")
+    }) {
+      Text("삭제")
+        .foregroundColor(Color.odya.label.inactive)
+        .frame(width: 36)
+        .detail1Style()
+        .padding(8)
+        .overlay(
+          RoundedRectangle(cornerRadius: Radius.small)
+            .stroke(Color.odya.label.inactive)
+        )
+    }
+    .alert("팔로워를 삭제하시겠습니까?", isPresented: $showingFollwerDeleteAlert) {
+      HStack {
+        Button("취소") {
+          showingFollwerDeleteAlert = false
+        }
+        Button("삭제") {
+          print("팔로워 삭제됨")
+          showingFollwerDeleteAlert = false
+        }
+      }
+    } message: {
+      Text("팔로워 삭제는 알림이 가지 않으며, 삭제 시 특정 여행일지 및 게시글이 노출되지 않습니다.")
+    }
   }
 }

@@ -72,6 +72,7 @@ struct ProfileImageView: View {
             default:
                 Image("profile")
                     .resizable()
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: size, height: size)
             }
         case .withImage(let url):
