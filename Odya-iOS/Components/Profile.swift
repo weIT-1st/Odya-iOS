@@ -87,6 +87,8 @@ struct ProfileImageView: View {
                         .cornerRadius(size / 2)
                 } else if phase.error != nil {
                     Image("profile")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
                         .frame(width: size, height: size)
                 } else {
                     ProgressView()
