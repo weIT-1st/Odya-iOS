@@ -35,7 +35,6 @@ class ProfileViewModel: ObservableObject {
   @Published var userID: Int
   @Published var nickname: String
   @Published var profileUrl: String
-//  @Published var profileData: ProfileData
   @Published var statistics = UserStatistics()
   
   //  flag
