@@ -144,6 +144,8 @@ struct ProfileView: View {
       HStack(spacing: 12) {
         Text(profileVM.nickname)
           .h3Style()
+        
+        // if not my profile, follow button
         if !isMyProfile {
           FollowButton(isFollowing: followState, buttonStyle: .solid) {
             if followState == false {  // do following
@@ -151,12 +153,25 @@ struct ProfileView: View {
               profileVM.statistics.followersCount += 1
               followHubVM.createFollow(profileVM.userID)
             } else {  // do unfollowing
-              followState = false
-              profileVM.statistics.followersCount -= 1
-              followHubVM.deleteFollow(profileVM.userID)
+              isShowingUnfollowingAlert = true
             }
           }
           .animation(.default, value: followState)
+          .alert("팔로잉을 취소하시겠습니까?", isPresented: $isShowingUnfollowingAlert) {
+            HStack {
+              Button("취소") {
+                isShowingUnfollowingAlert = false
+              }
+              Button("삭제") {
+                followState = false
+                profileVM.statistics.followersCount -= 1
+                followHubVM.deleteFollow(profileVM.userID)
+                isShowingUnfollowingAlert = false
+              }
+            }
+          } message: {
+            Text("팔로잉 취소는 알람이 가지 않으며, 커뮤니티 게시글 등의 구독이 취소됩니다.")
+          }
         }
       } // nickname HStack
     } // VStack
@@ -172,7 +187,7 @@ struct ProfileView: View {
       .blur(radius: 8)
   }
   
-  // MARK: Follow
+  // MARK: Follow Count
   
   private var followTotal: some View {
     NavigationLink(

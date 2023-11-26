@@ -34,29 +34,7 @@ private struct MateRowView: View {
       
       Spacer()
       
-      FollowButton(isFollowing: followState, buttonStyle: .solid) {
-        if followState == false {  // do following
-          followState = true
-          followHubVM.createFollow(mate.userId ?? -1)
-        } else {  // do unfollowing
-          isShowingUnfollowingAlert = true
-        }
-      }
-      .alert("팔로잉을 취소하시겠습니까?", isPresented: $isShowingUnfollowingAlert) {
-        HStack {
-          Button("취소") {
-            followState = true
-            isShowingUnfollowingAlert = false
-          }
-          Button("삭제") {
-            followState = false
-            followHubVM.deleteFollow(mate.userId ?? -1)
-            isShowingUnfollowingAlert = false
-          }
-        }
-      } message: {
-        Text("팔로잉 취소는 알람이 가지 않으며, 커뮤니티 게시글 등의 구독이 취소됩니다.")
-      }
+      FollowButtonWithAlertAndApi(userId: mate.userId ?? -1, buttonStyle: .solid)
     }
   }
     

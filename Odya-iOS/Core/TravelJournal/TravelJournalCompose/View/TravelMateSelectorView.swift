@@ -42,7 +42,6 @@ struct UserProfileView: View {
 struct TravelMateSelectorView: View {
   @Environment(\.presentationMode) private var presentationMode
   @EnvironmentObject var travelJournalEditVM: JournalComposeViewModel
-
   @ObservedObject var followHubVM: FollowHubViewModel
 
   @State var selectedTravelMates: [FollowUserData] = []
@@ -77,6 +76,7 @@ struct TravelMateSelectorView: View {
 
     }.background(Color.odya.background.normal)
       .edgesIgnoringSafeArea(.bottom)
+      .accentColor(Color.odya.brand.primary)
       .onAppear {
         selectedTravelMates = travelJournalEditVM.travelMates
         followHubVM.initFollowingUsers { result in
@@ -114,7 +114,7 @@ struct TravelMateSelectorView: View {
         Button("확인") {
           isShowingTooManyMatesAlert = false
         }
-      }.accentColor(Color.odya.brand.primary)
+      }
   }
 
   private var headerBar: some View {

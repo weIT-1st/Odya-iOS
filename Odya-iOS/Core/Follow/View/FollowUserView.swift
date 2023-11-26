@@ -14,18 +14,22 @@ import SwiftUI
 /// 클릭 시 해당 유저의 프로필 뷰로 이동
 struct FollowUserView: View {
   let user: FollowUserData
-
+  @State private var isShowingUserProfileView: Bool = false
   var body: some View {
-    NavigationLink(destination: ProfileView(userId: user.userId, nickname: user.nickname, profileUrl: user.profile.profileUrl).navigationBarHidden(true)) {
+    Button(action: {
+      isShowingUserProfileView = true
+    }) {
       HStack(spacing: 0) {
-          ProfileImageView(of: user.nickname, profileData: user.profile, size: .S)
+        ProfileImageView(of: user.nickname, profileData: user.profile, size: .S)
           .padding(.trailing, 12)
-          Text(user.nickname)
+        Text(user.nickname)
           .foregroundColor(.odya.label.normal)
           .b1Style()
           .padding(.trailing, 4)
         Image("sparkle-s")
       }
+    }.fullScreenCover(isPresented: $isShowingUserProfileView) {
+      ProfileView(userId: user.userId, nickname: user.nickname, profileUrl: user.profile.profileUrl)
     }
   }
 }
@@ -49,33 +53,10 @@ struct FollowingUserRowView: View {
     HStack {
       FollowUserView(user: followUser)
       Spacer()
-      FollowButton(isFollowing: followState, buttonStyle: .solid) {
-        if followState == false {  // do following
-          followState = true
-          followHubVM.createFollow(followUser.userId)
-        } else {  // do unfollowing
-          showUnfollowingAlert = true
-        }
-      }
-      .animation(.default, value: followState)
+      FollowButtonWithAlertAndApi(userId: followUser.userId, buttonStyle: .solid)
     }
     .frame(height: 36)
     .padding(.horizontal, GridLayout.side)
-    .alert("팔로잉을 취소하시겠습니까?", isPresented: $showUnfollowingAlert) {
-      HStack {
-        Button("취소") {
-          followState = true
-          showUnfollowingAlert = false
-        }
-        Button("삭제") {
-          followState = false
-          followHubVM.deleteFollow(followUser.userId)
-          showUnfollowingAlert = false
-        }
-      }
-    } message: {
-      Text("팔로잉 취소는 알람이 가지 않으며, 커뮤니티 게시글 등의 구독이 취소됩니다.")
-    }
   }
 }
 
