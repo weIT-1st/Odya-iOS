@@ -127,10 +127,11 @@
 		3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */; };
 		3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */; };
 		3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F682AB5B3850067DE72 /* FollowUserView.swift */; };
+		3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */; };
 		3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */; };
 		3ED8DBB22B10C10500D7CF7F /* ImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */; };
-		3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */; };
 		3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE1036A2AD483F2004EDCEB /* StarButton.swift */; };
+		3EE326052B12D15F0073E841 /* TravelMatesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE326042B12D15F0073E841 /* TravelMatesViewModel.swift */; };
 		3EE9CA1B2AB5D67A003A2E85 /* FollowRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */; };
 		3EE9CA1D2AB6C44B003A2E85 /* UserRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */; };
 		3EE9CA202AB6C6C3003A2E85 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */; };
@@ -296,10 +297,11 @@
 		3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubViewModel.swift; sourceTree = "<group>"; };
 		3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSuggestion.swift; sourceTree = "<group>"; };
 		3ED22F682AB5B3850067DE72 /* FollowUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUserView.swift; sourceTree = "<group>"; };
+		3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalBookmarkManager.swift; sourceTree = "<group>"; };
 		3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryAuthorizatiionChecker.swift; sourceTree = "<group>"; };
 		3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouter.swift; sourceTree = "<group>"; };
-		3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalBookmarkManager.swift; sourceTree = "<group>"; };
 		3EE1036A2AD483F2004EDCEB /* StarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
+		3EE326042B12D15F0073E841 /* TravelMatesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMatesViewModel.swift; sourceTree = "<group>"; };
 		3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowRouter.swift; sourceTree = "<group>"; };
 		3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRouter.swift; sourceTree = "<group>"; };
 		3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -636,6 +638,7 @@
 				3E26C37D2AF0E80D003607A8 /* BottomSheetViewModel.swift */,
 				3E26C37C2AF0E80D003607A8 /* DailyJournalViewModel.swift */,
 				3E26C37B2AF0E80D003607A8 /* TravelJournalDetailViewModel.swift */,
+				3EE326042B12D15F0073E841 /* TravelMatesViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1056,6 +1059,7 @@
 				3EEBB7D92A94CD6D00F0049D /* TravelJournalEditViewModel.swift in Sources */,
 				07589E702AF023C200867FAD /* TopicRouter.swift in Sources */,
 				3EBEC3AB2A6D5A3E00998EC6 /* WriteButton.swift in Sources */,
+				3EE326052B12D15F0073E841 /* TravelMatesViewModel.swift in Sources */,
 				07A0EC832A3F95DC002D36B9 /* ProfileView.swift in Sources */,
 				07814B652A3AEAE400F71F95 /* RecentSearchCell.swift in Sources */,
 				3EBEC3A42A6C46B100998EC6 /* GNBButton.swift in Sources */,

@@ -34,7 +34,8 @@ class ProfileViewModel: ObservableObject {
   // user data
   @Published var userID: Int
   @Published var nickname: String
-  @Published var profileData: ProfileData
+  @Published var profileUrl: String
+//  @Published var profileData: ProfileData
   @Published var statistics = UserStatistics()
   
   //  flag
@@ -50,13 +51,13 @@ class ProfileViewModel: ObservableObject {
     let myData = MyData()
     self.userID = MyData.userID
     self.nickname = myData.nickname
-    self.profileData = myData.profile.decodeToProileData()
+    self.profileUrl = myData.profile.decodeToProileData().profileUrl
   }
   
-  init(userId: Int, nickname: String, profile: ProfileData) {
+  init(userId: Int, nickname: String, profileUrl: String) {
     self.userID = userId
     self.nickname = nickname
-    self.profileData = profile
+    self.profileUrl = profileUrl
   }
   
   // MARK: Fetch Data
@@ -69,6 +70,13 @@ class ProfileViewModel: ObservableObject {
   }
   
   // MARK: User Statistics
+  func updateUserStatistics() {
+    guard let idToken = idToken else {
+      return
+    }
+    getUserStatistics(idToken: idToken)
+  }
+  
   private func getUserStatistics(idToken: String) {
     if isFetchingStatistics {
       return
@@ -131,7 +139,7 @@ class ProfileViewModel: ObservableObject {
           self.appDataManager.initMyData() { success in
             if success {
               let myData = MyData()
-              self.profileData = myData.profile.decodeToProileData()
+              self.profileUrl = myData.profile.decodeToProileData().profileUrl
             }
           }
         case .failure(let error):

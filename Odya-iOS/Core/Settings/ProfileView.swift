@@ -10,23 +10,28 @@ import Photos
 
 struct ProfileView: View {
   @ObservedObject var profileVM: ProfileViewModel
+  @StateObject var followHubVM = FollowHubViewModel()
+  
   @Environment(\.dismiss) var dismiss
+  
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
   }
   
   @State private var isShowingUpdateProfileImageAlert: Bool = false
   @State private var isShowingImagePickerSheet: Bool = false
+  @State private var isShowingUnfollowingAlert: Bool = false
   
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
   @State private var selectedImage: [ImageData] = []
+  @State private var followState: Bool = true
   
   init() {
     profileVM = ProfileViewModel()
   }
   
-  init(userId: Int, nickname: String, profile: ProfileData) {
-    profileVM = ProfileViewModel(userId: userId, nickname: nickname, profile: profile)
+  init(userId: Int, nickname: String, profileUrl: String) {
+    profileVM = ProfileViewModel(userId: userId, nickname: nickname, profileUrl: profileUrl)
   }
 
   // MARK: Body
@@ -49,11 +54,17 @@ struct ProfileView: View {
         Spacer()
         
         
-      }.background(Color.odya.background.normal)
-    }
-    .onAppear {
-      Task {
-        await profileVM.fetchDataAsync()
+      }
+      .background(Color.odya.background.normal)
+      .onAppear {
+        Task {
+          if !isMyProfile {
+            followHubVM.isMyFollowingUser(profileVM.userID) { result in
+              self.followState = result
+            }
+          }
+          await profileVM.fetchDataAsync()
+        }
       }
     }
   }
@@ -86,8 +97,10 @@ struct ProfileView: View {
   
   private var profileImgAndNickname: some View {
     VStack(spacing: 24) {
+      // profile image
       ZStack {
-        ProfileImageView(of: profileVM.nickname, profileData: profileVM.profileData, size: .XL)
+        ProfileImageView(profileUrl: profileVM.profileUrl, size: .XL)
+//        ProfileImageView(of: profileVM.nickname, profileData: profileVM.profileData, size: .XL)
         
         if isMyProfile {
           IconButton("camera") {
@@ -98,43 +111,55 @@ struct ProfileView: View {
           .cornerRadius(50)
           .offset(x: ComponentSizeType.XL.ProfileImageSize / 2 - 15, y: ComponentSizeType.XL.ProfileImageSize / 2 - 15)
         }
+      } // profile iamge ZStack
+      .confirmationDialog("", isPresented: $isShowingUpdateProfileImageAlert) {
+        Button("앨범에서 사진 선택") {
+          isShowingUpdateProfileImageAlert = false
+          isShowingImagePickerSheet = true
+        }
+        Button("기본 이미지로 변경") {
+          isShowingUpdateProfileImageAlert = false
+          // api with Null
+          Task {
+            await profileVM.updateProfileImage(newProfileImg: [])
+          }
+        }
+        Button("취소", role: .cancel) { print("취소 클릭") }
       }
-       
+      .sheet(isPresented: $isShowingImagePickerSheet) {
+        PhotoPickerView(imageList: $selectedImage, maxImageCount: 1, accessStatus: imageAccessStatus)
+      }
+      .onChange(of: selectedImage) { newValue in
+        if newValue.count == 1 {
+          print("get new profile image")
+          // api with UIImage
+          Task {
+            await profileVM.updateProfileImage(newProfileImg: newValue)
+          }
+          selectedImage = []
+        }
+      }
+      
+      // nickname
       HStack(spacing: 12) {
         Text(profileVM.nickname)
           .h3Style()
         if !isMyProfile {
-          FollowButton(isFollowing: true, buttonStyle: .solid) {}
+          FollowButton(isFollowing: followState, buttonStyle: .solid) {
+            if followState == false {  // do following
+              followState = true
+              profileVM.statistics.followersCount += 1
+              followHubVM.createFollow(profileVM.userID)
+            } else {  // do unfollowing
+              followState = false
+              profileVM.statistics.followersCount -= 1
+              followHubVM.deleteFollow(profileVM.userID)
+            }
+          }
+          .animation(.default, value: followState)
         }
-      }
-    }
-    .confirmationDialog("", isPresented: $isShowingUpdateProfileImageAlert) {
-      Button("앨범에서 사진 선택") {
-        isShowingUpdateProfileImageAlert = false
-        isShowingImagePickerSheet = true
-      }
-      Button("기본 이미지로 변경") {
-        isShowingUpdateProfileImageAlert = false
-        // api with Null
-        Task {
-          await profileVM.updateProfileImage(newProfileImg: [])
-        }
-      }
-      Button("취소", role: .cancel) { print("취소 클릭") }
-    }
-    .sheet(isPresented: $isShowingImagePickerSheet) {
-      PhotoPickerView(imageList: $selectedImage, maxImageCount: 1, accessStatus: imageAccessStatus)
-    }
-    .onChange(of: selectedImage) { newValue in
-      if newValue.count == 1 {
-        print("get new profile image")
-        // api with UIImage
-        Task {
-          await profileVM.updateProfileImage(newProfileImg: newValue)
-        }
-        selectedImage = []
-      }
-    }
+      } // nickname HStack
+    } // VStack
   }
   
   private var bgImage: some View {
