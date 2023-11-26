@@ -71,6 +71,7 @@
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
 		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
+		3E11AFD12B13216200AFD288 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 3E11AFD02B13216200AFD288 /* FirebaseMessaging */; };
 		3E25FAB72A814BAC00ADF6E2 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25FAB62A814BAC00ADF6E2 /* SettingView.swift */; };
 		3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */; };
 		3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25FABA2A8434CC00ADF6E2 /* Binding.swift */; };
@@ -352,6 +353,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E11AFD12B13216200AFD288 /* FirebaseMessaging in Frameworks */,
 				3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */,
 				3E3EC3B62A388B55002BF519 /* KakaoSDK in Frameworks */,
 				3E8F81912A81128100FA167E /* GooglePlaces in Frameworks */,
@@ -963,6 +965,7 @@
 				3E8F81942A8112AB00FA167E /* GoogleMapsCore */,
 				19EBA7522AB16B7D000ABBE5 /* CombineMoya */,
 				19EBA7542AB16B7D000ABBE5 /* Moya */,
+				3E11AFD02B13216200AFD288 /* FirebaseMessaging */,
 			);
 			productName = "Odya-iOS";
 			productReference = 071FA51E2A20A99F00C7B362 /* Odya-iOS.app */;
@@ -1497,6 +1500,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		3E11AFD02B13216200AFD288 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		3E3EC3AC2A388AA5002BF519 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
