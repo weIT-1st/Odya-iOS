@@ -36,8 +36,9 @@ struct ReportView: View {
     VStack(spacing: 0) {
       header
       VStack(spacing: 0) {
+        Spacer()
         writerView
-          .padding(.vertical, 56)
+        Spacer()
         HStack {
           Text("사유선택")
             .b2Style()
@@ -51,6 +52,7 @@ struct ReportView: View {
         }
         
         otherReasonTextField
+        Spacer()
         Spacer()
         
         // 신고하기 버튼
@@ -116,6 +118,8 @@ struct ReportView: View {
   private var otherReasonTextField: some View {
     VStack(spacing: 0) {
       TextField("기타 사유를 입력해주세요 (20자 이내)", text: $viewModel.otherReasonText)
+        .b1Style()
+        .foregroundColor(.odya.label.normal)
         .frame(height: 56)
       Divider()
     }
