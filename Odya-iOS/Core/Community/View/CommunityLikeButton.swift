@@ -42,7 +42,6 @@ struct CommunityLikeButton: View {
     var body: some View {
       HStack(spacing: 4) {
         Button {
-          print("좋아요 버튼 눌림!!!!")
           if likeState {
             withAnimation(.spring()) {
               // 좋아요 삭제
@@ -50,10 +49,8 @@ struct CommunityLikeButton: View {
               likeViewModel.deleteLike(communityId: communityId)
               
               likeImageName = likeImageName.nextOff()
-              print(likeImageName.rawValue)
               DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 likeImageName = likeImageName.nextOff()
-                print(likeImageName.rawValue)
               }
               likeState = false
             }
@@ -64,10 +61,8 @@ struct CommunityLikeButton: View {
               likeViewModel.createLike(communityId: communityId)
               
               likeImageName = likeImageName.nextOn()
-              print(likeImageName.rawValue)
               DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 likeImageName = likeImageName.nextOn()
-                print(likeImageName.rawValue)
               }
               likeState = true
             }
