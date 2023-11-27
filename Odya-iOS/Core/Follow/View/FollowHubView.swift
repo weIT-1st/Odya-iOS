@@ -12,7 +12,6 @@ import SwiftUI
 /// 팔로워/팔로잉 닉네임 검색창
 struct FollowSearchBar: View {
   var promptText: String
-  @EnvironmentObject var followHubVM: FollowHubViewModel
 
   @State private var input: String = ""
   @Binding var nameToSearch: String
@@ -58,26 +57,43 @@ struct FollowSearchBar: View {
 /// 닉네임을 통해 팔로워/팔로잉를 검색할 수 있음
 struct FollowHubView: View {
   @ObservedObject var followHubVM: FollowHubViewModel
+  
+  /// 화면에 표시되는 리스트 - 팔로워리스트 / 팔로잉리스트 / 검색 결과 리스트
   @State var displayedUsers: [FollowUserData] = []
+  
+  /// 검색하려는 닉네임
   @State var nameToSearch: String = ""
+  
+  /// 검색 결과 표시 여부
   @State var searchResultsDisplayed: Bool = false
 
-  init(token: String, userID: Int, followCount: FollowCount) {
-    self.followHubVM = FollowHubViewModel(token: token, userID: userID, followCount: followCount)
+  // 내 친구관리 페이지일 경우
+  init() {
+    self.followHubVM = FollowHubViewModel()
   }
-
+  
+  // 타인의 친구관리 페이지일 경우
+  init(userId: Int) {
+    self.followHubVM = FollowHubViewModel(userId: userId)
+  }
+  
+  // MARK: Body
   var body: some View {
     VStack {
       CustomNavigationBar(title: "친구 관리")
+      
       FollowSearchBar(
         promptText: "친구를 찾아보세요!", nameToSearch: $nameToSearch,
         searchResultsDisplayed: $searchResultsDisplayed
       )
-      .environmentObject(followHubVM)
 
+      // 디폴트, 모든 팔로잉/팔로워 리스트 보기
       if !searchResultsDisplayed {
+        // 팔로워 / 팔로잉 선택 토글
         followTypeToggle
           .padding(.vertical, 20)
+        
+        // 리스트
         FollowUserListView(of: $displayedUsers)
           .environmentObject(followHubVM)
           .refreshable {
@@ -97,12 +113,16 @@ struct FollowHubView: View {
               }
             }
           }
-      } else {
+      }
+      
+      // 닉네임을 검색한 경우, 검색 결과 보기
+      else {
         SearchedUserListView(nameToSearch: nameToSearch)
           .padding(.top, 20)
           .environmentObject(followHubVM)
       }
-    }
+      
+    } // main VStack
     .background(Color.odya.background.normal)
     .onAppear {
       followHubVM.initFollowingUsers { success in
@@ -123,6 +143,7 @@ struct FollowHubView: View {
     }
   }
 
+  // MARK: Follow Type Toggle
   private var followTypeToggle: some View {
     ZStack {
       RoundedRectangle(cornerRadius: 50)

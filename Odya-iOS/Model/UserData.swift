@@ -23,3 +23,15 @@ struct UserData: Codable {
         case profileData = "profile"
     }
 }
+
+struct UserStatistics: Codable {
+  var travelJournalCount: Int = 0
+  var travelPlaceCount: Int = 0
+  var followingsCount : Int = 0
+  var followersCount : Int = 0
+  var odyaCount: Int = 0
+  
+  enum CodingKeys: String, CodingKey {
+      case travelJournalCount, travelPlaceCount, followingsCount, followersCount, odyaCount
+  }
+}

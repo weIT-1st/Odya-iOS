@@ -65,9 +65,8 @@ struct FeedDetailView: View {
                     Spacer()
                     if viewModel.feedDetail.writer.userID != MyData.userID  {
                       // 팔로우버튼
-                      FollowButton(isFollowing: false, buttonStyle: .ghost) {
-                        // follow
-                      }
+                      let writer = viewModel.feedDetail.writer
+                      FollowButtonWithAlertAndApi(userId: writer.userID, buttonStyle: .ghost, followState: writer.isFollowing ?? false)
                     }
                   }
                   .padding(.top, 16)
