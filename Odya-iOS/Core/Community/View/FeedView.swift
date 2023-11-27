@@ -35,9 +35,11 @@ struct FeedView: View {
               // fishchips
               if selectedFeedToggle == .all {
                 FishchipsBar(selectedTopicId: $selectedTopicId)
+                  .padding(.bottom, -4)
               }
               // toggle
               feedToggleSelectionView
+                .zIndex(.greatestFiniteMagnitude)
 
               LazyVStack(spacing: 4) {
                 // posts (무한)
@@ -78,6 +80,7 @@ struct FeedView: View {
                 }
               }
             }  // ScrollView
+            .zIndex(0)
             .refreshable {
               switch selectedFeedToggle {
               case .all:
@@ -142,6 +145,7 @@ struct FeedView: View {
           Circle().frame(width: 4, height: 4)
           Text("전체 보기")
             .detail1Style()
+            .frame(height: 24)
         }
         .foregroundColor(
           selectedFeedToggle == .all ? Color.odya.brand.primary : Color.odya.label.inactive
@@ -152,19 +156,20 @@ struct FeedView: View {
         selectedFeedToggle = .friend
         viewModel.refreshFriendFeed()
       } label: {
-        HStack(spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
           Circle().frame(width: 4, height: 4)
           Text("친구글만 보기")
             .detail1Style()
+            .frame(height: 24)
         }
         .foregroundColor(
           selectedFeedToggle == .friend ? Color.odya.brand.primary : Color.odya.label.inactive
         )
       }
     }
-    .padding(.bottom, 12)
     .frame(maxWidth: .infinity)
     .padding(.horizontal, GridLayout.side)
+    .padding(.bottom, 8)
   }
 }
 
