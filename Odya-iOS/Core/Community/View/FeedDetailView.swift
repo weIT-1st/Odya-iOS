@@ -20,8 +20,13 @@ struct FeedDetailView: View {
   @State private var showEditView = false
   /// 액션시트 토글
   @State private var showActionSheet = false
+  /// 신고화면 토글
+  @State private var showReportView = false
   /// 커뮤니티 아이디
   let communityId: Int
+  
+  // Comment
+  @State private var commentCount: Int = 0
   
   // MARK: Init
   
@@ -95,17 +100,7 @@ struct FeedDetailView: View {
                   VStack(spacing: 16) {
                     // tag
                     if viewModel.feedDetail?.topic != nil {
-                      HStack(spacing: 8) {
-                        FishchipButton(
-                          isActive: .active, buttonStyle: .basic, imageName: nil,
-                          labelText: "# \(viewModel.feedDetail?.topic?.topic ?? "")",
-                          labelSize: .S
-                        ) {
-                          // action
-                        }
-                        Spacer()
-                      }
-                      .padding(.horizontal, GridLayout.side)
+                      tagView
                     }
                     
                     // location, comment, heart button
@@ -113,8 +108,13 @@ struct FeedDetailView: View {
                       locationView
                       Spacer(minLength: 28)
                       HStack(spacing: 12) {
+                        CommunityLikeButton(
+                          communityId: communityId,
+                          likeState: viewModel.feedDetail.isUserLiked,
+                          likeCount: viewModel.feedDetail.communityLikeCount,
+                          baseColor: .odya.label.normal
+                        )
                         commentView
-                        likeView
                       }
                     }
                     .frame(maxWidth: .infinity)
@@ -158,6 +158,9 @@ struct FeedDetailView: View {
         originalImageList: viewModel.feedDetail.communityContentImages,
         showPhotoPicker: false,
         composeMode: .edit)
+    }
+    .fullScreenCover(isPresented: $showReportView) {
+      ReportView(reportTarget: .community, id: communityId, isPresented: $showReportView)
     }
     .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
       Button {
@@ -210,6 +213,7 @@ struct FeedDetailView: View {
           }
           Button("신고하기", role: .destructive) {
             // action: 신고
+            showReportView.toggle()
           }
         }
       }
@@ -236,26 +240,27 @@ struct FeedDetailView: View {
       Image("comment")
         .frame(width: 24, height: 24)
       // number of comment
-      Text("\(viewModel.feedDetail?.communityCommentCount ?? 0)")
+      Text(commentCount > 99 ? "99+" : "\(commentCount)")
         .detail1Style()
         .foregroundColor(Color.odya.label.normal)
+    }
+    .onAppear {
+      self.commentCount = viewModel.feedDetail.communityCommentCount
     }
   }
   
-  private var likeView: some View {
-    HStack(spacing: 4) {
-      if viewModel.feedDetail.isUserLiked {
-        Image("heart-on-m")
-          .frame(width: 24, height: 24)
-      } else {
-        Image("heart-off-m")
-          .frame(width: 24, height: 24)
+  private var tagView: some View {
+    HStack(spacing: 8) {
+      FishchipButton(
+        isActive: .active, buttonStyle: .basic, imageName: nil,
+        labelText: "# \(viewModel.feedDetail?.topic?.topic ?? "")",
+        labelSize: .S
+      ) {
+        // action
       }
-      // number of heart
-      Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
-        .detail1Style()
-        .foregroundColor(Color.odya.label.normal)
+      Spacer()
     }
+    .padding(.horizontal, GridLayout.side)
   }
 }
 

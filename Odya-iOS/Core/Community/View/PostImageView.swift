@@ -30,6 +30,10 @@ struct PostImageView: View {
         },
         placeholder: {
           ProgressView()
+            .frame(
+              width: UIScreen.main.bounds.width,
+              height: UIScreen.main.bounds.width
+            )
         }
       )
 

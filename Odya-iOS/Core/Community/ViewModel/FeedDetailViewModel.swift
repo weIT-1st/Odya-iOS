@@ -13,8 +13,7 @@ final class FeedDetailViewModel: ObservableObject {
   // MARK: Properties
   /// Provider
   @AppStorage("WeITAuthToken") var idToken: String?
-  private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: [.successResponseBody, .errorResponseBody]))
+  private let logPlugin: PluginType = CustomLogPlugin()
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
