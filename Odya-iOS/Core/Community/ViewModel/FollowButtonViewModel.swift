@@ -16,8 +16,7 @@ class FollowButtonViewModel: ObservableObject {
   
   /// provider
   @AppStorage("WeITAuthToken") var idToken: String?
-  private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: [.successResponseBody, .errorResponseBody]))
+  private let logPlugin: PluginType = CustomLogPlugin()
   private lazy var followProvider = MoyaProvider<FollowRouter>(plugins: [logPlugin])
   private var subscription = Set<AnyCancellable>()
   
@@ -25,7 +24,7 @@ class FollowButtonViewModel: ObservableObject {
   
   /// 팔로우 실행
   func createFollow(_ followingID: Int) {
-    followProvider.requestPublisher(.create(token: self.idToken ?? "", followingID: followingID))
+    followProvider.requestPublisher(.create(followingID: followingID))
       .sink { completion in
         switch completion {
         case .finished:
@@ -42,7 +41,7 @@ class FollowButtonViewModel: ObservableObject {
   
   /// 언팔로우 실행
   func deleteFollow(_ followingID: Int) {
-    followProvider.requestPublisher(.delete(token: self.idToken ?? "", followingID: followingID))
+    followProvider.requestPublisher(.delete(followingID: followingID))
       .sink { completion in
         switch completion {
         case .finished:

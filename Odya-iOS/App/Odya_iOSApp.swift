@@ -34,7 +34,7 @@ struct Odya_iOSApp: App {
                         Task {
                             appDataManager.refreshToken() { success in
                                 if success {
-                                    appDataManager.initMyData()
+                                  appDataManager.initMyData() { _ in }
                                 }
                             }
                         }

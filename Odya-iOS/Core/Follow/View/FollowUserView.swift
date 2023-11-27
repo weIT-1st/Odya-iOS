@@ -14,18 +14,22 @@ import SwiftUI
 /// 클릭 시 해당 유저의 프로필 뷰로 이동
 struct FollowUserView: View {
   let user: FollowUserData
-
+  @State private var isShowingUserProfileView: Bool = false
   var body: some View {
-      NavigationLink(destination: UserProfileView(userId: user.userId, nickname: user.nickname)) {
+    Button(action: {
+      isShowingUserProfileView = true
+    }) {
       HStack(spacing: 0) {
-          ProfileImageView(of: user.nickname, profileData: user.profile, size: .S)
+        ProfileImageView(of: user.nickname, profileData: user.profile, size: .S)
           .padding(.trailing, 12)
-          Text(user.nickname)
+        Text(user.nickname)
           .foregroundColor(.odya.label.normal)
           .b1Style()
           .padding(.trailing, 4)
         Image("sparkle-s")
       }
+    }.fullScreenCover(isPresented: $isShowingUserProfileView) {
+      ProfileView(userId: user.userId, nickname: user.nickname, profileUrl: user.profile.profileUrl)
     }
   }
 }
@@ -49,33 +53,12 @@ struct FollowingUserRowView: View {
     HStack {
       FollowUserView(user: followUser)
       Spacer()
-      FollowButton(isFollowing: followState, buttonStyle: .solid) {
-        if followState == false {  // do following
-          followState = true
-          followHubVM.createFollow(followUser.userId)
-        } else {  // do unfollowing
-          showUnfollowingAlert = true
-        }
+      if followHubVM.userID == MyData.userID {
+        FollowButtonWithAlertAndApi(userId: followUser.userId, buttonStyle: .solid)
       }
-      .animation(.default, value: followState)
     }
     .frame(height: 36)
     .padding(.horizontal, GridLayout.side)
-    .alert("팔로잉을 취소하시겠습니까?", isPresented: $showUnfollowingAlert) {
-      HStack {
-        Button("취소") {
-          followState = true
-          showUnfollowingAlert = false
-        }
-        Button("삭제") {
-          followState = false
-          followHubVM.deleteFollow(followUser.userId)
-          showUnfollowingAlert = false
-        }
-      }
-    } message: {
-      Text("팔로잉 취소는 알람이 가지 않으며, 커뮤니티 게시글 등의 구독이 취소됩니다.")
-    }
   }
 }
 
@@ -97,35 +80,41 @@ struct FollowerUserRowView: View {
     HStack {
       FollowUserView(user: followUser)
       Spacer()
-      Button(action: {
-        showingFollwerDeleteAlert = true
-        print("팔로워 삭제")
-      }) {
-        Text("삭제")
-          .foregroundColor(Color.odya.label.inactive)
-          .frame(width: 36)
-          .detail1Style()
-          .padding(8)
-          .overlay(
-            RoundedRectangle(cornerRadius: Radius.small)
-              .stroke(Color.odya.label.inactive)
-          )
-      }
-      .alert("팔로잉을 취소하시겠습니까?", isPresented: $showingFollwerDeleteAlert) {
-        HStack {
-          Button("취소") {
-            showingFollwerDeleteAlert = false
-          }
-          Button("삭제") {
-            print("팔로워 삭제됨")
-            showingFollwerDeleteAlert = false
-          }
-        }
-      } message: {
-        Text("팔로워 삭제는 알림이 가지 않으며, 삭제 시 특정 여행일지 및 게시글이 노출되지 않습니다.")
+      if followHubVM.userID == MyData.userID {
+        followerDeletionButton
       }
     }
     .frame(height: 36)
     .padding(.horizontal, GridLayout.side)
+  }
+  
+  private var followerDeletionButton: some View {
+    Button(action: {
+      showingFollwerDeleteAlert = true
+      print("팔로워 삭제")
+    }) {
+      Text("삭제")
+        .foregroundColor(Color.odya.label.inactive)
+        .frame(width: 36)
+        .detail1Style()
+        .padding(8)
+        .overlay(
+          RoundedRectangle(cornerRadius: Radius.small)
+            .stroke(Color.odya.label.inactive)
+        )
+    }
+    .alert("팔로워를 삭제하시겠습니까?", isPresented: $showingFollwerDeleteAlert) {
+      HStack {
+        Button("취소") {
+          showingFollwerDeleteAlert = false
+        }
+        Button("삭제") {
+          print("팔로워 삭제됨")
+          showingFollwerDeleteAlert = false
+        }
+      }
+    } message: {
+      Text("팔로워 삭제는 알림이 가지 않으며, 삭제 시 특정 여행일지 및 게시글이 노출되지 않습니다.")
+    }
   }
 }

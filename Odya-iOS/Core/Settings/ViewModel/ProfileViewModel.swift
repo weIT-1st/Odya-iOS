@@ -19,90 +19,136 @@ enum MyError: Error {
 }
 
 class ProfileViewModel: ObservableObject {
-    
-    // Moya
-    private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
-    private lazy var userProvider = MoyaProvider<UserRouter>(plugins: [plugin])
-    private lazy var followProvider = MoyaProvider<FollowRouter>(plugins: [plugin])
-    private var subscription = Set<AnyCancellable>()
-    
-    // user Data
-    @Published var appDataManager = AppDataManager()
-    
-    @AppStorage("WeITAuthToken") var idToken: String?
-    
-    @Published var userID: Int
-    @Published var nickname: String
-    @Published var profileData: ProfileData
-    
-    @Published var followCount = FollowCount()
-    
-    //  flag
-    var isFetchingFollowCount: Bool = false
-    
-    init() {
-        let myData = MyData()
-        self.userID = MyData.userID
-        self.nickname = myData.nickname
-        self.profileData = myData.profile.decodeToProileData()
+  // token
+  @Published var appDataManager = AppDataManager()
+  @AppStorage("WeITAuthToken") var idToken: String?
+  
+  // Moya
+  private let logPlugin: PluginType = NetworkLoggerPlugin(
+    configuration: .init(logOptions: .verbose))
+  private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
+  private lazy var userProvider = MoyaProvider<UserRouter>(
+    session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
+  private var subscription = Set<AnyCancellable>()
+  
+  // user data
+  @Published var userID: Int
+  @Published var nickname: String
+  @Published var profileUrl: String
+  @Published var statistics = UserStatistics()
+  
+  //  flag
+  var isFetchingStatistics: Bool = false
+  var isUpdatingProfileImg: Bool = false
+  
+  // profileImage
+  var webpImageManager = WebPImageManager()
+  
+  // MARK: Init
+  
+  init() {
+    let myData = MyData()
+    self.userID = MyData.userID
+    self.nickname = myData.nickname
+    self.profileUrl = myData.profile.decodeToProileData().profileUrl
+  }
+  
+  init(userId: Int, nickname: String, profileUrl: String) {
+    self.userID = userId
+    self.nickname = nickname
+    self.profileUrl = profileUrl
+  }
+  
+  // MARK: Fetch Data
+  func fetchDataAsync() async {
+    guard let idToken = idToken else {
+      return
     }
     
-    func fetchDataAsync() async {
-//        guard let idToken = idToken else {
-//            return
-//        }
-//
-//        do {
-//            try await getFollowCount(idToken: idToken)
-//        } catch {
-//            switch error {
-//            case MyError.apiError(let error):
-//                if error.code == -11000 {
-//                    print("Invalid Token")
-//                    if await appDataManager.refreshToken() {
-//                        await self.fetchDataAsync()
-//                    }
-//                } else {
-//                    print("Fetching failed with error:", error)
-//                }
-//
-//            default:
-//                print("Fetching failed with error:", error)
-//            }
-//        }
+    getUserStatistics(idToken: idToken)
+  }
+  
+  // MARK: User Statistics
+  func updateUserStatistics() {
+    guard let idToken = idToken else {
+      return
+    }
+    getUserStatistics(idToken: idToken)
+  }
+  
+  private func getUserStatistics(idToken: String) {
+    if isFetchingStatistics {
+      return
     }
     
+    isFetchingStatistics = true
     
-    
-    private func getFollowCount(idToken: String) async throws {
-        if isFetchingFollowCount {
+    userProvider.requestPublisher(.getUserStatistics(userId: self.userID))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          self.isFetchingStatistics = false
+        case .failure(let error):
+          self.isFetchingStatistics = false
+          guard let apiError = try? error.response?.map(ErrorData.self) else {
+            // error data decoding error handling
+            // unknown error
             return
+          }
+          
+          if apiError.code == -11000 {
+            self.appDataManager.refreshToken { success in
+              // token error handling
+              if success {
+                self.getUserStatistics(idToken: idToken)
+                return
+              }
+            }
+          }
+          // other api error handling
         }
-        
-        isFetchingFollowCount = true
-        
-        return try await withCheckedThrowingContinuation { continuation in
-            followProvider.requestPublisher(.count(token: idToken, userID: self.userID))
-                .sink { completion in
-                    switch completion {
-                    case .finished:
-                        self.isFetchingFollowCount = false
-                    case .failure(let error):
-                        self.isFetchingFollowCount = false
-                        continuation.resume(throwing: error)
-                    }
-                } receiveValue: { response in
-                    if let responseData = try? response.map(FollowCount.self) {
-                        self.followCount = responseData
-                        return
-                    }
-                    
-                    guard let errorData = try? response.map(ErrorData.self) else {
-                        continuation.resume(throwing: MyError.decodingError("follow count response decoding error"))
-                        return
-                    }
-                    continuation.resume(throwing: MyError.apiError(errorData))
-                }.store(in: &subscription)
-        }   
+      } receiveValue: { response in
+        do {
+          let responseData = try response.map(UserStatistics.self)
+          self.statistics = responseData
+        } catch {
+          return
+        }
+      }.store(in: &subscription)
+  }
+  
+  // MARK: Profile Image
+  func updateProfileImage(newProfileImg: [ImageData]) async {
+    if isUpdatingProfileImg {
+      return
     }
+    
+    isUpdatingProfileImg = true
+    
+    var newImage: (data: Data, name: String)? = nil
+    if !newProfileImg.isEmpty {
+      newImage = await webpImageManager.processImages(images: newProfileImg).first
+    }
+    
+    userProvider.requestPublisher(.updateUserProfileImage(profileImg: newImage))
+      .sink { apiCompletion in
+        switch apiCompletion {
+        case .finished:
+          self.isUpdatingProfileImg = false
+          self.appDataManager.initMyData() { success in
+            if success {
+              let myData = MyData()
+              self.profileUrl = myData.profile.decodeToProileData().profileUrl
+            }
+          }
+        case .failure(let error):
+          self.isUpdatingProfileImg = false
+          if let errorData = try? error.response?.map(ErrorData.self) {
+            print(errorData.message)
+          }
+          // unknown error
+        }
+      } receiveValue: { _ in }
+      .store(in: &subscription)
+  }
 }

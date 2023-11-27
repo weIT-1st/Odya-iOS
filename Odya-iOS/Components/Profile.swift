@@ -47,8 +47,12 @@ struct ProfileImageView: View {
     }
     
     init(profileUrl: String, size: ComponentSizeType) {
-        self.status = .withImage(url: URL(string: profileUrl)!)
-        self.sizeType = size
+      if let url = URL(string: profileUrl) {
+        self.status = .withImage(url: url)
+      } else {
+        self.status = .withoutImage(colorHex: "", name: "")
+      }
+      self.sizeType = size
     }
     
     var body: some View {
@@ -68,7 +72,7 @@ struct ProfileImageView: View {
             default:
                 Image("profile")
                     .resizable()
-                    .scaledToFill()
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: size, height: size)
             }
         case .withImage(let url):
@@ -76,11 +80,15 @@ struct ProfileImageView: View {
                 if let image = phase.image {
                     image
                         .resizable()
-                        .scaledToFill()
+                        .aspectRatio(contentMode: .fill)
                         .frame(width: size, height: size)
+                        .clipped()
+                        .background(Color.odya.system.inactive) // 갑자기 기본 이미지 배경이 투명해져서.. 임시방편으로 채워줬습니다
                         .cornerRadius(size / 2)
                 } else if phase.error != nil {
                     Image("profile")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
                         .frame(width: size, height: size)
                 } else {
                     ProgressView()

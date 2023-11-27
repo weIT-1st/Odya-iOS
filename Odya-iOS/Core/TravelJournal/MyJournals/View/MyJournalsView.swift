@@ -12,9 +12,6 @@ struct MyJournalsView: View {
 
   @StateObject var VM = MyJournalsViewModel()
 
-  // TODO: 즐겨찾기
-  @State private var isOn: Bool = true
-
   // MARK: Body
 
   var body: some View {
@@ -88,7 +85,8 @@ struct MyJournalsView: View {
         .h3Style()
         .foregroundColor(.odya.label.normal)
       Spacer()
-      ProfileImageView(of: VM.nickname, profileData: VM.profile, size: .M)
+      let myData = MyData()
+      ProfileImageView(of: myData.nickname, profileData: myData.profile.decodeToProileData(), size: .M)
     }.padding(.bottom, 20)
   }
 
