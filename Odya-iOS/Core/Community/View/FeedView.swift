@@ -7,59 +7,121 @@
 
 import SwiftUI
 
+enum FeedToggleType {
+  case all
+  case friend
+}
+
 struct FeedView: View {
+  // MARK: Properties
+
+  @StateObject private var viewModel = FeedViewModel()
+  @State private var selectedFeedToggle = FeedToggleType.all
+  /// 선택된 토픽 아이디
+  @State private var selectedTopicId = -1
+
   // MARK: - Body
 
   var body: some View {
     NavigationView {
-      ZStack(alignment: .bottomTrailing) {
-        VStack {
-          // tool bar
-          // TODO: - 툴바 디자인 변경예정
-          FeedToolBar()
+      GeometryReader { _ in
+        ZStack(alignment: .bottomTrailing) {
+          VStack(spacing: 0) {
+            // tool bar
+            // TODO: - 툴바 디자인 변경예정
+            FeedToolBar()
 
-          // scroll view
-          ScrollView {
-            VStack {
+            ScrollView(.vertical, showsIndicators: false) {
               // fishchips
-              FishchipsBar()
+              if selectedFeedToggle == .all {
+                FishchipsBar(selectedTopicId: $selectedTopicId)
+                  .padding(.bottom, -4)
+              }
+              // toggle
+              feedToggleSelectionView
+                .zIndex(.greatestFiniteMagnitude)
 
-              // posts (무한)
-              ForEach(0..<10) { _ in
-                NavigationLink {
-                  FeedDetailView()
-                } label: {
-                  PostView()
-                    .padding(.bottom, 8)
+              LazyVStack(spacing: 4) {
+                // posts (무한)
+                ForEach(viewModel.state.content, id: \.communityID) { content in
+                  VStack(spacing: 0) {
+                    PostImageView(urlString: content.communityMainImageURL)
+                    NavigationLink {
+                      FeedDetailView(communityId: content.communityID)
+                    } label: {
+                      PostContentView(
+                        communityId: content.communityID,
+                        contentText: content.communityContent,
+                        commentCount: content.communityCommentCount,
+                        likeCount: content.communityLikeCount,
+                        createDate: content.createdDate,
+                        writer: content.writer,
+                        isUserLiked: content.isUserLiked
+                      )
+                    }
+                    .onAppear {
+                      if viewModel.state.content.last == content {
+                        switch selectedFeedToggle {
+                        case .all:
+                          if selectedTopicId > 0 {
+                            // 선택된 토픽이 있는 경우
+                            viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
+                          } else {
+                            // 없는경우(전체 조회)
+                            viewModel.fetchAllFeedNextPageIfPossible()
+                          }
+                        case .friend:
+                          viewModel.fetchFriendFeedNextPageIfPossible()
+                        }
+                      }
+                    }
+                  }
+                  .padding(.bottom, 8)
                 }
               }
+            }  // ScrollView
+            .zIndex(0)
+            .refreshable {
+              switch selectedFeedToggle {
+              case .all:
+                if selectedTopicId > 0 {
+                  viewModel.refreshTopicFeed(topicId: selectedTopicId)
+                } else {
+                  viewModel.refreshAllFeed()
+                }
+              case .friend:
+                viewModel.refreshFriendFeed()
+              }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onAppear {
+              customRefreshControl()
+            }
+            .onChange(of: selectedTopicId) { newValue in
+              if newValue > 0 {
+                viewModel.refreshTopicFeed(topicId: selectedTopicId)
+              } else if newValue == -1 {
+                viewModel.refreshAllFeed()
+              }
+            }
+            .task {
+              if viewModel.state.content.isEmpty {
+                viewModel.fetchAllFeedNextPageIfPossible()
+              }
+            }
           }
-          .refreshable {
-            // fetch new posts
-          }
-          .onAppear {
-            customRefreshControl()
-          }
-        }
-        .background(Color.odya.background.normal)
+          .background(Color.odya.background.normal)
 
-        WriteButton {
-          // action: 작성하기 뷰
-        }
-        .padding(20)
-        
-        // 테스트
-        NavigationLink(destination: LocationTagView()) {
-          Text("바텀시트 열기")
-            .padding(20)
-            .background(Color.blue)
-        }
-      }  // ZStack
+          NavigationLink(destination: CommunityComposeView(composeMode: .create), label: {
+            WriteButton()
+          })
+          .padding(20)
+        }  // ZStack
+        .toolbar(.hidden)
+      }
     }
   }
 
+  /// 새로고침 뷰 커스텀
   func customRefreshControl() {
     UIRefreshControl.appearance().tintColor = .clear
     UIRefreshControl.appearance().backgroundColor = UIColor(Color.odya.brand.primary)
@@ -70,16 +132,44 @@ struct FeedView: View {
     UIRefreshControl.appearance().attributedTitle = NSAttributedString(
       string: "피드에 올린 곳 오댜?", attributes: attribute as [NSAttributedString.Key: Any])
   }
-}
 
-struct CustomRepreshView: View {
+  /// 토글: 전체글보기, 친구글보기
+  private var feedToggleSelectionView: some View {
+    HStack(alignment: .center, spacing: 16) {
+      Spacer()
+      Button {
+        selectedFeedToggle = .all
+        viewModel.refreshAllFeed()
+      } label: {
+        HStack(alignment: .center, spacing: 4) {
+          Circle().frame(width: 4, height: 4)
+          Text("전체 보기")
+            .detail1Style()
+            .frame(height: 24)
+        }
+        .foregroundColor(
+          selectedFeedToggle == .all ? Color.odya.brand.primary : Color.odya.label.inactive
+        )
+      }
 
-  var body: some View {
-    Text("피드에 올린 곳 오댜?")
-      .foregroundColor(Color.odya.label.r_assistive)
-      .background(Color.odya.brand.primary)
-      .frame(maxWidth: .infinity)
-      .frame(height: 60)
+      Button {
+        selectedFeedToggle = .friend
+        viewModel.refreshFriendFeed()
+      } label: {
+        HStack(alignment: .center, spacing: 4) {
+          Circle().frame(width: 4, height: 4)
+          Text("친구글만 보기")
+            .detail1Style()
+            .frame(height: 24)
+        }
+        .foregroundColor(
+          selectedFeedToggle == .friend ? Color.odya.brand.primary : Color.odya.label.inactive
+        )
+      }
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.horizontal, GridLayout.side)
+    .padding(.bottom, 8)
   }
 }
 

@@ -10,12 +10,13 @@ import UIKit
 
 extension UIImage {
     func resizeAsync(maxSize: CGFloat) -> UIImage? {
-        let scaleFactor = max(maxSize / self.size.width, maxSize / self.size.height)
-        
-        if scaleFactor >= 1.0 {
+        if self.size.width <= 1024 && self.size.height <= 1024 {
             return self
         }
-        
+      
+        let removedOrientationImage = removedOrientationImage(self)
+      
+        let scaleFactor = min(maxSize / self.size.width, maxSize / self.size.height)
         let scaledWidth = self.size.width * scaleFactor
         let scaledHeight = self.size.height * scaleFactor
         let colorSpace = CGColorSpaceCreateDeviceRGB()
@@ -28,7 +29,7 @@ extension UIImage {
         else { return nil }
         
         context.interpolationQuality = .high
-        context.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: scaledWidth, height: scaledHeight))
+        context.draw(removedOrientationImage.cgImage!, in: CGRect(x: 0, y: 0, width: scaledWidth, height: scaledHeight))
         
         guard let scaledImage = context.makeImage() else {
             return nil
@@ -36,5 +37,17 @@ extension UIImage {
         
         let resizedImage = UIImage(cgImage: scaledImage)
         return resizedImage
+    }
+  
+    /// 사진 방향 제거
+    func removedOrientationImage(_ image: UIImage) -> UIImage {
+        guard image.imageOrientation != .up else { return image } // up 방향일때 제외
+      
+        UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+        image.draw(in: CGRect(origin: .zero, size: image.size))
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+      
+        return normalizedImage ?? image
     }
 }

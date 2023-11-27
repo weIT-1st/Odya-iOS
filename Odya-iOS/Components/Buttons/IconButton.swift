@@ -32,6 +32,16 @@ extension View {
                 .padding(6)
         }
     }
+  
+  func CustomIconButton(_ iconImage: String, color: Color,
+                        action: @escaping () -> Void) -> some View {
+    Button(action: action) {
+      Image(iconImage)
+        .renderingMode(.template)
+        .foregroundColor(color)
+        .padding(6)
+    }.accentColor(.clear)
+  }
 }
 
 

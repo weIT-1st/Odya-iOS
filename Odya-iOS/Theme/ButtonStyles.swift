@@ -10,6 +10,7 @@ import SwiftUI
 enum ButtonStyleType {
     case solid
     case ghost
+    case basic
 }
 
 enum ButtonActiveSate {
@@ -44,6 +45,13 @@ struct CustomButtonStyle: ButtonStyle {
             .background(Color.odya.system.inactive)
             .cornerRadius(cornerRadius)
     }
+  
+    private func activeBasic(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .foregroundColor(.odya.label.assistive)
+            .background(Color.odya.elevation.elev2)
+            .cornerRadius(cornerRadius)
+    }
     
     func makeBody(configuration: Self.Configuration) -> some View {
         switch state {
@@ -53,6 +61,8 @@ struct CustomButtonStyle: ButtonStyle {
                 activeSolid(configuration: configuration)
             case .ghost:
                 activeGhost(configuration: configuration)
+            case .basic:
+                activeBasic(configuration: configuration)
             }
         case .inactive:
             inactive(configuration: configuration)

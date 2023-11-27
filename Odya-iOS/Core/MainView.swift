@@ -17,10 +17,6 @@ struct MainView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: WebpTestView(), label: {Text("webp 변환 테스트하기")})
-                
-                Spacer()
-                
                 // 사용자 정보 - 프로필 닉네임
 //                Text(getUserName())
                 

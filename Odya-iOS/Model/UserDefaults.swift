@@ -30,7 +30,7 @@ struct UserDefault<T> {
 /// 내 정보
 struct MyData {
     @UserDefault(key: keyEnum_MyData.userId.rawValue, defaultValue: -1)
-    var userID: Int
+    static var userID: Int  // 다른곳에서 공유해 읽기위해 static으로 변경했습니다
     
     @UserDefault(key: keyEnum_MyData.nickname.rawValue, defaultValue: "")
     var nickname: String

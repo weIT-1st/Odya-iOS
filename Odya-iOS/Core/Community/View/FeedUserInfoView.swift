@@ -10,12 +10,16 @@ import SwiftUI
 struct FeedUserInfoView: View {
   // MARK: Properties
 
-  let profileImageSize: CGFloat
+  let profileImageSize: ComponentSizeType
+  let writer: Writer
+  let createDate: String
 
   // MARK: Init
 
-  init(profileImageSize: CGFloat) {
+  init(profileImageSize: ComponentSizeType, writer: Writer, createDate: String) {
     self.profileImageSize = profileImageSize
+    self.writer = writer
+    self.createDate = createDate
   }
 
   // MARK: Body
@@ -23,15 +27,11 @@ struct FeedUserInfoView: View {
   var body: some View {
     HStack(spacing: 12) {
       // 유저 프로필
-      Image("profile")
-        .resizable()
-        .frame(
-          width: profileImageSize,
-          height: profileImageSize)
-
+      ProfileImageView(of: writer.nickname, profileData: writer.profile, size: profileImageSize)
+      
       HStack(spacing: 4) {
         // 유저 닉네임
-        Text("닉네임")
+        Text(writer.nickname)
           .b1Style()
           .foregroundColor(Color.odya.label.normal)
 
@@ -42,20 +42,12 @@ struct FeedUserInfoView: View {
         Text("·")
           .detail1Style()
           .foregroundColor(Color.odya.label.assistive)
-
-        // 상대 날짜
-        Text("2일전")
+        
+        // date
+        Text(createDate.toCustomRelativeDateString())
           .detail1Style()
           .foregroundColor(Color.odya.label.assistive)
       }
     }
-  }
-}
-
-// MARK: - Preview
-
-struct FeedUserInfoView_Previews: PreviewProvider {
-  static var previews: some View {
-    FeedUserInfoView(profileImageSize: ComponentSizeType.S.ProfileImageSize)
   }
 }

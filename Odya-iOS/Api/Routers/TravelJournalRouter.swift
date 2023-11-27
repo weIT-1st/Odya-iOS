@@ -8,6 +8,20 @@
 import SwiftUI
 import Moya
 
+// Test
+func checkRequestSize(_ formData:  [MultipartFormData] ) -> Void {
+  var multipartDataSize: Int = 0
+  
+  for multipartData in formData {
+    if case .data(let data) = multipartData.provider {
+      multipartDataSize += data.count
+    }
+  }
+  
+  print("MultipartFormData 데이터 크기: \(multipartDataSize) bytes")
+}
+
+// MARK: Api Request Data
 struct TravelJournalContentRequest: Codable {
     var content: String
     var placeId: String?
@@ -24,8 +38,7 @@ struct TravelJournalContentUpdateRequest: Codable {
     var longitudes: [Double]
     var travelDate: [Int]
     var updateContentImageNames: [String]
-    var deleteContentImageIds: [Int64]
-    var contentImageNames: [String]
+    var deleteContentImageIds: [Int]
     var updateImageTotalCount: Int
 }
 
@@ -34,7 +47,7 @@ struct TravelJournalRequest: Codable {
     var travelStartDate: [Int]
     var travelEndDate: [Int]
     var visibility: String
-    var travelCompanionIds: [Int64]
+    var travelCompanionIds: [Int]
     var travelCompanionNames: [String]
     var travelJournalContentRequests: [TravelJournalContentRequest]
     var travelDurationDays: Int
@@ -46,40 +59,41 @@ struct TravelJournalUpdateRequest: Codable {
     var travelStartDate: [Int]
     var travelEndDate: [Int]
     var visibility: String
-    var travelCompanionIds: [Int64]
+    var travelCompanionIds: [Int]
     var travelCompanionNames: [String]
     var travelDurationDays: Int
     var updateTravelCompanionTotalCount: Int
 }
 
-
+// MARK: Travel Journal Enum
 enum TravelJournalRouter {
+  // 여행일지 생성
     case create(token: String,
                 title: String,
                 startDate: [Int],
                 endDate: [Int],
                 visibility: String,
-                travelMateIds: [Int64],
+                travelMateIds: [Int],
                 travelMateNames: [String],
                 dailyJournals: [DailyTravelJournal],
                 travelDuration: Int,
                 imagesTotalCount: Int,
                 images: [(data: Data, name: String)])
-    case searchById(token: String, journalId: Int)
-    case getJournals(token: String, size: Int?, lastId: Int?)
-    case getMyJournals(token: String, size: Int?, lastId: Int?)
-    case getFriendsJournals(token: String, size: Int?, lastId: Int?)
-    case getRecommendedJournals(token: String, size: Int?, lastId: Int?)
-    case getTaggedJournals(token: String, size: Int?, lastId: Int?)
+  // 여행일지 삭제
+    case delete(token: String, journalId: Int)
+  // 여행일지 기본정보 수정
     case edit(token: String, journalId: Int,
               title: String,
               startDate: [Int],
               endDate: [Int],
               visibility: String,
-              travelMateIds: [Int64],
+              travelMateIds: [Int],
               travelMateNames: [String],
               travelDuration: Int,
               newTravelMatesCount: Int)
+  // 여행일지 데일리 일정 삭제
+    case deleteContent(token: String, journalId: Int, contentId: Int)
+  // 여행일지 데일리 일정 수정
     case editContent(token: String, journalId: Int, contentId: Int,
                      content: String,
                      placeId: String?,
@@ -87,13 +101,33 @@ enum TravelJournalRouter {
                      longitudes: [Double],
                      date: [Int],
                      newImageNames: [String],
-                     deletedImageIds: [Int64],
-                     imageNames: [String],
+                     deletedImageIds: [Int],
                      newImageTotalCount: Int,
                      images: [(data: Data, name: String)])
-    case delete(token: String, journalId: Int)
-    case deleteContent(token: String, journalId: Int, contentId: Int)
+  // 함께 간 친구 삭제
+  // 태그된 사용자가 태그를 지울때... 사용되는 것 같음.. 아마도
     case deleteTravelMates(token: String, journalId: Int)
+  
+  // 여행일지 아이디로 검색
+  // 해당 여행일지의 디테일 정보를 모두 가져옴
+    case searchById(token: String, journalId: Int)
+  // 여행일지 목록 조회
+    case getJournals(token: String, size: Int?, lastId: Int?)
+  // 내 여행일지 목록 조회
+    case getMyJournals(token: String, size: Int?, lastId: Int?)
+  // 친구 여행일지 목록 조회
+    case getFriendsJournals(token: String, size: Int?, lastId: Int?)
+  // 추천 여행일지 목록 조회
+    case getRecommendedJournals(token: String, size: Int?, lastId: Int?)
+  // 태그된 여행일지 목록 조회
+    case getTaggedJournals(token: String, size: Int?, lastId: Int?)
+    
+  // 여행일지 북마크 생성(즐겨찾기 추가)
+    case createBookmark(token: String, journalId: Int)
+  // 즐겨찾기된 여행일지 목록 조회
+    case getBookmarkedJournals(token: String, size: Int?, lastId: Int?)
+  // 여행일지 북마크 삭제(즐겨찾기 해제)
+    case deleteBookmark(token: String, journalId: Int)
 
 }
 
@@ -111,7 +145,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             let .edit(_, journalId, _, _, _, _, _, _, _, _),
             let .delete(_, journalId):
             return "/api/v1/travel-journals/\(journalId)"
-        case let .editContent(_, journalId, contentId, _, _, _, _, _, _, _, _, _, _),
+        case let .editContent(_, journalId, contentId, _, _, _, _, _, _, _, _, _),
             let .deleteContent(_, journalId, contentId):
             return "/api/v1/travel-journals/\(journalId)/\(contentId)"
         case let .deleteTravelMates(_, journalId):
@@ -124,16 +158,21 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             return "/api/v1/travel-journals/recommends"
         case .getTaggedJournals:
             return "/api/v1/travel-journals/tagged"
+        case let .createBookmark(_, journalId),
+             let .deleteBookmark(_, journalId):
+            return "/api/v1/travel-journal-bookmarks/\(journalId)"
+        case .getBookmarkedJournals:
+            return "/api/v1/travel-journal-bookmarks/me"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .create:
+        case .create, .createBookmark:
             return .post
         case .edit, .editContent:
             return .put
-        case .delete, .deleteContent, .deleteTravelMates:
+        case .delete, .deleteContent, .deleteTravelMates, .deleteBookmark:
             return .delete
         default:
             return .get
@@ -152,10 +191,11 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                                 latitudes: dailyJournal.latitudes,
                                                 longitudes: dailyJournal.longitudes,
                                                 travelDate: dailyJournal.date?.toIntArray() ?? [],
-                                                contentImageNames: dailyJournal.images.map{ $0.imageName }))
+                                                contentImageNames: dailyJournal.selectedImages.map{ $0.imageName + ".webp" }))
             }
+
             
-            var travelJournal = TravelJournalRequest(title: title,
+            let travelJournal = TravelJournalRequest(title: title,
                                                      travelStartDate: startDate,
                                                      travelEndDate: endDate,
                                                      visibility: visibility,
@@ -170,14 +210,16 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                 formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal", fileName: "travel-journal", mimeType: "application/json"))
                 
                 for image in images {
-                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image", fileName: "\(image.name).webp", mimeType: "image/webp"))
+                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image", fileName: "\(image.name)", mimeType: "image/webp"))
                 }
+              
             } catch {
                 print("JSON 인코딩 에러: \(error)")
             }
+          // checkRequestSize(formData)
             return .uploadMultipart(formData)
         case let .edit(_, _, title, startDate, endDate, visibility, travelMateIds, travelMateNames, travelDuration, newTravelMatesCount):
-            var newTravelJournal = TravelJournalUpdateRequest(title: title,
+            let newTravelJournal = TravelJournalUpdateRequest(title: title,
                                                      travelStartDate: startDate,
                                                      travelEndDate: endDate,
                                                      visibility: visibility,
@@ -193,8 +235,8 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                 print("JSON 인코딩 에러: \(error)")
             }
             return .uploadMultipart(formData)
-        case let .editContent(_, _, _, content, placeId, latitudes, longitudes, date, newImageNames, deletedImageIds, imageNames, newImageTotalCount, images):
-            var newTravelJournalContent =
+        case let .editContent(_, _, _, content, placeId, latitudes, longitudes, date, newImageNames, deletedImageIds, newImageTotalCount, images):
+            let newTravelJournalContent =
             TravelJournalContentUpdateRequest(content: content,
                                               placeId: placeId,
                                               latitudes: latitudes,
@@ -202,15 +244,14 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                                               travelDate: date,
                                               updateContentImageNames: newImageNames,
                                               deleteContentImageIds: deletedImageIds,
-                                              contentImageNames: imageNames,
                                               updateImageTotalCount: newImageTotalCount)
             var formData: [MultipartFormData] = []
             do {
                 let travelJournalJSONData = try JSONEncoder().encode(newTravelJournalContent)
-                formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal-content-image-update", fileName: "travel-journal", mimeType: "application/json"))
+                formData.append(MultipartFormData(provider: .data(travelJournalJSONData), name: "travel-journal-content-update", fileName: "travel-journal", mimeType: "application/json"))
                 
                 for image in images {
-                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image-update", fileName: "\(image.name).webp", mimeType: "image/webp"))
+                    formData.append(MultipartFormData(provider: .data(image.data), name: "travel-journal-content-image-update", fileName: "\(image.name)", mimeType: "image/webp"))
                 }
             } catch {
                 print("JSON 인코딩 에러: \(error)")
@@ -220,7 +261,8 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             let .getMyJournals(_, size, lastId),
             let .getFriendsJournals(_, size, lastId),
             let .getRecommendedJournals(_, size, lastId),
-            let .getTaggedJournals(_, size, lastId):
+            let .getTaggedJournals(_, size, lastId),
+            let .getBookmarkedJournals(_, size, lastId):
             var params: [String: Any] = [:]
             if let size = size {
                 params["size"] = size
@@ -244,10 +286,13 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             let .getRecommendedJournals(token, _, _),
             let .getTaggedJournals(token, _, _),
             let .edit(token, _, _, _, _, _, _, _, _, _),
-            let .editContent(token, _, _, _, _, _, _, _, _, _, _, _, _),
+            let .editContent(token, _, _, _, _, _, _, _, _, _, _, _),
             let .delete(token, _),
             let .deleteContent(token, _, _),
-            let .deleteTravelMates(token, _):
+            let .deleteTravelMates(token, _),
+            let .createBookmark(token, _),
+            let .getBookmarkedJournals(token, _, _),
+            let .deleteBookmark(token, _):
             return ["Authorization" : "Bearer \(token)"]
         }
     }
