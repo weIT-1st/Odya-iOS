@@ -10,17 +10,30 @@ import SwiftUI
 struct TermsView: View {
   // MARK: Properties
 
+  @EnvironmentObject var signUpVM: SignUpViewModel
   @StateObject var viewModel = TermsViewModel()
   @State var showSheet: Bool = false
-  @Binding var step: Int
   @Binding var termsList: [Int]
+  
+  private var isNextButtonActive: ButtonActiveSate {
+    return (termsList.contains(viewModel.requiredList) && !viewModel.requiredList.isEmpty) ? .active : .inactive
+  }
 
   // MARK: Body
 
   var body: some View {
     VStack {
-      Text("약관 안내")
-        .h3Style()
+      VStack(alignment: .leading, spacing: 20) {
+        Text("더 나은 서비스를 위해서 \n권한 동의가 필요해요")
+          .h3Style()
+          .frame(maxWidth: .infinity, alignment: .leading)
+         
+        Text("권한을 허용하지 않으면 일부 서비스가 제한될 수 있습니다")
+          .detail1Style()
+          .foregroundColor((.odya.label.assistive))
+      }
+      .frame(maxWidth: .infinity)
+      .padding(.top, 60)
 
       List(viewModel.termsList, id: \.id) { terms in
         HStack {
@@ -53,14 +66,15 @@ struct TermsView: View {
         }
       }  // List
 
-      CTAButton(isActive: .active, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
-        self.step += 1
+      CTAButton(isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
+        self.signUpVM.step += 1
       }
-      .disabled(!termsList.contains(viewModel.requiredList) || viewModel.requiredList.isEmpty)
+      .padding(.bottom, 45)
     }  // VStack
     .task {
       viewModel.getTermsList()
     }
+    .padding(.horizontal, GridLayout.side)
   }
 }
 
@@ -109,6 +123,6 @@ struct TermsContentSheet: View {
 
 struct TermsView_Previews: PreviewProvider {
   static var previews: some View {
-    TermsView(step: .constant(1), termsList: .constant([1, 2, 3]))
+    TermsView(termsList: .constant([1, 2, 3]))
   }
 }

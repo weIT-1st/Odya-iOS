@@ -7,48 +7,52 @@
 
 import SwiftUI
 
+enum SocialLoginType {
+  case kakao
+  case apple
+  case unknown
+}
+
 struct LoginView: View {
   @EnvironmentObject var appleAuthVM: AppleAuthViewModel
   @EnvironmentObject var kakaoAuthVM: KakaoAuthViewModel
+  
+  @State private var loginType: SocialLoginType = .unknown
 
   var body: some View {
     ZStack {
       Color.odya.background.normal.ignoresSafeArea()
-
-      if appleAuthVM.isUnauthorized == false
-        && kakaoAuthVM.isUnauthorized == false
-      {
-        VStack {
-          Spacer()
-
-          VStack {
-            Image("logo")
-              .resizable()
-              .scaledToFit()
-            Image("catch phrase")
-              .resizable()
-              .scaledToFit()
-              .padding(.horizontal, GridLayout.columnWidth)
-          }.padding(.horizontal, GridLayout.columnWidth + GridLayout.spacing)
-
-          Spacer()
-
-          VStack(alignment: .center, spacing: 8) {
-            KakaoLoginButton()
-            AppleLoginButton()
-          }.padding(.bottom, 60)
-        }.padding(.horizontal, GridLayout.side)
-      } else {
-        if appleAuthVM.isUnauthorized {
-          SignUpView(userInfo: appleAuthVM.userInfo)
-        } else {
-          SignUpView(userInfo: kakaoAuthVM.userInfo)
-        }
+      
+      // 회원가입이 되어 있는 상태
+      VStack {
+        Spacer()
+        Image("odya-logo-l")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 105)
+        Spacer()
+        
+        // 로그인 버튼
+        VStack(alignment: .center, spacing: 8) {
+          KakaoLoginButton()
+          AppleLoginButton()
+        }.padding(.bottom, 60)
+        
+      }.padding(.horizontal, GridLayout.side)
+      
+      // 카카오로 회원가입
+      if kakaoAuthVM.isUnauthorized {
+        SignUpView()
+//        SignUpView(userInfo: kakaoAuthVM.userInfo)
       }
-    }
-
-  }  // ZStack (background color)
-
+      
+      // apple로 회원가입
+      if appleAuthVM.isUnauthorized {
+        SignUpView()
+//        SignUpView(userInfo: appleAuthVM.userInfo)
+      }
+    } // ZStack
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {

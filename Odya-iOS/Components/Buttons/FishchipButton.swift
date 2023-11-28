@@ -31,6 +31,6 @@ extension View {
       .padding(.vertical, 4)
       .padding(.horizontal, 12)
     }
-    .buttonStyle(CustomButtonStyle(cornerRadius: 20, state: isActive, style: buttonStyle))
+    .buttonStyle(CustomButtonStyle(cornerRadius: 20, state: isActive, style: buttonStyle, inactiveStyle: .solid))
   }
 }

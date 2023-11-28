@@ -93,6 +93,12 @@
 		3E414B302ADC0ED000034FBB /* ContentComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */; };
 		3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */; };
 		3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */; };
+		3E4670142B13542100B54D0A /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670132B13542100B54D0A /* SplashView.swift */; };
+		3E4670162B13611100B54D0A /* AppIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670152B13611100B54D0A /* AppIntroductionView.swift */; };
+		3E4670182B1386BD00B54D0A /* RegisterUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670172B1386BD00B54D0A /* RegisterUserInfoView.swift */; };
+		3E46701A2B147D7200B54D0A /* TopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670192B147D7200B54D0A /* TopicsView.swift */; };
+		3E46701C2B147FCC00B54D0A /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */; };
+		3E46701E2B14C54600B54D0A /* TopicTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46701D2B14C54600B54D0A /* TopicTestView.swift */; };
 		3E699A882AFF6B6100850E9A /* SparkleIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A872AFF6B6100850E9A /* SparkleIcon.swift */; };
 		3E699A8D2B00A8DB00850E9A /* DailyJournalDateEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
@@ -172,11 +178,10 @@
 		3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF54A082A5BE9DA006562F8 /* ApiService.swift */; };
 		3EF54A0D2A5BEB22006562F8 /* AuthApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF54A0C2A5BEB22006562F8 /* AuthApiService.swift */; };
 		3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF54A0E2A5BF9BD006562F8 /* AuthViewModel.swift */; };
-		3EF7C1E82A742D1400223366 /* RegisterNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1E72A742D1400223366 /* RegisterNicknameView.swift */; };
-		3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1E92A758A3200223366 /* RegisterDefaultInfoView.swift */; };
+		3EF7C1E82A742D1400223366 /* NicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1E72A742D1400223366 /* NicknameView.swift */; };
+		3EF7C1EA2A758A3200223366 /* DefaultInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1E92A758A3200223366 /* DefaultInfoView.swift */; };
 		3EF7C1EC2A7ABEFB00223366 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */; };
 		3EF7C1EE2A7AE7D000223366 /* FieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1ED2A7AE7D000223366 /* FieldStyle.swift */; };
-		3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1EF2A8105F000223366 /* UserInfoPickerView.swift */; };
 		3EF7C1F32A81099000223366 /* UserInfoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7C1F22A81098F00223366 /* UserInfoEditView.swift */; };
 /* End PBXBuildFile section */
 
@@ -265,6 +270,12 @@
 		3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentComposeView.swift; sourceTree = "<group>"; };
 		3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalComposeView.swift; sourceTree = "<group>"; };
 		3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalViewModel.swift; sourceTree = "<group>"; };
+		3E4670132B13542100B54D0A /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		3E4670152B13611100B54D0A /* AppIntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntroductionView.swift; sourceTree = "<group>"; };
+		3E4670172B1386BD00B54D0A /* RegisterUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserInfoView.swift; sourceTree = "<group>"; };
+		3E4670192B147D7200B54D0A /* TopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsView.swift; sourceTree = "<group>"; };
+		3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		3E46701D2B14C54600B54D0A /* TopicTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicTestView.swift; sourceTree = "<group>"; };
 		3E699A872AFF6B6100850E9A /* SparkleIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkleIcon.swift; sourceTree = "<group>"; };
 		3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDateEditor.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
@@ -339,11 +350,10 @@
 		3EF54A082A5BE9DA006562F8 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		3EF54A0C2A5BEB22006562F8 /* AuthApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiService.swift; sourceTree = "<group>"; };
 		3EF54A0E2A5BF9BD006562F8 /* AuthViewModel.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; tabWidth = 4; };
-		3EF7C1E72A742D1400223366 /* RegisterNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterNicknameView.swift; sourceTree = "<group>"; };
-		3EF7C1E92A758A3200223366 /* RegisterDefaultInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDefaultInfoView.swift; sourceTree = "<group>"; };
+		3EF7C1E72A742D1400223366 /* NicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameView.swift; sourceTree = "<group>"; };
+		3EF7C1E92A758A3200223366 /* DefaultInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInfoView.swift; sourceTree = "<group>"; };
 		3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		3EF7C1ED2A7AE7D000223366 /* FieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldStyle.swift; sourceTree = "<group>"; };
-		3EF7C1EF2A8105F000223366 /* UserInfoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoPickerView.swift; sourceTree = "<group>"; };
 		3EF7C1F22A81098F00223366 /* UserInfoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -488,6 +498,7 @@
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 				0784963F2A84F45800A490E3 /* Community */,
+				3E4670132B13542100B54D0A /* SplashView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -698,10 +709,14 @@
 			isa = PBXGroup;
 			children = (
 				3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */,
+				3E4670152B13611100B54D0A /* AppIntroductionView.swift */,
 				19EBA7582AB16E2C000ABBE5 /* TermsView.swift */,
-				3EF7C1E72A742D1400223366 /* RegisterNicknameView.swift */,
-				3EF7C1E92A758A3200223366 /* RegisterDefaultInfoView.swift */,
-				3EF7C1EF2A8105F000223366 /* UserInfoPickerView.swift */,
+				3E4670172B1386BD00B54D0A /* RegisterUserInfoView.swift */,
+				3EF7C1E72A742D1400223366 /* NicknameView.swift */,
+				3EF7C1E92A758A3200223366 /* DefaultInfoView.swift */,
+				3E4670192B147D7200B54D0A /* TopicsView.swift */,
+				3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */,
+				3E46701D2B14C54600B54D0A /* TopicTestView.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1062,8 +1077,10 @@
 				3EE9CA202AB6C6C3003A2E85 /* ProfileViewModel.swift in Sources */,
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
 				07589E722AF0253E00867FAD /* Topic.swift in Sources */,
+				3E46701A2B147D7200B54D0A /* TopicsView.swift in Sources */,
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
-				3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */,
+				3E4670182B1386BD00B54D0A /* RegisterUserInfoView.swift in Sources */,
+				3EF7C1EA2A758A3200223366 /* DefaultInfoView.swift in Sources */,
 				3EB938172AF795A60041FE5B /* NoJournalView.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
 				19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */,
@@ -1074,9 +1091,10 @@
 				07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */,
 				078496502A9760CF00A490E3 /* FishchipButton.swift in Sources */,
 				3E699A8D2B00A8DB00850E9A /* DailyJournalDateEditor.swift in Sources */,
+				3E46701E2B14C54600B54D0A /* TopicTestView.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				3EF7C1EC2A7ABEFB00223366 /* SignUpView.swift in Sources */,
-				3EF7C1E82A742D1400223366 /* RegisterNicknameView.swift in Sources */,
+				3EF7C1E82A742D1400223366 /* NicknameView.swift in Sources */,
 				07589E6E2AF021E300867FAD /* TopicListViewModel.swift in Sources */,
 				3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */,
 				3E26C3802AF0E80E003607A8 /* BottomSheetViewModel.swift in Sources */,
@@ -1100,6 +1118,7 @@
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
+				3E4670162B13611100B54D0A /* AppIntroductionView.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
 				19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */,
@@ -1138,6 +1157,7 @@
 				3EEBB7D72A91FACC00F0049D /* DailyTravelJournal.swift in Sources */,
 				1977B5742B05F4BE00D77909 /* ContentEditView.swift in Sources */,
 				199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */,
+				3E46701C2B147FCC00B54D0A /* SignUpViewModel.swift in Sources */,
 				3EF7C1EE2A7AE7D000223366 /* FieldStyle.swift in Sources */,
 				3EF549862A419100006562F8 /* ColorStyles.swift in Sources */,
 				078496432A84F67D00A490E3 /* FeedToolBar.swift in Sources */,
@@ -1170,13 +1190,12 @@
 				3E26C3822AF16790003607A8 /* ImageManager.swift in Sources */,
 				3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
-				3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */,
 				3EE9CA332AC3BD46003A2E85 /* ModalBackground.swift in Sources */,
 				078496412A84F5FE00A490E3 /* FeedView.swift in Sources */,
 				3E26C37E2AF0E80E003607A8 /* TravelJournalDetailViewModel.swift in Sources */,
 				3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */,
 				3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */,
-				3EF7C1F02A8105F000223366 /* UserInfoPickerView.swift in Sources */,
+				3E4670142B13542100B54D0A /* SplashView.swift in Sources */,
 				3E414B302ADC0ED000034FBB /* ContentComposeView.swift in Sources */,
 				19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */,
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,

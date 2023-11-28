@@ -19,16 +19,16 @@ struct KakaoLoginButton: View {
       Button(action: {
         kakaoAuthVM.kakaoLogin()
       }) {
-        HStack(spacing: 0) {
+        HStack(spacing: 10) {
+          Spacer()
           Image("kakao-icon")
             .resizable()
-            .scaledToFit()
-            .padding(10)
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 15)
           Text("카카오 로그인")
             .b1Style()
             .foregroundColor(.black)
-            .padding(10)
-            .frame(maxWidth: .infinity)
+          Spacer()
         }
         .frame(height: 44)
         .padding(.horizontal, 8)
