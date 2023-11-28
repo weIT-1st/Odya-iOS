@@ -42,7 +42,6 @@ struct Odya_iOSApp: App {
               .environmentObject(kakaoAuthVM)
           }
         }
-        
       } // Zstack
       .onAppear {
         /// 토큰 갱신 및 유저 정보 가져오기
@@ -50,7 +49,7 @@ struct Odya_iOSApp: App {
           Task {
             appDataManager.refreshToken() { success in
               if success {
-                appDataManager.initMyData()
+                appDataManager.initMyData() { _ in }
               }
             }
           }

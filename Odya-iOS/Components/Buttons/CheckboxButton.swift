@@ -18,11 +18,11 @@ struct CheckboxButton: View {
     
     var body: some View {
         Button(action: {
-            if state == .unselected {
-                state = .selected
-            } else if state == .selected{
-                state = .unselected
-            }
+//            if state == .unselected {
+//                state = .selected
+//            } else if state == .selected{
+//                state = .unselected
+//            }
         }, label: {
             ZStack {
                 VStack {

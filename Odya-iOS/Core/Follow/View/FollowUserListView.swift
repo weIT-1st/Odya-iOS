@@ -68,10 +68,10 @@ struct FollowUserListView: View {
   }
 
   /// 알 수도 있는 친구 뷰를 띄워야 하는지 확인
-  /// 15번째 팔로잉/팔로워 뒤에 추천이 나옴, 친구 수가 15명 미만이면 가장 마지막 친구 뒤에 나옴
+  /// 8번째 팔로잉/팔로워 뒤에 추천이 나옴, 친구 수가 15명 미만이면 가장 마지막 친구 뒤에 나옴
   /// parameter user가 nil이면서 displayedUsers가 비어있을 경우 즉 팔로워/팔로잉 친구가 없을 경우 추천이 나옴
   private func shouldShowUserSuggestion(before user: FollowUserData? = nil) -> Bool {
-    let maxCount = 15
+    let maxCount = 8
     let usersCount = displayedUsers.count
     let indexBeforeSuggestion = min(maxCount, usersCount) - 1
 

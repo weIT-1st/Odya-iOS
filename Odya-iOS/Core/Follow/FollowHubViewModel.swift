@@ -5,6 +5,7 @@
 //  Created by Heeoh Son on 2023/09/11.
 //
 
+import SwiftUI
 import Combine
 import CombineMoya
 import Foundation
@@ -14,21 +15,29 @@ class FollowHubViewModel: ObservableObject {
 
   // MARK: Parameters
 
-  // api provider
-  private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
-  private lazy var followProvider = MoyaProvider<FollowRouter>(plugins: [plugin])
+  // moya
+  private let logPlugin: PluginType = NetworkLoggerPlugin(
+    configuration: .init(logOptions: .verbose))
+  private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
+  private lazy var followProvider = MoyaProvider<FollowRouter>(
+    session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
 
+  // infinite scroll
   var fetchMoreSubject = PassthroughSubject<(), Never>()
   var suggestMoreSubject = PassthroughSubject<(), Never>()
 
   // user info required for API calls
-  let idToken: String
-  let userID: Int
+  @Published var appDataManager = AppDataManager()
+  @AppStorage("WeITAuthToken") var idToken: String?
+  var userID: Int
 
   @Published var currentFollowType: FollowType
-  @Published var followCount: FollowCount
 
+  // follow/ unfollow
+  var isCreatingFollow: Bool = false
+  var isDeletingFollow: Bool = false
+  
   // fetch following/follwer users
   @Published var isLoading: Bool = false
   @Published var isRefreshing: Bool = false
@@ -64,22 +73,25 @@ class FollowHubViewModel: ObservableObject {
      */
 
   // MARK: Init
-
-  init(token: String, userID: Int, followCount: FollowCount) {
-    self.idToken = token
-    self.userID = userID
-    self.followCount = followCount
+  init(userId: Int = MyData.userID) {
     self.currentFollowType = .following
-
+    self.userID = userId
+    
+    initInfiniteScroll()
+  }
+  
+  // MARK: Init Infinite Scroll
+  
+  private func initInfiniteScroll() {
     /// 팔로워 / 팔로잉 리스트 무한스크롤
     fetchMoreSubject.sink { [weak self] _ in
       guard let self = self else { return }
       if !self.isLoading {
         switch currentFollowType {
         case .following:
-          self.fetchFollowingUsers { _ in }
+          self.fetchFollowingUsers(userId: self.userID) { _ in }
         case .follower:
-          self.fetchFollowingUsers { _ in }
+          self.fetchFollowerUsers(userId: self.userID) { _ in }
         }
       }
     }.store(in: &subscription)
@@ -88,22 +100,33 @@ class FollowHubViewModel: ObservableObject {
     suggestMoreSubject.sink { [weak self] _ in
       guard let self = self else { return }
       if !self.isLoadingSuggestion {
-        self.suggestUsers { _ in }
+        self.suggestUsers(idToken: idToken ?? "") { _ in }
       }
     }.store(in: &subscription)
-
   }
 
   // MARK: follow / unfollow
 
   /// 팔로우 실행
   func createFollow(_ followingID: Int) {
-    followProvider.requestPublisher(.create(token: self.idToken, followingID: followingID))
+    guard self.idToken != nil else {
+      return
+    }
+    
+    if isCreatingFollow {
+      return
+    }
+    
+    isCreatingFollow = true
+    followProvider.requestPublisher(.create(followingID: followingID))
+      .filterSuccessfulStatusCodes()
       .sink { completion in
         switch completion {
         case .finished:
-          print("create new follow \(followingID)")
+          self.isCreatingFollow = false
+          // print("create new follow \(followingID)")
         case .failure(let error):
+          self.isCreatingFollow = false
           if let errorData = try? error.response?.map(ErrorData.self) {
             print(errorData.message)
           }
@@ -115,12 +138,24 @@ class FollowHubViewModel: ObservableObject {
 
   /// 언팔로우 실행
   func deleteFollow(_ followingID: Int) {
-    followProvider.requestPublisher(.delete(token: self.idToken, followingID: followingID))
+    guard self.idToken != nil else {
+      return
+    }
+    
+    
+    if isDeletingFollow {
+      return
+    }
+    
+    isDeletingFollow = true
+    followProvider.requestPublisher(.delete(followingID: followingID))
       .sink { completion in
         switch completion {
         case .finished:
-          print("delete follow \(followingID)")
+          self.isDeletingFollow = false
+          // print("delete follow \(followingID)")
         case .failure(let error):
+          self.isDeletingFollow = false
           if let errorData = try? error.response?.map(ErrorData.self) {
             print(errorData.message)
           }
@@ -134,48 +169,58 @@ class FollowHubViewModel: ObservableObject {
 
   /// 팔로잉 유저 리스트 첫 번째 페이지를 받아옴
   func initFollowingUsers(completion: @escaping (Bool) -> Void) {
+    guard idToken != nil else {
+       return
+    }
+    
     followingPage = 0
     hasNextFollowingPage = true
     followingUsers = []
 
-    fetchFollowingUsers { _ in
+    fetchFollowingUsers(userId: self.userID) { _ in
       completion(true)
     }
   }
 
   /// 팔로워 유저 리스트 첫 번째 페이지를 받아옴
   func initFollowerUsers(completion: @escaping (Bool) -> Void) {
+    guard self.idToken != nil else {
+       return
+    }
+    
     followerPage = 0
     hasNextFollowerPage = true
     followerUsers = []
 
-    fetchFollowerUsers { _ in
+    fetchFollowerUsers(userId: self.userID) { _ in
       completion(true)
     }
   }
 
   /// api를 통해 팔로잉 유저 리스트를 받아오는 함수
   /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
-  private func fetchFollowingUsers(
-    size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void
+  private func fetchFollowingUsers(userId: Int,
+                                   size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void
   ) {
+    guard self.idToken != nil else {
+       return
+    }
+    
     if self.hasNextFollowingPage == false {
-      print("all following users are fetched")
+      // print("all following users are fetched")
       return
     }
 
     if self.isLoading {
-      // print("following users are already loading")
       return
     }
 
     self.isLoading = true
 
     followProvider.requestPublisher(
-      .getFollowing(
-        token: self.idToken, userID: self.userID, page: self.followingPage, size: size,
-        sortType: sortType)
+      .getFollowing(userID: userId, page: self.followingPage, size: size, sortType: sortType)
     )
+    .filterSuccessfulStatusCodes()
     .sink { apiCompletion in
       self.isLoading = false
       self.isRefreshing = false
@@ -183,9 +228,7 @@ class FollowHubViewModel: ObservableObject {
       switch apiCompletion {
       case .finished:
         self.followingPage += 1
-        print(
-          "fetch \(self.followingPage)th following users: now \(self.followingUsers.count) users are fetched"
-        )
+        // print( "fetch \(self.followingPage)th following users: now \(self.followingUsers.count) users are fetched")
         completion(true)
       case .failure(let error):
         if let errorData = try? error.response?.map(ErrorData.self) {
@@ -194,7 +237,6 @@ class FollowHubViewModel: ObservableObject {
       }
     } receiveValue: { response in
       guard let responseData = try? response.map(FollowUserListResponse.self) else {
-        print("Error: following users response decoding error")
         return
       }
 
@@ -206,9 +248,12 @@ class FollowHubViewModel: ObservableObject {
 
   /// api를 통해 팔로워 유저 리스트를 받아오는 함수
   /// size: 한 페이지에 포함된 유저 수,  sortType: 정렬방식 (최신순 / 오래된순)
-  private func fetchFollowerUsers(
-    size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void
+  private func fetchFollowerUsers(userId: Int, size: Int = 20, sortType: FollowSortingType = .latest, completion: @escaping (Bool) -> Void
   ) {
+    guard self.idToken != nil else {
+       return
+    }
+    
     if self.hasNextFollowerPage == false {
       print("all follower users are fetched")
       return
@@ -222,10 +267,9 @@ class FollowHubViewModel: ObservableObject {
     self.isLoading = true
 
     followProvider.requestPublisher(
-      .getFollower(
-        token: self.idToken, userID: self.userID, page: self.followerPage, size: size,
-        sortType: sortType)
+      .getFollower(userID: self.userID, page: self.followerPage, size: size, sortType: sortType)
     )
+    .filterSuccessfulStatusCodes()
     .sink { apiCompletion in
       self.isLoading = false
       self.isRefreshing = false
@@ -233,9 +277,7 @@ class FollowHubViewModel: ObservableObject {
       switch apiCompletion {
       case .finished:
         self.followerPage += 1
-        print(
-          "fetch \(self.followerPage)th following users: now \(self.followerUsers.count) users are fetched"
-        )
+        // print( "fetch \(self.followerPage)th following users: now \(self.followerUsers.count) users are fetched")
         completion(true)
       case .failure(let error):
         if let errorData = try? error.response?.map(ErrorData.self) {
@@ -258,11 +300,15 @@ class FollowHubViewModel: ObservableObject {
 
   /// 알 수도 있는 친구 추천 리스트 첫 번째 페이지를 받아옴
   func getSuggestion(completion: @escaping (Bool) -> Void) {
+    guard let idToken = self.idToken else {
+       return
+    }
+    
     self.lastIdOfSuggestion = nil
     self.hasNextSuggestion = true
     self.suggestedUsers = []
 
-    suggestUsers { _ in
+    suggestUsers(idToken: idToken) { _ in
       completion(true)
     }
   }
@@ -270,6 +316,7 @@ class FollowHubViewModel: ObservableObject {
   /// api를 통해 알 수도 있는 친구 추천 리스트를 받아오는 함수
   /// size: 한 페이지에 포함된 유저 수
   private func suggestUsers(
+    idToken: String,
     size: Int = 10,
     completion: @escaping (Bool) -> Void
   ) {
@@ -281,8 +328,9 @@ class FollowHubViewModel: ObservableObject {
     self.isLoadingSuggestion = true
 
     followProvider.requestPublisher(
-      .suggestUser(token: self.idToken, size: size, lastID: self.lastIdOfSuggestion)
+      .suggestUser(size: size, lastID: self.lastIdOfSuggestion)
     )
+    .filterSuccessfulStatusCodes()
     .sink { apiCompletion in
       switch apiCompletion {
       case .finished:
@@ -296,7 +344,7 @@ class FollowHubViewModel: ObservableObject {
       }
     } receiveValue: { response in
       guard let responseData = try? response.map(FollowUserListResponse.self) else {
-        print("Error: following users response decoding error")
+        // print("Error: following users response decoding error")
         return
       }
 
@@ -334,10 +382,14 @@ class FollowHubViewModel: ObservableObject {
 
   /// 닉네임으로 팔로잉 유저 검색
   func searchFollowingUsers(by nickname: String, completion: @escaping (Bool) -> Void) {
+    guard let idToken = self.idToken else {
+       return
+    }
+    
     isLoadingSearchResult = true
 
     if hasNextFollowingPage {
-      fetchAllFollowingUsers { [self] allUsers in
+      fetchAllFollowingUsers(idToken: idToken, userId: self.userID) { [self] allUsers in
         followingSearchResult = allUsers.filter {
           $0.nickname.localizedCaseInsensitiveContains(nickname)
         }
@@ -361,10 +413,14 @@ class FollowHubViewModel: ObservableObject {
 
   /// 닉네임으로 팔로워 유저 검색
   private func searchFollowerUsers(by nickname: String, completion: @escaping (Bool) -> Void) {
+    guard let idToken = self.idToken else {
+       return
+    }
+    
     isLoadingSearchResult = true
 
     if hasNextFollowerPage {
-      fetchAllFollowerUsers { [self] allUsers in
+      fetchAllFollowerUsers(idToken: idToken, userId: self.userID) { [self] allUsers in
         followerSearchResult = allUsers.filter { searchedUser in
           searchedUser.nickname.localizedCaseInsensitiveContains(nickname)
             && followingSearchResult.filter({ $0.userId == searchedUser.userId }).isEmpty
@@ -387,12 +443,13 @@ class FollowHubViewModel: ObservableObject {
         */
   }
 
+  // MARK: fetch All Users
   /// 모든 팔로잉 유저를 받아옴
-  private func fetchAllFollowingUsers(completion: @escaping ([FollowUserData]) -> Void) {
+  private func fetchAllFollowingUsers(idToken: String, userId: Int, completion: @escaping ([FollowUserData]) -> Void) {
     var allFollowingUsers: [FollowUserData] = []
 
     func fetchNextPage() {
-      fetchFollowingUsers(size: 100) { success in
+      fetchFollowingUsers(userId: userId, size: 100) { success in
         if success {
           if self.hasNextFollowingPage {
             fetchNextPage()
@@ -411,11 +468,11 @@ class FollowHubViewModel: ObservableObject {
   }
 
   /// 모든 팔로워 유저를 받아옴
-  private func fetchAllFollowerUsers(completion: @escaping ([FollowUserData]) -> Void) {
+  private func fetchAllFollowerUsers(idToken: String, userId: Int, completion: @escaping ([FollowUserData]) -> Void) {
     var allFollowerUsers: [FollowUserData] = []
 
     func fetchNextPage() {
-      fetchFollowerUsers(size: 100) { success in
+      fetchFollowerUsers(userId: userId, size: 100) { success in
         if success {
           if self.hasNextFollowerPage {
             fetchNextPage()
@@ -431,6 +488,27 @@ class FollowHubViewModel: ObservableObject {
     }
 
     fetchNextPage()
+  }
+  
+  // MARK: is My Following User
+  func isMyFollowingUser(_ userId: Int, completion: @escaping (Bool) -> Void) {
+    guard let idToken = self.idToken else {
+       return
+    }
+    
+    followingPage = 0
+    hasNextFollowingPage = true
+    followingUsers = []
+    
+    isLoadingSearchResult = true
+    fetchAllFollowingUsers(idToken: idToken, userId: MyData.userID) { [self] allUsers in
+      let ret = allUsers.contains(where: {$0.userId == userId})
+      isLoadingSearchResult = false
+      followingPage = 0
+      hasNextFollowingPage = true
+      followingUsers = []
+      completion(ret)
+    }
   }
 
   /*

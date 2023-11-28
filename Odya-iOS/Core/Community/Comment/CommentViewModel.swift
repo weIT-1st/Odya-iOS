@@ -13,8 +13,7 @@ class CommentViewModel: ObservableObject {
   // MARK: Properties
   /// Provider
   @AppStorage("WeITAuthToken") var idToken: String?
-  private let logPlugin: PluginType = NetworkLoggerPlugin(
-    configuration: .init(logOptions: .verbose))
+  private let logPlugin: PluginType = CustomLogPlugin()
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var commentProvider = MoyaProvider<CommunityCommentRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])

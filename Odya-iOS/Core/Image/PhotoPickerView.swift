@@ -13,6 +13,7 @@ import Photos
 struct PhotoPickerView: UIViewControllerRepresentable {
   
   @Binding var imageList: [ImageData]
+  var maxImageCount: Int = 15
   
   var accessStatus: PHAuthorizationStatus
   var totalByte = 0
@@ -24,7 +25,7 @@ struct PhotoPickerView: UIViewControllerRepresentable {
     
     var config = PHPickerConfiguration(photoLibrary: photoLibrary)
     config.filter = .any(of: [.images, .livePhotos, .panoramas, .screenshots, .bursts, .depthEffectPhotos])
-    config.selectionLimit = 15
+    config.selectionLimit = maxImageCount
     
     if !imageList.isEmpty {
       config.preselectedAssetIdentifiers = imageList.map{ $0.assetIdentifier }
