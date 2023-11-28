@@ -107,7 +107,8 @@
 		3E4670182B1386BD00B54D0A /* RegisterUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670172B1386BD00B54D0A /* RegisterUserInfoView.swift */; };
 		3E46701A2B147D7200B54D0A /* TopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670192B147D7200B54D0A /* TopicsView.swift */; };
 		3E46701C2B147FCC00B54D0A /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */; };
-		3E46701E2B14C54600B54D0A /* TopicTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46701D2B14C54600B54D0A /* TopicTestView.swift */; };
+		3E4670202B15E90A00B54D0A /* FollowiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46701F2B15E90A00B54D0A /* FollowiView.swift */; };
+		3E4670222B15EDA800B54D0A /* MainLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670212B15EDA800B54D0A /* MainLoadingView.swift */; };
 		3E699A882AFF6B6100850E9A /* SparkleIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A872AFF6B6100850E9A /* SparkleIcon.swift */; };
 		3E699A8D2B00A8DB00850E9A /* DailyJournalDateEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
@@ -296,7 +297,8 @@
 		3E4670172B1386BD00B54D0A /* RegisterUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserInfoView.swift; sourceTree = "<group>"; };
 		3E4670192B147D7200B54D0A /* TopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsView.swift; sourceTree = "<group>"; };
 		3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
-		3E46701D2B14C54600B54D0A /* TopicTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicTestView.swift; sourceTree = "<group>"; };
+		3E46701F2B15E90A00B54D0A /* FollowiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowiView.swift; sourceTree = "<group>"; };
+		3E4670212B15EDA800B54D0A /* MainLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLoadingView.swift; sourceTree = "<group>"; };
 		3E699A872AFF6B6100850E9A /* SparkleIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkleIcon.swift; sourceTree = "<group>"; };
 		3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDateEditor.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
@@ -516,13 +518,13 @@
 				07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */,
 				0707A1C32A45A37100AE6E4D /* HomeView.swift */,
 				3E36EC722A2B596C006008E5 /* MainView.swift */,
+				3E4670132B13542100B54D0A /* SplashView.swift */,
 				3E9E988F2A8B79FE00909653 /* Auth */,
 				07310DB02A7282D30047E972 /* Review */,
 				0708FC2E2A40D2CD00D152CF /* Map */,
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 				0784963F2A84F45800A490E3 /* Community */,
-				3E4670132B13542100B54D0A /* SplashView.swift */,
 				192ADA9F2B0D8D5C00BD480E /* Report */,
 			);
 			path = Core;
@@ -695,6 +697,22 @@
 			path = TravelJournalEdit;
 			sourceTree = "<group>";
 		};
+		3E4670232B1601E500B54D0A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */,
+				3E4670152B13611100B54D0A /* AppIntroductionView.swift */,
+				19EBA7582AB16E2C000ABBE5 /* TermsView.swift */,
+				3E4670172B1386BD00B54D0A /* RegisterUserInfoView.swift */,
+				3EF7C1E72A742D1400223366 /* NicknameView.swift */,
+				3EF7C1E92A758A3200223366 /* DefaultInfoView.swift */,
+				3E4670192B147D7200B54D0A /* TopicsView.swift */,
+				3E46701F2B15E90A00B54D0A /* FollowiView.swift */,
+				3E4670212B15EDA800B54D0A /* MainLoadingView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		3E699A892B00A88300850E9A /* TravelJournalCompose */ = {
 			isa = PBXGroup;
 			children = (
@@ -747,15 +765,8 @@
 		3E9E98902A8B7A2300909653 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
-				3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */,
-				3E4670152B13611100B54D0A /* AppIntroductionView.swift */,
-				19EBA7582AB16E2C000ABBE5 /* TermsView.swift */,
-				3E4670172B1386BD00B54D0A /* RegisterUserInfoView.swift */,
-				3EF7C1E72A742D1400223366 /* NicknameView.swift */,
-				3EF7C1E92A758A3200223366 /* DefaultInfoView.swift */,
-				3E4670192B147D7200B54D0A /* TopicsView.swift */,
+				3E4670232B1601E500B54D0A /* View */,
 				3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */,
-				3E46701D2B14C54600B54D0A /* TopicTestView.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1128,7 +1139,7 @@
 				3E4670182B1386BD00B54D0A /* RegisterUserInfoView.swift in Sources */,
 				3EF7C1EA2A758A3200223366 /* DefaultInfoView.swift in Sources */,
 				192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */,
-				3EF7C1EA2A758A3200223366 /* RegisterDefaultInfoView.swift in Sources */,
+				3EF7C1EA2A758A3200223366 /* DefaultInfoView.swift in Sources */,
 				3EB938172AF795A60041FE5B /* NoJournalView.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
 				19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */,
@@ -1141,7 +1152,6 @@
 				19E212B02B07289F003155C0 /* CommunityLikeViewModel.swift in Sources */,
 				078496502A9760CF00A490E3 /* FishchipButton.swift in Sources */,
 				3E699A8D2B00A8DB00850E9A /* DailyJournalDateEditor.swift in Sources */,
-				3E46701E2B14C54600B54D0A /* TopicTestView.swift in Sources */,
 				07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */,
 				3EF7C1EC2A7ABEFB00223366 /* SignUpView.swift in Sources */,
 				3EF7C1E82A742D1400223366 /* NicknameView.swift in Sources */,
@@ -1236,6 +1246,8 @@
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
 				3E26C37F2AF0E80E003607A8 /* DailyJournalViewModel.swift in Sources */,
+				3E4670202B15E90A00B54D0A /* FollowiView.swift in Sources */,
+				3E4670222B15EDA800B54D0A /* MainLoadingView.swift in Sources */,
 				3EE9CA222AB6C8E2003A2E85 /* UserData.swift in Sources */,
 				078496452A84F6A300A490E3 /* FishchipsBar.swift in Sources */,
 				0784964B2A84F72C00A490E3 /* PostContentView.swift in Sources */,

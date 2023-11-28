@@ -7,20 +7,10 @@
 
 import SwiftUI
 
-// 배열을 원하는 크기로 나누는 extension
-extension Array {
-    func chunked(into size: Int) -> [[Element]] {
-        return stride(from: 0, to: count, by: size).map {
-            Array(self[$0..<Swift.min($0 + size, count)])
-        }
-    }
-}
-
 struct RegisterTopicsView: View {
-//  @EnvironmentObject var signUpVM: SignUpViewModel
+  @EnvironmentObject var signUpVM: SignUpViewModel
   
-//  var nickname: String { signUpVM.nickname }
-  let nickname: String = "길동아밥먹자"
+  var nickname: String { signUpVM.nickname }
   @State private var displayedTopics : [Int: (word: String, isPicked: Bool)] = [:]
   
   private var isNextButtonActive: ButtonActiveSate {
@@ -29,42 +19,23 @@ struct RegisterTopicsView: View {
   
   var body: some View {
     VStack {
-      Spacer()
-      
       VStack(alignment: .leading) {
         titleText
-          .padding(.bottom, 70)
+          .frame(height: 130) // 뒷페이지와 높이 맞추기용
+          .padding(.top, 120) // 뒷페이지와 높이 맞추기용
+          .padding(.bottom, 30) // 뒷페이지와 높이 맞추기용
         
         GeometryReader { geometry in
             self.generateTopicButtons(in: geometry)
-        }
-        
-//        VStack(alignment: .center) {
-//          LazyVGrid(columns: [GridItem(.adaptive(minimum: 70, maximum: 100))], alignment: .center, spacing: 10) {
-//            ForEach(displayedTopics.keys.sorted(), id: \.self) { id in
-//              if let topic = displayedTopics[id] {
-//                FishchipButton(
-//                  isActive: topic.isPicked ? .active : .inactive,
-//                  buttonStyle: .solid,
-//                  imageName: nil,
-//                  labelText: topic.word,
-//                  labelSize: .M
-//                ) {
-//
-//                }
-//              }
-//            }
-//          }
-//        }
+        }.frame(height: 0)
         
       }.padding(.horizontal, GridLayout.side)
-      
       
       Spacer()
       
       // next button
       CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
-        
+        signUpVM.step += 1
       }
       .padding(.bottom, 45)
     }
@@ -109,6 +80,8 @@ struct RegisterTopicsView: View {
       Text("최소 3개 이상")
         .b2Style()
         .foregroundColor(.odya.label.assistive)
+      
+      Spacer()
     }
   }
 }
@@ -121,8 +94,8 @@ extension RegisterTopicsView {
     return ZStack(alignment: .topLeading) {
       ForEach(displayedTopics.keys.sorted(), id: \.self) { id in
         buttonItem(for: id)
-          .padding(.horizontal, 5)
-          .padding(.vertical, 10)
+          .padding(.horizontal, 2.5)
+          .padding(.vertical, 5)
           .alignmentGuide(.leading, computeValue: { d in
             if (abs(width - d.width) > g.size.width) {
               width = 0
@@ -155,12 +128,11 @@ extension RegisterTopicsView {
         imageName: nil,
         labelText: topic.word,
         labelSize: .M
-      ) {
-        
-      }
-      .onTapGesture {
+    ) {
+      displayedTopics[id] = (word: topic.word, isPicked: !topic.isPicked)
         displayedTopics[id] = (word: topic.word, isPicked: !topic.isPicked)
-      }
+    }.animation(.easeInOut, value: displayedTopics[id]!.isPicked)
+      
   }
 }
 

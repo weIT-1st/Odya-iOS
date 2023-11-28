@@ -33,12 +33,11 @@ struct RegisterDefaultInfoView: View {
   
   var body: some View {
     VStack {
-      Spacer()
-      
-      // input section
       VStack(alignment: .leading, spacing: 15) {
         titleText
-          .padding(.bottom, 20)
+          .frame(height: 130) // 뒷페이지와 높이 맞추기용
+          .padding(.top, 120) // 뒷페이지와 높이 맞추기용
+          .padding(.bottom, 30) // 뒷페이지와 높이 맞추기용
         birtydayField
         genderField
       }.padding(.horizontal, GridLayout.side)

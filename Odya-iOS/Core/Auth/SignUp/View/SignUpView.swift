@@ -7,54 +7,6 @@
 
 import SwiftUI
 
-//struct SignupHeaderBar: View {
-//  @Binding var step: Int
-//
-//  var body: some View {
-//    HStack {
-//      Button(
-//        action: {
-//          print("뒤로가기")
-//          step -= 1
-//        },
-//        label: {
-//          Text("뒤로가기")
-//            .detail2Style()
-//            .foregroundColor(step > 1 ? Color.odya.brand.primary : Color.odya.background.normal)
-//        }
-//      ).disabled(step <= 1)
-//
-//      Spacer()
-//      SignupStepIndicator
-//      Spacer()
-//
-//      Button(
-//        action: {
-//          print("건너뛰기")
-//          step += 1
-//        },
-//        label: {
-//          Text("건너뛰기")
-//            .detail2Style()
-//            .foregroundColor(step > 2 ? Color.odya.brand.primary : Color.odya.background.normal)
-//        }
-//      ).disabled(step <= 2)
-//    }
-//    .frame(height: 56)
-//  }
-//
-//  var SignupStepIndicator: some View {
-//    HStack(spacing: 8) {
-//      ForEach(1...5, id: \.self) { index in
-//        Circle()
-//          .frame(width: 8, height: 8)
-//          .foregroundColor(step >= index ? .odya.brand.primary : .odya.system.inactive)
-//      }
-//    }
-//
-//  }
-//}
-
 struct SignUpView: View {
 
   @AppStorage("WeITAuthToken") var idToken: String?
@@ -84,17 +36,9 @@ struct SignUpView: View {
       case 1...4:
         RegisterUserInfoView()
           .environmentObject(SignUpVM)
-//        RegisterUserInfoView(signUpStep: $step)
-        
-//      case 2:
-//        RegisterDefaultInfoView(
-//          step: $step,
-//          nickname: userInfo.nickname,
-//          birthday: $userInfo.birthday,
-//          gender: $userInfo.gender)
-//      case 3:
-//        // Keyword topic
-//      case 4:
+      case 5:
+        MainLoadingView()
+
 //        ProgressView()
 //          .onAppear {
 //            let birthdayArray = getBirthdayArray(userInfo.birthday)
@@ -138,20 +82,6 @@ struct SignUpView: View {
       }
     }  // background color ZStack
   }  // body
-  
-  
-
-  private func getBirthdayArray(_ birthday: Date) -> [Int] {
-    let calendar = Calendar.current
-    let components = calendar.dateComponents([.year, .month, .day], from: birthday)
-    if let year = components.year,
-      let month = components.month,
-      let day = components.day
-    {
-      return [year, month, day]
-    }
-    return []
-  }
 }
 
 struct SignUpView_Preview: PreviewProvider {

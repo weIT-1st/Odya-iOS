@@ -67,6 +67,9 @@ struct RegisterUserInfoView: View {
       case 3:
         RegisterTopicsView()
           .environmentObject(SignUpVM)
+      case 4:
+        RegisterFollowsView()
+          .environmentObject(SignUpVM)
       default:
         Spacer()
         Text("kkk")
