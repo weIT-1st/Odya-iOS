@@ -30,9 +30,11 @@ struct Odya_iOSApp: App {
   var body: some Scene {
     WindowGroup {
       ZStack {
-        
         SplashView()
+          .background(Color.odya.background.normal)
+          .ignoresSafeArea()
         
+        // 스플래쉬 뷰 끝난 후
         if isReady {
           if idToken != nil {
             RootTabView()

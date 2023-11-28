@@ -109,6 +109,8 @@
 		3E46701C2B147FCC00B54D0A /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */; };
 		3E4670202B15E90A00B54D0A /* FollowiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E46701F2B15E90A00B54D0A /* FollowiView.swift */; };
 		3E4670222B15EDA800B54D0A /* MainLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4670212B15EDA800B54D0A /* MainLoadingView.swift */; };
+		3E46702A2B160DDE00B54D0A /* SplashScreenAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E4670292B160DDE00B54D0A /* SplashScreenAnimation.json */; };
+		3E46702D2B160F6500B54D0A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 3E46702C2B160F6500B54D0A /* Lottie */; };
 		3E699A882AFF6B6100850E9A /* SparkleIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A872AFF6B6100850E9A /* SparkleIcon.swift */; };
 		3E699A8D2B00A8DB00850E9A /* DailyJournalDateEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */; };
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
@@ -299,6 +301,7 @@
 		3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		3E46701F2B15E90A00B54D0A /* FollowiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowiView.swift; sourceTree = "<group>"; };
 		3E4670212B15EDA800B54D0A /* MainLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLoadingView.swift; sourceTree = "<group>"; };
+		3E4670292B160DDE00B54D0A /* SplashScreenAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SplashScreenAnimation.json; sourceTree = "<group>"; };
 		3E699A872AFF6B6100850E9A /* SparkleIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkleIcon.swift; sourceTree = "<group>"; };
 		3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDateEditor.swift; sourceTree = "<group>"; };
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
@@ -399,6 +402,7 @@
 				3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */,
 				19EBA7532AB16B7D000ABBE5 /* CombineMoya in Frameworks */,
 				3E8F81932A8112A500FA167E /* GoogleMapsBase in Frameworks */,
+				3E46702D2B160F6500B54D0A /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,6 +934,7 @@
 		3EF549A22A4309F7006562F8 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
+				3E4670292B160DDE00B54D0A /* SplashScreenAnimation.json */,
 				071FA5252A20A9A000C7B362 /* Assets.xcassets */,
 				3EF549892A420015006562F8 /* Fonts */,
 				3EF549AB2A45C39D006562F8 /* ThemeTestView.swift */,
@@ -1033,6 +1038,7 @@
 				3E8F81942A8112AB00FA167E /* GoogleMapsCore */,
 				19EBA7522AB16B7D000ABBE5 /* CombineMoya */,
 				19EBA7542AB16B7D000ABBE5 /* Moya */,
+				3E46702C2B160F6500B54D0A /* Lottie */,
 			);
 			productName = "Odya-iOS";
 			productReference = 071FA51E2A20A99F00C7B362 /* Odya-iOS.app */;
@@ -1071,6 +1077,7 @@
 				07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
 				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */,
+				3E46702B2B160F6500B54D0A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
 			projectDirPath = "";
@@ -1089,6 +1096,7 @@
 				19EBA75B2AB16EAF000ABBE5 /* GoogleService-Info.plist in Resources */,
 				3EF549972A4200EB006562F8 /* NotoSansKR-Black.otf in Resources */,
 				3EF549952A4200EB006562F8 /* OFL.txt in Resources */,
+				3E46702A2B160DDE00B54D0A /* SplashScreenAnimation.json in Resources */,
 				3EF549942A4200EB006562F8 /* NotoSansKR-Thin.otf in Resources */,
 				3EF549962A4200EB006562F8 /* NotoSansKR-Light.otf in Resources */,
 				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
@@ -1565,6 +1573,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		3E46702B2B160F6500B54D0A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "http://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -1605,6 +1621,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDK;
+		};
+		3E46702C2B160F6500B54D0A /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3E46702B2B160F6500B54D0A /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		3E8F818E2A81127600FA167E /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
