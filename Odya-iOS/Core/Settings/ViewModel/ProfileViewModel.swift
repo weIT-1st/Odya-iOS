@@ -32,9 +32,9 @@ class ProfileViewModel: ObservableObject {
   private var subscription = Set<AnyCancellable>()
   
   // user data
-  @Published var userID: Int
-  @Published var nickname: String
-  @Published var profileUrl: String
+  @Published var userID: Int = -1
+  @Published var nickname: String = ""
+  @Published var profileUrl: String = ""
   @Published var statistics = UserStatistics()
   
   //  flag
@@ -44,16 +44,8 @@ class ProfileViewModel: ObservableObject {
   // profileImage
   var webpImageManager = WebPImageManager()
   
-  // MARK: Init
-  
-  init() {
-    let myData = MyData()
-    self.userID = MyData.userID
-    self.nickname = myData.nickname
-    self.profileUrl = myData.profile.decodeToProileData().profileUrl
-  }
-  
-  init(userId: Int, nickname: String, profileUrl: String) {
+  // MARK: Init Data
+  func initData(_ userId: Int, _ nickname: String, _ profileUrl: String) {
     self.userID = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
