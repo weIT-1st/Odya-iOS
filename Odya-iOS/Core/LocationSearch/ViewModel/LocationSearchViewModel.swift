@@ -28,14 +28,15 @@ class LocationSearchViewModel: NSObject, ObservableObject {
         }
     }
     
-    /// 검색 자동완성 토큰
-    let token = GMSAutocompleteSessionToken.init()
     let placeClient = GMSPlacesClient()
     
     // MARK: - FUNCTIONS-Location Search
     
     /// 검색 문자열로 장소 검색
     func locationSearch(query: String) {
+      /// 검색 자동완성 토큰
+      let token = GMSAutocompleteSessionToken.init()
+      
         searchResults = []
         placeClient.findAutocompletePredictions(fromQuery: query,
                                                 filter: .none,

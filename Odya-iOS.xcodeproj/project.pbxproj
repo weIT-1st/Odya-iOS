@@ -43,6 +43,9 @@
 		07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */; };
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
+		07C8054D2B14CED00042ECAA /* PlaceTagSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8054C2B14CED00042ECAA /* PlaceTagSearchViewModel.swift */; };
+		07C8054F2B14CF380042ECAA /* PlaceTagSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */; };
+		07C805512B14CF580042ECAA /* PlaceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C805502B14CF580042ECAA /* PlaceTagView.swift */; };
 		192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA02B0D8D7E00BD480E /* ReportView.swift */; };
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
 		192ADAA52B0EF88400BD480E /* CustomLogPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */; };
@@ -99,7 +102,6 @@
 		3E3EC3B62A388B55002BF519 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B52A388B55002BF519 /* KakaoSDK */; };
 		3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2B2AD6941C00034FBB /* AppDataManager.swift */; };
 		3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */; };
-		3E800EBD2A3D9FF0001EA4C4 /* WebpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */; };
 		3E414B302ADC0ED000034FBB /* ContentComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */; };
 		3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */; };
 		3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */; };
@@ -232,6 +234,9 @@
 		07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		07C8054C2B14CED00042ECAA /* PlaceTagSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagSearchViewModel.swift; sourceTree = "<group>"; };
+		07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagSearchView.swift; sourceTree = "<group>"; };
+		07C805502B14CF580042ECAA /* PlaceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagView.swift; sourceTree = "<group>"; };
 		192ADAA02B0D8D7E00BD480E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLogPlugin.swift; sourceTree = "<group>"; };
@@ -284,7 +289,6 @@
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
-		3E800EBC2A3D9FF0001EA4C4 /* WebpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebpViewModel.swift; sourceTree = "<group>"; };
 		3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentComposeView.swift; sourceTree = "<group>"; };
 		3E414B322ADC5D7F00034FBB /* DailyJournalComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalComposeView.swift; sourceTree = "<group>"; };
 		3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalViewModel.swift; sourceTree = "<group>"; };
@@ -515,6 +519,7 @@
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 				0784963F2A84F45800A490E3 /* Community */,
 				192ADA9F2B0D8D5C00BD480E /* Report */,
+				07C8054B2B14CDC10042ECAA /* PlaceTag */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -603,6 +608,16 @@
 				07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		07C8054B2B14CDC10042ECAA /* PlaceTag */ = {
+			isa = PBXGroup;
+			children = (
+				07C8054C2B14CED00042ECAA /* PlaceTagSearchViewModel.swift */,
+				07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */,
+				07C805502B14CF580042ECAA /* PlaceTagView.swift */,
+			);
+			path = PlaceTag;
 			sourceTree = "<group>";
 		};
 		07DFFC102A2F6EA6006A2FB9 /* Model */ = {
@@ -1116,6 +1131,7 @@
 				3EB938172AF795A60041FE5B /* NoJournalView.swift in Sources */,
 				3EF54A0F2A5BF9BD006562F8 /* AuthViewModel.swift in Sources */,
 				19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */,
+				07C805512B14CF580042ECAA /* PlaceTagView.swift in Sources */,
 				3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */,
 				19E212AE2B070A77003155C0 /* FollowButtonViewModel.swift in Sources */,
 				19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */,
@@ -1153,6 +1169,7 @@
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				0761F19B2AD804FA00FB87AA /* Community.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
+				07C8054F2B14CF380042ECAA /* PlaceTagSearchView.swift in Sources */,
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
@@ -1191,6 +1208,7 @@
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
+				07C8054D2B14CED00042ECAA /* PlaceTagSearchViewModel.swift in Sources */,
 				3ED22F3A2A9853830067DE72 /* TravelMateSelectorView.swift in Sources */,
 				199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */,
 				3EEBB7D72A91FACC00F0049D /* DailyTravelJournal.swift in Sources */,
@@ -1425,7 +1443,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Odya-iOS/Odya-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 14;
@@ -1456,7 +1473,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = 230829_distribution_provisioning_profile;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = ODYA_Development_Provisioning_Profile;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
