@@ -30,14 +30,26 @@ struct Odya_iOSApp: App {
   var body: some Scene {
     WindowGroup {
       ZStack {
-        SplashView()
-          .background(Color.odya.background.normal)
-          .ignoresSafeArea()
-        
-        // 스플래쉬 뷰 끝난 후
-        if isReady {
+        if !isReady {
+          SplashView()
+            .background(Color.odya.background.normal)
+            .ignoresSafeArea()
+        } else {
           if idToken != nil {
             RootTabView()
+              .onAppear {
+                /// 토큰 갱신 및 유저 정보 가져오기
+                if idToken != nil {
+                  Task {
+                    appDataManager.refreshToken() { success in
+                      if success {
+                        appDataManager.initMyData() { _ in }
+                      }
+                    }
+                  }
+                }
+                
+              }
           } else {
             LoginView()
               .environmentObject(appleAuthVM)
@@ -46,24 +58,15 @@ struct Odya_iOSApp: App {
         }
       } // Zstack
       .onAppear {
-        /// 토큰 갱신 및 유저 정보 가져오기
-        if idToken != nil {
-          Task {
-            appDataManager.refreshToken() { success in
-              if success {
-                appDataManager.initMyData() { _ in }
-              }
-            }
-          }
-        }
-        
         /// 탭해서 키보드 내리기
         UIApplication.shared.hideKeyboardOnTap()
         
         /// 스플래시 타이머
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-          isReady.toggle()
-        })
+        if !isReady {
+          DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            isReady.toggle()
+          })
+        }
       }
       .animation(.easeInOut, value: isReady)
     } // WithGroup
