@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct RegisterNicknameView: View {
-  @EnvironmentObject var signUpVM: SignUpViewModel
+//  @EnvironmentObject var signUpVM: SignUpViewModel
   @StateObject var validatorApi = AuthValidatorApiViewModel()
+  
+  @Binding var signUpStep: Int
+  
+  @Binding var userInfo: SignUpInfo
   
   @State private var nickname: String = ""
   
   private var isEditing: Bool {
-    nickname != signUpVM.nickname
+    nickname != userInfo.nickname
   }
   private var isValid: Bool {
     UserInfoField.nickname.isValid(value: nickname)
@@ -25,6 +29,11 @@ struct RegisterNicknameView: View {
   }
   
   @State private var isShowingInvalidNicknameAlert: Bool = false
+  
+  init(_ step: Binding<Int>, userInfo: Binding<SignUpInfo>) {
+    self._signUpStep = step
+    self._userInfo = userInfo
+  }
   
   var body: some View {
     VStack {
@@ -56,7 +65,7 @@ struct RegisterNicknameView: View {
       }
     }
     .onAppear {
-      self.nickname = signUpVM.nickname
+      self.nickname = userInfo.nickname
     }
   }  // body
   
@@ -98,8 +107,8 @@ extension RegisterNicknameView {
   func checkNickname() {
     validatorApi.validateNickname(nickname: nickname) { result in
       if result {
-        self.signUpVM.nickname = nickname
-        self.signUpVM.step += 1
+        self.userInfo.nickname = nickname
+        self.signUpStep += 1
       } else {
         isShowingInvalidNicknameAlert = true
       }
@@ -107,8 +116,8 @@ extension RegisterNicknameView {
   }
 }
 
-struct RegisterNicknameView_Previews: PreviewProvider {
-  static var previews: some View {
-    SignUpView()
-  }
-}
+//struct RegisterNicknameView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    SignUpView()
+//  }
+//}

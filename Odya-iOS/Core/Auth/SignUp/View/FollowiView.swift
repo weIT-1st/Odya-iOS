@@ -10,7 +10,7 @@ import SwiftUI
 struct RegisterFollowsView: View {
   @EnvironmentObject var signUpVM: SignUpViewModel
   
-  var nickname: String { signUpVM.nickname }
+  var nickname: String { signUpVM.userInfo.nickname }
   
   var body: some View {
     VStack {
@@ -64,8 +64,8 @@ struct RegisterFollowsView: View {
 }
 
 
-struct RegisterFollowsView_Previews: PreviewProvider {
-  static var previews: some View {
-    SignUpView()
-  }
-}
+//struct RegisterFollowsView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    SignUpView()
+//  }
+//}

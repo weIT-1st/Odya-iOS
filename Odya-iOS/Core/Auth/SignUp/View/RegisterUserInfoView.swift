@@ -47,29 +47,30 @@ private struct SignUpIndicatorView: View {
 }
 
 struct RegisterUserInfoView: View {
-  @EnvironmentObject var SignUpVM: SignUpViewModel
+  @EnvironmentObject var signUpVM: SignUpViewModel
   
-  var signUpStep:  Int { SignUpVM.step }
+  var signUpStep:  Int { signUpVM.step }
 
   var body: some View {
     VStack {
-      SignUpIndicatorView(step: $SignUpVM.step)
+      SignUpIndicatorView(step: $signUpVM.step)
       
       Spacer()
       
       switch signUpStep {
       case 1:
-        RegisterNicknameView()
-          .environmentObject(SignUpVM)
+        RegisterNicknameView($signUpVM.step,
+                             userInfo: $signUpVM.userInfo)
       case 2:
-        RegisterDefaultInfoView()
-          .environmentObject(SignUpVM)
+        RegisterDefaultInfoView($signUpVM.step,
+                                userInfo: $signUpVM.userInfo)
+          .environmentObject(signUpVM)
       case 3:
         RegisterTopicsView()
-          .environmentObject(SignUpVM)
+          .environmentObject(signUpVM)
       case 4:
         RegisterFollowsView()
-          .environmentObject(SignUpVM)
+          .environmentObject(signUpVM)
       default:
         Spacer()
         Text("kkk")
@@ -79,8 +80,8 @@ struct RegisterUserInfoView: View {
   }  // body
 }
 
-struct RegisterUSerInfoView_Previews: PreviewProvider {
+struct RegisterUserInfoView_Preview: PreviewProvider {
   static var previews: some View {
-    SignUpView()
+    SignUpView(socialType: .unknown, signUpInfo: SignUpInfo())
   }
 }

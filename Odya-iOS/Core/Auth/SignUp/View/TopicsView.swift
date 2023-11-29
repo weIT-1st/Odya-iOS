@@ -9,8 +9,9 @@ import SwiftUI
 
 struct RegisterTopicsView: View {
   @EnvironmentObject var signUpVM: SignUpViewModel
+  @StateObject var topicListVM = TopicListViewModel()
   
-  var nickname: String { signUpVM.nickname }
+  var nickname: String { signUpVM.userInfo.nickname }
   @State private var displayedTopics : [Int: (word: String, isPicked: Bool)] = [:]
   
   private var isNextButtonActive: ButtonActiveSate {
@@ -55,7 +56,7 @@ struct RegisterTopicsView: View {
                          13: (word: "나홀로여행", isPicked: false),
                          14: (word: "촌캉스", isPicked: false)]
 //      displayedTopics = [:]
-//      signUpVM.topicListVM.topicList.forEach { topic in
+//      topicListVM.topicList.forEach { topic in
 //        displayedTopics[topic.id] = (word: topic.word, isPicked: false)
 //      }
 //      signUpVM.favoriteTopics.forEach { topic in
@@ -136,8 +137,8 @@ extension RegisterTopicsView {
   }
 }
 
-struct RegisterTopicsView_Previews: PreviewProvider {
-  static var previews: some View {
-    RegisterTopicsView()
-  }
-}
+//struct RegisterTopicsView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    RegisterTopicsView()
+//  }
+//}

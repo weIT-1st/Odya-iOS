@@ -24,7 +24,7 @@ class AppleAuthViewModel: ObservableObject {
   @Published var isUnauthorized: Bool = false
 
   /// 로그인한 회원 정보 - 회원가입 시 사용됨
-  @Published var userInfo = UserInfo()
+  @Published var userInfo = SignUpInfo()
 
   /// Nonce handling
   var currentNonce: String? = nil

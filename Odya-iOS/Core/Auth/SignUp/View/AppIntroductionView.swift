@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct AppIntroductionView: View {
-  @EnvironmentObject var SignUpVM: SignUpViewModel
-  
+  @Binding var signUpStep: Int
   @State private var introStep: Int = 1
   
   let introMainTexts: [String] = ["저번에 너가 갔던 그 곳, \n어디야?",
@@ -21,6 +20,10 @@ struct AppIntroductionView: View {
   let illustratorImageNames: [String] = ["talk-illust",
                                          "place-illust",
                                          "route-illust"]
+  
+  init(_ signUpStep: Binding<Int>) {
+    self._signUpStep = signUpStep
+  }
   
   var body: some View {
     VStack {
@@ -39,7 +42,7 @@ struct AppIntroductionView: View {
           introStep += 1
         } else {
           print("intro finish")
-          SignUpVM.step += 1
+          signUpStep += 1
         }
       }.padding(.bottom, 45)
     }
@@ -83,8 +86,8 @@ struct AppIntroductionView: View {
   }
 }
 
-struct AppIntroductionView_Previews: PreviewProvider {
-  static var previews: some View {
-    AppIntroductionView()
-  }
-}
+//struct AppIntroductionView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    AppIntroductionView()
+//  }
+//}

@@ -18,7 +18,7 @@ enum LoginResponseResult {
 class AuthViewModel: ObservableObject {
   var subscription = Set<AnyCancellable>()
 
-  @Published var loggedInUser: UserInfo? = nil
+  @Published var loggedInUser: SignUpInfo? = nil
 
   /// 카카오 회원가입
   func kakaoRegister(

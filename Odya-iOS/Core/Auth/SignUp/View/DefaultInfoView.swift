@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct RegisterDefaultInfoView: View {
-  @EnvironmentObject var signUpVM: SignUpViewModel
+  @EnvironmentObject var signUpVM: SignUpViewModel // signUp() 사용하기 위함..
   @StateObject var validatorApi = AuthValidatorApiViewModel()
   
-  var nickname: String { signUpVM.nickname }
+  @Binding var signUpStep: Int
+  
+  @Binding var userInfo: SignUpInfo
+  
+  var nickname: String { userInfo.nickname }
   @State private var birthday = Date()
   @State private var gender = Gender.none
 
@@ -31,6 +35,11 @@ struct RegisterDefaultInfoView: View {
   
   @State private var isShowingDatePickerSheet: Bool = false
   
+  init(_ step: Binding<Int>, userInfo: Binding<SignUpInfo>) {
+    self._signUpStep = step
+    self._userInfo = userInfo
+  }
+  
   var body: some View {
     VStack {
       VStack(alignment: .leading, spacing: 15) {
@@ -46,19 +55,18 @@ struct RegisterDefaultInfoView: View {
       
       // next button
       CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
-        signUpVM.birthday = birthday
-        signUpVM.gender = gender
+        userInfo.birthday = birthday
+        userInfo.gender = gender
         // TODO: 회원가입
-        // 회원가입 성공 시 step += 1
-        self.signUpVM.birthday = birthday
-        self.signUpVM.gender = gender
-        self.signUpVM.step += 1
+        signUpVM.signUp()
+        
+//        signUpStep += 1
       }
       .padding(.bottom, 45)
     }
     .onAppear {
-      self.birthday = signUpVM.birthday
-      self.gender = signUpVM.gender
+      self.birthday = userInfo.birthday
+      self.gender = userInfo.gender
     }
   }  // body
   
@@ -142,8 +150,8 @@ private struct BirthdatePickerView: View {
   }
 }
 
-struct RegisterDefaultInfoView_Previews: PreviewProvider {
-  static var previews: some View {
-    SignUpView()
-  }
-}
+//struct RegisterDefaultInfoView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    SignUpView()
+//  }
+//}

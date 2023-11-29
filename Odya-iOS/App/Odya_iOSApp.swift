@@ -48,8 +48,8 @@ struct Odya_iOSApp: App {
                     }
                   }
                 }
-                
               }
+            
           } else {
             LoginView()
               .environmentObject(appleAuthVM)

@@ -9,18 +9,19 @@ import SwiftUI
 
 struct SignUpView: View {
 
-  @AppStorage("WeITAuthToken") var idToken: String?
+  // @AppStorage("WeITAuthToken") var idToken: String?
 
   @EnvironmentObject var appleAuthVM: AppleAuthViewModel
   @EnvironmentObject var kakaoAuthVM: KakaoAuthViewModel
+  @ObservedObject private var signUpVM: SignUpViewModel
   @StateObject private var authApi = AuthViewModel()
-  @StateObject private var SignUpVM = SignUpViewModel()
 
-  var step : Int { SignUpVM.step }
-  let lastStep = 2
-
-//  @State var userInfo: UserInfo
-
+  var step : Int { signUpVM.step }
+  
+  init(socialType: SocialLoginType, signUpInfo: SignUpInfo) {
+    self.signUpVM = SignUpViewModel(socialType: socialType, userInfo: signUpInfo)
+  }
+  
   var body: some View {
     ZStack {
       Color.odya.background.normal.ignoresSafeArea()
@@ -28,14 +29,13 @@ struct SignUpView: View {
       // contents
       switch step {
       case -1:
-        AppIntroductionView()
-          .environmentObject(SignUpVM)
+        AppIntroductionView($signUpVM.step)
       case 0:
-        TermsView(termsList: $SignUpVM.termsIdList)
-          .environmentObject(SignUpVM)
+        TermsView($signUpVM.step,
+                  myTermsIdList: $signUpVM.userInfo.termsIdList)
       case 1...4:
         RegisterUserInfoView()
-          .environmentObject(SignUpVM)
+          .environmentObject(signUpVM)
       case 5:
         MainLoadingView()
 
@@ -86,6 +86,6 @@ struct SignUpView: View {
 
 struct SignUpView_Preview: PreviewProvider {
   static var previews: some View {
-    SignUpView()
+    SignUpView(socialType: .unknown, signUpInfo: SignUpInfo())
   }
 }

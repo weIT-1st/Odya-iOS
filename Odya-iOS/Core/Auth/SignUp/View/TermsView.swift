@@ -10,13 +10,20 @@ import SwiftUI
 struct TermsView: View {
   // MARK: Properties
 
-  @EnvironmentObject var signUpVM: SignUpViewModel
   @StateObject var viewModel = TermsViewModel()
-  @State var showSheet: Bool = false
+  
+  @Binding var signUpStep: Int
   @Binding var termsList: [Int]
+  
+  @State var showSheet: Bool = false
   
   private var isNextButtonActive: ButtonActiveSate {
     return (termsList.contains(viewModel.requiredList) && !viewModel.requiredList.isEmpty) ? .active : .inactive
+  }
+  
+  init(_ signUpStep: Binding<Int>, myTermsIdList: Binding<[Int]>) {
+    self._signUpStep = signUpStep
+    self._termsList = myTermsIdList
   }
 
   // MARK: Body
@@ -67,7 +74,7 @@ struct TermsView: View {
       }  // List
 
       CTAButton(isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
-        self.signUpVM.step += 1
+        signUpStep += 1
       }
       .padding(.bottom, 45)
     }  // VStack
@@ -121,8 +128,8 @@ struct TermsContentSheet: View {
 
 // MARK: - Preview
 
-struct TermsView_Previews: PreviewProvider {
-  static var previews: some View {
-    TermsView(termsList: .constant([1, 2, 3]))
-  }
-}
+//struct TermsView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    TermsView(termsList: .constant([1, 2, 3]))
+//  }
+//}

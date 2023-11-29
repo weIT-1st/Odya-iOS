@@ -16,7 +16,8 @@ struct UserInfoEditView: View {
     @StateObject var kakaoAuthVM = KakaoAuthViewModel()
     @StateObject var appleAuthVM = AppleAuthViewModel()
     
-    @State var userInfo: UserInfo
+  // TODO: 아마... api Request 타입으로 수정할 듯..
+    @State var userInfo: SignUpInfo
     
     var body: some View {
         VStack {
@@ -312,8 +313,8 @@ struct EmailEditSection: View {
 }
 
 // MARK: Preview
-struct UserInfoEditView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserInfoEditView(userInfo: UserInfo(nickname: "길동아밥먹자"))
-    }
-}
+//struct UserInfoEditView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UserInfoEditView(userInfo: UserInfo(nickname: "길동아밥먹자"))
+//    }
+//}
