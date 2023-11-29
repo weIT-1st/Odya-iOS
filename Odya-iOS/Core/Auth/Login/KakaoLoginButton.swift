@@ -19,21 +19,26 @@ struct KakaoLoginButton: View {
       Button(action: {
         kakaoAuthVM.kakaoLogin()
       }) {
-        HStack(spacing: 10) {
+        HStack(alignment: .center, spacing: 10) {
           Spacer()
-          Image("kakao-icon")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 15)
-          Text("카카오 로그인")
-            .b1Style()
-            .foregroundColor(.black)
+          if !kakaoAuthVM.isLoginInProgress {
+            Image("kakao-icon")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: 15)
+            Text("카카오 로그인")
+              .b1Style()
+              .foregroundColor(.black)
+          } else {
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle(tint: .odya.label.inactive))
+          }
           Spacer()
         }
         .frame(height: 44)
-        .padding(.horizontal, 8)
         .background(Color("kakao-yellow"))
         .cornerRadius(Radius.small)
+//        .padding(.horizontal, GridLayout.side)
       }
     }
   }
