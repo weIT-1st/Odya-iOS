@@ -28,14 +28,13 @@ final class FeedUserSearchViewModel: ObservableObject {
   
   @Published private(set) var state = SearchedUserState()
   
-  /// 검색할 텍스트
-  @Published var searchText: String = ""
-  
   // MARK: - Helper functions
   
   /// 유저 검색
   func searchUserNextPageIfPossible(query: String) {
     guard state.canLoadNextPage else { return }
+    
+    subscription.forEach { $0.cancel() }
     
     userProvider.requestPublisher(.searchUser(size: 10, lastId: state.lastId, nickname: query))
       .sink { completion in
@@ -59,9 +58,5 @@ final class FeedUserSearchViewModel: ObservableObject {
   
   func initiateState() {
     state = SearchedUserState()
-  }
-  
-  func deleteSearchText() {
-    searchText = ""
   }
 }

@@ -14,7 +14,7 @@ struct SearchedUser: Codable {
 }
 
 // MARK: - Content
-struct SearchedUserContent: Codable {
+struct SearchedUserContent: Codable, Equatable {
   let userId: Int
   let nickname: String
   let profile: ProfileData
@@ -23,5 +23,9 @@ struct SearchedUserContent: Codable {
   enum CodingKeys: String, CodingKey {
     case userId = "userId"
     case nickname, profile, isFollowing
+  }
+  
+  static func == (lhs: SearchedUserContent, rhs: SearchedUserContent) -> Bool {
+    return lhs.userId == rhs.userId
   }
 }

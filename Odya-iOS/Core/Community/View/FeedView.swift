@@ -30,7 +30,6 @@ struct FeedView: View {
         ZStack(alignment: .bottomTrailing) {
           VStack(spacing: 0) {
             // tool bar
-            // TODO: - 툴바 디자인 변경예정
             feedToolBar
 
             ScrollView(.vertical, showsIndicators: false) {

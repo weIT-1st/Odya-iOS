@@ -1052,12 +1052,12 @@
 			);
 			mainGroup = 071FA5152A20A99F00C7B362;
 			packageReferences = (
-				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
 				3E3EC3AE2A388AC0002BF519 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
-				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */,
+				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */,
 				3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
-				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
 				19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
@@ -1395,7 +1395,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1419,7 +1419,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.8;
+				MARKETING_VERSION = 0.1.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1441,7 +1441,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1465,7 +1465,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.8;
+				MARKETING_VERSION = 0.1.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1517,7 +1517,7 @@
 				minimumVersion = 15.0.0;
 			};
 		};
-		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -1533,7 +1533,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */ = {
+		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/awxkee/webp.swift.git";
 			requirement = {
@@ -1549,7 +1549,7 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -1572,7 +1572,7 @@
 		};
 		3E3EC3AC2A388AA5002BF519 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
 			productName = Alamofire;
 		};
 		3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */ = {
@@ -1582,7 +1582,7 @@
 		};
 		3E3EC3B22A388ADE002BF519 /* webp */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */;
+			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */;
 			productName = webp;
 		};
 		3E3EC3B52A388B55002BF519 /* KakaoSDK */ = {
@@ -1612,7 +1612,7 @@
 		};
 		3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
 			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */

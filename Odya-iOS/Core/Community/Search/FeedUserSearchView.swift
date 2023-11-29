@@ -26,6 +26,11 @@ struct FeedUserSearchView: View {
         LazyVStack(spacing: 10) {
           ForEach(viewModel.state.content, id: \.userId) { content in
             FeedUserSearchCell(isSearching: true, content: content)
+              .onAppear {
+                if viewModel.state.content.last == content {
+                  viewModel.searchUserNextPageIfPossible(query: searchText)
+                }
+              }
           }
         }
       }
@@ -33,8 +38,8 @@ struct FeedUserSearchView: View {
     .padding(GridLayout.side)
     .background(Color.odya.background.normal)
     .onChange(of: searchText) { newValue in
+      viewModel.initiateState()
       if !newValue.isEmpty {
-        viewModel.initiateState()
         viewModel.searchUserNextPageIfPossible(query: searchText)
       }
     }
@@ -48,14 +53,15 @@ struct FeedUserSearchView: View {
           .b1Style()
           .foregroundColor(.odya.label.normal)
         Spacer()
-        if viewModel.searchText.isEmpty {
-          CustomIconButton("search", color: .odya.label.assistive) {
-            // TODO: searchUser
-          }
+        if searchText.isEmpty {
+          Image("search")
+            .renderingMode(.template)
+            .foregroundColor(.odya.label.assistive)
+            .padding(6)
         } else {
           Button {
             // action: 현재 검색어 지우기
-            viewModel.deleteSearchText()
+            searchText = ""
           } label: {
             Image("smallGreyButton-x-filled-elv5")
           }
@@ -103,11 +109,7 @@ struct FeedUserSearchCell: View {
         Image("sparkle-s")
       }
       Spacer()
-      if isSearching {
-        FollowButton(isFollowing: content.isFollowing, buttonStyle: .solid) {
-          
-        }
-      } else {
+      if !isSearching {
         CustomIconButton("x", color: .odya.line.normal) {
           // TODO: 최근검색에서 삭제
         }
