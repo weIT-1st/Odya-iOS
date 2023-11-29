@@ -34,28 +34,29 @@ struct Odya_iOSApp: App {
           SplashView()
             .background(Color.odya.background.normal)
             .ignoresSafeArea()
-        } else {
-          if idToken != nil {
-            RootTabView()
-              .onAppear {
-                /// 토큰 갱신 및 유저 정보 가져오기
-                if idToken != nil {
-                  Task {
-                    appDataManager.refreshToken() { success in
-                      if success {
-                        appDataManager.initMyData() { _ in }
-                      }
-                    }
-                  }
-                }
-              }
-            
-          } else {
+        } // if not ready
+        
+        else {
+          if idToken == nil {
             LoginView()
               .environmentObject(appleAuthVM)
               .environmentObject(kakaoAuthVM)
+          } else {
+            RootTabView()
+              /// 토큰 갱신 및 유저 정보 가져오기
+              .task {
+                guard idToken != nil else {
+                  return
+                }
+                appDataManager.refreshToken() { success in
+                  if success {
+                    appDataManager.initMyData() { _ in }
+                  }
+                }
+              } // task
           }
-        }
+        } // if ready
+        
       } // Zstack
       .onAppear {
         /// 탭해서 키보드 내리기

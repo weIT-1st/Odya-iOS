@@ -22,19 +22,9 @@ class SignUpViewModel: ObservableObject {
   /// 회원가입 데이터
   @Published var userInfo: SignUpInfo
   
-//  @Published var nickname: String = ""
-//  @Published var birthday: Date = Date()
-//  @Published var gender: Gender = .none
-//  @Published var favoriteTopics: [Topic] = []
-//  @Published var termsIdList: [Int] = []
-  
-  /// 약관 리스트 api 클래스
-  var topicListVM = TopicListViewModel()
-  
   init(socialType: SocialLoginType, userInfo: SignUpInfo) {
     self.socialType = socialType
     self.userInfo = userInfo
-    self.topicListVM.fetchTopicList()
   }
   
   func signUp() {
@@ -72,6 +62,8 @@ class SignUpViewModel: ObservableObject {
         }
       }
     case .unknown:
+      // 테스트용
+      self.step += 1
       return
       
     }
