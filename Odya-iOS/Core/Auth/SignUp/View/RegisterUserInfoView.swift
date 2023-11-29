@@ -66,8 +66,8 @@ struct RegisterUserInfoView: View {
                                 userInfo: $signUpVM.userInfo)
           .environmentObject(signUpVM)
       case 3:
-        RegisterTopicsView()
-          .environmentObject(signUpVM)
+        RegisterTopicsView($signUpVM.step,
+                           userInfo: $signUpVM.userInfo)
       case 4:
         RegisterFollowsView()
           .environmentObject(signUpVM)
