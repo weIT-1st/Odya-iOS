@@ -29,22 +29,15 @@ final class FeedUserSearchViewModel: ObservableObject {
   @Published private(set) var state = SearchedUserState()
   
   /// 검색할 텍스트
-  @Published var searchText: String = "" {
-    didSet {
-      if !searchText.isEmpty {
-        state = SearchedUserState()
-        searchUserNextPageIfPossible()
-      }
-    }
-  }
+  @Published var searchText: String = ""
   
   // MARK: - Helper functions
   
   /// 유저 검색
-  func searchUserNextPageIfPossible() {
+  func searchUserNextPageIfPossible(query: String) {
     guard state.canLoadNextPage else { return }
     
-    userProvider.requestPublisher(.searchUser(size: 10, lastId: state.lastId, nickname: searchText))
+    userProvider.requestPublisher(.searchUser(size: 10, lastId: state.lastId, nickname: query))
       .sink { completion in
         switch completion {
         case .finished:
@@ -62,6 +55,10 @@ final class FeedUserSearchViewModel: ObservableObject {
         }
       }
       .store(in: &subscription)
+  }
+  
+  func initiateState() {
+    state = SearchedUserState()
   }
   
   func deleteSearchText() {

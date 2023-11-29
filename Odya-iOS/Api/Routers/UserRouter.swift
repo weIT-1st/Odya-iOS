@@ -59,7 +59,7 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       params["size"] = size
       params["lastId"] = lastId
       params["nickname"] = nickname
-      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain
     }

@@ -11,6 +11,8 @@ struct FeedUserSearchView: View {
   // MARK: Properties
   @StateObject private var viewModel = FeedUserSearchViewModel()
   @Binding var isPresented: Bool
+  /// 검색할 텍스트
+  @State private var searchText: String = ""
   
   // MARK: - Body
   
@@ -27,17 +29,23 @@ struct FeedUserSearchView: View {
           }
         }
       }
-      Text("")
     } // VStack
     .padding(GridLayout.side)
+    .background(Color.odya.background.normal)
+    .onChange(of: searchText) { newValue in
+      if !newValue.isEmpty {
+        viewModel.initiateState()
+        viewModel.searchUserNextPageIfPossible(query: searchText)
+      }
+    }
   }
   
   /// 검색창
   private var searchBar: some View {
     HStack(spacing: 22) {
       HStack(alignment: .center, spacing: 0) {
-        TextField("친구를 찾아보세요!", text: $viewModel.searchText)
-          .b2Style()
+        TextField("친구를 찾아보세요!", text: $searchText)
+          .b1Style()
           .foregroundColor(.odya.label.normal)
         Spacer()
         if viewModel.searchText.isEmpty {
@@ -49,7 +57,7 @@ struct FeedUserSearchView: View {
             // action: 현재 검색어 지우기
             viewModel.deleteSearchText()
           } label: {
-            Image("smallGreyButton-x")
+            Image("smallGreyButton-x-filled-elv5")
           }
         }
       }
