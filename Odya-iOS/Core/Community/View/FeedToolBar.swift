@@ -8,35 +8,45 @@
 import SwiftUI
 
 struct FeedToolBar: View {
+  // MARK: Properties
+  
+  @State private var showSearchView = false
+  
   // MARK: - Body
 
   var body: some View {
-    HStack(alignment: .center) {
-      // symbol mark
-      Image("odya-logo-s")
-        .frame(width: 48, height: 48, alignment: .center)
-
-      Spacer()
-
-      // search icon
-      Button {
-        // action: search
-      } label: {
-        Image("search")
-          .padding(10)
+    ZStack {
+      HStack(alignment: .center) {
+        // symbol mark
+        Image("odya-logo-s")
           .frame(width: 48, height: 48, alignment: .center)
-      }
 
-      // alarm on/off
-      Button {
-        // action: show alarm
-      } label: {
-        Image("alarm-on")
-          .padding(10)
-          .frame(width: 48, height: 48, alignment: .center)
+        Spacer()
+
+        // search icon
+        Button {
+          showSearchView.toggle()
+        } label: {
+          Image("search")
+            .padding(10)
+            .frame(width: 48, height: 48, alignment: .center)
+        }
+
+        // alarm on/off
+        Button {
+          // action: show alarm
+        } label: {
+          Image("alarm-on")
+            .padding(10)
+            .frame(width: 48, height: 48, alignment: .center)
+        }
+      }  // HStack
+      .frame(height: 56)
+      
+      if showSearchView {
+        FeedUserSearchView(isPresented: $showSearchView)
       }
-    }  // HStack
-    .frame(height: 56)
+    }
   }
 }
 
