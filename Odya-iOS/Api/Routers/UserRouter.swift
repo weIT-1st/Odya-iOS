@@ -15,6 +15,7 @@ enum UserRouter {
   case getUserStatistics(userId: Int)
   // 사용자 프로필 사진 변경
   case updateUserProfileImage(profileImg: (data: Data, name: String)?)
+  case searchUser(size: Int?, lastId: Int?, nickname: String)
 }
 
 extension UserRouter: TargetType, AccessTokenAuthorizable {
@@ -30,6 +31,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/users/\(userId)/statistics"
     case .updateUserProfileImage:
       return "/api/v1/users/profile"
+    case .searchUser:
+      return "/api/v1/users/search"
     }
   }
   
@@ -51,6 +54,12 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       var formData: [MultipartFormData] = []
       formData.append(MultipartFormData(provider: .data(profileImg.data), name: "profile", fileName: "\(profileImg.name)", mimeType: "image/webp"))
       return .uploadMultipart(formData)
+    case .searchUser(let size, let lastId, let nickname):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["lastId"] = lastId
+      params["nickname"] = nickname
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain
     }

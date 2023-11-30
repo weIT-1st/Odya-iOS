@@ -28,6 +28,11 @@ final class TopicListViewModel: ObservableObject {
   
   @Published var ProcessingMyTopicsCount: Int = 0
   
+  // MARK: - Init
+  init() {
+    fetchTopicList()
+  }
+
   // MARK: - Read
   /// 토픽 리스트 조회
   func fetchTopicList() {
