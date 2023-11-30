@@ -65,7 +65,6 @@ class SignUpViewModel: ObservableObject {
       // 테스트용
       self.step += 1
       return
-      
     }
   }
   

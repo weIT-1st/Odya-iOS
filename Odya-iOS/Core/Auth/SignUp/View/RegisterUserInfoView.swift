@@ -73,7 +73,7 @@ struct RegisterUserInfoView: View {
           .environmentObject(signUpVM)
       default:
         Spacer()
-        Text("kkk")
+        Text("Error")
         Spacer()
       }
     }
