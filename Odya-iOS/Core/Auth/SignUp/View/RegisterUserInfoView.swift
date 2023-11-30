@@ -64,8 +64,6 @@ struct RegisterUserInfoView: View {
       // 단계 인디케이터
       SignUpIndicatorView(step: $signUpVM.step)
       
-      Spacer()
-      
       switch signUpStep {
       case 1: // 닉네임
         RegisterNicknameView($signUpVM.step,
@@ -79,8 +77,8 @@ struct RegisterUserInfoView: View {
         RegisterTopicsView($signUpVM.step,
                            userInfo: $signUpVM.userInfo)
       case 4: // 팔로우 가능한 친구
-        RegisterFollowsView()
-          .environmentObject(signUpVM)
+        RegisterFollowsView($signUpVM.step,
+                            userInfo: $signUpVM.userInfo)
       default:
         Spacer()
         Text("Error")

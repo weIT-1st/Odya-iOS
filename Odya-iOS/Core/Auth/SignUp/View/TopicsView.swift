@@ -7,18 +7,26 @@
 
 import SwiftUI
 
+/// 사용자 관심 토픽 선택 뷰
 struct RegisterTopicsView: View {
-//  @EnvironmentObject var signUpVM: SignUpViewModel
+  /// 토픽 api
   @StateObject var topicListVM = TopicListViewModel()
   
+  /// 회원가입 단계
   @Binding var signUpStep: Int
   
+  /// 회원가입한 사용자 정보
   @Binding var userInfo: SignUpInfo
   
+  /// 사용자 닉네임
   var nickname: String { userInfo.nickname }
   
+  /// 화면에 표시되는 토픽 리스트
+  /// word: 토픽 내용, isPicked: 선택 여부
   @State private var displayedTopics : [Int: (word: String, isPicked: Bool)] = [:]
   
+  /// 다음 단계로 넘어갈 수 있는지 여부
+  /// 최소 3개의 토픽이 선택되어야 함
   private var isNextButtonActive: ButtonActiveSate {
     return displayedTopics.filter{ $0.value.isPicked }.count >= 3 ? .active : .inactive
   }
@@ -30,15 +38,19 @@ struct RegisterTopicsView: View {
   
   var body: some View {
     VStack {
-      VStack(alignment: .leading) {
+      
+      Spacer()
+      
+      VStack(alignment: .leading, spacing: 0) {
+        // title
         titleText
-          .frame(height: 130) // 뒷페이지와 높이 맞추기용
-          .padding(.top, 120) // 뒷페이지와 높이 맞추기용
-          .padding(.bottom, 30) // 뒷페이지와 높이 맞추기용
+          .frame(height: 160) // 뒷페이지와 title height 맞추기용
         
+        // topic list
         topicsGridView()
-        
-      }.padding(.horizontal, GridLayout.side)
+      }
+      .frame(minHeight: 300, maxHeight: 380)
+      .padding(.horizontal, GridLayout.side)
       
       Spacer()
       
@@ -49,6 +61,7 @@ struct RegisterTopicsView: View {
       .padding(.bottom, 45)
     }
     .onAppear {
+      // for test
       displayedTopics = [1: (word: "바다여행", isPicked: false),
                          2: (word: "캠핑여행", isPicked: false),
                          3: (word: "취미여행", isPicked: false),
@@ -73,6 +86,7 @@ struct RegisterTopicsView: View {
     }
   }
   
+  // MARK: Title
   private var titleText: some View {
     VStack(alignment: .leading, spacing: 10) {
       VStack(alignment: .leading, spacing: 0) {
@@ -96,6 +110,9 @@ struct RegisterTopicsView: View {
 }
 
 extension RegisterTopicsView {
+  // MARK: Topics Grid View
+  /// 토픽 리스트가 그리드 형태로 나열됨
+  /// 화면의 가로 길이에 맞춰 최대한 많은 토픽이 나열되면 하나의 row에 있는 토픽들은 가운데 정렬
   private func topicsGridView() -> some View {
     VStack {
       ScrollView(.vertical, showsIndicators: false) {
@@ -106,38 +123,10 @@ extension RegisterTopicsView {
         }
       }
     }
-//    var width: CGFloat = .zero
-//    var height: CGFloat = .zero
-//
-//    return ZStack(alignment: .topLeading) {
-//      ForEach(displayedTopics.keys.sorted(), id: \.self) { id in
-//        buttonItem(for: id)
-//          .padding(.horizontal, 2.5)
-//          .padding(.vertical, 5)
-//          .alignmentGuide(.leading, computeValue: { d in
-//            if (abs(width - d.width) > g.size.width) {
-//              width = 0
-//              height -= d.height
-//            }
-//            let result = width
-//            if id == displayedTopics.keys.sorted().last! {
-//              width = 0 //last item
-//            } else {
-//              width -= d.width
-//            }
-//            return result
-//          })
-//          .alignmentGuide(.top, computeValue: {d in
-//            let result = height
-//            if id == displayedTopics.keys.sorted().last! {
-//              height = 0 // last item
-//            }
-//            return result
-//          })
-//      }
-//    }
   }
 
+  // MARK: Topic Button
+  /// 토픽 버튼, 클릭 시 선택/선택 해제 됨
   func buttonItem(for id: Int) -> some View {
     let topic = displayedTopics[id]!
     return FishchipButton(
@@ -155,9 +144,9 @@ extension RegisterTopicsView {
   }
 }
 
-struct RegisterTopicsView_Previews: PreviewProvider {
-  static var previews: some View {
-    RegisterTopicsView(.constant(3),
-                       userInfo: .constant(SignUpInfo(nickname: "길동아밥먹자")))
-  }
-}
+//struct RegisterTopicsView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    RegisterTopicsView(.constant(3),
+//                       userInfo: .constant(SignUpInfo(nickname: "길동아밥먹자")))
+//  }
+//}

@@ -7,23 +7,32 @@
 
 import SwiftUI
 
+/// 사용자 닉네임 입력 뷰
 struct RegisterNicknameView: View {
-//  @EnvironmentObject var signUpVM: SignUpViewModel
+  /// 닉네임 유효성 검사
   @StateObject var validatorApi = AuthValidatorApiViewModel()
   
+  /// 회원가입 단계
   @Binding var signUpStep: Int
   
+  /// 회원가입할 사용자 정보
   @Binding var userInfo: SignUpInfo
   
+  /// 입력된 닉네임
   @State private var nickname: String = ""
   
+  /// 닉네임 편집 여부
   private var isEditing: Bool {
     nickname != userInfo.nickname
   }
+  
+  /// 닉네임 유효성 여부 - 최소 2자~최대 8자, 특수문자 불가능
   private var isValid: Bool {
     UserInfoField.nickname.isValid(value: nickname)
   }
   
+  /// 다음 단계로 넘어갈 수 있는지 여부
+  /// 중복여부는 포함되지 않음
   private var isNextButtonActive: ButtonActiveSate {
     return (!nickname.isEmpty && isValid) ? .active : .inactive
   }
@@ -39,20 +48,26 @@ struct RegisterNicknameView: View {
     VStack {
       Spacer()
       
-      // input section
       VStack(alignment: .leading, spacing: 0) {
+        // title
         Text("오댜에서 활동할 \n이름을 알려주세요!")
           .h3Style()
           .foregroundColor(.odya.label.normal)
           .padding(.bottom, 20)
+        
+        // input section
         nicknameTextField
+        
+        // validation text
         nicknameValidationText
           .padding(10)
       }.padding(.horizontal, GridLayout.side)
       
       Spacer()
       
-      // next button
+      /// 다음 회원가입 단계로 넘어가는 버튼
+      /// 중복된 닉네임이 있는지 검사 후 중복이 아니면 다음 단계로 넘어감
+      /// 닉네임이 중복일 경우 alert를 띄움
       CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
         checkNickname()
       }
@@ -104,6 +119,9 @@ struct RegisterNicknameView: View {
 }
   
 extension RegisterNicknameView {
+  /// 닉네임 유효성(중복) 확인 함수
+  /// 유효할 경우 다음 단계로 넘어가도록 signUpStep을 1증가시킴'
+  /// 유효하지 않을 경우 alert flag를 킴
   func checkNickname() {
     validatorApi.validateNickname(nickname: nickname) { result in
       if result {

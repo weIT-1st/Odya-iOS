@@ -7,44 +7,56 @@
 
 import SwiftUI
 
+/// 팔로우 가능한 친구를 추천해주는 뷰
 struct RegisterFollowsView: View {
-  @EnvironmentObject var signUpVM: SignUpViewModel
   
-  var nickname: String { signUpVM.userInfo.nickname }
+  /// 회원가입 단계
+  @Binding var signUpStep: Int
+  
+  /// 회원가입한 사용자 정보
+  @Binding var userInfo: SignUpInfo
+  
+  /// 사용자 닉네임
+  var nickname: String { userInfo.nickname }
+  
+  init(_ step: Binding<Int>, userInfo: Binding<SignUpInfo>) {
+    self._signUpStep = step
+    self._userInfo = userInfo
+  }
+  
+  // MARK: Body
   
   var body: some View {
     VStack {
-      VStack(alignment: .leading) {
+      
+      Spacer()
+      
+      VStack(alignment: .leading, spacing: 0) {
+        // title
         titleText
-          .frame(height: 130) // 뒷페이지와 높이 맞추기용
-          .padding(.top, 120) // 뒷페이지와 높이 맞추기용
-          .padding(.bottom, 30) // 뒷페이지와 높이 맞추기용
+          .frame(height: 160) // 뒷페이지와 title height 맞추기용
         
         // 알 수도 있는 친구
         HStack {
           ScrollView(.horizontal, showsIndicators: false) {
-            // TODO
-            // 연락처 기반 친구 추천 리스트
+            // TODO: 연락처 기반 친구 추천 리스트
           }
         }
-        
-        
-      }.padding(.horizontal, GridLayout.side)
+      }
+      .frame(minHeight: 300, maxHeight: 380)
+      .padding(.horizontal, GridLayout.side)
       
       Spacer()
       
-      
       // next button
       CTAButton( isActive: .active, buttonStyle: .solid, labelText: "등록 완료", labelSize: .L) {
-        signUpVM.step += 1
+        signUpStep += 1
       }
       .padding(.bottom, 45)
     }
-    .onAppear {
-
-    }
   }
   
+  // MARK: Title
   private var titleText: some View {
     VStack(alignment: .leading, spacing: 10) {
       VStack(alignment: .leading, spacing: 0) {
