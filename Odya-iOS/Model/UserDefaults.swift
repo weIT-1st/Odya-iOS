@@ -27,6 +27,36 @@ struct UserDefault<T> {
     }
 }
 
+/// 기본타입이 아닌 값(ex. Struct)을 UserDefaults에 data로 저장한뒤 로드, 저장시마다 인코딩, 디코딩 수행
+@propertyWrapper
+struct CodableUserDefault<T: Codable> {
+  private let key: String
+  private let defaultValue: T?
+  
+  init(key: String, defaultValue: T?) {
+    self.key = key
+    self.defaultValue = defaultValue
+  }
+  
+  var wrappedValue: T? {
+    get {
+      if let savedData = UserDefaults.standard.object(forKey: key) as? Data {
+        let decoder = JSONDecoder()
+        if let lodedObejct = try? decoder.decode(T.self, from: savedData) {
+          return lodedObejct
+        }
+      }
+      return defaultValue
+    }
+    set {
+      let encoder = JSONEncoder()
+      if let encoded = try? encoder.encode(newValue) {
+        UserDefaults.standard.setValue(encoded, forKey: key)
+      }
+    }
+  }
+}
+
 /// 내 정보
 struct MyData {
     @UserDefault(key: keyEnum_MyData.userId.rawValue, defaultValue: -1)
@@ -63,6 +93,12 @@ struct SearchData {
     static var recentSearchText: [String]
 }
 
+/// 최근 검색된 유저 저장
+struct SearchUserData {
+  @CodableUserDefault(key: keyEnum_Search.recentSearchUser.rawValue, defaultValue: nil)
+  static var recentSearchUser: [SearchedUserContent]?
+}
+
 enum keyEnum_MyData: String {
     case userId
     case nickname
@@ -79,4 +115,5 @@ enum keyEnum_APPLE_USER: String {
 
 enum keyEnum_Search: String {
     case recentSearchText
+    case recentSearchUser
 }

@@ -27,13 +27,16 @@ final class FeedUserSearchViewModel: ObservableObject {
   }
   
   @Published private(set) var state = SearchedUserState()
+  @Published var isLoading: Bool = false
+  @Published var userList = SearchUserData.recentSearchUser
   
-  // MARK: - Helper functions
+  // MARK: - Search
   
   /// 유저 검색
   func searchUserNextPageIfPossible(query: String) {
     guard state.canLoadNextPage else { return }
     
+    isLoading = true
     subscription.forEach { $0.cancel() }
     
     userProvider.requestPublisher(.searchUser(size: 10, lastId: state.lastId, nickname: query))
@@ -41,10 +44,12 @@ final class FeedUserSearchViewModel: ObservableObject {
         switch completion {
         case .finished:
           print("유저 검색 완료 - 다음 페이지 \(self.state.canLoadNextPage)")
+          self.isLoading = false
         case .failure(let error):
           if let errorData = try? error.response?.map(ErrorData.self) {
             print(errorData.message)
           }
+          self.isLoading = false
         }
       } receiveValue: { response in
         if let data = try? response.map(SearchedUser.self) {
@@ -56,7 +61,39 @@ final class FeedUserSearchViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  /// 검색결과 초기화
   func initiateState() {
     state = SearchedUserState()
+  }
+  
+  // MARK: - Handle recent search
+  
+  /// 최근 유저 검색목록에 유저 추가
+  func appendRecentSearch(user: SearchedUserContent) {
+    guard let _ = userList else {
+      SearchUserData.recentSearchUser = [user]
+      return
+    }
+    
+    removeRecentSearch(user: user)
+    userList?.append(user)
+    limitNumberOfRecentSearch()
+    SearchUserData.recentSearchUser = userList
+  }
+  
+  /// 최근 유저 검색목록에서 유저 삭제
+  func removeRecentSearch(user: SearchedUserContent) {
+    if let index = userList?.firstIndex(of: user) {
+      userList?.remove(at: index)
+      SearchUserData.recentSearchUser = userList
+    }
+  }
+  
+  /// 최대 20개까지 유저검색목록 유지
+  func limitNumberOfRecentSearch() {
+    guard let count = userList?.count else { return }
+    if count > 20 {
+      userList?.removeFirst()
+    }
   }
 }

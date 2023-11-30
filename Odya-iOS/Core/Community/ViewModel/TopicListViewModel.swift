@@ -22,6 +22,11 @@ final class TopicListViewModel: ObservableObject {
 
   /// 토픽 리스트 저장
   @Published var topicList: [Topic] = []
+  
+  // MARK: - Init
+  init() {
+    fetchTopicList()
+  }
 
   // MARK: - Read
   /// 토픽 리스트 조회

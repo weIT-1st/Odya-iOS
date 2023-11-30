@@ -19,18 +19,48 @@ struct FeedUserSearchView: View {
   var body: some View {
     VStack(spacing: 30) {
       searchBar
-      // TODO: 최근검색 or 검색결과
-      ScrollView(.vertical, showsIndicators: false) {
-        recentSearchLabel
-
-        LazyVStack(spacing: 10) {
-          ForEach(viewModel.state.content, id: \.userId) { content in
-            FeedUserSearchCell(isSearching: true, content: content)
-              .onAppear {
-                if viewModel.state.content.last == content {
-                  viewModel.searchUserNextPageIfPossible(query: searchText)
-                }
+      
+      if searchText.isEmpty {
+        ScrollView(.vertical, showsIndicators: false) {
+          // 최근 검색
+          recentSearchLabel
+          LazyVStack(spacing: 10) {
+            ForEach(viewModel.userList?.reversed() ?? [], id: \.userId) { user in
+              NavigationLink {
+                Text("프로필뷰")
+                  .onAppear {
+                    viewModel.appendRecentSearch(user: user)
+                  }
+              } label: {
+                FeedUserSearchCell(isSearching: false, content: user)
+                  .environmentObject(viewModel)
               }
+            }
+          }
+        }
+      } else {
+        // 검색 결과
+        ScrollView(.vertical, showsIndicators: false) {
+          if viewModel.isLoading {
+            ProgressView()
+          }
+          LazyVStack(spacing: 10) {
+            ForEach(viewModel.state.content, id: \.userId) { content in
+              NavigationLink {
+                Text("테스트")
+                  .onAppear {
+                    viewModel.appendRecentSearch(user: content)
+                  }
+              } label: {
+                FeedUserSearchCell(isSearching: true, content: content)
+                  .environmentObject(viewModel)
+                  .onAppear {
+                    if viewModel.state.content.last == content {
+                      viewModel.searchUserNextPageIfPossible(query: searchText)
+                    }
+                  }
+              }
+            }
           }
         }
       }
@@ -96,6 +126,8 @@ struct FeedUserSearchView: View {
 
 /// FeedUserSearchCell
 struct FeedUserSearchCell: View {
+  @EnvironmentObject var viewModel: FeedUserSearchViewModel
+  
   let isSearching: Bool
   let content: SearchedUserContent
   
@@ -111,7 +143,7 @@ struct FeedUserSearchCell: View {
       Spacer()
       if !isSearching {
         CustomIconButton("x", color: .odya.line.normal) {
-          // TODO: 최근검색에서 삭제
+          viewModel.removeRecentSearch(user: content)
         }
       }
     }
