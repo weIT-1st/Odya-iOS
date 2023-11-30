@@ -7,8 +7,12 @@
 
 import SwiftUI
 
+/// 앱에서 사용되는 권한 및 약관에 대해 설명이 포함된 뷰
+/// 권한과 약관에 대해 사용자의 동의를 얻어냄
 struct TermsView: View {
   
+  /// 권한 내용 set
+  /// 권한 종류, 권한이 필요한 이유, 권한 아이콘 이미지
   struct Permission: Identifiable {
     let id = UUID()
     let type: String
@@ -26,8 +30,10 @@ struct TermsView: View {
 
   @StateObject var viewModel = TermsViewModel()
   
-  // user info
+  /// 회원가입 단계
   @Binding var signUpStep: Int
+  
+  /// 사용자가 동의한 terms 리스트
   @Binding var termsList: [Int]
   
   // permissions
@@ -39,16 +45,19 @@ struct TermsView: View {
      Permission("앱 푸쉬 알림", "게시물의 오댜, 댓글, 태그 상태를 알 수 있어요", "alarm-off"),
      Permission("연락처", "연락처 기반 친구추천을 받을 수 있어요", "call")]
      
-  // terms
+  /// terms
   var selectedTerms: Terms? {
     viewModel.termsList.first
   }
   
-  // terms 가 여러 개일 때
+  /// terms 가 여러 개일 때, 선택된 terms
   // @State private var selectedTerms: Terms
   
+  /// terms 내용을 보여주고 동의를 얻을 수 있는 바텀시트 표시 여부
   @State var showSheet: Bool = false
   
+  /// 모든 필수 terms 동의를 받았는지 여부
+  /// 현재 terms 가 하나이기 때문에 사용되고 있지 않음
   private var isNextButtonActive: ButtonActiveSate {
     return (termsList.contains(viewModel.requiredList) && !viewModel.requiredList.isEmpty) ? .active : .inactive
   }
@@ -64,10 +73,12 @@ struct TermsView: View {
     VStack {
       Spacer()
       
+      // 권한 뷰 title
       titleText
       
       Spacer()
       
+      // 필요한 권한 리스트
       VStack(spacing: 13) {
         ForEach(permissions, id: \.id) { permission in
           self.generatePermissionDescriptionView(permission)
@@ -76,6 +87,7 @@ struct TermsView: View {
       
       Spacer()
       
+      // 다음 회원가입 단계로 넘어가는 버튼
       CTAButton(isActive: .active, buttonStyle: .solid, labelText: "오댜 시작하기", labelSize: .L) {
         showSheet.toggle()
       }
@@ -83,6 +95,7 @@ struct TermsView: View {
     }  // VStack
     .padding(.horizontal, GridLayout.side)
     .task {
+      // 서버에서 terms 리스트 받아오기
       viewModel.getTermsList()
     }
     .sheet(isPresented: $showSheet) {
@@ -93,6 +106,7 @@ struct TermsView: View {
     }
   }
   
+  // MARK: title
   private var titleText: some View {
     VStack(alignment: .leading, spacing: 20) {
       Text("더 나은 서비스를 위해서 \n권한 동의가 필요해요")
@@ -107,7 +121,9 @@ struct TermsView: View {
   }
 }
 
+// MARK: Premission Description View
 extension TermsView {
+  /// 사용되는 권한에 대한 설명 뷰
   func generatePermissionDescriptionView(_ permission: Permission) -> some View {
     return HStack(spacing: 36) {
       Image(permission.imageName)
@@ -132,7 +148,9 @@ extension TermsView {
   }
 }
 
+// MARK: Terms Content Sheet
 extension TermsView {
+  /// 동의를 얻어야 하는 terms content & 동의 버튼
   func generateTermsContetnSheet() -> some View {
     VStack(spacing: GridLayout.spacing) {
       if let terms = selectedTerms {

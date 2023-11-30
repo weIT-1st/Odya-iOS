@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 사용자 정보를 입력받는 4단계에 대한 인디케이터
 private struct SignUpIndicatorView: View {
   @Binding var step: Int
   
@@ -18,6 +19,8 @@ private struct SignUpIndicatorView: View {
   }
   
   private var backButton: some View {
+    // 첫 단계 제외 뒤로가기 버튼 표시
+    // TODO: 회원가입 완료 후 토픽 뷰에서 뒤로가기 가능?
     HStack {
       Button( action: { step -= 1 }) {
         Text("뒤로가기")
@@ -46,29 +49,36 @@ private struct SignUpIndicatorView: View {
   }
 }
 
+/// 회원가입에 필요한 사용자 정보를 입력받는 뷰
+/// 닉네임, 생일 및 성별, 관심 토픽, 팔로우할 친구
+/// 앱에서 제공되는 토픽들과 팔로우 가능한 친구 정보는 회원가입 이후에 접근 가능하므로
+/// 생일 및 성별까지 입력 받은 후 서버에 사용자 등록(회원가입)을 실행함
 struct RegisterUserInfoView: View {
   @EnvironmentObject var signUpVM: SignUpViewModel
   
+  /// 회원가입 단계
   var signUpStep:  Int { signUpVM.step }
 
   var body: some View {
     VStack {
+      // 단계 인디케이터
       SignUpIndicatorView(step: $signUpVM.step)
       
       Spacer()
       
       switch signUpStep {
-      case 1:
+      case 1: // 닉네임
         RegisterNicknameView($signUpVM.step,
                              userInfo: $signUpVM.userInfo)
-      case 2:
+      case 2: // 생일 및 성별
+        // 여기서 서버 계정 등록이 실행됨
         RegisterDefaultInfoView($signUpVM.step,
                                 userInfo: $signUpVM.userInfo)
           .environmentObject(signUpVM)
-      case 3:
+      case 3: // 관심 토픽
         RegisterTopicsView($signUpVM.step,
                            userInfo: $signUpVM.userInfo)
-      case 4:
+      case 4: // 팔로우 가능한 친구
         RegisterFollowsView()
           .environmentObject(signUpVM)
       default:
