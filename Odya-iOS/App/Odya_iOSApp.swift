@@ -37,7 +37,7 @@ struct Odya_iOSApp: App {
         } // if not ready
         
         else {
-          if idToken == nil {
+          if idToken == nil || authType == "" {
             LoginView()
               .environmentObject(appleAuthVM)
               .environmentObject(kakaoAuthVM)

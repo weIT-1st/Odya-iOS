@@ -13,6 +13,10 @@ class SignUpViewModel: ObservableObject {
   /// combine
   var subscription = Set<AnyCancellable>()
   
+  /// 사용자 정보
+  @AppStorage("WeITAuthToken") var idToken: String?
+  @AppStorage("WeITAuthType") var authType: String = ""
+  
   /// 로그인 타입
   let socialType: SocialLoginType
   
@@ -21,6 +25,7 @@ class SignUpViewModel: ObservableObject {
   
   /// 회원가입 데이터
   @Published var userInfo: SignUpInfo
+  @Published var favoriteTopicIds: [Int] = []
   
   init(socialType: SocialLoginType, userInfo: SignUpInfo) {
     self.socialType = socialType
@@ -41,6 +46,7 @@ class SignUpViewModel: ObservableObject {
                     termsIdList: userInfo.termsIdList) { (success, errMsg) in
         if success {
           print("카카오로 회원가입 성공")
+          // TODO: kakao login
           self.step += 1
         } else {
           print("카카오로 회원가입 실패 - \(errMsg ?? "")")
@@ -56,6 +62,7 @@ class SignUpViewModel: ObservableObject {
                     termsIdList: userInfo.termsIdList) { (success, errMsg) in
         if success {
           print("애플로 회원가입 성공")
+          self.idToken = self.userInfo.idToken
           self.step += 1
         } else {
           print("애플로 회원가입 실패 - \(errMsg ?? "")")

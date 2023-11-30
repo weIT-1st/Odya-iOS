@@ -16,14 +16,14 @@ struct RegisterTopicsView: View {
   @Binding var signUpStep: Int
   
   /// 회원가입한 사용자 정보
-  @Binding var userInfo: SignUpInfo
-  
-  /// 사용자 닉네임
-  var nickname: String { userInfo.nickname }
+  let nickname: String
   
   /// 화면에 표시되는 토픽 리스트
   /// word: 토픽 내용, isPicked: 선택 여부
   @State private var displayedTopics : [Int: (word: String, isPicked: Bool)] = [:]
+  
+  /// 다음 버튼 클릭 후 관심 토픽 처리 중 상태
+  @State private var isMyTopicsProcessing: Bool = false
   
   /// 다음 단계로 넘어갈 수 있는지 여부
   /// 최소 3개의 토픽이 선택되어야 함
@@ -31,9 +31,9 @@ struct RegisterTopicsView: View {
     return displayedTopics.filter{ $0.value.isPicked }.count >= 3 ? .active : .inactive
   }
   
-  init(_ step: Binding<Int>, userInfo: Binding<SignUpInfo>) {
+  init(_ step: Binding<Int>, _ myTopics: Binding<[Int]>, nickname: String) {
     self._signUpStep = step
-    self._userInfo = userInfo
+    self.nickname = nickname
   }
   
   var body: some View {
@@ -55,34 +55,64 @@ struct RegisterTopicsView: View {
       Spacer()
       
       // next button
-      CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
-        signUpStep += 1
+      if isMyTopicsProcessing == false {
+        CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
+          isMyTopicsProcessing = true
+          let deleteList : [Int] = displayedTopics.filter{ topic in
+            topic.value.isPicked == false
+            && topicListVM.myTopicList.contains(where : {$0.id == topic.key})
+          }.map{ $0.key }
+          deleteList.forEach { id in
+            topicListVM.deleteMyTopic(id: id)
+          }
+          
+          let addList : [Int] = displayedTopics.filter{ topic in
+            topic.value.isPicked == true
+            && !topicListVM.myTopicList.contains(where : {$0.id == topic.key})
+          }.map{ $0.key }
+          topicListVM.addMyTopics(idList: addList)
+        }
+        .padding(.bottom, 45)
+        .onChange(of: topicListVM.ProcessingMyTopicsCount) { newValue in
+          if newValue == 0 {
+            isMyTopicsProcessing = false
+            signUpStep += 1
+          }
+        }
+      } else {
+        Button(action: {}) {
+          ProgressView()
+        }.buttonStyle(CustomButtonStyle(state: .inactive, style: .solid))
       }
-      .padding(.bottom, 45)
     }
     .onAppear {
       // for test
-      displayedTopics = [1: (word: "바다여행", isPicked: false),
-                         2: (word: "캠핑여행", isPicked: false),
-                         3: (word: "취미여행", isPicked: false),
-                         4: (word: "식도락", isPicked: false),
-                         5: (word: "휴양지", isPicked: false),
-                         6: (word: "겨울여행", isPicked: false),
-                         7: (word: "여름여행", isPicked: false),
-                         8: (word: "꽃놀이", isPicked: false),
-                         9: (word: "가을여행", isPicked: false),
-                         10: (word: "지역축제", isPicked: false),
-                         11: (word: "가족여행", isPicked: false),
-                         12: (word: "커플여행", isPicked: false),
-                         13: (word: "나홀로여행", isPicked: false),
-                         14: (word: "촌캉스", isPicked: false)]
-//      displayedTopics = [:]
-//      topicListVM.topicList.forEach { topic in
-//        displayedTopics[topic.id] = (word: topic.word, isPicked: false)
-//      }
-//      signUpVM.favoriteTopics.forEach { topic in
-//        displayedTopics[topic.id] =  (word: topic.word, isPicked: true)
-//      }
+//      displayedTopics = [1: (word: "바다여행", isPicked: false),
+//                         2: (word: "캠핑여행", isPicked: false),
+//                         3: (word: "취미여행", isPicked: false),
+//                         4: (word: "식도락", isPicked: false),
+//                         5: (word: "휴양지", isPicked: false),
+//                         6: (word: "겨울여행", isPicked: false),
+//                         7: (word: "여름여행", isPicked: false),
+//                         8: (word: "꽃놀이", isPicked: false),
+//                         9: (word: "가을여행", isPicked: false),
+//                         10: (word: "지역축제", isPicked: false),
+//                         11: (word: "가족여행", isPicked: false),
+//                         12: (word: "커플여행", isPicked: false),
+//                         13: (word: "나홀로여행", isPicked: false),
+//                         14: (word: "촌캉스", isPicked: false)]
+      displayedTopics = [:]
+      topicListVM.topicList.forEach { topic in
+        displayedTopics[topic.id] = (word: topic.word, isPicked: false)
+      }
+        
+      topicListVM.fetchMyTopicList() {success in
+        if success {
+          topicListVM.myTopicList.forEach { topic in
+            displayedTopics[topic.id] = (word: topic.word, isPicked: true)
+          }
+        }
+      }
     }
   }
   
