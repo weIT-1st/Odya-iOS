@@ -19,7 +19,9 @@ struct FeedView: View {
   @State private var selectedFeedToggle = FeedToggleType.all
   /// 선택된 토픽 아이디
   @State private var selectedTopicId = -1
-
+  /// 검색뷰 토글
+  @State private var showSearchView = false
+  
   // MARK: - Body
 
   var body: some View {
@@ -28,8 +30,7 @@ struct FeedView: View {
         ZStack(alignment: .bottomTrailing) {
           VStack(spacing: 0) {
             // tool bar
-            // TODO: - 툴바 디자인 변경예정
-            FeedToolBar()
+            feedToolBar
 
             ScrollView(.vertical, showsIndicators: false) {
               // fishchips
@@ -115,6 +116,10 @@ struct FeedView: View {
             WriteButton()
           })
           .padding(20)
+          
+          if showSearchView {
+            FeedUserSearchView(isPresented: $showSearchView)
+          }
         }  // ZStack
         .toolbar(.hidden)
       }
@@ -131,6 +136,35 @@ struct FeedView: View {
     ]
     UIRefreshControl.appearance().attributedTitle = NSAttributedString(
       string: "피드에 올린 곳 오댜?", attributes: attribute as [NSAttributedString.Key: Any])
+  }
+  
+  /// 툴바
+  private var feedToolBar: some View {
+    HStack(alignment: .center) {
+      Image("odya-logo-s")
+        .frame(width: 48, height: 48, alignment: .center)
+
+      Spacer()
+
+      // search icon
+      Button {
+        showSearchView.toggle()
+      } label: {
+        Image("search")
+          .padding(10)
+          .frame(width: 48, height: 48, alignment: .center)
+      }
+
+      // alarm on/off
+      Button {
+        // action: show alarm
+      } label: {
+        Image("alarm-on")
+          .padding(10)
+          .frame(width: 48, height: 48, alignment: .center)
+      }
+    }  // HStack
+    .frame(height: 56)
   }
 
   /// 토글: 전체글보기, 친구글보기
