@@ -16,6 +16,8 @@ class SignUpViewModel: ObservableObject {
   /// 사용자 정보
   @AppStorage("WeITAuthToken") var idToken: String?
   @AppStorage("WeITAuthType") var authType: String = ""
+  // 카카오 회원가입 시 사용자 등록 후 파이어베이스 로그인을 통해 idToken 발급받기 위함
+  let kakaoAccessToken: String
   
   /// 로그인 타입
   let socialType: SocialLoginType
@@ -27,9 +29,12 @@ class SignUpViewModel: ObservableObject {
   @Published var userInfo: SignUpInfo
   @Published var favoriteTopicIds: [Int] = []
   
-  init(socialType: SocialLoginType, userInfo: SignUpInfo) {
+  init(socialType: SocialLoginType,
+       userInfo: SignUpInfo,
+       kakaoAccessToken: String = "") {
     self.socialType = socialType
     self.userInfo = userInfo
+    self.kakaoAccessToken = kakaoAccessToken
   }
   
   func signUp() {
@@ -83,10 +88,10 @@ class SignUpViewModel: ObservableObject {
                               birthday: [Int],
                               termsIdList: [Int],
                               completion: @escaping (Bool, String?) -> Void) {
-    // print("AuthVM - kakaoRegister() called")
+    print("AuthVM - kakaoRegister() called")
     var isSuccess = false
     var errorMessage: String? = nil
-
+    
     AuthApiService.kakaoRegister(
       username: username, email: email, phoneNumber: phoneNumber, nickname: nickname,
       gender: gender, birthday: birthday, termsIdList: termsIdList
@@ -94,17 +99,22 @@ class SignUpViewModel: ObservableObject {
     .sink { apiCompletion in
       switch apiCompletion {
       case .finished:
-//        print("회원가입(카카오) 완료")
+        print("회원가입(카카오) 완료")
         isSuccess = true
         errorMessage = nil
+        if self.kakaoAccessToken != "" {
+          KakaoAuthViewModel().doServerLogin(token: self.kakaoAccessToken)
+        } else {
+          completion(false, "카카오 토큰 오류")
+        }
       case .failure(let error):
         isSuccess = false
         switch error {
         case .http(let errorData):
-//          print("Error: \(errorData.message)")
+          print("Error: \(errorData.message)")
           errorMessage = errorData.message
         default:
-//          debugPrint("Error: \(error)")
+          debugPrint("Error: \(error)")
           errorMessage = error.localizedDescription
         }
       }
@@ -122,10 +132,10 @@ class SignUpViewModel: ObservableObject {
                              birthday: [Int],
                              termsIdList: [Int],
                              completion: @escaping (Bool, String?) -> Void) {
-    // print("AuthVM - appleRegister() called")
+    print("AuthVM - appleRegister() called")
     var isSuccess = false
     var errorMessage: String? = nil
-
+    
     AuthApiService.appleRegister(
       idToken: idToken, email: email, nickname: nickname, phoneNumber: phoneNumber, gender: gender,
       birthday: birthday, termsIdList: termsIdList
@@ -133,17 +143,17 @@ class SignUpViewModel: ObservableObject {
     .sink { apiCompletion in
       switch apiCompletion {
       case .finished:
-        // print("회원가입(애플) 완료")
+        print("회원가입(애플) 완료")
         isSuccess = true
         errorMessage = nil
       case .failure(let error):
         isSuccess = false
         switch error {
         case .http(let errorData):
-          // print("Error: \(errorData.message)")
+          print("Error: \(errorData.message)")
           errorMessage = errorData.message
         default:
-          // debugPrint("Error: \(error)")
+          debugPrint("Error: \(error)")
           errorMessage = error.localizedDescription
         }
       }

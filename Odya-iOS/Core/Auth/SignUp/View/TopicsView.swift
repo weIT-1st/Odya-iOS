@@ -31,7 +31,7 @@ struct RegisterTopicsView: View {
     return displayedTopics.filter{ $0.value.isPicked }.count >= 3 ? .active : .inactive
   }
   
-  init(_ step: Binding<Int>, _ myTopics: Binding<[Int]>, nickname: String) {
+  init(_ step: Binding<Int>, nickname: String) {
     self._signUpStep = step
     self.nickname = nickname
   }

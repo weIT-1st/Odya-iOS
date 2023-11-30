@@ -44,7 +44,9 @@ class KakaoAuthViewModel: ObservableObject {
   /// 회원가입 되지 않은 사용자일 경우
   @Published var isUnauthorized: Bool = false
 
-
+  /// 카카오 Acess 토큰, 카카오 소셜 로그인 성공 시 받아옴
+  /// 이 access 토큰으로 파이어베이스 로그인 진행
+  @Published var kakaoAccessToken: String = ""
   ///
   @AppStorage("WeITAuthToken") var idToken: String?
   ///
@@ -68,16 +70,16 @@ class KakaoAuthViewModel: ObservableObject {
     Task {
       // kakao social login
       var isSocialLoginSuccess: Bool = false
-      var kakaoAccessToken: String? = nil
+      var accessToken: String? = nil
       if UserApi.isKakaoTalkLoginAvailable() {
-        await (isSocialLoginSuccess, kakaoAccessToken) = handleKakaoLoginWithKakaoTalk()
+        await (isSocialLoginSuccess, accessToken) = handleKakaoLoginWithKakaoTalk()
       } else {
-        await (isSocialLoginSuccess, kakaoAccessToken) = handleKakaoLoginWithAccount()
+        await (isSocialLoginSuccess, accessToken) = handleKakaoLoginWithAccount()
       }
 
       // kakao social login failed
       guard isSocialLoginSuccess == true,
-            let token = kakaoAccessToken else {
+            let accessToken = accessToken else {
         print("Error: Kakao social login failed")
         isLoginFailed = true
         isLoginInProgress = false
@@ -87,7 +89,8 @@ class KakaoAuthViewModel: ObservableObject {
       }
 
       // server login & firebase login
-      doServerLogin(token: token)
+      self.kakaoAccessToken = accessToken
+      doServerLogin(token: accessToken)
     }
   }
 

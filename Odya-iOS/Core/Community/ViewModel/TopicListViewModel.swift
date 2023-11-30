@@ -36,6 +36,7 @@ final class TopicListViewModel: ObservableObject {
   // MARK: - Read
   /// 토픽 리스트 조회
   func fetchTopicList() {
+    print("토픽 리스트 조회 시작")
     topicProvider.requestPublisher(.getTopicList)
       .sink { completion in
         switch completion {

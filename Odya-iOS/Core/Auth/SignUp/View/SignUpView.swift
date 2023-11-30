@@ -17,9 +17,14 @@ struct SignUpView: View {
   @StateObject private var authApi = AuthViewModel()
 
   var step : Int { signUpVM.step }
+  @Binding var isUnauthorized: Bool
   
-  init(socialType: SocialLoginType, signUpInfo: SignUpInfo) {
+  
+  init(socialType: SocialLoginType,
+       signUpInfo: SignUpInfo,
+       isUnauthorized: Binding<Bool>) {
     self.signUpVM = SignUpViewModel(socialType: socialType, userInfo: signUpInfo)
+    self._isUnauthorized = isUnauthorized
   }
   
   var body: some View {
@@ -38,45 +43,12 @@ struct SignUpView: View {
           .environmentObject(signUpVM)
       case 5:
         MainLoadingView()
-
-//        ProgressView()
-//          .onAppear {
-//            let birthdayArray = getBirthdayArray(userInfo.birthday)
-//            let genderString = userInfo.gender.toServerForm()
-//
-//            // TODO: 회원가입 api 호출
-//            if appleAuthVM.isUnauthorized {
-//              print("do apple register")
-//              authApi.appleRegister(
-//                idToken: userInfo.idToken, email: userInfo.email, phoneNumber: userInfo.phoneNumber,
-//                nickname: userInfo.nickname, gender: genderString, birthday: birthdayArray, termsIdList: userInfo.termsIdList
-//              ) { result, errorMessage in
-//                guard result else {
-//                  print("Error in SignUpView appleRegister() - \(String(describing: errorMessage))")
-//                  // TODO: 서버로그인 실패 에러처리
-//                  return
-//                }
-//                idToken = userInfo.idToken
-//              }
-//            } else {
-//              print("do kakao register")
-//              authApi.kakaoRegister(
-//                username: userInfo.username, email: userInfo.email,
-//                phoneNumber: userInfo.phoneNumber, nickname: userInfo.nickname,
-//                gender: genderString, birthday: birthdayArray, termsIdList: userInfo.termsIdList
-//              ) { result, errorMessage in
-//                guard result else {
-//                  print("Error in SignUpView kakaoRegister() - \(String(describing: errorMessage))")
-//                  // TODO: 서버로그인 실패 에러처리
-//                  return
-//                }
-//                if let kakaoToken = kakaoAuthVM.kakaoAccessToken {
-//                  kakaoAuthVM.doServerLogin(token: kakaoToken)
-//                }
-//                //                                kakaoAuthVM.isUnauthorized = false
-//              }
-//            }
-//          }
+          .onAppear {
+            /// 로딩화면 타이머
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+              isUnauthorized = false
+            })
+          }
       default:
         LoginView()
       }
@@ -84,8 +56,8 @@ struct SignUpView: View {
   }  // body
 }
 
-struct SignUpView_Preview: PreviewProvider {
-  static var previews: some View {
-    SignUpView(socialType: .unknown, signUpInfo: SignUpInfo())
-  }
-}
+//struct SignUpView_Preview: PreviewProvider {
+//  static var previews: some View {
+//    SignUpView(socialType: .unknown, signUpInfo: SignUpInfo(), isUnauthorized: .constant(true))
+//  }
+//}

@@ -37,11 +37,13 @@ struct Odya_iOSApp: App {
         } // if not ready
         
         else {
-          if idToken == nil || authType == "" {
+          if idToken == nil {
             LoginView()
               .environmentObject(appleAuthVM)
               .environmentObject(kakaoAuthVM)
-          } else {
+          }
+          else if !kakaoAuthVM.isUnauthorized
+                      && !appleAuthVM.isUnauthorized {
             RootTabView()
               /// 토큰 갱신 및 유저 정보 가져오기
               .task {

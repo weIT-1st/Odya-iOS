@@ -75,7 +75,7 @@ struct RegisterUserInfoView: View {
           .environmentObject(signUpVM)
       case 3: // 관심 토픽
         RegisterTopicsView($signUpVM.step,
-                           userInfo: $signUpVM.userInfo)
+                           nickname: signUpVM.userInfo.nickname)
       case 4: // 팔로우 가능한 친구
         RegisterFollowsView($signUpVM.step,
                             userInfo: $signUpVM.userInfo)
@@ -88,8 +88,8 @@ struct RegisterUserInfoView: View {
   }  // body
 }
 
-struct RegisterUserInfoView_Preview: PreviewProvider {
-  static var previews: some View {
-    SignUpView(socialType: .unknown, signUpInfo: SignUpInfo())
-  }
-}
+//struct RegisterUserInfoView_Preview: PreviewProvider {
+//  static var previews: some View {
+//    SignUpView(socialType: .unknown, signUpInfo: SignUpInfo(), isUnauthorized: .constant(true))
+//  }
+//}

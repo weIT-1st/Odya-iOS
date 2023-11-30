@@ -38,15 +38,14 @@ struct KakaoLoginButton: View {
         .frame(height: 44)
         .background(Color("kakao-yellow"))
         .cornerRadius(Radius.small)
-//        .padding(.horizontal, GridLayout.side)
       }
     }
   }
 }
 
 // MARK: PREVIEWS
-struct KakaoLoginView_Previews: PreviewProvider {
-  static var previews: some View {
-    KakaoLoginButton()
-  }
-}
+//struct KakaoLoginView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    KakaoLoginButton()
+//  }
+//}

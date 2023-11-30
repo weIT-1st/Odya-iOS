@@ -42,12 +42,12 @@ struct LoginView: View {
       
       // 카카오로 회원가입
       if kakaoAuthVM.isUnauthorized {
-        SignUpView(socialType: .kakao, signUpInfo: kakaoAuthVM.userInfo)
+        SignUpView(socialType: .kakao, signUpInfo: kakaoAuthVM.userInfo, isUnauthorized: $kakaoAuthVM.isUnauthorized)
       }
       
       // apple로 회원가입
       if appleAuthVM.isUnauthorized {
-        SignUpView(socialType: .apple, signUpInfo: appleAuthVM.userInfo)
+        SignUpView(socialType: .apple, signUpInfo: appleAuthVM.userInfo, isUnauthorized: $appleAuthVM.isUnauthorized)
       }
     } // ZStack
   }
