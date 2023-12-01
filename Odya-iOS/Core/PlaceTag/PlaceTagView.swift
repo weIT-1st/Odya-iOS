@@ -25,9 +25,8 @@ struct PlaceTagView: View {
         MapView()
         
         // bottom sheet
-        CustomBottomSheet(isShowing: $showBottomSheet, maxHeight: UIScreen.main.bounds.height * 0.7, content: AnyView(PlaceTagSearchView()))
+        CustomBottomSheet(content: AnyView(PlaceTagSearchView(placeId: $placeId)))
       }
-      
     }
     .toolbar(.hidden)
     .background(Color.odya.background.normal)
@@ -48,7 +47,6 @@ struct PlaceTagView: View {
             .padding(.horizontal, 4)
         }
         .disabled(self.placeId.isEmpty)
-        
       }
       .padding(.trailing, 12)
     }
@@ -56,58 +54,66 @@ struct PlaceTagView: View {
 }
 
 struct CustomBottomSheet: View {
-  @GestureState private var translation: CGFloat = 0
-  @Binding var isShowing: Bool
+  /// Gesture
+  @State var offset: CGFloat = 0
+  @State var lastOffset: CGFloat = 0
+  @GestureState var gestureOffset: CGFloat = 0
   
-  let maxHeight: CGFloat
-  let minHeight: CGFloat
+  let mininumHeight: CGFloat = 44
   var content: AnyView
-  let snapRatio: CGFloat = 0.25
-  
-  private var offset: CGFloat {
-    return isShowing ? 0 : maxHeight - minHeight
-  }
-  
-  init(isShowing: Binding<Bool>, maxHeight: CGFloat, content: AnyView) {
-    self._isShowing = isShowing
-    self.maxHeight = maxHeight
-    self.minHeight = maxHeight * 0.3
-    self.content = content
-  }
   
   var body: some View {
-    GeometryReader { geometry in
-      VStack {
-        Image("home-indicator")
-          .frame(maxWidth: .infinity)
-        //                    .onTapGesture {
-        //                        self.isShowing.toggle()
-        //                    }
-        content
-          .padding(.horizontal, GridLayout.side)
-          .transition(.move(edge: .bottom))
-          .clipShape(RoundedEdgeShape(edgeType: .top))
-          .frame(alignment: .bottom)
+    GeometryReader { proxy in
+      let height = proxy.frame(in: .local).height
+      
+      ZStack {
+        Color.odya.background.normal
+          .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: 24))
         
-      }
-      .frame(width: geometry.size.width, height: self.maxHeight, alignment: .bottom)
-      .background(Color.odya.background.normal)
-      .clipShape(RoundedEdgeShape(edgeType: .top, cornerRadius: 24))
-      .frame(height: geometry.size.height, alignment: .bottom)
-      .offset(y: max(self.offset + self.translation, 0))
-      .animation(.interactiveSpring(), value: isShowing)
-      .gesture(
-        DragGesture().updating(self.$translation) { value, state, _ in
-          state = value.translation.height
-        }.onEnded { value in
-          let snapDistance = self.maxHeight * self.snapRatio
-          guard abs(value.translation.height) > snapDistance else {
-            return
+        VStack(spacing: 0) {
+          VStack {
+            Capsule()
+              .fill(Color.odya.label.normal)
+              .frame(width: 134, height: 5)
+              .padding(.top, 21)
+              .padding(.bottom, 8)
           }
-          self.isShowing = value.translation.height < 0
+          
+          content
+            .padding(.horizontal, GridLayout.side)
         }
-      )
-      .padding(.top, 40)
+      } // ZStack
+      .offset(y: height - mininumHeight)
+      .offset(y: -offset > 0 ? -offset <= (height - mininumHeight) ? offset : -(height - mininumHeight) : 0)
+      .gesture(DragGesture().updating($gestureOffset, body: { value, out, _ in
+        out = value.translation.height
+        onChange()
+      }).onEnded ({ value in
+        
+        let maxHeight = height - mininumHeight * 2
+        withAnimation {
+          // Logic conditions for moving states
+          if -offset > mininumHeight && -offset < maxHeight / 2 {
+            // mid
+            offset = -(maxHeight / 2)
+          }
+          else if -offset > maxHeight / 2 {
+            offset = -maxHeight
+          }
+          else {
+            offset = 0
+          }
+        }
+        
+        // Storing last offset
+        lastOffset = offset
+      }))
+    }
+  }
+  
+  func onChange() {
+    DispatchQueue.main.async {
+      self.offset = gestureOffset + lastOffset
     }
   }
 }
@@ -118,4 +124,3 @@ struct PlaceTagView_Previews: PreviewProvider {
     PlaceTagView(placeId: .constant(""))
   }
 }
-

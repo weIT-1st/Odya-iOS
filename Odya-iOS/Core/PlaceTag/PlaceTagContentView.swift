@@ -9,34 +9,18 @@ import SwiftUI
 
 /// 검색창 + 검색결과 뷰
 struct PlaceTagSearchView: View {
+  // MARK: - Properties
+  @Binding var placeId: String
+  @State private var searchText: String = ""
   @StateObject private var viewModel = PlaceTagSearchViewModel()
   
+  // MARK: - Body
   var body: some View {
     VStack(spacing: 0) {
-      // search bar
-      HStack {
-        TextField("장소를 찾아보세요!", text: $viewModel.queryFragment)
-          .b1Style()
-          .foregroundColor(Color.odya.label.inactive)
-          .padding(.leading, 20)
-        Spacer()
-        Button {
-          // action: 검색
-          viewModel.searchPlace()
-        } label: {
-          Image("search")
-            .resizable()
-            .colorMultiply(Color.odya.label.inactive)
-            .frame(width: 24, height: 24, alignment: .center)
-        }
-        .frame(width: 48, height: 48)
-      }
-      .background(Color.odya.elevation.elev5)
-      .cornerRadius(Radius.medium)
-      .padding(.vertical, 12)
+      searchBar
       
-      ScrollView {
-        VStack(spacing: 8) {
+      ScrollView(.vertical, showsIndicators: false) {
+        LazyVStack(spacing: 8) {
           ForEach(viewModel.searchResults, id: \.self) { result in
             PlaceTagSearchResultCell(title: result.attributedPrimaryText.string, address: result.attributedSecondaryText?.string ?? "")
             Divider()
@@ -44,7 +28,30 @@ struct PlaceTagSearchView: View {
         }
       }
     }
-    .toolbar(.hidden)
+    .frame(alignment: .top)
+  }
+  
+  private var searchBar: some View {
+    HStack {
+      TextField("장소를 찾아보세요!", text: $searchText)
+        .b1Style()
+        .foregroundColor(Color.odya.label.normal)
+        .padding(.leading, 20)
+      Spacer()
+      Button {
+        // action: 검색
+        viewModel.searchPlace(query: searchText)
+      } label: {
+        Image("search")
+          .resizable()
+          .colorMultiply(Color.odya.label.inactive)
+          .frame(width: 24, height: 24, alignment: .center)
+      }
+      .frame(width: 48, height: 48)
+    }
+    .background(Color.odya.elevation.elev5)
+    .cornerRadius(Radius.medium)
+    .padding(.vertical, 12)
   }
 }
 
@@ -97,7 +104,7 @@ struct PlaceTagSearchResultCell: View {
 // MARK: - Previews
 struct PlaceTagSearchView_Previews: PreviewProvider {
   static var previews: some View {
-    PlaceTagSearchView()
+    PlaceTagSearchView(placeId: .constant(""))
   }
 }
 

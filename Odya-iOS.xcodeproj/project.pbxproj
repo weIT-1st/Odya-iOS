@@ -44,7 +44,7 @@
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
 		07C8054D2B14CED00042ECAA /* PlaceTagSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8054C2B14CED00042ECAA /* PlaceTagSearchViewModel.swift */; };
-		07C8054F2B14CF380042ECAA /* PlaceTagSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */; };
+		07C8054F2B14CF380042ECAA /* PlaceTagContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8054E2B14CF380042ECAA /* PlaceTagContentView.swift */; };
 		07C805512B14CF580042ECAA /* PlaceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C805502B14CF580042ECAA /* PlaceTagView.swift */; };
 		192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA02B0D8D7E00BD480E /* ReportView.swift */; };
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
@@ -235,7 +235,7 @@
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		07C8054C2B14CED00042ECAA /* PlaceTagSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagSearchViewModel.swift; sourceTree = "<group>"; };
-		07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagSearchView.swift; sourceTree = "<group>"; };
+		07C8054E2B14CF380042ECAA /* PlaceTagContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagContentView.swift; sourceTree = "<group>"; };
 		07C805502B14CF580042ECAA /* PlaceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagView.swift; sourceTree = "<group>"; };
 		192ADAA02B0D8D7E00BD480E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
@@ -614,7 +614,7 @@
 			isa = PBXGroup;
 			children = (
 				07C8054C2B14CED00042ECAA /* PlaceTagSearchViewModel.swift */,
-				07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */,
+				07C8054E2B14CF380042ECAA /* PlaceTagContentView.swift */,
 				07C805502B14CF580042ECAA /* PlaceTagView.swift */,
 			);
 			path = PlaceTag;
@@ -1046,7 +1046,7 @@
 			};
 			buildConfigurationList = 071FA5192A20A99F00C7B362 /* Build configuration list for PBXProject "Odya-iOS" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -1169,7 +1169,7 @@
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				0761F19B2AD804FA00FB87AA /* Community.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
-				07C8054F2B14CF380042ECAA /* PlaceTagSearchView.swift in Sources */,
+				07C8054F2B14CF380042ECAA /* PlaceTagContentView.swift in Sources */,
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,

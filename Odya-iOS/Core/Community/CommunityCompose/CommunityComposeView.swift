@@ -41,7 +41,7 @@ struct CommunityComposeView: View {
   /// 공개범위
   @State var privacyType: CommunityPrivacyType = .global
   /// 장소 아이디
-  // TODO: placeId
+  @State var placeId: String = ""
   /// 여행일지 아이디
   // TODO: travelJournalId
   /// 선택된 토픽 아이디
@@ -292,6 +292,7 @@ struct CommunityComposeView: View {
   private var placeTagLink: some View {
     NavigationLink {
       // 장소 태그하기 뷰로 이동
+      PlaceTagView(placeId: $placeId)
     } label: {
       HStack(spacing: 12) {
         Image("location-m")
