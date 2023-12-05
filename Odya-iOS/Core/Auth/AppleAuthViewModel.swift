@@ -125,7 +125,9 @@ class AppleAuthViewModel: ObservableObject {
           print("애플 로그인 완료")
           self.idToken = idToken
           self.authType = "apple"
-          self.authState = .loggedIn
+          AppDataManager().initMyData() { success in 
+            self.authState = .loggedIn
+          }
           
         case .failure(let error):
           print("애플 로그인 실패")

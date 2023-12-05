@@ -79,10 +79,11 @@ class KakaoAuthViewModel: ObservableObject {
         if success {
           self.idToken = token
           self.authType = "kakao"
-          self.authState = .loggedIn
-          self.isLoginInProgress = false
+          AppDataManager().initMyData() { success in
+            self.isLoginInProgress = false
+            self.authState = .loggedIn
+          }
         } else {
-          
           self.isLoginInProgress = false
           self.isLoginFailed = true
         }

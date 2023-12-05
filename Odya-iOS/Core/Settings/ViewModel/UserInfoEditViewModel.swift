@@ -30,6 +30,7 @@ class UserInfoEditViewModel: ObservableObject {
   
   @MainActor
   func logout() {
+    appDataManager.deleteMyData()
     switch authType {
     case "kakao":
       KakaoAuthViewModel().kakaoLogout()
@@ -47,6 +48,7 @@ class UserInfoEditViewModel: ObservableObject {
     }
     
     isDeletingUser = true
+    appDataManager.deleteMyData()
     userProvider.requestPublisher(.deleteUser)
       .sink { completion in
         self.isDeletingUser = false
