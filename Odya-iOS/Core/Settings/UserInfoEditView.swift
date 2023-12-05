@@ -13,6 +13,7 @@ import Foundation
 struct UserInfoEditView: View {
   @StateObject var VM = UserInfoEditViewModel()
   
+  @State private var isShowingUserDeletionAlert: Bool = false
   // TODO: 아마... api Request 타입으로 수정할 듯..
   @State var userInfo: SignUpInfo
   
@@ -60,12 +61,18 @@ struct UserInfoEditView: View {
         
         Button(action: {
           print("회원탈퇴 클릭")
-          VM.deleteUser()
+          isShowingUserDeletionAlert = true
         }, label: {
           Text("회원탈퇴")
             .b1Style()
             .foregroundColor(.odya.system.warning)
         })
+        .alert("정말 탈퇴하시겠습니까?", isPresented: $isShowingUserDeletionAlert) {
+          Button("탈퇴", role: .destructive) {
+            isShowingUserDeletionAlert = false
+            VM.deleteUser()
+          }
+        }
         
       } // main VStack
       .padding(GridLayout.side)
