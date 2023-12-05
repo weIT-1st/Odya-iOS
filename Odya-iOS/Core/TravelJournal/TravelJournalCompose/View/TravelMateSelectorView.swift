@@ -166,31 +166,43 @@ struct TravelMateSelectorView: View {
       VStack(spacing: 16) {
         ForEach(displayedFollowingUsers) { user in
           HStack {
-            FollowUserView(user: user)
+            UserIdentityLink(userId: user.userId,
+                             nickname: user.nickname,
+                             profileUrl: user.profile.profileUrl)
             Spacer()
-            IconButton("plus-circle") {
+            CustomIconButton("plus-circle",
+                             color: isSelected(user.userId) ? .odya.label.inactive : .odya.brand.primary) {
               if selectedTravelMates.count >= 10 {
                 isShowingTooManyMatesAlert = true
               } else {
                 selectedTravelMates.insert(user, at: 0)
               }
             }
-            .colorMultiply(
-              selectedTravelMates.contains { mate in
-                mate.userId == user.userId
-              } ? .odya.label.inactive : .odya.brand.primary
-            )
+//            IconButton("plus-circle") {
+//              if selectedTravelMates.count >= 10 {
+//                isShowingTooManyMatesAlert = true
+//              } else {
+//                selectedTravelMates.insert(user, at: 0)
+//              }
+//            }
+//            .colorMultiply(
+//              selectedTravelMates.contains { mate in
+//                mate.userId == user.userId
+//              } ? .odya.label.inactive : .odya.brand.primary
+//            )
             .frame(height: 36)
-            .disabled(
-              selectedTravelMates.contains { mate in
-                mate.userId == user.userId
-              })
+            .disabled(isSelected(user.userId))
           }.frame(height: 36)
         }
       }.padding(.horizontal, GridLayout.side)
     }
   }
+}
 
+extension TravelMateSelectorView {
+  func isSelected(_ userId: Int) -> Bool {
+    return selectedTravelMates.contains { $0.userId == userId }
+  }
 }
 
 //struct TravelMateSelectorView_Previews: PreviewProvider {

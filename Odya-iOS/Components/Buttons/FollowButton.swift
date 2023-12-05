@@ -30,7 +30,7 @@ struct FollowButtonWithAlertAndApi: View {
   @State private var followState: Bool
   @State private var isShowingUnfollowingAlert: Bool = false
   
-  init(userId: Int, buttonStyle: ButtonStyleType, followState: Bool = true) {
+  init(userId: Int, buttonStyle: ButtonStyleType, followState: Bool) {
     self.userId = userId
     self.buttonStyle = buttonStyle
     self.followState = followState
