@@ -8,6 +8,13 @@
 import SwiftUI
 import KakaoSDKUser
 
+enum AuthState: String {
+  case loggedIn = "loggenIn"
+  case loggedOut = "loggedOut"
+  case unauthorized = "unauthorized"
+  case additionalSetupRequired = "additionalSetupRequired"
+}
+
 @main
 struct Odya_iOSApp: App {
   
@@ -19,48 +26,71 @@ struct Odya_iOSApp: App {
   @StateObject private var kakaoAuthVM = KakaoAuthViewModel()
   @StateObject private var appDataManager = AppDataManager()
   
-  @AppStorage("WeITAuthToken") var idToken: String?
   @AppStorage("WeITAuthType") var authType: String = ""
+  @AppStorage("WeITAuthState") var authState: AuthState = .loggedOut
   
   @State private var isReady: Bool = false
-  
-  
+
   // MARK: BODY
   
   var body: some Scene {
     WindowGroup {
       ZStack {
+        Color.odya.background.normal.ignoresSafeArea()
+        
+        // splash
         if !isReady {
           SplashView()
-            .background(Color.odya.background.normal)
-            .ignoresSafeArea()
-        } // if not ready
+        }
         
+        // 스플래시 뷰 끝난 후
         else {
-          if idToken == nil {
+          switch authState {
+          // 로그인 완료 상태
+          case .loggedIn:
+            RootTabView()
+            
+          // 로그아웃 상태, 로그인 버튼 뷰 나옴
+          case .loggedOut:
             LoginView()
               .environmentObject(appleAuthVM)
               .environmentObject(kakaoAuthVM)
-          }
-          else if !kakaoAuthVM.isUnauthorized
-                      && !appleAuthVM.isUnauthorized {
-            RootTabView()
-              /// 토큰 갱신 및 유저 정보 가져오기
-              .task {
-                guard idToken != nil else {
-                  return
-                }
-                appDataManager.refreshToken() { success in
-                  if success {
-                    appDataManager.initMyData() { _ in }
-                  }
-                }
-              } // task
+            
+          // 회원가입
+          case .unauthorized:
+            if appDataManager.idToken == nil {
+              if authType == "kakao" {
+                SignUpView(signUpInfo: kakaoAuthVM.userInfo, kakaoAccessToken: kakaoAuthVM.kakaoAccessToken)
+              } else if authType == "apple" {
+                SignUpView(signUpInfo: appleAuthVM.userInfo)
+              }
+            } else {
+              ProgressView()
+            }
+            
+          case .additionalSetupRequired:
+            AdditionalSetUpView()
           }
         } // if ready
         
       } // Zstack
       .onAppear {
+        /// 자동로그인
+        if appDataManager.idToken != nil {
+          if authState != .additionalSetupRequired {
+            authState = .loggedIn
+          }
+          // 토큰 갱신 및 유저 정보 가져오기
+          appDataManager.refreshToken() { success in
+            if success {
+              appDataManager.initMyData() { _ in }
+            }
+          }
+        } else {
+          authState = .loggedOut
+          authType = ""
+        }
+            
         /// 탭해서 키보드 내리기
         UIApplication.shared.hideKeyboardOnTap()
         

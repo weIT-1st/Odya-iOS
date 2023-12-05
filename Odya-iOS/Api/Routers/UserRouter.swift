@@ -9,13 +9,16 @@ import Foundation
 import Moya
 
 enum UserRouter {
-  // 사용자 정보 조회
+  // 1. 사용자 정보 조회
     case getUserInfo
-  // 사용자 통계 조회
-  case getUserStatistics(userId: Int)
-  // 사용자 프로필 사진 변경
+  // 5. 사용자 프로필 사진 변경
   case updateUserProfileImage(profileImg: (data: Data, name: String)?)
+  // 7. 회원탈퇴
+  case deleteUser
+  // 8. 유저 검색
   case searchUser(size: Int?, lastId: Int?, nickname: String)
+  // 9. 사용자 통계 조회
+  case getUserStatistics(userId: Int)
 }
 
 extension UserRouter: TargetType, AccessTokenAuthorizable {
@@ -27,12 +30,14 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
     switch self {
     case .getUserInfo:
       return "/api/v1/users/me"
-    case .getUserStatistics(let userId):
-      return "/api/v1/users/\(userId)/statistics"
     case .updateUserProfileImage:
       return "/api/v1/users/profile"
+    case .deleteUser:
+      return "/api/v1/users"
     case .searchUser:
       return "/api/v1/users/search"
+    case .getUserStatistics(let userId):
+      return "/api/v1/users/\(userId)/statistics"
     }
   }
   
@@ -40,6 +45,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
     switch self {
     case .updateUserProfileImage:
       return .patch
+    case .deleteUser:
+      return .delete
     default:
       return .get
     }

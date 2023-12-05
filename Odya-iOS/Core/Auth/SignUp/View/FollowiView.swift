@@ -13,15 +13,12 @@ struct RegisterFollowsView: View {
   /// 회원가입 단계
   @Binding var signUpStep: Int
   
-  /// 회원가입한 사용자 정보
-  @Binding var userInfo: SignUpInfo
-  
   /// 사용자 닉네임
-  var nickname: String { userInfo.nickname }
+  let nickname: String
   
-  init(_ step: Binding<Int>, userInfo: Binding<SignUpInfo>) {
+  init(_ step: Binding<Int>, nickname: String) {
     self._signUpStep = step
-    self._userInfo = userInfo
+    self.nickname = nickname
   }
   
   // MARK: Body

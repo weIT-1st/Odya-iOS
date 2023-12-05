@@ -16,45 +16,30 @@ enum SocialLoginType {
 struct LoginView: View {
   @EnvironmentObject var appleAuthVM: AppleAuthViewModel
   @EnvironmentObject var kakaoAuthVM: KakaoAuthViewModel
-  
-  @State private var loginType: SocialLoginType = .unknown
 
   var body: some View {
-    ZStack {
-      Color.odya.background.normal.ignoresSafeArea()
+    VStack {
+      Spacer()
+      Image("odya-logo-l")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 105)
+      Spacer()
       
-      // 회원가입이 되어 있는 상태
-      VStack {
-        Spacer()
-        Image("odya-logo-l")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 105)
-        Spacer()
-        
-        // 로그인 버튼
-        VStack(alignment: .center, spacing: 8) {
-          KakaoLoginButton()
-          AppleLoginButton()
-        }.padding(.bottom, 60)
-        
-      }.padding(.horizontal, GridLayout.side)
+      // 로그인 버튼
+      VStack(alignment: .center, spacing: 8) {
+        KakaoLoginButton()
+          .environmentObject(kakaoAuthVM)
+        AppleLoginButton()
+          .environmentObject(appleAuthVM)
+      }.padding(.bottom, 60)
       
-      // 카카오로 회원가입
-      if kakaoAuthVM.isUnauthorized {
-        SignUpView(socialType: .kakao, signUpInfo: kakaoAuthVM.userInfo, isUnauthorized: $kakaoAuthVM.isUnauthorized)
-      }
-      
-      // apple로 회원가입
-      if appleAuthVM.isUnauthorized {
-        SignUpView(socialType: .apple, signUpInfo: appleAuthVM.userInfo, isUnauthorized: $appleAuthVM.isUnauthorized)
-      }
-    } // ZStack
+    }.padding(.horizontal, GridLayout.side)
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    LoginView()
-  }
-}
+//struct ContentView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    LoginView()
+//  }
+//}

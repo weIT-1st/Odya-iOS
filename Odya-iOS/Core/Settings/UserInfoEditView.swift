@@ -11,78 +11,67 @@ import Foundation
 // MARK: User Info Edit View
 
 struct UserInfoEditView: View {
-    @AppStorage("WeITAuthToken") var idToken: String?
-    @AppStorage("WeITAuthType") var authType: String = ""
-    @StateObject var kakaoAuthVM = KakaoAuthViewModel()
-    @StateObject var appleAuthVM = AppleAuthViewModel()
-    
+  @StateObject var VM = UserInfoEditViewModel()
+  
   // TODO: 아마... api Request 타입으로 수정할 듯..
-    @State var userInfo: SignUpInfo
-    
-    var body: some View {
-        VStack {
-            CustomNavigationBar(title: "회원정보 수정")
-            userInfoEditViewMainSection
-        }.background(Color.odya.background.normal)
-    }
-    
-    var userInfoEditViewMainSection: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Section(header: Text("닉네임")
-                            .h6Style()
-                            .foregroundColor(.odya.label.normal))
-                { NicknameEditSection($userInfo.nickname) }
-                
-                Divider().frame(height: 1).background(Color.odya.line.alternative)
-                
-                Section(header: Text("휴대폰 번호")
-                            .h6Style()
-                            .foregroundColor(.odya.label.normal))
-                { PhoneNumberEditSection($userInfo.phoneNumber) }
-
-                Divider().frame(height: 1).background(Color.odya.line.alternative)
-
-                Section(header: Text("이메일 주소")
-                            .h6Style()
-                            .foregroundColor(.odya.label.normal))
-                { EmailEditSection($userInfo.email) }
-
-                Divider().frame(height: 1).background(Color.odya.line.alternative)
-                
-                Button(action: {
-                    print("로그아웃 클릭")
-                    switch authType {
-                    case "kakao":
-                        kakaoAuthVM.kakaoLogout()
-                    case "apple":
-                        appleAuthVM.AppleLogout()
-                    default:
-                        idToken = nil
-                        authType = ""
-                    }
-                }, label: {
-                    Text("로그아웃")
-                        .b1Style()
-                        .foregroundColor(.odya.label.normal)
-                })
-                
-                Divider().frame(height: 1).background(Color.odya.line.alternative)
-                
-                Button(action: {
-                    print("회원탈퇴 클릭")
-                    // TODO: 회원탈퇴 기능 구현 및 연결
-                }, label: {
-                    Text("회원탈퇴")
-                        .b1Style()
-                        .foregroundColor(.odya.system.warning)
-                })
-                
-            } // main VStack
-            .padding(GridLayout.side)
-        } // ScrollView
-        .background(Color.odya.elevation.elev2)
-    }
+  @State var userInfo: SignUpInfo
+  
+  var body: some View {
+    VStack {
+      CustomNavigationBar(title: "회원정보 수정")
+      userInfoEditViewMainSection
+    }.background(Color.odya.background.normal)
+  }
+  
+  var userInfoEditViewMainSection: some View {
+    ScrollView {
+      VStack(alignment: .leading, spacing: 16) {
+        Section(header: Text("닉네임")
+          .h6Style()
+          .foregroundColor(.odya.label.normal))
+        { NicknameEditSection($userInfo.nickname) }
+        
+        Divider().frame(height: 1).background(Color.odya.line.alternative)
+        
+        Section(header: Text("휴대폰 번호")
+          .h6Style()
+          .foregroundColor(.odya.label.normal))
+        { PhoneNumberEditSection($userInfo.phoneNumber) }
+        
+        Divider().frame(height: 1).background(Color.odya.line.alternative)
+        
+        Section(header: Text("이메일 주소")
+          .h6Style()
+          .foregroundColor(.odya.label.normal))
+        { EmailEditSection($userInfo.email) }
+        
+        Divider().frame(height: 1).background(Color.odya.line.alternative)
+        
+        Button(action: {
+          print("로그아웃 클릭")
+          VM.logout()
+        }, label: {
+          Text("로그아웃")
+            .b1Style()
+            .foregroundColor(.odya.label.normal)
+        })
+        
+        Divider().frame(height: 1).background(Color.odya.line.alternative)
+        
+        Button(action: {
+          print("회원탈퇴 클릭")
+          VM.deleteUser()
+        }, label: {
+          Text("회원탈퇴")
+            .b1Style()
+            .foregroundColor(.odya.system.warning)
+        })
+        
+      } // main VStack
+      .padding(GridLayout.side)
+    } // ScrollView
+    .background(Color.odya.elevation.elev2)
+  }
 }
 
 // MARK: Nickname Edit Section

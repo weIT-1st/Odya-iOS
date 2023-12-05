@@ -24,7 +24,7 @@ final class TopicListViewModel: ObservableObject {
   @Published var topicList: [Topic] = []
   
   /// 관심토픽 리스트
-  @Published var myTopicList: [Topic] = []
+  @Published var myTopicList: [MyTopic] = []
   
   @Published var ProcessingMyTopicsCount: Int = 0
   
@@ -50,6 +50,7 @@ final class TopicListViewModel: ObservableObject {
       } receiveValue: { response in
         if let data = try? response.map(TopicList.self) {
           self.topicList = data
+          print(self.topicList)
         }
       }
       .store(in: &subscription)
@@ -60,7 +61,7 @@ final class TopicListViewModel: ObservableObject {
       .sink { apiCompletion in
         switch apiCompletion {
         case .finished:
-          print("관심 토픽 리스트 조회")
+          print("관심 토픽 리스트 조회 완료")
           completion(true)
         case .failure(let error):
           if let errorData = try? error.response?.map(ErrorData.self) {
@@ -69,11 +70,12 @@ final class TopicListViewModel: ObservableObject {
           completion(false)
         }
       } receiveValue: { response in
-        if let data = try? response.map(TopicList.self) {
-          self.myTopicList = data
+        if let data = try? response.map([MyTopic].self) {
+            self.myTopicList = data
+        } else {
+          print("my topic list decoding error")
         }
-      }
-      .store(in: &subscription)
+      }.store(in: &subscription)
   }
   
   // MARK: Add
