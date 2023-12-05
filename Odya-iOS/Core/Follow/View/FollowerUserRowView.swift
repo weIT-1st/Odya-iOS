@@ -1,5 +1,5 @@
 //
-//  FollowUserView.swift
+//  FollowerUserRowView.swift
 //  Odya-iOS
 //
 //  Created by Heeoh Son on 2023/09/16.
@@ -39,8 +39,8 @@ struct FollowerUserRowView: View {
     }) {
       Text("삭제")
         .foregroundColor(Color.odya.label.inactive)
-        .frame(width: 36)
         .detail1Style()
+        .frame(width: 38, height: 12)
         .padding(8)
         .overlay(
           RoundedRectangle(cornerRadius: Radius.small)

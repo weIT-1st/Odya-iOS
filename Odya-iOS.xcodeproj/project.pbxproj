@@ -138,7 +138,7 @@
 		3ED22F632AADBC100067DE72 /* FollowHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F622AADBC100067DE72 /* FollowHubView.swift */; };
 		3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */; };
 		3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */; };
-		3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F682AB5B3850067DE72 /* FollowUserView.swift */; };
+		3ED22F692AB5B3860067DE72 /* FollowerUserRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F682AB5B3850067DE72 /* FollowerUserRowView.swift */; };
 		3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */; };
 		3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */; };
 		3ED8DBB22B10C10500D7CF7F /* ImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */; };
@@ -319,7 +319,7 @@
 		3ED22F622AADBC100067DE72 /* FollowHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubView.swift; sourceTree = "<group>"; };
 		3ED22F642AAE3BFD0067DE72 /* FollowHubViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHubViewModel.swift; sourceTree = "<group>"; };
 		3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSuggestion.swift; sourceTree = "<group>"; };
-		3ED22F682AB5B3850067DE72 /* FollowUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowUserView.swift; sourceTree = "<group>"; };
+		3ED22F682AB5B3850067DE72 /* FollowerUserRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerUserRowView.swift; sourceTree = "<group>"; };
 		3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalBookmarkManager.swift; sourceTree = "<group>"; };
 		3ED8DBAF2B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryAuthorizatiionChecker.swift; sourceTree = "<group>"; };
 		3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRouter.swift; sourceTree = "<group>"; };
@@ -856,7 +856,7 @@
 			children = (
 				3ED22F622AADBC100067DE72 /* FollowHubView.swift */,
 				3EE9CA272AC19758003A2E85 /* FollowUserListView.swift */,
-				3ED22F682AB5B3850067DE72 /* FollowUserView.swift */,
+				3ED22F682AB5B3850067DE72 /* FollowerUserRowView.swift */,
 				3ED22F662AAF2FAD0067DE72 /* UserSuggestion.swift */,
 			);
 			path = View;
@@ -1052,12 +1052,12 @@
 			);
 			mainGroup = 071FA5152A20A99F00C7B362;
 			packageReferences = (
-				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
+				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				3E3EC3AE2A388AC0002BF519 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
-				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */,
+				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */,
 				3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
-				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
+				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
@@ -1105,7 +1105,7 @@
 				197C29A92B171DFA00E6D670 /* SearchedUser.swift in Sources */,
 				3EEBB7CF2A8EB40A00F0049D /* Date.swift in Sources */,
 				3EE9CA282AC19758003A2E85 /* FollowUserListView.swift in Sources */,
-				3ED22F692AB5B3860067DE72 /* FollowUserView.swift in Sources */,
+				3ED22F692AB5B3860067DE72 /* FollowerUserRowView.swift in Sources */,
 				3EEBB7D92A94CD6D00F0049D /* TravelJournalEditViewModel.swift in Sources */,
 				07589E702AF023C200867FAD /* TopicRouter.swift in Sources */,
 				3EBEC3AB2A6D5A3E00998EC6 /* WriteButton.swift in Sources */,
@@ -1517,7 +1517,7 @@
 				minimumVersion = 15.0.0;
 			};
 		};
-		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -1533,7 +1533,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */ = {
+		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/awxkee/webp.swift.git";
 			requirement = {
@@ -1549,7 +1549,7 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
+		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -1572,7 +1572,7 @@
 		};
 		3E3EC3AC2A388AA5002BF519 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */ = {
@@ -1582,7 +1582,7 @@
 		};
 		3E3EC3B22A388ADE002BF519 /* webp */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */;
+			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */;
 			productName = webp;
 		};
 		3E3EC3B52A388B55002BF519 /* KakaoSDK */ = {
@@ -1612,7 +1612,7 @@
 		};
 		3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */

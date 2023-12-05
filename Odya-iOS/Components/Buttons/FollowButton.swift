@@ -13,8 +13,10 @@ extension View {
         Button(action: action) {
             Text(isFollowing ? "팔로잉" : "팔로우")
                 .detail1Style()
+                .frame(width: 38, height: 12)
                 .padding(8)
-        }.buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
+        }
+        .buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
     }
 }
 
