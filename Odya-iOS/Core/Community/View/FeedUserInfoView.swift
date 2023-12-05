@@ -30,7 +30,8 @@ struct FeedUserInfoView: View {
       UserIdentityLink(userId: writer.userID,
                        nickname: writer.nickname,
                        profileUrl: writer.profile.profileUrl,
-                       profileSize: profileImageSize)
+                       profileSize: profileImageSize,
+                       isFollowing: writer.isFollowing)
       
       // dot
       Text("·")

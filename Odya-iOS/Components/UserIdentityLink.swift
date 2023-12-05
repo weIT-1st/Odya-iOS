@@ -16,16 +16,18 @@ struct UserIdentityLink: View {
   let nickname: String
   let profileUrl: String
   let profileSize: ComponentSizeType
+  let isFollowing: Bool?
   
   // 유저의 프로필 뷰 화면 표시 여부
   @State private var isShowingUserProfileView: Bool = false
   
   // MARK: - Init
-  init(userId: Int, nickname: String, profileUrl: String, profileSize: ComponentSizeType = .S) {
+  init(userId: Int, nickname: String, profileUrl: String, profileSize: ComponentSizeType = .S, isFollowing: Bool? = nil) {
     self.userId = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
     self.profileSize = profileSize
+    self.isFollowing = isFollowing
   }
   
   // MARK: -- Body
@@ -48,9 +50,14 @@ struct UserIdentityLink: View {
         Image("sparkle-s")
       }
     }
+    // 내 프로필 뷰로는 이동 불가능
+    .disabled(userId == MyData.userID)
     // 프로필 뷰
     .fullScreenCover(isPresented: $isShowingUserProfileView) {
-      ProfileView(userId: userId, nickname: nickname, profileUrl: profileUrl)
+      ProfileView(userId: userId,
+                  nickname: nickname,
+                  profileUrl: profileUrl,
+                  isFollowing: isFollowing)
     }
   }
 }
@@ -94,7 +101,7 @@ struct UserIdentityRowWithFollowing: View {
   // MARK: -- Body
   var body: some View {
     HStack {
-      UserIdentityLink(userId: userId, nickname: nickname, profileUrl: profileUrl)
+      UserIdentityLink(userId: userId, nickname: nickname, profileUrl: profileUrl, isFollowing: isFollowing)
       Spacer()
       FollowButtonWithAlertAndApi(userId: userId, buttonStyle: .solid, followState: isFollowing)
     }

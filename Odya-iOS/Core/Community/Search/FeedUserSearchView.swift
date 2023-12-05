@@ -46,7 +46,7 @@ struct FeedUserSearchView: View {
                     viewModel.searchUserNextPageIfPossible(query: searchText)
                   }
                 }
-            } 
+            }
           }
         }
       }
@@ -121,7 +121,8 @@ struct FeedUserSearchCell: View {
     HStack(alignment: .center, spacing: 12) {
       UserIdentityLink(userId: content.userId,
                        nickname: content.nickname,
-                       profileUrl: content.profile.profileUrl)
+                       profileUrl: content.profile.profileUrl,
+                       isFollowing: content.isFollowing)
       Spacer()
       if !isSearching {
         CustomIconButton("x", color: .odya.line.normal) {

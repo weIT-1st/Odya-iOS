@@ -168,7 +168,8 @@ struct TravelMateSelectorView: View {
           HStack {
             UserIdentityLink(userId: user.userId,
                              nickname: user.nickname,
-                             profileUrl: user.profile.profileUrl)
+                             profileUrl: user.profile.profileUrl,
+                             isFollowing: true)
             Spacer()
             CustomIconButton("plus-circle",
                              color: isSelected(user.userId) ? .odya.label.inactive : .odya.brand.primary) {
