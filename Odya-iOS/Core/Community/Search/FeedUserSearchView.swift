@@ -26,15 +26,8 @@ struct FeedUserSearchView: View {
           recentSearchLabel
           LazyVStack(spacing: 10) {
             ForEach(viewModel.userList?.reversed() ?? [], id: \.userId) { user in
-              NavigationLink {
-                Text("프로필뷰")
-                  .onAppear {
-                    viewModel.appendRecentSearch(user: user)
-                  }
-              } label: {
-                FeedUserSearchCell(isSearching: false, content: user)
-                  .environmentObject(viewModel)
-              }
+              FeedUserSearchCell(isSearching: false, content: user)
+                .environmentObject(viewModel)
             }
           }
         }
@@ -46,21 +39,14 @@ struct FeedUserSearchView: View {
           }
           LazyVStack(spacing: 10) {
             ForEach(viewModel.state.content, id: \.userId) { content in
-              NavigationLink {
-                Text("테스트")
-                  .onAppear {
-                    viewModel.appendRecentSearch(user: content)
+              FeedUserSearchCell(isSearching: true, content: content)
+                .environmentObject(viewModel)
+                .onAppear {
+                  if viewModel.state.content.last == content {
+                    viewModel.searchUserNextPageIfPossible(query: searchText)
                   }
-              } label: {
-                FeedUserSearchCell(isSearching: true, content: content)
-                  .environmentObject(viewModel)
-                  .onAppear {
-                    if viewModel.state.content.last == content {
-                      viewModel.searchUserNextPageIfPossible(query: searchText)
-                    }
-                  }
-              }
-            }
+                }
+            } 
           }
         }
       }
@@ -133,13 +119,9 @@ struct FeedUserSearchCell: View {
   
   var body: some View {
     HStack(alignment: .center, spacing: 12) {
-      ProfileImageView(profileUrl: content.profile.profileUrl, size: .S)
-      HStack(spacing: 4) {
-        Text(content.nickname)
-          .b1Style()
-          .foregroundColor(.odya.label.normal)
-        Image("sparkle-s")
-      }
+      UserIdentityLink(userId: content.userId,
+                       nickname: content.nickname,
+                       profileUrl: content.profile.profileUrl)
       Spacer()
       if !isSearching {
         CustomIconButton("x", color: .odya.line.normal) {
