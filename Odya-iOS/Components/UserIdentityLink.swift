@@ -15,9 +15,18 @@ struct UserIdentityLink: View {
   let userId: Int
   let nickname: String
   let profileUrl: String
+  let profileSize: ComponentSizeType
   
   // 유저의 프로필 뷰 화면 표시 여부
   @State private var isShowingUserProfileView: Bool = false
+  
+  // MARK: - Init
+  init(userId: Int, nickname: String, profileUrl: String, profileSize: ComponentSizeType = .S) {
+    self.userId = userId
+    self.nickname = nickname
+    self.profileUrl = profileUrl
+    self.profileSize = profileSize
+  }
   
   // MARK: -- Body
   var body: some View {
@@ -26,7 +35,7 @@ struct UserIdentityLink: View {
     }) {
       HStack(spacing: 0) {
         // 프로필 이미지
-        ProfileImageView(profileUrl: profileUrl, size: .S)
+        ProfileImageView(profileUrl: profileUrl, size: profileSize)
           .padding(.trailing, 12)
         
         // 닉네임

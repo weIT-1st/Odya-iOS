@@ -25,29 +25,23 @@ struct FeedUserInfoView: View {
   // MARK: Body
 
   var body: some View {
-    HStack(spacing: 12) {
-      // 유저 프로필
-      ProfileImageView(of: writer.nickname, profileData: writer.profile, size: profileImageSize)
+    HStack(spacing: 4) {
+      // user info
+      UserIdentityLink(userId: writer.userID,
+                       nickname: writer.nickname,
+                       profileUrl: writer.profile.profileUrl,
+                       profileSize: profileImageSize)
       
-      HStack(spacing: 4) {
-        // 유저 닉네임
-        Text(writer.nickname)
-          .b1Style()
-          .foregroundColor(Color.odya.label.normal)
-
-        // sparkle-s
-        Image("sparkle-s")
-
-        // dot
-        Text("·")
-          .detail1Style()
-          .foregroundColor(Color.odya.label.assistive)
-        
-        // date
-        Text(createDate.toCustomRelativeDateString())
-          .detail1Style()
-          .foregroundColor(Color.odya.label.assistive)
-      }
+      // dot
+      Text("·")
+        .detail1Style()
+        .foregroundColor(Color.odya.label.assistive)
+      
+      // date
+      Text(createDate.toCustomRelativeDateString())
+        .detail1Style()
+        .foregroundColor(Color.odya.label.assistive)
     }
+    
   }
 }
