@@ -16,6 +16,8 @@ enum UserRouter {
   // 사용자 프로필 사진 변경
   case updateUserProfileImage(profileImg: (data: Data, name: String)?)
   case searchUser(size: Int?, lastId: Int?, nickname: String)
+  // 사용자 인생샷 조회
+  case getPOTDList(userId: Int, size: Int?, lastId: Int?)
 }
 
 extension UserRouter: TargetType, AccessTokenAuthorizable {
@@ -33,6 +35,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/users/profile"
     case .searchUser:
       return "/api/v1/users/search"
+    case let .getPOTDList(userId, _, _):
+      return "/api/v1/users/\(userId)/life-shots"
     }
   }
   
@@ -59,6 +63,11 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       params["size"] = size
       params["lastId"] = lastId
       params["nickname"] = nickname
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    case let .getPOTDList(_, size, lastId):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain

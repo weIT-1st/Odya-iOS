@@ -82,6 +82,9 @@
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
 		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
+		3E075C872B21F9530093CACD /* POTDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C862B21F9530093CACD /* POTDViewModel.swift */; };
+		3E075C892B222F030093CACD /* POTDRegisterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C882B222F030093CACD /* POTDRegisterModal.swift */; };
+		3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C8B2B2256CB0093CACD /* UserImage.swift */; };
 		3E15D3562B20741A00543D34 /* POTDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3552B20741A00543D34 /* POTDCardView.swift */; };
 		3E15D3582B20815C00543D34 /* POTDFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3572B20815C00543D34 /* POTDFullScreen.swift */; };
 		3E15D35A2B20853300543D34 /* POTDPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3592B20853300543D34 /* POTDPickerView.swift */; };
@@ -275,6 +278,9 @@
 		3E0589022A276E8C005C29D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3E0589042A276EAD005C29D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3E0589052A277063005C29D9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		3E075C862B21F9530093CACD /* POTDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDViewModel.swift; sourceTree = "<group>"; };
+		3E075C882B222F030093CACD /* POTDRegisterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDRegisterModal.swift; sourceTree = "<group>"; };
+		3E075C8B2B2256CB0093CACD /* UserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImage.swift; sourceTree = "<group>"; };
 		3E15D3552B20741A00543D34 /* POTDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDCardView.swift; sourceTree = "<group>"; };
 		3E15D3572B20815C00543D34 /* POTDFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDFullScreen.swift; sourceTree = "<group>"; };
 		3E15D3592B20853300543D34 /* POTDPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDPickerView.swift; sourceTree = "<group>"; };
@@ -626,6 +632,7 @@
 				19683AFF2B031244003D6013 /* CommunityComment.swift */,
 				19E212A92B06F515003155C0 /* ReportReason.swift */,
 				197C29A82B171DFA00E6D670 /* SearchedUser.swift */,
+				3E075C8B2B2256CB0093CACD /* UserImage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -669,6 +676,17 @@
 			path = CommunityCompose;
 			sourceTree = "<group>";
 		};
+		3E075C8A2B22569D0093CACD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3E15D3552B20741A00543D34 /* POTDCardView.swift */,
+				3E15D3572B20815C00543D34 /* POTDFullScreen.swift */,
+				3E15D3592B20853300543D34 /* POTDPickerView.swift */,
+				3E075C882B222F030093CACD /* POTDRegisterModal.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		3E15D3522B2069B400543D34 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,9 +711,8 @@
 		3E15D3542B20731500543D34 /* PicOfTheDay */ = {
 			isa = PBXGroup;
 			children = (
-				3E15D3552B20741A00543D34 /* POTDCardView.swift */,
-				3E15D3572B20815C00543D34 /* POTDFullScreen.swift */,
-				3E15D3592B20853300543D34 /* POTDPickerView.swift */,
+				3E075C8A2B22569D0093CACD /* View */,
+				3E075C862B21F9530093CACD /* POTDViewModel.swift */,
 			);
 			path = PicOfTheDay;
 			sourceTree = "<group>";
@@ -1130,6 +1147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */,
+				3E075C872B21F9530093CACD /* POTDViewModel.swift in Sources */,
 				0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */,
 				3EBEC3932A6B1D7F00998EC6 /* AppleAuthViewModel.swift in Sources */,
 				3E699A882AFF6B6100850E9A /* SparkleIcon.swift in Sources */,
@@ -1150,6 +1168,7 @@
 				3E26C3792AF0E7EC003607A8 /* TravelJournalDetailBottomSheet.swift in Sources */,
 				3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */,
 				3E25FAB72A814BAC00ADF6E2 /* SettingView.swift in Sources */,
+				3E075C892B222F030093CACD /* POTDRegisterModal.swift in Sources */,
 				0761F1992AD8046200FB87AA /* FeedViewModel.swift in Sources */,
 				3EBEC3B12A6E819B00998EC6 /* FollowButton.swift in Sources */,
 				19EBA7722ABC27D8000ABBE5 /* FeedFullCommentSheet.swift in Sources */,
@@ -1227,6 +1246,7 @@
 				3EF7C1F32A81099000223366 /* UserInfoEditView.swift in Sources */,
 				19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
+				3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */,
 				07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */,
 				195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */,
 				3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */,
