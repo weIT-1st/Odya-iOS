@@ -251,8 +251,8 @@ struct CommunityComposeView: View {
       .background(Color.odya.background.dimmed_system)
       .cornerRadius(100)
       
-      Button {
-        // action: 여행일지 불러오기
+      NavigationLink {
+        LinkedTravelJournalView()
       } label: {
         HStack {
           Spacer()
