@@ -28,14 +28,13 @@ struct ProfileView: View {
   
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
   @State private var selectedImage: [ImageData] = []
-  @State private var followState: Bool = true
+  @State private var followState: Bool? = nil
   
   init() {}
   
-  init(userId: Int, nickname: String, profileUrl: String) {
-    self.userId = userId
-    self.nickname = nickname
-    self.profileUrl = profileUrl
+  init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
+    profileVM = ProfileViewModel(userId: userId, nickname: nickname, profileUrl: profileUrl)
+    self.followState = isFollowing
   }
 
   // MARK: Body
@@ -69,7 +68,7 @@ struct ProfileView: View {
         }
         
         Task {
-          if !isMyProfile {
+          if !isMyProfile && followState == nil {
             followHubVM.isMyFollowingUser(profileVM.userID) { result in
               self.followState = result
             }
@@ -153,11 +152,12 @@ struct ProfileView: View {
       // nickname
       HStack(spacing: 12) {
         Text(profileVM.nickname)
+          .foregroundColor(.odya.label.normal)
           .h3Style()
         
         // if not my profile, follow button
         if !isMyProfile {
-          FollowButton(isFollowing: followState, buttonStyle: .solid) {
+          FollowButton(isFollowing: followState ?? false, buttonStyle: .solid) {
             if followState == false {  // do following
               followState = true
               profileVM.statistics.followersCount += 1
