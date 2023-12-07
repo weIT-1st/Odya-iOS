@@ -36,10 +36,20 @@ class ProfileViewModel: ObservableObject {
   @Published var nickname: String
   @Published var profileUrl: String
   @Published var statistics = UserStatistics()
+  @Published var potdList: [UserImage] = []
   
   //  flag
   var isFetchingStatistics: Bool = false
   var isUpdatingProfileImg: Bool = false
+  var isFetchingPOTDList: Bool = false
+  
+  /// POTD 무한스크롤
+  var fetchMorePOTDSubject = PassthroughSubject<(), Never>()
+  
+  /// 더 가져올 유저의 인생샷이 있는지 여부
+  var hasNextPOTD: Bool = true
+  /// 마지막으로 가져온 유저의 인생샷 아이디
+  var lastIdOfPOTD: Int? = nil
   
   // profileImage
   var webpImageManager = WebPImageManager()
@@ -51,12 +61,16 @@ class ProfileViewModel: ObservableObject {
     self.userID = MyData.userID
     self.nickname = myData.nickname
     self.profileUrl = myData.profile.decodeToProileData().profileUrl
+    
+    initFetchMorePOTDSubject()
   }
   
   init(userId: Int, nickname: String, profileUrl: String) {
     self.userID = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
+    
+    initFetchMorePOTDSubject()
   }
   
   // MARK: Fetch Data
@@ -66,6 +80,7 @@ class ProfileViewModel: ObservableObject {
     }
     
     getUserStatistics(idToken: idToken)
+    initPOTDList()
   }
   
   // MARK: User Statistics
@@ -150,5 +165,64 @@ class ProfileViewModel: ObservableObject {
         }
       } receiveValue: { _ in }
       .store(in: &subscription)
+  }
+  
+  // MARK: POTD
+  
+  private func initFetchMorePOTDSubject() {
+    fetchMorePOTDSubject.sink { [weak self] _ in
+      guard let self = self else { return }
+      if !self.isFetchingPOTDList && self.hasNextPOTD {
+        fetchPOTDList()
+      }
+    }.store(in: &subscription)
+  }
+  
+  private func initPOTDList() {
+    hasNextPOTD = true
+    lastIdOfPOTD = nil
+    DispatchQueue.main.async {
+      self.potdList = []
+    }
+    
+    fetchPOTDList()
+  }
+  
+  private func fetchPOTDList(size: Int = 10) {
+    if isFetchingPOTDList {
+      return
+    }
+    
+    isFetchingPOTDList = true
+    userProvider.requestPublisher(.getPOTDList(userId: userID, size: size, lastId: lastIdOfPOTD))
+      .sink { apiCompletion in
+        self.isFetchingPOTDList = false
+        switch apiCompletion {
+        case .finished:
+          print("fetch user images")
+        case .failure(let error):
+          self.processErrorResponse(error: error)
+        }
+      } receiveValue: { response in
+        do {
+          let responseData = try response.map(UserImagesResponse.self)
+          
+          self.potdList += responseData.content
+          self.hasNextPOTD = responseData.hasNext
+          self.lastIdOfPOTD = responseData.content.last?.imageId ?? nil
+          
+        } catch {
+          print("user Images response decoding error")
+          return
+        }
+      }.store(in: &subscription)
+  }
+  
+  private func processErrorResponse(error: MoyaError) {
+    if let errorData = try? error.response?.map(ErrorData.self) {
+      print("in profile view model - \(errorData.message)")
+    } else { // unknown error
+      print("in profile view model - \(error)")
+    }
   }
 }

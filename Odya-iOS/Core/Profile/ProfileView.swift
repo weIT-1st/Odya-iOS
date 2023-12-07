@@ -312,9 +312,14 @@ extension ProfileView {
         .h4Style()
         .foregroundColor(.odya.label.normal)
       Spacer()
-      CustomIconButton("plus",
-                       color: isMyProfile ? .odya.label.normal : .clear) {
-        print("인생샷 추가")
+      NavigationLink(destination: {
+        POTDPickerView()
+          .navigationBarBackButtonHidden()
+      }) {
+        Image("plus")
+          .renderingMode(.template)
+          .foregroundColor(isMyProfile ? .odya.label.normal : .clear)
+          .padding(6)
       }.disabled(!isMyProfile)
     }
   }
@@ -322,8 +327,8 @@ extension ProfileView {
   private var POTDList: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack {
-        ForEach(Array(0...3), id: \.self) { _ in
-          POTDCardView()
+        ForEach(profileVM.potdList, id: \.id) { image in
+          POTDCardView(imageUrl: image.imageUrl, place: image.placeName)
         }
       }
     }
