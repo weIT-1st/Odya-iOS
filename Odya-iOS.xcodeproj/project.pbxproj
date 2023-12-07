@@ -82,6 +82,9 @@
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
 		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
+		3E15D3562B20741A00543D34 /* POTDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3552B20741A00543D34 /* POTDCardView.swift */; };
+		3E15D3582B20815C00543D34 /* POTDFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3572B20815C00543D34 /* POTDFullScreen.swift */; };
+		3E15D35A2B20853300543D34 /* POTDPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3592B20853300543D34 /* POTDPickerView.swift */; };
 		3E25FAB72A814BAC00ADF6E2 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25FAB62A814BAC00ADF6E2 /* SettingView.swift */; };
 		3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */; };
 		3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E25FABA2A8434CC00ADF6E2 /* Binding.swift */; };
@@ -272,6 +275,9 @@
 		3E0589022A276E8C005C29D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3E0589042A276EAD005C29D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3E0589052A277063005C29D9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		3E15D3552B20741A00543D34 /* POTDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDCardView.swift; sourceTree = "<group>"; };
+		3E15D3572B20815C00543D34 /* POTDFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDFullScreen.swift; sourceTree = "<group>"; };
+		3E15D3592B20853300543D34 /* POTDPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDPickerView.swift; sourceTree = "<group>"; };
 		3E25FAB62A814BAC00ADF6E2 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoField.swift; sourceTree = "<group>"; };
 		3E25FABA2A8434CC00ADF6E2 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
@@ -513,7 +519,7 @@
 				3E9E988F2A8B79FE00909653 /* Auth */,
 				07310DB02A7282D30047E972 /* Review */,
 				0708FC2E2A40D2CD00D152CF /* Map */,
-				07A0EC812A3F95BC002D36B9 /* Settings */,
+				3E15D3532B2069DA00543D34 /* Profile */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 				0784963F2A84F45800A490E3 /* Community */,
 				192ADA9F2B0D8D5C00BD480E /* Report */,
@@ -570,11 +576,8 @@
 		07A0EC812A3F95BC002D36B9 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				3E15D3522B2069B400543D34 /* View */,
 				3EE9CA1E2AB6C69E003A2E85 /* ViewModel */,
-				07A0EC822A3F95DC002D36B9 /* ProfileView.swift */,
-				3EF7C1F22A81098F00223366 /* UserInfoEditView.swift */,
-				3E25FAB62A814BAC00ADF6E2 /* SettingView.swift */,
-				3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -664,6 +667,37 @@
 				199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */,
 			);
 			path = CommunityCompose;
+			sourceTree = "<group>";
+		};
+		3E15D3522B2069B400543D34 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3E25FAB62A814BAC00ADF6E2 /* SettingView.swift */,
+				3EF7C1F22A81098F00223366 /* UserInfoEditView.swift */,
+				3E25FAB82A8280AD00ADF6E2 /* UserInfoField.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3E15D3532B2069DA00543D34 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				3E15D3542B20731500543D34 /* PicOfTheDay */,
+				07A0EC822A3F95DC002D36B9 /* ProfileView.swift */,
+				3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */,
+				07A0EC812A3F95BC002D36B9 /* Settings */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		3E15D3542B20731500543D34 /* PicOfTheDay */ = {
+			isa = PBXGroup;
+			children = (
+				3E15D3552B20741A00543D34 /* POTDCardView.swift */,
+				3E15D3572B20815C00543D34 /* POTDFullScreen.swift */,
+				3E15D3592B20853300543D34 /* POTDPickerView.swift */,
+			);
+			path = PicOfTheDay;
 			sourceTree = "<group>";
 		};
 		3E26C3732AF0E7D6003607A8 /* View */ = {
@@ -846,7 +880,6 @@
 			isa = PBXGroup;
 			children = (
 				3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */,
-				3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1052,12 +1085,12 @@
 			);
 			mainGroup = 071FA5152A20A99F00C7B362;
 			packageReferences = (
-				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */,
+				3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				3E3EC3AE2A388AC0002BF519 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
-				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */,
+				3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */,
 				3E3EC3B42A388B55002BF519 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				07AF2B122A392AE300D54780 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
-				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */,
+				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
@@ -1122,6 +1155,7 @@
 				19EBA7722ABC27D8000ABBE5 /* FeedFullCommentSheet.swift in Sources */,
 				3EE9CA202AB6C6C3003A2E85 /* ProfileViewModel.swift in Sources */,
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
+				3E15D3562B20741A00543D34 /* POTDCardView.swift in Sources */,
 				07589E722AF0253E00867FAD /* Topic.swift in Sources */,
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
 				192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */,
@@ -1237,6 +1271,7 @@
 				3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */,
 				3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */,
 				3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */,
+				3E15D35A2B20853300543D34 /* POTDPickerView.swift in Sources */,
 				19EBA7632AB42338000ABBE5 /* FeedDetailView.swift in Sources */,
 				3EE9CA242AB6C9FE003A2E85 /* ProfileData.swift in Sources */,
 				3E26C3822AF16790003607A8 /* ImageManager.swift in Sources */,
@@ -1260,6 +1295,7 @@
 				3E9E988E2A84C9A400909653 /* AuthValidatorApiViewModel.swift in Sources */,
 				3EF54A072A5BE9B9006562F8 /* Error.swift in Sources */,
 				07AF2B1B2A392F1600D54780 /* LocationSearchActivationView.swift in Sources */,
+				3E15D3582B20815C00543D34 /* POTDFullScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1517,7 +1553,7 @@
 				minimumVersion = 15.0.0;
 			};
 		};
-		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */ = {
+		3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -1533,7 +1569,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */ = {
+		3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/awxkee/webp.swift.git";
 			requirement = {
@@ -1549,7 +1585,7 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */ = {
+		3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -1572,7 +1608,7 @@
 		};
 		3E3EC3AC2A388AA5002BF519 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire.git" */;
+			package = 3E3EC3AB2A388AA5002BF519 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */ = {
@@ -1582,7 +1618,7 @@
 		};
 		3E3EC3B22A388ADE002BF519 /* webp */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift.git" */;
+			package = 3E3EC3B12A388ADE002BF519 /* XCRemoteSwiftPackageReference "webp.swift" */;
 			productName = webp;
 		};
 		3E3EC3B52A388B55002BF519 /* KakaoSDK */ = {
@@ -1612,7 +1648,7 @@
 		};
 		3EBEC3902A6B1C2600998EC6 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk.git" */;
+			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
