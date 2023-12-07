@@ -9,10 +9,14 @@ import SwiftUI
 import Photos
 
 struct ProfileView: View {
-  @ObservedObject var profileVM: ProfileViewModel
+  @StateObject var profileVM = ProfileViewModel()
   @StateObject var followHubVM = FollowHubViewModel()
   
   @Environment(\.dismiss) var dismiss
+  
+  var userId: Int = -1
+  var nickname: String =  ""
+  var profileUrl: String = ""
   
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
@@ -26,9 +30,7 @@ struct ProfileView: View {
   @State private var selectedImage: [ImageData] = []
   @State private var followState: Bool? = nil
   
-  init() {
-    profileVM = ProfileViewModel()
-  }
+  init() {}
   
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
     profileVM = ProfileViewModel(userId: userId, nickname: nickname, profileUrl: profileUrl)
@@ -58,6 +60,13 @@ struct ProfileView: View {
       }
       .background(Color.odya.background.normal)
       .onAppear {
+        if userId > 0 {
+          profileVM.initData(userId, nickname, profileUrl)
+        } else {
+          let myData = MyData()
+          profileVM.initData(MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
+        }
+        
         Task {
           if !isMyProfile && followState == nil {
             followHubVM.isMyFollowingUser(profileVM.userID) { result in

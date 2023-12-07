@@ -17,5 +17,6 @@ extension View {
                 .frame(width: labelSize.CTAButtonWidth)
                 .padding(10)
         }.buttonStyle(CustomButtonStyle(state: isActive, style: buttonStyle))
+        .disabled(isActive == .inactive)
     }
 }
