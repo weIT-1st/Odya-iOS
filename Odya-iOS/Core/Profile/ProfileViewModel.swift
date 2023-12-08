@@ -32,9 +32,9 @@ class ProfileViewModel: ObservableObject {
   private var subscription = Set<AnyCancellable>()
   
   // user data
-  @Published var userID: Int
-  @Published var nickname: String
-  @Published var profileUrl: String
+  @Published var userID: Int = -1
+  @Published var nickname: String = ""
+  @Published var profileUrl: String = ""
   @Published var statistics = UserStatistics()
   @Published var potdList: [UserImage] = []
   

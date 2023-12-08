@@ -33,7 +33,8 @@ extension Font {
 
 extension View {
     private func applyTextStyle(style: LogoFontStyle) -> some View {
-        self.font(Font.notoSansKRStyle(style)).lineSpacing((style.lineHeight - 1) * style.size)
+        self.font(Font.notoSansKRStyle(style))
+//        .lineSpacing((style.lineHeight - 1) * style.size)
     }
 
     func h1Style() -> some View {

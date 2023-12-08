@@ -164,9 +164,9 @@ struct TravelJournalSmallCardView: View {
   var title: String
   var dateString: String
   var imageUrl: String
-  var writer: FollowUserData
+  var writer: Writer
 
-  init(title: String, date: Date, imageUrl: String, writer: FollowUserData) {
+  init(title: String, date: Date, imageUrl: String, writer: Writer) {
     self.title = title
     self.dateString =
       date.dateToString(format: "yyyy.MM.dd")

@@ -13,8 +13,10 @@ extension View {
         Button(action: action) {
             Text(isFollowing ? "팔로잉" : "팔로우")
                 .detail1Style()
+                .frame(width: 38, height: 12)
                 .padding(8)
-        }.buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
+        }
+        .buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
     }
 }
 
@@ -30,7 +32,7 @@ struct FollowButtonWithAlertAndApi: View {
   @State private var followState: Bool
   @State private var isShowingUnfollowingAlert: Bool = false
   
-  init(userId: Int, buttonStyle: ButtonStyleType, followState: Bool = true) {
+  init(userId: Int, buttonStyle: ButtonStyleType, followState: Bool) {
     self.userId = userId
     self.buttonStyle = buttonStyle
     self.followState = followState

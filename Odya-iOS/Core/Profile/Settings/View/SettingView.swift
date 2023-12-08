@@ -31,7 +31,7 @@ struct SettingView: View {
     
     var linkToUserInfoEditView: some View {
         NavigationLink(destination: {
-            UserInfoEditView(userInfo: UserInfo(nickname: "길동아밥먹자"))
+            UserInfoEditView(userInfo: SignUpInfo(nickname: "길동아밥먹자"))
                 .navigationBarHidden(true)
         }, label: {
             HStack {
