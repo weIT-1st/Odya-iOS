@@ -73,6 +73,13 @@ class ProfileViewModel: ObservableObject {
     initFetchMorePOTDSubject()
   }
   
+  // MARK: Init Data
+  func initData(_ userId: Int, _ nickname: String, _ profileUrl: String) {
+    self.userID = userId
+    self.nickname = nickname
+    self.profileUrl = profileUrl
+  }
+  
   // MARK: Fetch Data
   func fetchDataAsync() async {
     guard let idToken = idToken else {
