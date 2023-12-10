@@ -127,25 +127,30 @@ private struct FollowButtonInProfileView: View {
 
 // MARK: Profile Info Section
 extension ProfileView {
+  
+  /// 프로필 이미지 및 닉네임 부분
+  /// 내 프로필뷰일 경우 프로필이미지 변경 버튼 포함
+  /// 타인의 프로필뷰일 경우 닉네임 옆에 팔로잉 버튼 포함
   var profileImgAndNickname: some View {
     VStack(spacing: 24) {
-      // profile image
+      // 프로필 이미지
       ZStack {
         ProfileImageView(profileUrl: profileVM.profileUrl, size: .XL)
 
+        // 프로필 변경 버튼
         if isMyProfile {
           ProfileImageEditButton()
             .environmentObject(profileVM)
         }
       }
 
-      // nickname
+      // 닉네임
       HStack(spacing: 12) {
         Text(profileVM.nickname)
           .foregroundColor(.odya.label.normal)
           .h3Style()
 
-        // if not my profile, follow button
+        // 팔로잉 버튼
         if !isMyProfile {
           FollowButtonInProfileView(
             userId: profileVM.userID,
@@ -155,5 +160,4 @@ extension ProfileView {
       }
     }  // VStack
   }
-
 }

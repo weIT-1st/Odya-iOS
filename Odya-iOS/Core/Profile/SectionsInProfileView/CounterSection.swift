@@ -9,6 +9,8 @@ import SwiftUI
 
 // MARK: Follow Count
 extension ProfileView {
+  
+  /// 총오댜, 팔로워, 팔로잉 수 오버뷰
   var followTotal: some View {
     NavigationLink(
       destination: isMyProfile
@@ -53,6 +55,8 @@ extension ProfileView {
 
 // MARK: Odya Counter
 extension ProfileView {
+  
+  /// 오댜 여행간 곳, 여행일지 카운트 오버뷰
   var odyaCounter: some View {
     VStack(spacing: 28) {
       Image("odya")

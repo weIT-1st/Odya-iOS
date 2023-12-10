@@ -8,6 +8,9 @@
 import SwiftUI
 
 extension ProfileView {
+  
+  /// 인생샷 부분 타이틀
+  /// 내 프로필뷰인 경우, 인생샷 추가 버튼 포함
   var POTDTitle: some View {
     HStack {
       Text(isMyProfile ? "내 인생 샷" : "인생 샷")
@@ -27,12 +30,16 @@ extension ProfileView {
   }
 }
 
+/// 인생샷 가로 스크롤뷰
+/// 클릭 시 확대보기 가능
 struct POTDListView: View {
+  /// 인생샷 사진 리스트
   @Binding var images: [UserImage]
-
+  /// 내 프로필뷰인지 체크
   let isMyPOTD: Bool
-
+  /// 확대보기 여부
   @State var isShowingPOTDFull: Bool = false
+  /// 확대보기 하기 위해 클릭한 사진 인덱스
   @State var selectedImageIdx: Int = 0
 
   init(_ images: Binding<[UserImage]>, isMyPOTD: Bool) {
@@ -53,6 +60,7 @@ struct POTDListView: View {
         }
       }
     }
+    // 확대보기
     .fullScreenCover(isPresented: $isShowingPOTDFull) {
       POTDFullScreen($images, selectedIdx: selectedImageIdx, isMyPOTD: isMyPOTD)
     }

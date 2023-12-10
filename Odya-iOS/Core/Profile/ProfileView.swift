@@ -49,8 +49,6 @@ struct ProfileView: View {
     profileVM.userID == MyData.userID
   }
 
-  @State var isShowingPOTDFull: Bool = false
-
   init() {}
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
