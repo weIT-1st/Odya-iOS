@@ -7,6 +7,33 @@
 
 import SwiftUI
 
+private struct BackgroundImageView: View {
+  let imageUrl: String?
+  
+  var body: some View {
+    if let url = imageUrl {
+      AsyncImage(url: URL(string: url)) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+          .clipped()
+          .blur(radius: 8)
+      } placeholder: {
+        defaultBG
+      }
+    } else {
+      defaultBG
+    }
+  }
+  
+  private var defaultBG: some View {
+    Rectangle()
+      .foregroundColor(.clear)
+      .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+  }
+}
+
 struct ProfileView: View {
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followButtonVM = FollowButtonViewModel()
@@ -21,6 +48,8 @@ struct ProfileView: View {
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
   }
+  
+  @State var isShowingPOTDFull: Bool = false
   
   init() {}
   
@@ -43,7 +72,8 @@ struct ProfileView: View {
             followTotal
           }.padding(.horizontal, GridLayout.side)
         }.background(
-          bgImage.offset(y: -70)
+          BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
+            .offset(y: -70)
         )
         
         VStack(spacing: 20) {
@@ -53,7 +83,7 @@ struct ProfileView: View {
           VStack(spacing: 36) {
             POTDTitle
               .padding(.horizontal, GridLayout.side)
-            POTDList
+            POTDListView($profileVM.potdList, isMyPOTD: isMyProfile)
               .padding(.leading, GridLayout.side)
           }
           

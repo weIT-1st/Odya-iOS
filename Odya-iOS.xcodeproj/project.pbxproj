@@ -732,9 +732,9 @@
 		3E15D3532B2069DA00543D34 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				3E075C8F2B2309FE0093CACD /* SectionsInProfileView */,
 				07A0EC822A3F95DC002D36B9 /* ProfileView.swift */,
 				3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */,
+				3E075C8F2B2309FE0093CACD /* SectionsInProfileView */,
 				3E15D3542B20731500543D34 /* PicOfTheDay */,
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 			);

@@ -152,15 +152,4 @@ extension ProfileView {
     } // VStack
   }
   
-  /// 배경
-  var bgImage: some View {
-    Rectangle()
-      .foregroundColor(.clear)
-      .background(.black.opacity(0.5))
-      .background(
-        Color.odya.brand.primary
-      )
-      .blur(radius: 8)
-  }
-  
 }

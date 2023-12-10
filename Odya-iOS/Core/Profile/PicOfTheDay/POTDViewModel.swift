@@ -102,7 +102,8 @@ class POTDViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
-  func deletePOTD(imageId: Int) {
+  func deletePOTD(imageId: Int,
+                  completion: @escaping () -> Void) {
     if isProcessing {
       return
     }
@@ -114,6 +115,7 @@ class POTDViewModel: ObservableObject {
         switch apiCompletion {
         case .finished:
           print("delete POTD \(imageId)")
+          completion()
         case .failure(let error):
           self.processErrorResponse(error: error)
         }

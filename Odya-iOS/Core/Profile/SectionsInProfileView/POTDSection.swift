@@ -25,14 +25,36 @@ extension ProfileView {
       }.disabled(!isMyProfile)
     }
   }
+}
+
+struct POTDListView: View {
+  @Binding var images: [UserImage]
   
-  var POTDList: some View {
+  let isMyPOTD: Bool
+  
+  @State var isShowingPOTDFull: Bool = false
+  @State var selectedImageIdx: Int = 0
+  
+  init(_ images: Binding<[UserImage]>, isMyPOTD: Bool) {
+    self._images = images
+    self.isMyPOTD = isMyPOTD
+  }
+  
+  var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack {
-        ForEach(profileVM.potdList, id: \.id) { image in
-          POTDCardView(imageUrl: image.imageUrl, place: image.placeName)
+        ForEach(Array(images.enumerated()), id: \.element.id) { (idx, image) in
+          Button(action: {
+            isShowingPOTDFull = true
+            selectedImageIdx = idx
+          }) {
+            POTDCardView(imageUrl: image.imageUrl, place: image.placeName)
+          }
         }
       }
+    }
+    .fullScreenCover(isPresented: $isShowingPOTDFull) {
+      POTDFullScreen($images, selectedIdx: selectedImageIdx, isMyPOTD: isMyPOTD)
     }
   }
 }
