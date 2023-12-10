@@ -39,6 +39,8 @@ class POTDViewModel: ObservableObject {
   /// 인생샷 등록을 위해 선택한 이미지
   @Published var selectedImage: UserImage? = nil
 
+  // MARK: Init
+  
   init() {
     fetchImages()
 
@@ -50,6 +52,8 @@ class POTDViewModel: ObservableObject {
     }.store(in: &subscription)
   }
 
+  // MARK: Fetch
+  
   private func fetchImages(size: Int = 30) {
     if isFetching {
       return
@@ -80,6 +84,8 @@ class POTDViewModel: ObservableObject {
       }.store(in: &subscription)
   }
 
+  // MARK: Register
+  
   func registerPOTD(imageId: Int, placeName: String?) {
     if isProcessing {
       return
@@ -105,6 +111,8 @@ class POTDViewModel: ObservableObject {
       .store(in: &subscription)
   }
 
+  // MARK: Delete
+  
   func deletePOTD(
     imageId: Int,
     completion: @escaping () -> Void
@@ -129,6 +137,7 @@ class POTDViewModel: ObservableObject {
       .store(in: &subscription)
   }
 
+  // MARK: Error Handling
   private func processErrorResponse(error: MoyaError) {
     if let errorData = try? error.response?.map(ErrorData.self) {
       print(errorData.message)
