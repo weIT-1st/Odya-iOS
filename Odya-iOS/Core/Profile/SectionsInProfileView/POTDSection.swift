@@ -29,17 +29,17 @@ extension ProfileView {
 
 struct POTDListView: View {
   @Binding var images: [UserImage]
-  
+
   let isMyPOTD: Bool
-  
+
   @State var isShowingPOTDFull: Bool = false
   @State var selectedImageIdx: Int = 0
-  
+
   init(_ images: Binding<[UserImage]>, isMyPOTD: Bool) {
     self._images = images
     self.isMyPOTD = isMyPOTD
   }
-  
+
   var body: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack {

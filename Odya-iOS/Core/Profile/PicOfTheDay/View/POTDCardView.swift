@@ -12,14 +12,15 @@ import SwiftUI
 struct POTDCardView: View {
   let imageUrl: String
   let place: String?
-  
+
   var body: some View {
     VStack(spacing: 20) {
       // 인생샷 이미지
-      AsyncImageView(url: imageUrl,
-                     width: 223, height: 223,
-                     cornerRadius: Radius.medium)
-      
+      AsyncImageView(
+        url: imageUrl,
+        width: 223, height: 223,
+        cornerRadius: Radius.medium)
+
       // 태그된 장소
       // 태그된 장소가 없을 경우엔 보여지지 않음, 카드뷰의 총 height는 변하지 않음
       HStack(spacing: 8) {
@@ -40,4 +41,3 @@ struct POTDCardView_Previews: PreviewProvider {
     POTDCardView(imageUrl: "", place: "해운대해수욕장")
   }
 }
-

@@ -9,7 +9,7 @@ import SwiftUI
 
 private struct BackgroundImageView: View {
   let imageUrl: String?
-  
+
   var body: some View {
     if let url = imageUrl {
       AsyncImage(url: URL(string: url)) { image in
@@ -26,7 +26,7 @@ private struct BackgroundImageView: View {
       defaultBG
     }
   }
-  
+
   private var defaultBG: some View {
     Rectangle()
       .foregroundColor(.clear)
@@ -37,31 +37,31 @@ private struct BackgroundImageView: View {
 struct ProfileView: View {
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followButtonVM = FollowButtonViewModel()
-  
+
   @Environment(\.dismiss) var dismiss
-  
+
   var userId: Int = -1
-  var nickname: String =  ""
+  var nickname: String = ""
   var profileUrl: String = ""
   var isFollowing: Bool? = nil
-  
+
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
   }
-  
+
   @State var isShowingPOTDFull: Bool = false
-  
+
   init() {}
-  
+
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
     self.userId = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
     self.isFollowing = isFollowing
   }
-  
+
   // MARK: Body
-  
+
   var body: some View {
     NavigationView {
       ScrollView(.vertical) {
@@ -75,21 +75,20 @@ struct ProfileView: View {
           BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
             .offset(y: -70)
         )
-        
+
         VStack(spacing: 20) {
           odyaCounter
             .padding(.horizontal, GridLayout.side)
-          
+
           VStack(spacing: 36) {
             POTDTitle
               .padding(.horizontal, GridLayout.side)
             POTDListView($profileVM.potdList, isMyPOTD: isMyProfile)
               .padding(.leading, GridLayout.side)
           }
-          
+
           Divider().frame(height: 8).background(Color.odya.blackopacity.baseBlackAlpha70)
-          
-          
+
           Spacer()
         }
         .padding(.top, 20)
@@ -100,9 +99,10 @@ struct ProfileView: View {
           profileVM.initData(userId, nickname, profileUrl)
         } else {
           let myData = MyData()
-          profileVM.initData(MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
+          profileVM.initData(
+            MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
         }
-        
+
         Task {
           await profileVM.fetchDataAsync()
         }
@@ -110,8 +110,8 @@ struct ProfileView: View {
     }
   }
 }
-  
-  // MARK: Navigation Bar
+
+// MARK: Navigation Bar
 extension ProfileView {
   private var topNavigationBar: some View {
     HStack(spacing: 0) {
@@ -137,7 +137,7 @@ extension ProfileView {
 }
 
 struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-    }
+  static var previews: some View {
+    ProfileView()
+  }
 }

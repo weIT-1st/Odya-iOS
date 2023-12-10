@@ -5,22 +5,21 @@
 //  Created by Heeoh Son on 2023/12/08.
 //
 
-import SwiftUI
 import Photos
+import SwiftUI
 
 // MARK: Profile Image Edit Button
 
 /// 프로필이미지 변경 버튼
 private struct ProfileImageEditButton: View {
   @EnvironmentObject var profileVM: ProfileViewModel
-  
+
   @State private var isShowingUpdateProfileImageAlert: Bool = false
   @State private var isShowingImagePickerSheet: Bool = false
-  
+
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
   @State private var selectedImage: [ImageData] = []
 
-  
   var body: some View {
     IconButton("camera") {
       isShowingUpdateProfileImageAlert = true
@@ -28,7 +27,10 @@ private struct ProfileImageEditButton: View {
     .disabled(profileVM.isUpdatingProfileImg)
     .background(Color.odya.label.inactive)
     .cornerRadius(50)
-    .offset(x: ComponentSizeType.XL.ProfileImageSize / 2 - 15, y: ComponentSizeType.XL.ProfileImageSize / 2 - 15)
+    .offset(
+      x: ComponentSizeType.XL.ProfileImageSize / 2 - 15,
+      y: ComponentSizeType.XL.ProfileImageSize / 2 - 15
+    )
     // 프로필 이미지 변경 방식 선택 alert
     .confirmationDialog("", isPresented: $isShowingUpdateProfileImageAlert) {
       Button("앨범에서 사진 선택") {
@@ -68,14 +70,14 @@ private struct ProfileImageEditButton: View {
 /// 팔로우/언팔로우 시 follow Count 값을 같이 바꿔줌
 private struct FollowButtonInProfileView: View {
   @StateObject var VM = FollowButtonViewModel()
-  
+
   let userId: Int
   @Binding var followerCount: Int
-  
+
   @State private var followState: Bool
-  
+
   @State private var isShowingUnfollowingAlert: Bool = false
-  
+
   init(userId: Int, followerCount: Binding<Int>, isFollowing: Bool?) {
     self.userId = userId
     self._followerCount = followerCount
@@ -88,10 +90,12 @@ private struct FollowButtonInProfileView: View {
       }
     }
   }
-  
+
   var body: some View {
-    FollowButton(isFollowing: followState,
-                 buttonStyle: .solid) {
+    FollowButton(
+      isFollowing: followState,
+      buttonStyle: .solid
+    ) {
       if followState == false {  // do following
         followState = true
         // 팔로우 -> 팔로워 수 1 증가
@@ -128,28 +132,28 @@ extension ProfileView {
       // profile image
       ZStack {
         ProfileImageView(profileUrl: profileVM.profileUrl, size: .XL)
-        
+
         if isMyProfile {
           ProfileImageEditButton()
             .environmentObject(profileVM)
         }
       }
-      
+
       // nickname
       HStack(spacing: 12) {
         Text(profileVM.nickname)
           .foregroundColor(.odya.label.normal)
           .h3Style()
-        
+
         // if not my profile, follow button
         if !isMyProfile {
-          FollowButtonInProfileView(userId: profileVM.userID,
-                                    followerCount: $profileVM.statistics.followersCount,
-                                    isFollowing: isFollowing)
+          FollowButtonInProfileView(
+            userId: profileVM.userID,
+            followerCount: $profileVM.statistics.followersCount,
+            isFollowing: isFollowing)
         }
       }
-      
-    } // VStack
+    }  // VStack
   }
-  
+
 }

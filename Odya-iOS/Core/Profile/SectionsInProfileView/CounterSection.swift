@@ -11,34 +11,36 @@ import SwiftUI
 extension ProfileView {
   var followTotal: some View {
     NavigationLink(
-      destination: isMyProfile ? FollowHubView().navigationBarHidden(true) : FollowHubView(userId: profileVM.userID).navigationBarHidden(true)
+      destination: isMyProfile
+        ? FollowHubView().navigationBarHidden(true)
+        : FollowHubView(userId: profileVM.userID).navigationBarHidden(true)
     ) {
       HStack(spacing: 20) {
         Spacer()
-        
+
         getCountStackView(of: "총오댜", count: profileVM.statistics.odyaCount)
-        
+
         Divider().frame(width: 1, height: 30).background(Color.odya.label.alternative)
-        
+
         getCountStackView(of: "팔로잉", count: profileVM.statistics.followingsCount)
-        
+
         Divider().frame(width: 1, height: 30).background(Color.odya.label.alternative)
-        
+
         getCountStackView(of: "팔로우", count: profileVM.statistics.followersCount)
-        
+
         Spacer()
       }
       .frame(height: 80)
       .background(Color.odya.whiteopacity.baseWhiteAlpha20)
       .cornerRadius(Radius.large)
-      .overlay (
+      .overlay(
         RoundedRectangle(cornerRadius: Radius.large)
           .inset(by: 0.5)
           .stroke(Color.odya.line.alternative, lineWidth: 1)
       )
     }
   }
-  
+
   private func getCountStackView(of title: String, count: Int) -> some View {
     VStack {
       Text(title)
@@ -58,7 +60,7 @@ extension ProfileView {
         .aspectRatio(contentMode: .fit)
         .frame(height: 70)
         .frame(maxWidth: .infinity)
-      
+
       VStack {
         HStack(spacing: 0) {
           Text("\(profileVM.nickname)님은 ")
@@ -90,4 +92,3 @@ extension ProfileView {
     .cornerRadius(Radius.large)
   }
 }
-

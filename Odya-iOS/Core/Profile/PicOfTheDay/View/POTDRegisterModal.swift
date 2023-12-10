@@ -17,19 +17,19 @@ struct POTDRegisterModal: View {
   var imageId: Int { image.imageId }
   var imageUrl: String { image.imageUrl }
   @State private var placeName: String?
-  
+
   init(image: UserImage) {
     self.image = image
     self.placeName = image.placeName
   }
-  
+
   // MARK: Body
   var body: some View {
     VStack(spacing: 20) {
       imageView
 
       placeTagButton
-      
+
       HStack(spacing: 12) {
         cancelButton
         registerButton
@@ -42,14 +42,15 @@ struct POTDRegisterModal: View {
     .background(Color.odya.elevation.elev2)
     .cornerRadius(Radius.large)
   }
-  
+
   // MARK: Image View
   private var imageView: some View {
-    AsyncImageView(url: imageUrl,
-                   width: 292, height: 207,
-                   cornerRadius: Radius.medium)
+    AsyncImageView(
+      url: imageUrl,
+      width: 292, height: 207,
+      cornerRadius: Radius.medium)
   }
-  
+
   // MARK: Place Tag Button
   private var placeTagButton: some View {
     NavigationLink {
@@ -75,26 +76,30 @@ struct POTDRegisterModal: View {
       )
     }
   }
-  
+
   // MARK: Cancel Button
   private var cancelButton: some View {
-    CTAButton(isActive: .inactive,
-              buttonStyle: .basic,
-              labelText: "닫기",
-              labelSize: .S) {
+    CTAButton(
+      isActive: .inactive,
+      buttonStyle: .basic,
+      labelText: "닫기",
+      labelSize: .S
+    ) {
       dismiss()
     }
   }
-  
+
   // MARK: Register Button
   private var registerButton: some View {
-    CTAButton(isActive: .active,
-              buttonStyle: .solid,
-              labelText: "등록하기",
-              labelSize: .S) {
+    CTAButton(
+      isActive: .active,
+      buttonStyle: .solid,
+      labelText: "등록하기",
+      labelSize: .S
+    ) {
       VM.registerPOTD(imageId: imageId, placeName: placeName)
       dismiss()
     }
-    
+
   }
 }
