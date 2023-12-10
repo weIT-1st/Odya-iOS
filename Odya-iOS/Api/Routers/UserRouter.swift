@@ -11,6 +11,12 @@ import Moya
 enum UserRouter {
   // 1. 사용자 정보 조회
     case getUserInfo
+  // 2. 이메일 변경
+  case updateUserEmailAddress(newEmailAddr: String)
+  // 3. 전화번호 변경
+  case updateUserPhoneNumber(newPhoneNumber: String)
+  // 4. 닉네임 변경
+  case updateUserNickname(newNickname: String)
   // 5. 사용자 프로필 사진 변경
   case updateUserProfileImage(profileImg: (data: Data, name: String)?)
   // 7. 회원탈퇴
@@ -28,8 +34,14 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
   
   var path: String {
     switch self {
+    case .updateUserEmailAddress:
+      return "/api/v1/users/email"
+    case .updateUserPhoneNumber:
+      return "/api/v1/users/phone-number"
     case .getUserInfo:
       return "/api/v1/users/me"
+    case .updateUserNickname:
+      return "/api/v1/users/information"
     case .updateUserProfileImage:
       return "/api/v1/users/profile"
     case .deleteUser:
@@ -43,7 +55,10 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
   
   var method: Moya.Method {
     switch self {
-    case .updateUserProfileImage:
+    case .updateUserEmailAddress,
+        .updateUserPhoneNumber,
+        .updateUserNickname,
+        .updateUserProfileImage:
       return .patch
     case .deleteUser:
       return .delete
@@ -54,6 +69,9 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
   
   var task: Moya.Task {
     switch self {
+    case .updateUserNickname(let newNickname):
+      let params: [String : Any] = ["nickname" : newNickname]
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
     case .updateUserProfileImage(let profileImg):
       guard let profileImg = profileImg else {
         return .requestPlain

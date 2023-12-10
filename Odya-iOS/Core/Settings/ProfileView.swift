@@ -33,7 +33,9 @@ struct ProfileView: View {
   init() {}
   
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
-    profileVM = ProfileViewModel(userId: userId, nickname: nickname, profileUrl: profileUrl)
+    self.userId = userId
+    self.nickname = nickname
+    self.profileUrl = profileUrl
     self.followState = isFollowing
   }
 
