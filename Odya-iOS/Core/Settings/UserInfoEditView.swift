@@ -13,6 +13,8 @@ import Foundation
 struct UserInfoEditView: View {
   @StateObject var VM = UserInfoEditViewModel()
   
+  @Environment(\.dismiss) var dismiss
+  
   @State private var isShowingUserDeletionAlert: Bool = false
   
   var body: some View {
@@ -106,7 +108,7 @@ struct NicknameEditSection: View {
                           infoField: .nickname)
         UserInfoEditButton(buttonText: "변경",
                            isActive: isEditing && isValid) {
-          VM.updateNickname(userNickname) { (success, msg) in
+          VM.updateNickname(newNickname) { (success, msg) in
             if success {
               alertMessage = "변경되었습니다"
               isShowAlert = true
@@ -117,7 +119,9 @@ struct NicknameEditSection: View {
             }
           }
         }.alert(alertMessage, isPresented: $isShowAlert){
-          Button("확인", role: .cancel) {}
+          Button("확인") {
+            isShowAlert = false
+          }
         }
       }
       
