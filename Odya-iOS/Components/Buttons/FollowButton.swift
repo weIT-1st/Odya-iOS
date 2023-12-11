@@ -25,7 +25,7 @@ extension View {
 /// buttonStyle: 팔로우버튼 스타일
 /// followState: 팔로우 상태 초기값, 기본값은 true(팔로우 중인 상태)
 struct FollowButtonWithAlertAndApi: View {
-  @StateObject var followHubVM = FollowHubViewModel()
+  @StateObject var VM = FollowButtonViewModel()
   
   let userId: Int
   let buttonStyle: ButtonStyleType
@@ -42,7 +42,7 @@ struct FollowButtonWithAlertAndApi: View {
     FollowButton(isFollowing: followState, buttonStyle: buttonStyle) {
       if followState == false {  // do following
         followState = true
-        followHubVM.createFollow(userId)
+        VM.createFollow(userId)
       } else {  // do unfollowing
         isShowingUnfollowingAlert = true
       }
@@ -56,7 +56,7 @@ struct FollowButtonWithAlertAndApi: View {
         }
         Button("삭제") {
           followState = false
-          followHubVM.deleteFollow(userId)
+          VM.deleteFollow(userId)
           isShowingUnfollowingAlert = false
         }
       }
