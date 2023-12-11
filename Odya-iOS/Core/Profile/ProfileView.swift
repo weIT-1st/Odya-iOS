@@ -34,12 +34,19 @@ private struct BackgroundImageView: View {
   }
 }
 
+enum StackViewType {
+  case settingView
+  case followHubView
+  case potoRegisterView
+}
+
 struct ProfileView: View {
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followButtonVM = FollowButtonViewModel()
 
   @Environment(\.dismiss) var dismiss
-
+  @State var path: [StackViewType] = []
+  
   var userId: Int = -1
   var nickname: String = ""
   var profileUrl: String = ""
@@ -61,7 +68,7 @@ struct ProfileView: View {
   // MARK: Body
 
   var body: some View {
-    NavigationView {
+    NavigationStack(path: $path) {
       ScrollView(.vertical) {
         VStack(spacing: 24) {
           topNavigationBar
@@ -105,6 +112,16 @@ struct ProfileView: View {
           await profileVM.fetchDataAsync()
         }
       }
+      .navigationDestination(for: StackViewType.self) { stackViewType in
+        switch stackViewType {
+        case .settingView:
+          SettingView().navigationBarBackButtonHidden()
+        case .followHubView:
+          isMyProfile ? FollowHubView().navigationBarBackButtonHidden() : FollowHubView(userId: userId).navigationBarBackButtonHidden()
+        case .potoRegisterView:
+          POTDPickerView().navigationBarBackButtonHidden()
+        }
+      }
     }
   }
 }
@@ -115,13 +132,9 @@ extension ProfileView {
     HStack(spacing: 0) {
       if isMyProfile {
         Spacer()
-        NavigationLink(
-          destination: SettingView()
-            .navigationBarHidden(true)
-        ) {
-          Image("setting")
-            .padding(10)
-        }
+        IconButton("setting") {
+          path.append(.settingView)
+        }.padding(4)
       } else {
         IconButton("direction-left") {
           dismiss()

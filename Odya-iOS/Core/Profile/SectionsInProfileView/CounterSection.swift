@@ -12,24 +12,22 @@ extension ProfileView {
   
   /// 총오댜, 팔로워, 팔로잉 수 오버뷰
   var followTotal: some View {
-    NavigationLink(
-      destination: isMyProfile
-        ? FollowHubView().navigationBarHidden(true)
-        : FollowHubView(userId: profileVM.userID).navigationBarHidden(true)
-    ) {
+    Button(action: {
+      path.append(.followHubView)
+    }) {
       HStack(spacing: 20) {
         Spacer()
-
+        
         getCountStackView(of: "총오댜", count: profileVM.statistics.odyaCount)
-
+        
         Divider().frame(width: 1, height: 30).background(Color.odya.label.alternative)
-
+        
         getCountStackView(of: "팔로잉", count: profileVM.statistics.followingsCount)
-
+        
         Divider().frame(width: 1, height: 30).background(Color.odya.label.alternative)
-
+        
         getCountStackView(of: "팔로우", count: profileVM.statistics.followersCount)
-
+        
         Spacer()
       }
       .frame(height: 80)
@@ -42,7 +40,7 @@ extension ProfileView {
       )
     }
   }
-
+  
   private func getCountStackView(of title: String, count: Int) -> some View {
     VStack {
       Text(title)
