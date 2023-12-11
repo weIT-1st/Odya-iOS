@@ -8,9 +8,16 @@
 import SwiftUI
 import Photos
 
+enum StackViewType {
+  case settingView
+  case followHubView
+}
+
 struct ProfileView: View {
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followHubVM = FollowHubViewModel()
+  
+  @State private var path: [StackViewType] = []
   
   @Environment(\.dismiss) var dismiss
   
@@ -42,7 +49,7 @@ struct ProfileView: View {
   // MARK: Body
   
   var body: some View {
-    NavigationView {
+    NavigationStack(path: $path) {
       VStack(spacing: 20) {
         VStack(spacing: 24) {
           topNavigationBar
@@ -57,7 +64,6 @@ struct ProfileView: View {
         odyaCounter
         
         Spacer()
-        
         
       }
       .background(Color.odya.background.normal)
@@ -78,6 +84,14 @@ struct ProfileView: View {
           await profileVM.fetchDataAsync()
         }
       }
+      .navigationDestination(for: StackViewType.self) { stackViewType in
+        switch stackViewType {
+        case .settingView:
+          SettingView().navigationBarBackButtonHidden()
+        case .followHubView:
+          isMyProfile ? FollowHubView().navigationBarBackButtonHidden() : FollowHubView(userId: userId).navigationBarBackButtonHidden()
+        }
+      }
     }
   }
   
@@ -87,13 +101,9 @@ struct ProfileView: View {
     HStack(spacing: 0) {
       if isMyProfile {
         Spacer()
-        NavigationLink(
-          destination: SettingView()
-            .navigationBarHidden(true)
-        ) {
-          Image("setting")
-            .padding(10)
-        }
+        IconButton("setting") {
+          path.append(.settingView)
+        }.padding(4)
       } else {
         IconButton("direction-left") {
           dismiss()
@@ -202,9 +212,9 @@ struct ProfileView: View {
   // MARK: Follow Count
   
   private var followTotal: some View {
-    NavigationLink(
-      destination: isMyProfile ? FollowHubView().navigationBarHidden(true) : FollowHubView(userId: profileVM.userID).navigationBarHidden(true)
-    ) {
+    Button(action: {
+      path.append(.followHubView)
+    }) {
       HStack(spacing: 20) {
         Spacer()
         VStack {

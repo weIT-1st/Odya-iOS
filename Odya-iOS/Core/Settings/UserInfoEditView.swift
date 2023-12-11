@@ -8,14 +8,47 @@
 import SwiftUI
 import Foundation
     
+private struct UserDeletionButton: View {
+  @EnvironmentObject var VM: UserInfoEditViewModel
+  @State private var isShowingUserDeletionAlert: Bool = false
+
+  var body: some View {
+    Button(action: {
+      print("회원탈퇴 클릭")
+      isShowingUserDeletionAlert = true
+    }) {
+      Text("회원탈퇴")
+        .b1Style()
+        .foregroundColor(.odya.system.warning)
+    }
+    .alert("정말 탈퇴하시겠습니까?", isPresented: $isShowingUserDeletionAlert) {
+      Button("탈퇴", role: .destructive) {
+        isShowingUserDeletionAlert = false
+        VM.deleteUser()
+      }
+    }
+  }
+}
+
+private struct LogoutButton: View {
+  @EnvironmentObject var VM: UserInfoEditViewModel
+  
+  var body: some View {
+    Button(action: {
+      print("로그아웃 클릭")
+      VM.logout()
+    }, label: {
+      Text("로그아웃")
+        .b1Style()
+        .foregroundColor(.odya.label.normal)
+    })
+  }
+}
+
 // MARK: User Info Edit View
 
 struct UserInfoEditView: View {
   @StateObject var VM = UserInfoEditViewModel()
-  
-  @Environment(\.dismiss) var dismiss
-  
-  @State private var isShowingUserDeletionAlert: Bool = false
   
   var body: some View {
     VStack {
@@ -48,31 +81,13 @@ struct UserInfoEditView: View {
         
         Divider().frame(height: 1).background(Color.odya.line.alternative)
         
-        Button(action: {
-          print("로그아웃 클릭")
-          VM.logout()
-        }, label: {
-          Text("로그아웃")
-            .b1Style()
-            .foregroundColor(.odya.label.normal)
-        })
+        LogoutButton()
+          .environmentObject(VM)
         
         Divider().frame(height: 1).background(Color.odya.line.alternative)
         
-        Button(action: {
-          print("회원탈퇴 클릭")
-          isShowingUserDeletionAlert = true
-        }, label: {
-          Text("회원탈퇴")
-            .b1Style()
-            .foregroundColor(.odya.system.warning)
-        })
-        .alert("정말 탈퇴하시겠습니까?", isPresented: $isShowingUserDeletionAlert) {
-          Button("탈퇴", role: .destructive) {
-            isShowingUserDeletionAlert = false
-            VM.deleteUser()
-          }
-        }
+        UserDeletionButton()
+          .environmentObject(VM)
         
       } // main VStack
       .padding(GridLayout.side)
@@ -89,17 +104,17 @@ struct NicknameEditSection: View {
     VM.nickname
   }
   @State private var newNickname: String = ""
-  
+
   private var isEditing: Bool {
     userNickname != newNickname
   }
   private var isValid: Bool {
     UserInfoField.nickname.isValid(value: newNickname)
   }
-  
+
   @State var isShowAlert: Bool = false
   @State var alertMessage: String = ""
-  
+
   var body: some View {
     VStack(alignment: .leading) {
       HStack {
@@ -119,12 +134,10 @@ struct NicknameEditSection: View {
             }
           }
         }.alert(alertMessage, isPresented: $isShowAlert){
-          Button("확인") {
-            isShowAlert = false
-          }
+          Button("확인", role: .cancel) {}
         }
       }
-      
+
       if !isEditing {
         Text("*최소 2자~최대 8자, 특수문자 불가능")
           .detail2Style()
@@ -155,26 +168,26 @@ struct PhoneNumberEditSection: View {
   }
   @State private var newPhoneNumber: String = ""
   @State private var verificationCode: String = ""
-  
+
   private var isEditing: Bool {
     newPhoneNumber != "" && userPhoneNumber != newPhoneNumber
   }
   private var isValid: Bool {
     UserInfoField.phoneNumber.isValid(value: newPhoneNumber)
   }
-  
+
   @State var isShowAlert: Bool = false
   @State var alertMessage: String = ""
-  
+
   @StateObject var validatorApi = AuthValidatorApiViewModel()
-  
+
   var body: some View {
     VStack(spacing: 16) {
       HStack { // 휴대폰 번호 변경
         UserInfoTextField(info: userPhoneNumber ?? "",
                           newInfo: $newPhoneNumber,
                           infoField: .phoneNumber)
-        
+
         UserInfoEditButton(buttonText: "변경",
                            isActive: isEditing && isValid) {
           validatorApi.validatePhonenumber(phoneNumber: newPhoneNumber) { result in
@@ -191,13 +204,13 @@ struct PhoneNumberEditSection: View {
         }.alert(alertMessage, isPresented: $isShowAlert)
         { Button("확인", role: .cancel) {}}
       }
-      
+
       HStack { // 인증번호 입력
         TextField("인증번호를 입력해주세요", text: $verificationCode)
           .foregroundColor(verificationCode == "" ? .odya.label.inactive : .odya.label.normal)
           .b1Style()
           .modifier(CustomFieldStyle())
-        
+
         // TODO: 인증번호 확인 버튼 활성화 조건 체크
         UserInfoEditButton(buttonText: "확인",
                            isActive: true) {
@@ -206,7 +219,7 @@ struct PhoneNumberEditSection: View {
           VM.phoneNumber = newPhoneNumber
           alertMessage = "인증되었습니다\n휴대폰 번호가 \(newPhoneNumber)으로 변경되었습니다"
           isShowAlert = true
-          
+
           // 인증 실패
 //          alertMessage = "인증에 실패하였습니다"
 //          isShowAlert = true
@@ -228,25 +241,25 @@ struct EmailEditSection: View {
   }
   @State private var newEmail: String = ""
   @State private var newEmailDomain: String = ""
-  
+
   private var isEditing: Bool {
     newEmail != "" && userEmail != newEmail
   }
   private var isValid: Bool {
     UserInfoField.email.isValid(value: newEmail)
   }
-  
+
   @State var isShowAlert: Bool = false
   @State var alertMessage: String = ""
-  
+
   @StateObject var validatorApi = AuthValidatorApiViewModel()
-  
+
   var body: some View {
     VStack(spacing: 16) {
       UserInfoTextField(info: userEmail ?? "",
                         newInfo: $newEmail,
                         infoField: .email)
-      
+
       HStack { // 이메일 도메인
         Menu {
           Button("@naver.com") {
@@ -274,14 +287,14 @@ struct EmailEditSection: View {
             Text(newEmailDomain == "" ? "직접입력" : newEmailDomain)
               .b1Style()
               .foregroundColor(newEmailDomain == "" ? .odya.label.inactive : .odya.label.normal)
-            
+
             Spacer()
             Image("direction-down")
               .padding(.horizontal, 6)
           }
           .modifier(CustomFieldStyle())
         }
-        
+
         UserInfoEditButton(buttonText: "변경",
                            isActive: isEditing && isValid) {
           validatorApi.validateEmail(email: newEmail) { result in
@@ -299,7 +312,7 @@ struct EmailEditSection: View {
         }.alert(alertMessage, isPresented: $isShowAlert)
         { Button("확인", role: .cancel) {}}
       }
-      
+
     }.onChange(of: userEmail) { newValue in
       newEmail = newValue ?? ""
     }
