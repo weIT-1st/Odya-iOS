@@ -9,15 +9,19 @@ import SwiftUI
 
 private struct BackgroundImageView: View {
   let imageUrl: String?
-
+  let size: CGFloat = UIScreen.main.bounds.width
+  
   var body: some View {
     if let url = imageUrl {
       AsyncImage(url: URL(string: url)) { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
-          .clipped()
+        ZStack {
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: size, height: size)
+            .clipped()
+          Color.odya.blackopacity.baseBlackAlpha50
+        }.frame(width: size, height: size)
           .blur(radius: 8)
       } placeholder: {
         defaultBG
