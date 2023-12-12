@@ -7,7 +7,11 @@
 
 import SwiftUI
 
+
+
 struct SettingView: View {
+    @State private var path: [StackViewType] = []
+    
   var body: some View {
     VStack {
       CustomNavigationBar(title: "환경설정")

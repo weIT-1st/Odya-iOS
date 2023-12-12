@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CustomNavigationBar: View {
-//    @Environment(\.presentationMode) private var presentationMode
   @Environment(\.dismiss) var dismiss
     let title: String
     
@@ -16,7 +15,6 @@ struct CustomNavigationBar: View {
         HStack {
             IconButton("direction-left") {
               dismiss()
-//                presentationMode.wrappedValue.dismiss() // 뒤로 이동 기능 수행
             }
             Spacer()
             Text(title)

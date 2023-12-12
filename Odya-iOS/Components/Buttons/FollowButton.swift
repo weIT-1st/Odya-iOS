@@ -8,16 +8,16 @@
 import SwiftUI
 
 extension View {
-    func FollowButton(isFollowing: Bool, buttonStyle: ButtonStyleType,
-                          action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(isFollowing ? "팔로잉" : "팔로우")
-                .detail1Style()
-                .frame(width: 38, height: 12)
-                .padding(8)
-        }
-        .buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
+  func FollowButton(isFollowing: Bool, buttonStyle: ButtonStyleType,
+                    action: @escaping () -> Void) -> some View {
+    Button(action: action) {
+      Text(isFollowing ? "팔로잉" : "팔로우")
+        .detail1Style()
+        .frame(width: 38, height: 12)
+        .padding(8)
     }
+    .buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
+  }
 }
 
 /// 팔로우/언팔로우 액션 및 alert 가 적용된 팔로우버튼

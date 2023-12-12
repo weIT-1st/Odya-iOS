@@ -17,14 +17,8 @@ extension ProfileView {
         .h4Style()
         .foregroundColor(.odya.label.normal)
       Spacer()
-      NavigationLink(destination: {
-        POTDPickerView()
-          .navigationBarBackButtonHidden()
-      }) {
-        Image("plus")
-          .renderingMode(.template)
-          .foregroundColor(isMyProfile ? .odya.label.normal : .clear)
-          .padding(6)
+      CustomIconButton("plus", color: isMyProfile ? .odya.label.normal : .clear) {
+        path.append(.potoRegisterView)
       }.disabled(!isMyProfile)
     }
   }
