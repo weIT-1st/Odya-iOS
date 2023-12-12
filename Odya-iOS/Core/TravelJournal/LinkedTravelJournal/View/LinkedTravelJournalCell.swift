@@ -11,6 +11,7 @@ import SwiftUI
 struct LinkedTravelJournalCell: View {
   // MARK: Properties
   let content: TravelJournalData
+  let publicVisibility = "PUBLIC"
   @Binding var selectedId: Int?
   
   // MARK: Body
@@ -21,11 +22,11 @@ struct LinkedTravelJournalCell: View {
         HStack(alignment: .top) {
           Text(content.title)
             .b1Style()
-            .foregroundColor(.odya.label.alternative)
-//            .foregroundColor(.odya.label.assistive)
+            .foregroundColor(content.visibility == publicVisibility ? .odya.label.alternative : .odya.label.assistive)
           Spacer()
-          // TODO: private journal 인 경우
-          Image("lock")
+          if content.visibility != publicVisibility {
+            Image("lock")
+          }
         }
         Spacer()
         // date
