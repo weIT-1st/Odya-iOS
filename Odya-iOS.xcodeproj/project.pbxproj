@@ -104,6 +104,10 @@
 		3E26C3822AF16790003607A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3812AF16790003607A8 /* ImageManager.swift */; };
 		3E26C3842AF394AF003607A8 /* OffsettableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */; };
 		3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3852AF3956F003607A8 /* TravelMatesView.swift */; };
+		3E2F295D2B284B0900FF5357 /* TravelJournalSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F295C2B284B0900FF5357 /* TravelJournalSection.swift */; };
+		3E2F29602B294EC000FF5357 /* MainJournalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F295F2B294EC000FF5357 /* MainJournalCardView.swift */; };
+		3E2F29622B294EEB00FF5357 /* BookmarkedJournalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29612B294EEB00FF5357 /* BookmarkedJournalCardView.swift */; };
+		3E2F29642B2952CF00FF5357 /* JournalsInProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */; };
 		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AC2A388AA5002BF519 /* Alamofire */; };
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
@@ -311,6 +315,10 @@
 		3E26C3812AF16790003607A8 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsettableScrollView.swift; sourceTree = "<group>"; };
 		3E26C3852AF3956F003607A8 /* TravelMatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMatesView.swift; sourceTree = "<group>"; };
+		3E2F295C2B284B0900FF5357 /* TravelJournalSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalSection.swift; sourceTree = "<group>"; };
+		3E2F295F2B294EC000FF5357 /* MainJournalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainJournalCardView.swift; sourceTree = "<group>"; };
+		3E2F29612B294EEB00FF5357 /* BookmarkedJournalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedJournalCardView.swift; sourceTree = "<group>"; };
+		3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalsInProfileViewModel.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
@@ -715,6 +723,7 @@
 				3E075C902B230A1C0093CACD /* PofileInfoSection.swift */,
 				3E075C922B23123F0093CACD /* CounterSection.swift */,
 				3E075C942B23129B0093CACD /* POTDSection.swift */,
+				3E2F295C2B284B0900FF5357 /* TravelJournalSection.swift */,
 			);
 			path = SectionsInProfileView;
 			sourceTree = "<group>";
@@ -736,6 +745,7 @@
 				3EE9CA1F2AB6C6C3003A2E85 /* ProfileViewModel.swift */,
 				3E075C8F2B2309FE0093CACD /* SectionsInProfileView */,
 				3E15D3542B20731500543D34 /* PicOfTheDay */,
+				3E2F295E2B294E7E00FF5357 /* TravelJournalInProfile */,
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 			);
 			path = Profile;
@@ -770,6 +780,16 @@
 				3E26C37B2AF0E80D003607A8 /* TravelJournalDetailViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3E2F295E2B294E7E00FF5357 /* TravelJournalInProfile */ = {
+			isa = PBXGroup;
+			children = (
+				3E2F295F2B294EC000FF5357 /* MainJournalCardView.swift */,
+				3E2F29612B294EEB00FF5357 /* BookmarkedJournalCardView.swift */,
+				3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */,
+			);
+			path = TravelJournalInProfile;
 			sourceTree = "<group>";
 		};
 		3E414B312ADC15EE00034FBB /* TravelJournalEdit */ = {
@@ -1272,6 +1292,7 @@
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				0761F19B2AD804FA00FB87AA /* Community.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
+				3E2F295D2B284B0900FF5357 /* TravelJournalSection.swift in Sources */,
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				3E4670162B13611100B54D0A /* AppIntroductionView.swift in Sources */,
@@ -1310,6 +1331,7 @@
 				3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */,
 				3E414B2E2ADB283B00034FBB /* TravelJournalRouter.swift in Sources */,
 				3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */,
+				3E2F29642B2952CF00FF5357 /* JournalsInProfileViewModel.swift in Sources */,
 				3EB938152AF531780041FE5B /* AsyncImageView.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
@@ -1347,6 +1369,7 @@
 				3EE9CA222AB6C8E2003A2E85 /* UserData.swift in Sources */,
 				078496452A84F6A300A490E3 /* FishchipsBar.swift in Sources */,
 				0784964B2A84F72C00A490E3 /* PostContentView.swift in Sources */,
+				3E2F29602B294EC000FF5357 /* MainJournalCardView.swift in Sources */,
 				3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */,
 				3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */,
 				3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */,
@@ -1360,6 +1383,7 @@
 				078496412A84F5FE00A490E3 /* FeedView.swift in Sources */,
 				3E26C37E2AF0E80E003607A8 /* TravelJournalDetailViewModel.swift in Sources */,
 				3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */,
+				3E2F29622B294EEB00FF5357 /* BookmarkedJournalCardView.swift in Sources */,
 				3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */,
 				3E4670142B13542100B54D0A /* SplashView.swift in Sources */,
 				3E414B302ADC0ED000034FBB /* ContentComposeView.swift in Sources */,

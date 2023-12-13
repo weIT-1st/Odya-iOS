@@ -12,15 +12,18 @@ extension ProfileView {
   /// 인생샷 부분 타이틀
   /// 내 프로필뷰인 경우, 인생샷 추가 버튼 포함
   var POTDTitle: some View {
-    HStack {
-      Text(isMyProfile ? "내 인생 샷" : "인생 샷")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-      Spacer()
-      CustomIconButton("plus", color: isMyProfile ? .odya.label.normal : .clear) {
-        path.append(.potoRegisterView)
-      }.disabled(!isMyProfile)
-    }
+    getSectionTitleView(title: isMyProfile ? "내 인생 샷" : "인생 샷",
+                        buttonImage: "plus",
+                        destinationView: .potoRegisterView)
+//    HStack {
+//      Text(isMyProfile ? "내 인생 샷" : "인생 샷")
+//        .h4Style()
+//        .foregroundColor(.odya.label.normal)
+//      Spacer()
+//      CustomIconButton("plus", color: isMyProfile ? .odya.label.normal : .clear) {
+//        path.append(.potoRegisterView)
+//      }.disabled(!isMyProfile)
+//    }
   }
 }
 

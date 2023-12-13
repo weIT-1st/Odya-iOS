@@ -38,10 +38,12 @@ private struct BackgroundImageView: View {
   }
 }
 
-enum StackViewType {
+enum StackViewType: Hashable {
   case settingView
   case followHubView
   case potoRegisterView
+  case mainJournalRegisterView
+  case journalDetail(journalId: Int, nickname: String)
 }
 
 struct ProfileView: View {
@@ -97,6 +99,20 @@ struct ProfileView: View {
           }
 
           Divider().frame(height: 8).background(Color.odya.blackopacity.baseBlackAlpha70)
+          
+          VStack(spacing: 36) {
+            mainJournalTitle
+            MainJournalCardView()
+          }.padding(.horizontal, GridLayout.side)
+          
+          VStack(spacing: 36) {
+            bookmarkedJournalTitle
+              .padding(.horizontal, GridLayout.side)
+            BookmarkedJournalListView(path: $path)
+              .padding(.leading, GridLayout.side)
+          }
+          
+          Divider().frame(height: 8).background(Color.odya.blackopacity.baseBlackAlpha70)
 
           Spacer()
         }
@@ -124,8 +140,13 @@ struct ProfileView: View {
           isMyProfile ? FollowHubView().navigationBarBackButtonHidden() : FollowHubView(userId: userId).navigationBarBackButtonHidden()
         case .potoRegisterView:
           POTDPickerView().navigationBarBackButtonHidden()
+        case .mainJournalRegisterView:
+          Text("main journal register")
+        case .journalDetail(let journalId, let nickname):
+          TravelJournalDetailView(journalId: journalId, nickname: nickname)
+            .navigationBarBackButtonHidden()
         }
-      }
+      } // navigation destination
     }
   }
 }
@@ -148,6 +169,27 @@ extension ProfileView {
     }
     .padding(.horizontal, 8)
     .frame(height: 56)
+  }
+}
+
+// MARK: Section Title
+extension ProfileView {
+  func getSectionTitleView(title: String,
+                           buttonImage: String = "",
+                           destinationView: StackViewType? = nil) -> some View {
+    HStack {
+      Text(title)
+        .h4Style()
+        .foregroundColor(.odya.label.normal)
+      Spacer()
+      CustomIconButton(buttonImage,
+                       color: isMyProfile ? .odya.label.normal : .clear) {
+        if let destinationView = destinationView {
+          path.append(destinationView)
+        }
+      }.disabled(!isMyProfile)
+    }
+
   }
 }
 

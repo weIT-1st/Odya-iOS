@@ -103,7 +103,9 @@ struct UserIdentityRowWithFollowing: View {
     HStack {
       UserIdentityLink(userId: userId, nickname: nickname, profileUrl: profileUrl, isFollowing: isFollowing)
       Spacer()
-      FollowButtonWithAlertAndApi(userId: userId, buttonStyle: .solid, followState: isFollowing)
+      if userId != MyData.userID {
+        FollowButtonWithAlertAndApi(userId: userId, buttonStyle: .solid, followState: isFollowing)
+      }
     }
     .frame(height: 36)
   }
