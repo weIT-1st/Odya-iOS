@@ -108,6 +108,12 @@
 		3E2F29602B294EC000FF5357 /* MainJournalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F295F2B294EC000FF5357 /* MainJournalCardView.swift */; };
 		3E2F29622B294EEB00FF5357 /* BookmarkedJournalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29612B294EEB00FF5357 /* BookmarkedJournalCardView.swift */; };
 		3E2F29642B2952CF00FF5357 /* JournalsInProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */; };
+		3E2F29672B29B78A00FF5357 /* FavoritePlaceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29662B29B78A00FF5357 /* FavoritePlaceSection.swift */; };
+		3E2F296A2B29BA7600FF5357 /* FavoritePlaceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29692B29BA7600FF5357 /* FavoritePlaceRow.swift */; };
+		3E2F296C2B29BAA000FF5357 /* FavoritePlaceInProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F296B2B29BAA000FF5357 /* FavoritePlaceInProfileViewModel.swift */; };
+		3E2F296E2B29BB0C00FF5357 /* FavoritePlaceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F296D2B29BB0C00FF5357 /* FavoritePlaceRouter.swift */; };
+		3E2F29702B29BE7B00FF5357 /* FavoritePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F296F2B29BE7B00FF5357 /* FavoritePlace.swift */; };
+		3E2F29722B29FE9700FF5357 /* CommunitySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29712B29FE9700FF5357 /* CommunitySection.swift */; };
 		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AC2A388AA5002BF519 /* Alamofire */; };
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
@@ -319,6 +325,12 @@
 		3E2F295F2B294EC000FF5357 /* MainJournalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainJournalCardView.swift; sourceTree = "<group>"; };
 		3E2F29612B294EEB00FF5357 /* BookmarkedJournalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedJournalCardView.swift; sourceTree = "<group>"; };
 		3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalsInProfileViewModel.swift; sourceTree = "<group>"; };
+		3E2F29662B29B78A00FF5357 /* FavoritePlaceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlaceSection.swift; sourceTree = "<group>"; };
+		3E2F29692B29BA7600FF5357 /* FavoritePlaceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlaceRow.swift; sourceTree = "<group>"; };
+		3E2F296B2B29BAA000FF5357 /* FavoritePlaceInProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlaceInProfileViewModel.swift; sourceTree = "<group>"; };
+		3E2F296D2B29BB0C00FF5357 /* FavoritePlaceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlaceRouter.swift; sourceTree = "<group>"; };
+		3E2F296F2B29BE7B00FF5357 /* FavoritePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlace.swift; sourceTree = "<group>"; };
+		3E2F29712B29FE9700FF5357 /* CommunitySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySection.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
@@ -663,6 +675,7 @@
 				19E212A92B06F515003155C0 /* ReportReason.swift */,
 				197C29A82B171DFA00E6D670 /* SearchedUser.swift */,
 				3E075C8B2B2256CB0093CACD /* UserImage.swift */,
+				3E2F296F2B29BE7B00FF5357 /* FavoritePlace.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -724,6 +737,8 @@
 				3E075C922B23123F0093CACD /* CounterSection.swift */,
 				3E075C942B23129B0093CACD /* POTDSection.swift */,
 				3E2F295C2B284B0900FF5357 /* TravelJournalSection.swift */,
+				3E2F29662B29B78A00FF5357 /* FavoritePlaceSection.swift */,
+				3E2F29712B29FE9700FF5357 /* CommunitySection.swift */,
 			);
 			path = SectionsInProfileView;
 			sourceTree = "<group>";
@@ -746,6 +761,7 @@
 				3E075C8F2B2309FE0093CACD /* SectionsInProfileView */,
 				3E15D3542B20731500543D34 /* PicOfTheDay */,
 				3E2F295E2B294E7E00FF5357 /* TravelJournalInProfile */,
+				3E2F29682B29BA5600FF5357 /* FavoritePlace */,
 				07A0EC812A3F95BC002D36B9 /* Settings */,
 			);
 			path = Profile;
@@ -790,6 +806,15 @@
 				3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */,
 			);
 			path = TravelJournalInProfile;
+			sourceTree = "<group>";
+		};
+		3E2F29682B29BA5600FF5357 /* FavoritePlace */ = {
+			isa = PBXGroup;
+			children = (
+				3E2F29692B29BA7600FF5357 /* FavoritePlaceRow.swift */,
+				3E2F296B2B29BAA000FF5357 /* FavoritePlaceInProfileViewModel.swift */,
+			);
+			path = FavoritePlace;
 			sourceTree = "<group>";
 		};
 		3E414B312ADC15EE00034FBB /* TravelJournalEdit */ = {
@@ -1098,6 +1123,7 @@
 				19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */,
 				19E212A72B06F376003155C0 /* ReportRouter.swift */,
 				3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */,
+				3E2F296D2B29BB0C00FF5357 /* FavoritePlaceRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -1227,6 +1253,7 @@
 				197C29A92B171DFA00E6D670 /* SearchedUser.swift in Sources */,
 				3EEBB7CF2A8EB40A00F0049D /* Date.swift in Sources */,
 				3EE9CA282AC19758003A2E85 /* FollowUserListView.swift in Sources */,
+				3E2F296A2B29BA7600FF5357 /* FavoritePlaceRow.swift in Sources */,
 				3ED22F692AB5B3860067DE72 /* FollowerUserRowView.swift in Sources */,
 				3EEBB7D92A94CD6D00F0049D /* TravelJournalEditViewModel.swift in Sources */,
 				07589E702AF023C200867FAD /* TopicRouter.swift in Sources */,
@@ -1295,6 +1322,7 @@
 				3E2F295D2B284B0900FF5357 /* TravelJournalSection.swift in Sources */,
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
+				3E2F296C2B29BAA000FF5357 /* FavoritePlaceInProfileViewModel.swift in Sources */,
 				3E4670162B13611100B54D0A /* AppIntroductionView.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
@@ -1335,6 +1363,7 @@
 				3EB938152AF531780041FE5B /* AsyncImageView.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
+				3E2F296E2B29BB0C00FF5357 /* FavoritePlaceRouter.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
 				3ED22F3A2A9853830067DE72 /* TravelMateSelectorView.swift in Sources */,
 				199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */,
@@ -1347,6 +1376,7 @@
 				19EBA7612AB2F027000ABBE5 /* HTMLTextView.swift in Sources */,
 				3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */,
 				197C29AF2B17227500E6D670 /* FeedUserSearchViewModel.swift in Sources */,
+				3E2F29722B29FE9700FF5357 /* CommunitySection.swift in Sources */,
 				3E075C932B23123F0093CACD /* CounterSection.swift in Sources */,
 				3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */,
 				3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */,
@@ -1376,6 +1406,7 @@
 				3E15D35A2B20853300543D34 /* POTDPickerView.swift in Sources */,
 				19EBA7632AB42338000ABBE5 /* FeedDetailView.swift in Sources */,
 				3EE9CA242AB6C9FE003A2E85 /* ProfileData.swift in Sources */,
+				3E2F29672B29B78A00FF5357 /* FavoritePlaceSection.swift in Sources */,
 				3E26C3822AF16790003607A8 /* ImageManager.swift in Sources */,
 				3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
@@ -1392,6 +1423,7 @@
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
 				19EBA7592AB16E2C000ABBE5 /* TermsView.swift in Sources */,
 				3E4670332B1F4F7700B54D0A /* AdditionalSetUpView.swift in Sources */,
+				3E2F29702B29BE7B00FF5357 /* FavoritePlace.swift in Sources */,
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,

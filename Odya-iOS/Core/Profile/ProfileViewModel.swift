@@ -11,12 +11,12 @@ import Foundation
 import Moya
 import SwiftUI
 
-enum MyError: Error {
-  case unknown(String)
-  case decodingError(String)
-  case apiError(ErrorData)
-  case tokenError
-}
+//enum MyError: Error {
+//  case unknown(String)
+//  case decodingError(String)
+//  case apiError(ErrorData)
+//  case tokenError
+//}
 
 class ProfileViewModel: ObservableObject {
   // token
@@ -45,7 +45,6 @@ class ProfileViewModel: ObservableObject {
 
   /// POTD 무한스크롤
   var fetchMorePOTDSubject = PassthroughSubject<(), Never>()
-
   /// 더 가져올 유저의 인생샷이 있는지 여부
   var hasNextPOTD: Bool = true
   /// 마지막으로 가져온 유저의 인생샷 아이디
@@ -65,15 +64,6 @@ class ProfileViewModel: ObservableObject {
     initFetchMorePOTDSubject()
   }
 
-  init(userId: Int, nickname: String, profileUrl: String) {
-    self.userID = userId
-    self.nickname = nickname
-    self.profileUrl = profileUrl
-
-    initFetchMorePOTDSubject()
-  }
-
-  // MARK: Init Data
   func initData(_ userId: Int, _ nickname: String, _ profileUrl: String) {
     self.userID = userId
     self.nickname = nickname
@@ -112,22 +102,7 @@ class ProfileViewModel: ObservableObject {
           self.isFetchingStatistics = false
         case .failure(let error):
           self.isFetchingStatistics = false
-          guard let apiError = try? error.response?.map(ErrorData.self) else {
-            // error data decoding error handling
-            // unknown error
-            return
-          }
-
-          if apiError.code == -11000 {
-            self.appDataManager.refreshToken { success in
-              // token error handling
-              if success {
-                self.getUserStatistics(idToken: idToken)
-                return
-              }
-            }
-          }
-        // other api error handling
+          self.processErrorResponse(error: error)
         }
       } receiveValue: { response in
         do {
@@ -165,10 +140,7 @@ class ProfileViewModel: ObservableObject {
           }
         case .failure(let error):
           self.isUpdatingProfileImg = false
-          if let errorData = try? error.response?.map(ErrorData.self) {
-            print(errorData.message)
-          }
-        // unknown error
+          self.processErrorResponse(error: error)
         }
       } receiveValue: { _ in
       }
@@ -226,6 +198,8 @@ class ProfileViewModel: ObservableObject {
       }.store(in: &subscription)
   }
 
+  // MARK: Error Handling
+  
   private func processErrorResponse(error: MoyaError) {
     if let errorData = try? error.response?.map(ErrorData.self) {
       print("in profile view model - \(errorData.message)")
