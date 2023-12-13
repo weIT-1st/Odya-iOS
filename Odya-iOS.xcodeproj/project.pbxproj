@@ -1081,8 +1081,8 @@
 				3EF549FA2A5BE8F3006562F8 /* Routers */,
 				3EF549F82A5BE8DB006562F8 /* Services */,
 				3EF549F92A5BE8E1006562F8 /* Result */,
-				3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */,
 				3EF549FE2A5BE938006562F8 /* ApiClient.swift */,
+				3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */,
 				192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */,
 			);
 			path = Api;

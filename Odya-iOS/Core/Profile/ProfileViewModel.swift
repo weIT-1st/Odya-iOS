@@ -11,13 +11,6 @@ import Foundation
 import Moya
 import SwiftUI
 
-//enum MyError: Error {
-//  case unknown(String)
-//  case decodingError(String)
-//  case apiError(ErrorData)
-//  case tokenError
-//}
-
 class ProfileViewModel: ObservableObject {
   // token
   @Published var appDataManager = AppDataManager()

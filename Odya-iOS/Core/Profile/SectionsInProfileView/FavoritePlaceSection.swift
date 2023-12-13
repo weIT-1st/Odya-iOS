@@ -15,6 +15,7 @@ extension ProfileView {
 }
 
 struct FavoritePlaceListView: View {
+  @Binding var rootTabViewIdx: Int
   // @StateObject var VM = FavoritePlaceInProfileViewModel()
   
   var body: some View {
@@ -39,7 +40,7 @@ struct FavoritePlaceListView: View {
   
   var morePlacesButton: some View {
     Button(action: {
-      
+      rootTabViewIdx = 0
     }) {
       HStack(spacing: 10) {
         Text("12개의 관심장소 더보기")
@@ -63,6 +64,6 @@ struct FavoritePlaceListView: View {
 
 struct FavoritePlaceListView_Previews: PreviewProvider {
   static var previews: some View {
-    FavoritePlaceListView()
+    FavoritePlaceListView(rootTabViewIdx: .constant(3))
   }
 }

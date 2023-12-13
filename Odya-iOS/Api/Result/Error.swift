@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum MyError: Error {
+  case unknown(String)
+  case decodingError(String)
+  case apiError(ErrorData)
+  case tokenError
+}
+
 // 로그인 Error 타입 정의
 enum APIError: Error {
     case http(ErrorData)

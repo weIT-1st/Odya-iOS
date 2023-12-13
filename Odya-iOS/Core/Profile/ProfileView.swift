@@ -28,6 +28,7 @@ struct ProfileView: View {
   @StateObject var followButtonVM = FollowButtonViewModel()
 
   // navigation stack
+  @Binding var rootTabViewIdx: Int
   @Environment(\.dismiss) var dismiss
   @State var path: [StackViewType] = []
   
@@ -41,9 +42,12 @@ struct ProfileView: View {
     profileVM.userID == MyData.userID
   }
 
-  init() {}
+  init(_ rootTabViewIdx: Binding<Int>) {
+    self._rootTabViewIdx = rootTabViewIdx
+  }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
+    self._rootTabViewIdx = .constant(3)
     self.userId = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
@@ -103,7 +107,7 @@ struct ProfileView: View {
           // 관심장소
           VStack(spacing: 36) {
             favoritePlaceTitle
-            FavoritePlaceListView()
+            FavoritePlaceListView(rootTabViewIdx: $rootTabViewIdx)
           }.padding(.horizontal, GridLayout.side)
 
           // 내 커뮤니티 활동으로 가기
@@ -238,6 +242,6 @@ private struct BackgroundImageView: View {
 
 struct ProfileView_Previews: PreviewProvider {
   static var previews: some View {
-    ProfileView()
+    ProfileView(.constant(3))
   }
 }
