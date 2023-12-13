@@ -43,7 +43,8 @@ struct CommunityComposeView: View {
   /// 장소 아이디
   // TODO: placeId
   /// 여행일지 아이디
-  // TODO: travelJournalId
+  @State var travelJournalId: Int? = nil
+  @State var travelJournalTitle: String? = nil
   /// 선택된 토픽 아이디
   @State var selectedTopicId: Int? = nil
   /// 기존 사진 url
@@ -179,12 +180,11 @@ struct CommunityComposeView: View {
                     buttonStyle: .solid,
                     labelText: composeMode == .create ? "작성완료" : "수정완료",
                     labelSize: .L) {
-            // action: 여행일지 생성
             switch composeMode {
             case .create:
-              viewModel.createCommunity(content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: nil, topicId: selectedTopicId, imageData: imageList)
+              viewModel.createCommunity(content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: travelJournalId, topicId: selectedTopicId, imageData: imageList)
             case .edit:
-              viewModel.updateCommunity(communityId: communityId, content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: nil, topicId: selectedTopicId, deleteImageIds: deleteImageIdList, updateImageData: imageList)
+              viewModel.updateCommunity(communityId: communityId, content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: travelJournalId, topicId: selectedTopicId, deleteImageIds: deleteImageIdList, updateImageData: imageList)
               break
             }
 
@@ -239,7 +239,7 @@ struct CommunityComposeView: View {
         Image("diary")
           .resizable()
           .frame(width: 24, height: 24)
-        Text("여행일지 불러오기")
+        Text(travelJournalTitle != nil ? travelJournalTitle! : "여행일지 불러오기")
           .b1Style()
           .foregroundColor(Color.odya.label.normal)
         Spacer()
@@ -252,7 +252,7 @@ struct CommunityComposeView: View {
       .cornerRadius(100)
       
       NavigationLink {
-        LinkedTravelJournalView()
+        LinkedTravelJournalView(selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle)
       } label: {
         HStack {
           Spacer()

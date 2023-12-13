@@ -20,6 +20,8 @@ final class LinkedTravelJournalViewModel: ObservableObject {
   
   /// Loading
   @Published var isLoading: Bool = false
+  /// 공개로 전환중일때
+  @Published var isSwitchProgressing: Bool = false
   
   /// 내 여행일지 목록 정보
   struct JournalState {
@@ -32,6 +34,7 @@ final class LinkedTravelJournalViewModel: ObservableObject {
 
   
   // MARK: - Helper functions
+  /// 나의 여행일지 목록 가져오기
   func fetchMyJournalListNextPageIfPossible() {
     guard state.canLoadNextPage else { return }
 
@@ -54,5 +57,9 @@ final class LinkedTravelJournalViewModel: ObservableObject {
         }
       }
       .store(in: &subscription)
+  }
+  
+  func switchVisibilityToPublic() {
+    
   }
 }

@@ -10,8 +10,11 @@ import SwiftUI
 /// 여행일지 연동화면의 나의 여행일지 셀
 struct LinkedTravelJournalCell: View {
   // MARK: Properties
+  /// 셀에 표시할 여행일지 목록 하나의 데이터
   let content: TravelJournalData
-  let publicVisibility = "PUBLIC"
+  /// '비공개' 상수
+  let privateVisibility = "PRIVATE"
+  /// 선택된 여행일지 아이디
   @Binding var selectedId: Int?
   
   // MARK: Body
@@ -22,9 +25,9 @@ struct LinkedTravelJournalCell: View {
         HStack(alignment: .top) {
           Text(content.title)
             .b1Style()
-            .foregroundColor(content.visibility == publicVisibility ? .odya.label.alternative : .odya.label.assistive)
+            .foregroundColor(content.visibility == privateVisibility ? .odya.label.assistive : .odya.label.alternative)
           Spacer()
-          if content.visibility != publicVisibility {
+          if content.visibility == privateVisibility {
             Image("lock")
           }
         }
@@ -38,13 +41,14 @@ struct LinkedTravelJournalCell: View {
         }
       }
       .padding(16)
-      if selectedId == content.journalId {
+      if content.visibility != privateVisibility && selectedId == content.journalId {
         RoundedRectangle(cornerRadius: Radius.medium)
           .inset(by: 1)
           .stroke(Color.odya.brand.primary, lineWidth: 2)
       }
     }
-    .background(.black.opacity(0.2))
+    .background(content.visibility == privateVisibility ? Color.odya.background.dimmed_dark : .black.opacity(0.2))
+    .cornerRadius(Radius.medium)
     .background(
       AsyncImage(url: URL(string: content.imageUrl)!, content: { image in
         image

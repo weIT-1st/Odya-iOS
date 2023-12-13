@@ -11,8 +11,12 @@ struct LinkedTravelJournalView: View {
   // MARK: Properties
   @Environment(\.dismiss) private var dismiss
   @StateObject private var viewModel = LinkedTravelJournalViewModel()
+  @State private var showAlert: Bool = false
+  
   /// 선택된 여행일지 아이디
-  @State private var selectedJournalId: Int? = nil
+  @Binding var selectedJournalId: Int?
+  /// 상위 뷰에 표시될 여행일지 타이틀
+  @Binding var selectedJournalTitle: String?
   
   // MARK: Body
   var body: some View {
@@ -21,18 +25,30 @@ struct LinkedTravelJournalView: View {
         Section {
           ForEach(viewModel.state.content, id: \.journalId) { content in
             Button {
-              if selectedJournalId == content.journalId {
-                selectedJournalId = nil
+              if content.visibility == "PRIVATE" {
+                // 공개 전환 alert toggle
+                showAlert.toggle()
               } else {
-                selectedJournalId = content.journalId
+                if selectedJournalId == content.journalId {
+                  selectedJournalId = nil
+                  selectedJournalTitle = nil
+                } else {
+                  selectedJournalId = content.journalId
+                  selectedJournalTitle = content.title
+                }
               }
             } label: {
-              LinkedTravelJournalCell(content: content, selectedId: $selectedJournalId)
-                .onAppear {
-                  if viewModel.state.content.last?.journalId == content.journalId {
-                    viewModel.fetchMyJournalListNextPageIfPossible()
+              ZStack {
+                LinkedTravelJournalCell(content: content, selectedId: $selectedJournalId)
+                  .onAppear {
+                    if viewModel.state.content.last?.journalId == content.journalId {
+                      viewModel.fetchMyJournalListNextPageIfPossible()
+                    }
                   }
+                if viewModel.isSwitchProgressing {
+                  ProgressView()
                 }
+              }
             }
           }
         } header: {
@@ -44,6 +60,17 @@ struct LinkedTravelJournalView: View {
       .task {
         viewModel.fetchMyJournalListNextPageIfPossible()
       }
+      .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showAlert) {
+        Button("취소", role: .cancel) { }
+        Button {
+          // action: 공개로 변경
+        } label: {
+          Text("변경하기")
+            .bold()
+        }
+      } message: {
+        Text("공개된 여행일지만 연동 가능합니다.")
+      }
     } // ScrollView
     .background(Color.odya.background.normal)
     .clipped()
@@ -53,6 +80,8 @@ struct LinkedTravelJournalView: View {
   private var header: some View {
     HStack {
       IconButton("x") {
+        selectedJournalId = nil
+        selectedJournalTitle = nil
         dismiss()
       }
       .frame(width: 36, height: 36)
@@ -85,6 +114,6 @@ struct LinkedTravelJournalView: View {
 // MARK: - Previews
 struct LinkedTravelJournalView_Previews: PreviewProvider {
   static var previews: some View {
-    LinkedTravelJournalView()
+    LinkedTravelJournalView(selectedJournalId: .constant(1), selectedJournalTitle: .constant("여행일지 제목"))
   }
 }
