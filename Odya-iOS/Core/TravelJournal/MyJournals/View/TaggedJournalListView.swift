@@ -13,9 +13,10 @@ struct TaggedJournalListView: View {
   
   var body: some View {
     ZStack(alignment: .center) {
-      if VM.isTaggedJournalsLoading {
+      if VM.isTaggedJournalsLoading
+          && VM.taggedJournals.isEmpty {
         ProgressView()
-          .frame(height: 250)
+          .frame(height: 224)
           .frame(maxWidth: .infinity)
       }
       

@@ -15,7 +15,6 @@ struct MyJournalsView: View {
   @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
   
   @State private var isShowingRandomMainJournal: Bool = false
-  @State private var isShowingBookmarkedJournals: Bool = true
   
   // MARK: Body
   
@@ -39,10 +38,14 @@ struct MyJournalsView: View {
           ScrollView(showsIndicators: false) {
             LazyVStack(spacing: 50) {
               headerBar
+                .padding(.horizontal, GridLayout.side)
               randomMainBoard
+                .padding(.horizontal, GridLayout.side)
               myTravelJournalList
-              
-              if isShowingBookmarkedJournals {
+                .padding(.horizontal, GridLayout.side)
+            
+              if bookmarkedJournalsVM.isBookmarkedJournalsLoading
+                  || !bookmarkedJournalsVM.bookmarkedJournals.isEmpty {
                 myBookmarkedTravelJournalList
               }
               
@@ -52,9 +55,9 @@ struct MyJournalsView: View {
               }
               
               myReviewList
+                .padding(.horizontal, GridLayout.side)
             }
-            .padding(.horizontal, GridLayout.side)
-            .padding(.vertical, 48)
+            .padding(.vertical, 50)
           }
           
           // write button
@@ -140,8 +143,10 @@ extension MyJournalsView {
   private var myBookmarkedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
       self.getSectionTitle(title: "즐겨찾는 여행일지")
-      BookmarkedJournalListView($isShowingBookmarkedJournals)
+        .padding(.horizontal, GridLayout.side)
+      BookmarkedJournalListView()
         .environmentObject(bookmarkedJournalsVM)
+        .padding(.leading, GridLayout.side)
     }
   }
 }
@@ -151,9 +156,11 @@ extension MyJournalsView {
   private var myTaggedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
       self.getSectionTitle(title: "태그된 여행일지")
+        .padding(.horizontal, GridLayout.side)
       TaggedJournalListView()
         .environmentObject(taggedJournalsVM)
         .environmentObject(bookmarkedJournalsVM)
+        .padding(.leading, GridLayout.side)
     }
   }
 }

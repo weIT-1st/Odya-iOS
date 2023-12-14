@@ -174,8 +174,10 @@ struct TravelJournalCardView: View {
 
 /// 내 추억 뷰에서 즐겨찾기된 여행일지와 태그된 여행일지를 보여주기 위한 작은 카드 뷰
 struct TravelJournalSmallCardView: View {
-  let cardWidth: CGFloat = UIScreen.main.bounds.width / 2.5
-  let cardHeight: CGFloat = (UIScreen.main.bounds.width / 2.5) * 1.5
+  let cardWidth: CGFloat = 141
+//  UIScreen.main.bounds.width / 2.5
+  let cardHeight: CGFloat = 224
+//  (UIScreen.main.bounds.width / 2.5) * 1.5
 
   var title: String
   var dateString: String

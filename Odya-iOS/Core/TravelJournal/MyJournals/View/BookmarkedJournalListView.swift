@@ -9,22 +9,13 @@ import SwiftUI
 
 struct BookmarkedJournalListView: View {
   @EnvironmentObject var VM: BookmarkedJournalListViewModel
-  @Binding var isShowingInMyJournalsView: Bool
   
-  var isReady: Bool {
-    VM.isBookmarkedJournalsLoading || !VM.bookmarkedJournals.isEmpty
-  }
-  
-  init(_ isShowing: Binding<Bool>) {
-    self._isShowingInMyJournalsView = isShowing
-    
-  }
-
   var body: some View {
     ZStack(alignment: .center) {
-      if VM.isBookmarkedJournalsLoading {
+      if VM.isBookmarkedJournalsLoading
+          && VM.bookmarkedJournals.isEmpty {
         ProgressView()
-          .frame(height: 250)
+          .frame(height: 224)
           .frame(maxWidth: .infinity)
       }
 
@@ -44,9 +35,6 @@ struct BookmarkedJournalListView: View {
         } // ScrollView
       }
     } // ZStack
-    .onChange(of: isReady) { newValue in
-      isShowingInMyJournalsView = newValue
-    }
   }
   
   private func linkToJournalDetail(journal: BookmarkedJournalData) -> some View {
