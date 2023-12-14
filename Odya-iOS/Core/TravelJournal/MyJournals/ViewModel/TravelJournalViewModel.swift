@@ -50,14 +50,7 @@ class MyJournalsViewModel: ObservableObject {
   var fetchMoreTaggedJournalsSubject = PassthroughSubject<(), Never>()
   
   init() {
-    fetchMoreBookmarkedJournalsSubject
-      .sink { [weak self] _ in
-        guard let self = self,
-              self.hasNextBookmarkedJournals else {
-          return
-        }
-        self.getBookmarkedJournals(idToken: self.idToken ?? "")
-      }.store(in: &subscription)
+    
   }
   
   // MARK: Get My Data
@@ -97,7 +90,7 @@ class MyJournalsViewModel: ObservableObject {
     }
 
     getMyJournals(idToken: idToken)
-    getBookmarkedJournals(idToken: idToken)
+//    getBookmarkedJournals(idToken: idToken)
     getTaggedJournals(idToken: idToken)
   }
 

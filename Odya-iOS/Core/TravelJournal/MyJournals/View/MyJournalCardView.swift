@@ -300,12 +300,12 @@ struct MyReviewCardView: View {
 
 /// 즐겨찾기된 여행일지 카드뷰에 오버레이 되는 메뉴 바
 struct FavoriteJournalCardOverlayMenuView: View {
-  @EnvironmentObject var myJournalsVM: MyJournalsViewModel
+  @EnvironmentObject var VM: BookmarkedJournalListViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
   
   let journalId: Int
   var isMarked: Bool {
-    myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
+    VM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
   }
 
   var body: some View {
@@ -314,7 +314,7 @@ struct FavoriteJournalCardOverlayMenuView: View {
         Spacer()
         StarButton(isActive: isMarked, isYellowWhenActive: true) {
           bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
-            myJournalsVM.updateBookmarkedJournals()
+            VM.updateBookmarkedJournals()
           }
         }
       }.padding(10)

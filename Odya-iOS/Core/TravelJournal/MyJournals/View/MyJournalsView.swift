@@ -11,6 +11,9 @@ import SwiftUI
 struct MyJournalsView: View {
   
   @StateObject var VM = MyJournalsViewModel()
+  @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
+  
+  @State private var isShowingBookmarkedJournals: Bool = true
   
   // MARK: Body
   
@@ -39,8 +42,7 @@ struct MyJournalsView: View {
               randomMainBoard
               myTravelJournalList
               
-              if VM.isBookmarkedJournalsLoading
-                  || !VM.bookmarkedJournals.isEmpty {
+              if isShowingBookmarkedJournals {
                 myBookmarkedTravelJournalList
               }
               
@@ -133,39 +135,8 @@ extension MyJournalsView {
   private var myBookmarkedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
       self.getSectionTitle(title: "즐겨찾는 여행일지")
-      
-      ZStack(alignment: .center) {
-        if VM.isBookmarkedJournalsLoading {
-          ProgressView()
-            .frame(height: 250)
-            .frame(maxWidth: .infinity)
-        }
-        
-        else {
-          ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: 10) {
-              ForEach(VM.bookmarkedJournals, id: \.id) { journal in
-                NavigationLink(
-                  destination: TravelJournalDetailView(journalId: journal.journalId, nickname: journal.writer.nickname)
-                    .navigationBarHidden(true)
-                ) {
-                  TravelJournalSmallCardView(
-                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl, writer: journal.writer)
-                }.overlay {
-                  FavoriteJournalCardOverlayMenuView(journalId: journal.journalId)
-                    .environmentObject(VM)
-                }
-                .onAppear {
-                  if let last = VM.lastIdOfBookmarkedJournals,
-                     last == journal.bookmarkId {
-                    VM.fetchMoreBookmarkedJournalsSubject.send()
-                  }
-                }
-              } // ForEach
-            }
-          } // ScrollView
-        }
-      } // ZStack
+      BookmarkedJournalListView($isShowingBookmarkedJournals)
+        .environmentObject(bookmarkedJournalsVM)
     }
   }
 }
