@@ -22,7 +22,9 @@ enum CommunityRouter {
   // 6. 토픽으로 전체 목록 조회
   case getAllCommunityByTopic(size: Int?, lastId: Int?, sortType: String?, topicId: Int)
   // 7. 좋아요 누른 목록 조회
+  case getMyLikes(size: Int?, lastId: Int?, sortType: String?)
   // 8. 댓글 단 목록 조회
+  case getMyComments(size: Int?, lastId: Int?)
   // 9. 수정
   case updateCommunity(communityId: Int, content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, deleteImageIds: [Int]?, updateImages: [(data: Data, imageName: String)])
   // 10. 삭제
@@ -48,6 +50,10 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/communities/friends"
     case .getAllCommunityByTopic(_, _, _, let topicId):
       return "/api/v1/communities/topic/\(topicId)"
+    case .getMyLikes:
+      return "/api/v1/communities/like"
+    case .getMyComments:
+      return "/api/v1/communities/comment"
     case .updateCommunity(let communityId, _, _, _, _, _, _, _):
       return "/api/v1/communities/\(communityId)"
     case .deleteCommunity(let communityId):
@@ -57,7 +63,7 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
   
   var method: Moya.Method {
     switch self {
-    case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity, .getAllCommunityByTopic:
+    case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity, .getAllCommunityByTopic, .getMyLikes, .getMyComments:
       return .get
     case .createCommunity:
       return .post
@@ -109,6 +115,17 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       params["size"] = size
       params["lastId"] = lastId
       params["sortType"] = sortType
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    case .getMyLikes(let size, let lastId, let sortType):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["lastId"] = lastId
+      params["sortType"] = sortType
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    case .getMyComments(let size, let lastId):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     case .updateCommunity(_, let content, let visibility, let placeId, let travelJournalId, let topicId, let deleteImageIds, let updateImages):
       var formData = [MultipartFormData]()

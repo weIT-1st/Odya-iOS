@@ -46,6 +46,7 @@
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
 		192ADAA52B0EF88400BD480E /* CustomLogPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */; };
 		192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */; };
+		19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
@@ -253,6 +254,7 @@
 		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLogPlugin.swift; sourceTree = "<group>"; };
 		192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeButton.swift; sourceTree = "<group>"; };
+		19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityView.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				199EB6F92AE2202A004EF4B1 /* CommunityCompose */,
 				19683AFC2B030B8B003D6013 /* Comment */,
 				197C29B02B172B0500E6D670 /* Search */,
+				19385A302B2AC102000CB6AB /* MyActivity */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -666,6 +669,30 @@
 				192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */,
 			);
 			path = Report;
+			sourceTree = "<group>";
+		};
+		19385A302B2AC102000CB6AB /* MyActivity */ = {
+			isa = PBXGroup;
+			children = (
+				19385A312B2AC13A000CB6AB /* View */,
+				19385A322B2AC13E000CB6AB /* ViewModel */,
+			);
+			path = MyActivity;
+			sourceTree = "<group>";
+		};
+		19385A312B2AC13A000CB6AB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		19385A322B2AC13E000CB6AB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		19683AFC2B030B8B003D6013 /* Comment */ = {
@@ -1340,6 +1367,7 @@
 				3EE9CA3D2AC84D95003A2E85 /* MyJournalsView.swift in Sources */,
 				3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
+				19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */,
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
 				3E26C37F2AF0E80E003607A8 /* DailyJournalViewModel.swift in Sources */,
 				3E4670202B15E90A00B54D0A /* FollowiView.swift in Sources */,

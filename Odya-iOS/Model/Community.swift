@@ -97,3 +97,51 @@ struct LinkedTravelJournal: Codable {
     case mainImageURL = "mainImageUrl"
   }
 }
+
+// MARK: - MyCommunityLikes
+struct MyCommunityLikes: Codable {
+    let hasNext: Bool
+    let content: [MyCommunityLikesContent]
+}
+
+struct MyCommunityLikesContent: Codable {
+    let communityID: Int
+    let communityMainImageURL, placeID: String
+
+    enum CodingKeys: String, CodingKey {
+        case communityID = "communityId"
+        case communityMainImageURL = "communityMainImageUrl"
+        case placeID = "placeId"
+    }
+}
+
+// MARK: - MyCommunityComments
+struct MyCommunityComments: Codable {
+    let hasNext: Bool
+    let content: [MyCommunityCommentsContent]
+}
+
+struct MyCommunityCommentsContent: Codable {
+    let communityID: Int
+    let communityContent, communityMainImageURL, updatedAt: String
+    let writer: Writer
+    let communityCommentSimpleResponse: CommunityCommentSimpleResponse
+
+    enum CodingKeys: String, CodingKey {
+        case communityID = "communityId"
+        case communityContent
+        case communityMainImageURL = "communityMainImageUrl"
+        case updatedAt, writer, communityCommentSimpleResponse
+    }
+}
+
+struct CommunityCommentSimpleResponse: Codable {
+    let communityCommentID: Int
+    let content, updatedAt: String
+    let user: Writer
+
+    enum CodingKeys: String, CodingKey {
+        case communityCommentID = "communityCommentId"
+        case content, updatedAt, user
+    }
+}
