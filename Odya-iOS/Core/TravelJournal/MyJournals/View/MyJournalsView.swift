@@ -15,6 +15,7 @@ struct MyJournalsView: View {
   @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
   
   @State private var isShowingRandomMainJournal: Bool = false
+  @State private var isShowingComposeView: Bool = false
   
   // MARK: Body
   
@@ -24,10 +25,10 @@ struct MyJournalsView: View {
         Color.odya.background.normal
           .ignoresSafeArea()
         
-//        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
-//          ProgressView()
-//            .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        }
+        //        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
+        //          ProgressView()
+        //            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        //        }
         
         // 작성된 여행일지가 없는 경우
         if !VM.isMyJournalsLoading && VM.myJournals.isEmpty {
@@ -43,7 +44,7 @@ struct MyJournalsView: View {
                 .padding(.horizontal, GridLayout.side)
               myTravelJournalList
                 .padding(.horizontal, GridLayout.side)
-            
+              
               if bookmarkedJournalsVM.isBookmarkedJournalsLoading
                   || !bookmarkedJournalsVM.bookmarkedJournals.isEmpty {
                 myBookmarkedTravelJournalList
@@ -61,10 +62,11 @@ struct MyJournalsView: View {
           }
           
           // write button
-          NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
-            WriteButton()
-              .offset(x: -(GridLayout.side), y: -(GridLayout.side))
-          }
+          WriteButtonWithAction(action: { isShowingComposeView = true })
+            .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+            .fullScreenCover(isPresented: $isShowingComposeView) {
+              TravelJournalComposeView()
+            }
         }
       } // ZStack
       .task {

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NoJournalView: View {
 
+  @State private var isShowingComposeView: Bool = false
+  
   var body: some View {
     VStack {
       Spacer()
@@ -24,15 +26,16 @@ struct NoJournalView: View {
           isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기",
           labelSize: ComponentSizeType.L,
           action: {})
-
-        NavigationLink(
-          destination: TravelJournalComposeView()
-            .navigationBarHidden(true)
-        ) {
+        
+        Button(action: {isShowingComposeView = true}) {
           Rectangle()
             .foregroundColor(.clear)
             .frame(width: ComponentSizeType.L.CTAButtonWidth, height: 48)
         }
+        .fullScreenCover(isPresented: $isShowingComposeView) {
+          TravelJournalComposeView()
+            .navigationBarHidden(true)
+        } 
       }
 
       Spacer()
