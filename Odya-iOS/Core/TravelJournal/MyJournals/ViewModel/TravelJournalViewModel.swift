@@ -37,7 +37,7 @@ class MyJournalsViewModel: ObservableObject {
   var isTravelMateDeleting: Bool = false
   
   // infinite Scroll
-  var lastIdOfMyJournals: Int? = nil
+  @Published var lastIdOfMyJournals: Int? = nil
   var hasNextMyJournals: Bool = true
   var fetchMoreMyJournalsSubject = PassthroughSubject<(), Never>()
   
@@ -50,7 +50,14 @@ class MyJournalsViewModel: ObservableObject {
   var fetchMoreTaggedJournalsSubject = PassthroughSubject<(), Never>()
   
   init() {
-    
+    fetchMoreMyJournalsSubject
+      .sink { [weak self] _ in
+        guard let self = self,
+              let idToken = self.idToken else {
+          return
+        }
+        self.getMyJournals(idToken: idToken)
+      }.store(in: &subscription)
   }
   
   // MARK: Get My Data

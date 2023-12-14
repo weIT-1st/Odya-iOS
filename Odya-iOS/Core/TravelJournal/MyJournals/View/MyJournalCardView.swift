@@ -14,19 +14,16 @@ struct RandomJounalCardView: View {
   let cardHeight: CGFloat = 475
   let cardWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
 
-  var title: String
-  var travelDateString: String
-  var locationString: String
-  var imageUrl: String
-
-  init(journal: TravelJournalData) {
-    self.title = journal.title
-    self.travelDateString =
-      "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
-    // TODO: location, placeId
-    self.locationString = "해운대 해수욕장"
-    self.imageUrl = journal.imageUrl
+  var journal: TravelJournalData?
+  var title: String { journal?.title ?? "" }
+  var travelDateString: String {
+    guard let journal = journal  else {
+      return ""
+    }
+    return "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
   }
+  var locationString: String { "해운대 해수욕장" }
+  var imageUrl: String { journal?.imageUrl ?? "" }
 
   var body: some View {
     ZStack {
@@ -34,16 +31,35 @@ struct RandomJounalCardView: View {
       shadowBox.offset(y: -20)
 
       // main content
-      AsyncImageView(
-        url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
-
-      VStack {
-        Spacer()
-        journalInfo
+      if journal != nil {
+        AsyncImageView(
+          url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
+        
+        VStack {
+          Spacer()
+          journalInfo
+        }
+      } else {
+        defaultCardView
       }
     }
   }
 
+  private var defaultCardView: some View {
+    RoundedRectangle(cornerRadius: Radius.large)
+      .frame(width: cardWidth, height: cardHeight)
+      .foregroundColor(.odya.elevation.elev2)
+      .overlay {
+//        ProgressView()
+//          .frame(width: cardWidth, height: cardHeight)
+        Image("logo-lightgray")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: cardWidth / 2)
+          
+      }
+  }
+  
   private var shadowBox: some View {
     RoundedRectangle(cornerRadius: Radius.large)
       .foregroundColor(Color.odya.whiteopacity.baseWhiteAlpha20)

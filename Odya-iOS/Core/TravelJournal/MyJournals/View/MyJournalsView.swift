@@ -13,6 +13,7 @@ struct MyJournalsView: View {
   @StateObject var VM = MyJournalsViewModel()
   @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
   
+  @State private var isShowingRandomMainJournal: Bool = false
   @State private var isShowingBookmarkedJournals: Bool = true
   
   // MARK: Body
@@ -23,15 +24,13 @@ struct MyJournalsView: View {
         Color.odya.background.normal
           .ignoresSafeArea()
         
-        // 로딩 중
-        if VM.isMyJournalsLoading {
-          ProgressView()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .frame(alignment: .center)
-        }
+//        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
+//          ProgressView()
+//            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        }
         
         // 작성된 여행일지가 없는 경우
-        else if !VM.isMyJournalsLoading && VM.myJournals.isEmpty {
+        if !VM.isMyJournalsLoading && VM.myJournals.isEmpty {
           NoJournalView()
         }
         
@@ -63,7 +62,7 @@ struct MyJournalsView: View {
               .offset(x: -(GridLayout.side), y: -(GridLayout.side))
           }
         }
-      }  // ZStack
+      } // ZStack
       .task {
         VM.getMyData()
         VM.initData()
@@ -99,14 +98,13 @@ struct MyJournalsView: View {
   
   private var randomMainBoard: some View {
     VStack(spacing: 0) {
-      let randomJournal = VM.myJournals.randomElement() ?? VM.myJournals[0]
+      let randomJournal = VM.myJournals.randomElement()
       NavigationLink(
-        destination: TravelJournalDetailView(journalId: randomJournal.journalId)
+        destination: TravelJournalDetailView(journalId: randomJournal?.journalId ?? -1)
           .navigationBarHidden(true)
       ) {
-        RandomJounalCardView(
-          journal: randomJournal)
-      }
+        RandomJounalCardView(journal: randomJournal)
+      }.disabled(randomJournal == nil)
     }
   }
 }
@@ -125,6 +123,12 @@ extension MyJournalsView {
           TravelJournalCardView(journal: journal)
             .environmentObject(VM)
         }.padding(.bottom, 12)
+          .onAppear {
+            if let last = VM.lastIdOfMyJournals,
+               last == journal.journalId {
+              VM.fetchMoreMyJournalsSubject.send()
+            }
+          }
       }
     }
   }
