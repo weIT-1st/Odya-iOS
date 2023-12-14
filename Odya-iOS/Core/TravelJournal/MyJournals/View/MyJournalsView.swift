@@ -9,34 +9,34 @@ import SwiftUI
 
 /// 내 추억 뷰
 struct MyJournalsView: View {
-
+  
   @StateObject var VM = MyJournalsViewModel()
-
+  
   // MARK: Body
-
+  
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
         Color.odya.background.normal
           .ignoresSafeArea()
         
+        // 로딩 중
         if VM.isMyJournalsLoading {
           ProgressView()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .frame(alignment: .center)
         }
         
-        else if VM.myJournals.isEmpty {
+        // 작성된 여행일지가 없는 경우
+        else if !VM.isMyJournalsLoading && VM.myJournals.isEmpty {
           NoJournalView()
         }
         
         else {
           ScrollView(showsIndicators: false) {
-            VStack(spacing: 50) {
+            LazyVStack(spacing: 50) {
               headerBar
-              
               randomMainBoard
-              
               myTravelJournalList
               
               if VM.isBookmarkedJournalsLoading
@@ -62,12 +62,10 @@ struct MyJournalsView: View {
           }
         }
       }  // ZStack
-      .onAppear {
+      .task {
         VM.getMyData()
-        Task {
-          VM.initData()
-          await VM.fetchDataAsync()
-        }
+        VM.initData()
+        await VM.fetchDataAsync()
       }
       .refreshable {
         Task {
@@ -75,10 +73,10 @@ struct MyJournalsView: View {
           await VM.fetchDataAsync()
         }
       }
-
+      
     }  // Navigation View
   }
-
+  
   private var headerBar: some View {
     HStack {
       Text("\(VM.nickname)님, \n지난 여행을 다시 볼까요?")
@@ -89,7 +87,14 @@ struct MyJournalsView: View {
       ProfileImageView(of: myData.nickname, profileData: myData.profile.decodeToProileData(), size: .M)
     }.padding(.bottom, 20)
   }
-
+  
+  func getSectionTitle(title: String) -> some View {
+    Text(title)
+      .h4Style()
+      .foregroundColor(.odya.label.normal)
+      .padding(.bottom, 32)
+  }
+  
   private var randomMainBoard: some View {
     VStack(spacing: 0) {
       let randomJournal = VM.myJournals.randomElement() ?? VM.myJournals[0]
@@ -102,20 +107,18 @@ struct MyJournalsView: View {
       }
     }
   }
+}
 
-  // MARK: My Travel Journal List
-
+// MARK: My Travel Journal List
+extension MyJournalsView {
   private var myTravelJournalList: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      Text("내 여행일지")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
-
+    LazyVStack(alignment: .leading, spacing: 0) {
+      self.getSectionTitle(title: "내 여행일지")
+      
       ForEach(VM.myJournals, id: \.id) { journal in
         NavigationLink(
-          destination: TravelJournalDetailView(journalId: journal.journalId).navigationBarHidden(
-            true)
+          destination: TravelJournalDetailView(journalId: journal.journalId)
+            .navigationBarHidden(true)
         ) {
           TravelJournalCardView(journal: journal)
             .environmentObject(VM)
@@ -123,15 +126,13 @@ struct MyJournalsView: View {
       }
     }
   }
+}
 
-  // MARK: My Favorite Travel Journal List
-
+// MARK: My Favorite Travel Journal List
+extension MyJournalsView {
   private var myBookmarkedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
-      Text("즐겨찾는 여행일지")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
+      self.getSectionTitle(title: "즐겨찾는 여행일지")
       
       ZStack(alignment: .center) {
         if VM.isBookmarkedJournalsLoading {
@@ -142,7 +143,7 @@ struct MyJournalsView: View {
         
         else {
           ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
+            LazyHStack(spacing: 10) {
               ForEach(VM.bookmarkedJournals, id: \.id) { journal in
                 NavigationLink(
                   destination: TravelJournalDetailView(journalId: journal.journalId, nickname: journal.writer.nickname)
@@ -154,23 +155,26 @@ struct MyJournalsView: View {
                   FavoriteJournalCardOverlayMenuView(journalId: journal.journalId)
                     .environmentObject(VM)
                 }
+                .onAppear {
+                  if let last = VM.lastIdOfBookmarkedJournals,
+                     last == journal.bookmarkId {
+                    VM.fetchMoreBookmarkedJournalsSubject.send()
+                  }
+                }
               } // ForEach
             }
           } // ScrollView
         }
       } // ZStack
-
     }
   }
+}
 
-  // MARK: My Tagged Travel Journal List
-
+// MARK: My Tagged Travel Journal List
+extension MyJournalsView {
   private var myTaggedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
-      Text("태그된 여행일지")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
+      self.getSectionTitle(title: "태그된 여행일지")
       
       ZStack(alignment: .center) {
         if VM.isTaggedJournalsLoading {
@@ -181,7 +185,7 @@ struct MyJournalsView: View {
         
         else {
           ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 10) {
+            LazyHStack(spacing: 10) {
               ForEach(VM.taggedJournals, id: \.id) { journal in
                 NavigationLink(
                   destination: TravelJournalDetailView(journalId: journal.journalId, nickname: journal.writer.nickname)
@@ -201,15 +205,13 @@ struct MyJournalsView: View {
       } // ZStack
     }
   }
+}
 
-  // MARK: My Review List
-
+// MARK: My Review List
+extension MyJournalsView {
   private var myReviewList: some View {
     VStack(alignment: .leading, spacing: 0) {
-      Text("내가 쓴 한줄 리뷰")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
+      self.getSectionTitle(title: "내가 쓴 한줄 리뷰")
 
       ForEach(Array(1...5), id: \.self) { journal in
         MyReviewCardView(

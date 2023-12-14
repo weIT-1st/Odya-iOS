@@ -24,27 +24,42 @@ class MyJournalsViewModel: ObservableObject {
   @Published var profile: ProfileData = MyData().profile.decodeToProileData()
   var userId: Int = MyData.userID
 
-  // loadingFlag
-  @Published var isMyJournalsLoading: Bool = false
-  var isBookmarkedJournalsLoading: Bool = false
-  var isTaggedJournalsLoading: Bool = false
-  var isTravelMateDeleting: Bool = false
-
-  // travel journals
-  // @Published var randomJournal: TravelJournalData
+  // data
   @Published var myJournals: [TravelJournalData] = []
   @Published var bookmarkedJournals: [BookmarkedJournalData] = []
   @Published var taggedJournals: [TaggedJournalData] = []
   // 내가 쓴 한글리뷰 리스트
 
-  // flags for Infinite Scroll
+  // loading flag
+  @Published var isMyJournalsLoading: Bool = false
+  var isBookmarkedJournalsLoading: Bool = false
+  var isTaggedJournalsLoading: Bool = false
+  var isTravelMateDeleting: Bool = false
+  
+  // infinite Scroll
   var lastIdOfMyJournals: Int? = nil
   var hasNextMyJournals: Bool = true
-  var lastIdOfBookmarkedJournals: Int? = nil
+  var fetchMoreMyJournalsSubject = PassthroughSubject<(), Never>()
+  
+  @Published var lastIdOfBookmarkedJournals: Int? = nil
   var hasNextBookmarkedJournals: Bool = true
-  var lastIdOfTaggedJournals: Int? = nil
+  var fetchMoreBookmarkedJournalsSubject = PassthroughSubject<(), Never>()
+  
+  @Published var lastIdOfTaggedJournals: Int? = nil
   var hasNextTaggedJournals: Bool = true
-
+  var fetchMoreTaggedJournalsSubject = PassthroughSubject<(), Never>()
+  
+  init() {
+    fetchMoreBookmarkedJournalsSubject
+      .sink { [weak self] _ in
+        guard let self = self,
+              self.hasNextBookmarkedJournals else {
+          return
+        }
+        self.getBookmarkedJournals(idToken: self.idToken ?? "")
+      }.store(in: &subscription)
+  }
+  
   // MARK: Get My Data
 
   /// user defaults에서 유저 정보 가져옴
@@ -60,7 +75,6 @@ class MyJournalsViewModel: ObservableObject {
   /// Fetch Data를 하기 전 초기화
   func initData() {
     // travel journals
-    // @Published var randomJournal: TravelJournalData
     myJournals = []
     bookmarkedJournals = []
     taggedJournals = []
@@ -162,7 +176,7 @@ class MyJournalsViewModel: ObservableObject {
 
     self.isBookmarkedJournalsLoading = true
     journalProvider.requestPublisher(
-      .getBookmarkedJournals(token: idToken, size: nil, lastId: self.lastIdOfBookmarkedJournals)
+      .getBookmarkedJournals(token: idToken, size: 2, lastId: self.lastIdOfBookmarkedJournals)
     )
     .filterSuccessfulStatusCodes()
     .sink { completion in
@@ -196,7 +210,7 @@ class MyJournalsViewModel: ObservableObject {
         let responseData = try response.map(BookmarkedJournalList.self)
         self.hasNextBookmarkedJournals = responseData.hasNext
         self.bookmarkedJournals += responseData.content
-        self.lastIdOfBookmarkedJournals = responseData.content.last?.journalId
+        self.lastIdOfBookmarkedJournals = responseData.content.last?.bookmarkId
       } catch {
         return
       }
