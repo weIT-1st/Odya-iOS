@@ -12,6 +12,7 @@ struct MyJournalsView: View {
   
   @StateObject var VM = MyJournalsViewModel()
   @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
+  @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
   
   @State private var isShowingRandomMainJournal: Bool = false
   @State private var isShowingBookmarkedJournals: Bool = true
@@ -45,8 +46,8 @@ struct MyJournalsView: View {
                 myBookmarkedTravelJournalList
               }
               
-              if VM.isTaggedJournalsLoading
-                  || !VM.taggedJournals.isEmpty {
+              if taggedJournalsVM.isTaggedJournalsLoading
+                  || !taggedJournalsVM.taggedJournals.isEmpty {
                 myTaggedTravelJournalList
               }
               
@@ -121,7 +122,7 @@ extension MyJournalsView {
             .navigationBarHidden(true)
         ) {
           TravelJournalCardView(journal: journal)
-            .environmentObject(VM)
+            .environmentObject(bookmarkedJournalsVM)
         }.padding(.bottom, 12)
           .onAppear {
             if let last = VM.lastIdOfMyJournals,
@@ -150,34 +151,9 @@ extension MyJournalsView {
   private var myTaggedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
       self.getSectionTitle(title: "태그된 여행일지")
-      
-      ZStack(alignment: .center) {
-        if VM.isTaggedJournalsLoading {
-          ProgressView()
-            .frame(height: 250)
-            .frame(maxWidth: .infinity)
-        }
-        
-        else {
-          ScrollView(.horizontal, showsIndicators: false) {
-            LazyHStack(spacing: 10) {
-              ForEach(VM.taggedJournals, id: \.id) { journal in
-                NavigationLink(
-                  destination: TravelJournalDetailView(journalId: journal.journalId, nickname: journal.writer.nickname)
-                    .navigationBarHidden(true)
-                ) {
-                  TravelJournalSmallCardView(
-                    title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl, writer: journal.writer)
-                }
-                .overlay {
-                  TaggedJournalCardOverlayMenuView(journalId: journal.journalId)
-                    .environmentObject(VM)
-                }
-              } // ForEach
-            }
-          } // ScrollView
-        }
-      } // ZStack
+      TaggedJournalListView()
+        .environmentObject(taggedJournalsVM)
+        .environmentObject(bookmarkedJournalsVM)
     }
   }
 }

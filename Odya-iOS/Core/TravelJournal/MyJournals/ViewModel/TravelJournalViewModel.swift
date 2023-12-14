@@ -26,28 +26,15 @@ class MyJournalsViewModel: ObservableObject {
 
   // data
   @Published var myJournals: [TravelJournalData] = []
-  @Published var bookmarkedJournals: [BookmarkedJournalData] = []
-  @Published var taggedJournals: [TaggedJournalData] = []
   // 내가 쓴 한글리뷰 리스트
 
   // loading flag
   @Published var isMyJournalsLoading: Bool = false
-  var isBookmarkedJournalsLoading: Bool = false
-  var isTaggedJournalsLoading: Bool = false
-  var isTravelMateDeleting: Bool = false
   
   // infinite Scroll
   @Published var lastIdOfMyJournals: Int? = nil
   var hasNextMyJournals: Bool = true
   var fetchMoreMyJournalsSubject = PassthroughSubject<(), Never>()
-  
-  @Published var lastIdOfBookmarkedJournals: Int? = nil
-  var hasNextBookmarkedJournals: Bool = true
-  var fetchMoreBookmarkedJournalsSubject = PassthroughSubject<(), Never>()
-  
-  @Published var lastIdOfTaggedJournals: Int? = nil
-  var hasNextTaggedJournals: Bool = true
-  var fetchMoreTaggedJournalsSubject = PassthroughSubject<(), Never>()
   
   init() {
     fetchMoreMyJournalsSubject
@@ -76,17 +63,11 @@ class MyJournalsViewModel: ObservableObject {
   func initData() {
     // travel journals
     myJournals = []
-    bookmarkedJournals = []
-    taggedJournals = []
     // 내가 쓴 한글리뷰 리스트
 
     // flags for Infinite Scroll
     lastIdOfMyJournals = nil
     hasNextMyJournals = true
-    lastIdOfBookmarkedJournals = nil
-    hasNextBookmarkedJournals = true
-    lastIdOfTaggedJournals = nil
-    hasNextTaggedJournals = true
   }
 
   /// api를 통해 여행일지들을 가져옴
@@ -97,8 +78,6 @@ class MyJournalsViewModel: ObservableObject {
     }
 
     getMyJournals(idToken: idToken)
-//    getBookmarkedJournals(idToken: idToken)
-    getTaggedJournals(idToken: idToken)
   }
 
   // MARK: Get My Journals
@@ -152,177 +131,5 @@ class MyJournalsViewModel: ObservableObject {
         return
       }
     }.store(in: &subscription)
-  }
-
-  // MARK: Get Bookmarked Journals
-  
-  func updateBookmarkedJournals() {
-    guard let idToken = idToken else {
-      return
-    }
-    
-    isBookmarkedJournalsLoading = false
-    hasNextBookmarkedJournals = true
-    lastIdOfBookmarkedJournals = nil
-    bookmarkedJournals = []
-    
-    getBookmarkedJournals(idToken: idToken)
-  }
-
-  private func getBookmarkedJournals(idToken: String) {
-    if isBookmarkedJournalsLoading || !hasNextBookmarkedJournals {
-      return
-    }
-
-    self.isBookmarkedJournalsLoading = true
-    journalProvider.requestPublisher(
-      .getBookmarkedJournals(token: idToken, size: 2, lastId: self.lastIdOfBookmarkedJournals)
-    )
-    .filterSuccessfulStatusCodes()
-    .sink { completion in
-      switch completion {
-      case .finished:
-        self.isBookmarkedJournalsLoading = false
-      case .failure(let error):
-        self.isBookmarkedJournalsLoading = false
-
-        guard let apiError = try? error.response?.map(ErrorData.self) else {
-          // error data decoding error handling
-          // unknown error
-          return
-        }
-
-        if apiError.code == -11000 {
-          self.appDataManager.refreshToken { success in
-            // token error handling
-            if success {
-              self.getMyData()
-              return
-            }
-
-          }
-
-        }
-      // other api error handling
-      }
-    } receiveValue: { response in
-      do {
-        let responseData = try response.map(BookmarkedJournalList.self)
-        self.hasNextBookmarkedJournals = responseData.hasNext
-        self.bookmarkedJournals += responseData.content
-        self.lastIdOfBookmarkedJournals = responseData.content.last?.bookmarkId
-      } catch {
-        return
-      }
-    }.store(in: &subscription)
-  }
-
-  // MARK: Get Tagged Journals
-  
-  func updateTaggedJournals() {
-    guard let idToken = idToken else {
-      return
-    }
-    
-    isTaggedJournalsLoading = false
-    hasNextTaggedJournals = true
-    lastIdOfTaggedJournals = nil
-    taggedJournals = []
-    
-    getTaggedJournals(idToken: idToken)
-  }
-
-  private func getTaggedJournals(idToken: String) {
-    if isTaggedJournalsLoading || !hasNextTaggedJournals {
-      return
-    }
-
-    self.isTaggedJournalsLoading = true
-    journalProvider.requestPublisher(
-      .getTaggedJournals(token: idToken, size: nil, lastId: self.lastIdOfTaggedJournals)
-    )
-    .filterSuccessfulStatusCodes()
-    .sink { completion in
-      switch completion {
-      case .finished:
-        self.isTaggedJournalsLoading = false
-      case .failure(let error):
-        self.isTaggedJournalsLoading = false
-
-        guard let apiError = try? error.response?.map(ErrorData.self) else {
-          // error data decoding error handling
-          // unknown error
-          return
-        }
-
-        if apiError.code == -11000 {
-          self.appDataManager.refreshToken { success in
-            // token error handling
-            if success {
-              self.getMyData()
-              return
-            }
-
-          }
-
-        }
-      // other api error handling
-      }
-    } receiveValue: { response in
-      do {
-        let responseData = try response.map(TaggedJournalList.self)
-        self.hasNextTaggedJournals = responseData.hasNext
-        self.taggedJournals += responseData.content
-        self.lastIdOfTaggedJournals = responseData.content.last?.journalId
-      } catch {
-        return
-      }
-    }.store(in: &subscription)
-  }
-
-  // MARK: Delete Tag
-  func deleteTagging(of journalId: Int, completion: @escaping (Bool) -> Void) {
-    guard let idToken = idToken else {
-      return
-    }
-    
-    if isTravelMateDeleting {
-      return
-    }
-    
-    isTravelMateDeleting = true
-    journalProvider.requestPublisher(.deleteTravelMates(token: idToken, journalId: journalId))
-    .filterSuccessfulStatusCodes()
-    .sink { apiCompletion in
-      switch apiCompletion {
-      case .finished:
-        self.isTravelMateDeleting = false
-        completion(true)
-      case .failure(let error):
-        self.isTravelMateDeleting = false
-        
-        guard let apiError = try? error.response?.map(ErrorData.self) else {
-          // error data decoding error handling
-          print("deleteTravelMate - ErrorData decoding error")
-          completion(false)
-          return
-        }
-
-        if apiError.code == -11000 {
-          self.appDataManager.refreshToken { success in
-            // token error handling
-            if success {
-              self.deleteTagging(of: journalId) { _ in}
-              return
-            }
-          }
-        }
-        
-        // other api error handling
-        print("deleteTravelMate - something error")
-        completion(false)
-      }
-    } receiveValue: { _ in }
-    .store(in: &subscription)
   }
 }

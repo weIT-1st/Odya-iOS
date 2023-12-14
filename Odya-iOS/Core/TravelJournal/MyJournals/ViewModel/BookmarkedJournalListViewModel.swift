@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 import Moya
 import CombineMoya
 import Combine
@@ -42,6 +41,7 @@ class BookmarkedJournalListViewModel: ObservableObject {
     fetchMoreBookmarkedJournalsSubject
       .sink { [weak self] _ in
         guard let self = self,
+              !self.isBookmarkedJournalsLoading,
               self.hasNextBookmarkedJournals else {
           return
         }
