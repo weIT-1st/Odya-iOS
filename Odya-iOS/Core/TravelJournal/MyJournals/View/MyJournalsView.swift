@@ -17,6 +17,10 @@ struct MyJournalsView: View {
   @State private var isShowingRandomMainJournal: Bool = false
   @State private var isShowingComposeView: Bool = false
   
+  var isNoJournals: Bool {
+    !VM.isMyJournalsLoading && VM.myJournals.isEmpty
+  }
+  
   // MARK: Body
   
   var body: some View {
@@ -25,18 +29,19 @@ struct MyJournalsView: View {
         Color.odya.background.normal
           .ignoresSafeArea()
         
-        //        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
-        //          ProgressView()
-        //            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        //        }
+//        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
+//          ProgressView()
+//            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        }
         
         // 작성된 여행일지가 없는 경우
-        if !VM.isMyJournalsLoading && VM.myJournals.isEmpty {
-          NoJournalView()
-        }
-        
-        else {
-          ScrollView(showsIndicators: false) {
+        ScrollView(showsIndicators: false) {
+          if isNoJournals {
+            NoJournalView()
+          }
+          
+          else {
+            
             LazyVStack(spacing: 50) {
               headerBar
                 .padding(.horizontal, GridLayout.side)
@@ -59,9 +64,13 @@ struct MyJournalsView: View {
                 .padding(.horizontal, GridLayout.side)
             }
             .padding(.vertical, 50)
+            
           }
           
-          // write button
+        } // Scroll View
+        
+        // write button
+        if !isNoJournals {
           WriteButtonWithAction(action: { isShowingComposeView = true })
             .offset(x: -(GridLayout.side), y: -(GridLayout.side))
             .fullScreenCover(isPresented: $isShowingComposeView) {
