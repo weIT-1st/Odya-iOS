@@ -48,6 +48,7 @@
 		192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */; };
 		19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */; };
 		19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */; };
+		19385A382B2C07C3000CB6AB /* MyCommunityCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
@@ -257,6 +258,7 @@
 		192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeButton.swift; sourceTree = "<group>"; };
 		19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityView.swift; sourceTree = "<group>"; };
 		19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityViewModel.swift; sourceTree = "<group>"; };
+		19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityCommentCell.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
@@ -686,6 +688,7 @@
 			isa = PBXGroup;
 			children = (
 				19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */,
+				19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1280,6 +1283,7 @@
 				3E26C3802AF0E80E003607A8 /* BottomSheetViewModel.swift in Sources */,
 				3EBEC3B72A713F4E00998EC6 /* Profile.swift in Sources */,
 				19EBA75D2AB2D38F000ABBE5 /* Terms.swift in Sources */,
+				19385A382B2C07C3000CB6AB /* MyCommunityCommentCell.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
 				199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */,
 				19E212AA2B06F515003155C0 /* ReportReason.swift in Sources */,
