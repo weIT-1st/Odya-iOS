@@ -11,45 +11,50 @@ import Moya
 // 한줄리뷰 라우터
 // 한줄리뷰 CRUD
 enum ReviewRouter {
+  // 1. 장소리뷰 생셩
   case createReview(placeId: String, rating: Int, review: String)
-  case readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?)
-  case readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?)
+  // 2. 장소리뷰 수정
   case updateReview(id: Int, rating: Int?, review: String?)
+  // 3. 장소리뷰 삭제
   case deleteReview(reviewId: Int)
+  // 4. 장소 ID 리뷰 조회
+  case readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?)
+  // 5. 유저 ID 리뷰 조회
+  case readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?)
 }
 
 extension ReviewRouter: TargetType, AccessTokenAuthorizable {
-
+  
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-
+  
   var path: String {
     switch self {
-    case let .readPlaceIdReview(placeId, _, _, _):
-        return "/api/v1/place-reviews/places/" + "\(placeId)"
-    case let .readUserIdReview(userId, _, _, _):
-        return "/api/v1/place-reviews/users/" + "\(userId)"
     case let .deleteReview(reviewId):
-        return "/api/v1/place-reviews/" + "\(reviewId)"
+      return "/api/v1/place-reviews/" + "\(reviewId)"
+    case let .readPlaceIdReview(placeId, _, _, _):
+      return "/api/v1/place-reviews/places/" + "\(placeId)"
+    case let .readUserIdReview(userId, _, _, _):
+      return "/api/v1/place-reviews/users/" + "\(userId)"
     default:
-        return "/api/v1/place-reviews"
+      return "/api/v1/place-reviews"
     }
   }
-
+  
   var method: Moya.Method {
     switch self {
     case .createReview:
-        return .post
+      return .post
     case .updateReview:
-        return .patch
+      return .patch
     case .deleteReview:
-        return .delete
+      return .delete
     default:
-        return .get
+      return .get
     }
   }
-
+  
   var task: Moya.Task {
     switch self {
     case let .createReview(placeId, rating, review):
@@ -75,18 +80,18 @@ extension ReviewRouter: TargetType, AccessTokenAuthorizable {
       return .requestPlain
     }
   }
-
+  
   var headers: [String: String]? {
     switch self {
     default:
       return ["Content-type": "application/json"]
     }
   }
-
+  
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-
+  
   var validationType: ValidationType {
     return .successCodes
   }
