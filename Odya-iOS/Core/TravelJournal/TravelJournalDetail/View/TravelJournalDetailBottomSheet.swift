@@ -47,7 +47,7 @@ struct JournalDetailBottomSheet: View {
 
   var body: some View {
     ZStack {
-      OffsettableScrollView { point in
+      OffsettableScrollView(shouldScrollToTop: $bottomSheetVM.scrollToTop) { point in
         if point.y != 0 {
           bottomSheetVM.isScrollAtTop = point.y > 0
         }

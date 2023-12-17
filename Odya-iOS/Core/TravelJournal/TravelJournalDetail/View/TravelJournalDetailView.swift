@@ -146,6 +146,7 @@ struct TravelJournalDetailView: View {
           if bottomSheetVM.isSheetOn {
             IconButton("direction-left") {
               withAnimation {
+                bottomSheetVM.scrollToTop = true
                 bottomSheetVM.sheetOffset = 0
                 bottomSheetVM.isSheetOn = false
               }
@@ -170,7 +171,6 @@ struct TravelJournalDetailView: View {
       Spacer()
     }
   }
-
 }
 
 struct TravelJournalDetailView_Previews: PreviewProvider {
