@@ -9,26 +9,79 @@ import SwiftUI
 
 enum MyCommunityActivityOptions: String, CaseIterable {
   case feed = "게시글"
-  case like = "좋아요"
   case comment = "댓글"
+  case like = "좋아요"
 }
 
 struct MyCommunityActivityView: View {
   // MARK: Properties
+  /// 뷰모델
   @StateObject private var viewModel = MyCommunityActivityViewModel()
+  /// 선택된 옵션(기본: 게시글)
   @State private var selectedOption: MyCommunityActivityOptions = .feed
+  /// Grid
+  var columns = [GridItem(.flexible(), spacing: 3),
+                 GridItem(.flexible(), spacing: 3),
+                 GridItem(.flexible())]
   
   // MARK: Body
   var body: some View {
-    VStack(spacing: 0) {
+    ScrollView(.vertical) {
       CustomNavigationBar(title: "내 활동")
       VStack(spacing: 20) {
         description
         fishchips
+        LazyVGrid(columns: columns, spacing: 3) {
+          ForEach(viewModel.feedState.content, id: \.communityID) { content in
+            AsyncImage(url: URL(string: content.communityMainImageURL)!)
+              .onAppear {
+                // 다음 페이지 불러오기
+                if content.communityID == viewModel.feedState.lastId {
+                  viewModel.fetchMyFeedNextPageIfPossible()
+                }
+              }
+          }
+        }
+          // my feed grid
+//          LazyVGrid(columns: columns, spacing: 3) {
+//            ForEach(viewModel.feedState.content, id: \.communityID) { content in
+//              AsyncImage(url: URL(string: content.communityMainImageURL)!)
+//              //              .onAppear {
+//              //                  // 다음 페이지 불러오기
+//              //                  if content.communityID == viewModel.feedState.lastId {
+//              //                    viewModel.fetchMyFeedNextPageIfPossible()
+//              //                  }
+//              //              }
+//            }
+//          }
+//        } else if selectedOption == .comment {
+//          LazyVStack {
+//            ForEach(viewModel.commentState.content, id: \.communityID) { content in
+//              MyCommunityCommentCell(content: content)
+//            }
+//          }
+//        } else {
+//          LazyVGrid(columns: columns, spacing: 3) {
+//            ForEach(viewModel.likeState.content, id: \.communityID) { content in
+//              SquareAsyncImage(url: content.communityMainImageURL)
+//                .onAppear {
+//                  if content.communityID == viewModel.likeState.lastId {
+//                    viewModel.fetchMyLikesNextPageIfPossible()
+//                  }
+//                }
+//            }
+//          }
+//        }
       }
       .padding(.horizontal, GridLayout.side)
+      .task {
+        viewModel.fetchMyFeedNextPageIfPossible()
+//        viewModel.fetchMyCommentsNextPageIfPossible()
+//        viewModel.fetchMyLikesNextPageIfPossible()
+      }
     }
     .background(Color.odya.background.normal)
+    .toolbar(.hidden)
   }
   
   private var description: some View {

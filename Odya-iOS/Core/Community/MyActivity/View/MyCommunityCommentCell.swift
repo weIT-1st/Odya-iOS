@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct MyCommunityCommentCell: View {
+  // MARK: Property
+  let content: MyCommunityCommentsContent
+  
+  // MARK: Body
   var body: some View {
     HStack(alignment: .top, spacing: 9) {
       // TODO: replace profile image
-      Circle()
-        .frame(width: 32, height: 32)
+      ProfileImageView(of: "", profileData: content.writer.profile, size: .S)
       
       VStack(spacing: 10) {
         // feed
@@ -35,22 +38,22 @@ struct MyCommunityCommentCell: View {
       VStack(alignment: .leading, spacing: 7) {
         // feed writer nickname
         HStack(alignment: .center) {
-          Text("길동아밥먹자아아")
+          Text(content.communityCommentSimpleResponse.user.nickname)
             .b1Style()
             .foregroundColor(.odya.label.normal)
           // feed content
-          Text("피드 게시글 내용 피드 게시글 내용 피드 게시글 내용")
+          Text(content.communityContent)
             .detail2Style()
             .foregroundColor(.odya.label.normal)
             .lineLimit(1)
         }
         // TODO: change date format
-        Text("2일전")
+        Text(content.updatedAt.toCustomRelativeDateString())
           .detail1Style()
           .foregroundColor(.odya.label.assistive)
       }
       // replace main image
-      Rectangle()
+      AsyncImageView(url: content.communityMainImageURL, width: 60, height: 60, cornerRadius: 0)
         .frame(width: 60, height: 60)
     }
   }
@@ -60,21 +63,21 @@ struct MyCommunityCommentCell: View {
     VStack(alignment: .leading, spacing: 20) {
       // comment writer nickname
       HStack {
-        Text("길동아밥먹자")
+        Text(content.communityCommentSimpleResponse.user.nickname)
           .b1Style()
           .foregroundColor(.odya.label.normal)
         Spacer()
       }
       VStack(alignment: .leading, spacing: 4) {
         // comment content
-        Text("형제는 오륜의 하나요, 한 몸을 쪼갠 것이다. 그러므로 부귀와 화복을 같이 하는 것이다. 그런데 형제도 형제 나름이다.충청. 전라. 경상의 삼도가 만나는 어름에 사는 연생원이라")
+        Text(content.communityCommentSimpleResponse.content)
           .detail2Style()
           .foregroundColor(.odya.label.normal)
           .lineLimit(3)
           .multilineTextAlignment(.leading)
         // TODO: change date format
         HStack {
-          Text("2일전")
+          Text(content.communityCommentSimpleResponse.updatedAt.toCustomRelativeDateString())
             .detail1Style()
             .foregroundColor(.odya.label.assistive)
           Spacer()
@@ -85,9 +88,10 @@ struct MyCommunityCommentCell: View {
   }
 }
 
+// MARK: - Previews
 struct MyCommunityCommentCell_Previews: PreviewProvider {
   static var previews: some View {
-    MyCommunityCommentCell()
+    MyCommunityCommentCell(content: MyCommunityCommentsContent(communityID: 1, communityContent: "피드 게시글 내용 피드 게시글 내용 피드 게시글 내용", communityMainImageURL: "", updatedAt: "2023.12.12", writer: Writer(userID: 1, nickname: "길동아밥먹자", profile: ProfileData(profileUrl: ""), isFollowing: true), communityCommentSimpleResponse: CommunityCommentSimpleResponse(communityCommentID: 1, content: "형제는 오륜의 하나요, 한 몸을 쪼갠 것이다. 그러므로 부귀와 화복을 같이 하는 것이다. 그런데 형제도 형제 나름이다.충청. 전라. 경상의 삼도가 만나는 어름에 사는 연생원이라", updatedAt: "2023.12.15", user: Writer(userID: 2, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: nil))))
       .frame(height: 200)
   }
 }
