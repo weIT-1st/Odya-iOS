@@ -55,7 +55,7 @@ final class MyCommunityActivityViewModel: ObservableObject {
       .sink { [self] completion in
         switch completion {
         case .finished:
-          debugPrint("내 커뮤니티 활동 - 게시물 조회 완료")
+          debugPrint("내 커뮤니티 활동 - 게시물 조회 완료. 다음 페이지 \(self.feedState.canLoadNextPage)")
         case .failure(let error):
           handleErrorData(error: error)
         }
@@ -64,7 +64,6 @@ final class MyCommunityActivityViewModel: ObservableObject {
           self.feedState.content += data.content
           self.feedState.lastId = data.content.last?.communityID
           self.feedState.canLoadNextPage = data.hasNext
-          print("*********디코딩 성공******")
         }
       }
       .store(in: &subscription)
@@ -78,7 +77,7 @@ final class MyCommunityActivityViewModel: ObservableObject {
       .sink { completion in
         switch completion {
         case .finished:
-          debugPrint("내 커뮤니티 활동 - 댓글 조회 완료")
+          debugPrint("내 커뮤니티 활동 - 댓글 조회 완료. 다음 페이지 \(self.commentState.canLoadNextPage)")
         case .failure(let error):
           self.handleErrorData(error: error)
         }
@@ -100,7 +99,7 @@ final class MyCommunityActivityViewModel: ObservableObject {
       .sink { completion in
         switch completion {
         case .finished:
-          debugPrint("내 커뮤니티 활동 - 좋아요한 게시글 조회 완료")
+          debugPrint("내 커뮤니티 활동 - 좋아요한 게시글 조회 완료. 다음 페이지 \(self.likeState.canLoadNextPage)")
         case .failure(let error):
           self.handleErrorData(error: error)
         }

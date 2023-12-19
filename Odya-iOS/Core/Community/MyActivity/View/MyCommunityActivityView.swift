@@ -26,61 +26,88 @@ struct MyCommunityActivityView: View {
   
   // MARK: Body
   var body: some View {
-    ScrollView(.vertical) {
+    VStack(spacing: 0) {
       CustomNavigationBar(title: "내 활동")
-      VStack(spacing: 20) {
-        description
-        fishchips
-        LazyVGrid(columns: columns, spacing: 3) {
-          ForEach(viewModel.feedState.content, id: \.communityID) { content in
-            AsyncImage(url: URL(string: content.communityMainImageURL)!)
-              .onAppear {
-                // 다음 페이지 불러오기
-                if content.communityID == viewModel.feedState.lastId {
-                  viewModel.fetchMyFeedNextPageIfPossible()
+      ScrollView(.vertical, showsIndicators: false) {
+        VStack(spacing: 20) {
+          description
+          fishchips
+          switch selectedOption {
+          case .feed:
+            // my feed grid
+            LazyVGrid(columns: columns, spacing: 3) {
+              ForEach(viewModel.feedState.content, id: \.communityID) { content in
+                Color.clear.overlay(
+                  AsyncImage(url: URL(string: content.communityMainImageURL)!) { phase in
+                    switch phase {
+                    case .success(let image):
+                      image
+                        .resizable()
+                        .scaledToFill()
+                    default:
+                      ProgressView()
+                    }
+                  }
+                )
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .clipped()
+                .onAppear {
+                  // 다음 페이지 불러오기
+                  if content.communityID == viewModel.feedState.lastId {
+                    viewModel.fetchMyFeedNextPageIfPossible()
+                  }
                 }
               }
+            }
+          case .comment:
+            LazyVStack {
+              ForEach(viewModel.commentState.content, id: \.communityID) { content in
+                MyCommunityCommentCell(content: content)
+                  .onAppear {
+                    if content.communityID == viewModel.commentState.lastId {
+                      viewModel.fetchMyCommentsNextPageIfPossible()
+                    }
+                  }
+              }
+            }
+          case .like:
+            LazyVGrid(columns: columns, spacing: 3) {
+              ForEach(viewModel.likeState.content, id: \.communityID) { content in
+                Color.clear.overlay(
+                  AsyncImage(url: URL(string: content.communityMainImageURL)!) { phase in
+                    switch phase {
+                    case .success(let image):
+                      image
+                        .resizable()
+                        .scaledToFill()
+                    default:
+                      ProgressView()
+                    }
+                  }
+                )
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+                .clipped()
+                .onAppear {
+                  // 다음 페이지 불러오기
+                  if content.communityID == viewModel.likeState.lastId {
+                    viewModel.fetchMyLikesNextPageIfPossible()
+                  }
+                }
+              }
+            }
           }
         }
-          // my feed grid
-//          LazyVGrid(columns: columns, spacing: 3) {
-//            ForEach(viewModel.feedState.content, id: \.communityID) { content in
-//              AsyncImage(url: URL(string: content.communityMainImageURL)!)
-//              //              .onAppear {
-//              //                  // 다음 페이지 불러오기
-//              //                  if content.communityID == viewModel.feedState.lastId {
-//              //                    viewModel.fetchMyFeedNextPageIfPossible()
-//              //                  }
-//              //              }
-//            }
-//          }
-//        } else if selectedOption == .comment {
-//          LazyVStack {
-//            ForEach(viewModel.commentState.content, id: \.communityID) { content in
-//              MyCommunityCommentCell(content: content)
-//            }
-//          }
-//        } else {
-//          LazyVGrid(columns: columns, spacing: 3) {
-//            ForEach(viewModel.likeState.content, id: \.communityID) { content in
-//              SquareAsyncImage(url: content.communityMainImageURL)
-//                .onAppear {
-//                  if content.communityID == viewModel.likeState.lastId {
-//                    viewModel.fetchMyLikesNextPageIfPossible()
-//                  }
-//                }
-//            }
-//          }
-//        }
-      }
-      .padding(.horizontal, GridLayout.side)
-      .task {
-        viewModel.fetchMyFeedNextPageIfPossible()
-//        viewModel.fetchMyCommentsNextPageIfPossible()
-//        viewModel.fetchMyLikesNextPageIfPossible()
-      }
+        .padding(.horizontal, GridLayout.side)
+        .task {
+          viewModel.fetchMyFeedNextPageIfPossible()
+          viewModel.fetchMyCommentsNextPageIfPossible()
+          viewModel.fetchMyLikesNextPageIfPossible()
+        }
+        .background(Color.odya.background.normal)
+      } // ScrollView
     }
-    .background(Color.odya.background.normal)
     .toolbar(.hidden)
   }
   
