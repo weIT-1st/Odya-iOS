@@ -14,7 +14,6 @@ struct MyCommunityCommentCell: View {
   // MARK: Body
   var body: some View {
     HStack(alignment: .top, spacing: 9) {
-      // TODO: replace profile image
       ProfileImageView(of: "", profileData: content.writer.profile, size: .S)
       
       VStack(spacing: 10) {
@@ -23,9 +22,7 @@ struct MyCommunityCommentCell: View {
         
         // comment
         HStack(alignment: .top, spacing: 10) {
-          // TODO: replace profile image
-          Circle()
-            .frame(width: 32, height: 32)
+          ProfileImageView(of: "", profileData: content.communityCommentSimpleResponse.user.profile, size: .S)
           simpleCommentContent
         }
       }
@@ -35,7 +32,7 @@ struct MyCommunityCommentCell: View {
   /// 간략한 피드 내용
   private var simpleFeedContent: some View {
     HStack(alignment: .center, spacing: 10) {
-      VStack(alignment: .leading, spacing: 7) {
+      VStack(alignment: .leading, spacing: 10) {
         // feed writer nickname
         HStack(alignment: .center) {
           Text(content.communityCommentSimpleResponse.user.nickname)
@@ -47,12 +44,11 @@ struct MyCommunityCommentCell: View {
             .foregroundColor(.odya.label.normal)
             .lineLimit(1)
         }
-        // TODO: change date format
         Text(content.updatedAt.toCustomRelativeDateString())
           .detail1Style()
           .foregroundColor(.odya.label.assistive)
       }
-      // replace main image
+      Spacer()
       AsyncImageView(url: content.communityMainImageURL, width: 60, height: 60, cornerRadius: 0)
         .frame(width: 60, height: 60)
     }
@@ -60,7 +56,7 @@ struct MyCommunityCommentCell: View {
   
   /// 간략한 댓글 내용
   private var simpleCommentContent: some View {
-    VStack(alignment: .leading, spacing: 20) {
+    VStack(alignment: .leading, spacing: 16) {
       // comment writer nickname
       HStack {
         Text(content.communityCommentSimpleResponse.user.nickname)
@@ -75,7 +71,6 @@ struct MyCommunityCommentCell: View {
           .foregroundColor(.odya.label.normal)
           .lineLimit(3)
           .multilineTextAlignment(.leading)
-        // TODO: change date format
         HStack {
           Text(content.communityCommentSimpleResponse.updatedAt.toCustomRelativeDateString())
             .detail1Style()
