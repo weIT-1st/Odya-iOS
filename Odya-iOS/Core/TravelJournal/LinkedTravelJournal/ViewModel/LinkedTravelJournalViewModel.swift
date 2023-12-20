@@ -31,13 +31,13 @@ final class LinkedTravelJournalViewModel: ObservableObject {
   }
   
   @Published private(set) var state = JournalState()
-
   
   // MARK: - Helper functions
   /// 나의 여행일지 목록 가져오기
   func fetchMyJournalListNextPageIfPossible() {
     guard state.canLoadNextPage else { return }
-
+    isLoading = true
+    
     journalProvider.requestPublisher(.getMyJournals(token: idToken ?? "", size: nil, lastId: state.lastId))
       .sink { completion in
         switch completion {
@@ -49,6 +49,7 @@ final class LinkedTravelJournalViewModel: ObservableObject {
           }
           self.state.canLoadNextPage = false
         }
+        self.isLoading = false
       } receiveValue: { response in
         if let data = try? response.map(TravelJournalList.self) {
           self.state.content += data.content
@@ -59,7 +60,29 @@ final class LinkedTravelJournalViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
-  func switchVisibilityToPublic() {
+  /// 나의 여행일지 목록 새로고침
+  func refreshMyJournalList() {
+    self.state = JournalState()
+    fetchMyJournalListNextPageIfPossible()
+  }
+  
+  /// 여행일지 공개 범위 수정 - PUBLIC
+  func switchVisibilityToPublic(journalId id: Int) {
+    isLoading = true
     
+    journalProvider.requestPublisher(.updateVisibility(token: idToken ?? "", journalId: id, visibility: "PUBLIC"))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("여행일지 \(id) 공개로 변경 완료")
+        case .failure(let error):
+          if let errorData = try? error.response?.map(ErrorData.self) {
+            print(errorData.message)
+          }
+        }
+        self.isLoading = false
+        self.refreshMyJournalList()
+      } receiveValue: { _ in }
+      .store(in: &subscription)
   }
 }

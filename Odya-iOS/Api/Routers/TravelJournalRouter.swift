@@ -128,7 +128,9 @@ enum TravelJournalRouter {
     case getBookmarkedJournals(token: String, size: Int?, lastId: Int?)
   // 여행일지 북마크 삭제(즐겨찾기 해제)
     case deleteBookmark(token: String, journalId: Int)
-
+  
+  // 여행일지 공개범위 수정
+    case updateVisibility(token: String, journalId: Int, visibility: String)
 }
 
 extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
@@ -163,6 +165,8 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             return "/api/v1/travel-journal-bookmarks/\(journalId)"
         case .getBookmarkedJournals:
             return "/api/v1/travel-journal-bookmarks/me"
+        case let .updateVisibility(_, journalId, _):
+            return "/api/v1/travel-journals/\(journalId)/visibility"
         }
     }
     
@@ -174,6 +178,8 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             return .put
         case .delete, .deleteContent, .deleteTravelMates, .deleteBookmark:
             return .delete
+        case .updateVisibility:
+            return .patch
         default:
             return .get
         }
@@ -271,6 +277,9 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
                 params["lastId"] = lastId
             }
             return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+        case let .updateVisibility(_, _, visibility):
+            let params: [String: Any] = ["visibility": visibility]
+            return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
         default:
             return .requestPlain
         }
@@ -292,7 +301,8 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
             let .deleteTravelMates(token, _),
             let .createBookmark(token, _),
             let .getBookmarkedJournals(token, _, _),
-            let .deleteBookmark(token, _):
+            let .deleteBookmark(token, _),
+            let .updateVisibility(token, _, _):
             return ["Authorization" : "Bearer \(token)"]
         }
     }

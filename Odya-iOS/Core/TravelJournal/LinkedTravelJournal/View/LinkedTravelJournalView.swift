@@ -23,33 +23,50 @@ struct LinkedTravelJournalView: View {
     ScrollView {
       LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
         Section {
-          ForEach(viewModel.state.content, id: \.journalId) { content in
-            Button {
-              if content.visibility == "PRIVATE" {
-                // 공개 전환 alert toggle
-                showAlert.toggle()
-              } else {
-                if selectedJournalId == content.journalId {
-                  selectedJournalId = nil
-                  selectedJournalTitle = nil
+          if viewModel.isLoading {
+            ProgressView()
+          } else {
+            ForEach(viewModel.state.content, id: \.journalId) { content in
+              Button {
+                if content.visibility == "PRIVATE" {
+                  // 공개 전환 alert toggle
+                  showAlert.toggle()
                 } else {
-                  selectedJournalId = content.journalId
-                  selectedJournalTitle = content.title
+                  if selectedJournalId == content.journalId {
+                    selectedJournalId = nil
+                    selectedJournalTitle = nil
+                  } else {
+                    selectedJournalId = content.journalId
+                    selectedJournalTitle = content.title
+                  }
+                }
+              } label: {
+                ZStack {
+                  LinkedTravelJournalCell(content: content, selectedId: $selectedJournalId)
+                    .onAppear {
+                      if viewModel.state.content.last?.journalId == content.journalId {
+                        viewModel.fetchMyJournalListNextPageIfPossible()
+                      }
+                    }
+                  if viewModel.isSwitchProgressing {
+                    ProgressView()
+                  }
                 }
               }
-            } label: {
-              ZStack {
-                LinkedTravelJournalCell(content: content, selectedId: $selectedJournalId)
-                  .onAppear {
-                    if viewModel.state.content.last?.journalId == content.journalId {
-                      viewModel.fetchMyJournalListNextPageIfPossible()
-                    }
-                  }
-                if viewModel.isSwitchProgressing {
-                  ProgressView()
+              .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showAlert) {
+                Button("취소", role: .cancel) { }
+                Button {
+                  // action: 공개로 변경
+                  viewModel.switchVisibilityToPublic(journalId: content.journalId)
+                } label: {
+                  Text("변경하기")
+                    .bold()
                 }
+              } message: {
+                Text("공개된 여행일지만 연동 가능합니다.")
               }
             }
+
           }
         } header: {
           header
@@ -59,17 +76,6 @@ struct LinkedTravelJournalView: View {
       .toolbar(.hidden)
       .task {
         viewModel.fetchMyJournalListNextPageIfPossible()
-      }
-      .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showAlert) {
-        Button("취소", role: .cancel) { }
-        Button {
-          // action: 공개로 변경
-        } label: {
-          Text("변경하기")
-            .bold()
-        }
-      } message: {
-        Text("공개된 여행일지만 연동 가능합니다.")
       }
     } // ScrollView
     .background(Color.odya.background.normal)
