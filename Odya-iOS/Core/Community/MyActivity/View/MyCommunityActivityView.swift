@@ -7,19 +7,21 @@
 
 import SwiftUI
 
+/// fishchip 버튼으로 보여줄 내 활동 선택하기 위한 옵션
 enum MyCommunityActivityOptions: String, CaseIterable {
   case feed = "게시글"
   case comment = "댓글"
   case like = "좋아요"
 }
 
+/// 내 커뮤니티 활동 최상단 뷰
 struct MyCommunityActivityView: View {
   // MARK: Properties
   /// 뷰모델
   @StateObject private var viewModel = MyCommunityActivityViewModel()
   /// 선택된 옵션(기본: 게시글)
   @State private var selectedOption: MyCommunityActivityOptions = .feed
-  /// Grid
+  /// Grid columns
   var columns = [GridItem(.flexible(), spacing: 3),
                  GridItem(.flexible(), spacing: 3),
                  GridItem(.flexible())]
@@ -37,6 +39,7 @@ struct MyCommunityActivityView: View {
             // my feed grid
             LazyVGrid(columns: columns, spacing: 3) {
               ForEach(viewModel.feedState.content, id: \.communityID) { content in
+                // 1:1 ratio image
                 Color.clear.overlay(
                   AsyncImage(url: URL(string: content.communityMainImageURL)!) { phase in
                     switch phase {
@@ -61,6 +64,7 @@ struct MyCommunityActivityView: View {
               }
             }
           case .comment:
+            // my comments stack
             LazyVStack {
               ForEach(viewModel.commentState.content, id: \.communityID) { content in
                 MyCommunityCommentCell(content: content)
@@ -72,6 +76,7 @@ struct MyCommunityActivityView: View {
               }
             }
           case .like:
+            // my likes grid
             LazyVGrid(columns: columns, spacing: 3) {
               ForEach(viewModel.likeState.content, id: \.communityID) { content in
                 Color.clear.overlay(
@@ -111,6 +116,7 @@ struct MyCommunityActivityView: View {
     .toolbar(.hidden)
   }
   
+  /// 설명글
   private var description: some View {
     VStack(spacing: 8) {
       HStack(spacing: 0) {
@@ -131,6 +137,7 @@ struct MyCommunityActivityView: View {
     .cornerRadius(16)
   }
   
+  /// 게시글, 댓글, 좋아요 선택 fishchip button
   private var fishchips: some View {
     HStack(spacing: 10) {
       ForEach(MyCommunityActivityOptions.allCases, id: \.self) { option in

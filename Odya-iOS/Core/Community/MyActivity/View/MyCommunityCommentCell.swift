@@ -7,8 +7,10 @@
 
 import SwiftUI
 
+/// 내 커뮤니티 활동 - 댓글 셀
 struct MyCommunityCommentCell: View {
   // MARK: Property
+  /// 피드, 댓글 내용
   let content: MyCommunityCommentsContent
   
   // MARK: Body
@@ -35,7 +37,7 @@ struct MyCommunityCommentCell: View {
       VStack(alignment: .leading, spacing: 10) {
         // feed writer nickname
         HStack(alignment: .center) {
-          Text(content.communityCommentSimpleResponse.user.nickname)
+          Text(content.writer.nickname)
             .b1Style()
             .foregroundColor(.odya.label.normal)
           // feed content

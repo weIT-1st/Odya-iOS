@@ -9,9 +9,10 @@ import Combine
 import Moya
 import SwiftUI
 
+/// 내 커뮤니티 활동 뷰모델
 final class MyCommunityActivityViewModel: ObservableObject {
   // MARK: Properties
-  /// Provider
+  /// API Provider
   @AppStorage("WeITAuthToken") var idToken: String?
   private let logPlugin: PluginType = CustomLogPlugin()
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
@@ -41,9 +42,6 @@ final class MyCommunityActivityViewModel: ObservableObject {
   @Published private(set) var feedState = FeedState()
   @Published private(set) var commentState = CommentState()
   @Published private(set) var likeState = LikeState()
-
-  /// 네트워크 통신중 flag
-  @Published var isProcessing: Bool = false
   
   // MARK: - Helper functions
   
