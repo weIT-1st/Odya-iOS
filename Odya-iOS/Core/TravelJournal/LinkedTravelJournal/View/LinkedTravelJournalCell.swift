@@ -17,6 +17,9 @@ struct LinkedTravelJournalCell: View {
   /// 선택된 여행일지 아이디
   @Binding var selectedId: Int?
   
+  /// 날짜 포맷
+  let dateFormat: String = "yyyy.MM.dd"
+  
   // MARK: Body
   var body: some View {
     ZStack {
@@ -35,7 +38,7 @@ struct LinkedTravelJournalCell: View {
         // date
         HStack {
           Spacer()
-          Text(content.startDateString)
+          Text(content.travelStartDate.dateToString(format: dateFormat))
             .detail2Style()
             .foregroundColor(.odya.label.assistive)
         }

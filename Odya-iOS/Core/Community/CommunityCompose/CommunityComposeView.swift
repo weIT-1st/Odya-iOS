@@ -79,7 +79,7 @@ struct CommunityComposeView: View {
       // custom navigation bar
       navigationBar
       
-      ScrollView {
+      ScrollView(.vertical, showsIndicators: false) {
         VStack(spacing: 0) {
           // 사진
           ZStack(alignment: .bottom) {
@@ -111,35 +111,6 @@ struct CommunityComposeView: View {
                   .tag(originalImageList.count + index)
                 }
               }
-//              switch composeMode {
-//              case .create:
-//                // 생성
-//                if imageList.isEmpty {
-//                  Image("logo-rect")
-//                    .frame(width: screenWidth, height: screenWidth)
-//                } else {
-//                  ForEach(0..<imageList.count, id: \.self) { index in
-//                    VStack(spacing: 0) {
-//                      Image(uiImage: imageList[index].image)
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: screenWidth, height: screenWidth, alignment: .center)
-//                        .clipped()
-//                      Spacer()
-//                    }
-//                    .tag(index)
-//                  }
-//                }
-//              case .edit:
-//                // 수정
-//                ForEach(0..<originalImageList.count, id: \.self) { index in
-//                  VStack(spacing: 0) {
-//                    SquareAsyncImage(url: originalImageList[index].imageURL)
-//                    Spacer()
-//                  }
-//                  .tag(index)
-//                }
-//              }
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .frame(height: UIScreen.main.bounds.width + dotIndicatorHeight, alignment: .top)
@@ -234,26 +205,26 @@ struct CommunityComposeView: View {
   
   /// 여행일지 불러오기 버튼
   private var connectTravelJournalButton: some View {
-    ZStack {
-      HStack(alignment: .center, spacing: 16) {
-        Image("diary")
-          .resizable()
-          .frame(width: 24, height: 24)
-        Text(travelJournalTitle != nil ? travelJournalTitle! : "여행일지 불러오기")
-          .b1Style()
-          .foregroundColor(Color.odya.label.normal)
-        Spacer()
-      }
-      .padding(.vertical, 12)
-      .padding(.horizontal, 22)
-      .frame(height: 48)
-      .frame(maxWidth: .infinity)
-      .background(Color.odya.background.dimmed_system)
-      .cornerRadius(100)
-      
-      NavigationLink {
-        LinkedTravelJournalView(selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle)
-      } label: {
+    NavigationLink {
+      LinkedTravelJournalView(selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle)
+    } label: {
+      ZStack {
+        HStack(alignment: .center, spacing: 16) {
+          Image("diary")
+            .resizable()
+            .frame(width: 24, height: 24)
+          Text(travelJournalTitle != nil ? travelJournalTitle! : "여행일지 불러오기")
+            .b1Style()
+            .foregroundColor(Color.odya.label.normal)
+          Spacer()
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 22)
+        .frame(height: 48)
+        .frame(maxWidth: .infinity)
+        .background(Color.odya.background.dimmed_system)
+        .cornerRadius(100)
+        
         HStack {
           Spacer()
           Circle()
@@ -262,8 +233,8 @@ struct CommunityComposeView: View {
             .overlay(Image("arrow-up-right"))
         }
       }
+      .padding(.horizontal, 48)
     }
-    .padding(.horizontal, 48)
   }
   
   /// 게시글 작성 텍스트필드
@@ -274,7 +245,7 @@ struct CommunityComposeView: View {
       
       TextField("글 작성하기 (최대 200 자)", text: $textContent, axis: .vertical)
         .b1Style()
-        .foregroundColor(textContent.isEmpty ? Color.odya.label.assistive : Color.odya.label.normal)
+        .foregroundColor(Color.odya.label.normal)
     }
     .padding(.horizontal, 12)
     .padding(.vertical, 16)

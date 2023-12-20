@@ -50,7 +50,7 @@
 		194417982B218A4A00423541 /* LinkedTravelJournalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */; };
 		1944179A2B21C0B500423541 /* LinkedTravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417992B21C0B500423541 /* LinkedTravelJournalViewModel.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
-		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
+		195BF2F92ACE755400E4FEDD /* ShowMoreJournalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
 		19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFD2B030BEE003D6013 /* CommentViewModel.swift */; };
 		19683B002B031244003D6013 /* CommunityComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFF2B031244003D6013 /* CommunityComment.swift */; };
@@ -243,7 +243,7 @@
 		194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalCell.swift; sourceTree = "<group>"; };
 		194417992B21C0B500423541 /* LinkedTravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalViewModel.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
-		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
+		195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreJournalButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
 		19683AFD2B030BEE003D6013 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		19683AFF2B031244003D6013 /* CommunityComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComment.swift; sourceTree = "<group>"; };
@@ -848,7 +848,7 @@
 				3EBEC3B22A6FF75D00998EC6 /* EditButton.swift */,
 				3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */,
 				0784964F2A9760CF00A490E3 /* FishchipButton.swift */,
-				195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */,
+				195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */,
 				3EE1036A2AD483F2004EDCEB /* StarButton.swift */,
 			);
 			path = Buttons;
@@ -1229,7 +1229,7 @@
 				19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */,
-				195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */,
+				195BF2F92ACE755400E4FEDD /* ShowMoreJournalButton.swift in Sources */,
 				3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				07589E6C2AEFC7F300867FAD /* FeedDetailViewModel.swift in Sources */,

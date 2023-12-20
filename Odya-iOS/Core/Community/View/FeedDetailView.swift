@@ -78,17 +78,21 @@ struct FeedDetailView: View {
                   .padding(.horizontal, GridLayout.side)
                   
                   VStack(spacing: 24) {
-                    // 여행일지
-                    JournalCoverButton(
-                      profileImageUrl: nil,
-                      labelText: "여행일지 더보기",
-                      coverImageUrl: URL(string: testImageUrlString)!,
-                      journalTitle: "2020 컴공과 졸업여행",
-                      isHot: true
-                    ) {
-                      // action
+                    // 여행일지 더보기
+                    if let journal = viewModel.feedDetail.travelJournal {
+                      NavigationLink {
+                        TravelJournalDetailView(journalId: journal.travelJournalID, nickname: viewModel.feedDetail.writer.nickname)
+                          .navigationBarHidden(true)
+                      } label: {
+                        ShowMoreJournalButton(
+                          profile: nil,
+                          labelText: "여행일지 더보기",
+                          coverImageUrl: journal.mainImageURL,
+                          journalTitle: journal.title
+                        )
+                      }
                     }
-                    
+
                     // feed text
                     Text(viewModel.feedDetail?.content ?? "")
                       .detail2Style()
@@ -154,6 +158,8 @@ struct FeedDetailView: View {
         communityId: viewModel.feedDetail.communityID,
         textContent: viewModel.feedDetail.content,
         privacyType: CommunityPrivacyType(rawValue: viewModel.feedDetail.visibility) ?? .global,
+        travelJournalId: viewModel.feedDetail.travelJournal?.travelJournalID,
+        travelJournalTitle: viewModel.feedDetail.travelJournal?.title,
         selectedTopicId: viewModel.feedDetail.topic?.id,
         originalImageList: viewModel.feedDetail.communityContentImages,
         showPhotoPicker: false,
