@@ -16,35 +16,34 @@ enum TravelJournalTagRouter {
   case deleteTravelMates(journalId: Int)
 }
 
-
 extension TravelJournalTagRouter: TargetType, AccessTokenAuthorizable {
-    
-    var baseURL: URL {
-        return URL(string: ApiClient.BASE_URL)!
+
+  var baseURL: URL {
+    return URL(string: ApiClient.BASE_URL)!
+  }
+
+  var path: String {
+    switch self {
+    case .getTaggedJournals:
+      return "/api/v1/travel-journals/tagged"
+    case let .deleteTravelMates(journalId):
+      return "/api/v1/travel-journals/\(journalId)/travelCompanion"
+
     }
-    
-    var path: String {
-        switch self {
-        case .getTaggedJournals:
-            return "/api/v1/travel-journals/tagged"
-        case let .deleteTravelMates(journalId):
-            return "/api/v1/travel-journals/\(journalId)/travelCompanion"
-        
-        }
+  }
+
+  var method: Moya.Method {
+    switch self {
+    case .deleteTravelMates:
+      return .delete
+    default:
+      return .get
     }
-    
-    var method: Moya.Method {
-        switch self {
-        case .deleteTravelMates:
-            return .delete
-        default:
-            return .get
-        }
-    }
-    
+  }
+
   var task: Moya.Task {
     switch self {
-      
+
     case let .getTaggedJournals(size, lastId):
       var params: [String: Any] = [:]
       params["size"] = size
@@ -54,20 +53,20 @@ extension TravelJournalTagRouter: TargetType, AccessTokenAuthorizable {
       return .requestPlain
     }
   }
-    
+
   var headers: [String: String]? {
     switch self {
     default:
       return ["Content-type": "application/json"]
     }
   }
-  
+
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-  
+
   var validationType: ValidationType {
     return .successCodes
   }
-    
+
 }

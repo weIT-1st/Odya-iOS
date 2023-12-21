@@ -17,10 +17,11 @@ struct RandomJounalCardView: View {
   var journal: TravelJournalData?
   var title: String { journal?.title ?? "" }
   var travelDateString: String {
-    guard let journal = journal  else {
+    guard let journal = journal else {
       return ""
     }
-    return "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
+    return
+      "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
   }
   var locationString: String { "해운대 해수욕장" }
   var imageUrl: String { journal?.imageUrl ?? "" }
@@ -34,7 +35,7 @@ struct RandomJounalCardView: View {
       if journal != nil {
         AsyncImageView(
           url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
-        
+
         VStack {
           Spacer()
           journalInfo
@@ -50,16 +51,16 @@ struct RandomJounalCardView: View {
       .frame(width: cardWidth, height: cardHeight)
       .foregroundColor(.odya.elevation.elev2)
       .overlay {
-//        ProgressView()
-//          .frame(width: cardWidth, height: cardHeight)
+        //        ProgressView()
+        //          .frame(width: cardWidth, height: cardHeight)
         Image("logo-lightgray")
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: cardWidth / 2)
-          
+
       }
   }
-  
+
   private var shadowBox: some View {
     RoundedRectangle(cornerRadius: Radius.large)
       .foregroundColor(Color.odya.whiteopacity.baseWhiteAlpha20)
@@ -100,7 +101,7 @@ struct RandomJounalCardView: View {
 struct TravelJournalCardView: View {
   @EnvironmentObject var bookmarkJournalsVM: BookmarkedJournalListViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
-  
+
   let cardHeight: CGFloat = 250
   let cardWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
 
@@ -111,7 +112,7 @@ struct TravelJournalCardView: View {
   var imageUrl: String
 
   var isMarked: Bool {
-    bookmarkJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
+    bookmarkJournalsVM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
   }
 
   init(journal: TravelJournalData) {
@@ -175,9 +176,9 @@ struct TravelJournalCardView: View {
 /// 내 추억 뷰에서 즐겨찾기된 여행일지와 태그된 여행일지를 보여주기 위한 작은 카드 뷰
 struct TravelJournalSmallCardView: View {
   let cardWidth: CGFloat = 141
-//  UIScreen.main.bounds.width / 2.5
+  //  UIScreen.main.bounds.width / 2.5
   let cardHeight: CGFloat = 224
-//  (UIScreen.main.bounds.width / 2.5) * 1.5
+  //  (UIScreen.main.bounds.width / 2.5) * 1.5
 
   var title: String
   var dateString: String
@@ -320,10 +321,10 @@ struct MyReviewCardView: View {
 struct FavoriteJournalCardOverlayMenuView: View {
   @EnvironmentObject var VM: BookmarkedJournalListViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
-  
+
   let journalId: Int
   var isMarked: Bool {
-    VM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
+    VM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
   }
 
   var body: some View {
@@ -346,10 +347,10 @@ struct TaggedJournalCardOverlayMenuView: View {
   @EnvironmentObject var VM: TaggedJournalListViewModel
   @EnvironmentObject var bookmarkJournalsVM: BookmarkedJournalListViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
-  
+
   let journalId: Int
   var isMarked: Bool {
-    bookmarkJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
+    bookmarkJournalsVM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
   }
   @State private var isShowingTaggingDeletionAlert: Bool = false
 
@@ -382,7 +383,7 @@ struct TaggedJournalCardOverlayMenuView: View {
           }
         }
       }
-    } // alert
+    }  // alert
   }
 }
 

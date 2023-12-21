@@ -30,23 +30,24 @@ class MyJournalsViewModel: ObservableObject {
 
   // loading flag
   @Published var isMyJournalsLoading: Bool = false
-  
+
   // infinite Scroll
   @Published var lastIdOfMyJournals: Int? = nil
   var hasNextMyJournals: Bool = true
   var fetchMoreMyJournalsSubject = PassthroughSubject<(), Never>()
-  
+
   init() {
     fetchMoreMyJournalsSubject
       .sink { [weak self] _ in
         guard let self = self,
-              let idToken = self.idToken else {
+          let idToken = self.idToken
+        else {
           return
         }
         self.getMyJournals(idToken: idToken)
       }.store(in: &subscription)
   }
-  
+
   // MARK: Get My Data
 
   /// user defaults에서 유저 정보 가져옴

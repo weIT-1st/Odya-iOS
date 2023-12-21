@@ -10,7 +10,7 @@ import SwiftUI
 struct DailyJournalView: View {
 
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
-  
+
   // journal data
   let journal: TravelJournalDetailData
   let journalId: Int
@@ -33,7 +33,7 @@ struct DailyJournalView: View {
 
   /// 데일리 일정 내용이 펼쳐져 있는지 여부
   @State private var isExpanded: Bool = false
-  
+
   @State private var isShowingEditView: Bool = false
 
   /// 데일리 일정 삭제 확인 알림 화면 표시 여부

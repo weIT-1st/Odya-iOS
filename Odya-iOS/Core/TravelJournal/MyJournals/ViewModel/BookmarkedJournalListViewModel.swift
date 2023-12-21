@@ -5,10 +5,10 @@
 //  Created by Heeoh Son on 2023/12/14.
 //
 
-import SwiftUI
-import Moya
-import CombineMoya
 import Combine
+import CombineMoya
+import Moya
+import SwiftUI
 
 class BookmarkedJournalListViewModel: ObservableObject {
   // moya
@@ -21,28 +21,29 @@ class BookmarkedJournalListViewModel: ObservableObject {
   private var subscription = Set<AnyCancellable>()
 
   // MARK: Properties
-  
+
   // data
   @Published var bookmarkedJournals: [BookmarkedJournalData] = []
 
   // loading flag
   @Published var isBookmarkedJournalsLoading: Bool = false
-  
+
   // infinite scroll
   @Published var lastIdOfBookmarkedJournals: Int? = nil
   var hasNextBookmarkedJournals: Bool = true
   var fetchMoreBookmarkedJournalsSubject = PassthroughSubject<(), Never>()
 
   // MARK: Init
-  
+
   init() {
     fetchDataAsync()
-    
+
     fetchMoreBookmarkedJournalsSubject
       .sink { [weak self] _ in
         guard let self = self,
-              !self.isBookmarkedJournalsLoading,
-              self.hasNextBookmarkedJournals else {
+          !self.isBookmarkedJournalsLoading,
+          self.hasNextBookmarkedJournals
+        else {
           return
         }
         self.getBookmarkedJournals()
@@ -53,7 +54,8 @@ class BookmarkedJournalListViewModel: ObservableObject {
 
   func fetchDataAsync() {
     if isBookmarkedJournalsLoading
-        || !hasNextBookmarkedJournals {
+      || !hasNextBookmarkedJournals
+    {
       return
     }
 
@@ -71,7 +73,9 @@ class BookmarkedJournalListViewModel: ObservableObject {
 
   private func getBookmarkedJournals() {
     self.isBookmarkedJournalsLoading = true
-    journalBookmarkProvider.requestPublisher(.getBookmarkedJournals(size: nil, lastId: self.lastIdOfBookmarkedJournals))
+    journalBookmarkProvider.requestPublisher(
+      .getBookmarkedJournals(size: nil, lastId: self.lastIdOfBookmarkedJournals)
+    )
     .sink { completion in
       switch completion {
       case .finished:

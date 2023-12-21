@@ -143,7 +143,7 @@ struct TravelJournalComposeView: View {
       ZStack {
         Color.odya.background.normal
           .edgesIgnoringSafeArea(.bottom)
-        
+
         VStack(spacing: 0) {
           ZStack {
             CustomNavigationBar(title: "여행일지 작성하기")
@@ -153,8 +153,8 @@ struct TravelJournalComposeView: View {
               }.padding(.leading, 8)
               Spacer()
             }
-          }.background( Color.odya.background.normal)
-          
+          }.background(Color.odya.background.normal)
+
           ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
               TravelJournalInfoEditView(isDatePickerVisible: $isDatePickerVisible)
@@ -166,8 +166,7 @@ struct TravelJournalComposeView: View {
             }
           }
         }
-        
-        
+
         // 여행일지 날짜 선택 뷰
         if isDatePickerVisible {
           TravelDatePickerView(
@@ -177,7 +176,7 @@ struct TravelJournalComposeView: View {
           .frame(maxHeight: .infinity)
           .background(Color.odya.blackopacity.baseBlackAlpha80)
         }
-        
+
         // 데일리 일정 날짜 선태 뷰
         if isDailyDatePickerVisible {
           DailyJournalDatePicker(
@@ -219,7 +218,7 @@ struct TravelJournalComposeView: View {
       }
     }
   }  // body
-  
+
   private var divider: some View {
     HStack(spacing: 0) {}
       .frame(maxWidth: .infinity)
@@ -364,4 +363,3 @@ struct TravelJournalEditView_Previews: PreviewProvider {
     TravelJournalComposeView()
   }
 }
- 

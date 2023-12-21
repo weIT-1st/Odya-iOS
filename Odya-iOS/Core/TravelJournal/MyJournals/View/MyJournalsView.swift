@@ -9,39 +9,37 @@ import SwiftUI
 
 /// 내 추억 뷰
 struct MyJournalsView: View {
-  
+
   @StateObject var VM = MyJournalsViewModel()
   @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
   @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
-  
+
   @State private var isShowingRandomMainJournal: Bool = false
   @State private var isShowingComposeView: Bool = false
-  
+
   var isNoJournals: Bool {
     !VM.isMyJournalsLoading && VM.myJournals.isEmpty
   }
-  
+
   // MARK: Body
-  
+
   var body: some View {
     NavigationView {
       ZStack(alignment: .bottomTrailing) {
         Color.odya.background.normal
           .ignoresSafeArea()
-        
-//        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
-//          ProgressView()
-//            .frame(maxWidth: .infinity, maxHeight: .infinity)
-//        }
-        
+
+        //        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
+        //          ProgressView()
+        //            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        //        }
+
         // 작성된 여행일지가 없는 경우
         ScrollView(showsIndicators: false) {
           if isNoJournals {
             NoJournalView()
-          }
-          
-          else {
-            
+          } else {
+
             LazyVStack(spacing: 50) {
               headerBar
                 .padding(.horizontal, GridLayout.side)
@@ -49,26 +47,28 @@ struct MyJournalsView: View {
                 .padding(.horizontal, GridLayout.side)
               myTravelJournalList
                 .padding(.horizontal, GridLayout.side)
-              
+
               if bookmarkedJournalsVM.isBookmarkedJournalsLoading
-                  || !bookmarkedJournalsVM.bookmarkedJournals.isEmpty {
+                || !bookmarkedJournalsVM.bookmarkedJournals.isEmpty
+              {
                 myBookmarkedTravelJournalList
               }
-              
+
               if taggedJournalsVM.isTaggedJournalsLoading
-                  || !taggedJournalsVM.taggedJournals.isEmpty {
+                || !taggedJournalsVM.taggedJournals.isEmpty
+              {
                 myTaggedTravelJournalList
               }
-              
+
               myReviewList
                 .padding(.horizontal, GridLayout.side)
             }
             .padding(.vertical, 50)
-            
+
           }
-          
-        } // Scroll View
-        
+
+        }  // Scroll View
+
         // write button
         if !isNoJournals {
           WriteButtonWithAction(action: { isShowingComposeView = true })
@@ -77,7 +77,7 @@ struct MyJournalsView: View {
               TravelJournalComposeView()
             }
         }
-      } // ZStack
+      }  // ZStack
       .task {
         VM.getMyData()
         VM.initData()
@@ -89,10 +89,10 @@ struct MyJournalsView: View {
           await VM.fetchDataAsync()
         }
       }
-      
+
     }  // Navigation View
   }
-  
+
   private var headerBar: some View {
     HStack {
       Text("\(VM.nickname)님, \n지난 여행을 다시 볼까요?")
@@ -100,17 +100,18 @@ struct MyJournalsView: View {
         .foregroundColor(.odya.label.normal)
       Spacer()
       let myData = MyData()
-      ProfileImageView(of: myData.nickname, profileData: myData.profile.decodeToProileData(), size: .M)
+      ProfileImageView(
+        of: myData.nickname, profileData: myData.profile.decodeToProileData(), size: .M)
     }.padding(.bottom, 20)
   }
-  
+
   func getSectionTitle(title: String) -> some View {
     Text(title)
       .h4Style()
       .foregroundColor(.odya.label.normal)
       .padding(.bottom, 32)
   }
-  
+
   private var randomMainBoard: some View {
     VStack(spacing: 0) {
       let randomJournal = VM.myJournals.randomElement()
@@ -129,7 +130,7 @@ extension MyJournalsView {
   private var myTravelJournalList: some View {
     LazyVStack(alignment: .leading, spacing: 0) {
       self.getSectionTitle(title: "내 여행일지")
-      
+
       ForEach(VM.myJournals, id: \.id) { journal in
         NavigationLink(
           destination: TravelJournalDetailView(journalId: journal.journalId)
@@ -140,7 +141,8 @@ extension MyJournalsView {
         }.padding(.bottom, 12)
           .onAppear {
             if let last = VM.lastIdOfMyJournals,
-               last == journal.journalId {
+              last == journal.journalId
+            {
               VM.fetchMoreMyJournalsSubject.send()
             }
           }

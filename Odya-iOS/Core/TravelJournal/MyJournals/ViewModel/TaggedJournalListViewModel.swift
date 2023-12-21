@@ -5,10 +5,10 @@
 //  Created by Heeoh Son on 2023/12/14.
 //
 
-import SwiftUI
-import Moya
-import CombineMoya
 import Combine
+import CombineMoya
+import Moya
+import SwiftUI
 
 class TaggedJournalListViewModel: ObservableObject {
   // moya
@@ -19,53 +19,57 @@ class TaggedJournalListViewModel: ObservableObject {
   private lazy var journalTagProvider = MoyaProvider<TravelJournalTagRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
-  
+
   @Published var taggedJournals: [TaggedJournalData] = []
 
   // loading flag
   var isTaggedJournalsLoading: Bool = false
   var isTravelMateDeleting: Bool = false
-  
+
   // infinite Scroll
   @Published var lastIdOfTaggedJournals: Int? = nil
   var hasNextTaggedJournals: Bool = true
   var fetchMoreTaggedJournalsSubject = PassthroughSubject<(), Never>()
-  
+
   init() {
     fetchDataAsync()
-    
+
     fetchMoreTaggedJournalsSubject
       .sink { [weak self] _ in
         guard let self = self,
-              !self.isTaggedJournalsLoading,
-              self.hasNextTaggedJournals else {
+          !self.isTaggedJournalsLoading,
+          self.hasNextTaggedJournals
+        else {
           return
         }
         self.getTaggedJournals()
       }.store(in: &subscription)
   }
-  
+
   func fetchDataAsync() {
     if isTaggedJournalsLoading
-        || !hasNextTaggedJournals {
+      || !hasNextTaggedJournals
+    {
       return
     }
 
     getTaggedJournals()
   }
-  
+
   func updateTaggedJournals() {
     isTaggedJournalsLoading = false
     hasNextTaggedJournals = true
     lastIdOfTaggedJournals = nil
     taggedJournals = []
-    
+
     getTaggedJournals()
   }
 
   private func getTaggedJournals() {
     self.isTaggedJournalsLoading = true
-    journalTagProvider.requestPublisher(.getTaggedJournals(size: nil, lastId: self.lastIdOfTaggedJournals))
+    journalTagProvider.requestPublisher(
+      .getTaggedJournals(size: nil, lastId: self.lastIdOfTaggedJournals)
+    )
     .sink { completion in
       switch completion {
       case .finished:
@@ -91,23 +95,24 @@ class TaggedJournalListViewModel: ObservableObject {
     if isTravelMateDeleting {
       return
     }
-    
+
     isTravelMateDeleting = true
     journalTagProvider.requestPublisher(.deleteTravelMates(journalId: journalId))
-    .sink { apiCompletion in
-      switch apiCompletion {
-      case .finished:
-        self.isTravelMateDeleting = false
-        completion(true)
-      case .failure(let error):
-        self.isTravelMateDeleting = false
-        self.processErrorResponse(error)
-        completion(false)
+      .sink { apiCompletion in
+        switch apiCompletion {
+        case .finished:
+          self.isTravelMateDeleting = false
+          completion(true)
+        case .failure(let error):
+          self.isTravelMateDeleting = false
+          self.processErrorResponse(error)
+          completion(false)
+        }
+      } receiveValue: { _ in
       }
-    } receiveValue: { _ in }
-    .store(in: &subscription)
+      .store(in: &subscription)
   }
-  
+
   // MARK: error handling
   private func processErrorResponse(_ error: MoyaError) {
     if let errorData = try? error.response?.map(ErrorData.self) {

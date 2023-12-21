@@ -28,7 +28,7 @@ extension ImageRouter: TargetType, AccessTokenAuthorizable {
     case .getImages:
       return "/api/v1/images"
     case let .registerPOTD(imageId, _),
-         let .deletePOTD(imageId):
+      let .deletePOTD(imageId):
       return "/api/v1/images/\(imageId)/life-shot"
     }
   }
@@ -74,4 +74,3 @@ extension ImageRouter: TargetType, AccessTokenAuthorizable {
     return .successCodes
   }
 }
-

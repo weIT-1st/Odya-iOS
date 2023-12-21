@@ -13,7 +13,7 @@ struct DailyJournalEditView: View {
 
   // MARK: Properties
   @Environment(\.dismiss) var dismiss
-  
+
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
   @ObservedObject var journalEditVM: DailyJournalEditViewModel
 
@@ -102,7 +102,7 @@ struct DailyJournalEditView: View {
         }.padding(.leading, 8)
         Spacer()
         Button(action: {
-//          journalDetailVM.editedDailyJournal = nil
+          //          journalDetailVM.editedDailyJournal = nil
           Task {
             await journalEditVM.updateDailyJournal(
               date: date, content: content, placeId: placeId, latitudes: latitudes,

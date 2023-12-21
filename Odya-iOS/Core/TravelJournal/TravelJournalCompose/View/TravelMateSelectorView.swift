@@ -166,31 +166,34 @@ struct TravelMateSelectorView: View {
       VStack(spacing: 16) {
         ForEach(displayedFollowingUsers) { user in
           HStack {
-            UserIdentityLink(userId: user.userId,
-                             nickname: user.nickname,
-                             profileUrl: user.profile.profileUrl,
-                             isFollowing: true)
+            UserIdentityLink(
+              userId: user.userId,
+              nickname: user.nickname,
+              profileUrl: user.profile.profileUrl,
+              isFollowing: true)
             Spacer()
-            CustomIconButton("plus-circle",
-                             color: isSelected(user.userId) ? .odya.label.inactive : .odya.brand.primary) {
+            CustomIconButton(
+              "plus-circle",
+              color: isSelected(user.userId) ? .odya.label.inactive : .odya.brand.primary
+            ) {
               if selectedTravelMates.count >= 10 {
                 isShowingTooManyMatesAlert = true
               } else {
                 selectedTravelMates.insert(user, at: 0)
               }
             }
-//            IconButton("plus-circle") {
-//              if selectedTravelMates.count >= 10 {
-//                isShowingTooManyMatesAlert = true
-//              } else {
-//                selectedTravelMates.insert(user, at: 0)
-//              }
-//            }
-//            .colorMultiply(
-//              selectedTravelMates.contains { mate in
-//                mate.userId == user.userId
-//              } ? .odya.label.inactive : .odya.brand.primary
-//            )
+            //            IconButton("plus-circle") {
+            //              if selectedTravelMates.count >= 10 {
+            //                isShowingTooManyMatesAlert = true
+            //              } else {
+            //                selectedTravelMates.insert(user, at: 0)
+            //              }
+            //            }
+            //            .colorMultiply(
+            //              selectedTravelMates.contains { mate in
+            //                mate.userId == user.userId
+            //              } ? .odya.label.inactive : .odya.brand.primary
+            //            )
             .frame(height: 36)
             .disabled(isSelected(user.userId))
           }.frame(height: 36)

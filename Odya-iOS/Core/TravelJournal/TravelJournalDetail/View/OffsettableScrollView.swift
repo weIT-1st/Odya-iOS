@@ -51,7 +51,8 @@ struct OffsettableScrollView<T: View>: View {
       .coordinateSpace(name: "ScrollViewOrigin")
       .onPreferenceChange(
         OffsetPreferenceKey.self,
-        perform: onOffsetChanged)
+        perform: onOffsetChanged
+      )
       .onChange(of: shouldScrollToTop) { shouldScrollToTop in
         if shouldScrollToTop {
           withAnimation(.default) {

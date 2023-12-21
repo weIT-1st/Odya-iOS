@@ -23,12 +23,12 @@ struct TravelJournalDetailView: View {
     }
     return journal.isBookmarked
   }
-  
+
   init(journalId: Int, nickname: String = "") {
     self.journalId = journalId
     self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
   }
-  
+
   /// 메뉴 버튼 클릭 시에 메뉴 화면 표시 여부
   @State private var isShowingMeatballMenu: Bool = false
 
@@ -42,15 +42,15 @@ struct TravelJournalDetailView: View {
   @State private var failureMessage: String = ""
 
   // MARK: Body
-  
+
   var body: some View {
-    ZStack() {
+    ZStack {
       GeometryReader { geometry in
         // TODO: map
         Color.odya.elevation.elev4
           .ignoresSafeArea()
 
-          headerBar
+        headerBar
 
         if let journalDetail = journalDetailVM.journalDetail {
           JournalDetailBottomSheet(travelJournal: journalDetail)
@@ -78,7 +78,7 @@ struct TravelJournalDetailView: View {
                 }
             )
         } else {
-            ProgressView()
+          ProgressView()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
 
