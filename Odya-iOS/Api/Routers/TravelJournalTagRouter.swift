@@ -42,22 +42,18 @@ extension TravelJournalTagRouter: TargetType, AccessTokenAuthorizable {
         }
     }
     
-    var task: Moya.Task {
-        switch self {
-  
-        case let .getTaggedJournals(size, lastId):
-            var params: [String: Any] = [:]
-            if let size = size {
-                params["size"] = size
-            }
-            if let lastId = lastId {
-                params["lastId"] = lastId
-            }
-            return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-        default:
-            return .requestPlain
-        }
+  var task: Moya.Task {
+    switch self {
+      
+    case let .getTaggedJournals(size, lastId):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["lastId"] = lastId
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    default:
+      return .requestPlain
     }
+  }
     
   var headers: [String: String]? {
     switch self {

@@ -48,12 +48,8 @@ extension TravelJournalBookmarkRouter: TargetType, AccessTokenAuthorizable {
     switch self {
     case let .getBookmarkedJournals(size, lastId):
       var params: [String: Any] = [:]
-      if let size = size {
         params["size"] = size
-      }
-      if let lastId = lastId {
         params["lastId"] = lastId
-      }
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain
