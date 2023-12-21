@@ -10,7 +10,7 @@ import Moya
 
 enum UserRouter {
   // 1. 사용자 정보 조회
-    case getUserInfo
+  case getUserInfo
   // 2. 이메일 변경
   case updateUserEmailAddress(newEmailAddr: String)
   // 3. 전화번호 변경
@@ -33,7 +33,7 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-  
+
   var path: String {
     switch self {
     case .updateUserEmailAddress:
@@ -56,13 +56,13 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/users/\(userId)/life-shots"
     }
   }
-  
+
   var method: Moya.Method {
     switch self {
     case .updateUserEmailAddress,
-        .updateUserPhoneNumber,
-        .updateUserNickname,
-        .updateUserProfileImage:
+      .updateUserPhoneNumber,
+      .updateUserNickname,
+      .updateUserProfileImage:
       return .patch
     case .deleteUser:
       return .delete
@@ -70,18 +70,21 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return .get
     }
   }
-  
+
   var task: Moya.Task {
     switch self {
     case .updateUserNickname(let newNickname):
-      let params: [String : Any] = ["nickname" : newNickname]
+      let params: [String: Any] = ["nickname": newNickname]
       return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
     case .updateUserProfileImage(let profileImg):
       guard let profileImg = profileImg else {
         return .requestPlain
       }
       var formData: [MultipartFormData] = []
-      formData.append(MultipartFormData(provider: .data(profileImg.data), name: "profile", fileName: "\(profileImg.name)", mimeType: "image/webp"))
+      formData.append(
+        MultipartFormData(
+          provider: .data(profileImg.data), name: "profile", fileName: "\(profileImg.name)",
+          mimeType: "image/webp"))
       return .uploadMultipart(formData)
     case .searchUser(let size, let lastId, let nickname):
       var params: [String: Any] = [:]
@@ -98,18 +101,18 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return .requestPlain
     }
   }
-  
+
   var headers: [String: String]? {
     switch self {
     default:
       return ["Content-type": "application/json"]
     }
   }
-  
+
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-  
+
   var validationType: ValidationType {
     return .successCodes
   }
