@@ -46,6 +46,7 @@
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
 		192ADAA52B0EF88400BD480E /* CustomLogPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */; };
 		192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */; };
+		19385A3E2B32D10C000CB6AB /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A3D2B32D10C000CB6AB /* UINavigationController.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
@@ -259,6 +260,7 @@
 		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLogPlugin.swift; sourceTree = "<group>"; };
 		192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeButton.swift; sourceTree = "<group>"; };
+		19385A3D2B32D10C000CB6AB /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
@@ -543,6 +545,7 @@
 				199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */,
 				19D17F0D2AF4976E00D29B49 /* Color.swift */,
 				19D17F112AFA00CE00D29B49 /* String.swift */,
+				19385A3D2B32D10C000CB6AB /* UINavigationController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1361,6 +1364,7 @@
 				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				3EE9CA3F2AC94FDB003A2E85 /* MyJournalCardView.swift in Sources */,
 				3EE9CA3D2AC84D95003A2E85 /* MyJournalsView.swift in Sources */,
+				19385A3E2B32D10C000CB6AB /* UINavigationController.swift in Sources */,
 				3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
