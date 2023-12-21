@@ -104,6 +104,8 @@
 		3E26C3822AF16790003607A8 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3812AF16790003607A8 /* ImageManager.swift */; };
 		3E26C3842AF394AF003607A8 /* OffsettableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */; };
 		3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E26C3852AF3956F003607A8 /* TravelMatesView.swift */; };
+		3E2F29802B2F266B00FF5357 /* MyReviewListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F297F2B2F266B00FF5357 /* MyReviewListViewModel.swift */; };
+		3E2F29822B2F274B00FF5357 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29812B2F274B00FF5357 /* Review.swift */; };
 		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AC2A388AA5002BF519 /* Alamofire */; };
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
@@ -311,6 +313,8 @@
 		3E26C3812AF16790003607A8 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		3E26C3832AF394AF003607A8 /* OffsettableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsettableScrollView.swift; sourceTree = "<group>"; };
 		3E26C3852AF3956F003607A8 /* TravelMatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMatesView.swift; sourceTree = "<group>"; };
+		3E2F297F2B2F266B00FF5357 /* MyReviewListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewListViewModel.swift; sourceTree = "<group>"; };
+		3E2F29812B2F274B00FF5357 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
@@ -655,6 +659,7 @@
 				19E212A92B06F515003155C0 /* ReportReason.swift */,
 				197C29A82B171DFA00E6D670 /* SearchedUser.swift */,
 				3E075C8B2B2256CB0093CACD /* UserImage.swift */,
+				3E2F29812B2F274B00FF5357 /* Review.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -878,6 +883,7 @@
 			isa = PBXGroup;
 			children = (
 				3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */,
+				3E2F297F2B2F266B00FF5357 /* MyReviewListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1255,6 +1261,7 @@
 				19E212AA2B06F515003155C0 /* ReportReason.swift in Sources */,
 				3E26C3772AF0E7EC003607A8 /* DailyJournalView.swift in Sources */,
 				3ED22F632AADBC100067DE72 /* FollowHubView.swift in Sources */,
+				3E2F29802B2F266B00FF5357 /* MyReviewListViewModel.swift in Sources */,
 				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
 				3ED22F442AAA355B0067DE72 /* DailyJournalEditViewModel.swift in Sources */,
 				19E212A82B06F376003155C0 /* ReportRouter.swift in Sources */,
@@ -1296,6 +1303,7 @@
 				3ED22F3C2A9854730067DE72 /* CustomNavigationBar.swift in Sources */,
 				3EF54A012A5BE96D006562F8 /* BaseInterceptor.swift in Sources */,
 				078496492A84F72000A490E3 /* PostImageView.swift in Sources */,
+				3E2F29822B2F274B00FF5357 /* Review.swift in Sources */,
 				3EE9CA312AC3B64C003A2E85 /* PresentationDetent.swift in Sources */,
 				3EF7C1F32A81099000223366 /* UserInfoEditView.swift in Sources */,
 				3E4670352B1FB8CD00B54D0A /* UserIdentityLink.swift in Sources */,
