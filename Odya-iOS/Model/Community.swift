@@ -28,7 +28,7 @@ struct FeedContent: Codable, Equatable {
   let communityCommentCount, communityLikeCount: Int
   let isUserLiked: Bool
   let createdDate: String
-
+  
   enum CodingKeys: String, CodingKey {
     case communityID = "communityId"
     case communityContent
@@ -38,7 +38,7 @@ struct FeedContent: Codable, Equatable {
     //        case placeID = "placeId"
     //        case travelJournalSimpleResponse
   }
-
+  
   static func == (lhs: FeedContent, rhs: FeedContent) -> Bool {
     return lhs.communityID == rhs.communityID
   }
@@ -49,7 +49,7 @@ struct Writer: Codable {
   let nickname: String
   let profile: ProfileData
   let isFollowing: Bool?
-
+  
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
     case nickname, profile, isFollowing
@@ -68,19 +68,19 @@ struct FeedDetail: Codable {
   let communityCommentCount, communityLikeCount: Int
   let isUserLiked: Bool
   let createdDate: String
-
-    enum CodingKeys: String, CodingKey {
-        case communityID = "communityId"
-        case content, visibility
-        case placeID = "placeId"
-        case writer, travelJournal, topic, communityContentImages, communityCommentCount, communityLikeCount, isUserLiked, createdDate
-    }
+  
+  enum CodingKeys: String, CodingKey {
+    case communityID = "communityId"
+    case content, visibility
+    case placeID = "placeId"
+    case writer, travelJournal, topic, communityContentImages, communityCommentCount, communityLikeCount, isUserLiked, createdDate
+  }
 }
 
 struct CommunityContentImage: Codable {
   let communityContentImageID: Int
   let imageURL: String
-
+  
   enum CodingKeys: String, CodingKey {
     case communityContentImageID = "communityContentImageId"
     case imageURL = "imageUrl"
@@ -90,10 +90,59 @@ struct CommunityContentImage: Codable {
 struct LinkedTravelJournal: Codable {
   let travelJournalID: Int
   let title, mainImageURL: String
-
+  
   enum CodingKeys: String, CodingKey {
     case travelJournalID = "travelJournalId"
     case title
     case mainImageURL = "mainImageUrl"
+  }
+}
+
+// MARK: - MyCommunityList
+struct MyCommunity: Codable {
+  let hasNext: Bool
+  let content: [MyCommunityContent]
+}
+
+struct MyCommunityContent: Codable {
+  let communityID: Int
+  let communityMainImageURL: String
+  let placeID: String?
+  
+  enum CodingKeys: String, CodingKey {
+    case communityID = "communityId"
+    case communityMainImageURL = "communityMainImageUrl"
+    case placeID = "placeId"
+  }
+}
+
+// MARK: - MyCommunityComments
+struct MyCommunityComments: Codable {
+  let hasNext: Bool
+  let content: [MyCommunityCommentsContent]
+}
+
+struct MyCommunityCommentsContent: Codable {
+  let communityID: Int
+  let communityContent, communityMainImageURL, updatedAt: String
+  let writer: Writer
+  let communityCommentSimpleResponse: CommunityCommentSimpleResponse
+  
+  enum CodingKeys: String, CodingKey {
+    case communityID = "communityId"
+    case communityContent
+    case communityMainImageURL = "communityMainImageUrl"
+    case updatedAt, writer, communityCommentSimpleResponse
+  }
+}
+
+struct CommunityCommentSimpleResponse: Codable {
+  let communityCommentID: Int
+  let content, updatedAt: String
+  let user: Writer
+  
+  enum CodingKeys: String, CodingKey {
+    case communityCommentID = "communityCommentId"
+    case content, updatedAt, user
   }
 }
