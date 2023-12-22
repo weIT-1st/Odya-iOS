@@ -32,8 +32,11 @@ struct MyCommunityActivityView: View {
       CustomNavigationBar(title: "내 활동")
       ScrollView(.vertical, showsIndicators: false) {
         VStack(spacing: 20) {
-          description
-          fishchips
+          Group {
+            description
+            fishchips
+          }
+          .padding(.horizontal, GridLayout.side)
           switch selectedOption {
           case .feed:
             // my feed grid
@@ -75,6 +78,7 @@ struct MyCommunityActivityView: View {
                   }
               }
             }
+            .padding(.horizontal, GridLayout.side)
           case .like:
             // my likes grid
             LazyVGrid(columns: columns, spacing: 3) {
@@ -104,16 +108,15 @@ struct MyCommunityActivityView: View {
             }
           }
         }
-        .padding(.horizontal, GridLayout.side)
         .task {
           viewModel.fetchMyFeedNextPageIfPossible()
           viewModel.fetchMyCommentsNextPageIfPossible()
           viewModel.fetchMyLikesNextPageIfPossible()
         }
-        .background(Color.odya.background.normal)
       } // ScrollView
     }
     .toolbar(.hidden)
+    .background(Color.odya.background.normal)
   }
   
   /// 설명글
