@@ -121,7 +121,6 @@ struct FeedView: View {
             FeedUserSearchView(isPresented: $showSearchView)
           }
         }  // ZStack
-        .toolbar(.hidden)
       }
     }
   }

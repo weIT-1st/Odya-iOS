@@ -10,7 +10,9 @@ import Moya
 
 enum CommunityRouter {
   // 1. 생성
-  case createCommunity(content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, images: [(data: Data, imageName: String)])
+  case createCommunity(
+    content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?,
+    images: [(data: Data, imageName: String)])
   // 2. 상세 조회
   case getCommunityDetail(communityId: Int)
   // 3. 전체 목록 조회
@@ -26,7 +28,9 @@ enum CommunityRouter {
   // 8. 댓글 단 목록 조회
   case getMyComments(size: Int?, lastId: Int?)
   // 9. 수정
-  case updateCommunity(communityId: Int, content: String, visibility: String, placeId: String?, travelJournalId: Int?, topicId: Int?, deleteImageIds: [Int]?, updateImages: [(data: Data, imageName: String)])
+  case updateCommunity(
+    communityId: Int, content: String, visibility: String, placeId: String?, travelJournalId: Int?,
+    topicId: Int?, deleteImageIds: [Int]?, updateImages: [(data: Data, imageName: String)])
   // 10. 삭제
   case deleteCommunity(communityId: Int)
 }
@@ -35,7 +39,7 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-  
+
   var path: String {
     switch self {
     case .createCommunity:
@@ -60,7 +64,7 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/communities/\(communityId)"
     }
   }
-  
+
   var method: Moya.Method {
     switch self {
     case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity, .getAllCommunityByTopic, .getMyLikes, .getMyComments:
@@ -73,10 +77,11 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       return .delete
     }
   }
-  
+
   var task: Moya.Task {
     switch self {
-    case .createCommunity(let content, let visibility, let placeId, let travelJournalId, let topicId, let images):
+    case .createCommunity(
+      let content, let visibility, let placeId, let travelJournalId, let topicId, let images):
       var formData = [MultipartFormData]()
       var body: [String: Any] = [:]
       body["content"] = content
@@ -85,9 +90,15 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       body["travelJournalId"] = travelJournalId
       body["topicId"] = topicId
       let encodedBody = try? JSONSerialization.data(withJSONObject: body)
-      formData.append(MultipartFormData(provider: .data(encodedBody ?? Data()), name: "community", fileName: "community", mimeType: "application/json"))
+      formData.append(
+        MultipartFormData(
+          provider: .data(encodedBody ?? Data()), name: "community", fileName: "community",
+          mimeType: "application/json"))
       for image in images {
-        formData.append(MultipartFormData(provider: .data(image.data), name: "community-content-image", fileName: "\(image.imageName).webp", mimeType: "image/webp"))
+        formData.append(
+          MultipartFormData(
+            provider: .data(image.data), name: "community-content-image",
+            fileName: "\(image.imageName).webp", mimeType: "image/webp"))
       }
       return .uploadMultipart(formData)
     case .getCommunityDetail:
@@ -127,7 +138,9 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       params["size"] = size
       params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-    case .updateCommunity(_, let content, let visibility, let placeId, let travelJournalId, let topicId, let deleteImageIds, let updateImages):
+    case .updateCommunity(
+      _, let content, let visibility, let placeId, let travelJournalId, let topicId,
+      let deleteImageIds, let updateImages):
       var formData = [MultipartFormData]()
       var body: [String: Any] = [:]
       body["content"] = content
@@ -137,27 +150,33 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       body["topicId"] = topicId
       body["deleteCommunityContentImageIds"] = deleteImageIds
       let encodedBody = try? JSONSerialization.data(withJSONObject: body)
-      formData.append(MultipartFormData(provider: .data(encodedBody ?? Data()), name: "update-community", fileName: "community", mimeType: "application/json"))
+      formData.append(
+        MultipartFormData(
+          provider: .data(encodedBody ?? Data()), name: "update-community", fileName: "community",
+          mimeType: "application/json"))
       for image in updateImages {
-        formData.append(MultipartFormData(provider: .data(image.data), name: "update-community-content-image", fileName: "\(image.imageName).webp", mimeType: "image/webp"))
+        formData.append(
+          MultipartFormData(
+            provider: .data(image.data), name: "update-community-content-image",
+            fileName: "\(image.imageName).webp", mimeType: "image/webp"))
       }
       return .uploadMultipart(formData)
     case .deleteCommunity:
       return .requestPlain
     }
   }
-  
+
   var headers: [String: String]? {
     switch self {
     default:
       return ["Content-type": "application/json"]
     }
   }
-  
+
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-  
+
   var validationType: ValidationType {
     return .successCodes
   }

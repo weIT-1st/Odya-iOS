@@ -38,7 +38,7 @@ extension TopicRouter: TargetType, AccessTokenAuthorizable {
   var method: Moya.Method {
     switch self {
     case .createMyTopic:
-        return .post
+      return .post
     case .deleteMyTopic:
       return .delete
     default:
@@ -49,7 +49,7 @@ extension TopicRouter: TargetType, AccessTokenAuthorizable {
   var task: Moya.Task {
     switch self {
     case .createMyTopic(let idList):
-      let params: [String : [Int]] = ["topicIdList" : idList]
+      let params: [String: [Int]] = ["topicIdList": idList]
       return .requestParameters(parameters: params, encoding: JSONEncoding.default)
     default:
       return .requestPlain
