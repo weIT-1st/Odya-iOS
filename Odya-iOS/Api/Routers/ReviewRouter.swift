@@ -41,7 +41,7 @@ extension ReviewRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/place-reviews"
     }
   }
-  
+
   var method: Moya.Method {
     switch self {
     case .createReview:

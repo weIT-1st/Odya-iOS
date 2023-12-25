@@ -21,7 +21,7 @@ extension ReportRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-  
+
   var path: String {
     switch self {
     case .reportPlaceReview:
@@ -32,11 +32,11 @@ extension ReportRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/reports/community"
     }
   }
-  
+
   var method: Moya.Method {
     return .post
   }
-  
+
   var task: Moya.Task {
     switch self {
     case .reportPlaceReview(let placeReviewId, let reportReason, let otherReason):
@@ -59,15 +59,15 @@ extension ReportRouter: TargetType, AccessTokenAuthorizable {
       return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
     }
   }
-  
-  var headers: [String : String]? {
+
+  var headers: [String: String]? {
     return ["Content-type": "application/json"]
   }
-  
+
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-  
+
   var validationType: ValidationType {
     return .successCodes
   }

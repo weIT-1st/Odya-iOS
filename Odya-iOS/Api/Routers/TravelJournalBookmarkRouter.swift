@@ -1,43 +1,43 @@
 //
-//  ImageRouter.swift
+//  TravelJournalBookmarkRouter.swift
 //  Odya-iOS
 //
-//  Created by Heeoh Son on 2023/11/24.
+//  Created by Heeoh Son on 2023/12/14.
 //
 
 import Foundation
 import Moya
 
-/// 인생샷 api
-enum ImageRouter {
-  // 1. 유저 사진 조회
-  case getImages(size: Int?, lastId: Int?)
-  // 2. 인생샷 설정
-  case registerPOTD(imageId: Int, placeName: String?)
-  // 3. 인생샷 취소
-  case deletePOTD(imageId: Int)
+// MARK: Travel Journal Bookmark Enum
+enum TravelJournalBookmarkRouter {
+  // 여행일지 북마크 생성(즐겨찾기 추가)
+  case createBookmark(journalId: Int)
+  // 즐겨찾기된 여행일지 목록 조회
+  case getBookmarkedJournals(size: Int?, lastId: Int?)
+  // 여행일지 북마크 삭제(즐겨찾기 해제)
+  case deleteBookmark(journalId: Int)
 }
 
-extension ImageRouter: TargetType, AccessTokenAuthorizable {
+extension TravelJournalBookmarkRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
 
   var path: String {
     switch self {
-    case .getImages:
-      return "/api/v1/images"
-    case let .registerPOTD(imageId, _),
-      let .deletePOTD(imageId):
-      return "/api/v1/images/\(imageId)/life-shot"
+    case let .createBookmark(journalId),
+      let .deleteBookmark(journalId):
+      return "/api/v1/travel-journal-bookmarks/\(journalId)"
+    case .getBookmarkedJournals:
+      return "/api/v1/travel-journal-bookmarks/me"
     }
   }
 
   var method: Moya.Method {
     switch self {
-    case .registerPOTD:
+    case .createBookmark:
       return .post
-    case .deletePOTD:
+    case .deleteBookmark:
       return .delete
     default:
       return .get
@@ -46,14 +46,11 @@ extension ImageRouter: TargetType, AccessTokenAuthorizable {
 
   var task: Moya.Task {
     switch self {
-    case let .getImages(size, lastId):
+    case let .getBookmarkedJournals(size, lastId):
       var params: [String: Any] = [:]
       params["size"] = size
       params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-    case let .registerPOTD(_, placeName):
-      let params: [String: Any] = ["placeName": placeName as Any]
-      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
     default:
       return .requestPlain
     }
@@ -73,4 +70,5 @@ extension ImageRouter: TargetType, AccessTokenAuthorizable {
   var validationType: ValidationType {
     return .successCodes
   }
+
 }

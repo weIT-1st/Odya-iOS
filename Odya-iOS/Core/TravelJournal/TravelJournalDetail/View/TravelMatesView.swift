@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: Travel Mates View
 struct TravelMatesView: View {
   let mates: [TravelMate]
-  
+
   var body: some View {
     VStack(spacing: 0) {
       HStack {
@@ -20,14 +20,17 @@ struct TravelMatesView: View {
           .padding(.vertical, 26)
         Spacer()
       }
-      
+
       ScrollView(.vertical, showsIndicators: false) {
         VStack(spacing: 16) {
           ForEach(mates) { mate in
             if let userId = mate.userId,
-               let nickname = mate.nickname,
-               let profileUrl = mate.profileUrl {
-              UserIdentityRowWithFollowing(userId: userId, nickname: nickname, profileUrl: profileUrl, isFollowing: mate.isFollowing)
+              let nickname = mate.nickname,
+              let profileUrl = mate.profileUrl
+            {
+              UserIdentityRowWithFollowing(
+                userId: userId, nickname: nickname, profileUrl: profileUrl,
+                isFollowing: mate.isFollowing)
             }
           }
         }
@@ -44,11 +47,16 @@ struct TravelMatesView_Previews: PreviewProvider {
   static var previews: some View {
     TravelMatesView(
       mates: [
-        TravelMate(userId: 1, nickname: "홍길동aa1", profileUrl: "", isRegistered: true, isFollowing: true),
-        TravelMate(userId: 2, nickname: "홍길동aa2", profileUrl: "", isRegistered: true, isFollowing: true),
-        TravelMate(userId: 3, nickname: "홍길동aa3", profileUrl: "", isRegistered: true, isFollowing: true),
-        TravelMate(userId: 4, nickname: "홍길동aa4", profileUrl: "", isRegistered: true, isFollowing: true),
-        TravelMate(userId: 5, nickname: "홍길동aa5", profileUrl: "", isRegistered: true, isFollowing: true),
+        TravelMate(
+          userId: 1, nickname: "홍길동aa1", profileUrl: "", isRegistered: true, isFollowing: true),
+        TravelMate(
+          userId: 2, nickname: "홍길동aa2", profileUrl: "", isRegistered: true, isFollowing: true),
+        TravelMate(
+          userId: 3, nickname: "홍길동aa3", profileUrl: "", isRegistered: true, isFollowing: true),
+        TravelMate(
+          userId: 4, nickname: "홍길동aa4", profileUrl: "", isRegistered: true, isFollowing: true),
+        TravelMate(
+          userId: 5, nickname: "홍길동aa5", profileUrl: "", isRegistered: true, isFollowing: true),
       ]
     )
 
