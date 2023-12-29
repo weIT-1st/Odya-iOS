@@ -15,6 +15,7 @@ struct JournalDetailBottomSheet: View {
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
 
   // journal info
+  let journal: TravelJournalDetailData
   let journalId: Int
   let title: String
   let startDate: Date
@@ -33,6 +34,7 @@ struct JournalDetailBottomSheet: View {
   }
 
   init(travelJournal: TravelJournalDetailData) {
+    journal = travelJournal
     journalId = travelJournal.journalId
     title = travelJournal.title
     startDate = travelJournal.travelStartDate
@@ -45,7 +47,7 @@ struct JournalDetailBottomSheet: View {
 
   var body: some View {
     ZStack {
-      OffsettableScrollView { point in
+      OffsettableScrollView(shouldScrollToTop: $bottomSheetVM.scrollToTop) { point in
         if point.y != 0 {
           bottomSheetVM.isScrollAtTop = point.y > 0
         }
@@ -76,7 +78,7 @@ struct JournalDetailBottomSheet: View {
                 }
               }.frame(width: 50)
 
-              DailyJournalView(journalId: journalId, dailyJournal: dailyJournal)
+              DailyJournalView(journal: journal, dailyJournal: dailyJournal)
             }
           }
           Spacer()

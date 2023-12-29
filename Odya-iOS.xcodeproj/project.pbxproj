@@ -46,6 +46,10 @@
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
 		192ADAA52B0EF88400BD480E /* CustomLogPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */; };
 		192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */; };
+		19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */; };
+		19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */; };
+		19385A382B2C07C3000CB6AB /* MyCommunityCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */; };
+		19385A3E2B32D10C000CB6AB /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A3D2B32D10C000CB6AB /* UINavigationController.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
@@ -114,6 +118,12 @@
 		3E2F296E2B29BB0C00FF5357 /* FavoritePlaceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F296D2B29BB0C00FF5357 /* FavoritePlaceRouter.swift */; };
 		3E2F29702B29BE7B00FF5357 /* FavoritePlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F296F2B29BE7B00FF5357 /* FavoritePlace.swift */; };
 		3E2F29722B29FE9700FF5357 /* CommunitySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29712B29FE9700FF5357 /* CommunitySection.swift */; };
+		3E2F29742B2AE8CE00FF5357 /* BookmarkedJournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29732B2AE8CE00FF5357 /* BookmarkedJournalListView.swift */; };
+		3E2F29762B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29752B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift */; };
+		3E2F29782B2AFCF000FF5357 /* BookmarkedJournalListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29772B2AFCF000FF5357 /* BookmarkedJournalListViewModel.swift */; };
+		3E2F297A2B2B173800FF5357 /* TaggedJournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29792B2B173800FF5357 /* TaggedJournalListView.swift */; };
+		3E2F297C2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F297B2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift */; };
+		3E2F297E2B2B183800FF5357 /* TravelJournalTagRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F297D2B2B183800FF5357 /* TravelJournalTagRouter.swift */; };
 		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AC2A388AA5002BF519 /* Alamofire */; };
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
@@ -263,6 +273,10 @@
 		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLogPlugin.swift; sourceTree = "<group>"; };
 		192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeButton.swift; sourceTree = "<group>"; };
+		19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityView.swift; sourceTree = "<group>"; };
+		19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityViewModel.swift; sourceTree = "<group>"; };
+		19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityCommentCell.swift; sourceTree = "<group>"; };
+		19385A3D2B32D10C000CB6AB /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
@@ -331,6 +345,12 @@
 		3E2F296D2B29BB0C00FF5357 /* FavoritePlaceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlaceRouter.swift; sourceTree = "<group>"; };
 		3E2F296F2B29BE7B00FF5357 /* FavoritePlace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePlace.swift; sourceTree = "<group>"; };
 		3E2F29712B29FE9700FF5357 /* CommunitySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitySection.swift; sourceTree = "<group>"; };
+		3E2F29732B2AE8CE00FF5357 /* BookmarkedJournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedJournalListView.swift; sourceTree = "<group>"; };
+		3E2F29752B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalBookmarkRouter.swift; sourceTree = "<group>"; };
+		3E2F29772B2AFCF000FF5357 /* BookmarkedJournalListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedJournalListViewModel.swift; sourceTree = "<group>"; };
+		3E2F29792B2B173800FF5357 /* TaggedJournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedJournalListView.swift; sourceTree = "<group>"; };
+		3E2F297B2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedJournalListViewModel.swift; sourceTree = "<group>"; };
+		3E2F297D2B2B183800FF5357 /* TravelJournalTagRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalTagRouter.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
@@ -551,6 +571,7 @@
 				199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */,
 				19D17F0D2AF4976E00D29B49 /* Color.swift */,
 				19D17F112AFA00CE00D29B49 /* String.swift */,
+				19385A3D2B32D10C000CB6AB /* UINavigationController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -603,6 +624,7 @@
 				199EB6F92AE2202A004EF4B1 /* CommunityCompose */,
 				19683AFC2B030B8B003D6013 /* Comment */,
 				197C29B02B172B0500E6D670 /* Search */,
+				19385A302B2AC102000CB6AB /* MyActivity */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -687,6 +709,32 @@
 				192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */,
 			);
 			path = Report;
+			sourceTree = "<group>";
+		};
+		19385A302B2AC102000CB6AB /* MyActivity */ = {
+			isa = PBXGroup;
+			children = (
+				19385A312B2AC13A000CB6AB /* View */,
+				19385A322B2AC13E000CB6AB /* ViewModel */,
+			);
+			path = MyActivity;
+			sourceTree = "<group>";
+		};
+		19385A312B2AC13A000CB6AB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */,
+				19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		19385A322B2AC13E000CB6AB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		19683AFC2B030B8B003D6013 /* Comment */ = {
@@ -915,6 +963,8 @@
 				3EE9CA3C2AC84D95003A2E85 /* MyJournalsView.swift */,
 				3EB938162AF795A60041FE5B /* NoJournalView.swift */,
 				3EE9CA3E2AC94FDA003A2E85 /* MyJournalCardView.swift */,
+				3E2F29732B2AE8CE00FF5357 /* BookmarkedJournalListView.swift */,
+				3E2F29792B2B173800FF5357 /* TaggedJournalListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -923,6 +973,8 @@
 			isa = PBXGroup;
 			children = (
 				3E414B342ADFDE8500034FBB /* TravelJournalViewModel.swift */,
+				3E2F29772B2AFCF000FF5357 /* BookmarkedJournalListViewModel.swift */,
+				3E2F297B2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1116,6 +1168,8 @@
 				19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */,
 				3EE9CA1A2AB5D67A003A2E85 /* FollowRouter.swift */,
 				3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */,
+				3E2F297D2B2B183800FF5357 /* TravelJournalTagRouter.swift */,
+				3E2F29752B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift */,
 				3EE9CA1C2AB6C44B003A2E85 /* UserRouter.swift */,
 				07589E6F2AF023C200867FAD /* TopicRouter.swift */,
 				195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */,
@@ -1297,12 +1351,14 @@
 				3E26C3802AF0E80E003607A8 /* BottomSheetViewModel.swift in Sources */,
 				3EBEC3B72A713F4E00998EC6 /* Profile.swift in Sources */,
 				19EBA75D2AB2D38F000ABBE5 /* Terms.swift in Sources */,
+				19385A382B2C07C3000CB6AB /* MyCommunityCommentCell.swift in Sources */,
 				07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */,
 				199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */,
 				19E212AA2B06F515003155C0 /* ReportReason.swift in Sources */,
 				3E26C3772AF0E7EC003607A8 /* DailyJournalView.swift in Sources */,
 				3ED22F632AADBC100067DE72 /* FollowHubView.swift in Sources */,
 				0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */,
+				3E2F29742B2AE8CE00FF5357 /* BookmarkedJournalListView.swift in Sources */,
 				3ED22F442AAA355B0067DE72 /* DailyJournalEditViewModel.swift in Sources */,
 				19E212A82B06F376003155C0 /* ReportRouter.swift in Sources */,
 				197C29AD2B171EAE00E6D670 /* FeedUserSearchView.swift in Sources */,
@@ -1331,6 +1387,7 @@
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3E075C912B230A1C0093CACD /* PofileInfoSection.swift in Sources */,
 				3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */,
+				3E2F297A2B2B173800FF5357 /* TaggedJournalListView.swift in Sources */,
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
 				192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */,
 				19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */,
@@ -1361,7 +1418,9 @@
 				3E414B2C2AD6941C00034FBB /* AppDataManager.swift in Sources */,
 				3E2F29642B2952CF00FF5357 /* JournalsInProfileViewModel.swift in Sources */,
 				3EB938152AF531780041FE5B /* AsyncImageView.swift in Sources */,
+				3E2F297C2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift in Sources */,
 				3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */,
+				3E2F297E2B2B183800FF5357 /* TravelJournalTagRouter.swift in Sources */,
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
 				3E2F296E2B29BB0C00FF5357 /* FavoritePlaceRouter.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
@@ -1379,6 +1438,7 @@
 				3E2F29722B29FE9700FF5357 /* CommunitySection.swift in Sources */,
 				3E075C932B23123F0093CACD /* CounterSection.swift in Sources */,
 				3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */,
+				3E2F29762B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift in Sources */,
 				3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */,
 				3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */,
 				3EE9CA352AC3C2E8003A2E85 /* TravelJournal.swift in Sources */,
@@ -1390,8 +1450,10 @@
 				3EF5499F2A42FE7A006562F8 /* TextStyles.swift in Sources */,
 				3EE9CA3F2AC94FDB003A2E85 /* MyJournalCardView.swift in Sources */,
 				3EE9CA3D2AC84D95003A2E85 /* MyJournalsView.swift in Sources */,
+				19385A3E2B32D10C000CB6AB /* UINavigationController.swift in Sources */,
 				3ED8DBAE2B0A1C2100D7CF7F /* JournalBookmarkManager.swift in Sources */,
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
+				19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */,
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
 				3E26C37F2AF0E80E003607A8 /* DailyJournalViewModel.swift in Sources */,
 				3E4670202B15E90A00B54D0A /* FollowiView.swift in Sources */,
@@ -1410,6 +1472,7 @@
 				3E26C3822AF16790003607A8 /* ImageManager.swift in Sources */,
 				3E414B332ADC5D7F00034FBB /* DailyJournalComposeView.swift in Sources */,
 				3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */,
+				3E2F29782B2AFCF000FF5357 /* BookmarkedJournalListViewModel.swift in Sources */,
 				3EE9CA332AC3BD46003A2E85 /* ModalBackground.swift in Sources */,
 				078496412A84F5FE00A490E3 /* FeedView.swift in Sources */,
 				3E26C37E2AF0E80E003607A8 /* TravelJournalDetailViewModel.swift in Sources */,
@@ -1422,6 +1485,7 @@
 				19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */,
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
 				19EBA7592AB16E2C000ABBE5 /* TermsView.swift in Sources */,
+				19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */,
 				3E4670332B1F4F7700B54D0A /* AdditionalSetUpView.swift in Sources */,
 				3E2F29702B29BE7B00FF5357 /* FavoritePlace.swift in Sources */,
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
