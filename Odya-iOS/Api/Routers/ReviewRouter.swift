@@ -72,15 +72,9 @@ extension ReviewRouter: TargetType, AccessTokenAuthorizable {
     case let .readPlaceIdReview(_, size, sortType, lastId),
       let .readUserIdReview(_, size, sortType, lastId):
       var params: [String: Any] = [:]
-      if let size = size {
-        params["size"] = size
-      }
-      if let sortType = sortType {
-        params["sortType"] = sortType
-      }
-      if let lastId = lastId {
-        params["lastId"] = lastId
-      }
+      params["size"] = size
+      params["sortType"] = sortType
+      params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain

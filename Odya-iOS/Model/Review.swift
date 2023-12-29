@@ -15,13 +15,14 @@ struct ReviewListResponse: Codable {
 }
 
 // MARK: - Content
-struct Review: Codable {
-  let reviewId: Int
-  let placeId: String
-  let writer: Writer
-  let starRating: Int
-  let review: String
-  let createdAt: String
+struct Review: Codable, Identifiable {
+  var id = UUID()
+  var reviewId: Int
+  var placeId: String
+  var writer: Writer
+  var starRating: Int
+  var review: String
+  var createdAt: String
   
   enum CodingKeys: String, CodingKey {
     case reviewId = "id"
