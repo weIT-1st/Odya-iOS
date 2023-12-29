@@ -25,27 +25,35 @@ struct BookmarkedJournalListView: View {
   @StateObject var VM = JournalsInProfileViewModel()
   
   var body: some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-      LazyHStack(spacing: 8) {
-        ForEach(VM.bookmarkedJournals, id: \.id) { journal in
-          Button(action: {
-            path.append(.journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
-          }) {
-            BookmarkedJournalCardView(journal)
-              .environmentObject(VM)
-          }
-          .onAppear {
-            if let last = VM.lastIdOfBookmarkedJournals,
-               last == journal.bookmarkId {
-              VM.fetchMoreSubject.send()
+    ZStack(alignment: .center) {
+      if VM.isBookmarkedJournalsLoading {
+        ProgressView()
+          .frame(height: 200)
+          .frame(maxWidth: .infinity)
+      }
+      
+      else {
+        ScrollView(.horizontal, showsIndicators: false) {
+          LazyHStack(spacing: 8) {
+            ForEach(VM.bookmarkedJournals, id: \.id) { journal in
+              Button(action: {
+                path.append(.journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
+              }) {
+                BookmarkedJournalCardView(journal)
+                  .environmentObject(VM)
+              }
+              .onAppear {
+                if let last = VM.lastIdOfBookmarkedJournals,
+                   last == journal.bookmarkId {
+                  VM.fetchMoreSubject.send()
+                }
+              }
             }
           }
         }
       }
-    }.onAppear {
-      Task {
-        await VM.fetchDataAsync()
-      }
+    }.task {
+      await VM.fetchDataAsync()
     }
     .onDisappear {
       VM.initData()
