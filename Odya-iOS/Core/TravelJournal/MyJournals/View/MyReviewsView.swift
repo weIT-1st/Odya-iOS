@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MyReviewListView: View {
-  @EnvironmentObject var VM: MyReviewsViewModel
+  @EnvironmentObject var VM: MyReviewListViewModel
 
   var body: some View {
     LazyVStack(spacing: 12) {

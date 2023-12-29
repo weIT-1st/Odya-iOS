@@ -13,7 +13,7 @@ struct MyJournalsView: View {
   @StateObject var VM = MyJournalsViewModel()
   @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
   @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
-  @StateObject var myReviewsVM = MyReviewsViewModel()
+  @StateObject var myReviewsVM = MyReviewListViewModel()
 
   @State private var isShowingRandomMainJournal: Bool = false
   @State private var isShowingComposeView: Bool = false
