@@ -5,10 +5,10 @@
 //  Created by Heeoh Son on 2023/12/17.
 //
 
-import SwiftUI
-import Moya
-import CombineMoya
 import Combine
+import CombineMoya
+import Moya
+import SwiftUI
 
 class MyReviewListViewModel: ObservableObject {
   // Moya
@@ -19,8 +19,9 @@ class MyReviewListViewModel: ObservableObject {
   private lazy var reviewProvider = MoyaProvider<ReviewRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
-  
+
   func getMyReviews() {
-    reviewProvider.requestPublisher(.readUserIdReview(userId: MyData.userID, size: nil, sortType: nil, lastId: nil))
+    reviewProvider.requestPublisher(
+      .readUserIdReview(userId: MyData.userID, size: nil, sortType: nil, lastId: nil))
   }
 }

@@ -63,7 +63,7 @@ struct MyJournalsView: View {
               }
 
               if myReviewsVM.isMyReviewsLoading
-                  || !myReviewsVM.reviews.isEmpty
+                || !myReviewsVM.reviews.isEmpty
               {
                 myReviewList
                   .padding(.horizontal, GridLayout.side)
@@ -189,7 +189,7 @@ extension MyJournalsView {
   private var myReviewList: some View {
     VStack(alignment: .leading, spacing: 0) {
       self.getSectionTitle(title: "내가 쓴 한줄 리뷰")
-      
+
       MyReviewListView()
         .environmentObject(myReviewsVM)
     }

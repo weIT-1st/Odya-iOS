@@ -21,7 +21,7 @@ class MyReviewsViewModel: ObservableObject {
   private var subscription = Set<AnyCancellable>()
 
   @Published var reviews: [Review] = []
-  
+
   // loading flag
   @Published var isMyReviewsLoading: Bool = false
   var isDeleting: Bool = false
@@ -67,7 +67,9 @@ class MyReviewsViewModel: ObservableObject {
 
   private func getMyReviews() {
     self.isMyReviewsLoading = true
-    reviewProvider.requestPublisher(.readUserIdReview(userId: MyData.userID, size: nil, sortType: nil, lastId: self.lastId))
+    reviewProvider.requestPublisher(
+      .readUserIdReview(userId: MyData.userID, size: nil, sortType: nil, lastId: self.lastId)
+    )
     .sink { completion in
       switch completion {
       case .finished:
