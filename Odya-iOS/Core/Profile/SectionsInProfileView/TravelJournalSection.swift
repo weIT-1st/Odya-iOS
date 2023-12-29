@@ -20,7 +20,7 @@ extension ProfileView {
   }
 }
 
-struct BookmarkedJournalListView: View {
+struct BookmarkedJournalListinProfileView: View {
   @Binding var path: [StackViewType]
   @StateObject var VM = JournalsInProfileViewModel()
   

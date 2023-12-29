@@ -78,17 +78,10 @@ private struct FollowButtonInProfileView: View {
 
   @State private var isShowingUnfollowingAlert: Bool = false
 
-  init(userId: Int, followerCount: Binding<Int>, isFollowing: Bool?) {
+  init(userId: Int, followerCount: Binding<Int>, isFollowing: Bool) {
     self.userId = userId
     self._followerCount = followerCount
-    if let isFollowing = isFollowing {
-      self.followState = isFollowing
-    } else {
-      self.followState = false
-      FollowButtonViewModel().isMyFollowingUser(userId) { [self] result in
-        self.followState = result
-      }
-    }
+    self.followState = isFollowing
   }
 
   var body: some View {

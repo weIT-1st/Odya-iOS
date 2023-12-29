@@ -20,6 +20,8 @@ enum StackViewType: Hashable {
   case mainJournalRegisterView
   /// 프로필 뷰에서 여행일지 클릭 시 이동하는 여행일지 디테일 뷰
   case journalDetail(journalId: Int, nickname: String)
+  /// 내 커뮤니티 활동 뷰
+  case myCommunity
 }
 
 struct ProfileView: View {
@@ -36,7 +38,7 @@ struct ProfileView: View {
   var userId: Int = -1
   var nickname: String = ""
   var profileUrl: String = ""
-  var isFollowing: Bool? = nil
+  var isFollowing: Bool = false
 
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
@@ -46,7 +48,7 @@ struct ProfileView: View {
     self._rootTabViewIdx = rootTabViewIdx
   }
 
-  init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
+  init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
     self._rootTabViewIdx = .constant(3)
     self.userId = userId
     self.nickname = nickname
@@ -98,7 +100,7 @@ struct ProfileView: View {
           VStack(spacing: 36) {
             bookmarkedJournalTitle
               .padding(.horizontal, GridLayout.side)
-            BookmarkedJournalListView(path: $path)
+            BookmarkedJournalListinProfileView(path: $path)
               .padding(.leading, GridLayout.side)
           }
           
@@ -152,6 +154,8 @@ struct ProfileView: View {
         case .journalDetail(let journalId, let nickname):
           TravelJournalDetailView(journalId: journalId, nickname: nickname)
             .navigationBarBackButtonHidden()
+        case .myCommunity:
+          MyCommunityActivityView()
         }
       } // navigation destination
     }

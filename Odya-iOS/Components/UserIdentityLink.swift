@@ -16,13 +16,13 @@ struct UserIdentityLink: View {
   let nickname: String
   let profileUrl: String
   let profileSize: ComponentSizeType
-  let isFollowing: Bool?
+  let isFollowing: Bool
   
   // 유저의 프로필 뷰 화면 표시 여부
   @State private var isShowingUserProfileView: Bool = false
   
   // MARK: - Init
-  init(userId: Int, nickname: String, profileUrl: String, profileSize: ComponentSizeType = .S, isFollowing: Bool? = nil) {
+  init(userId: Int, nickname: String, profileUrl: String, profileSize: ComponentSizeType = .S, isFollowing: Bool) {
     self.userId = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
