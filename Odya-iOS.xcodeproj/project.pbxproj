@@ -65,6 +65,7 @@
 		199EB76F2AF0A904004EF4B1 /* CommunityComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */; };
 		19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F0D2AF4976E00D29B49 /* Color.swift */; };
 		19D17F122AFA00CE00D29B49 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F112AFA00CE00D29B49 /* String.swift */; };
+		19DE0AA92B3EB5240079A660 /* PlaceSearchHistoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */; };
 		19E212A82B06F376003155C0 /* ReportRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212A72B06F376003155C0 /* ReportRouter.swift */; };
 		19E212AA2B06F515003155C0 /* ReportReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212A92B06F515003155C0 /* ReportReason.swift */; };
 		19E212AC2B06F7D4003155C0 /* CommunityLikeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */; };
@@ -282,6 +283,7 @@
 		199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeViewModel.swift; sourceTree = "<group>"; };
 		19D17F0D2AF4976E00D29B49 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		19D17F112AFA00CE00D29B49 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchHistoryRouter.swift; sourceTree = "<group>"; };
 		19E212A72B06F376003155C0 /* ReportRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRouter.swift; sourceTree = "<group>"; };
 		19E212A92B06F515003155C0 /* ReportReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReason.swift; sourceTree = "<group>"; };
 		19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeRouter.swift; sourceTree = "<group>"; };
@@ -1132,6 +1134,7 @@
 				19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */,
 				19E212A72B06F376003155C0 /* ReportRouter.swift */,
 				3ED8DBB12B10C10500D7CF7F /* ImageRouter.swift */,
+				19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -1430,6 +1433,7 @@
 				19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */,
 				3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */,
 				19EBA7592AB16E2C000ABBE5 /* TermsView.swift in Sources */,
+				19DE0AA92B3EB5240079A660 /* PlaceSearchHistoryRouter.swift in Sources */,
 				19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */,
 				3E4670332B1F4F7700B54D0A /* AdditionalSetUpView.swift in Sources */,
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
