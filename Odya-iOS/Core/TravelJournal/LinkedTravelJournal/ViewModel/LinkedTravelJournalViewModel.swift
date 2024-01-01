@@ -22,6 +22,8 @@ final class LinkedTravelJournalViewModel: ObservableObject {
   @Published var isLoading: Bool = false
   /// 공개로 전환중일때
   @Published var isSwitchProgressing: Bool = false
+  /// 여행일지가 없는 경우 alert
+  @Published var showNoJournalAlert = false
   
   /// 내 여행일지 목록 정보
   struct JournalState {
@@ -55,6 +57,10 @@ final class LinkedTravelJournalViewModel: ObservableObject {
           self.state.content += data.content
           self.state.lastId = data.content.last?.journalId
           self.state.canLoadNextPage = data.hasNext
+          
+          if self.state.content.isEmpty {
+            self.showNoJournalAlert = true
+          }
         }
       }
       .store(in: &subscription)

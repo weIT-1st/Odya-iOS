@@ -11,7 +11,7 @@ struct LinkedTravelJournalView: View {
   // MARK: Properties
   @Environment(\.dismiss) private var dismiss
   @StateObject private var viewModel = LinkedTravelJournalViewModel()
-  @State private var showAlert: Bool = false
+  @State private var showChangeVisibilityAlert: Bool = false
   
   /// 선택된 여행일지 아이디
   @Binding var selectedJournalId: Int?
@@ -30,7 +30,7 @@ struct LinkedTravelJournalView: View {
               Button {
                 if content.visibility == "PRIVATE" {
                   // 공개 전환 alert toggle
-                  showAlert.toggle()
+                  showChangeVisibilityAlert.toggle()
                 } else {
                   if selectedJournalId == content.journalId {
                     selectedJournalId = nil
@@ -53,7 +53,7 @@ struct LinkedTravelJournalView: View {
                   }
                 }
               }
-              .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showAlert) {
+              .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showChangeVisibilityAlert) {
                 Button("취소", role: .cancel) { }
                 Button {
                   // action: 공개로 변경
@@ -76,6 +76,16 @@ struct LinkedTravelJournalView: View {
       .toolbar(.hidden)
       .task {
         viewModel.fetchMyJournalListNextPageIfPossible()
+      }
+      .alert("작성된 여행일지가 없어요!", isPresented: $viewModel.showNoJournalAlert) {
+        Button("취소", role: .cancel) { }
+        Button {
+          // action: 여행일지 작성하기
+        } label: {
+          Text("작성하기")
+        }
+      } message: {
+        Text("여행일지를 새로 작성하시겠습니까? 현재 작성 중인 피드 글은 사라집니다.")
       }
     } // ScrollView
     .background(Color.odya.background.normal)

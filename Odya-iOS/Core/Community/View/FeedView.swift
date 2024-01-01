@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+enum FeedRoute: Hashable {
+  case detail(Int)
+  case createFeed
+  case linkedJournal(Binding<Int?>, String)
+  case createJournal
+}
+
 enum FeedToggleType {
   case all
   case friend
@@ -25,7 +32,7 @@ struct FeedView: View {
   // MARK: - Body
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       GeometryReader { _ in
         ZStack(alignment: .bottomTrailing) {
           VStack(spacing: 0) {
@@ -47,9 +54,7 @@ struct FeedView: View {
                 ForEach(viewModel.state.content, id: \.communityID) { content in
                   VStack(spacing: 0) {
                     PostImageView(urlString: content.communityMainImageURL)
-                    NavigationLink {
-                      FeedDetailView(communityId: content.communityID)
-                    } label: {
+                    NavigationLink(value: FeedRoute.detail(content.communityID), label: {
                       PostContentView(
                         communityId: content.communityID,
                         contentText: content.communityContent,
@@ -59,7 +64,7 @@ struct FeedView: View {
                         writer: content.writer,
                         isUserLiked: content.isUserLiked
                       )
-                    }
+                    })
                     .onAppear {
                       if viewModel.state.content.last == content {
                         switch selectedFeedToggle {
@@ -111,10 +116,11 @@ struct FeedView: View {
             }
           }
           .background(Color.odya.background.normal)
-
-          NavigationLink(destination: CommunityComposeView(composeMode: .create), label: {
+          
+          // 피드 작성하기
+          NavigationLink(value: FeedRoute.createFeed) {
             WriteButton()
-          })
+          }
           .padding(20)
           
           if showSearchView {
@@ -122,6 +128,18 @@ struct FeedView: View {
           }
         }  // ZStack
         .toolbar(.hidden)
+        .navigationDestination(for: FeedRoute.self) { route in
+          switch route {
+          case let .detail(communityId):
+            FeedDetailView(communityId: communityId)
+          case .createFeed:
+            CommunityComposeView(composeMode: .create)
+          case let .linkedJournal(journalId, journalTitle):
+            LinkedTravelJournalView(selectedJournalId: journalId, selectedJournalTitle: <#T##Binding<String?>#>)
+          case .createJournal:
+            TravelJournalComposeView()
+          }
+        }
       }
     }
   }
