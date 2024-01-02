@@ -86,4 +86,9 @@ class LocationSearchViewModel: NSObject, ObservableObject {
       recentSearchTexts.removeFirst()
     }
   }
+  
+  /// 최근 검색어 모두 삭제
+  func removeAllRecentSearch() {
+    recentSearchTexts.removeAll()
+  }
 }

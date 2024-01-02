@@ -12,58 +12,92 @@ struct LocationSearchView: View {
   @StateObject var viewModel = LocationSearchViewModel()
   @Binding var showLocationSearchView: Bool
   
+  let rankColumns = Array(repeating: GridItem(spacing: 0), count: 5)
+  
   // MARK: - Body
   var body: some View {
     VStack(spacing: 0) {
       searchBar
+        .padding(.horizontal, GridLayout.side)
         .padding(.bottom, 26)
       
       // Show recent searches if search query is empty
       if viewModel.queryFragment.isEmpty {
+        VStack(spacing: 0) {
+          HStack(alignment: .center) {
+            Text("최근검색")
+              .b1Style()
+              .foregroundColor(.odya.label.normal)
+            Spacer()
+            Button {
+              // action: 검색어 모두 삭제
+              viewModel.removeAllRecentSearch()
+            } label: {
+              Text("모두삭제")
+                .detail2Style()
+                .foregroundColor(.odya.label.assistive)
+            }
+          }
+          .padding(.horizontal, 8)
+          
+          // 검색어 리스트 출력
+          ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 0) {
+              ForEach(viewModel.recentSearchTexts.reversed(), id: \.self) { text in
+                RecentSearchCell(searchText: text)
+                  .environmentObject(viewModel)
+              }
+            }
+            .padding(.vertical, 12)
+          }
+        }
+        .padding(.horizontal, GridLayout.side)
+
+        Rectangle()
+          .foregroundColor(.odya.background.dimmed_dark)
+          .frame(height: 8)
+          .frame(maxWidth: .infinity)
+        
+        // 랭킹
         HStack(alignment: .center) {
-          Text("최근검색")
+          Text("🔥 오댜 핫플")
             .b1Style()
             .foregroundColor(.odya.label.normal)
           Spacer()
-          Button {
-            // action: 검색어 모두 삭제
-          } label: {
-            Text("모두삭제")
-              .detail2Style()
-              .foregroundColor(.odya.label.assistive)
-          }
-
+          // TODO: 랭킹 기준시간
+          Text("09.09 10:00 기준")
+            .detail2Style()
+            .foregroundColor(.odya.label.assistive)
         }
-        .padding(.horizontal, 8)
+        .padding(.leading, 25)
+        .padding(.trailing, 21)
+        .padding(.top, 24)
+        .padding(.bottom, 16)
         
-        // 검색어 리스트 출력
-        ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 4) {
-            ForEach(viewModel.recentSearchTexts.reversed(), id: \.self) { text in
-              RecentSearchCell(searchText: text)
-                .environmentObject(viewModel)
+        LazyHGrid(rows: rankColumns, spacing: 12) {
+          ForEach(0..<10) { num in
+            Text("\(num)")
+          }
+        }
+        .padding(.horizontal, GridLayout.side)
+        
+      } else {
+        // 검색 자동완성 결과 출력
+        ScrollView {
+          VStack(alignment: .leading) {
+            ForEach(viewModel.searchResults, id: \.self) { result in
+              let title = result.attributedPrimaryText.string
+              let subtitle = result.attributedSecondaryText?.string ?? ""
+              
+              LocationSearchResultCell(title: title, subtitle: subtitle)
+              
+              // Select cell -> Show detail place info
             }
           }
-          .padding(.vertical, 4)
-        }
-      }
-      
-      // 검색 자동완성 결과 출력
-      ScrollView {
-        VStack(alignment: .leading) {
-          ForEach(viewModel.searchResults, id: \.self) { result in
-            let title = result.attributedPrimaryText.string
-            let subtitle = result.attributedSecondaryText?.string ?? ""
-            
-            LocationSearchResultCell(title: title, subtitle: subtitle)
-            
-            // Select cell -> Show detail place info
-          }
-        }
-      }
+        } // ScrollView
+      } // if-else
     }
     .frame(maxWidth: .infinity)
-    .padding(.horizontal, GridLayout.side)
     .padding(.vertical, 24)
     .background(Color.odya.elevation.elev3)
   }
