@@ -122,6 +122,7 @@ struct LocationSearchView: View {
           .submitLabel(.search)
           .onSubmit {
             searchVM.appendRecentSearch()
+            searchVM.savePlaceSearchHistory()
           }
         
         Spacer()

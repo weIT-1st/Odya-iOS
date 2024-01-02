@@ -5,12 +5,15 @@
 //  Created by Jade Yoo on 2023/06/14.
 //
 
-import Foundation
+import Combine
 import GooglePlaces
+import Moya
+import SwiftUI
 
-class LocationSearchViewModel: NSObject, ObservableObject {
+final class LocationSearchViewModel: NSObject, ObservableObject {
   // MARK: - Properties
   
+  // MARK: Search
   /// 검색 자동완성 결과
   @Published var searchResults = [GMSAutocompletePrediction]()
   /// 선택한 장소 좌표 저장
@@ -29,6 +32,14 @@ class LocationSearchViewModel: NSObject, ObservableObject {
   }
   
   let placeClient = GMSPlacesClient()
+  
+  // MARK: PlaceSearchHistory
+  /// Provider
+  @AppStorage("WeITAuthToken") var idToken: String?
+  private let logPlugin: PluginType = CustomLogPlugin()
+  private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
+  private lazy var historyProvider = MoyaProvider<PlaceSearchHistoryRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
+  private var subscription = Set<AnyCancellable>()
   
   // MARK: - FUNCTIONS-Location Search
   
@@ -90,5 +101,22 @@ class LocationSearchViewModel: NSObject, ObservableObject {
   /// 최근 검색어 모두 삭제
   func removeAllRecentSearch() {
     recentSearchTexts.removeAll()
+  }
+  
+  // MARK: - FUNCTIONS-PlaceSearchHistory
+  
+  func savePlaceSearchHistory() {
+    historyProvider.requestPublisher(.createPlaceSearchHistory(searchTerm: queryFragment))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 검색어 저장 완료")
+        case .failure(let error):
+          if let errorData = try? error.response?.map(ErrorData.self) {
+            print(errorData)
+          }
+        }
+      } receiveValue: { _ in }
+      .store(in: &subscription)
   }
 }
