@@ -12,7 +12,6 @@ class BottomSheetViewModel: ObservableObject {
   @Published var isSheetOn: Bool = false
   @Published var sheetOffset: CGFloat = .zero
   @Published var isScrollAtTop: Bool = false
-  @Published var scrollToTop: Bool = false
 
   let minHeight: CGFloat = UIScreen.main.bounds.height / 5 * 3
   let maxHeight: CGFloat = 60
@@ -42,4 +41,5 @@ class BottomSheetViewModel: ObservableObject {
       self.isSheetOn = false
     }
   }
+
 }

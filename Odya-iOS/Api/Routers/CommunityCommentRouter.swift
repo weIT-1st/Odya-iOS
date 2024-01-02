@@ -23,7 +23,7 @@ extension CommunityCommentRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-
+  
   var path: String {
     switch self {
     case .createComment(let communityId, _):
@@ -36,7 +36,7 @@ extension CommunityCommentRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/communities/\(communityId)/comments/\(commentId)"
     }
   }
-
+  
   var method: Moya.Method {
     switch self {
     case .createComment:
@@ -49,41 +49,41 @@ extension CommunityCommentRouter: TargetType, AccessTokenAuthorizable {
       return .delete
     }
   }
-
+  
   var task: Moya.Task {
     switch self {
     case .createComment(_, let content):
       var params: [String: Any] = [:]
       params["content"] = content
       return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
-
+      
     case .getComment(_, let size, let lastId):
       var params: [String: Any] = [:]
       params["size"] = size
       params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-
+      
     case .patchComment(_, _, let content):
       var params: [String: Any] = [:]
       params["content"] = content
       return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
-
+      
     case .deleteComment:
       return .requestPlain
     }
   }
-
-  var headers: [String: String]? {
+  
+  var headers: [String : String]? {
     switch self {
     default:
       return ["Content-type": "application/json"]
     }
   }
-
+  
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-
+  
   var validationType: ValidationType {
     return .successCodes
   }

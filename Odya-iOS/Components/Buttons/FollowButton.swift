@@ -8,16 +8,14 @@
 import SwiftUI
 
 extension View {
-  func FollowButton(isFollowing: Bool, buttonStyle: ButtonStyleType,
-                    action: @escaping () -> Void) -> some View {
-    Button(action: action) {
-      Text(isFollowing ? "팔로잉" : "팔로우")
-        .detail1Style()
-        .frame(width: 38, height: 12)
-        .padding(8)
+    func FollowButton(isFollowing: Bool, buttonStyle: ButtonStyleType,
+                          action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(isFollowing ? "팔로잉" : "팔로우")
+                .detail1Style()
+                .padding(8)
+        }.buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
     }
-    .buttonStyle(CustomButtonStyle(cornerRadius: Radius.small, state: isFollowing ? .inactive : .active, style: buttonStyle))
-  }
 }
 
 /// 팔로우/언팔로우 액션 및 alert 가 적용된 팔로우버튼
@@ -25,14 +23,14 @@ extension View {
 /// buttonStyle: 팔로우버튼 스타일
 /// followState: 팔로우 상태 초기값, 기본값은 true(팔로우 중인 상태)
 struct FollowButtonWithAlertAndApi: View {
-  @StateObject var VM = FollowButtonViewModel()
+  @StateObject var followHubVM = FollowHubViewModel()
   
   let userId: Int
   let buttonStyle: ButtonStyleType
   @State private var followState: Bool
   @State private var isShowingUnfollowingAlert: Bool = false
   
-  init(userId: Int, buttonStyle: ButtonStyleType, followState: Bool) {
+  init(userId: Int, buttonStyle: ButtonStyleType, followState: Bool = true) {
     self.userId = userId
     self.buttonStyle = buttonStyle
     self.followState = followState
@@ -42,7 +40,7 @@ struct FollowButtonWithAlertAndApi: View {
     FollowButton(isFollowing: followState, buttonStyle: buttonStyle) {
       if followState == false {  // do following
         followState = true
-        VM.createFollow(userId)
+        followHubVM.createFollow(userId)
       } else {  // do unfollowing
         isShowingUnfollowingAlert = true
       }
@@ -56,7 +54,7 @@ struct FollowButtonWithAlertAndApi: View {
         }
         Button("삭제") {
           followState = false
-          VM.deleteFollow(userId)
+          followHubVM.deleteFollow(userId)
           isShowingUnfollowingAlert = false
         }
       }

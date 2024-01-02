@@ -9,25 +9,22 @@ import AuthenticationServices
 import CryptoKit
 import Firebase
 import SwiftUI
-import Combine
 
 class AppleAuthViewModel: ObservableObject {
 
   // MARK: Properties
-  
-  /// combine
-  var subscription = Set<AnyCancellable>()
 
   /// 앱 내에서 사용할 idToken (= firebase token)
   @AppStorage("WeITAuthToken") var idToken: String?
-  /// 회원가입 시도한 소셜 로그인 타입 -> kakao로 설정
   @AppStorage("WeITAuthType") var authType: String = ""
-  /// 계정 상태, 로그인 성공 시 loggedOut -> loggedIn / 회원가입 필요 시 -> unauthorized
-  @AppStorage("WeITAuthState") var authState: AuthState = .loggedOut
 
+  @Published var AuthApi = AuthViewModel()
+
+  /// 로그인한 회원이 등록되어 있는지 여부, 등록되어 있지 않으면 true
+  @Published var isUnauthorized: Bool = false
 
   /// 로그인한 회원 정보 - 회원가입 시 사용됨
-  @Published var userInfo = SignUpInfo()
+  @Published var userInfo = UserInfo()
 
   /// Nonce handling
   var currentNonce: String? = nil
@@ -37,12 +34,12 @@ class AppleAuthViewModel: ObservableObject {
   /// 애플 소셜 로그인 요청 시 실행되는 handler
   func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
     request.requestedScopes = [.fullName, .email]
-    
+
     /* 로그인 요청마다 임의의 문자열인 'nonce'가 생성되며, 이 nonce는 앱의 인증 요청에 대한 응답으로 ID 토큰이 명시적으로 부여되었는지 확인하는 데 사용됩니다.
-     * 재전송 공격을 방지하려면 이 단계가 필요합니다.
-     * 로그인 요청과 함께 nonce의 SHA256 해시를 전송하면 Apple은 이에 대한 응답으로 원래의 값을 전달합니다.
-     * Firebase는 원래의 nonce를 해싱하고 Apple에서 전달한 값과 비교하여 응답을 검증합니다.
-     */
+         * 재전송 공격을 방지하려면 이 단계가 필요합니다.
+         * 로그인 요청과 함께 nonce의 SHA256 해시를 전송하면 Apple은 이에 대한 응답으로 원래의 값을 전달합니다.
+         * Firebase는 원래의 nonce를 해싱하고 Apple에서 전달한 값과 비교하여 응답을 검증합니다.
+         */
     let nonce = randomNonceString()
     currentNonce = nonce
     request.nonce = sha256(nonce)
@@ -118,38 +115,19 @@ class AppleAuthViewModel: ObservableObject {
   /// 서버 로그인 성공 시 받아온 토큰 저장
   /// 등록되지 않은 회원일 경우 회원가입 페이지로 이동
   private func doServerLogin(idToken: String) {
-    AuthApiService.appleLogin(idToken: idToken)
-      .sink { apiCompletion in
-        switch apiCompletion {
-        case .finished:
-          print("애플 로그인 완료")
-          self.idToken = idToken
-          self.authType = "apple"
-          AppDataManager().initMyData() { success in 
-            self.authState = .loggedIn
-          }
-          
-        case .failure(let error):
-          print("애플 로그인 실패")
-          switch error {
-          case .http(let errorData):
-            print(errorData.message)
-            // 회원가입이 되어 있지 않은 경우
-            if errorData.code == -10005 {
-              self.authType = "apple"
-              self.authState = .unauthorized
-            }
-            // 그 외 에러
-            else {
-              print("Error: \(errorData.message)")
-            }
-          // 네트워크 에러
-          default:
-            print("Error: \(error)")
-          }
-        }
-      } receiveValue: { _ in }
-      .store(in: &subscription)
+    AuthApi.appleLogin(idToken: idToken) { apiResult in
+      switch apiResult {
+      case .success:
+        // print("로그인 성공")
+        self.idToken = idToken
+        self.authType = "apple"
+      case .unauthorized:
+        print("Error: Valid token but required to register")
+        self.isUnauthorized = true
+      case .error(let errorMessage):
+        print("Error: \(errorMessage)")
+      }
+    }
   }
 
   // MARK: Logout
@@ -159,7 +137,6 @@ class AppleAuthViewModel: ObservableObject {
       try firebaseAuth.signOut()
       idToken = nil
       authType = ""
-      authState = .loggedOut
     } catch let signOutError as NSError {
       print("Error signing out: %@", signOutError)
     }

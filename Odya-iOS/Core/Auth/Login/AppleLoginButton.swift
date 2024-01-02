@@ -10,7 +10,7 @@ import SwiftUI
 
 /// 애플 로그인 버튼
 struct AppleLoginButton: View {
-//  @AppStorage("isAppleSignInValid") var isAppleSignInValid: Bool = AppleUserData.isValid
+  @AppStorage("isAppleSignInValid") var isAppleSignInValid: Bool = AppleUserData.isValid
 
   @EnvironmentObject var appleAuthVM: AppleAuthViewModel
 

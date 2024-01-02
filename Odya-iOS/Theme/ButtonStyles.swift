@@ -22,7 +22,6 @@ struct CustomButtonStyle: ButtonStyle {
     var cornerRadius: CGFloat = Radius.medium
     let state: ButtonActiveSate
     let style: ButtonStyleType
-    var inactiveStyle: ButtonStyleType = .basic
     
     private func activeSolid(configuration: Self.Configuration) -> some View {
         configuration.label
@@ -53,13 +52,6 @@ struct CustomButtonStyle: ButtonStyle {
             .background(Color.odya.elevation.elev2)
             .cornerRadius(cornerRadius)
     }
-  
-  private func inactiveSolid(configuration: Self.Configuration) -> some View {
-    configuration.label
-        .foregroundColor(.odya.label.inactive)
-        .background(Color.odya.elevation.elev2)
-        .cornerRadius(cornerRadius)
-  }
     
     func makeBody(configuration: Self.Configuration) -> some View {
         switch state {
@@ -73,12 +65,7 @@ struct CustomButtonStyle: ButtonStyle {
                 activeBasic(configuration: configuration)
             }
         case .inactive:
-          switch inactiveStyle {
-          case .solid:
-            inactiveSolid(configuration: configuration)
-          default:
             inactive(configuration: configuration)
-          }
         }
     }
 }

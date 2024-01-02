@@ -17,7 +17,7 @@ extension CommunityLikeRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-
+  
   var path: String {
     switch self {
     case .createLike(let communityId):
@@ -26,7 +26,7 @@ extension CommunityLikeRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/communities/\(communityId)/likes"
     }
   }
-
+  
   var method: Moya.Method {
     switch self {
     case .createLike:
@@ -35,19 +35,19 @@ extension CommunityLikeRouter: TargetType, AccessTokenAuthorizable {
       return .delete
     }
   }
-
+  
   var task: Moya.Task {
     return .requestPlain
   }
-
-  var headers: [String: String]? {
+  
+  var headers: [String : String]? {
     return ["Content-type": "application/json"]
   }
-
+  
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-
+  
   var validationType: ValidationType {
     return .successCodes
   }

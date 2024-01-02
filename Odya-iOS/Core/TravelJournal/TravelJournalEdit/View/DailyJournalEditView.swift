@@ -12,8 +12,6 @@ import SwiftUI
 struct DailyJournalEditView: View {
 
   // MARK: Properties
-  @Environment(\.dismiss) var dismiss
-
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
   @ObservedObject var journalEditVM: DailyJournalEditViewModel
 
@@ -84,7 +82,6 @@ struct DailyJournalEditView: View {
     .confirmationDialog("", isPresented: $isDismissAlertVisible) {
       Button("작성취소", role: .destructive) {
         journalDetailVM.editedDailyJournal = nil
-        dismiss()
       }
       Button("취소", role: .cancel) {}
     } message: {
@@ -102,13 +99,12 @@ struct DailyJournalEditView: View {
         }.padding(.leading, 8)
         Spacer()
         Button(action: {
-          //          journalDetailVM.editedDailyJournal = nil
+          journalDetailVM.editedDailyJournal = nil
           Task {
             await journalEditVM.updateDailyJournal(
               date: date, content: content, placeId: placeId, latitudes: latitudes,
               longitudes: longitudes, fetchedImages: fetchedImages, selectedImages: selectedImages)
           }
-          dismiss()
         }) {
           Text("수정 완료")
             .b1Style()

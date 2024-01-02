@@ -11,6 +11,8 @@ import SwiftUI
 
 /// 알 수도 있는 친구 추천 리스트의 추천된 유저 뷰
 struct SuggestedUserView: View {
+  @EnvironmentObject var followHubVM: FollowHubViewModel
+
   let user: FollowUserData
 
   @State private var followState: Bool = false
@@ -67,7 +69,7 @@ struct UserSuggestionView: View {
           HStack(spacing: 32) {
             ForEach(followHubVM.suggestedUsers) { suggestedUser in
               SuggestedUserView(user: suggestedUser)
-//                .environmentObject(followHubVM)
+                .environmentObject(followHubVM)
             }
           }
         }

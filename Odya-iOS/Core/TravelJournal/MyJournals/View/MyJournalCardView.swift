@@ -14,17 +14,19 @@ struct RandomJounalCardView: View {
   let cardHeight: CGFloat = 475
   let cardWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
 
-  var journal: TravelJournalData?
-  var title: String { journal?.title ?? "" }
-  var travelDateString: String {
-    guard let journal = journal else {
-      return ""
-    }
-    return
+  var title: String
+  var travelDateString: String
+  var locationString: String
+  var imageUrl: String
+
+  init(journal: TravelJournalData) {
+    self.title = journal.title
+    self.travelDateString =
       "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
+    // TODO: location, placeId
+    self.locationString = "해운대 해수욕장"
+    self.imageUrl = journal.imageUrl
   }
-  var locationString: String { "해운대 해수욕장" }
-  var imageUrl: String { journal?.imageUrl ?? "" }
 
   var body: some View {
     ZStack {
@@ -32,33 +34,14 @@ struct RandomJounalCardView: View {
       shadowBox.offset(y: -20)
 
       // main content
-      if journal != nil {
-        AsyncImageView(
-          url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
+      AsyncImageView(
+        url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
 
-        VStack {
-          Spacer()
-          journalInfo
-        }
-      } else {
-        defaultCardView
+      VStack {
+        Spacer()
+        journalInfo
       }
     }
-  }
-
-  private var defaultCardView: some View {
-    RoundedRectangle(cornerRadius: Radius.large)
-      .frame(width: cardWidth, height: cardHeight)
-      .foregroundColor(.odya.elevation.elev2)
-      .overlay {
-        //        ProgressView()
-        //          .frame(width: cardWidth, height: cardHeight)
-        Image("logo-lightgray")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: cardWidth / 2)
-
-      }
   }
 
   private var shadowBox: some View {
@@ -99,9 +82,9 @@ struct RandomJounalCardView: View {
 
 /// 내 추억 뷰에서 내 여행일지를 보여주기 위한 기본 크기의 카드 뷰
 struct TravelJournalCardView: View {
-  @EnvironmentObject var bookmarkJournalsVM: BookmarkedJournalListViewModel
+  @EnvironmentObject var myJournalsVM: MyJournalsViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
-
+  
   let cardHeight: CGFloat = 250
   let cardWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
 
@@ -112,7 +95,7 @@ struct TravelJournalCardView: View {
   var imageUrl: String
 
   var isMarked: Bool {
-    bookmarkJournalsVM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
+    myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
   }
 
   init(journal: TravelJournalData) {
@@ -132,7 +115,7 @@ struct TravelJournalCardView: View {
 
       StarButton(isActive: isMarked, isYellowWhenActive: true) {
         bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
-          bookmarkJournalsVM.updateBookmarkedJournals()
+          myJournalsVM.updateBookmarkedJournals()
         }
       }.offset(x: cardWidth / 2 - 25, y: -(cardHeight / 2 - 25))
 
@@ -175,17 +158,15 @@ struct TravelJournalCardView: View {
 
 /// 내 추억 뷰에서 즐겨찾기된 여행일지와 태그된 여행일지를 보여주기 위한 작은 카드 뷰
 struct TravelJournalSmallCardView: View {
-  let cardWidth: CGFloat = 141
-  //  UIScreen.main.bounds.width / 2.5
-  let cardHeight: CGFloat = 224
-  //  (UIScreen.main.bounds.width / 2.5) * 1.5
+  let cardWidth: CGFloat = UIScreen.main.bounds.width / 2.5
+  let cardHeight: CGFloat = (UIScreen.main.bounds.width / 2.5) * 1.5
 
   var title: String
   var dateString: String
   var imageUrl: String
-  var writer: Writer
+  var writer: FollowUserData
 
-  init(title: String, date: Date, imageUrl: String, writer: Writer) {
+  init(title: String, date: Date, imageUrl: String, writer: FollowUserData) {
     self.title = title
     self.dateString =
       date.dateToString(format: "yyyy.MM.dd")
@@ -319,12 +300,12 @@ struct MyReviewCardView: View {
 
 /// 즐겨찾기된 여행일지 카드뷰에 오버레이 되는 메뉴 바
 struct FavoriteJournalCardOverlayMenuView: View {
-  @EnvironmentObject var VM: BookmarkedJournalListViewModel
+  @EnvironmentObject var myJournalsVM: MyJournalsViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
-
+  
   let journalId: Int
   var isMarked: Bool {
-    VM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
+    myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
   }
 
   var body: some View {
@@ -333,7 +314,7 @@ struct FavoriteJournalCardOverlayMenuView: View {
         Spacer()
         StarButton(isActive: isMarked, isYellowWhenActive: true) {
           bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
-            VM.updateBookmarkedJournals()
+            myJournalsVM.updateBookmarkedJournals()
           }
         }
       }.padding(10)
@@ -344,13 +325,12 @@ struct FavoriteJournalCardOverlayMenuView: View {
 
 /// 태그된 여행일지 카드뷰에 오버레이 되는 메뉴 바
 struct TaggedJournalCardOverlayMenuView: View {
-  @EnvironmentObject var VM: TaggedJournalListViewModel
-  @EnvironmentObject var bookmarkJournalsVM: BookmarkedJournalListViewModel
+  @EnvironmentObject var myJournalsVM: MyJournalsViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
-
+  
   let journalId: Int
   var isMarked: Bool {
-    bookmarkJournalsVM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
+    myJournalsVM.bookmarkedJournals.contains(where: {$0.journalId == journalId})
   }
   @State private var isShowingTaggingDeletionAlert: Bool = false
 
@@ -359,7 +339,7 @@ struct TaggedJournalCardOverlayMenuView: View {
       HStack {
         StarButton(isActive: isMarked, isYellowWhenActive: true) {
           bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
-            bookmarkJournalsVM.updateBookmarkedJournals()
+            myJournalsVM.updateBookmarkedJournals()
           }
         }
         Spacer()
@@ -377,13 +357,13 @@ struct TaggedJournalCardOverlayMenuView: View {
       Button("취소") { isShowingTaggingDeletionAlert = false }
       Button("삭제") {
         isShowingTaggingDeletionAlert = false
-        VM.deleteTagging(of: journalId) { success in
+        myJournalsVM.deleteTagging(of: journalId) { success in
           if success {
-            VM.updateTaggedJournals()
+            myJournalsVM.updateTaggedJournals()
           }
         }
       }
-    }  // alert
+    } // alert
   }
 }
 

@@ -17,12 +17,10 @@ struct OffsettableScrollView<T: View>: View {
   let showsIndicator: Bool
   let onOffsetChanged: (CGPoint) -> Void
   let content: T
-  @Binding var shouldScrollToTop: Bool
 
   init(
     axes: Axis.Set = .vertical,
     showsIndicator: Bool = true,
-    shouldScrollToTop: Binding<Bool>,
     onOffsetChanged: @escaping (CGPoint) -> Void = { _ in },
     @ViewBuilder content: () -> T
   ) {
@@ -30,37 +28,24 @@ struct OffsettableScrollView<T: View>: View {
     self.showsIndicator = showsIndicator
     self.onOffsetChanged = onOffsetChanged
     self.content = content()
-    self._shouldScrollToTop = shouldScrollToTop
   }
 
   var body: some View {
-    ScrollViewReader { scrollProxy in
-      ScrollView(axes, showsIndicators: showsIndicator) {
-        GeometryReader { proxy in
-          Color.clear.preference(
-            key: OffsetPreferenceKey.self,
-            value: proxy.frame(
-              in: .named("ScrollViewOrigin")
-            ).origin
-          )
-        }
-        .frame(width: 0, height: 0)
-        content
-          .id("ScrollToTop")
+    ScrollView(axes, showsIndicators: showsIndicator) {
+      GeometryReader { proxy in
+        Color.clear.preference(
+          key: OffsetPreferenceKey.self,
+          value: proxy.frame(
+            in: .named("ScrollViewOrigin")
+          ).origin
+        )
       }
-      .coordinateSpace(name: "ScrollViewOrigin")
-      .onPreferenceChange(
-        OffsetPreferenceKey.self,
-        perform: onOffsetChanged
-      )
-      .onChange(of: shouldScrollToTop) { shouldScrollToTop in
-        if shouldScrollToTop {
-          withAnimation(.default) {
-            scrollProxy.scrollTo("ScrollToTop", anchor: .top)
-          }
-          self.shouldScrollToTop = false
-        }
-      }
+      .frame(width: 0, height: 0)
+      content
     }
+    .coordinateSpace(name: "ScrollViewOrigin")
+    .onPreferenceChange(
+      OffsetPreferenceKey.self,
+      perform: onOffsetChanged)
   }
 }

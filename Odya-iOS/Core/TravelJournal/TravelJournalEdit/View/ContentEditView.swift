@@ -12,19 +12,19 @@ import SwiftUI
 /// 사진, 날짜, 텍스트내용, 위치 수정 가능
 struct ContentEditView: View {
   @EnvironmentObject var journalEditVM: DailyJournalEditViewModel
-
+  
   /// 갤러리 접근 권한
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
 
   /// 갤러리 접근 권한이 거부되었을 때 알림 표시 여부
   @State private var isShowingImagesPermissionDeniedAlert = false
-
+    
   /// 데일리 일정 날짜 선택 뷰가 화면에 표시되고 있는지 여부
   @Binding var isDatePickerVisible: Bool
-
+  
   /// 이미지 피커가 현재 화면에 표시되고 있는지 여부
   @Binding var isShowingImagePickerSheet: Bool
-
+    
   /// 텍스트내용 글자 제한 200자
   private let contentCharacterLimit = 200
 
@@ -36,13 +36,14 @@ struct ContentEditView: View {
   @Binding var longitudes: [Double]
   @Binding var fetchedImages: [DailyJournalImage]
   @Binding var selectedImages: [ImageData]
-
+  
+  
   // MARK: Body
-
+    
   var body: some View {
     VStack(spacing: 0) {
       selectedImageList
-
+      
       VStack(spacing: 16) {
         selectedDate
         journalConent
@@ -55,108 +56,108 @@ struct ContentEditView: View {
   private var selectedImageList: some View {
     ScrollView(.horizontal) {
       HStack(spacing: 10) {
-        if fetchedImages.count + selectedImages.count < 15 {
-          imageAddButton
-        }
-
-        ForEach(selectedImages) { imageData in
-          Button(action: {
-            selectedImages = selectedImages.filter {
-              $0.assetIdentifier != imageData.assetIdentifier
-            }
-          }) {
-            ZStack {
-              Image(uiImage: imageData.image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 120, height: 120)
-                .cornerRadius(Radius.small)
-              Image("smallGreyButton-x-filled")
-                .offset(x: 55, y: -57.5)
-                .frame(width: 0, height: 0)
-            }
+          if fetchedImages.count + selectedImages.count < 15 {
+              imageAddButton
           }
-        }
-
-        ForEach(fetchedImages) { imageData in
-          Button(action: {
-            fetchedImages = fetchedImages.filter {
-              $0.id != imageData.id
-            }
-          }) {
-            ZStack {
-              AsyncImage(url: URL(string: imageData.imageUrl)!) { image in
-                image
-                  .resizable()
-                  .scaledToFill()
-                  .frame(width: 120, height: 120)
-                  .cornerRadius(Radius.small)
-              } placeholder: {
-                ProgressView()
-                  .frame(height: 120)
+          
+          ForEach(selectedImages) { imageData in
+              Button(action: {
+                  selectedImages = selectedImages.filter {
+                      $0.assetIdentifier != imageData.assetIdentifier
+                  }
+              }) {
+                  ZStack {
+                      Image(uiImage: imageData.image)
+                          .resizable()
+                          .scaledToFill()
+                          .frame(width: 120, height: 120)
+                          .cornerRadius(Radius.small)
+                      Image("smallGreyButton-x-filled")
+                          .offset(x: 55, y: -57.5)
+                          .frame(width: 0, height: 0)
+                  }
               }
-              Image("smallGreyButton-x-filled")
-                .offset(x: 55, y: -57.5)
-                .frame(width: 0, height: 0)
-            }
           }
-        }
+          
+          ForEach(fetchedImages) { imageData in
+              Button(action: {
+                  fetchedImages = fetchedImages.filter {
+                      $0.id != imageData.id
+                  }
+              }) {
+                  ZStack {
+                      AsyncImage(url: URL(string: imageData.imageUrl)!) { image in
+                          image
+                              .resizable()
+                              .scaledToFill()
+                              .frame(width: 120, height: 120)
+                              .cornerRadius(Radius.small)
+                      } placeholder: {
+                          ProgressView()
+                              .frame(height: 120)
+                      }
+                      Image("smallGreyButton-x-filled")
+                          .offset(x: 55, y: -57.5)
+                          .frame(width: 0, height: 0)
+                  }
+              }
+          }
         Spacer()
       }.padding(.vertical, 16)
-        .animation(.easeInOut, value: selectedImages)
-        .animation(.easeInOut, value: fetchedImages)
+            .animation(.easeInOut, value: selectedImages)
+            .animation(.easeInOut, value: fetchedImages)
     }
   }
-
-  /// 이미지 추가 버튼
-  /// 선택된 사진이 15장 미만일 때 나타남
-  private var imageAddButton: some View {
-    Button(action: {
-      let requiredAccessLevel: PHAccessLevel = .readWrite
-      PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
-        imageAccessStatus = authorizationStatus
-        switch authorizationStatus {
-        case .authorized, .limited:
-          isShowingImagePickerSheet = true
-        case .denied, .restricted:
-          // 권한이 거부된 경우 앱 설정으로 이동 제안
-          isShowingImagesPermissionDeniedAlert = true
-        default:
-          break
+    
+    /// 이미지 추가 버튼
+    /// 선택된 사진이 15장 미만일 때 나타남
+    private var imageAddButton: some View {
+        Button(action: {
+            let requiredAccessLevel: PHAccessLevel = .readWrite
+            PHPhotoLibrary.requestAuthorization(for: requiredAccessLevel) { authorizationStatus in
+                imageAccessStatus = authorizationStatus
+                switch authorizationStatus {
+                case .authorized, .limited:
+                    isShowingImagePickerSheet = true
+                case .denied, .restricted:
+                    // 권한이 거부된 경우 앱 설정으로 이동 제안
+                    isShowingImagesPermissionDeniedAlert = true
+                default:
+                    break
+                }
+            }
+        }) {
+            Rectangle()
+                .foregroundColor(.clear)
+                .frame(width: 120, height: 120)
+                .background(Color.odya.elevation.elev5)
+                .cornerRadius(Radius.small)
+                .overlay(
+                    VStack(spacing: 0) {
+                        Image("camera")
+                        Text("\(fetchedImages.count + selectedImages.count)/15")
+                            .detail2Style()
+                            .foregroundColor(.odya.label.assistive)
+                    }
+                )
         }
-      }
-    }) {
-      Rectangle()
-        .foregroundColor(.clear)
-        .frame(width: 120, height: 120)
-        .background(Color.odya.elevation.elev5)
-        .cornerRadius(Radius.small)
-        .overlay(
-          VStack(spacing: 0) {
-            Image("camera")
-            Text("\(fetchedImages.count + selectedImages.count)/15")
-              .detail2Style()
-              .foregroundColor(.odya.label.assistive)
-          }
-        )
+        .alert("사진 액세스 권한 거부", isPresented: $isShowingImagesPermissionDeniedAlert) {
+            HStack {
+                Button("취소") {
+                    isShowingImagesPermissionDeniedAlert = false
+                }
+                Button("설정으로 이동") {
+                    isShowingImagesPermissionDeniedAlert = false
+                    if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                    }
+                }
+            }
+        } message: {
+            Text("사진 액세스 권한이 거부되었습니다. 설정 앱으로 이동하여 권한을 다시 설정하십시오.")
+        }
+        
     }
-    .alert("사진 액세스 권한 거부", isPresented: $isShowingImagesPermissionDeniedAlert) {
-      HStack {
-        Button("취소") {
-          isShowingImagesPermissionDeniedAlert = false
-        }
-        Button("설정으로 이동") {
-          isShowingImagesPermissionDeniedAlert = false
-          if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-          }
-        }
-      }
-    } message: {
-      Text("사진 액세스 권한이 거부되었습니다. 설정 앱으로 이동하여 권한을 다시 설정하십시오.")
-    }
-
-  }
 
   // MARK: Selected Date
   private var selectedDate: some View {
@@ -212,7 +213,7 @@ struct ContentEditView: View {
     )
     .onChange(of: content) { newValue in
       if newValue.count > contentCharacterLimit {
-        content = String(newValue.prefix(contentCharacterLimit))
+          content = String(newValue.prefix(contentCharacterLimit))
       }
     }
   }
@@ -255,3 +256,4 @@ struct ContentEditView: View {
 //    //        DailyJournalContentEditView(index: 1, dailyJournal: .constant(DailyTravelJournal()), isDatePickerVisible: .constant(false))
 //  }
 //}
+

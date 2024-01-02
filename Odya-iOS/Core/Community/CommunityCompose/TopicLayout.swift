@@ -11,12 +11,9 @@ import SwiftUI
 struct TopicLayout: Layout {
   // MARK: Properties
   
-  var alignment: Alignment
-  
+  var alignment: Alignment = .leading
   /// 가로, 세로 여백
-  var horizontalSpacing: CGFloat
-  var verticalSpacng: CGFloat
-//  var spacing: CGFloat = 10
+  var spacing: CGFloat = 10
   
   // MARK: Layout
   
@@ -30,82 +27,33 @@ struct TopicLayout: Layout {
       if index == (rows.count - 1) {
         height += row.maxHeight(proposal)
       } else {
-        height += row.maxHeight(proposal) + verticalSpacng
+        height += row.maxHeight(proposal) + spacing
       }
     }
     
     return .init(width: maxWidth, height: height)
   }
   
-//  func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-//      let maxWidth = proposal.width ?? 0
-//      var height: CGFloat = 0
-//      let rows = generateRows(maxWidth, proposal, subviews)
-//
-//      for (index, row) in rows.enumerated() {
-//          let rowHeight = row.maxHeight(proposal)
-//          height += rowHeight
-//
-//          // 마지막 행이 아닌 경우에만 간격을 추가합니다.
-//          if index != rows.count - 1 {
-//              height += spacing
-//          }
-//      }
-//
-//      return .init(width: maxWidth, height: height)
-//  }
-
-  
-  func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-      var origin = bounds.origin
-      let maxWidth = bounds.width
-      let rows = generateRows(maxWidth, proposal, subviews)
-
-      for row in rows {
-          // 총 행 너비를 계산합니다.
-          let totalRowWidth = row.reduce(0) { $0 + $1.sizeThatFits(proposal).width }
-
-          // X 시작 위치를 계산합니다.
-          switch alignment {
-          case .leading:
-              origin.x = 0
-          case .center:
-              origin.x = (maxWidth - totalRowWidth) / 2 - 12
-          default:
-            origin.x = 0
-          }
-
-          for view in row {
-              let viewSize = view.sizeThatFits(proposal)
-              view.place(at: origin, proposal: proposal)
-              origin.x += (viewSize.width + horizontalSpacing)
-          }
-
-          origin.y += row.maxHeight(proposal) + verticalSpacng
+  func placeSubviews(
+    in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()
+  ) {
+    var origin = bounds.origin
+    let maxWidth = bounds.width
+    let rows = generateRows(maxWidth, proposal, subviews)
+    
+    for row in rows {
+      origin.x = 0
+      
+      for view in row {
+        let viewSize = view.sizeThatFits(proposal)
+        view.place(at: origin, proposal: proposal)
+        origin.x += (viewSize.width + spacing)
       }
+      
+      origin.y += row.maxHeight(proposal) + spacing
+    }
   }
-
-
-//  func placeSubviews(
-//    in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()
-//  ) {
-//    var origin = bounds.origin
-//    let maxWidth = bounds.width
-//    let rows = generateRows(maxWidth, proposal, subviews)
-//
-//    for row in rows {
-//      origin.x = 0
-//
-//      for view in row {
-//        let viewSize = view.sizeThatFits(proposal)
-//        view.place(at: origin, proposal: proposal)
-//        origin.x += (viewSize.width + spacing)
-//      }
-//
-//      origin.y += row.maxHeight(proposal) + spacing
-//    }
-//  }
-//
+  
   // MARK: Helper functions
   
   /// 사이즈에 맞춰 rows 생성
@@ -122,17 +70,17 @@ struct TopicLayout: Layout {
       let viewSize = view.sizeThatFits(proposal)
       
       // 새로운 행으로
-      if (origin.x + viewSize.width + horizontalSpacing) > maxWidth {
+      if (origin.x + viewSize.width + spacing) > maxWidth {
         rows.append(row)
         row.removeAll()
         
         origin.x = 0
         row.append(view)
-        origin.x += (viewSize.width + horizontalSpacing)
+        origin.x += (viewSize.width + spacing)
       } else {
         // 같은 행에 아이템 추가
         row.append(view)
-        origin.x += (viewSize.width + horizontalSpacing)
+        origin.x += (viewSize.width + spacing)
       }
     }
     

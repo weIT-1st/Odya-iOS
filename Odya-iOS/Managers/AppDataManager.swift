@@ -100,11 +100,4 @@ class AppDataManager: ObservableObject {
       }.store(in: &subscription)
     
   }
-  
-  func deleteMyData() {
-    MyData.userID = -1
-    var myData = MyData()
-    myData.nickname = ""
-    myData.profile = ""
-  }
 }

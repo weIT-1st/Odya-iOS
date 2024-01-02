@@ -10,9 +10,8 @@ import SwiftUI
 struct DailyJournalView: View {
 
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
-
+  
   // journal data
-  let journal: TravelJournalDetailData
   let journalId: Int
   let dailyJournal: DailyJournal
   let dateString: String
@@ -34,8 +33,6 @@ struct DailyJournalView: View {
   /// 데일리 일정 내용이 펼쳐져 있는지 여부
   @State private var isExpanded: Bool = false
 
-  @State private var isShowingEditView: Bool = false
-
   /// 데일리 일정 삭제 확인 알림 화면 표시 여부
   @State private var isShowingJournalDeletionAlert: Bool = false
 
@@ -45,9 +42,8 @@ struct DailyJournalView: View {
   /// 데일리 일정 삭제 실패 메시지
   @State private var failureMessage: String = ""
 
-  init(journal: TravelJournalDetailData, dailyJournal: DailyJournal) {
-    self.journal = journal
-    self.journalId = journal.journalId
+  init(journalId: Int, dailyJournal: DailyJournal) {
+    self.journalId = journalId
     self.dailyJournal = dailyJournal
 
     self.dateString = dailyJournal.travelDate.dateToString(format: "yyyy.MM.dd")
@@ -77,16 +73,13 @@ struct DailyJournalView: View {
           Menu {
             Button("편집하기") {
               print("edit")
-              isShowingEditView = true
+              journalDetailVM.editedDailyJournal = dailyJournal
             }
             Button("삭제하기", role: .destructive) {
               isShowingJournalDeletionAlert = true
             }
           } label: {
             Image("menu-kebob")
-          }
-          .fullScreenCover(isPresented: $isShowingEditView) {
-            DailyJournalEditView(journal: journal, editedJournal: dailyJournal)
           }
         }
       }
