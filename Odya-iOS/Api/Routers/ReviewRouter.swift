@@ -5,51 +5,44 @@
 //  Created by Jade Yoo on 2023/07/22.
 //
 
-import Alamofire
-import SwiftUI
+import Foundation
+import Moya
 
 // 한줄리뷰 라우터
 // 한줄리뷰 CRUD
-
-enum ReviewRouter: URLRequestConvertible {
-  // MARK: - ID Token 대입
-
-  var idToken: String {
-    return "Firebase Id Token"
-  }
-
-  // MARK: - Cases
-
+enum ReviewRouter {
+  // 1. 장소리뷰 생셩
   case createReview(placeId: String, rating: Int, review: String)
-  case readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?)
-  case readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?)
+  // 2. 장소리뷰 수정
   case updateReview(id: Int, rating: Int?, review: String?)
+  // 3. 장소리뷰 삭제
   case deleteReview(reviewId: Int)
+  // 4. 장소 ID 리뷰 조회
+  case readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?)
+  // 5. 유저 ID 리뷰 조회
+  case readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?)
+}
 
-  // MARK: - Properties
-
-  var baseURL: String {
-    return "https://jayden-bin.kro.kr"
+extension ReviewRouter: TargetType, AccessTokenAuthorizable {
+  
+  var baseURL: URL {
+    return URL(string: ApiClient.BASE_URL)!
   }
-
-  var header: HTTPHeaders {
-    return [.authorization(bearerToken: idToken)]
-  }
-
-  var endPoint: String {
+  
+  var path: String {
     switch self {
+    case let .deleteReview(reviewId):
+      return "/api/v1/place-reviews/" + "\(reviewId)"
     case let .readPlaceIdReview(placeId, _, _, _):
       return "/api/v1/place-reviews/places/" + "\(placeId)"
     case let .readUserIdReview(userId, _, _, _):
       return "/api/v1/place-reviews/users/" + "\(userId)"
-    case let .deleteReview(reviewId):
-      return "/api/v1/place-reviews/" + "\(reviewId)"
     default:
       return "/api/v1/place-reviews"
     }
   }
 
-  var method: HTTPMethod {
+  var method: Moya.Method {
     switch self {
     case .createReview:
       return .post
@@ -57,59 +50,49 @@ enum ReviewRouter: URLRequestConvertible {
       return .patch
     case .deleteReview:
       return .delete
-    case .readPlaceIdReview, .readUserIdReview:
+    default:
       return .get
     }
   }
-
-  var parameter: Parameters {
+  
+  var task: Moya.Task {
     switch self {
     case let .createReview(placeId, rating, review):
-      var params = Parameters()
+      var params: [String: Any] = [:]
       params["placeId"] = placeId
       params["rating"] = rating
       params["review"] = review
-      return params
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
     case let .updateReview(id, rating, review):
-      var params = Parameters()
+      var params: [String: Any] = [:]
       params["id"] = id
       params["rating"] = rating
       params["review"] = review
-      return params
-    case .deleteReview(_):
-      let params = Parameters()
-      return params
-    case let .readPlaceIdReview(_, size, sortType, lastId):
-      var params = Parameters()
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
+    case let .readPlaceIdReview(_, size, sortType, lastId),
+      let .readUserIdReview(_, size, sortType, lastId):
+      var params: [String: Any] = [:]
       params["size"] = size
       params["sortType"] = sortType
       params["lastId"] = lastId
-      return params
-    case let .readUserIdReview(_, size, sortType, lastId):
-      var params = Parameters()
-      params["size"] = size
-      params["sortType"] = sortType
-      params["lastId"] = lastId
-      return params
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    default:
+      return .requestPlain
     }
   }
-
-  // MARK: - URLRequestConvertible
-  func asURLRequest() throws -> URLRequest {
-    let url = URL(string: baseURL)!.appendingPathComponent(endPoint)
-
-    var request = URLRequest(url: url)
-
+  
+  var headers: [String: String]? {
     switch self {
-    case .createReview, .updateReview, .deleteReview:
-      request.httpBody = try JSONEncoding.prettyPrinted.encode(request, with: parameter).httpBody
-    case .readPlaceIdReview, .readUserIdReview:
-      request = try URLEncoding.queryString.encode(request, with: parameter)
+    default:
+      return ["Content-type": "application/json"]
     }
-
-    request.method = method
-    request.headers = header
-
-    return request
+  }
+  
+  var authorizationType: Moya.AuthorizationType? {
+    return .bearer
+  }
+  
+  var validationType: ValidationType {
+    return .successCodes
   }
 }
