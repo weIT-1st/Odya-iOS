@@ -13,6 +13,11 @@ struct RankCell: View {
   let rank: Int
   let title: String
   
+  init(index rank: Int, title: String) {
+    self.rank = rank + 1
+    self.title = title
+  }
+  
   // MARK: Body
   var body: some View {
     HStack(spacing: 8) {
@@ -36,6 +41,6 @@ struct RankCell: View {
 // MARK: - Previews
 struct RankCell_Previews: PreviewProvider {
   static var previews: some View {
-    RankCell(rank: 1, title: "해운대 해수욕장")
+    RankCell(index: 1, title: "해운대 해수욕장")
   }
 }

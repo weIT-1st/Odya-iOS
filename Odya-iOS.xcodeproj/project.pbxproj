@@ -68,6 +68,7 @@
 		19DE0AA92B3EB5240079A660 /* PlaceSearchHistoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */; };
 		19DE0AB32B43D4C50079A660 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AB22B43D4C50079A660 /* Placeholder.swift */; };
 		19DE0AB52B43E3D60079A660 /* RankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AB42B43E3D60079A660 /* RankCell.swift */; };
+		19DE0ABA2B43E6FA0079A660 /* RankViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AB92B43E6FA0079A660 /* RankViewModel.swift */; };
 		19E212A82B06F376003155C0 /* ReportRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212A72B06F376003155C0 /* ReportRouter.swift */; };
 		19E212AA2B06F515003155C0 /* ReportReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212A92B06F515003155C0 /* ReportReason.swift */; };
 		19E212AC2B06F7D4003155C0 /* CommunityLikeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */; };
@@ -288,6 +289,7 @@
 		19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchHistoryRouter.swift; sourceTree = "<group>"; };
 		19DE0AB22B43D4C50079A660 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
 		19DE0AB42B43E3D60079A660 /* RankCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankCell.swift; sourceTree = "<group>"; };
+		19DE0AB92B43E6FA0079A660 /* RankViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankViewModel.swift; sourceTree = "<group>"; };
 		19E212A72B06F376003155C0 /* ReportRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRouter.swift; sourceTree = "<group>"; };
 		19E212A92B06F515003155C0 /* ReportReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReason.swift; sourceTree = "<group>"; };
 		19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeRouter.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				0708FC2E2A40D2CD00D152CF /* Map */,
 				3E15D3532B2069DA00543D34 /* Profile */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
+				19DE0AB62B43E6A40079A660 /* Ranking */,
 				0784963F2A84F45800A490E3 /* Community */,
 				192ADA9F2B0D8D5C00BD480E /* Report */,
 			);
@@ -655,7 +658,6 @@
 				07AF2B1A2A392F1600D54780 /* LocationSearchActivationView.swift */,
 				07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */,
 				07814B642A3AEAE400F71F95 /* RecentSearchCell.swift */,
-				19DE0AB42B43E3D60079A660 /* RankCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -752,6 +754,31 @@
 				199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */,
 			);
 			path = CommunityCompose;
+			sourceTree = "<group>";
+		};
+		19DE0AB62B43E6A40079A660 /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				19DE0AB72B43E6C70079A660 /* View */,
+				19DE0AB82B43E6CE0079A660 /* ViewModel */,
+			);
+			path = Ranking;
+			sourceTree = "<group>";
+		};
+		19DE0AB72B43E6C70079A660 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				19DE0AB42B43E3D60079A660 /* RankCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		19DE0AB82B43E6CE0079A660 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				19DE0AB92B43E6FA0079A660 /* RankViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3E075C8A2B22569D0093CACD /* View */ = {
@@ -1341,6 +1368,7 @@
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				3E4670162B13611100B54D0A /* AppIntroductionView.swift in Sources */,
+				19DE0ABA2B43E6FA0079A660 /* RankViewModel.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
 				3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */,
