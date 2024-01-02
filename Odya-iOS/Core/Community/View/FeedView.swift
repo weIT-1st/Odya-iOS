@@ -10,7 +10,6 @@ import SwiftUI
 enum FeedRoute: Hashable {
   case detail(Int)
   case createFeed
-  case linkedJournal(Binding<Int?>, String)
   case createJournal
 }
 
@@ -28,11 +27,12 @@ struct FeedView: View {
   @State private var selectedTopicId = -1
   /// 검색뷰 토글
   @State private var showSearchView = false
+  @State private var path = NavigationPath()
   
   // MARK: - Body
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $path) {
       GeometryReader { _ in
         ZStack(alignment: .bottomTrailing) {
           VStack(spacing: 0) {
@@ -131,13 +131,12 @@ struct FeedView: View {
         .navigationDestination(for: FeedRoute.self) { route in
           switch route {
           case let .detail(communityId):
-            FeedDetailView(communityId: communityId)
+            FeedDetailView(path: $path, communityId: communityId)
           case .createFeed:
-            CommunityComposeView(composeMode: .create)
-          case let .linkedJournal(journalId, journalTitle):
-            LinkedTravelJournalView(selectedJournalId: journalId, selectedJournalTitle: <#T##Binding<String?>#>)
+            CommunityComposeView(path: $path, composeMode: .create)
           case .createJournal:
             TravelJournalComposeView()
+              .navigationBarHidden(true)
           }
         }
       }

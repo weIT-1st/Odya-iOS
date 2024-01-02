@@ -69,6 +69,8 @@ struct CommunityComposeView: View {
   /// 탭뷰 Dot indicator 높이
   private let dotIndicatorHeight: CGFloat = 44
 
+  /// 내비게이션 스택 경로
+  @Binding var path: NavigationPath
   /// 커뮤니티 작성 모드
   let composeMode: CommunityComposeMode
   
@@ -206,7 +208,7 @@ struct CommunityComposeView: View {
   /// 여행일지 불러오기 버튼
   private var connectTravelJournalButton: some View {
     NavigationLink {
-      LinkedTravelJournalView(selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle)
+      LinkedTravelJournalView(path: $path, selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle)
     } label: {
       ZStack {
         HStack(alignment: .center, spacing: 16) {
@@ -327,8 +329,8 @@ struct CommunityComposeView: View {
 }
 
 // MARK: - Previews
-struct CommunityComposeView_Previews: PreviewProvider {
-  static var previews: some View {
-    CommunityComposeView(composeMode: .edit)
-  }
-}
+//struct CommunityComposeView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    CommunityComposeView(composeMode: .edit)
+//  }
+//}

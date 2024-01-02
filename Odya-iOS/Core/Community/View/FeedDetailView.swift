@@ -11,6 +11,8 @@ struct FeedDetailView: View {
   // MARK: Properties
   @Environment(\.presentationMode) var presentationMode
   
+  @Binding var path: NavigationPath
+  
   let testImageUrlString = "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
   
   @StateObject private var viewModel = FeedDetailViewModel()
@@ -28,11 +30,11 @@ struct FeedDetailView: View {
   // Comment
   @State private var commentCount: Int = 0
   
-  // MARK: Init
-  
-  init(communityId: Int) {
-    self.communityId = communityId
-  }
+//  // MARK: Init
+//
+//  init(communityId: Int) {
+//    self.communityId = communityId
+//  }
   
   // MARK: Body
   
@@ -163,7 +165,7 @@ struct FeedDetailView: View {
         selectedTopicId: viewModel.feedDetail.topic?.id,
         originalImageList: viewModel.feedDetail.communityContentImages,
         showPhotoPicker: false,
-        composeMode: .edit)
+        path: $path, composeMode: .edit)
     }
     .fullScreenCover(isPresented: $showReportView) {
       ReportView(reportTarget: .community, id: communityId, isPresented: $showReportView)
@@ -272,8 +274,8 @@ struct FeedDetailView: View {
 
 // MARK: - Preview
 
-struct FeedDetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    FeedDetailView(communityId: 1)
-  }
-}
+//struct FeedDetailView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    FeedDetailView(communityId: 1)
+//  }
+//}

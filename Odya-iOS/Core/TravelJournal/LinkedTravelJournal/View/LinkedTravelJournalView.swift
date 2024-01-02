@@ -13,6 +13,8 @@ struct LinkedTravelJournalView: View {
   @StateObject private var viewModel = LinkedTravelJournalViewModel()
   @State private var showChangeVisibilityAlert: Bool = false
   
+  /// 내비게이션 스택 경로
+  @Binding var path: NavigationPath
   /// 선택된 여행일지 아이디
   @Binding var selectedJournalId: Int?
   /// 상위 뷰에 표시될 여행일지 타이틀
@@ -81,6 +83,8 @@ struct LinkedTravelJournalView: View {
         Button("취소", role: .cancel) { }
         Button {
           // action: 여행일지 작성하기
+          path.removeLast(path.count)
+          path.append(FeedRoute.createJournal)
         } label: {
           Text("작성하기")
         }
@@ -128,8 +132,8 @@ struct LinkedTravelJournalView: View {
 }
 
 // MARK: - Previews
-struct LinkedTravelJournalView_Previews: PreviewProvider {
-  static var previews: some View {
-    LinkedTravelJournalView(selectedJournalId: .constant(1), selectedJournalTitle: .constant("여행일지 제목"))
-  }
-}
+//struct LinkedTravelJournalView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    LinkedTravelJournalView(selectedJournalId: .constant(1), selectedJournalTitle: .constant("여행일지 제목"))
+//  }
+//}
