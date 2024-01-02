@@ -71,7 +71,14 @@ struct LocationSearchView: View {
   private var searchBar: some View {
     HStack(spacing: 13) {
       HStack {
-        TextField("⚡️ 어디에 가고싶으신가요?", text: $viewModel.queryFragment)
+        TextField("", text: $viewModel.queryFragment)
+          .b1Style()
+          .foregroundColor(.odya.label.normal)
+          .placeholder(when: viewModel.queryFragment.isEmpty) {
+            Text("⚡️ 어디에 가고싶으신가요?")
+              .b2Style()
+              .foregroundColor(.odya.label.assistive)
+          }
           .submitLabel(.search)
           .onSubmit {
             viewModel.appendRecentSearch()
