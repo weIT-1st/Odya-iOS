@@ -8,11 +8,22 @@
 import SwiftUI
 import Photos
 
+enum StackViewType {
+  case settingView
+  case followHubView
+}
+
 struct ProfileView: View {
-  @ObservedObject var profileVM: ProfileViewModel
+  @StateObject var profileVM = ProfileViewModel()
   @StateObject var followHubVM = FollowHubViewModel()
   
+  @State private var path: [StackViewType] = []
+  
   @Environment(\.dismiss) var dismiss
+  
+  var userId: Int = -1
+  var nickname: String =  ""
+  var profileUrl: String = ""
   
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
@@ -24,20 +35,21 @@ struct ProfileView: View {
   
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
   @State private var selectedImage: [ImageData] = []
-  @State private var followState: Bool = true
+  @State private var followState: Bool? = nil
   
-  init() {
-    profileVM = ProfileViewModel()
-  }
+  init() {}
   
-  init(userId: Int, nickname: String, profileUrl: String) {
-    profileVM = ProfileViewModel(userId: userId, nickname: nickname, profileUrl: profileUrl)
+  init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool? = nil) {
+    self.userId = userId
+    self.nickname = nickname
+    self.profileUrl = profileUrl
+    self.followState = isFollowing
   }
 
   // MARK: Body
   
   var body: some View {
-    NavigationView {
+    NavigationStack(path: $path) {
       VStack(spacing: 20) {
         VStack(spacing: 24) {
           topNavigationBar
@@ -53,17 +65,31 @@ struct ProfileView: View {
         
         Spacer()
         
-        
       }
       .background(Color.odya.background.normal)
       .onAppear {
+        if userId > 0 {
+          profileVM.initData(userId, nickname, profileUrl)
+        } else {
+          let myData = MyData()
+          profileVM.initData(MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
+        }
+        
         Task {
-          if !isMyProfile {
+          if !isMyProfile && followState == nil {
             followHubVM.isMyFollowingUser(profileVM.userID) { result in
               self.followState = result
             }
           }
           await profileVM.fetchDataAsync()
+        }
+      }
+      .navigationDestination(for: StackViewType.self) { stackViewType in
+        switch stackViewType {
+        case .settingView:
+          SettingView().navigationBarBackButtonHidden()
+        case .followHubView:
+          isMyProfile ? FollowHubView().navigationBarBackButtonHidden() : FollowHubView(userId: userId).navigationBarBackButtonHidden()
         }
       }
     }
@@ -75,13 +101,9 @@ struct ProfileView: View {
     HStack(spacing: 0) {
       if isMyProfile {
         Spacer()
-        NavigationLink(
-          destination: SettingView()
-            .navigationBarHidden(true)
-        ) {
-          Image("setting")
-            .padding(10)
-        }
+        IconButton("setting") {
+          path.append(.settingView)
+        }.padding(4)
       } else {
         IconButton("direction-left") {
           dismiss()
@@ -142,11 +164,12 @@ struct ProfileView: View {
       // nickname
       HStack(spacing: 12) {
         Text(profileVM.nickname)
+          .foregroundColor(.odya.label.normal)
           .h3Style()
         
         // if not my profile, follow button
         if !isMyProfile {
-          FollowButton(isFollowing: followState, buttonStyle: .solid) {
+          FollowButton(isFollowing: followState ?? false, buttonStyle: .solid) {
             if followState == false {  // do following
               followState = true
               profileVM.statistics.followersCount += 1
@@ -189,9 +212,9 @@ struct ProfileView: View {
   // MARK: Follow Count
   
   private var followTotal: some View {
-    NavigationLink(
-      destination: isMyProfile ? FollowHubView().navigationBarHidden(true) : FollowHubView(userId: profileVM.userID).navigationBarHidden(true)
-    ) {
+    Button(action: {
+      path.append(.followHubView)
+    }) {
       HStack(spacing: 20) {
         Spacer()
         VStack {

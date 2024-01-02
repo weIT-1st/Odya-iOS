@@ -19,19 +19,23 @@ struct KakaoLoginButton: View {
       Button(action: {
         kakaoAuthVM.kakaoLogin()
       }) {
-        HStack(spacing: 0) {
-          Image("kakao-icon")
-            .resizable()
-            .scaledToFit()
-            .padding(10)
-          Text("카카오 로그인")
-            .b1Style()
-            .foregroundColor(.black)
-            .padding(10)
-            .frame(maxWidth: .infinity)
+        HStack(alignment: .center, spacing: 10) {
+          Spacer()
+          if !kakaoAuthVM.isLoginInProgress {
+            Image("kakao-icon")
+              .resizable()
+              .aspectRatio(contentMode: .fit)
+              .frame(width: 15)
+            Text("카카오 로그인")
+              .b1Style()
+              .foregroundColor(.black)
+          } else {
+            ProgressView()
+              .progressViewStyle(CircularProgressViewStyle(tint: .odya.label.inactive))
+          }
+          Spacer()
         }
         .frame(height: 44)
-        .padding(.horizontal, 8)
         .background(Color("kakao-yellow"))
         .cornerRadius(Radius.small)
       }
@@ -40,8 +44,8 @@ struct KakaoLoginButton: View {
 }
 
 // MARK: PREVIEWS
-struct KakaoLoginView_Previews: PreviewProvider {
-  static var previews: some View {
-    KakaoLoginButton()
-  }
-}
+//struct KakaoLoginView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    KakaoLoginButton()
+//  }
+//}
