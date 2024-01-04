@@ -37,7 +37,7 @@ final class FeedViewModel: ObservableObject {
     
     communityProvider.requestPublisher(
       .getAllCommunity(
-        size: 10, lastId: state.lastId ?? nil, sortType: FeedSortType.lastest.rawValue)
+        size: 10, lastId: state.lastId, sortType: FeedSortType.lastest.rawValue)
     )
     .sink { completion in
       switch completion {

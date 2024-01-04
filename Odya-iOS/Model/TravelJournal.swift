@@ -121,6 +121,7 @@ struct TravelJournalData: Codable, Identifiable {
     var startDateString: String
     var endDateString: String
     var writer: Writer
+    var visibility: String
     var travelMates : [travelMateSimple]
     
     var travelStartDate: Date {
@@ -137,6 +138,7 @@ struct TravelJournalData: Codable, Identifiable {
         case startDateString = "travelStartDate"
         case endDateString = "travelEndDate"
         case writer
+        case visibility = "visibility"
         case travelMates = "travelCompanionSimpleResponses"
     }
 }

@@ -50,8 +50,11 @@
 		19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */; };
 		19385A382B2C07C3000CB6AB /* MyCommunityCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */; };
 		19385A3E2B32D10C000CB6AB /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A3D2B32D10C000CB6AB /* UINavigationController.swift */; };
+		194417942B218A1C00423541 /* LinkedTravelJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417932B218A1C00423541 /* LinkedTravelJournalView.swift */; };
+		194417982B218A4A00423541 /* LinkedTravelJournalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */; };
+		1944179A2B21C0B500423541 /* LinkedTravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417992B21C0B500423541 /* LinkedTravelJournalViewModel.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
-		195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */; };
+		195BF2F92ACE755400E4FEDD /* ShowMoreJournalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
 		19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFD2B030BEE003D6013 /* CommentViewModel.swift */; };
 		19683B002B031244003D6013 /* CommunityComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFF2B031244003D6013 /* CommunityComment.swift */; };
@@ -206,8 +209,8 @@
 		3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549AF2A46DFD9006562F8 /* IconButton.swift */; };
 		3EF549B22A46E471006562F8 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B12A46E471006562F8 /* Radius.swift */; };
 		3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B32A46E4E3006562F8 /* GridLayout.swift */; };
-		3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */; };
-		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
+		3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */; };
+		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
 		3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B92A482B1D006562F8 /* UserAuth.swift */; };
 		3EF549FD2A5BE92F006562F8 /* ApiLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */; };
 		3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549FE2A5BE938006562F8 /* ApiClient.swift */; };
@@ -270,8 +273,11 @@
 		19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityViewModel.swift; sourceTree = "<group>"; };
 		19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityCommentCell.swift; sourceTree = "<group>"; };
 		19385A3D2B32D10C000CB6AB /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		194417932B218A1C00423541 /* LinkedTravelJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalView.swift; sourceTree = "<group>"; };
+		194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalCell.swift; sourceTree = "<group>"; };
+		194417992B21C0B500423541 /* LinkedTravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalViewModel.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
-		195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCoverButton.swift; sourceTree = "<group>"; };
+		195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreJournalButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
 		19683AFD2B030BEE003D6013 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		19683AFF2B031244003D6013 /* CommunityComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComment.swift; sourceTree = "<group>"; };
@@ -416,8 +422,8 @@
 		3EF549AF2A46DFD9006562F8 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		3EF549B12A46E471006562F8 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
 		3EF549B32A46E4E3006562F8 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
-		3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_bold.ttf"; sourceTree = "<group>"; };
-		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
+		3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_bold.ttf"; sourceTree = "<group>"; };
+		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
 		3EF549B92A482B1D006562F8 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
 		3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogger.swift; sourceTree = "<group>"; };
 		3EF549FE2A5BE938006562F8 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
@@ -715,10 +721,36 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		194417922B2189EA00423541 /* LinkedTravelJournal */ = {
+			isa = PBXGroup;
+			children = (
+				194417952B218A2900423541 /* View */,
+				194417962B218A3200423541 /* ViewModel */,
+			);
+			path = LinkedTravelJournal;
+			sourceTree = "<group>";
+		};
+		194417952B218A2900423541 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				194417932B218A1C00423541 /* LinkedTravelJournalView.swift */,
+				194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		19385A322B2AC13E000CB6AB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		194417962B218A3200423541 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				194417992B21C0B500423541 /* LinkedTravelJournalViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -973,7 +1005,7 @@
 				3EBEC3B22A6FF75D00998EC6 /* EditButton.swift */,
 				3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */,
 				0784964F2A9760CF00A490E3 /* FishchipButton.swift */,
-				195BF2F82ACE755400E4FEDD /* JournalCoverButton.swift */,
+				195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */,
 				3EE1036A2AD483F2004EDCEB /* StarButton.swift */,
 			);
 			path = Buttons;
@@ -1045,6 +1077,7 @@
 				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
 				3E699A892B00A88300850E9A /* TravelJournalCompose */,
 				3E414B312ADC15EE00034FBB /* TravelJournalEdit */,
+				194417922B2189EA00423541 /* LinkedTravelJournal */,
 			);
 			path = TravelJournal;
 			sourceTree = "<group>";
@@ -1060,8 +1093,8 @@
 		3EF549892A420015006562F8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */,
-				3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */,
+				3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */,
+				3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */,
 				3EF549902A4200EA006562F8 /* NotoSansKR-Black.otf */,
 				3EF5498C2A4200E9006562F8 /* NotoSansKR-Bold.otf */,
 				3EF5498F2A4200EA006562F8 /* NotoSansKR-Light.otf */,
@@ -1243,9 +1276,9 @@
 				3E46702A2B160DDE00B54D0A /* SplashScreenAnimation.json in Resources */,
 				3EF549942A4200EB006562F8 /* NotoSansKR-Thin.otf in Resources */,
 				3EF549962A4200EB006562F8 /* NotoSansKR-Light.otf in Resources */,
-				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
+				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
 				3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */,
-				3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */,
+				3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */,
 				071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */,
 				3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */,
 				071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */,
@@ -1289,6 +1322,7 @@
 				3EE9CA202AB6C6C3003A2E85 /* ProfileViewModel.swift in Sources */,
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
 				3E15D3562B20741A00543D34 /* POTDCardView.swift in Sources */,
+				194417942B218A1C00423541 /* LinkedTravelJournalView.swift in Sources */,
 				07589E722AF0253E00867FAD /* Topic.swift in Sources */,
 				3E46701A2B147D7200B54D0A /* TopicsView.swift in Sources */,
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
@@ -1360,6 +1394,7 @@
 				3E26C3782AF0E7EC003607A8 /* TravelJournalDetailView.swift in Sources */,
 				19683B002B031244003D6013 /* CommunityComment.swift in Sources */,
 				3ED8DBB22B10C10500D7CF7F /* ImageRouter.swift in Sources */,
+				1944179A2B21C0B500423541 /* LinkedTravelJournalViewModel.swift in Sources */,
 				3ED22F3C2A9854730067DE72 /* CustomNavigationBar.swift in Sources */,
 				3EF54A012A5BE96D006562F8 /* BaseInterceptor.swift in Sources */,
 				078496492A84F72000A490E3 /* PostImageView.swift in Sources */,
@@ -1371,7 +1406,7 @@
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */,
 				07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */,
-				195BF2F92ACE755400E4FEDD /* JournalCoverButton.swift in Sources */,
+				195BF2F92ACE755400E4FEDD /* ShowMoreJournalButton.swift in Sources */,
 				3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				07589E6C2AEFC7F300867FAD /* FeedDetailViewModel.swift in Sources */,
@@ -1433,6 +1468,7 @@
 				3E2F29782B2AFCF000FF5357 /* BookmarkedJournalListViewModel.swift in Sources */,
 				3EE9CA332AC3BD46003A2E85 /* ModalBackground.swift in Sources */,
 				078496412A84F5FE00A490E3 /* FeedView.swift in Sources */,
+				194417982B218A4A00423541 /* LinkedTravelJournalCell.swift in Sources */,
 				3E26C37E2AF0E80E003607A8 /* TravelJournalDetailViewModel.swift in Sources */,
 				3ED22F672AAF2FAE0067DE72 /* UserSuggestion.swift in Sources */,
 				3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */,
