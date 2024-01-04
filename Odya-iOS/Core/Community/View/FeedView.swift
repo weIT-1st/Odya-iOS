@@ -158,8 +158,19 @@ struct FeedView: View {
   /// 툴바
   private var feedToolBar: some View {
     HStack(alignment: .center) {
-      Image("odya-logo-s")
-        .frame(width: 48, height: 48, alignment: .center)
+      // 내 커뮤니티 활동 뷰로 연결
+      NavigationLink {
+        MyCommunityActivityView()
+      } label: {
+        ProfileImageView(profileUrl: MyData().profile, size: .S)
+          .overlay(
+            RoundedRectangle(cornerRadius: 32)
+              .inset(by: 0.5)
+              .stroke(Color.odya.brand.primary, lineWidth: 1)
+          )
+      }
+      .frame(width: 48, height: 48, alignment: .center)
+      .padding(.leading, 13)
 
       Spacer()
 

@@ -47,13 +47,14 @@ struct FollowUserListView: View {
       Group {
         switch followHubVM.currentFollowType {
         case .following:
-          FollowingUserRowView(of: user)
+          UserIdentityRowWithFollowing(of: user)
             .environmentObject(followHubVM)
         case .follower:
           FollowerUserRowView(of: user)
             .environmentObject(followHubVM)
         }
       }
+      .padding(.horizontal, GridLayout.side)
       .onAppear {
         if users.last == user {
           followHubVM.fetchMoreSubject.send()
@@ -108,7 +109,7 @@ struct SearchedUserListView: View {
           ProgressView()
           Spacer()
         }
-      }
+      }.padding(.horizontal, GridLayout.side)
     }
     .onAppear {
       followHubVM.searchFollowUsers(by: nameToSearch) { success in
@@ -144,7 +145,7 @@ struct SearchedUserListView: View {
     ForEach(users) { user in
       switch followType {
       case .following:
-        FollowingUserRowView(of: user)
+        UserIdentityRowWithFollowing(of: user)
           .environmentObject(followHubVM)
       case .follower:
         FollowerUserRowView(of: user)

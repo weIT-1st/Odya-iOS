@@ -490,26 +490,6 @@ class FollowHubViewModel: ObservableObject {
     fetchNextPage()
   }
   
-  // MARK: is My Following User
-  func isMyFollowingUser(_ userId: Int, completion: @escaping (Bool) -> Void) {
-    guard let idToken = self.idToken else {
-       return
-    }
-    
-    followingPage = 0
-    hasNextFollowingPage = true
-    followingUsers = []
-    
-    isLoadingSearchResult = true
-    fetchAllFollowingUsers(idToken: idToken, userId: MyData.userID) { [self] allUsers in
-      let ret = allUsers.contains(where: {$0.userId == userId})
-      isLoadingSearchResult = false
-      followingPage = 0
-      hasNextFollowingPage = true
-      followingUsers = []
-      completion(ret)
-    }
-  }
 
   /*
     private func fetchSearchedFollowings(by nickname: String,

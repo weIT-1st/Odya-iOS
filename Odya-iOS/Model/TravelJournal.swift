@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-//class Writer: Codable {
-//    var userId: Int
-//    var nickname: String
-//    var profile: ProfileData
-//}
-
 struct DailyJournalImage: Codable, Identifiable {
     var id = UUID()
     var imageId: Int
@@ -71,15 +65,16 @@ extension DailyJournal: Equatable {
 }
 
 struct TravelMate: Codable, Identifiable {
-    var id = UUID()
-    var userId: Int?
-    var nickname: String?
-    var profileUrl: String?
-    var isRegistered: Bool
-    
-    private enum CodingKeys: String, CodingKey {
-        case userId, nickname, profileUrl, isRegistered
-    }
+  var id = UUID()
+  var userId: Int?
+  var nickname: String?
+  var profileUrl: String?
+  var isRegistered: Bool
+  var isFollowing: Bool
+  
+  private enum CodingKeys: String, CodingKey {
+    case userId, nickname, profileUrl, isRegistered, isFollowing
+  }
 }
 
 struct TravelJournalDetailData: Codable {
@@ -89,7 +84,7 @@ struct TravelJournalDetailData: Codable {
     var endDateString: String
     var visibility: String
     var isBookmarked: Bool
-    var writer: FollowUserData
+    var writer: Writer
     var dailyJournals: [DailyJournal]
     var travelMates: [TravelMate]
     
@@ -125,7 +120,7 @@ struct TravelJournalData: Codable, Identifiable {
     var imageUrl: String
     var startDateString: String
     var endDateString: String
-    var writer: FollowUserData
+    var writer: Writer
     var visibility: String
     var travelMates : [travelMateSimple]
     
@@ -160,7 +155,7 @@ struct TaggedJournalData: Codable, Identifiable {
     var title : String
     var startDateString : String
     var mainImageUrl : String
-    var writer : FollowUserData
+    var writer : Writer
     
     var travelStartDate: Date {
         self.startDateString.toDate(format: "yyyy-MM-dd")!
@@ -188,7 +183,7 @@ class BookmarkedJournalData: Codable, Identifiable {
     var title: String
     var startDateString : String
     var mainImageUrl: String
-    var writer: FollowUserData
+    var writer: Writer
     
     var travelStartDate: Date {
         self.startDateString.toDate(format: "yyyy-MM-dd")!

@@ -9,8 +9,11 @@ import SwiftUI
 
 extension View {
   func FishchipButton(
-    isActive: ButtonActiveSate, buttonStyle: ButtonStyleType, imageName: String?, labelText: String,
-    labelSize: ComponentSizeType, action: @escaping () -> Void
+    isActive: ButtonActiveSate,
+    buttonStyle: ButtonStyleType, inactiveButtonStyle: ButtonStyleType = .basic,
+    imageName: String?,
+    labelText: String, labelSize: ComponentSizeType,
+    action: @escaping () -> Void
   ) -> some View {
     Button(action: action) {
       HStack(spacing: 8) {
@@ -31,6 +34,6 @@ extension View {
       .padding(.horizontal, 12)
       .frame(height: labelSize.FishchipButtonHeight)
     }
-    .buttonStyle(CustomButtonStyle(cornerRadius: 20, state: isActive, style: buttonStyle))
+    .buttonStyle(CustomButtonStyle(cornerRadius: 20, state: isActive, style: buttonStyle, inactiveStyle: inactiveButtonStyle))
   }
 }
