@@ -80,7 +80,9 @@ struct LinkedTravelJournalView: View {
         viewModel.fetchMyJournalListNextPageIfPossible()
       }
       .alert("작성된 여행일지가 없어요!", isPresented: $viewModel.showNoJournalAlert) {
-        Button("취소", role: .cancel) { }
+        Button("취소", role: .cancel) {
+          dismiss()
+        }
         Button {
           // action: 여행일지 작성하기
           path.removeLast(path.count)
