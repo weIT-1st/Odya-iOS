@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum FeedRoute: Hashable {
+  case detail(Int)
+  case createFeed
+  case createJournal
+}
+
 enum FeedToggleType {
   case all
   case friend
@@ -21,11 +27,12 @@ struct FeedView: View {
   @State private var selectedTopicId = -1
   /// 검색뷰 토글
   @State private var showSearchView = false
+  @State private var path = NavigationPath()
   
   // MARK: - Body
 
   var body: some View {
-    NavigationView {
+    NavigationStack(path: $path) {
       GeometryReader { _ in
         ZStack(alignment: .bottomTrailing) {
           VStack(spacing: 0) {
@@ -47,9 +54,7 @@ struct FeedView: View {
                 ForEach(viewModel.state.content, id: \.communityID) { content in
                   VStack(spacing: 0) {
                     PostImageView(urlString: content.communityMainImageURL)
-                    NavigationLink {
-                      FeedDetailView(communityId: content.communityID)
-                    } label: {
+                    NavigationLink(value: FeedRoute.detail(content.communityID), label: {
                       PostContentView(
                         communityId: content.communityID,
                         contentText: content.communityContent,
@@ -59,7 +64,7 @@ struct FeedView: View {
                         writer: content.writer,
                         isUserLiked: content.isUserLiked
                       )
-                    }
+                    })
                     .onAppear {
                       if viewModel.state.content.last == content {
                         switch selectedFeedToggle {
@@ -111,16 +116,29 @@ struct FeedView: View {
             }
           }
           .background(Color.odya.background.normal)
-
-          NavigationLink(destination: CommunityComposeView(composeMode: .create), label: {
+          
+          // 피드 작성하기
+          NavigationLink(value: FeedRoute.createFeed) {
             WriteButton()
-          })
+          }
           .padding(20)
           
           if showSearchView {
             FeedUserSearchView(isPresented: $showSearchView)
           }
         }  // ZStack
+        .toolbar(.hidden)
+        .navigationDestination(for: FeedRoute.self) { route in
+          switch route {
+          case let .detail(communityId):
+            FeedDetailView(path: $path, communityId: communityId)
+          case .createFeed:
+            CommunityComposeView(path: $path, composeMode: .create)
+          case .createJournal:
+            TravelJournalComposeView()
+              .navigationBarHidden(true)
+          }
+        }
       }
     }
   }
