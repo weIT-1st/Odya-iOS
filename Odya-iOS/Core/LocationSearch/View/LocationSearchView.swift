@@ -13,8 +13,9 @@ struct LocationSearchView: View {
   @StateObject var searchVM = LocationSearchViewModel()
   /// 랭킹 뷰모델
   @StateObject var rankVM = RankViewModel()
-  
+  /// 현재 뷰 토글
   @Binding var showLocationSearchView: Bool
+  /// 랭킹 그리드 칼럼
   let rankColumns = Array(repeating: GridItem(.flexible(minimum: 36), spacing: 0), count: 5)
   
   // MARK: - Body
@@ -27,22 +28,7 @@ struct LocationSearchView: View {
       // Show recent searches if search query is empty
       if searchVM.queryFragment.isEmpty {
         VStack(spacing: 0) {
-          HStack(alignment: .center) {
-            Text("최근검색")
-              .b1Style()
-              .foregroundColor(.odya.label.normal)
-            Spacer()
-            Button {
-              // action: 검색어 모두 삭제
-              searchVM.removeAllRecentSearch()
-            } label: {
-              Text("모두삭제")
-                .detail2Style()
-                .foregroundColor(.odya.label.assistive)
-            }
-          }
-          .padding(.horizontal, 8)
-          
+          recentSearchHeader
           // 검색어 리스트 출력
           ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
@@ -55,35 +41,11 @@ struct LocationSearchView: View {
           }
         }
         .padding(.horizontal, GridLayout.side)
-
-        Rectangle()
-          .foregroundColor(.odya.background.dimmed_dark)
-          .frame(height: 8)
-          .frame(maxWidth: .infinity)
         
+        darkDivider
         // 랭킹
-        HStack(alignment: .center) {
-          Text("🔥 오댜 핫플")
-            .b1Style()
-            .foregroundColor(.odya.label.normal)
-          Spacer()
-          Text("\(Date().dateToString(format: "MM.dd HH:mm")) 기준")
-            .detail2Style()
-            .foregroundColor(.odya.label.assistive)
-        }
-        .padding(.leading, 25)
-        .padding(.trailing, 21)
-        .padding(.top, 24)
-        .padding(.bottom, 16)
-        
-        LazyHGrid(rows: rankColumns, spacing: 12) {
-          ForEach(0..<rankVM.rankingList.count, id: \.self) { index in
-            RankCell(index: index, title: rankVM.rankingList[index])
-              .frame(minWidth: rankVM.rankingList.count >= 5 ? (UIScreen.main.bounds.width - 12 - GridLayout.side * 2) / 2 : UIScreen.main.bounds.width - 12 - GridLayout.side * 2,
-                     maxWidth: rankVM.rankingList.count >= 5 ? (UIScreen.main.bounds.width - 12 - GridLayout.side * 2) / 2 : UIScreen.main.bounds.width - 12 - GridLayout.side * 2)
-          }
-        }
-        .padding(.horizontal, GridLayout.side)
+        rankingHeader
+        rankingGrid
       } else {
         // 검색 자동완성 결과 출력
         ScrollView(.vertical, showsIndicators: false) {
@@ -107,11 +69,11 @@ struct LocationSearchView: View {
     .padding(.vertical, 24)
     .background(Color.odya.elevation.elev3)
     .task {
-//      rankVM.fetchEntireRanking()
-      rankVM.getDummy()
+      rankVM.fetchEntireRanking()
     }
   }
   
+  /// 장소검색바
   private var searchBar: some View {
     HStack(spacing: 13) {
       HStack {
@@ -160,6 +122,64 @@ struct LocationSearchView: View {
           .padding(10)
       }
     }
+  }
+  
+  /// 최근 검색 상단 헤더
+  private var recentSearchHeader: some View {
+    HStack(alignment: .center) {
+      Text("최근검색")
+        .b1Style()
+        .foregroundColor(.odya.label.normal)
+      Spacer()
+      Button {
+        // action: 검색어 모두 삭제
+        searchVM.removeAllRecentSearch()
+      } label: {
+        Text("모두삭제")
+          .detail2Style()
+          .foregroundColor(.odya.label.assistive)
+      }
+    }
+    .padding(.horizontal, 8)
+  }
+  
+  /// Divider
+  private var darkDivider: some View {
+    Rectangle()
+      .foregroundColor(.odya.background.dimmed_dark)
+      .frame(height: 8)
+      .frame(maxWidth: .infinity)
+  }
+  
+  /// 랭킹 헤더
+  private var rankingHeader: some View {
+    HStack(alignment: .center) {
+      Text("🔥 오댜 핫플")
+        .b1Style()
+        .foregroundColor(.odya.label.normal)
+      Spacer()
+      Text("\(Date().dateToString(format: "MM.dd HH:mm")) 기준")
+        .detail2Style()
+        .foregroundColor(.odya.label.assistive)
+    }
+    .padding(.leading, 25)
+    .padding(.trailing, 21)
+    .padding(.top, 24)
+    .padding(.bottom, 16)
+  }
+  
+  /// 랭킹 그리드 셀 최대 너비
+  private let maxGridWidth = UIScreen.main.bounds.width - 12 - GridLayout.side * 2
+  /// 랭킹 표시 그리드
+  private var rankingGrid: some View {
+    LazyHGrid(rows: rankColumns, spacing: 12) {
+      ForEach(0..<rankVM.rankingList.count, id: \.self) { index in
+        RankCell(index: index, title: rankVM.rankingList[index])
+          .frame(minWidth: rankVM.rankingList.count >= 5 ? maxGridWidth / 2 : maxGridWidth,
+                 maxWidth: rankVM.rankingList.count >= 5 ? maxGridWidth / 2 : maxGridWidth)
+      }
+    }
+    .padding(.horizontal, GridLayout.side)
   }
 }
 

@@ -645,8 +645,8 @@
 			isa = PBXGroup;
 			children = (
 				19DE0AB62B43E6A40079A660 /* Ranking */,
-				07AF2B1F2A39301A00D54780 /* ViewModel */,
 				07AF2B1E2A39300D00D54780 /* View */,
+				07AF2B1F2A39301A00D54780 /* ViewModel */,
 			);
 			path = LocationSearch;
 			sourceTree = "<group>";

@@ -25,9 +25,10 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
     }
   }
   /// 현재 검색 쿼리, 값 변경시 마다 검색 수행
-  @Published var queryFragment: String = "" {
+  @Published var queryFragment: String = ""
+  var debouncedQueryFragment: String = "" {
     didSet {
-      locationSearch(query: queryFragment)
+      locationSearch(query: debouncedQueryFragment)
     }
   }
   
@@ -40,6 +41,13 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var historyProvider = MoyaProvider<PlaceSearchHistoryRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
+  
+  // MARK: - Init
+  
+  override init() {
+    super.init()
+    bind()
+  }
   
   // MARK: - FUNCTIONS-Location Search
   
@@ -117,6 +125,19 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
           }
         }
       } receiveValue: { _ in }
+      .store(in: &subscription)
+  }
+}
+
+// MARK: - Extension: LocationSearchViewModel
+extension LocationSearchViewModel {
+  func bind() {
+    $queryFragment
+      .removeDuplicates()
+      .debounce(for: 0.5, scheduler: DispatchQueue.main)
+      .sink { value in
+        self.debouncedQueryFragment = value
+      }
       .store(in: &subscription)
   }
 }

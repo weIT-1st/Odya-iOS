@@ -21,6 +21,9 @@ struct HomeView: View {
 
       if showLocationSearchView {
         Color.odya.blackopacity.baseBlackAlpha50
+          .onTapGesture {
+            showLocationSearchView.toggle()
+          }
         LocationSearchView(showLocationSearchView: $showLocationSearchView)
       } else {
         HStack {
