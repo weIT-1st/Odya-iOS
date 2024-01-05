@@ -20,12 +20,21 @@ struct HomeView: View {
         .edgesIgnoringSafeArea(.top)
 
       if showLocationSearchView {
+        Color.odya.blackopacity.baseBlackAlpha50
+          .onTapGesture {
+            showLocationSearchView.toggle()
+          }
         LocationSearchView(showLocationSearchView: $showLocationSearchView)
       } else {
-        LocationSearchActivationView()
-          .onTapGesture {
-            showLocationSearchView = true
-          }
+        HStack {
+          LocationSearchActivationView()
+            .onTapGesture {
+              showLocationSearchView = true
+            }
+          Spacer()
+          // TODO: 내 오댜 / 친구 오댜만 보기 버튼
+        }
+        .padding(.leading, 23)
       }
     }
   }
