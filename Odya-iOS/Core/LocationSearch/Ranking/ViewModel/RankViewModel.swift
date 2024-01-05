@@ -42,4 +42,8 @@ final class RankViewModel: ObservableObject {
       }
       .store(in: &subscription)
   }
+  
+  func getDummy() {
+    self.rankingList = ["해운대 해수욕장", "판교역", "스타벅스", "할리스", "메가커피", "우지커피"]
+  }
 }

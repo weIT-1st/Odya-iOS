@@ -29,11 +29,16 @@ struct RankCell: View {
         Text(title)
           .detail1Style()
           .foregroundColor(.odya.label.normal)
+          .lineLimit(1)
+          .truncationMode(.tail)
       } else {
         Text(title)
           .detail2Style()
           .foregroundColor(.odya.label.normal)
+          .lineLimit(1)
+          .truncationMode(.tail)
       }
+      Spacer()
     }
   }
 }
@@ -41,6 +46,9 @@ struct RankCell: View {
 // MARK: - Previews
 struct RankCell_Previews: PreviewProvider {
   static var previews: some View {
-    RankCell(index: 1, title: "해운대 해수욕장")
+    VStack(spacing: 0) {
+      RankCell(index: 0, title: "해운대 해수욕장")
+      RankCell(index: 9, title: "해운대 해수욕장")
+    }
   }
 }

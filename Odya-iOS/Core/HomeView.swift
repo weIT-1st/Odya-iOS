@@ -20,6 +20,7 @@ struct HomeView: View {
         .edgesIgnoringSafeArea(.top)
 
       if showLocationSearchView {
+        Color.odya.blackopacity.baseBlackAlpha50
         LocationSearchView(showLocationSearchView: $showLocationSearchView)
       } else {
         HStack {

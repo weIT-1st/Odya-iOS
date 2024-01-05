@@ -580,7 +580,6 @@
 				0708FC2E2A40D2CD00D152CF /* Map */,
 				3E15D3532B2069DA00543D34 /* Profile */,
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
-				19DE0AB62B43E6A40079A660 /* Ranking */,
 				0784963F2A84F45800A490E3 /* Community */,
 				192ADA9F2B0D8D5C00BD480E /* Report */,
 			);
@@ -645,6 +644,7 @@
 		07AF2B172A392EEE00D54780 /* LocationSearch */ = {
 			isa = PBXGroup;
 			children = (
+				19DE0AB62B43E6A40079A660 /* Ranking */,
 				07AF2B1F2A39301A00D54780 /* ViewModel */,
 				07AF2B1E2A39300D00D54780 /* View */,
 			);

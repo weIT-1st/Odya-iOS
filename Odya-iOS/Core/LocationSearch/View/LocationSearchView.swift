@@ -15,7 +15,7 @@ struct LocationSearchView: View {
   @StateObject var rankVM = RankViewModel()
   
   @Binding var showLocationSearchView: Bool
-  let rankColumns = Array(repeating: GridItem(spacing: 0), count: 5)
+  let rankColumns = Array(repeating: GridItem(.flexible(minimum: 36), spacing: 0), count: 5)
   
   // MARK: - Body
   var body: some View {
@@ -67,8 +67,7 @@ struct LocationSearchView: View {
             .b1Style()
             .foregroundColor(.odya.label.normal)
           Spacer()
-          // TODO: 랭킹 기준시간
-          Text("09.09 10:00 기준")
+          Text("\(Date().dateToString(format: "MM.dd HH:mm")) 기준")
             .detail2Style()
             .foregroundColor(.odya.label.assistive)
         }
@@ -80,31 +79,36 @@ struct LocationSearchView: View {
         LazyHGrid(rows: rankColumns, spacing: 12) {
           ForEach(0..<rankVM.rankingList.count, id: \.self) { index in
             RankCell(index: index, title: rankVM.rankingList[index])
+              .frame(minWidth: rankVM.rankingList.count >= 5 ? (UIScreen.main.bounds.width - 12 - GridLayout.side * 2) / 2 : UIScreen.main.bounds.width - 12 - GridLayout.side * 2,
+                     maxWidth: rankVM.rankingList.count >= 5 ? (UIScreen.main.bounds.width - 12 - GridLayout.side * 2) / 2 : UIScreen.main.bounds.width - 12 - GridLayout.side * 2)
           }
         }
         .padding(.horizontal, GridLayout.side)
-        
       } else {
         // 검색 자동완성 결과 출력
-        ScrollView {
-          VStack(alignment: .leading) {
+        ScrollView(.vertical, showsIndicators: false) {
+          VStack(alignment: .leading, spacing: 11) {
             ForEach(searchVM.searchResults, id: \.self) { result in
               let title = result.attributedPrimaryText.string
               let subtitle = result.attributedSecondaryText?.string ?? ""
               
               LocationSearchResultCell(title: title, subtitle: subtitle)
-              
+              if result != searchVM.searchResults.last {
+                Divider()
+              }
               // Select cell -> Show detail place info
             }
           }
         } // ScrollView
+        .padding(.horizontal, GridLayout.side)
       } // if-else
     }
     .frame(maxWidth: .infinity)
     .padding(.vertical, 24)
     .background(Color.odya.elevation.elev3)
     .task {
-      rankVM.fetchEntireRanking()
+//      rankVM.fetchEntireRanking()
+      rankVM.getDummy()
     }
   }
   
