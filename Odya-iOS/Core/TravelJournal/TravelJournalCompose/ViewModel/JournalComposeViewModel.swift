@@ -43,14 +43,20 @@ class JournalComposeViewModel: ObservableObject {
   var isJournalCreating: Bool = false
 
   // travel journal data
-  @Published var title: String = ""
-  @Published var startDate = Date()
-  @Published var endDate = Date()
-  @Published var travelMates: [FollowUserData] = []
-  @Published var dailyJournalList: [DailyTravelJournal] = []
-  @Published var privacyType: PrivacyType = .global
+  var orgTitle: String
+  var orgStartDate: Date
+  var orgEndDate: Date
+  var orgTravelMates: [TravelMate]
+  var orgDailyJournals: [DailyJournal]
+  
+  @Published var title: String
+  @Published var startDate: Date
+  @Published var endDate: Date
+  @Published var travelMates: [TravelMate]
+  @Published var dailyJournalList: [DailyTravelJournal]
+  @Published var privacyType: PrivacyType
   @Published var pickedJournalIndex: Int? = nil
-
+  
   var duration: Int {
     let calendar = Calendar.current
     let components = calendar.dateComponents([.day], from: startDate, to: endDate)
@@ -58,6 +64,31 @@ class JournalComposeViewModel: ObservableObject {
       return day + 1
     }
     return 0
+  }
+  
+  // MARK: Init
+  init(title: String = "",
+       startDate: Date = Date(), endDate: Date = Date(),
+       travelMates: [TravelMate] = [],
+       dailyJournalList: [DailyJournal] = [],
+       privacyType: PrivacyType = .global) {
+    self.orgTitle = title
+    self.orgStartDate = startDate
+    self.orgEndDate = endDate
+    self.orgTravelMates = travelMates
+    self.orgDailyJournals = dailyJournalList
+    
+    self.title = title
+    self.startDate = startDate
+    self.endDate = endDate
+    self.travelMates = travelMates
+    self.dailyJournalList = []
+    self.privacyType = privacyType
+    
+    dailyJournalList.forEach {
+      self.dailyJournalList.append(DailyTravelJournal(date: $0.travelDate, isOriginal: true))
+    }
+    
   }
 
   // MARK: Functions - travel dates
@@ -154,11 +185,17 @@ class JournalComposeViewModel: ObservableObject {
     return try await withCheckedThrowingContinuation { continuation in
       journalProvider.request(
         .create(
-          token: idToken, title: title, startDate: startDate.toIntArray(),
-          endDate: endDate.toIntArray(), visibility: privacyType.toString(),
-          travelMateIds: travelMates.map { $0.userId }, travelMateNames: [],
-          dailyJournals: dailyJournalList, travelDuration: duration,
-          imagesTotalCount: webpImages.count, images: webpImages)
+          token: idToken,
+          title: title,
+          startDate: startDate.toIntArray(),
+          endDate: endDate.toIntArray(),
+          visibility: privacyType.toString(),
+          travelMateIds: travelMates.map { $0.userId! },
+          travelMateNames: [],
+          dailyJournals: dailyJournalList,
+          travelDuration: duration,
+          imagesTotalCount: webpImages.count,
+          images: webpImages)
       ) { result in
         switch result {
         case let .success(response):

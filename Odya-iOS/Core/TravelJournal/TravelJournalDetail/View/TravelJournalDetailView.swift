@@ -16,7 +16,34 @@ struct TravelJournalDetailView: View {
 
   let journalId: Int
   let writerNickname: String
+  
+  var title: String {
+    guard let journal = journalDetailVM.journalDetail else {
+      return ""
+    }
+    return journal.title
+  }
+  
+  var startDate: Date {
+    guard let journal = journalDetailVM.journalDetail else {
+      return Date()
+    }
+    return journal.travelStartDate
+  }
+  var endDate: Date {
+    guard let journal = journalDetailVM.journalDetail else {
+      return Date()
+    }
+    return journal.travelEndDate
+  }
 
+  var mates: [TravelMate] {
+    guard let journal = journalDetailVM.journalDetail else {
+      return []
+    }
+    return journal.travelMates
+  }
+  
   var isBookmarked: Bool {
     guard let journal = journalDetailVM.journalDetail else {
       return false
@@ -28,9 +55,13 @@ struct TravelJournalDetailView: View {
     self.journalId = journalId
     self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
   }
-
+  
+  
   /// 메뉴 버튼 클릭 시에 메뉴 화면 표시 여부
   @State private var isShowingMeatballMenu: Bool = false
+
+  /// 여행일지 편집 화면 표시 여부
+  @State private var isShowingJournalEditView: Bool = false
 
   /// 데일리 일정 삭제 확인 알림 화면 표시 여부
   @State private var isShowingJournalDeletionAlert: Bool = false
@@ -42,6 +73,28 @@ struct TravelJournalDetailView: View {
   @State private var failureMessage: String = ""
 
   // MARK: Body
+  
+//  init(journal: TravelJournalData) {
+//    self.journalId = journal.journalId
+//    let nickname = journal.writer.nickname
+//    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
+//  }
+//
+//  init(journal: TaggedJournalData) {
+//    self.journalId = journal.journalId
+//    let nickname = journal.writer.nickname
+//    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
+//    self.startDate = journal.travelStartDate
+//    self.endDate = journal.travelEndDate
+//  }
+//
+//  init(journal: BookmarkedJournalData) {
+//    self.journalId = journal.journalId
+//    let nickname = journal.writer.nickname
+//    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
+//    self.startDate = journal.travelStartDate
+//    self.endDate = journal.travelEndDate
+//  }
 
   var body: some View {
     ZStack {
@@ -97,12 +150,21 @@ struct TravelJournalDetailView: View {
     }
     // 메뉴 버튼 클릭
     .confirmationDialog("", isPresented: $isShowingMeatballMenu) {
+      Button("편집") {
+        isShowingJournalEditView = true
+      }.disabled(journalDetailVM.journalDetail == nil)
       Button("공유") { print("공유 클릭") }
-      // Button("수정") { print("수정 클릭") }
       Button("삭제", role: .destructive) {
         isShowingJournalDeletionAlert = true
       }
       Button("닫기", role: .cancel) { print("닫기 클릭") }
+    }
+    .fullScreenCover(isPresented: $isShowingJournalEditView) {
+      TravelJournalEditView(title: title,
+                            startDate: startDate,
+                            endDate: endDate,
+                            mates: mates,
+                            dailyJournals: journalDetailVM.journalDetail?.dailyJournals ?? [])
     }
     // 여행일지 삭제 클릭 시 alert
     .alert("해당 여행일지를 삭제할까요?", isPresented: $isShowingJournalDeletionAlert) {

@@ -64,19 +64,6 @@ extension DailyJournal: Equatable {
 
 }
 
-struct TravelMate: Codable, Identifiable {
-  var id = UUID()
-  var userId: Int?
-  var nickname: String?
-  var profileUrl: String?
-  var isRegistered: Bool
-  var isFollowing: Bool
-  
-  private enum CodingKeys: String, CodingKey {
-    case userId, nickname, profileUrl, isRegistered, isFollowing
-  }
-}
-
 struct TravelJournalDetailData: Codable {
     var journalId: Int = -1
     var title: String

@@ -2,16 +2,16 @@
 //  TravelJournalEditView.swift
 //  Odya-iOS
 //
-//  Created by Heeoh Son on 2023/08/17.
+//  Created by Heeoh Son on 2023/12/31.
 //
 
 import SwiftUI
 
-struct TravelJournalComposeView: View {
+struct TravelJournalEditView: View {
   // MARK: Properties
 
-  @StateObject var journalComposeVM = JournalComposeViewModel()
-
+  @ObservedObject var journalComposeVM: JournalComposeViewModel
+  
   @State var isShowingImagePickerSheet = false
 
   @State var isDatePickerVisible = false
@@ -32,6 +32,14 @@ struct TravelJournalComposeView: View {
   }
 
   @Environment(\.dismiss) var dismiss
+  
+  init(title: String = "", startDate: Date, endDate: Date, mates: [TravelMate], dailyJournals: [DailyJournal]) {
+    self.journalComposeVM = JournalComposeViewModel(title: title,
+                                                    startDate: startDate,
+                                                    endDate: endDate,
+                                                    travelMates: mates,
+                                                    dailyJournalList: dailyJournals)
+  }
 
   // MARK: Body
 
@@ -39,19 +47,11 @@ struct TravelJournalComposeView: View {
     NavigationView {
       ZStack {
         Color.odya.background.normal
-          .edgesIgnoringSafeArea(.bottom)
+          .edgesIgnoringSafeArea(.all)
 
         VStack(spacing: 0) {
-          ZStack {
-            CustomNavigationBar(title: "여행일지 작성하기")
-            HStack {
-              IconButton("direction-left") {
-                isDismissAlertVisible = true
-              }.padding(.leading, 8)
-              Spacer()
-            }
-          }.background(Color.odya.background.normal)
-
+          headerBar
+          
           ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
               TravelJournalInfoEditView(isDatePickerVisible: $isDatePickerVisible)
@@ -63,55 +63,29 @@ struct TravelJournalComposeView: View {
             }
           }
         }
-
-        // 여행일지 날짜 선택 뷰
-        if isDatePickerVisible {
-          TravelDatePickerView(
-            journalComposeVM: journalComposeVM, isDatePickerVisible: $isDatePickerVisible
-          )
-          .padding(GridLayout.side)
-          .frame(maxHeight: .infinity)
-          .background(Color.odya.blackopacity.baseBlackAlpha80)
-        }
-
-        // 데일리 일정 날짜 선태 뷰
-        if isDailyDatePickerVisible {
-          DailyJournalDatePicker(
-            journalComposeVM: journalComposeVM, isDatePickerVisible: $isDailyDatePickerVisible
-          )
-          .padding(GridLayout.side)
-          .frame(maxHeight: .infinity)
-          .background(Color.odya.blackopacity.baseBlackAlpha80)
-        }
       }
       .onAppear {
-        journalComposeVM.addDailyJournal()
+        if journalComposeVM.dailyJournalList.isEmpty {
+          journalComposeVM.addDailyJournal()
+        }
       }
-      .confirmationDialog("", isPresented: $isDismissAlertVisible) {
-        Button("임시저장") { print("임시저장 클릭") }
-        Button("작성취소", role: .destructive) {
-          print("작성취소 클릭")
-          dismiss()
-        }
-        Button("취소", role: .cancel) { print("취소 클릭") }
-      } message: {
-        Text("작성 중인 글을 취소하시겠습니까?\n작성 취소 선택시, 작성된 글은 저장되지 않습니다.")
+      // 여행일지 날짜 선택 뷰
+      .fullScreenCover(isPresented: $isDatePickerVisible) {
+        TravelDatePickerView(
+          journalComposeVM: journalComposeVM, isDatePickerVisible: $isDatePickerVisible
+        )
+        .padding(GridLayout.side)
+        .frame(maxHeight: .infinity)
+        .background(Color.odya.blackopacity.baseBlackAlpha80)
       }
-      .alert("작성한 여행일지를\n등록하시겠습니까?", isPresented: $isRegisterAlertVisible) {
-        Button("취소") {
-          isRegisterAlertVisible = false
-        }
-        Button("등록") {
-          isRegisterAlertVisible = false
-          // 검사
-          if journalComposeVM.validateTravelJournal() {
-            // api
-            Task {
-              await journalComposeVM.registerTravelJournal()
-            }
-            dismiss()
-          }
-        }
+      // 데일리 일정 날짜 선태 뷰
+      .fullScreenCover(isPresented: $isDailyDatePickerVisible) {
+        DailyJournalDatePicker(
+          journalComposeVM: journalComposeVM, isDatePickerVisible: $isDailyDatePickerVisible
+        )
+        .padding(GridLayout.side)
+        .frame(maxHeight: .infinity)
+        .background(Color.odya.blackopacity.baseBlackAlpha80)
       }
     }
   }  // body
@@ -123,6 +97,28 @@ struct TravelJournalComposeView: View {
       .background(Color.odya.blackopacity.baseBlackAlpha50)
   }
 
+  private var headerBar: some View {
+    ZStack {
+      CustomNavigationBar(title: "여행일지 편집하기")
+      HStack {
+        IconButton("direction-left") {
+          isDismissAlertVisible = true
+        }.padding(.leading, 8)
+        Spacer()
+      }
+      // 뒤로가기 버튼 클릭 시 alert
+      .confirmationDialog("", isPresented: $isDismissAlertVisible) {
+        Button("작성취소", role: .destructive) {
+          print("작성취소 클릭")
+          dismiss()
+        }
+        Button("취소", role: .cancel) { print("취소 클릭") }
+      } message: {
+        Text("작성 중인 글을 취소하시겠습니까?\n작성 취소 선택시, 작성된 글은 저장되지 않습니다.")
+      }
+    }
+  }
+  
   // MARK: Journal List Edit Section
   private var jounalListEditSection: some View {
     VStack(alignment: .leading) {
@@ -147,10 +143,14 @@ struct TravelJournalComposeView: View {
 
       if journalComposeVM.canAddMoreDailyJournals() {
         dailyJournalAddButton
-          .padding(20)
+          .padding(.horizontal, 20)
+          .padding(.vertical, 12)
       }
-    }.background(Color.odya.background.normal)
+    }
+    .padding(.bottom, 8)
+    .background(Color.odya.background.normal)
   }
+  
 
   private var dailyJournalAddButton: some View {
     Button(action: {
@@ -195,6 +195,23 @@ struct TravelJournalComposeView: View {
         }
       )
       .padding(.bottom, 28)
+      // 등록하기 버튼 클릭 시 alert
+      .alert("작성한 여행일지를\n등록하시겠습니까?", isPresented: $isRegisterAlertVisible) {
+        Button("취소") {
+          isRegisterAlertVisible = false
+        }
+        Button("등록") {
+          isRegisterAlertVisible = false
+          // 검사
+          if journalComposeVM.validateTravelJournal() {
+            // api
+            Task {
+              await journalComposeVM.registerTravelJournal()
+            }
+            dismiss()
+          }
+        }
+      }
     }
     .padding(.horizontal, 20)
     .background(Color.odya.background.normal)
@@ -255,8 +272,8 @@ struct TravelJournalComposeView: View {
 }
 
 // MARK: Previews
-struct TravelJournalComposeView_Previews: PreviewProvider {
+struct TravelJournalEditView_Previews: PreviewProvider {
   static var previews: some View {
-    TravelJournalComposeView()
+    TravelJournalEditView(title: "kkkk", startDate: Date(), endDate: Date(), mates: [], dailyJournals: [DailyJournal(dailyJournalId: 1, content: "", latitudes: [], longitudes: [], travelDateString: "2024-01-01", images: [])])
   }
 }

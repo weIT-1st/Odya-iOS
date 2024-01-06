@@ -37,9 +37,10 @@ struct DailyTravelJournal: Identifiable {
   var date: Date? = nil
   var content: String = ""
   var selectedImages: [ImageData] = []
-    var placeId: String? = nil
-    var latitudes: [Double] = []
-    var longitudes: [Double] = []
+  var placeId: String? = nil
+  var latitudes: [Double] = []
+  var longitudes: [Double] = []
+  var isOriginal: Bool = false
 
   func getDayIndex(startDate: Date) -> Int {
     let calendar = Calendar.current
