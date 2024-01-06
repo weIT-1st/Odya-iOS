@@ -22,7 +22,7 @@ extension ProfileView {
 
 struct BookmarkedJournalListinProfileView: View {
   @Binding var path: [StackViewType]
-  @StateObject var VM = JournalsInProfileViewModel()
+  @EnvironmentObject var VM: JournalsInProfileViewModel
   
   var body: some View {
     ZStack(alignment: .center) {
@@ -36,6 +36,7 @@ struct BookmarkedJournalListinProfileView: View {
         ScrollView(.horizontal, showsIndicators: false) {
           LazyHStack(spacing: 8) {
             ForEach(VM.bookmarkedJournals, id: \.id) { journal in
+              
               Button(action: {
                 path.append(.journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
               }) {
@@ -48,9 +49,10 @@ struct BookmarkedJournalListinProfileView: View {
                   VM.fetchMoreSubject.send()
                 }
               }
-            }
-          }
-        }
+              
+            } // ForEach
+          } // LazyHStack
+        } // ScrollView
       }
     }.task {
       await VM.fetchDataAsync()

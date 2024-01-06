@@ -14,10 +14,15 @@ import SwiftUI
 class JournalsInProfileViewModel: ObservableObject {
   // moya
   @AppStorage("WeITAuthToken") var idToken: String?
-  private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
-  private lazy var journalProvider = MoyaProvider<TravelJournalRouter>(plugins: [plugin])
+  private let logPlugin: PluginType = NetworkLoggerPlugin(
+    configuration: .init(logOptions: .verbose))
+  private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
+  private lazy var journalProvider = MoyaProvider<TravelJournalBookmarkRouter>(
+    session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
-  @Published var appDataManager = AppDataManager()
+  
+  let isMyProfile: Bool
+  let userId: Int
   
   // loadingFlag
   var isBookmarkedJournalsLoading: Bool = false
@@ -30,12 +35,19 @@ class JournalsInProfileViewModel: ObservableObject {
   var hasNextBookmarkedJournals: Bool = true
   var fetchMoreSubject = PassthroughSubject<(), Never>()
   
-  init() {
+  init(isMyProfile: Bool, userId: Int) {
+    self.isMyProfile = isMyProfile
+    self.userId = userId
+    
     fetchMoreSubject.sink{ [weak self] _ in
       guard let self = self else {
         return
       }
-      self.getBookmarkedJournals(idToken: idToken ?? "")
+      if isMyProfile {
+        self.getMyBookmarkedJournals()
+      } else {
+        self.getOthersBookmarkedJournals(userId: userId)
+      }
     }.store(in: &subscription)
   }
   // MARK: Fetch Data
@@ -53,37 +65,72 @@ class JournalsInProfileViewModel: ObservableObject {
   /// api를 통해 여행일지들을 가져옴
   /// 내 여행일지, 즐겨찾기된 여행일지, 테그된 여행일지 가져올 수 있음
   func fetchDataAsync() async {
-    guard let idToken = idToken else {
-      return
+    if isMyProfile {
+      self.getMyBookmarkedJournals()
+    } else {
+      self.getOthersBookmarkedJournals(userId: userId)
     }
-    getBookmarkedJournals(idToken: idToken)
   }
 
   // MARK: Get Bookmarked Journals
   
   func updateBookmarkedJournals() {
-    guard let idToken = idToken else {
-      return
-    }
-    
     isBookmarkedJournalsLoading = false
     hasNextBookmarkedJournals = true
     lastIdOfBookmarkedJournals = nil
     bookmarkedJournals = []
     
-    getBookmarkedJournals(idToken: idToken)
+    if isMyProfile {
+      self.getMyBookmarkedJournals()
+    } else {
+      self.getOthersBookmarkedJournals(userId: userId)
+    }
   }
 
-  private func getBookmarkedJournals(idToken: String) {
+  private func getMyBookmarkedJournals() {
     if isBookmarkedJournalsLoading || !hasNextBookmarkedJournals {
       return
     }
 
     self.isBookmarkedJournalsLoading = true
     journalProvider.requestPublisher(
-      .getBookmarkedJournals(token: idToken, size: nil, lastId: self.lastIdOfBookmarkedJournals)
+      .getMyBookmarkedJournals(size: nil, lastId: self.lastIdOfBookmarkedJournals)
     )
-    .filterSuccessfulStatusCodes()
+    .sink { completion in
+      switch completion {
+      case .finished:
+        self.isBookmarkedJournalsLoading = false
+      case .failure(let error):
+        self.isBookmarkedJournalsLoading = false
+
+        guard let apiError = try? error.response?.map(ErrorData.self) else {
+          // error data decoding error handling
+          return
+        }
+        // other api error handling
+      }
+    } receiveValue: { response in
+      do {
+        let responseData = try response.map(BookmarkedJournalList.self)
+        self.hasNextBookmarkedJournals = responseData.hasNext
+        self.bookmarkedJournals += responseData.content
+        self.lastIdOfBookmarkedJournals = responseData.content.last?.bookmarkId
+      } catch {
+        print("bookmarked journal list decoding error")
+        return
+      }
+    }.store(in: &subscription)
+  }
+  
+  private func getOthersBookmarkedJournals(userId: Int) {
+    if isBookmarkedJournalsLoading || !hasNextBookmarkedJournals {
+      return
+    }
+
+    self.isBookmarkedJournalsLoading = true
+    journalProvider.requestPublisher(
+      .getOthersBookmarkedJournals(userId: userId, size: nil, lastId: self.lastIdOfBookmarkedJournals)
+    )
     .sink { completion in
       switch completion {
       case .finished:
@@ -96,17 +143,7 @@ class JournalsInProfileViewModel: ObservableObject {
           // unknown error
           return
         }
-
-        if apiError.code == -11000 {
-          self.appDataManager.refreshToken { success in
-            // token error handling
-            if success {
-              self.getBookmarkedJournals(idToken: self.idToken ?? "")
-              return
-            }
-          }
-        }
-      // other api error handling
+        // other api error handling
       }
     } receiveValue: { response in
       do {

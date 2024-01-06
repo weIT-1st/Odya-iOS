@@ -28,6 +28,7 @@ struct ProfileView: View {
   // viewModel
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followButtonVM = FollowButtonViewModel()
+  @ObservedObject var bookmarkedJournalsVM: JournalsInProfileViewModel
 
   // navigation stack
   @Binding var rootTabViewIdx: Int
@@ -46,6 +47,8 @@ struct ProfileView: View {
 
   init(_ rootTabViewIdx: Binding<Int>) {
     self._rootTabViewIdx = rootTabViewIdx
+    self.bookmarkedJournalsVM = JournalsInProfileViewModel(isMyProfile: true,
+                                                           userId: MyData.userID)
   }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
@@ -54,6 +57,8 @@ struct ProfileView: View {
     self.nickname = nickname
     self.profileUrl = profileUrl
     self.isFollowing = isFollowing
+    self.bookmarkedJournalsVM = JournalsInProfileViewModel(isMyProfile: false,
+                                                           userId: userId)
   }
 
   // MARK: Body
@@ -101,6 +106,7 @@ struct ProfileView: View {
             bookmarkedJournalTitle
               .padding(.horizontal, GridLayout.side)
             BookmarkedJournalListinProfileView(path: $path)
+              .environmentObject(bookmarkedJournalsVM)
               .padding(.leading, GridLayout.side)
           }
           

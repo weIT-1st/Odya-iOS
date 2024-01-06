@@ -183,6 +183,7 @@ class BookmarkedJournalData: Codable, Identifiable {
     var mainImageUrl: String
     var writer: Writer
     
+  
     var travelStartDate: Date {
         self.startDateString.toDate(format: "yyyy-MM-dd")!
     }
@@ -225,4 +226,19 @@ class BookmarkedJournalList: Codable {
 //                                )
 //                             ],
 //                             travelMates: [])
+//}
+
+
+//{"travelJournalBookmarkId":93,
+//  "travelJournalId":82,
+//  "title":"익선동 나들이",
+//  "travelStartDate":"2023.11.16",
+//  "travelJournalMainImageUrl":"https://objectstorage.ap-chuncheon-1.oraclecloud.com/p/6cEmHDvRE0ZvBU2sGxWHUK8rzW-IVD2lt5t8-t8BRA_2P8FweLeGSGcuKaWReo0E/n/axivk99fjind/b/Odya-stable/o/da4d2da7-2e24-4a.webp",
+//  "writer":{"userId":81,
+//    "nickname":"희오",
+//    "profile":{"profileUrl":"https://objectstorage.ap-chuncheon-1.oraclecloud.com/p/IHvskqSkXDvKg5XVAxqSkj8ps0TLKhNJ3RRUkr8MBW09IUOinN_IdN2-Cj5TNhcp/n/axivk99fjind/b/Odya-stable/o/9d14c937-4eab-47.webp",
+//      "profileColor":null
+//    },
+//    "isFollowing":false
+//  }
 //}
