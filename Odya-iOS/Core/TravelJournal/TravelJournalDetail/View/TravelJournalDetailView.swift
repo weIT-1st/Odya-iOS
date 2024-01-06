@@ -18,45 +18,34 @@ struct TravelJournalDetailView: View {
   let writerNickname: String
   
   var title: String {
-    guard let journal = journalDetailVM.journalDetail else {
-      return ""
-    }
-    return journal.title
+    journalDetailVM.journalDetail?.title ?? ""
   }
   
   var startDate: Date {
-    guard let journal = journalDetailVM.journalDetail else {
-      return Date()
-    }
-    return journal.travelStartDate
+    journalDetailVM.journalDetail?.travelStartDate ?? Date()
   }
   var endDate: Date {
-    guard let journal = journalDetailVM.journalDetail else {
-      return Date()
-    }
-    return journal.travelEndDate
+    journalDetailVM.journalDetail?.travelEndDate ?? Date()
   }
 
   var mates: [TravelMate] {
-    guard let journal = journalDetailVM.journalDetail else {
-      return []
-    }
-    return journal.travelMates
+    journalDetailVM.journalDetail?.travelMates ?? []
   }
   
   var isBookmarked: Bool {
-    guard let journal = journalDetailVM.journalDetail else {
-      return false
-    }
-    return journal.isBookmarked
+    journalDetailVM.journalDetail?.isBookmarked ?? false
+  }
+  
+  var dailyJournals: [DailyJournal] {
+    journalDetailVM.journalDetail?.dailyJournals ?? []
+  }
+  
+  var privacyType: PrivacyType {
+    let privacyTypeStr = journalDetailVM.journalDetail?.visibility ?? ""
+    return privacyTypeStr.toJournalPrivacyType()
   }
 
-  init(journalId: Int, nickname: String = "") {
-    self.journalId = journalId
-    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
-  }
-  
-  
+ 
   /// 메뉴 버튼 클릭 시에 메뉴 화면 표시 여부
   @State private var isShowingMeatballMenu: Bool = false
 
@@ -72,8 +61,12 @@ struct TravelJournalDetailView: View {
   /// 데일리 일정 삭제 실패 시 뜨는 오류 메시지
   @State private var failureMessage: String = ""
 
-  // MARK: Body
+  // MARK: Init
   
+  init(journalId: Int, nickname: String = "") {
+    self.journalId = journalId
+    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
+  }
 //  init(journal: TravelJournalData) {
 //    self.journalId = journal.journalId
 //    let nickname = journal.writer.nickname
@@ -96,6 +89,8 @@ struct TravelJournalDetailView: View {
 //    self.endDate = journal.travelEndDate
 //  }
 
+  // MARK: Body
+  
   var body: some View {
     ZStack {
       GeometryReader { geometry in
@@ -160,11 +155,13 @@ struct TravelJournalDetailView: View {
       Button("닫기", role: .cancel) { print("닫기 클릭") }
     }
     .fullScreenCover(isPresented: $isShowingJournalEditView) {
-      TravelJournalEditView(title: title,
+      TravelJournalEditView(journalId: journalId,
+                            title: title,
                             startDate: startDate,
                             endDate: endDate,
                             mates: mates,
-                            dailyJournals: journalDetailVM.journalDetail?.dailyJournals ?? [])
+                            dailyJournals: dailyJournals,
+                            privacyType: privacyType)
     }
     // 여행일지 삭제 클릭 시 alert
     .alert("해당 여행일지를 삭제할까요?", isPresented: $isShowingJournalDeletionAlert) {

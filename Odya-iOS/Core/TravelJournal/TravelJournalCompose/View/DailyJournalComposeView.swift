@@ -9,9 +9,13 @@ import Photos
 import SwiftUI
 
 private struct DailyJournalHeaderBar: View {
+  @EnvironmentObject var journalComposeVM: JournalComposeViewModel
+  
+  let dailyJournal: DailyTravelJournal
   let dayIndexString: String
   
-  @State private var isShowingDailyJournalDeleteAlert: Bool = false
+  @State private var isShowingDeletionAlert: Bool = false
+  @State private var isShowingNotEnoughAlert: Bool = false
   
   var body: some View {
     HStack(spacing: 8) {
@@ -23,28 +27,33 @@ private struct DailyJournalHeaderBar: View {
       Spacer()
       
       Button(action: {
-        isShowingDailyJournalDeleteAlert = true
+        isShowingDeletionAlert = true
       }) {
         Text("삭제하기")
           .font(Font.custom("Noto Sans KR", size: 14))
           .underline()
           .foregroundColor(.odya.label.assistive)
       }.padding(.trailing, 8)
-        .alert("해당 날짜의 여행일지를 삭제할까요?", isPresented: $isShowingDailyJournalDeleteAlert) {
+        .alert("해당 날짜의 여행일지를 삭제할까요?", isPresented: $isShowingDeletionAlert) {
           HStack {
             Button("취소", role: .cancel) {
-              isShowingDailyJournalDeleteAlert = false
+              isShowingDeletionAlert = false
             }
             Button("삭제", role: .destructive) {
-              isShowingDailyJournalDeleteAlert = false
-              // original -> delete api
-              
-              // journalComposeVM.deleteDailyJournal(dailyJournal: dailyJournal)
+              isShowingDeletionAlert = false
+              if journalComposeVM.dailyJournalList.count <= 1 {
+                isShowingNotEnoughAlert = true
+              } else {
+                print("delete daily journal \(dailyJournal)")
+                // original -> delete api
+                journalComposeVM.deleteDailyJournalWithApi(dailyJournal: dailyJournal)
+              }
             }
           }
         } message: {
           Text("삭제된 내용은 복구될 수 없습니다.")
         }
+        .alert("최소 1개의 여행일정이 필요합니다.", isPresented: $isShowingNotEnoughAlert) {}
       
       // TODO: 꾹 눌러서 이동하는 기능 추가
       IconButton("menu-hamburger-l") {
@@ -102,12 +111,13 @@ struct DailyJournalComposeView: View {
   // MARK: Header bar
   
   private var originalDailyJournal: some View {
-    DailyJournalHeaderBar(dayIndexString: dayIndexString)
-      .padding(.horizontal, 20)
-      .padding(.vertical, 16)
-      .background(Color.odya.elevation.elev2)
-      .clipShape(RoundedEdgeShape(edgeType: .top))
-      
+    DailyJournalHeaderBar(dailyJournal: dailyJournal,
+                          dayIndexString: dayIndexString)
+    .environmentObject(journalComposeVM)
+    .padding(.horizontal, 20)
+    .padding(.vertical, 16)
+    .background(Color.odya.elevation.elev2)
+    .clipShape(RoundedEdgeShape(edgeType: .top))
   }
   
   private var headerBar: some View {

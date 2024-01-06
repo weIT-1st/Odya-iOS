@@ -12,6 +12,8 @@ struct TravelJournalEditView: View {
 
   @ObservedObject var journalComposeVM: JournalComposeViewModel
   
+  let journalId: Int
+  
   @State var isShowingImagePickerSheet = false
 
   @State var isDatePickerVisible = false
@@ -33,12 +35,21 @@ struct TravelJournalEditView: View {
 
   @Environment(\.dismiss) var dismiss
   
-  init(title: String = "", startDate: Date, endDate: Date, mates: [TravelMate], dailyJournals: [DailyJournal]) {
-    self.journalComposeVM = JournalComposeViewModel(title: title,
+  init(journalId: Int,
+       title: String = "",
+       startDate: Date,
+       endDate: Date,
+       mates: [TravelMate],
+       dailyJournals: [DailyJournal],
+       privacyType: PrivacyType) {
+    self.journalId = journalId
+    self.journalComposeVM = JournalComposeViewModel(journalId: journalId,
+      title: title,
                                                     startDate: startDate,
                                                     endDate: endDate,
                                                     travelMates: mates,
-                                                    dailyJournalList: dailyJournals)
+                                                    dailyJournalList: dailyJournals,
+                                                    privacyType: privacyType)
   }
 
   // MARK: Body
@@ -205,9 +216,7 @@ struct TravelJournalEditView: View {
           // 검사
           if journalComposeVM.validateTravelJournal() {
             // api
-            Task {
-              await journalComposeVM.registerTravelJournal()
-            }
+            journalComposeVM.updateTravelJournal(journalId: journalId)
             dismiss()
           }
         }
@@ -274,6 +283,6 @@ struct TravelJournalEditView: View {
 // MARK: Previews
 struct TravelJournalEditView_Previews: PreviewProvider {
   static var previews: some View {
-    TravelJournalEditView(title: "kkkk", startDate: Date(), endDate: Date(), mates: [], dailyJournals: [DailyJournal(dailyJournalId: 1, content: "", latitudes: [], longitudes: [], travelDateString: "2024-01-01", images: [])])
+    TravelJournalEditView(journalId: 1, title: "kkkk", startDate: Date(), endDate: Date(), mates: [], dailyJournals: [DailyJournal(dailyJournalId: 1, content: "", latitudes: [], longitudes: [], travelDateString: "2024-01-01", images: [])], privacyType: .global)
   }
 }

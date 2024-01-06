@@ -86,6 +86,8 @@
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
 		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
+		3E065B302B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E065B2F2B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift */; };
+		3E065B322B493C7000162472 /* DailyJournalDeletionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E065B312B493C7000162472 /* DailyJournalDeletionButton.swift */; };
 		3E075C872B21F9530093CACD /* POTDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C862B21F9530093CACD /* POTDViewModel.swift */; };
 		3E075C892B222F030093CACD /* POTDRegisterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C882B222F030093CACD /* POTDRegisterModal.swift */; };
 		3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C8B2B2256CB0093CACD /* UserImage.swift */; };
@@ -307,6 +309,8 @@
 		3E0589022A276E8C005C29D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3E0589042A276EAD005C29D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3E0589052A277063005C29D9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		3E065B2F2B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDeletionButtonViewModel.swift; sourceTree = "<group>"; };
+		3E065B312B493C7000162472 /* DailyJournalDeletionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDeletionButton.swift; sourceTree = "<group>"; };
 		3E075C862B21F9530093CACD /* POTDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDViewModel.swift; sourceTree = "<group>"; };
 		3E075C882B222F030093CACD /* POTDRegisterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDRegisterModal.swift; sourceTree = "<group>"; };
 		3E075C8B2B2256CB0093CACD /* UserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImage.swift; sourceTree = "<group>"; };
@@ -1047,6 +1051,8 @@
 				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
 				3E699A892B00A88300850E9A /* TravelJournalCompose */,
 				3E414B312ADC15EE00034FBB /* TravelJournalEdit */,
+				3E065B2F2B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift */,
+				3E065B312B493C7000162472 /* DailyJournalDeletionButton.swift */,
 			);
 			path = TravelJournal;
 			sourceTree = "<group>";
@@ -1347,6 +1353,7 @@
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
 				3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */,
+				3E065B302B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift in Sources */,
 				19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */,
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3E075C912B230A1C0093CACD /* PofileInfoSection.swift in Sources */,
@@ -1369,6 +1376,7 @@
 				078496492A84F72000A490E3 /* PostImageView.swift in Sources */,
 				3EE9CA312AC3B64C003A2E85 /* PresentationDetent.swift in Sources */,
 				3EF7C1F32A81099000223366 /* UserInfoEditView.swift in Sources */,
+				3E065B322B493C7000162472 /* DailyJournalDeletionButton.swift in Sources */,
 				3E4670352B1FB8CD00B54D0A /* UserIdentityLink.swift in Sources */,
 				19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,

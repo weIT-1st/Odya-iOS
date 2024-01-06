@@ -43,11 +43,14 @@ class JournalComposeViewModel: ObservableObject {
   var isJournalCreating: Bool = false
 
   // travel journal data
+  let journalId: Int
+  
   var orgTitle: String
   var orgStartDate: Date
   var orgEndDate: Date
   var orgTravelMates: [TravelMate]
   var orgDailyJournals: [DailyJournal]
+  var orgPrivacyType: PrivacyType
   
   @Published var title: String
   @Published var startDate: Date
@@ -67,16 +70,20 @@ class JournalComposeViewModel: ObservableObject {
   }
   
   // MARK: Init
-  init(title: String = "",
+  init(journalId: Int = -1,
+       title: String = "",
        startDate: Date = Date(), endDate: Date = Date(),
        travelMates: [TravelMate] = [],
        dailyJournalList: [DailyJournal] = [],
        privacyType: PrivacyType = .global) {
+    self.journalId = journalId
+    
     self.orgTitle = title
     self.orgStartDate = startDate
     self.orgEndDate = endDate
     self.orgTravelMates = travelMates
     self.orgDailyJournals = dailyJournalList
+    self.orgPrivacyType = privacyType
     
     self.title = title
     self.startDate = startDate
@@ -86,7 +93,7 @@ class JournalComposeViewModel: ObservableObject {
     self.privacyType = privacyType
     
     dailyJournalList.forEach {
-      self.dailyJournalList.append(DailyTravelJournal(date: $0.travelDate, isOriginal: true))
+      self.dailyJournalList.append(DailyTravelJournal(date: $0.travelDate, dailyJournalId: $0.dailyJournalId, isOriginal: true))
     }
     
   }
@@ -229,9 +236,6 @@ class JournalComposeViewModel: ObservableObject {
       let images = dailyJournalList.flatMap { $0.selectedImages }
       let webPImages = await webPImageManager.processImages(images: images)
 
-      //      print(images.count)
-      //      print(webPImages.count)
-
       // api 호출
       _ = try await createJournalAPI(idToken: idToken, webpImages: webPImages)
 
@@ -254,32 +258,6 @@ class JournalComposeViewModel: ObservableObject {
       }
     }
 
-    //        journalProvider.requestPublisher(
-    //            .create(token: idToken, title: title, startDate: startDate.toIntArray(), endDate: endDate.toIntArray(), visibility: privacyType.toString(), travelMateIds: travelMates.map{ $0.userId }, travelMateNames: travelMates.map{ $0.nickname }, dailyJournals: dailyJournalList, travelDuration: duration, imagesTotalCount: webpImages.count, images: webpImages))
-    //        .filterSuccessfulStatusCodes()
-    //        .sink { completion in
-    //            switch completion {
-    //            case .finished:
-    //                self.isJournalCreating = false
-    //                print("여행일지 등록 성공")
-    //            case .failure(let error):
-    //                self.isJournalCreating = false
-    //
-    //                guard let apiError = try? error.response?.map(ErrorData.self) else {
-    //                    // error data decoding error handling
-    //                    // unknown error
-    //                    return
-    //                }
-
-    //if apiError.code == -11000 {
-    //    self.appDataManager.refreshToken { success in
-    //        // token error handling
-    //        if success {
-    //            self.registerTravelJournal()
-    //            return
-    //        }
-    //    }
-    //}
     // other api error handling
     //  1-3 실패 - 제목이 20자가 넘는 경우
     //  1-4 실패 - 여행 일지 콘텐츠가 15개 초과인 경우
@@ -307,6 +285,40 @@ class JournalComposeViewModel: ObservableObject {
 
   }
 
+  func updateTravelJournal(journalId: Int) {
+    guard let idToken = self.idToken else {
+      return
+    }
+    
+    journalProvider.requestPublisher(
+      .edit(token: idToken,
+            journalId: journalId,
+            title: title,
+            startDate: startDate.toIntArray(),
+            endDate: endDate.toIntArray(),
+            visibility: privacyType.toString(),
+            travelMateIds: travelMates.map { $0.userId! },
+            travelMateNames: [],
+            travelDuration: duration,
+            newTravelMatesCount: travelMates.count)
+    )
+    .filterSuccessfulStatusCodes()
+    .sink { apiCompletion in
+      switch apiCompletion {
+      case .finished:
+        print("success")
+      case .failure(let error):
+        guard let errorData = try? error.response?.map(ErrorData.self) else {
+          print("update travel journal error response decoding error")
+          debugPrint(error)
+          return
+        }
+        print(errorData.message)
+      }
+    } receiveValue: { _ in }
+    .store(in: &subscription)
+  }
+  
   // MARK: Functions - daily journal
 
   func canAddMoreDailyJournals() -> Bool {
@@ -323,6 +335,50 @@ class JournalComposeViewModel: ObservableObject {
 
   func deleteDailyJournal(dailyJournal: DailyTravelJournal) {
     dailyJournalList = dailyJournalList.filter { $0 != dailyJournal }
+  }
+  
+  var isDailyJournalDeleting: Bool = false
+  
+  func deleteDailyJournalWithApi(dailyJournal: DailyTravelJournal) {
+    guard let idToken = idToken else {
+      return
+    }
+
+    if isDailyJournalDeleting {
+      return
+    }
+
+    isDailyJournalDeleting = true
+    journalProvider.requestPublisher(
+      .deleteContent(token: idToken, journalId: self.journalId, contentId: dailyJournal.dailyJournalId)
+    )
+    .filterSuccessfulStatusCodes()
+    .sink { apiCompletion in
+      switch apiCompletion {
+      case .finished:
+        self.isDailyJournalDeleting = false
+        self.deleteDailyJournal(dailyJournal: dailyJournal)
+      case .failure(let error):
+        self.isDailyJournalDeleting = false
+        guard let apiError = try? error.response?.map(ErrorData.self) else {
+          // error data decoding error handling
+          // unknown error
+          return
+        }
+
+        if apiError.code == -11000 {
+          self.appDataManager.refreshToken { success in
+            // token error handling
+            if success {
+              self.deleteDailyJournalWithApi(dailyJournal: dailyJournal)
+              return
+            }
+          }
+        }
+        // other api error handling
+      }
+    } receiveValue: { _ in }
+    .store(in: &subscription)
   }
 
 }

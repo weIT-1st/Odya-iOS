@@ -34,12 +34,17 @@ extension ImageData: Equatable {
 
 struct DailyTravelJournal: Identifiable {
   var id = UUID()
+  
+  // data for composing
   var date: Date? = nil
   var content: String = ""
   var selectedImages: [ImageData] = []
   var placeId: String? = nil
   var latitudes: [Double] = []
   var longitudes: [Double] = []
+  
+  // data for updating
+  var dailyJournalId: Int = -1
   var isOriginal: Bool = false
 
   func getDayIndex(startDate: Date) -> Int {
