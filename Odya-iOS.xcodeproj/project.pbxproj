@@ -14,8 +14,8 @@
 		071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5232A20A99F00C7B362 /* LoginView.swift */; };
 		071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5252A20A9A000C7B362 /* Assets.xcassets */; };
 		071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */; };
+		072D7BE02B4977F60045C75B /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D7BDF2B4977F60045C75B /* StarRatingView.swift */; };
 		07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DAE2A6BB0CD0047E972 /* ReviewRouter.swift */; };
-		07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DB32A7284160047E972 /* ReviewViewModel.swift */; };
 		07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DB52A7286380047E972 /* ReviewApiService.swift */; };
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
 		07589E682AE80B0B00867FAD /* TopicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E672AE80B0B00867FAD /* TopicLayout.swift */; };
@@ -41,6 +41,9 @@
 		07AF2B1B2A392F1600D54780 /* LocationSearchActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1A2A392F1600D54780 /* LocationSearchActivationView.swift */; };
 		07AF2B1D2A392F7800D54780 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */; };
 		07AF2B212A39303800D54780 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */; };
+		07B221222B491BBB006C2B20 /* PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B221212B491BBB006C2B20 /* PlaceDetailView.swift */; };
+		07B221242B491D32006C2B20 /* ReviewComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B221232B491D32006C2B20 /* ReviewComposeView.swift */; };
+		07B221262B491D92006C2B20 /* ReviewComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
 		192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA02B0D8D7E00BD480E /* ReportView.swift */; };
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
@@ -240,8 +243,8 @@
 		071FA5232A20A99F00C7B362 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		071FA5252A20A9A000C7B362 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		071FA5282A20A9A000C7B362 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		072D7BDF2B4977F60045C75B /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		07310DAE2A6BB0CD0047E972 /* ReviewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRouter.swift; sourceTree = "<group>"; };
-		07310DB32A7284160047E972 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		07310DB52A7286380047E972 /* ReviewApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApiService.swift; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		07589E672AE80B0B00867FAD /* TopicLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicLayout.swift; sourceTree = "<group>"; };
@@ -267,6 +270,9 @@
 		07AF2B1A2A392F1600D54780 /* LocationSearchActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivationView.swift; sourceTree = "<group>"; };
 		07AF2B1C2A392F7800D54780 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
 		07AF2B202A39303800D54780 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
+		07B221212B491BBB006C2B20 /* PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailView.swift; sourceTree = "<group>"; };
+		07B221232B491D32006C2B20 /* ReviewComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewComposeView.swift; sourceTree = "<group>"; };
+		07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewComposeViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
 		192ADAA02B0D8D7E00BD480E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
@@ -601,7 +607,9 @@
 		07310DB02A7282D30047E972 /* Review */ = {
 			isa = PBXGroup;
 			children = (
-				07310DB32A7284160047E972 /* ReviewViewModel.swift */,
+				07B221232B491D32006C2B20 /* ReviewComposeView.swift */,
+				07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */,
+				072D7BDF2B4977F60045C75B /* StarRatingView.swift */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -686,6 +694,7 @@
 			isa = PBXGroup;
 			children = (
 				07B2211D2B491AA0006C2B20 /* View */,
+				07B2211E2B491B80006C2B20 /* PlaceDetail */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -694,6 +703,22 @@
 			isa = PBXGroup;
 			children = (
 				0707A1C32A45A37100AE6E4D /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		07B2211E2B491B80006C2B20 /* PlaceDetail */ = {
+			isa = PBXGroup;
+			children = (
+				07B2211F2B491B9A006C2B20 /* View */,
+			);
+			path = PlaceDetail;
+			sourceTree = "<group>";
+		};
+		07B2211F2B491B9A006C2B20 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07B221212B491BBB006C2B20 /* PlaceDetailView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1387,6 +1412,7 @@
 				19E212AE2B070A77003155C0 /* FollowButtonViewModel.swift in Sources */,
 				19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */,
 				3EF54A0D2A5BEB22006562F8 /* AuthApiService.swift in Sources */,
+				072D7BE02B4977F60045C75B /* StarRatingView.swift in Sources */,
 				079303C92AE3525E008550B3 /* TopicGridView.swift in Sources */,
 				07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */,
 				19E212B02B07289F003155C0 /* CommunityLikeViewModel.swift in Sources */,
@@ -1441,7 +1467,6 @@
 				192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */,
 				19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
-				07310DB42A7284160047E972 /* ReviewViewModel.swift in Sources */,
 				3EEBB7D12A8F3A8500F0049D /* DailyJournalEditView.swift in Sources */,
 				19DE0AB32B43D4C50079A660 /* Placeholder.swift in Sources */,
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
@@ -1460,8 +1485,10 @@
 				19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
 				3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */,
+				07B221222B491BBB006C2B20 /* PlaceDetailView.swift in Sources */,
 				07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */,
 				195BF2F92ACE755400E4FEDD /* ShowMoreJournalButton.swift in Sources */,
+				07B221262B491D92006C2B20 /* ReviewComposeViewModel.swift in Sources */,
 				3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */,
 				3EF549B22A46E471006562F8 /* Radius.swift in Sources */,
 				07589E6C2AEFC7F300867FAD /* FeedDetailViewModel.swift in Sources */,
@@ -1537,6 +1564,7 @@
 				19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */,
 				3E4670332B1F4F7700B54D0A /* AdditionalSetUpView.swift in Sources */,
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
+				07B221242B491D32006C2B20 /* ReviewComposeView.swift in Sources */,
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
 				19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */,

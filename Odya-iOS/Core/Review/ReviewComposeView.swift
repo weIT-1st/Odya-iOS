@@ -1,0 +1,71 @@
+//
+//  ReviewComposeView.swift
+//  Odya-iOS
+//
+//  Created by Jade Yoo on 2024/01/06.
+//
+
+import SwiftUI
+
+/// 한줄리뷰 작성뷰
+struct ReviewComposeView: View {
+  // MARK: Properties
+  @StateObject private var viewModel = ReviewComposeViewModel()
+  @Binding var placeId: String
+  
+  // MARK: Body
+  var body: some View {
+    VStack(spacing: 18) {
+      title
+      
+      VStack(spacing: 16) {
+        // 별점
+        StarRatingView(rating: $viewModel.rating)
+        contentEditView
+      }
+      .padding(.horizontal, GridLayout.side)
+      
+      CTAButton(isActive: viewModel.validate() ? .active : .inactive, buttonStyle: .solid, labelText: "등록하기", labelSize: .L) {
+        // action: 한줄리뷰 생성
+        viewModel.createReview(placeId: placeId)
+      }
+      .disabled(!viewModel.validate())
+    }
+    .padding(GridLayout.side)
+  }
+  
+  private var title: some View {
+    HStack {
+      Text("리뷰 작성")
+        .h4Style()
+        .foregroundColor(.odya.label.normal)
+      Spacer()
+    }
+    .padding(.horizontal, GridLayout.side)
+  }
+  
+  /// 리뷰 내용 작성 텍스트필드
+  private var contentEditView: some View {
+    VStack {
+      TextField("", text: $viewModel.reviewText)
+        .b1Style()
+        .foregroundColor(.odya.label.normal)
+        .placeholder(when: viewModel.reviewText.isEmpty) {
+          Text("리뷰를 작성해주세요 ( 30자 이내 )")
+            .b2Style()
+            .foregroundColor(.odya.label.alternative)
+        }
+    }
+    .padding(15)
+    .frame(height: 138, alignment: .topLeading)
+    .background(Color.odya.elevation.elev6)
+    .cornerRadius(Radius.medium)
+  }
+}
+
+// MARK: - Previews
+struct ReviewComposeView_Previews: PreviewProvider {
+  static var previews: some View {
+    ReviewComposeView(placeId: .constant(""))
+  }
+}
