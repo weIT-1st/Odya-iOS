@@ -213,8 +213,8 @@
 		3EF549B02A46DFD9006562F8 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549AF2A46DFD9006562F8 /* IconButton.swift */; };
 		3EF549B22A46E471006562F8 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B12A46E471006562F8 /* Radius.swift */; };
 		3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B32A46E4E3006562F8 /* GridLayout.swift */; };
-		3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */; };
-		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
+		3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */; };
+		3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */; };
 		3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549B92A482B1D006562F8 /* UserAuth.swift */; };
 		3EF549FD2A5BE92F006562F8 /* ApiLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */; };
 		3EF549FF2A5BE938006562F8 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF549FE2A5BE938006562F8 /* ApiClient.swift */; };
@@ -430,8 +430,8 @@
 		3EF549AF2A46DFD9006562F8 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		3EF549B12A46E471006562F8 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
 		3EF549B32A46E4E3006562F8 /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
-		3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_bold.ttf"; sourceTree = "<group>"; };
-		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
+		3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_bold.ttf"; sourceTree = "<group>"; };
+		3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "한국기계연구원_Light.ttf"; sourceTree = "<group>"; };
 		3EF549B92A482B1D006562F8 /* UserAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuth.swift; sourceTree = "<group>"; };
 		3EF549FC2A5BE92F006562F8 /* ApiLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiLogger.swift; sourceTree = "<group>"; };
 		3EF549FE2A5BE938006562F8 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
@@ -580,11 +580,11 @@
 		071FA5352A20AE6C00C7B362 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				07B2211C2B491A8C006C2B20 /* Home */,
 				3ED22F612AADBBF70067DE72 /* Follow */,
 				3ED22F3F2AAA343E0067DE72 /* Image */,
 				3EEBB7CB2A8E240600F0049D /* TravelJournal */,
 				07A0EC7F2A3F9333002D36B9 /* RootTabView.swift */,
-				0707A1C32A45A37100AE6E4D /* HomeView.swift */,
 				3E36EC722A2B596C006008E5 /* MainView.swift */,
 				3E4670132B13542100B54D0A /* SplashView.swift */,
 				3E9E988F2A8B79FE00909653 /* Auth */,
@@ -682,6 +682,22 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		07B2211C2B491A8C006C2B20 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				07B2211D2B491AA0006C2B20 /* View */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		07B2211D2B491AA0006C2B20 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0707A1C32A45A37100AE6E4D /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		07DFFC102A2F6EA6006A2FB9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -731,6 +747,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		19385A322B2AC13E000CB6AB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		194417922B2189EA00423541 /* LinkedTravelJournal */ = {
 			isa = PBXGroup;
 			children = (
@@ -747,14 +771,6 @@
 				194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		19385A322B2AC13E000CB6AB /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		194417962B218A3200423541 /* ViewModel */ = {
@@ -1128,8 +1144,8 @@
 		3EF549892A420015006562F8 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */,
-				3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */,
+				3EF549B52A46ED30006562F8 /* 한국기계연구원_bold.ttf */,
+				3EF549B62A46ED30006562F8 /* 한국기계연구원_Light.ttf */,
 				3EF549902A4200EA006562F8 /* NotoSansKR-Black.otf */,
 				3EF5498C2A4200E9006562F8 /* NotoSansKR-Bold.otf */,
 				3EF5498F2A4200EA006562F8 /* NotoSansKR-Light.otf */,
@@ -1312,9 +1328,9 @@
 				3E46702A2B160DDE00B54D0A /* SplashScreenAnimation.json in Resources */,
 				3EF549942A4200EB006562F8 /* NotoSansKR-Thin.otf in Resources */,
 				3EF549962A4200EB006562F8 /* NotoSansKR-Light.otf in Resources */,
-				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
+				3EF549B72A46ED30006562F8 /* 한국기계연구원_bold.ttf in Resources */,
 				3EF549912A4200EA006562F8 /* NotoSansKR-Medium.otf in Resources */,
-				3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */,
+				3EF549B82A46ED30006562F8 /* 한국기계연구원_Light.ttf in Resources */,
 				071FA5292A20A9A000C7B362 /* Preview Assets.xcassets in Resources */,
 				3EF549922A4200EA006562F8 /* NotoSansKR-Regular.otf in Resources */,
 				071FA5262A20A9A000C7B362 /* Assets.xcassets in Resources */,
@@ -1663,7 +1679,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1687,7 +1703,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.10;
+				MARKETING_VERSION = 0.1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1709,7 +1725,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1733,7 +1749,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.10;
+				MARKETING_VERSION = 0.1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
