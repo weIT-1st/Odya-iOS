@@ -10,7 +10,8 @@ import SwiftUI
 struct HomeView: View {
   // MARK: Properties
 
-  @State private var showLocationSearchView = false
+  @State private var showLocationSearchView: Bool = false
+  @State private var showPlaceDetailView: Bool = false
 
   // MARK: Body
 
@@ -24,8 +25,8 @@ struct HomeView: View {
           .onTapGesture {
             showLocationSearchView.toggle()
           }
-        LocationSearchView(showLocationSearchView: $showLocationSearchView)
-      } else {
+        LocationSearchView(isPresented: $showLocationSearchView, showPlaceDetail: $showPlaceDetailView)
+      } else if !showPlaceDetailView {
         HStack {
           LocationSearchActivationView()
             .onTapGesture {
@@ -36,6 +37,9 @@ struct HomeView: View {
         }
         .padding(.leading, 23)
       }
+    }
+    .transparentFullScreenCover(isPresented: $showPlaceDetailView) {
+      PlaceDetailView(isPresented: $showPlaceDetailView)
     }
   }
 }

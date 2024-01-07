@@ -32,6 +32,8 @@ struct ReviewComposeView: View {
       .disabled(!viewModel.validate())
     }
     .padding(GridLayout.side)
+    .padding(.top, 20)
+    .background(Color.odya.background.normal)
   }
   
   private var title: some View {
@@ -47,7 +49,7 @@ struct ReviewComposeView: View {
   /// 리뷰 내용 작성 텍스트필드
   private var contentEditView: some View {
     VStack {
-      TextField("", text: $viewModel.reviewText)
+      TextField("", text: $viewModel.reviewText, axis: .vertical)
         .b1Style()
         .foregroundColor(.odya.label.normal)
         .placeholder(when: viewModel.reviewText.isEmpty) {
@@ -57,8 +59,8 @@ struct ReviewComposeView: View {
         }
     }
     .padding(15)
-    .frame(height: 138, alignment: .topLeading)
-    .background(Color.odya.elevation.elev6)
+    .frame(maxHeight: .infinity, alignment: .topLeading)
+    .background(Color.odya.elevation.elev3)
     .cornerRadius(Radius.medium)
   }
 }

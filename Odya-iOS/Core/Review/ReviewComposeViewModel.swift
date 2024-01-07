@@ -28,6 +28,12 @@ final class ReviewComposeViewModel: ObservableObject {
   // MARK: Helper functions
   
   func validate() -> Bool {
+    if reviewText.count > 30 {
+      DispatchQueue.main.async {
+        self.reviewText.removeLast()
+      }
+    }
+    
     if reviewText.isEmpty || rating == 0.0 {
       return false
     } else if reviewText.count > 30 {
