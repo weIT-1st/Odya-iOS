@@ -119,32 +119,34 @@ struct TravelJournalDetailData: Codable {
 
 
 struct TravelJournalData: Codable, Identifiable {
-    var id = UUID()
-    var journalId: Int
-    var title: String
-    var content : String
-    var imageUrl: String
-    var startDateString: String
-    var endDateString: String
-    var writer: Writer
-    var travelMates : [travelMateSimple]
-    
-    var travelStartDate: Date {
-        self.startDateString.toDate(format: "yyyy-MM-dd")!
-    }
-    var travelEndDate: Date {
-        self.endDateString.toDate(format: "yyyy-MM-dd")!
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case journalId = "travelJournalId"
-        case title, content
-        case imageUrl = "contentImageUrl"
-        case startDateString = "travelStartDate"
-        case endDateString = "travelEndDate"
-        case writer
-        case travelMates = "travelCompanionSimpleResponses"
-    }
+  var id = UUID()
+  var journalId: Int
+  var title: String
+  var content : String
+  var imageUrl: String
+  var startDateString: String
+  var endDateString: String
+  var writer: Writer
+  var travelMates : [travelMateSimple]
+  var isBookmarked: Bool
+  
+  var travelStartDate: Date {
+    self.startDateString.toDate(format: "yyyy-MM-dd")!
+  }
+  var travelEndDate: Date {
+    self.endDateString.toDate(format: "yyyy-MM-dd")!
+  }
+  
+  private enum CodingKeys: String, CodingKey {
+    case journalId = "travelJournalId"
+    case title, content
+    case imageUrl = "contentImageUrl"
+    case startDateString = "travelStartDate"
+    case endDateString = "travelEndDate"
+    case writer
+    case travelMates = "travelCompanionSimpleResponses"
+    case isBookmarked
+  }
 }
 
 struct TravelJournalList: Codable {
