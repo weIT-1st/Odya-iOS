@@ -16,26 +16,32 @@ extension ProfileView {
 
 struct FavoritePlaceListView: View {
   @Binding var rootTabViewIdx: Int
-  // @StateObject var VM = FavoritePlaceInProfileViewModel()
+  @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
   
   var body: some View {
-    VStack(spacing: 0) {
-      // ForEach(VM.favoritePlaces, id: \.id) { place in
-      ForEach(Array(0...3), id: \.self) { idx in
-        FavoritePlaceRow()
-        
-        if idx != 3 { // not last
-          Divider().frame(height: 1).background(Color.odya.line.alternative)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 20)
+    VStack(spacing: 32) {
+      ForEach(VM.favoritePlaces, id: \.id) { place in
+        VStack(spacing: 0) {
+          FavoritePlaceRow(favoritePlace: place)
+          
+          if let last = VM.favoritePlaces.last,
+             place.id != last.id { // not last
+            Divider().frame(height: 1).background(Color.odya.line.alternative)
+              .padding(.horizontal, 10)
+              .padding(.vertical, 20)
+          }
         }
-        
       }
       
       morePlacesButton
-        .padding(.top, 32)
     }
-      
+    .task {
+      await VM.fetchDataAsync()
+    }
+    .onDisappear {
+      VM.initData()
+    }
+
   }
   
   var morePlacesButton: some View {
@@ -43,7 +49,7 @@ struct FavoritePlaceListView: View {
       rootTabViewIdx = 0
     }) {
       HStack(spacing: 10) {
-        Text("12개의 관심장소 더보기")
+        Text("\(VM.placesCount)개의 관심장소 더보기")
           .detail1Style()
         Image("more-off")
           .renderingMode(.template)
@@ -62,8 +68,8 @@ struct FavoritePlaceListView: View {
   }
 }
 
-struct FavoritePlaceListView_Previews: PreviewProvider {
-  static var previews: some View {
-    FavoritePlaceListView(rootTabViewIdx: .constant(3))
-  }
-}
+//struct FavoritePlaceListView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    FavoritePlaceListView(rootTabViewIdx: .constant(3))
+//  }
+//}

@@ -29,6 +29,7 @@ struct ProfileView: View {
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followButtonVM = FollowButtonViewModel()
   @ObservedObject var bookmarkedJournalsVM: JournalsInProfileViewModel
+  @ObservedObject var favoritePlacesVM: FavoritePlaceInProfileViewModel
 
   // navigation stack
   @Binding var rootTabViewIdx: Int
@@ -49,6 +50,8 @@ struct ProfileView: View {
     self._rootTabViewIdx = rootTabViewIdx
     self.bookmarkedJournalsVM = JournalsInProfileViewModel(isMyProfile: true,
                                                            userId: MyData.userID)
+    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(isMyProfile: true,
+                                                           userId: MyData.userID)
   }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
@@ -58,6 +61,8 @@ struct ProfileView: View {
     self.profileUrl = profileUrl
     self.isFollowing = isFollowing
     self.bookmarkedJournalsVM = JournalsInProfileViewModel(isMyProfile: false,
+                                                           userId: userId)
+    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(isMyProfile: false,
                                                            userId: userId)
   }
 
@@ -116,6 +121,7 @@ struct ProfileView: View {
           VStack(spacing: 36) {
             favoritePlaceTitle
             FavoritePlaceListView(rootTabViewIdx: $rootTabViewIdx)
+              .environmentObject(favoritePlacesVM)
           }.padding(.horizontal, GridLayout.side)
 
           // 내 커뮤니티 활동으로 가기

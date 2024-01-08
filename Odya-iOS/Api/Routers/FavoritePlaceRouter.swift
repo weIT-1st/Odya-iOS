@@ -16,7 +16,9 @@ enum FavoritePlaceRouter {
   // 4. 관심 장소 수 조회
   case getFavoritePlacesCount
   // 5. 관심 장소 리스트 조회
-  case getFavoritePlaces(size: Int?, sortType: PlaceSortType?, lastId: Int?)
+  case getMyFavoritePlaces(size: Int?, sortType: PlaceSortType?, lastId: Int?)
+  // 6. 타인의 관심 장소 리스트 조회
+  case getOthersFavoritePlaces(userId: Int, size: Int?, sortType: PlaceSortType?, lastId: Int?)
 }
 
 extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
@@ -28,8 +30,10 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
     switch self {
     case .getFavoritePlacesCount:
       return "/api/v1/favorite-places/counts"
-    case .getFavoritePlaces:
+    case .getMyFavoritePlaces:
       return "/api/v1/favorite-places/list"
+    case let .getOthersFavoritePlaces(userId, _, _, _):
+      return "/api/v1/favorite-places/list/\(userId)"
     }
   }
   
@@ -42,17 +46,12 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
   
   var task: Moya.Task {
     switch self {
-    case let .getFavoritePlaces(size, sortType, lastId):
+    case let .getMyFavoritePlaces(size, sortType, lastId),
+      let .getOthersFavoritePlaces(_, size, sortType, lastId):
       var params: [String: Any] = [:]
-      if let size = size {
-        params["size"] = size
-      }
-      if let sortType = sortType {
-        params["sortType"] = sortType
-      }
-      if let lastId = lastId {
-        params["lastId"] = lastId
-      }
+      params["size"] = size
+      params["sortType"] = sortType
+      params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain

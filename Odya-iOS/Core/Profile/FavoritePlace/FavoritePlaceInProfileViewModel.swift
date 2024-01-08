@@ -14,10 +14,15 @@ import Moya
 class FavoritePlaceInProfileViewModel: ObservableObject {
   // moya
   @AppStorage("WeITAuthToken") var idToken: String?
-  private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
-  private lazy var placeProvider = MoyaProvider<FavoritePlaceRouter>(plugins: [plugin])
+  private let logPlugin: PluginType = NetworkLoggerPlugin(
+    configuration: .init(logOptions: .verbose))
+  private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
+  private lazy var placeProvider = MoyaProvider<FavoritePlaceRouter>(
+    session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
-  @Published var appDataManager = AppDataManager()
+  
+  let isMyProfile: Bool
+  let userId: Int
   
   // loadingFlag
   var isFavoritePlacesLoading: Bool = false
@@ -27,26 +32,70 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
   @Published var favoritePlaces: [FavoritePlace] = []
   @Published var placesCount: Int = 0
   
+  init(isMyProfile: Bool, userId: Int) {
+    self.isMyProfile = isMyProfile
+    self.userId = userId
+  }
+  
   // MARK: Fetch Data
 
-  /// api를 통해 관심장소 리스트, 관심 장소 수를 가져옴
-  func fetchDataAsync() async {
+  /// Fetch Data를 하기 전 초기화
+  func initData() {
+    // place list
     isFavoritePlacesLoading = false
     favoritePlaces = []
-    getFavoritePlaces()
-    
+
+    // count
     isCounting = false
+  }
+  
+  /// api를 통해 관심장소 리스트, 관심 장소 수를 가져옴
+  func fetchDataAsync() async {
+    
+    if isMyProfile {
+      self.getMyFavoritePlaces()
+    } else {
+      self.getOthersFavoritePlaces(userId: userId)
+    }
+    
     getCount()
   }
 
-  private func getFavoritePlaces() {
+  private func getMyFavoritePlaces() {
     if isFavoritePlacesLoading {
       return
     }
 
     self.isFavoritePlacesLoading = true
     placeProvider.requestPublisher(
-      .getFavoritePlaces(size: 4, sortType: nil, lastId: nil))
+      .getMyFavoritePlaces(size: 4, sortType: nil, lastId: nil))
+    .sink { completion in
+      switch completion {
+      case .finished:
+        self.isFavoritePlacesLoading = false
+      case .failure(let error):
+        self.isFavoritePlacesLoading = false
+        self.doErrorHandling(error)
+      }
+    } receiveValue: { response in
+      do {
+        let responseData = try response.map(FavoritePlacesResponse.self)
+        self.favoritePlaces = responseData.content
+      } catch {
+        print("favorite place list decoding error")
+        return
+      }
+    }.store(in: &subscription)
+  }
+  
+  private func getOthersFavoritePlaces(userId: Int) {
+    if isFavoritePlacesLoading {
+      return
+    }
+
+    self.isFavoritePlacesLoading = true
+    placeProvider.requestPublisher(
+      .getOthersFavoritePlaces(userId: userId, size: 4, sortType: nil, lastId: nil))
     .sink { completion in
       switch completion {
       case .finished:
