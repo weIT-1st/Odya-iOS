@@ -24,6 +24,7 @@ struct BookmarkedJournalCardView: View {
     self.dateString = journal.startDateString
     self.writer = journal.writer
     self.imageUrl = journal.mainImageUrl
+    self.isBookmarked = journal.isBookmarked
   }
   
   var body: some View {
@@ -43,7 +44,8 @@ struct BookmarkedJournalCardView: View {
             .lineLimit(1)
           Spacer()
           StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
-            bookmarkManager.setBookmarkState(isBookmarked, journalId) { _ in
+            bookmarkManager.setBookmarkState(isBookmarked, journalId) { result in
+              isBookmarked = result
               VM.updateBookmarkedJournals()
             }
           }
