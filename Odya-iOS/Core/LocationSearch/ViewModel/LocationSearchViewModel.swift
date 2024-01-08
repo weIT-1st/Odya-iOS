@@ -33,6 +33,7 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
   }
   
   let placeClient = GMSPlacesClient()
+  var placeToken = GMSAutocompleteSessionToken.init()
   
   // MARK: PlaceSearchHistory
   /// Provider
@@ -54,12 +55,12 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
   /// 검색 문자열로 장소 검색
   func locationSearch(query: String) {
     /// 검색 자동완성 토큰
-    let token = GMSAutocompleteSessionToken.init()
+    placeToken = GMSAutocompleteSessionToken.init()
     
     searchResults = []
     placeClient.findAutocompletePredictions(fromQuery: query,
                                             filter: .none,
-                                            sessionToken: token) { results, error in
+                                            sessionToken: placeToken) { results, error in
       if let results = results {
         self.searchResults = results
       }
@@ -68,13 +69,9 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
         print(error.localizedDescription)
       }
     }
-    // TODO: - detail 뷰로 토큰 전달
-    /**
-     * Create a new session token. Be sure to use the same token for calling
-     * findAutocompletePredictions, as well as the subsequent place details request.
-     * This ensures that the user's query and selection are billed as a single session.
-     */
   }
+  
+  
   
   // MARK: - FUNCTIONS-Update Recent Search Array
   

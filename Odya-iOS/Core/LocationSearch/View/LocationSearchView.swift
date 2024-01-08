@@ -9,12 +9,15 @@ import SwiftUI
 
 struct LocationSearchView: View {
   // MARK: - Properties
+  @EnvironmentObject var placeInfo: PlaceInfo
   /// 장소 검색 뷰모델
   @StateObject var searchVM = LocationSearchViewModel()
   /// 랭킹 뷰모델
   @StateObject var rankVM = RankViewModel()
   /// 현재 뷰 토글
-  @Binding var showLocationSearchView: Bool
+  @Binding var isPresented: Bool
+  /// 장소 상세보기 뷰 토글
+  @Binding var showPlaceDetail: Bool
   /// 랭킹 그리드 칼럼
   let rankColumns = Array(repeating: GridItem(.flexible(minimum: 36), spacing: 0), count: 5)
   
@@ -53,12 +56,16 @@ struct LocationSearchView: View {
             ForEach(searchVM.searchResults, id: \.self) { result in
               let title = result.attributedPrimaryText.string
               let subtitle = result.attributedSecondaryText?.string ?? ""
-              
-              LocationSearchResultCell(title: title, subtitle: subtitle)
+              Button {
+                placeInfo.setValue(title: title, address: subtitle, placeId: result.placeID, token: searchVM.placeToken)
+                isPresented = false
+                showPlaceDetail = true
+              } label: {
+                LocationSearchResultCell(title: title, subtitle: subtitle)
+              }
               if result != searchVM.searchResults.last {
                 Divider()
               }
-              // Select cell -> Show detail place info
             }
           }
         } // ScrollView
@@ -113,7 +120,7 @@ struct LocationSearchView: View {
       .cornerRadius(Radius.medium)
       
       Button {
-        showLocationSearchView = false
+        isPresented = false
         searchVM.queryFragment = ""
       } label: {
         Text("취소")
@@ -186,6 +193,6 @@ struct LocationSearchView: View {
 // MARK: - Previews
 struct LocationSearchView_Previews: PreviewProvider {
   static var previews: some View {
-    LocationSearchView(showLocationSearchView: .constant(true))
+    LocationSearchView(isPresented: .constant(true), showPlaceDetail: .constant(false))
   }
 }
