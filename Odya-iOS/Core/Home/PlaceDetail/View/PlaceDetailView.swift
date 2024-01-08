@@ -20,22 +20,23 @@ struct PlaceDetailView: View {
     VStack(spacing: 24) {
       navigationBar
       ScrollView(.vertical, showsIndicators: false) {
-        VStack {
-          bottomSheetIndicator
-          
-          VStack(spacing: 16) {
-            Text("해운대 해수욕장의 방문 경험은 어떠셨나요?")
-              .detail2Style()
-              .foregroundColor(.odya.label.normal)
-            CTAButton(isActive: .active, buttonStyle: .ghost, labelText: "리뷰 작성", labelSize: .L) {
-              showReviewComposeView.toggle()
+        LazyVStack(pinnedViews: .sectionHeaders) {
+          Section {
+            VStack(spacing: 16) {
+              Text("\(placeInfo.title)의 방문 경험은 어떠셨나요?")
+                .detail2Style()
+                .foregroundColor(.odya.label.normal)
+              CTAButton(isActive: .active, buttonStyle: .ghost, labelText: "리뷰 작성", labelSize: .L) {
+                showReviewComposeView.toggle()
+              }
             }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 24)
+            .frame(maxWidth: .infinity)
+            .background(Color.odya.elevation.elev4)
+          } header: {
+            bottomSheetIndicator
           }
-          .padding(.horizontal, 10)
-          .padding(.vertical, 24)
-          .frame(maxWidth: .infinity)
-          .background(Color.odya.elevation.elev4)
-          
         }
         .background(Color.odya.background.normal)
       }
@@ -71,6 +72,7 @@ struct PlaceDetailView: View {
     }
     .frame(maxWidth: .infinity)
     .frame(height: 34)
+    .background(Color.odya.background.normal)
   }
 }
 

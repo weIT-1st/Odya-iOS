@@ -71,6 +71,7 @@
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
 		199EB76F2AF0A904004EF4B1 /* CommunityComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */; };
 		19BA67DD2B4B819D00213678 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67DC2B4B819D00213678 /* PlaceInfo.swift */; };
+		19BA67DF2B4B8FB800213678 /* TemporaryDarkMapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 19BA67DE2B4B8FB800213678 /* TemporaryDarkMapStyle.json */; };
 		19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F0D2AF4976E00D29B49 /* Color.swift */; };
 		19D17F122AFA00CE00D29B49 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F112AFA00CE00D29B49 /* String.swift */; };
 		19DE0AA92B3EB5240079A660 /* PlaceSearchHistoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */; };
@@ -303,6 +304,7 @@
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
 		199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeViewModel.swift; sourceTree = "<group>"; };
 		19BA67DC2B4B819D00213678 /* PlaceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfo.swift; sourceTree = "<group>"; };
+		19BA67DE2B4B8FB800213678 /* TemporaryDarkMapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TemporaryDarkMapStyle.json; sourceTree = "<group>"; };
 		19D17F0D2AF4976E00D29B49 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		19D17F112AFA00CE00D29B49 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchHistoryRouter.swift; sourceTree = "<group>"; };
@@ -1191,6 +1193,7 @@
 		3EF549A22A4309F7006562F8 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
+				19BA67DE2B4B8FB800213678 /* TemporaryDarkMapStyle.json */,
 				3E4670292B160DDE00B54D0A /* SplashScreenAnimation.json */,
 				071FA5252A20A9A000C7B362 /* Assets.xcassets */,
 				3EF549892A420015006562F8 /* Fonts */,
@@ -1353,6 +1356,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19BA67DF2B4B8FB800213678 /* TemporaryDarkMapStyle.json in Resources */,
 				19EBA75B2AB16EAF000ABBE5 /* GoogleService-Info.plist in Resources */,
 				3EF549972A4200EB006562F8 /* NotoSansKR-Black.otf in Resources */,
 				3EF549952A4200EB006562F8 /* OFL.txt in Resources */,
