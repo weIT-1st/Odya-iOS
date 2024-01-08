@@ -46,3 +46,14 @@ extension FollowUserData: Equatable {
         return !(lhs == rhs)
     }
 }
+
+// MARK: VisitorResponse
+struct VisitorResponse: Codable {
+  var count: Int
+  var visitors: [FollowUserData]
+  
+  enum CodingKeys: String, CodingKey {
+    case count = "count"
+    case visitors = "followings"
+  }
+}
