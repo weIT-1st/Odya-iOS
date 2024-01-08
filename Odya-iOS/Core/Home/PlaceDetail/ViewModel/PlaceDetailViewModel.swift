@@ -24,7 +24,7 @@ final class PlaceDetailViewModel: ObservableObject {
   private var subscription = Set<AnyCancellable>()
   
   // data for view
-  @Published var visitorCount: Int? = 5 // nil
+  @Published var visitorCount: Int? = nil
   @Published var visitorList = [FollowUserData]()
   
   struct FeedState {

@@ -54,6 +54,16 @@ struct PlaceDetailView: View {
                   .resizable()
                   .frame(maxWidth: .infinity)
                   .frame(height: UIScreen.main.bounds.width * 0.586)
+                  .overlay(
+                    LinearGradient(
+                      stops: [
+                        Gradient.Stop(color: .black.opacity(0), location: 0.22),
+                        Gradient.Stop(color: .black.opacity(0.7), location: 1.00),
+                      ],
+                      startPoint: UnitPoint(x: 0.5, y: 0),
+                      endPoint: UnitPoint(x: 0.5, y: 1)
+                    )
+                  )
                 VStack(spacing: 6) {
                   visitorView
                   Spacer()
