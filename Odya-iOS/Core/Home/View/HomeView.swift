@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
   // MARK: Properties
-
+  @State private var placeInfo = PlaceInfo()
   @State private var showLocationSearchView: Bool = false
   @State private var showPlaceDetailView: Bool = false
 
@@ -26,6 +26,7 @@ struct HomeView: View {
             showLocationSearchView.toggle()
           }
         LocationSearchView(isPresented: $showLocationSearchView, showPlaceDetail: $showPlaceDetailView)
+          .environmentObject(placeInfo)
       } else if !showPlaceDetailView {
         HStack {
           LocationSearchActivationView()
@@ -40,6 +41,7 @@ struct HomeView: View {
     }
     .transparentFullScreenCover(isPresented: $showPlaceDetailView) {
       PlaceDetailView(isPresented: $showPlaceDetailView)
+        .environmentObject(placeInfo)
     }
   }
 }

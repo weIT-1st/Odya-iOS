@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocationSearchView: View {
   // MARK: - Properties
+  @EnvironmentObject var placeInfo: PlaceInfo
   /// 장소 검색 뷰모델
   @StateObject var searchVM = LocationSearchViewModel()
   /// 랭킹 뷰모델
@@ -56,6 +57,7 @@ struct LocationSearchView: View {
               let title = result.attributedPrimaryText.string
               let subtitle = result.attributedSecondaryText?.string ?? ""
               Button {
+                placeInfo.setValue(title: title, address: subtitle, placeId: result.placeID, token: searchVM.placeToken)
                 isPresented = false
                 showPlaceDetail = true
               } label: {

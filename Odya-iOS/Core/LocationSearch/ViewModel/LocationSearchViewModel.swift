@@ -33,7 +33,7 @@ final class LocationSearchViewModel: NSObject, ObservableObject {
   }
   
   let placeClient = GMSPlacesClient()
-  private var placeToken = GMSAutocompleteSessionToken.init()
+  var placeToken = GMSAutocompleteSessionToken.init()
   
   // MARK: PlaceSearchHistory
   /// Provider

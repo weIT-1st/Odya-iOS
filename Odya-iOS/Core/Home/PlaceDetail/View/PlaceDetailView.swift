@@ -10,10 +10,10 @@ import SwiftUI
 /// 장소 상세보기 뷰
 struct PlaceDetailView: View {
   // MARK: Properties
+  @EnvironmentObject var placeInfo: PlaceInfo
   @Binding var isPresented: Bool
   
   @State private var showReviewComposeView: Bool = false
-  @State private var placeId = ""
   
   // MARK: Body
   var body: some View {
@@ -43,7 +43,7 @@ struct PlaceDetailView: View {
     }
     .frame(maxWidth: .infinity)
     .sheet(isPresented: $showReviewComposeView) {
-      ReviewComposeView(placeId: $placeId)
+      ReviewComposeView(placeId: $placeInfo.placeId)
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
     }
