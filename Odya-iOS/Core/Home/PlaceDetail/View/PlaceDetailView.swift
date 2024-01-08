@@ -43,7 +43,7 @@ struct PlaceDetailView: View {
     }
     .frame(maxWidth: .infinity)
     .sheet(isPresented: $showReviewComposeView) {
-      ReviewComposeView(placeId: $placeInfo.placeId)
+      ReviewComposeView(isPresented: $showReviewComposeView, placeId: $placeInfo.placeId)
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
     }

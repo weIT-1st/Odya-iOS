@@ -11,6 +11,7 @@ import SwiftUI
 struct ReviewComposeView: View {
   // MARK: Properties
   @StateObject private var viewModel = ReviewComposeViewModel()
+  @Binding var isPresented: Bool
   @Binding var placeId: String
   
   // MARK: Body
@@ -34,6 +35,21 @@ struct ReviewComposeView: View {
     .padding(GridLayout.side)
     .padding(.top, 20)
     .background(Color.odya.background.normal)
+    .disabled(viewModel.isProgressing)
+    .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
+      Button {
+        isPresented.toggle()
+      } label: {
+        Text("닫기")
+      }
+    } message: {
+      Text(viewModel.alertMessage)
+    }
+    .onChange(of: viewModel.isPosted) { newValue in
+      if newValue {
+        isPresented.toggle()
+      }
+    }
   }
   
   private var title: some View {
@@ -68,6 +84,6 @@ struct ReviewComposeView: View {
 // MARK: - Previews
 struct ReviewComposeView_Previews: PreviewProvider {
   static var previews: some View {
-    ReviewComposeView(placeId: .constant(""))
+    ReviewComposeView(isPresented: .constant(true), placeId: .constant(""))
   }
 }

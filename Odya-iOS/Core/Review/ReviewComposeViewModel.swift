@@ -24,6 +24,13 @@ final class ReviewComposeViewModel: ObservableObject {
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var reviewProvider = MoyaProvider<ReviewRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
+  @Published var isProgressing: Bool = false
+  @Published var isPosted: Bool = false
+  
+  // alert
+  @Published var alertTitle: String = ""
+  @Published var alertMessage: String = ""
+  @Published var showAlert: Bool = false
   
   // MARK: Helper functions
   
@@ -45,6 +52,7 @@ final class ReviewComposeViewModel: ObservableObject {
   
   /// 리뷰 생성
   func createReview(placeId: String) {
+    isProgressing = true
     let rating = Int(self.rating * 2)
     
     reviewProvider.requestPublisher(.createReview(placeId: placeId, rating: rating, review: reviewText))
@@ -52,12 +60,24 @@ final class ReviewComposeViewModel: ObservableObject {
         switch completion {
         case .finished:
           debugPrint("한줄리뷰 생성 완료")
+          self.isPosted = true
         case .failure(let error):
-          if let errorData = try? error.response?.map(ErrorData.self) {
-            print(errorData)
-          }
+          self.handleErrorData(error: error)
         }
+        self.isProgressing = false
       } receiveValue: { _ in }
       .store(in: &subscription)
+  }
+  
+  func handleErrorData(error: MoyaError) {
+    if let errorData = try? error.response?.map(ErrorData.self) {
+      alertTitle = "Error \(errorData.code)"
+      alertMessage = errorData.message
+      showAlert = true
+    } else {
+      alertTitle = "Unknown Error!"
+      alertMessage = "알 수 없는 오류 발생"
+      showAlert = true
+    }
   }
 }
