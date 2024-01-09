@@ -74,6 +74,7 @@
 		19BA67DF2B4B8FB800213678 /* TemporaryDarkMapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 19BA67DE2B4B8FB800213678 /* TemporaryDarkMapStyle.json */; };
 		19BA67E22B4BDE6500213678 /* PlaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67E12B4BDE6500213678 /* PlaceDetailViewModel.swift */; };
 		19BA67E42B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67E32B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift */; };
+		19BA67E62B4CF26800213678 /* Extension+PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67E52B4CF26800213678 /* Extension+PlaceDetailView.swift */; };
 		19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F0D2AF4976E00D29B49 /* Color.swift */; };
 		19D17F122AFA00CE00D29B49 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F112AFA00CE00D29B49 /* String.swift */; };
 		19DE0AA92B3EB5240079A660 /* PlaceSearchHistoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */; };
@@ -309,6 +310,7 @@
 		19BA67DE2B4B8FB800213678 /* TemporaryDarkMapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TemporaryDarkMapStyle.json; sourceTree = "<group>"; };
 		19BA67E12B4BDE6500213678 /* PlaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewModel.swift; sourceTree = "<group>"; };
 		19BA67E32B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailContentTypeSelection.swift; sourceTree = "<group>"; };
+		19BA67E52B4CF26800213678 /* Extension+PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+PlaceDetailView.swift"; sourceTree = "<group>"; };
 		19D17F0D2AF4976E00D29B49 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		19D17F112AFA00CE00D29B49 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchHistoryRouter.swift; sourceTree = "<group>"; };
@@ -732,6 +734,7 @@
 			isa = PBXGroup;
 			children = (
 				07B221212B491BBB006C2B20 /* PlaceDetailView.swift */,
+				19BA67E52B4CF26800213678 /* Extension+PlaceDetailView.swift */,
 				19BA67E32B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift */,
 			);
 			path = View;
@@ -1535,6 +1538,7 @@
 				199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */,
 				3E46701C2B147FCC00B54D0A /* SignUpViewModel.swift in Sources */,
 				3EF7C1EE2A7AE7D000223366 /* FieldStyle.swift in Sources */,
+				19BA67E62B4CF26800213678 /* Extension+PlaceDetailView.swift in Sources */,
 				3EF549862A419100006562F8 /* ColorStyles.swift in Sources */,
 				19EBA7612AB2F027000ABBE5 /* HTMLTextView.swift in Sources */,
 				3EF549B42A46E4E3006562F8 /* GridLayout.swift in Sources */,
