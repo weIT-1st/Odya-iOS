@@ -70,9 +70,11 @@ struct PlaceDetailView: View {
                   Text("해운대 해수욕장")
                     .h4Style()
                     .foregroundColor(.odya.label.normal)
+                    .frame(maxWidth: .infinity)
                   Text("부산 해운대구 우동")
                     .detail2Style()
                     .foregroundColor(.odya.label.assistive)
+                    .frame(maxWidth: .infinity)
                 }
                 .padding(.bottom, 20)
                 Button {
