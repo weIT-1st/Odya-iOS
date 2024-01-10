@@ -14,10 +14,12 @@ enum PlaceSortType: String {
 
 enum FavoritePlaceRouter {
   // 4. 관심 장소 수 조회
-  case getFavoritePlacesCount
-  // 5. 관심 장소 리스트 조회
+  case getMyFavoritePlacesCount
+  // 5. 타인의 관심 장소 수 조회
+  case getOthersFavoritePlacesCount(userId: Int)
+  // 6. 관심 장소 리스트 조회
   case getMyFavoritePlaces(size: Int?, sortType: PlaceSortType?, lastId: Int?)
-  // 6. 타인의 관심 장소 리스트 조회
+  // 7. 타인의 관심 장소 리스트 조회
   case getOthersFavoritePlaces(userId: Int, size: Int?, sortType: PlaceSortType?, lastId: Int?)
 }
 
@@ -28,8 +30,10 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
   
   var path: String {
     switch self {
-    case .getFavoritePlacesCount:
+    case .getMyFavoritePlacesCount:
       return "/api/v1/favorite-places/counts"
+    case .getOthersFavoritePlacesCount(let userId):
+      return "/api/v1/favorite-places/counts/\(userId)"
     case .getMyFavoritePlaces:
       return "/api/v1/favorite-places/list"
     case let .getOthersFavoritePlaces(userId, _, _, _):

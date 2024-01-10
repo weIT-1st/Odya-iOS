@@ -30,7 +30,7 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
 
   // data
   @Published var favoritePlaces: [FavoritePlace] = []
-  @Published var placesCount: Int = 0
+  @Published var placesCount: Int = -1
   
   init(isMyProfile: Bool, userId: Int) {
     self.isMyProfile = isMyProfile
@@ -54,11 +54,13 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
     
     if isMyProfile {
       self.getMyFavoritePlaces()
+      self.getMyCount()
     } else {
       self.getOthersFavoritePlaces(userId: userId)
+      self.getOthersCount(userId: userId)
     }
     
-    getCount()
+//    getCount()
   }
 
   private func getMyFavoritePlaces() {
@@ -116,14 +118,48 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
   }
   
   // MARK: count
+  func getCount() {
+    if isMyProfile {
+      getMyCount()
+    } else {
+//      getOthersCount(userId: self.userId)
+      print("do getOthersCount()")
+    }
+  }
   
-  private func getCount() {
+  private func getMyCount() {
     if isCounting {
       return
     }
 
     isCounting = true
-    placeProvider.requestPublisher(.getFavoritePlacesCount)
+    placeProvider.requestPublisher(.getMyFavoritePlacesCount)
+    .sink { completion in
+      switch completion {
+      case .finished:
+        self.isCounting = false
+      case .failure(let error):
+        self.isCounting = false
+        self.doErrorHandling(error)
+      }
+    } receiveValue: { response in
+      do {
+        let responseData = try response.map(Int.self)
+        self.placesCount = responseData
+      } catch {
+        print("favorite place count decoding error")
+        return
+      }
+    }.store(in: &subscription)
+  }
+  
+  private func getOthersCount(userId: Int) {
+    if isCounting {
+      return
+    }
+
+    isCounting = true
+    placeProvider.requestPublisher(.getOthersFavoritePlacesCount(userId: userId))
     .sink { completion in
       switch completion {
       case .finished:
