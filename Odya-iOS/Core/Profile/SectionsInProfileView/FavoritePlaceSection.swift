@@ -20,20 +20,32 @@ struct FavoritePlaceListView: View {
   
   var body: some View {
     VStack(spacing: 32) {
-      ForEach(VM.favoritePlaces, id: \.id) { place in
-        VStack(spacing: 0) {
-          FavoritePlaceRow(favoritePlace: place)
-          
-          if let last = VM.favoritePlaces.last,
-             place.id != last.id { // not last
-            Divider().frame(height: 1).background(Color.odya.line.alternative)
-              .padding(.horizontal, 10)
-              .padding(.vertical, 20)
-          }
-        }
+      if VM.isFavoritePlacesLoading {
+        ProgressView()
+          .frame(height: 200)
+          .frame(maxWidth: .infinity)
       }
       
-      morePlacesButton
+      else if VM.favoritePlaces.isEmpty {
+        NoDataInProfileView(message: "관심장소가 없어요.")
+      }
+      
+      else {
+        ForEach(VM.favoritePlaces, id: \.id) { place in
+          VStack(spacing: 0) {
+            FavoritePlaceRow(favoritePlace: place)
+            
+            if let last = VM.favoritePlaces.last,
+               place.id != last.id { // not last
+              Divider().frame(height: 1).background(Color.odya.line.alternative)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 20)
+            }
+          }
+        }
+        
+        morePlacesButton
+      }
     }
     .task {
       await VM.fetchDataAsync()

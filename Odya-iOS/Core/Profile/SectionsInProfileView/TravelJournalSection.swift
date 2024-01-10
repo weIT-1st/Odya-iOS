@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension ProfileView {
-  
+
   var mainJournalTitle: some View {
     getSectionTitleView(title: "대표 여행일지",
                         buttonImage: "pen-s",
@@ -32,6 +32,10 @@ struct BookmarkedJournalListinProfileView: View {
           .frame(maxWidth: .infinity)
       }
       
+      else if VM.bookmarkedJournals.isEmpty {
+        NoDataInProfileView(message: "여행일지가 없어요.")
+      }
+      
       else {
         ScrollView(.horizontal, showsIndicators: false) {
           LazyHStack(spacing: 8) {
@@ -53,6 +57,7 @@ struct BookmarkedJournalListinProfileView: View {
             } // ForEach
           } // LazyHStack
         } // ScrollView
+        .padding(.leading, GridLayout.side)
       }
     }.task {
       await VM.fetchDataAsync()
@@ -61,6 +66,12 @@ struct BookmarkedJournalListinProfileView: View {
       VM.initData()
     }
   }
+  
 }
 
 
+struct BookmarkedJournalListinProfileView_Previews: PreviewProvider {
+  static var previews: some View {
+    ProfileView(.constant(3))
+  }
+}

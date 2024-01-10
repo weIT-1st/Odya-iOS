@@ -36,6 +36,9 @@ struct ProfileView: View {
   @Environment(\.dismiss) var dismiss
   @State var path: [StackViewType] = []
   
+  // fullscreen
+  @State var isShowingJournalComposeView: Bool = false
+  
   // user info
   var userId: Int = -1
   var nickname: String = ""
@@ -84,56 +87,87 @@ struct ProfileView: View {
           BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
             .offset(y: -70)
         )
-
-        VStack(spacing: 20) {
-          // 오댜 카운트
-          odyaCounter
-            .padding(.horizontal, GridLayout.side)
-
-          // 인생샷
-          VStack(spacing: 36) {
-            POTDTitle
-              .padding(.horizontal, GridLayout.side)
-            POTDListView($profileVM.potdList, isMyPOTD: isMyProfile)
-              .padding(.leading, GridLayout.side)
+        
+        if !isMyProfile && profileVM.statistics.travelJournalCount == 0 {
+          VStack(alignment: .center, spacing: 8) {
+            Spacer()
+            Image("logo-lightgray")
+              .resizable()
+              .renderingMode(.template)
+              .aspectRatio(contentMode: .fit)
+              .frame(height: 43)
+            Text("아직 게시물이 없어요.")
+              .detail1Style()
+            Spacer()
           }
-
-          divider
-          
-          // 대표 여행일지
-          VStack(spacing: 36) {
-            mainJournalTitle
-            MainJournalCardView()
-          }.padding(.horizontal, GridLayout.side)
-          
-          // 즐겨찾기 여행일지
-          VStack(spacing: 36) {
-            bookmarkedJournalTitle
-              .padding(.horizontal, GridLayout.side)
-            BookmarkedJournalListinProfileView(path: $path)
-              .environmentObject(bookmarkedJournalsVM)
-              .padding(.leading, GridLayout.side)
-          }
-          
-          divider
-          
-          // 관심장소
-          VStack(spacing: 36) {
-            favoritePlaceTitle
-            FavoritePlaceListView(rootTabViewIdx: $rootTabViewIdx)
-              .environmentObject(favoritePlacesVM)
-          }.padding(.horizontal, GridLayout.side)
-
-          // 내 커뮤니티 활동으로 가기
-          if isMyProfile {
-            divider
-            linkToMyCommunity
-              .padding(.horizontal, GridLayout.side)
-          }
-            
+          .foregroundColor(.odya.label.assistive)
+          .frame(maxWidth: .infinity)
+          .frame(height: 320)
         }
-        .padding(.top, 20)
-        .padding(.bottom, 50)
+
+        else {
+          VStack(spacing: 20) {
+            // 오댜 카운트
+            VStack(spacing: 0) {
+              if profileVM.statistics.travelJournalCount == 0 {
+                emptyOdyaCounter
+              } else {
+                odyaCounter
+              }
+            }.padding(.horizontal, GridLayout.side)
+            
+            // 인생샷
+            VStack(spacing: 36) {
+              POTDTitle
+                .padding(.horizontal, GridLayout.side)
+              if !profileVM.potdList.isEmpty {
+                POTDListView($profileVM.potdList, isMyPOTD: isMyProfile)
+              } else if isMyProfile { // 내 프로필에서 인생샷 없는 경우
+                emptyPOTDView
+              } else {                // 타인의 프로필에서 인생샷 없는 경우
+                NoDataInProfileView(message: "인생샷이 없어요.")
+              }
+            }
+            
+            divider
+            
+            // 대표 여행일지
+            VStack(spacing: 36) {
+              mainJournalTitle
+              NoDataInProfileView(message: "대표 여행일지가 없어요.")
+              // MainJournalCardView()
+            }.padding(.horizontal, GridLayout.side)
+            
+            divider
+            
+            // 즐겨찾기 여행일지
+            VStack(spacing: 36) {
+              bookmarkedJournalTitle
+                .padding(.horizontal, GridLayout.side)
+              BookmarkedJournalListinProfileView(path: $path)
+                .environmentObject(bookmarkedJournalsVM)
+            }
+            
+            divider
+            
+            // 관심장소
+            VStack(spacing: 36) {
+              favoritePlaceTitle
+              FavoritePlaceListView(rootTabViewIdx: $rootTabViewIdx)
+                .environmentObject(favoritePlacesVM)
+            }.padding(.horizontal, GridLayout.side)
+            
+            // 내 커뮤니티 활동으로 가기
+            if isMyProfile {
+              divider
+              linkToMyCommunity
+                .padding(.horizontal, GridLayout.side)
+            }
+            
+          }
+          .padding(.top, 20)
+          .padding(.bottom, 50)
+        }
       }
       .background(Color.odya.background.normal)
       .onAppear {
@@ -219,6 +253,7 @@ extension ProfileView {
     Divider().frame(height: 8).background(Color.odya.blackopacity.baseBlackAlpha70)
   }
 }
+
 
 // MARK: Background Image View
 /// 프로필 뷰 배경

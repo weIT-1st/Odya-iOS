@@ -53,7 +53,7 @@ extension ProfileView {
 
 // MARK: Odya Counter
 extension ProfileView {
-  
+
   /// 오댜 여행간 곳, 여행일지 카운트 오버뷰
   var odyaCounter: some View {
     VStack(spacing: 28) {
@@ -90,6 +90,39 @@ extension ProfileView {
     }
     .padding(.horizontal, 10)
     .padding(.vertical, 24)
+    .background(Color.odya.elevation.elev3)
+    .cornerRadius(Radius.large)
+  }
+  
+  /// 작성된 여행일지가 없을 경우의 오댜 여행간 곳, 여행일지 카운트 오버뷰
+  var emptyOdyaCounter: some View {
+    VStack(alignment: .center) {
+      if !profileVM.isFetchingStatistics {
+        Image("noJournalImg")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .padding(.bottom, 10)
+        
+        Text("작성된 여행일지가 없어요!")
+          .h6Style()
+          .foregroundColor(.odya.label.normal)
+          .frame(height: 13)
+          .padding(.bottom, 24)
+        
+        CTAButton(
+          isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기",
+          labelSize: ComponentSizeType.L,
+          action: { isShowingJournalComposeView = true }
+        )
+        .fullScreenCover(isPresented: $isShowingJournalComposeView) {
+          TravelJournalComposeView()
+            .navigationBarHidden(true)
+        }
+      }
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.vertical, 24)
+    .frame(height: 230)
     .background(Color.odya.elevation.elev3)
     .cornerRadius(Radius.large)
   }

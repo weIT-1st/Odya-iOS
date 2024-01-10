@@ -86,6 +86,7 @@
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
 		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
+		3E065B342B4BF05700162472 /* NoDataInProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E065B332B4BF05700162472 /* NoDataInProfileView.swift */; };
 		3E075C872B21F9530093CACD /* POTDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C862B21F9530093CACD /* POTDViewModel.swift */; };
 		3E075C892B222F030093CACD /* POTDRegisterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C882B222F030093CACD /* POTDRegisterModal.swift */; };
 		3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C8B2B2256CB0093CACD /* UserImage.swift */; };
@@ -313,6 +314,7 @@
 		3E0589022A276E8C005C29D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3E0589042A276EAD005C29D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3E0589052A277063005C29D9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		3E065B332B4BF05700162472 /* NoDataInProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataInProfileView.swift; sourceTree = "<group>"; };
 		3E075C862B21F9530093CACD /* POTDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDViewModel.swift; sourceTree = "<group>"; };
 		3E075C882B222F030093CACD /* POTDRegisterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDRegisterModal.swift; sourceTree = "<group>"; };
 		3E075C8B2B2256CB0093CACD /* UserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImage.swift; sourceTree = "<group>"; };
@@ -787,6 +789,7 @@
 				3E2F295C2B284B0900FF5357 /* TravelJournalSection.swift */,
 				3E2F29662B29B78A00FF5357 /* FavoritePlaceSection.swift */,
 				3E2F29712B29FE9700FF5357 /* CommunitySection.swift */,
+				3E065B332B4BF05700162472 /* NoDataInProfileView.swift */,
 			);
 			path = SectionsInProfileView;
 			sourceTree = "<group>";
@@ -1463,6 +1466,7 @@
 				0784964B2A84F72C00A490E3 /* PostContentView.swift in Sources */,
 				3E2F29602B294EC000FF5357 /* MainJournalCardView.swift in Sources */,
 				3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */,
+				3E065B342B4BF05700162472 /* NoDataInProfileView.swift in Sources */,
 				3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */,
 				3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */,
 				3E15D35A2B20853300543D34 /* POTDPickerView.swift in Sources */,
