@@ -93,6 +93,7 @@ struct PlaceDetailView: View {
           .presentationDragIndicator(.visible)
       }
       .task {
+        viewModel.fetchPlaceImage(placeId: placeInfo.placeId, token: placeInfo.sessionToken)
         viewModel.fetchVisitingUser(placeId: placeInfo.placeId)
         viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
       }
@@ -127,24 +128,26 @@ struct PlaceDetailView: View {
   private var visitorView: some View {
     VStack {
       if let count = viewModel.visitorCount {
-        HStack {
-          HStack(spacing: 16) {
-            Image("odya-logo-s")
-            Text("내 친구 \(count)명이 다녀갔어요!")
-              .detail1Style()
-              .foregroundColor(.odya.label.normal)
-          }
-          Spacer()
-          HStack(spacing: -4) {
-            ForEach(viewModel.visitorList.prefix(3), id: \.id) { visitor in
-              ProfileImageView(of: "", profileData: visitor.profile, size: .S)
+        if count > 0 {
+          HStack {
+            HStack(spacing: 16) {
+              Image("odya-logo-s")
+              Text("내 친구 \(count)명이 다녀갔어요!")
+                .detail1Style()
+                .foregroundColor(.odya.label.normal)
+            }
+            Spacer()
+            HStack(spacing: -4) {
+              ForEach(viewModel.visitorList.prefix(3), id: \.id) { visitor in
+                ProfileImageView(of: "", profileData: visitor.profile, size: .S)
+              }
             }
           }
+          .padding(.horizontal, 16)
+          .frame(height: 44)
+          .background(Color.odya.background.dimmed_system)
+          .cornerRadius(Radius.medium)
         }
-        .padding(.horizontal, 16)
-        .frame(height: 44)
-        .background(Color.odya.background.dimmed_system)
-        .cornerRadius(Radius.medium)
       }
     }
     .padding(.horizontal, 20)
@@ -154,28 +157,35 @@ struct PlaceDetailView: View {
   /// 장소 사진, 이름, 주소, 다녀간 친구, 관심장소 설정 버튼 포함
   private var overview: some View {
     ZStack(alignment: .bottomTrailing) {
-      Image("photo_example 1")
-        .resizable()
-        .frame(maxWidth: .infinity)
-        .frame(height: UIScreen.main.bounds.width * 0.586)
-        .overlay(
-          LinearGradient(
-            stops: [
-              Gradient.Stop(color: .black.opacity(0), location: 0.22),
-              Gradient.Stop(color: .black.opacity(0.7), location: 1.00),
-            ],
-            startPoint: UnitPoint(x: 0.5, y: 0),
-            endPoint: UnitPoint(x: 0.5, y: 1)
+      if let photo = viewModel.placeImage {
+        Image(uiImage: photo)
+          .resizable()
+          .frame(maxWidth: .infinity)
+          .frame(height: UIScreen.main.bounds.width * 0.586)
+          .overlay(
+            LinearGradient(
+              stops: [
+                Gradient.Stop(color: .black.opacity(0), location: 0.22),
+                Gradient.Stop(color: .black.opacity(0.7), location: 1.00),
+              ],
+              startPoint: UnitPoint(x: 0.5, y: 0),
+              endPoint: UnitPoint(x: 0.5, y: 1)
+            )
           )
-        )
+      } else {
+        ProgressView()
+          .frame(maxWidth: .infinity)
+          .frame(height: UIScreen.main.bounds.width * 0.586)
+      }
+
       VStack(spacing: 6) {
         visitorView
         Spacer()
-        Text("해운대 해수욕장")
+        Text(placeInfo.title)
           .h4Style()
           .foregroundColor(.odya.label.normal)
           .frame(maxWidth: .infinity)
-        Text("부산 해운대구 우동")
+        Text(placeInfo.address)
           .detail2Style()
           .foregroundColor(.odya.label.assistive)
           .frame(maxWidth: .infinity)

@@ -6,6 +6,7 @@
 //
 
 import Combine
+import GooglePlaces
 import Moya
 import SwiftUI
 
@@ -20,10 +21,13 @@ final class PlaceDetailViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
-  
   private var subscription = Set<AnyCancellable>()
   
+  // google places
+  private let placeClient = GMSPlacesClient()
+  
   // data for view
+  @Published var placeImage: UIImage?
   @Published var visitorCount: Int? = nil
   @Published var visitorList = [FollowUserData]()
   
@@ -36,6 +40,30 @@ final class PlaceDetailViewModel: ObservableObject {
   @Published private(set) var feedState = FeedState()
   
   // MARK: - Helper functions
+  
+  /// 장소 사진 가져오기
+  func fetchPlaceImage(placeId: String, token: GMSAutocompleteSessionToken?) {
+    let fields: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.photos.rawValue))
+    placeClient.fetchPlace(fromPlaceID: placeId,
+                           placeFields: fields,
+                           sessionToken: token) { place, error in
+      if let error = error {
+        print("An error occurred: \(error.localizedDescription)")
+        return
+      }
+      if let place {
+        let photoMetadata: GMSPlacePhotoMetadata = place.photos![0]
+        self.placeClient.loadPlacePhoto(photoMetadata) { photo, error in
+          if let error {
+            print("Error loading photo metadata: \(error.localizedDescription)")
+                    return
+          } else {
+            self.placeImage = photo
+          }
+        }
+      }
+    }
+  }
   
   /// 방문한 친구수 조회
   func fetchVisitingUser(placeId: String) {
