@@ -16,7 +16,7 @@ struct BookmarkedJournalCardView: View {
   let dateString: String
   let writer: Writer
   let imageUrl: String
-  @State private var isBookmarked: Bool = true
+  @State private var isBookmarked: Bool
   
   init(_ journal: BookmarkedJournalData) {
     self.journalId = journal.journalId
@@ -24,7 +24,7 @@ struct BookmarkedJournalCardView: View {
     self.dateString = journal.startDateString
     self.writer = journal.writer
     self.imageUrl = journal.mainImageUrl
-    self.isBookmarked = journal.isBookmarked
+    self._isBookmarked = State(initialValue: journal.isBookmarked)
   }
   
   var body: some View {
