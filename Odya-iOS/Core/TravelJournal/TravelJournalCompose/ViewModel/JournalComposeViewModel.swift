@@ -49,6 +49,7 @@ class JournalComposeViewModel: ObservableObject {
 
   // travel journal data
   let journalId: Int
+  let composeType: JournalComposeType
   
   var orgTitle: String
   var orgStartDate: Date
@@ -76,12 +77,14 @@ class JournalComposeViewModel: ObservableObject {
   
   // MARK: Init
   init(journalId: Int = -1,
+       composeType: JournalComposeType,
        title: String = "",
        startDate: Date = Date(), endDate: Date = Date(),
        travelMates: [TravelMate] = [],
        dailyJournalList: [DailyJournal] = [],
        privacyType: PrivacyType = .global) {
     self.journalId = journalId
+    self.composeType = composeType
     
     self.orgTitle = title
     self.orgStartDate = startDate

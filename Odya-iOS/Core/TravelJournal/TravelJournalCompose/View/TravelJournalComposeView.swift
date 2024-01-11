@@ -34,9 +34,9 @@ struct TravelJournalComposeView: View {
   // MARK: Init
   
   init() {
-    self.composeType = .create
     self.journalId = -1
-    self.journalComposeVM = JournalComposeViewModel()
+    self.composeType = .create
+    self.journalComposeVM = JournalComposeViewModel(composeType: .create)
   }
   
   init(journalId: Int,
@@ -49,6 +49,7 @@ struct TravelJournalComposeView: View {
     self.composeType = .edit
     self.journalId = journalId
     self.journalComposeVM = JournalComposeViewModel(journalId: journalId,
+                                                    composeType: .edit,
                                                     title: title,
                                                     startDate: startDate,
                                                     endDate: endDate,
