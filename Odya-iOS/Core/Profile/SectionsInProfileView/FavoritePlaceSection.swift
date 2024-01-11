@@ -38,6 +38,7 @@ struct FavoritePlaceListView: View {
         ForEach(VM.favoritePlaces, id: \.id) { place in
           VStack(spacing: 0) {
             FavoritePlaceRow(favoritePlace: place)
+              .environmentObject(VM)
             
             if let last = VM.favoritePlaces.last,
                place.id != last.id { // not last

@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct FavoritePlaceRow: View {
+  @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
+  @StateObject var bookmarkManager = FavoritePlaceBookmark()
+  
+  let placeId: Int
   let placeIdString: String
+  @State private var isBookmarked: Bool
   
   init(favoritePlace: FavoritePlace) {
+    self.placeId = favoritePlace.placeId
     self.placeIdString = favoritePlace.placeIdString
+    self._isBookmarked = State(initialValue: favoritePlace.isFavoritePlace)
   }
   
   var body: some View {
@@ -32,7 +39,12 @@ struct FavoritePlaceRow: View {
       
       Spacer()
       
-      StarButton(isActive: true, isYellowWhenActive: true) {}
+      StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
+        bookmarkManager.setBookmarkState(isBookmarked, placeIdString, placeId) { result in
+          isBookmarked = result
+          VM.updateFavoritePlaces()
+        }
+      }
     }
     .frame(height: 32)
   }

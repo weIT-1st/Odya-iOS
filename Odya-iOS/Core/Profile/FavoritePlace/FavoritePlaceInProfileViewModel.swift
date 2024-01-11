@@ -60,8 +60,20 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
       self.getOthersCount(userId: userId)
     }
     
-//    getCount()
   }
+  
+  func updateFavoritePlaces() {
+    initData()
+    
+    if isMyProfile {
+      self.getMyFavoritePlaces()
+      self.getMyCount()
+    } else {
+      self.getOthersFavoritePlaces(userId: userId)
+      self.getOthersCount(userId: userId)
+    }
+  }
+
 
   private func getMyFavoritePlaces() {
     if isFavoritePlacesLoading {

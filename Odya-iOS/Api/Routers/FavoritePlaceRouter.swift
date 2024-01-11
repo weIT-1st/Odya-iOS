@@ -13,6 +13,10 @@ enum PlaceSortType: String {
 }
 
 enum FavoritePlaceRouter {
+  // 1. 관심 장소 등록
+  case createFavoritePlace(placeId: String)
+  // 2. 관심 장소 삭제
+  case deleteFavoritePlace(id: Int)
   // 4. 관심 장소 수 조회
   case getMyFavoritePlacesCount
   // 5. 타인의 관심 장소 수 조회
@@ -30,6 +34,10 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
   
   var path: String {
     switch self {
+    case .createFavoritePlace:
+      return "/api/v1/favorite-places"
+    case .deleteFavoritePlace(let id):
+      return "/api/v1/favorite-places/\(id)"
     case .getMyFavoritePlacesCount:
       return "/api/v1/favorite-places/counts"
     case .getOthersFavoritePlacesCount(let userId):
@@ -43,6 +51,10 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
   
   var method: Moya.Method {
     switch self {
+    case .createFavoritePlace:
+      return .post
+    case .deleteFavoritePlace:
+      return .delete
     default:
       return .get
     }
@@ -50,6 +62,10 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
   
   var task: Moya.Task {
     switch self {
+    case .createFavoritePlace(let placeId):
+      var params: [String: Any] = [:]
+      params["placeId"] = placeId
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
     case let .getMyFavoritePlaces(size, sortType, lastId),
       let .getOthersFavoritePlaces(_, size, sortType, lastId):
       var params: [String: Any] = [:]
