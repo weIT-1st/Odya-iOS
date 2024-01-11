@@ -86,8 +86,6 @@
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
 		3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589022A276E8C005C29D9 /* SceneDelegate.swift */; };
-		3E065B302B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E065B2F2B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift */; };
-		3E065B322B493C7000162472 /* DailyJournalDeletionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E065B312B493C7000162472 /* DailyJournalDeletionButton.swift */; };
 		3E075C872B21F9530093CACD /* POTDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C862B21F9530093CACD /* POTDViewModel.swift */; };
 		3E075C892B222F030093CACD /* POTDRegisterModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C882B222F030093CACD /* POTDRegisterModal.swift */; };
 		3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C8B2B2256CB0093CACD /* UserImage.swift */; };
@@ -117,8 +115,6 @@
 		3E2F297A2B2B173800FF5357 /* TaggedJournalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F29792B2B173800FF5357 /* TaggedJournalListView.swift */; };
 		3E2F297C2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F297B2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift */; };
 		3E2F297E2B2B183800FF5357 /* TravelJournalTagRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E2F297D2B2B183800FF5357 /* TravelJournalTagRouter.swift */; };
-		3E309F2E2B40CADC000B18C7 /* TravelJournalEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E309F2D2B40CADC000B18C7 /* TravelJournalEditView.swift */; };
-		3E309F302B40CB35000B18C7 /* JournalEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E309F2F2B40CB35000B18C7 /* JournalEditViewModel.swift */; };
 		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AC2A388AA5002BF519 /* Alamofire */; };
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
@@ -309,8 +305,6 @@
 		3E0589022A276E8C005C29D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3E0589042A276EAD005C29D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3E0589052A277063005C29D9 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		3E065B2F2B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDeletionButtonViewModel.swift; sourceTree = "<group>"; };
-		3E065B312B493C7000162472 /* DailyJournalDeletionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyJournalDeletionButton.swift; sourceTree = "<group>"; };
 		3E075C862B21F9530093CACD /* POTDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDViewModel.swift; sourceTree = "<group>"; };
 		3E075C882B222F030093CACD /* POTDRegisterModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDRegisterModal.swift; sourceTree = "<group>"; };
 		3E075C8B2B2256CB0093CACD /* UserImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImage.swift; sourceTree = "<group>"; };
@@ -340,8 +334,6 @@
 		3E2F29792B2B173800FF5357 /* TaggedJournalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedJournalListView.swift; sourceTree = "<group>"; };
 		3E2F297B2B2B17DB00FF5357 /* TaggedJournalListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaggedJournalListViewModel.swift; sourceTree = "<group>"; };
 		3E2F297D2B2B183800FF5357 /* TravelJournalTagRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalTagRouter.swift; sourceTree = "<group>"; };
-		3E309F2D2B40CADC000B18C7 /* TravelJournalEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalEditView.swift; sourceTree = "<group>"; };
-		3E309F2F2B40CB35000B18C7 /* JournalEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEditViewModel.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
@@ -833,13 +825,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		3E414B312ADC15EE00034FBB /* TravelJournalEdit */ = {
+		3E414B312ADC15EE00034FBB /* DailyJournalEdit */ = {
 			isa = PBXGroup;
 			children = (
 				3EB938182AF79D9E0041FE5B /* View */,
 				3EEBB7DC2A97388000F0049D /* ViewModel */,
 			);
-			path = TravelJournalEdit;
+			path = DailyJournalEdit;
 			sourceTree = "<group>";
 		};
 		3E4670232B1601E500B54D0A /* View */ = {
@@ -919,7 +911,6 @@
 		3EB938182AF79D9E0041FE5B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3E309F2D2B40CADC000B18C7 /* TravelJournalEditView.swift */,
 				3EEBB7D02A8F3A8500F0049D /* DailyJournalEditView.swift */,
 				1977B5732B05F4BE00D77909 /* ContentEditView.swift */,
 				3E699A8C2B00A8DB00850E9A /* DailyJournalDateEditor.swift */,
@@ -1050,9 +1041,7 @@
 				3EE9CA402AC953CD003A2E85 /* MyJournals */,
 				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
 				3E699A892B00A88300850E9A /* TravelJournalCompose */,
-				3E414B312ADC15EE00034FBB /* TravelJournalEdit */,
-				3E065B2F2B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift */,
-				3E065B312B493C7000162472 /* DailyJournalDeletionButton.swift */,
+				3E414B312ADC15EE00034FBB /* DailyJournalEdit */,
 			);
 			path = TravelJournal;
 			sourceTree = "<group>";
@@ -1061,7 +1050,6 @@
 			isa = PBXGroup;
 			children = (
 				3ED22F432AAA355B0067DE72 /* DailyJournalEditViewModel.swift */,
-				3E309F2F2B40CB35000B18C7 /* JournalEditViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1297,7 +1285,6 @@
 				3EE9CA202AB6C6C3003A2E85 /* ProfileViewModel.swift in Sources */,
 				3EF549BA2A482B1D006562F8 /* UserAuth.swift in Sources */,
 				3E15D3562B20741A00543D34 /* POTDCardView.swift in Sources */,
-				3E309F2E2B40CADC000B18C7 /* TravelJournalEditView.swift in Sources */,
 				07589E722AF0253E00867FAD /* Topic.swift in Sources */,
 				3E46701A2B147D7200B54D0A /* TopicsView.swift in Sources */,
 				3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */,
@@ -1353,7 +1340,6 @@
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
 				3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */,
-				3E065B302B493C4F00162472 /* DailyJournalDeletionButtonViewModel.swift in Sources */,
 				19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */,
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3E075C912B230A1C0093CACD /* PofileInfoSection.swift in Sources */,
@@ -1376,7 +1362,6 @@
 				078496492A84F72000A490E3 /* PostImageView.swift in Sources */,
 				3EE9CA312AC3B64C003A2E85 /* PresentationDetent.swift in Sources */,
 				3EF7C1F32A81099000223366 /* UserInfoEditView.swift in Sources */,
-				3E065B322B493C7000162472 /* DailyJournalDeletionButton.swift in Sources */,
 				3E4670352B1FB8CD00B54D0A /* UserIdentityLink.swift in Sources */,
 				19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
@@ -1461,7 +1446,6 @@
 				19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */,
 				3E9E988E2A84C9A400909653 /* AuthValidatorApiViewModel.swift in Sources */,
 				3EF54A072A5BE9B9006562F8 /* Error.swift in Sources */,
-				3E309F302B40CB35000B18C7 /* JournalEditViewModel.swift in Sources */,
 				07AF2B1B2A392F1600D54780 /* LocationSearchActivationView.swift in Sources */,
 				3E15D3582B20815C00543D34 /* POTDFullScreen.swift in Sources */,
 			);

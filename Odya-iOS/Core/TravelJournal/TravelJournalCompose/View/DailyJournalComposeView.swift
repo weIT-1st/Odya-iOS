@@ -70,7 +70,6 @@ struct DailyJournalComposeView: View {
 
   let index: Int
   @Binding var dailyJournal: DailyTravelJournal
-  @Binding var isDatePickerVisible: Bool
 
   @State var isShowingImagePickerSheet = false
 
@@ -92,8 +91,7 @@ struct DailyJournalComposeView: View {
         headerBar
         ContentComposeView(
           index: index, dailyJournal: $dailyJournal,
-          isShowingImagePickerSheet: $isShowingImagePickerSheet,
-          isDatePickerVisible: $isDatePickerVisible
+          isShowingImagePickerSheet: $isShowingImagePickerSheet
         )
         .environmentObject(journalComposeVM)
       }

@@ -10,15 +10,11 @@ import SwiftUI
 // MARK: Travel Info Edit Section
 struct TravelJournalInfoEditView: View {
   @EnvironmentObject var journalComposeVM: JournalComposeViewModel
-  @ObservedObject var followHubVM: FollowHubViewModel
+  @StateObject var followHubVM = FollowHubViewModel()
 
   private let titleCharacterLimit = 20
-  @Binding var isDatePickerVisible: Bool
-
-  init(isDatePickerVisible: Binding<Bool>) {
-    self.followHubVM = FollowHubViewModel()
-    self._isDatePickerVisible = isDatePickerVisible
-  }
+  
+  @State var isDatePickerVisible = false
   
   var body: some View {
     VStack(alignment: .leading, spacing: 24) {
@@ -30,9 +26,6 @@ struct TravelJournalInfoEditView: View {
       travelDateEditField
       Divider().frame(height: 1).background(Color.odya.line.alternative)
       travelMatesEditField
-    }
-    .onAppear {
-      journalComposeVM.title = journalComposeVM.orgTitle
     }
     .padding(.horizontal, 20)
     .padding(.vertical, 28)
@@ -72,6 +65,16 @@ struct TravelJournalInfoEditView: View {
           TravelDateEditView(date: journalComposeVM.startDate)
           TravelDateEditView(date: journalComposeVM.endDate)
         }.padding(.horizontal, 12)
+      }
+      // 여행일지 날짜 선택 뷰
+      .fullScreenCover(isPresented: $isDatePickerVisible) {
+        TravelDatePickerView(
+          journalComposeVM: journalComposeVM, isDatePickerVisible: $isDatePickerVisible
+        )
+        .padding(GridLayout.side)
+        .frame(maxHeight: .infinity)
+        .clearModalBackground()
+        .background(Color.odya.blackopacity.baseBlackAlpha80)
       }
     }.padding(.horizontal, 12)
   }

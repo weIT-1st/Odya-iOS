@@ -155,13 +155,13 @@ struct TravelJournalDetailView: View {
       Button("닫기", role: .cancel) { print("닫기 클릭") }
     }
     .fullScreenCover(isPresented: $isShowingJournalEditView) {
-      TravelJournalEditView(journalId: journalId,
-                            title: title,
-                            startDate: startDate,
-                            endDate: endDate,
-                            mates: mates,
-                            dailyJournals: dailyJournals,
-                            privacyType: privacyType)
+      TravelJournalComposeView(journalId: journalId,
+                               title: title,
+                               startDate: startDate,
+                               endDate: endDate,
+                               mates: mates,
+                               dailyJournals: dailyJournals,
+                               privacyType: privacyType)
     }
     // 여행일지 삭제 클릭 시 alert
     .alert("해당 여행일지를 삭제할까요?", isPresented: $isShowingJournalDeletionAlert) {

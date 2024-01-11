@@ -20,7 +20,7 @@ struct ContentComposeView: View {
   @State private var imageAccessStatus: PHAuthorizationStatus = .authorized
 
   // date
-  @Binding var isDatePickerVisible: Bool
+  @State private var isDatePickerVisible: Bool = false
 
   // content
   private let contentCharacterLimit = 200
@@ -139,6 +139,15 @@ struct ContentComposeView: View {
         .padding(12)
         .frame(height: 48)
       }.foregroundColor(.odya.label.assistive)
+        // 데일리 일정 날짜 선태 뷰
+        .fullScreenCover(isPresented: $isDatePickerVisible) {
+          DailyJournalDatePicker()
+            .environmentObject(journalComposeVM)
+            .padding(GridLayout.side)
+            .frame(maxHeight: .infinity)
+            .clearModalBackground()
+            .background(Color.odya.blackopacity.baseBlackAlpha80)
+        }
     }
     .padding(.horizontal, 16)
     .frame(height: 48)
@@ -165,7 +174,7 @@ struct ContentComposeView: View {
       )
       .foregroundColor(.odya.label.normal)
       .b1Style()
-      .frame(minHeight: 90, alignment: .top)
+//      .frame(minHeight: 90, alignment: .top)
     }
     .padding(.horizontal, 12)
     .padding(.vertical, 16)

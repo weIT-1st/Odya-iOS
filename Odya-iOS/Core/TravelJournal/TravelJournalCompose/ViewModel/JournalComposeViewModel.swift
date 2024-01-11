@@ -28,6 +28,11 @@ enum PrivacyType {
   }
 }
 
+enum JournalComposeType {
+  case create
+  case edit
+}
+
 class JournalComposeViewModel: ObservableObject {
   // moya
   private let plugin: PluginType = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
@@ -105,9 +110,9 @@ class JournalComposeViewModel: ObservableObject {
     self.endDate = endDate
   }
 
-  func setJournalDate(selectedDate: Date) {
-    if let idx = self.pickedJournalIndex {
-      self.dailyJournalList[idx].date = selectedDate
+  func setJournalDate(newDate: Date) {
+    if let index = self.pickedJournalIndex {
+      self.dailyJournalList[index].date = newDate
     }
   }
 
