@@ -32,8 +32,8 @@ struct ProfileView: View {
   @ObservedObject var favoritePlacesVM: FavoritePlaceInProfileViewModel
 
   // navigation stack
-  @Binding var rootTabViewIdx: Int
   @Environment(\.dismiss) var dismiss
+  @EnvironmentObject var rootTabManager: RootTabManager
   @State var path: [StackViewType] = []
   
   // fullscreen
@@ -49,8 +49,7 @@ struct ProfileView: View {
     profileVM.userID == MyData.userID
   }
 
-  init(_ rootTabViewIdx: Binding<Int>) {
-    self._rootTabViewIdx = rootTabViewIdx
+  init() {
     self.bookmarkedJournalsVM = JournalsInProfileViewModel(isMyProfile: true,
                                                            userId: MyData.userID)
     self.favoritePlacesVM = FavoritePlaceInProfileViewModel(isMyProfile: true,
@@ -58,7 +57,6 @@ struct ProfileView: View {
   }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
-    self._rootTabViewIdx = .constant(3)
     self.userId = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
@@ -153,7 +151,8 @@ struct ProfileView: View {
             // 관심장소
             VStack(spacing: 36) {
               favoritePlaceTitle
-              FavoritePlaceListView(rootTabViewIdx: $rootTabViewIdx)
+              FavoritePlaceListView(rootTabViewIdx: $rootTabManager.selectedTab,
+                                    path: $path)
                 .environmentObject(favoritePlacesVM)
             }.padding(.horizontal, GridLayout.side)
             
@@ -291,8 +290,8 @@ private struct BackgroundImageView: View {
   }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-  static var previews: some View {
-    ProfileView(.constant(3))
-  }
-}
+//struct ProfileView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    ProfileView()
+//  }
+//}

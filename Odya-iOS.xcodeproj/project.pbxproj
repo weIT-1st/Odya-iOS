@@ -94,6 +94,7 @@
 		3E075C912B230A1C0093CACD /* PofileInfoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C902B230A1C0093CACD /* PofileInfoSection.swift */; };
 		3E075C932B23123F0093CACD /* CounterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C922B23123F0093CACD /* CounterSection.swift */; };
 		3E075C952B23129B0093CACD /* POTDSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E075C942B23129B0093CACD /* POTDSection.swift */; };
+		3E07A65F2B4FE48C00E93B6E /* FullScreenCoverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E07A65E2B4FE48C00E93B6E /* FullScreenCoverManager.swift */; };
 		3E15D3562B20741A00543D34 /* POTDCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3552B20741A00543D34 /* POTDCardView.swift */; };
 		3E15D3582B20815C00543D34 /* POTDFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3572B20815C00543D34 /* POTDFullScreen.swift */; };
 		3E15D35A2B20853300543D34 /* POTDPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15D3592B20853300543D34 /* POTDPickerView.swift */; };
@@ -322,6 +323,7 @@
 		3E075C902B230A1C0093CACD /* PofileInfoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PofileInfoSection.swift; sourceTree = "<group>"; };
 		3E075C922B23123F0093CACD /* CounterSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterSection.swift; sourceTree = "<group>"; };
 		3E075C942B23129B0093CACD /* POTDSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDSection.swift; sourceTree = "<group>"; };
+		3E07A65E2B4FE48C00E93B6E /* FullScreenCoverManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenCoverManager.swift; sourceTree = "<group>"; };
 		3E15D3552B20741A00543D34 /* POTDCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDCardView.swift; sourceTree = "<group>"; };
 		3E15D3572B20815C00543D34 /* POTDFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDFullScreen.swift; sourceTree = "<group>"; };
 		3E15D3592B20853300543D34 /* POTDPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = POTDPickerView.swift; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 				0708FC2C2A40D2C100D152CF /* LocationManager.swift */,
 				3E26C3812AF16790003607A8 /* ImageManager.swift */,
 				3ED8DBAD2B0A1C2100D7CF7F /* JournalBookmarkManager.swift */,
+				3E07A65E2B4FE48C00E93B6E /* FullScreenCoverManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1427,6 +1430,7 @@
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
 				3E2F296E2B29BB0C00FF5357 /* FavoritePlaceRouter.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
+				3E07A65F2B4FE48C00E93B6E /* FullScreenCoverManager.swift in Sources */,
 				3ED22F3A2A9853830067DE72 /* TravelMateSelectorView.swift in Sources */,
 				199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */,
 				3EEBB7D72A91FACC00F0049D /* DailyTravelJournal.swift in Sources */,

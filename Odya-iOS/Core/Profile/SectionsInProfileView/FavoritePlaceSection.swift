@@ -14,8 +14,12 @@ extension ProfileView {
   }
 }
 
+// MARK: Favorite Place List
 struct FavoritePlaceListView: View {
   @Binding var rootTabViewIdx: Int
+  @Binding var path: [StackViewType]
+  // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
+  @Environment(\.dismiss) var dismiss
   @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
   
   var body: some View {
@@ -44,7 +48,9 @@ struct FavoritePlaceListView: View {
           }
         }
         
-        morePlacesButton
+        if VM.placesCount > 4 {
+          morePlacesButton
+        }
       }
     }
     .task {
@@ -56,12 +62,16 @@ struct FavoritePlaceListView: View {
 
   }
   
+  // MARK: More Places Button
   var morePlacesButton: some View {
     Button(action: {
-      rootTabViewIdx = 0
+      dismiss() // 프로필 뷰 풀스크린 닫기
+      // fullScreenManager.closeAll()
+      path = []
+      rootTabViewIdx = 0 // 메인 뷰로 이동
     }) {
       HStack(spacing: 10) {
-        Text("\(VM.placesCount)개의 관심장소 더보기")
+        Text("\(VM.placesCount - 4)개의 관심장소 더보기")
           .detail1Style()
         Image("more-off")
           .renderingMode(.template)

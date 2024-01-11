@@ -7,13 +7,19 @@
 
 import SwiftUI
 
+class RootTabManager: ObservableObject {
+  @Published var selectedTab: Int = 0
+}
+
 struct RootTabView: View {
 
-  @State var tabViewIdx: Int = 0
+  @StateObject var rootTabManager = RootTabManager()
+  // @StateObject var fullScreenManager = FullScreenCoverManager()
+  
   // MARK: Body
 
   var body: some View {
-    TabView(selection: $tabViewIdx) {
+    TabView(selection: $rootTabManager.selectedTab) {
       // MARK: 홈
       HomeView()
         .tabItem {
@@ -22,18 +28,24 @@ struct RootTabView: View {
 
       // MARK: 내추억
       MyJournalsView()
+        .environmentObject(rootTabManager)
+        // .environmentObject(fullScreenManager)
         .tabItem {
           GNBButton(iconImage: "diary", text: "내추억")
         }.tag(1)
 
       // MARK: 피드
       FeedView()
+        .environmentObject(rootTabManager)
+        // .environmentObject(fullScreenManager)
         .tabItem {
           GNBButton(iconImage: "messages-off", text: "피드")
         }.tag(2)
 
       // MARK: 내정보
-      ProfileView($tabViewIdx)
+      ProfileView()
+        .environmentObject(rootTabManager)
+        // .environmentObject(fullScreenManager)
         .tabItem {
           GNBButton(iconImage: "person-off", text: "내정보")
         }.tag(3)

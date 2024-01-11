@@ -69,9 +69,9 @@ struct BookmarkedJournalListinProfileView: View {
   
 }
 
-
-struct BookmarkedJournalListinProfileView_Previews: PreviewProvider {
-  static var previews: some View {
-    ProfileView(.constant(3))
-  }
-}
+//
+//struct BookmarkedJournalListinProfileView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    ProfileView()
+//  }
+//}
