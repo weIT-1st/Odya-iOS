@@ -983,7 +983,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		3E414B312ADC15EE00034FBB /* DailyJournalEdit */ = {
 		3E2F295E2B294E7E00FF5357 /* TravelJournalInProfile */ = {
 			isa = PBXGroup;
 			children = (
@@ -1003,7 +1002,7 @@
 			path = FavoritePlace;
 			sourceTree = "<group>";
 		};
-		3E414B312ADC15EE00034FBB /* TravelJournalEdit */ = {
+        3E414B312ADC15EE00034FBB /* DailyJournalEdit */ = {
 			isa = PBXGroup;
 			children = (
 				3EB938182AF79D9E0041FE5B /* View */,
@@ -1222,7 +1221,6 @@
 				3EE9CA2B2AC2EDC0003A2E85 /* TravelJournalDetail */,
 				3E699A892B00A88300850E9A /* TravelJournalCompose */,
 				3E414B312ADC15EE00034FBB /* DailyJournalEdit */,
-				3E414B312ADC15EE00034FBB /* TravelJournalEdit */,
 				194417922B2189EA00423541 /* LinkedTravelJournal */,
 			);
 			path = TravelJournal;

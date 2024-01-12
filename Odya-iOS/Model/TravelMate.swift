@@ -39,3 +39,8 @@ extension TravelMate: Equatable {
         return !(lhs == rhs)
     }
 }
+
+struct travelMateSimple: Codable {
+    var username: String
+    var profileUrl: String?
+}
