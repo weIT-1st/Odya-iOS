@@ -120,7 +120,7 @@ private struct FollowButtonInProfileView: View {
 
 // MARK: Profile Info Section
 extension ProfileView {
-  
+
   /// 프로필 이미지 및 닉네임 부분
   /// 내 프로필뷰일 경우 프로필이미지 변경 버튼 포함
   /// 타인의 프로필뷰일 경우 닉네임 옆에 팔로잉 버튼 포함

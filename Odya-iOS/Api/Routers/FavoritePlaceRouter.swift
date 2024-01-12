@@ -31,7 +31,7 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-  
+
   var path: String {
     switch self {
     case .createFavoritePlace:
@@ -48,7 +48,7 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/favorite-places/list/\(userId)"
     }
   }
-  
+
   var method: Moya.Method {
     switch self {
     case .createFavoritePlace:
@@ -59,7 +59,7 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
       return .get
     }
   }
-  
+
   var task: Moya.Task {
     switch self {
     case .createFavoritePlace(let placeId):
@@ -77,7 +77,7 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
       return .requestPlain
     }
   }
-  
+
   var headers: [String: String]? {
     switch self {
     default:
@@ -92,6 +92,5 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
   var validationType: ValidationType {
     return .successCodes
   }
-  
-}
 
+}

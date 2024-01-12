@@ -8,43 +8,46 @@
 import SwiftUI
 
 extension ProfileView {
-  
+
   /// 인생샷 부분 타이틀
   /// 내 프로필뷰인 경우, 인생샷 추가 버튼 포함
   var POTDTitle: some View {
-    getSectionTitleView(title: isMyProfile ? "내 인생 샷" : "인생 샷",
-                        buttonImage: "plus",
-                        destinationView: .potoRegisterView)
+    getSectionTitleView(
+      title: isMyProfile ? "내 인생 샷" : "인생 샷",
+      buttonImage: "plus",
+      destinationView: .potoRegisterView)
   }
-  
+
   var emptyPOTDView: some View {
     VStack(alignment: .center, spacing: 17) {
       Image("photo")
-      
+
       Text("내 인생샷")
         .h6Style()
         .foregroundColor(.odya.label.normal)
         .frame(height: 13)
-      
+
       VStack(alignment: .center, spacing: 0) {
         Text("다녀온 장소의 인생샷을")
         Text("업로드 해주세요!")
       }
       .b2Style()
       .foregroundColor(.odya.label.assistive)
-      
-      Button(action: {
-        path.append(.potoRegisterView)
-      }, label: {
-        Text("인생샷 추가")
-          .b1Style()
-          .foregroundColor(.odya.label.r_normal)
-          .frame(height: 12)
-          .padding(.vertical, 12)
-          .padding(.horizontal, 16)
-          .background(Color.odya.brand.primary)
-          .cornerRadius(Radius.medium)
-      })
+
+      Button(
+        action: {
+          path.append(.potoRegisterView)
+        },
+        label: {
+          Text("인생샷 추가")
+            .b1Style()
+            .foregroundColor(.odya.label.r_normal)
+            .frame(height: 12)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(Color.odya.brand.primary)
+            .cornerRadius(Radius.medium)
+        })
     }.padding(.bottom, 20)
   }
 }

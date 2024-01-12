@@ -17,11 +17,10 @@ extension ProfileView {
           .h5Style()
           .foregroundColor(.odya.label.normal)
         Spacer()
-        
+
         Image("direction-right")
           .padding(10)
       }
     }
   }
 }
-

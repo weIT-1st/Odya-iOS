@@ -35,10 +35,10 @@ struct ProfileView: View {
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var rootTabManager: RootTabManager
   @State var path: [StackViewType] = []
-  
+
   // fullscreen
   @State var isShowingJournalComposeView: Bool = false
-  
+
   // user info
   var userId: Int = -1
   var nickname: String = ""
@@ -50,10 +50,12 @@ struct ProfileView: View {
   }
 
   init() {
-    self.bookmarkedJournalsVM = JournalsInProfileViewModel(isMyProfile: true,
-                                                           userId: MyData.userID)
-    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(isMyProfile: true,
-                                                           userId: MyData.userID)
+    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
+      isMyProfile: true,
+      userId: MyData.userID)
+    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
+      isMyProfile: true,
+      userId: MyData.userID)
   }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
@@ -61,10 +63,12 @@ struct ProfileView: View {
     self.nickname = nickname
     self.profileUrl = profileUrl
     self.isFollowing = isFollowing
-    self.bookmarkedJournalsVM = JournalsInProfileViewModel(isMyProfile: false,
-                                                           userId: userId)
-    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(isMyProfile: false,
-                                                           userId: userId)
+    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
+      isMyProfile: false,
+      userId: userId)
+    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
+      isMyProfile: false,
+      userId: userId)
   }
 
   // MARK: Body
@@ -85,7 +89,7 @@ struct ProfileView: View {
           BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
             .offset(y: -70)
         )
-        
+
         if !isMyProfile && profileVM.statistics.travelJournalCount == 0 {
           VStack(alignment: .center, spacing: 8) {
             Spacer()
@@ -113,31 +117,31 @@ struct ProfileView: View {
                 odyaCounter
               }
             }.padding(.horizontal, GridLayout.side)
-            
+
             // 인생샷
             VStack(spacing: 36) {
               POTDTitle
                 .padding(.horizontal, GridLayout.side)
               if !profileVM.potdList.isEmpty {
                 POTDListView($profileVM.potdList, isMyPOTD: isMyProfile)
-              } else if isMyProfile { // 내 프로필에서 인생샷 없는 경우
+              } else if isMyProfile {  // 내 프로필에서 인생샷 없는 경우
                 emptyPOTDView
-              } else {                // 타인의 프로필에서 인생샷 없는 경우
+              } else {  // 타인의 프로필에서 인생샷 없는 경우
                 NoDataInProfileView(message: "인생샷이 없어요.")
               }
             }
-            
+
             divider
-            
+
             // 대표 여행일지
             VStack(spacing: 36) {
               mainJournalTitle
               NoDataInProfileView(message: "대표 여행일지가 없어요.")
               // MainJournalCardView()
             }.padding(.horizontal, GridLayout.side)
-            
+
             divider
-            
+
             // 즐겨찾기 여행일지
             VStack(spacing: 36) {
               bookmarkedJournalTitle
@@ -145,24 +149,26 @@ struct ProfileView: View {
               BookmarkedJournalListinProfileView(path: $path)
                 .environmentObject(bookmarkedJournalsVM)
             }
-            
+
             divider
-            
+
             // 관심장소
             VStack(spacing: 36) {
               favoritePlaceTitle
-              FavoritePlaceListView(rootTabViewIdx: $rootTabManager.selectedTab,
-                                    path: $path)
-                .environmentObject(favoritePlacesVM)
+              FavoritePlaceListView(
+                rootTabViewIdx: $rootTabManager.selectedTab,
+                path: $path
+              )
+              .environmentObject(favoritePlacesVM)
             }.padding(.horizontal, GridLayout.side)
-            
+
             // 내 커뮤니티 활동으로 가기
             if isMyProfile {
               divider
               linkToMyCommunity
                 .padding(.horizontal, GridLayout.side)
             }
-            
+
           }
           .padding(.top, 20)
           .padding(.bottom, 50)
@@ -191,7 +197,9 @@ struct ProfileView: View {
         case .settingView:
           SettingView().navigationBarBackButtonHidden()
         case .followHubView:
-          isMyProfile ? FollowHubView().navigationBarBackButtonHidden() : FollowHubView(userId: userId).navigationBarBackButtonHidden()
+          isMyProfile
+            ? FollowHubView().navigationBarBackButtonHidden()
+            : FollowHubView(userId: userId).navigationBarBackButtonHidden()
         case .potoRegisterView:
           POTDPickerView().navigationBarBackButtonHidden()
         case .mainJournalRegisterView:
@@ -202,7 +210,7 @@ struct ProfileView: View {
         case .myCommunity:
           MyCommunityActivityView()
         }
-      } // navigation destination
+      }  // navigation destination
     }
   }
 }
@@ -230,29 +238,32 @@ extension ProfileView {
 
 extension ProfileView {
   // MARK: Section Title
-  func getSectionTitleView(title: String,
-                           buttonImage: String = "",
-                           destinationView: StackViewType? = nil) -> some View {
+  func getSectionTitleView(
+    title: String,
+    buttonImage: String = "",
+    destinationView: StackViewType? = nil
+  ) -> some View {
     HStack {
       Text(title)
         .h4Style()
         .foregroundColor(.odya.label.normal)
       Spacer()
-      CustomIconButton(buttonImage,
-                       color: isMyProfile ? .odya.label.normal : .clear) {
+      CustomIconButton(
+        buttonImage,
+        color: isMyProfile ? .odya.label.normal : .clear
+      ) {
         if let destinationView = destinationView {
           path.append(destinationView)
         }
       }.disabled(!isMyProfile)
     }
   }
-  
+
   // MARK: Section Divider
   private var divider: some View {
     Divider().frame(height: 8).background(Color.odya.blackopacity.baseBlackAlpha70)
   }
 }
-
 
 // MARK: Background Image View
 /// 프로필 뷰 배경
@@ -260,7 +271,7 @@ extension ProfileView {
 private struct BackgroundImageView: View {
   let imageUrl: String?
   let size: CGFloat = UIScreen.main.bounds.width
-  
+
   var body: some View {
     if let url = imageUrl {
       AsyncImage(url: URL(string: url)) { image in

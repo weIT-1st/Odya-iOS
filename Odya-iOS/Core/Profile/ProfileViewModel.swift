@@ -192,7 +192,7 @@ class ProfileViewModel: ObservableObject {
   }
 
   // MARK: Error Handling
-  
+
   private func processErrorResponse(error: MoyaError) {
     if let errorData = try? error.response?.map(ErrorData.self) {
       print("in profile view model - \(errorData.message)")

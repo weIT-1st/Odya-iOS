@@ -67,7 +67,8 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
 
   var method: Moya.Method {
     switch self {
-    case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity, .getAllCommunityByTopic, .getMyLikes, .getMyComments:
+    case .getCommunityDetail, .getAllCommunity, .getMyCommunity, .getFriendsCommunity,
+      .getAllCommunityByTopic, .getMyLikes, .getMyComments:
       return .get
     case .createCommunity:
       return .post

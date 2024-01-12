@@ -20,10 +20,10 @@ class JournalsInProfileViewModel: ObservableObject {
   private lazy var journalProvider = MoyaProvider<TravelJournalBookmarkRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
-  
+
   let isMyProfile: Bool
   let userId: Int
-  
+
   // loadingFlag
   var isBookmarkedJournalsLoading: Bool = false
 
@@ -34,12 +34,12 @@ class JournalsInProfileViewModel: ObservableObject {
   @Published var lastIdOfBookmarkedJournals: Int? = nil
   var hasNextBookmarkedJournals: Bool = true
   var fetchMoreSubject = PassthroughSubject<(), Never>()
-  
+
   init(isMyProfile: Bool, userId: Int) {
     self.isMyProfile = isMyProfile
     self.userId = userId
-    
-    fetchMoreSubject.sink{ [weak self] _ in
+
+    fetchMoreSubject.sink { [weak self] _ in
       guard let self = self else {
         return
       }
@@ -73,13 +73,13 @@ class JournalsInProfileViewModel: ObservableObject {
   }
 
   // MARK: Get Bookmarked Journals
-  
+
   func updateBookmarkedJournals() {
     isBookmarkedJournalsLoading = false
     hasNextBookmarkedJournals = true
     lastIdOfBookmarkedJournals = nil
     bookmarkedJournals = []
-    
+
     if isMyProfile {
       self.getMyBookmarkedJournals()
     } else {
@@ -107,7 +107,7 @@ class JournalsInProfileViewModel: ObservableObject {
           // error data decoding error handling
           return
         }
-        // other api error handling
+      // other api error handling
       }
     } receiveValue: { response in
       do {
@@ -121,7 +121,7 @@ class JournalsInProfileViewModel: ObservableObject {
       }
     }.store(in: &subscription)
   }
-  
+
   private func getOthersBookmarkedJournals(userId: Int) {
     if isBookmarkedJournalsLoading || !hasNextBookmarkedJournals {
       return
@@ -129,7 +129,8 @@ class JournalsInProfileViewModel: ObservableObject {
 
     self.isBookmarkedJournalsLoading = true
     journalProvider.requestPublisher(
-      .getOthersBookmarkedJournals(userId: userId, size: nil, lastId: self.lastIdOfBookmarkedJournals)
+      .getOthersBookmarkedJournals(
+        userId: userId, size: nil, lastId: self.lastIdOfBookmarkedJournals)
     )
     .sink { completion in
       switch completion {
@@ -143,7 +144,7 @@ class JournalsInProfileViewModel: ObservableObject {
           // unknown error
           return
         }
-        // other api error handling
+      // other api error handling
       }
     } receiveValue: { response in
       do {
@@ -158,4 +159,3 @@ class JournalsInProfileViewModel: ObservableObject {
     }.store(in: &subscription)
   }
 }
-

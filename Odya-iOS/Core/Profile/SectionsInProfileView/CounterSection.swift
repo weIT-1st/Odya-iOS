@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: Follow Count
 extension ProfileView {
-  
+
   /// 총오댜, 팔로워, 팔로잉 수 오버뷰
   var followTotal: some View {
     Button(action: {
@@ -17,17 +17,17 @@ extension ProfileView {
     }) {
       HStack(spacing: 20) {
         Spacer()
-        
+
         getCountStackView(of: "총오댜", count: profileVM.statistics.odyaCount)
-        
+
         Divider().frame(width: 1, height: 30).background(Color.odya.label.alternative)
-        
+
         getCountStackView(of: "팔로잉", count: profileVM.statistics.followingsCount)
-        
+
         Divider().frame(width: 1, height: 30).background(Color.odya.label.alternative)
-        
+
         getCountStackView(of: "팔로우", count: profileVM.statistics.followersCount)
-        
+
         Spacer()
       }
       .frame(height: 80)
@@ -40,7 +40,7 @@ extension ProfileView {
       )
     }
   }
-  
+
   private func getCountStackView(of title: String, count: Int) -> some View {
     VStack {
       Text(title)
@@ -93,7 +93,7 @@ extension ProfileView {
     .background(Color.odya.elevation.elev3)
     .cornerRadius(Radius.large)
   }
-  
+
   /// 작성된 여행일지가 없을 경우의 오댜 여행간 곳, 여행일지 카운트 오버뷰
   var emptyOdyaCounter: some View {
     VStack(alignment: .center) {
@@ -102,13 +102,13 @@ extension ProfileView {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .padding(.bottom, 10)
-        
+
         Text("작성된 여행일지가 없어요!")
           .h6Style()
           .foregroundColor(.odya.label.normal)
           .frame(height: 13)
           .padding(.bottom, 24)
-        
+
         CTAButton(
           isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기",
           labelSize: ComponentSizeType.L,

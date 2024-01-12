@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct NoDataInProfileView: View {
-  
+
   let message: String
-  
+
   var body: some View {
     HStack {
       Spacer()
