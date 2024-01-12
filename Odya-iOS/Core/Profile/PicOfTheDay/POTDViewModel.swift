@@ -40,7 +40,7 @@ class POTDViewModel: ObservableObject {
   @Published var selectedImage: UserImage? = nil
 
   // MARK: Init
-  
+
   init() {
     fetchImages()
 
@@ -53,7 +53,7 @@ class POTDViewModel: ObservableObject {
   }
 
   // MARK: Fetch
-  
+
   private func fetchImages(size: Int = 30) {
     if isFetching {
       return
@@ -85,7 +85,7 @@ class POTDViewModel: ObservableObject {
   }
 
   // MARK: Register
-  
+
   func registerPOTD(imageId: Int, placeName: String?) {
     if isProcessing {
       return
@@ -112,7 +112,7 @@ class POTDViewModel: ObservableObject {
   }
 
   // MARK: Delete
-  
+
   func deletePOTD(
     imageId: Int,
     completion: @escaping () -> Void

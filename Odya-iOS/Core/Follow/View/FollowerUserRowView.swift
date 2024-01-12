@@ -23,7 +23,8 @@ struct FollowerUserRowView: View {
     HStack {
       UserIdentityLink(userId: followUser.userId,
                        nickname: followUser.nickname,
-                       profileUrl: followUser.profile.profileUrl)
+                       profileUrl: followUser.profile.profileUrl,
+                       isFollowing: followUser.isFollowing)
       Spacer()
       if followHubVM.userID == MyData.userID {
         followerDeletionButton

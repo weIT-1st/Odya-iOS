@@ -31,7 +31,7 @@ struct FeedUserInfoView: View {
                        nickname: writer.nickname,
                        profileUrl: writer.profile.profileUrl,
                        profileSize: profileImageSize,
-                       isFollowing: writer.isFollowing)
+                       isFollowing: writer.isFollowing ?? false)
       
       // dot
       Text("·")

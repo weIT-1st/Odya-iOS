@@ -74,7 +74,7 @@ class BookmarkedJournalListViewModel: ObservableObject {
   private func getBookmarkedJournals() {
     self.isBookmarkedJournalsLoading = true
     journalBookmarkProvider.requestPublisher(
-      .getBookmarkedJournals(size: nil, lastId: self.lastIdOfBookmarkedJournals)
+      .getMyBookmarkedJournals(size: nil, lastId: self.lastIdOfBookmarkedJournals)
     )
     .sink { completion in
       switch completion {
