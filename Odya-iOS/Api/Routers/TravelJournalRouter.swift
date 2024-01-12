@@ -131,7 +131,7 @@ enum TravelJournalRouter {
   case getBookmarkedJournals(token: String, size: Int?, lastId: Int?)
   // 여행일지 북마크 삭제(즐겨찾기 해제)
   case deleteBookmark(token: String, journalId: Int)
-    
+
   // 여행일지 공개범위 수정
   case updateVisibility(token: String, journalId: Int, visibility: String)
 }

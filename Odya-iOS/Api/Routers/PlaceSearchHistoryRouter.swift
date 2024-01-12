@@ -21,7 +21,7 @@ extension PlaceSearchHistoryRouter: TargetType, AccessTokenAuthorizable {
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-  
+
   var path: String {
     switch self {
     case .createPlaceSearchHistory:
@@ -32,7 +32,7 @@ extension PlaceSearchHistoryRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/place-search-histories/ranking/ageRange/\(ageRange)"
     }
   }
-  
+
   var method: Moya.Method {
     switch self {
     case .createPlaceSearchHistory:
@@ -41,7 +41,7 @@ extension PlaceSearchHistoryRouter: TargetType, AccessTokenAuthorizable {
       return .get
     }
   }
-  
+
   var task: Moya.Task {
     switch self {
     case .createPlaceSearchHistory(let searchTerm):
@@ -54,11 +54,11 @@ extension PlaceSearchHistoryRouter: TargetType, AccessTokenAuthorizable {
       return .requestPlain
     }
   }
-  
-  var headers: [String : String]? {
+
+  var headers: [String: String]? {
     return ["Content-type": "application/json"]
   }
-  
+
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }

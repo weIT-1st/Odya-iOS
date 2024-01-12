@@ -13,7 +13,7 @@ struct FavoritePlace: Codable, Identifiable {
   var placeIdString: String
   var userId: Int
   var isFavoritePlace: Bool
-  
+
   enum CodingKeys: String, CodingKey {
     case placeId = "id"
     case placeIdString = "placeId"

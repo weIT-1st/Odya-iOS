@@ -10,49 +10,49 @@ import SwiftUI
 // MARK: Daily Journal
 
 struct DailyJournalImage: Codable, Identifiable {
-    var id = UUID()
-    var imageId: Int
-    var imageName: String
-    var imageUrl: String
-    
-    enum CodingKeys: String, CodingKey {
-        case imageId = "travelJournalContentImageId"
-        case imageName = "contentImageName"
-        case imageUrl = "contentImageUrl"
-    }
+  var id = UUID()
+  var imageId: Int
+  var imageName: String
+  var imageUrl: String
+
+  enum CodingKeys: String, CodingKey {
+    case imageId = "travelJournalContentImageId"
+    case imageName = "contentImageName"
+    case imageUrl = "contentImageUrl"
+  }
 }
 
 extension DailyJournalImage: Equatable {
-    static func == (lhs: DailyJournalImage, rhs: DailyJournalImage) -> Bool {
-      return lhs.imageId == rhs.imageId
-    }
+  static func == (lhs: DailyJournalImage, rhs: DailyJournalImage) -> Bool {
+    return lhs.imageId == rhs.imageId
+  }
 
-    static func != (lhs: DailyJournalImage, rhs: DailyJournalImage) -> Bool {
-      return lhs.imageId != rhs.imageId
-    }
+  static func != (lhs: DailyJournalImage, rhs: DailyJournalImage) -> Bool {
+    return lhs.imageId != rhs.imageId
+  }
 }
 
 struct DailyJournal: Identifiable, Codable {
-    var id = UUID()
-    var dailyJournalId: Int
-    var content: String
-    var placeId: String?
-    var latitudes: [Double]
-    var longitudes: [Double]
-    var travelDateString: String
-    var images: [DailyJournalImage]
-    
-    var travelDate: Date {
-        self.travelDateString.toDate(format: "yyyy-MM-dd")!
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case dailyJournalId = "travelJournalContentId"
-        case content
-        case placeId, latitudes, longitudes
-        case travelDateString = "travelDate"
-        case images = "travelJournalContentImages"
-    }
+  var id = UUID()
+  var dailyJournalId: Int
+  var content: String
+  var placeId: String?
+  var latitudes: [Double]
+  var longitudes: [Double]
+  var travelDateString: String
+  var images: [DailyJournalImage]
+
+  var travelDate: Date {
+    self.travelDateString.toDate(format: "yyyy-MM-dd")!
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case dailyJournalId = "travelJournalContentId"
+    case content
+    case placeId, latitudes, longitudes
+    case travelDateString = "travelDate"
+    case images = "travelJournalContentImages"
+  }
 }
 
 extension DailyJournal: Equatable {
@@ -66,78 +66,57 @@ extension DailyJournal: Equatable {
 
 }
 
-// MARK: Travel Mate
-
-struct TravelMate: Codable, Identifiable {
-  var id = UUID()
-  var userId: Int?
-  var nickname: String?
-  var profileUrl: String?
-  var isRegistered: Bool
-  var isFollowing: Bool
-  
-  private enum CodingKeys: String, CodingKey {
-    case userId, nickname, profileUrl, isRegistered, isFollowing
-  }
-}
-
-struct travelMateSimple: Codable {
-    var username: String
-    var profileUrl: String?
-}
-
 // MARK: Travel Journal
 
 struct TravelJournalDetailData: Codable {
-    var journalId: Int = -1
-    var title: String
-    var startDateString: String
-    var endDateString: String
-    var visibility: String
-    var isBookmarked: Bool
-    var writer: Writer
-    var dailyJournals: [DailyJournal]
-    var travelMates: [TravelMate]
-    
-    var travelStartDate: Date {
-        self.startDateString.toDate(format: "yyyy-MM-dd")!
-    }
-    var travelEndDate: Date {
-        self.endDateString.toDate(format: "yyyy-MM-dd")!
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case journalId = "travelJournalId"
-        case title
-        case startDateString = "travelStartDate"
-        case endDateString = "travelEndDate"
-        case visibility, isBookmarked, writer
-        case dailyJournals = "travelJournalContents"
-        case travelMates = "travelJournalCompanions"
-    }
-}
-
-
-struct TravelJournalData: Codable, Identifiable {
-  var id = UUID()
-  var journalId: Int
+  var journalId: Int = -1
   var title: String
-  var content : String
-  var imageUrl: String
   var startDateString: String
   var endDateString: String
-  var writer: Writer
   var visibility: String
-  var travelMates : [travelMateSimple]
   var isBookmarked: Bool
-  
+  var writer: Writer
+  var dailyJournals: [DailyJournal]
+  var travelMates: [TravelMate]
+
   var travelStartDate: Date {
     self.startDateString.toDate(format: "yyyy-MM-dd")!
   }
   var travelEndDate: Date {
     self.endDateString.toDate(format: "yyyy-MM-dd")!
   }
-  
+
+  private enum CodingKeys: String, CodingKey {
+    case journalId = "travelJournalId"
+    case title
+    case startDateString = "travelStartDate"
+    case endDateString = "travelEndDate"
+    case visibility, isBookmarked, writer
+    case dailyJournals = "travelJournalContents"
+    case travelMates = "travelJournalCompanions"
+  }
+}
+
+struct TravelJournalData: Codable, Identifiable {
+  var id = UUID()
+  var journalId: Int
+  var title: String
+  var content: String
+  var imageUrl: String
+  var startDateString: String
+  var endDateString: String
+  var writer: Writer
+  var visibility: String
+  var travelMates: [travelMateSimple]
+  var isBookmarked: Bool
+
+  var travelStartDate: Date {
+    self.startDateString.toDate(format: "yyyy-MM-dd")!
+  }
+  var travelEndDate: Date {
+    self.endDateString.toDate(format: "yyyy-MM-dd")!
+  }
+
   private enum CodingKeys: String, CodingKey {
     case journalId = "travelJournalId"
     case title, content
@@ -152,39 +131,37 @@ struct TravelJournalData: Codable, Identifiable {
 }
 
 struct TravelJournalList: Codable {
-    var hasNext: Bool
-    var content: [TravelJournalData]
+  var hasNext: Bool
+  var content: [TravelJournalData]
 }
-
 
 // MARK: Tagged Journal
 
 // 7. 태그된 여행일지 목록 조회
 struct TaggedJournalData: Codable, Identifiable {
-    var id = UUID()
-    var journalId : Int
-    var title : String
-    var startDateString : String
-    var mainImageUrl : String
-    var writer : Writer
-    
-    var travelStartDate: Date {
-        self.startDateString.toDate(format: "yyyy-MM-dd")!
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case journalId = "travelJournalId"
-        case title
-        case startDateString = "travelStartDate"
-        case mainImageUrl, writer
-    }
+  var id = UUID()
+  var journalId: Int
+  var title: String
+  var startDateString: String
+  var mainImageUrl: String
+  var writer: Writer
+
+  var travelStartDate: Date {
+    self.startDateString.toDate(format: "yyyy-MM-dd")!
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case journalId = "travelJournalId"
+    case title
+    case startDateString = "travelStartDate"
+    case mainImageUrl, writer
+  }
 }
 
 struct TaggedJournalList: Codable {
-    var hasNext: Bool
-    var content: [TaggedJournalData]
+  var hasNext: Bool
+  var content: [TaggedJournalData]
 }
-
 
 // MARK: Bookmarked Journal
 
@@ -192,18 +169,17 @@ struct TaggedJournalList: Codable {
 class BookmarkedJournalData: Codable, Identifiable {
   var id = UUID()
   var bookmarkId: Int
-  var journalId : Int
+  var journalId: Int
   var title: String
-  var startDateString : String
+  var startDateString: String
   var mainImageUrl: String
   var writer: Writer
   var isBookmarked: Bool
-  
-  
+
   var travelStartDate: Date {
     self.startDateString.toDate(format: "yyyy-MM-dd")!
   }
-  
+
   private enum CodingKeys: String, CodingKey {
     case bookmarkId = "travelJournalBookmarkId"
     case journalId = "travelJournalId"
@@ -216,6 +192,6 @@ class BookmarkedJournalData: Codable, Identifiable {
 }
 
 class BookmarkedJournalList: Codable {
-    var hasNext: Bool
-    var content: [BookmarkedJournalData]
+  var hasNext: Bool
+  var content: [BookmarkedJournalData]
 }

@@ -83,7 +83,7 @@ struct DailyJournalView: View {
               isShowingJournalDeletionAlert = true
             }
           } label: {
-            Image("menu-kebob")
+            IconButton("menu-kebob") {}
           }
           .fullScreenCover(isPresented: $isShowingEditView) {
             DailyJournalEditView(journal: journal, editedJournal: dailyJournal)

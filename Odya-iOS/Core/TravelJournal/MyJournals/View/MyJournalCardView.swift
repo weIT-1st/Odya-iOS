@@ -323,7 +323,7 @@ struct FavoriteJournalCardOverlayMenuView: View {
 
   let journalId: Int
   @State private var isBookmarked: Bool = true
-  
+
   init(journalId: Int, isBookmarked: Bool) {
     self.journalId = journalId
     self.isBookmarked = isBookmarked

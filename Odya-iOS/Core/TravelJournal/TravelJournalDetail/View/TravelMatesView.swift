@@ -40,25 +40,3 @@ struct TravelMatesView: View {
     .padding(.horizontal, GridLayout.side)
   }
 }
-
-//// MARK: Preview
-//struct TravelMatesView_Previews: PreviewProvider {
-//
-//  static var previews: some View {
-//    TravelMatesView(
-//      mates: [
-//        TravelMate(
-//          userId: 1, nickname: "홍길동aa1", profileUrl: "", isRegistered: true, isFollowing: true),
-//        TravelMate(
-//          userId: 2, nickname: "홍길동aa2", profileUrl: "", isRegistered: true, isFollowing: true),
-//        TravelMate(
-//          userId: 3, nickname: "홍길동aa3", profileUrl: "", isRegistered: true, isFollowing: true),
-//        TravelMate(
-//          userId: 4, nickname: "홍길동aa4", profileUrl: "", isRegistered: true, isFollowing: true),
-//        TravelMate(
-//          userId: 5, nickname: "홍길동aa5", profileUrl: "", isRegistered: true, isFollowing: true),
-//      ]
-//    )
-//
-//  }
-//}
