@@ -78,17 +78,10 @@ private struct FollowButtonInProfileView: View {
 
   @State private var isShowingUnfollowingAlert: Bool = false
 
-  init(userId: Int, followerCount: Binding<Int>, isFollowing: Bool?) {
+  init(userId: Int, followerCount: Binding<Int>, isFollowing: Bool) {
     self.userId = userId
     self._followerCount = followerCount
-    if let isFollowing = isFollowing {
-      self.followState = isFollowing
-    } else {
-      self.followState = false
-      FollowButtonViewModel().isMyFollowingUser(userId) { [self] result in
-        self.followState = result
-      }
-    }
+    self.followState = isFollowing
   }
 
   var body: some View {
@@ -127,7 +120,7 @@ private struct FollowButtonInProfileView: View {
 
 // MARK: Profile Info Section
 extension ProfileView {
-  
+
   /// 프로필 이미지 및 닉네임 부분
   /// 내 프로필뷰일 경우 프로필이미지 변경 버튼 포함
   /// 타인의 프로필뷰일 경우 닉네임 옆에 팔로잉 버튼 포함

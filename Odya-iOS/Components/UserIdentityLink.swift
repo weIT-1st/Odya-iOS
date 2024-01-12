@@ -12,17 +12,20 @@ import SwiftUI
 /// 유저 프로필이미지, 닉네임으로 구성된 HStack 뷰
 /// 클릭 시 해당 유저의 프로필 뷰로 이동
 struct UserIdentityLink: View {
+  // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
+  
   let userId: Int
   let nickname: String
   let profileUrl: String
   let profileSize: ComponentSizeType
-  let isFollowing: Bool?
+  let isFollowing: Bool
   
   // 유저의 프로필 뷰 화면 표시 여부
   @State private var isShowingUserProfileView: Bool = false
+  // @State private var fullScreenIdx: Int = 0
   
   // MARK: - Init
-  init(userId: Int, nickname: String, profileUrl: String, profileSize: ComponentSizeType = .S, isFollowing: Bool? = nil) {
+  init(userId: Int, nickname: String, profileUrl: String, profileSize: ComponentSizeType = .S, isFollowing: Bool) {
     self.userId = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
@@ -33,6 +36,7 @@ struct UserIdentityLink: View {
   // MARK: -- Body
   var body: some View {
     Button(action: {
+      // fullScreenManager.openFullScreen(idx: fullScreenIdx)
       isShowingUserProfileView = true
     }) {
       HStack(spacing: 0) {
@@ -53,6 +57,12 @@ struct UserIdentityLink: View {
     // 내 프로필 뷰로는 이동 불가능
     .disabled(userId == MyData.userID)
     // 프로필 뷰
+//    .onAppear {
+//      if fullScreenIdx < 0 {
+//        self.fullScreenIdx = fullScreenManager.newFullScreen()
+//      }
+//    }
+//    .fullScreenCover(isPresented: $fullScreenManager.activeFullScreens[fullScreenIdx]) {
     .fullScreenCover(isPresented: $isShowingUserProfileView) {
       ProfileView(userId: userId,
                   nickname: nickname,
@@ -103,7 +113,9 @@ struct UserIdentityRowWithFollowing: View {
     HStack {
       UserIdentityLink(userId: userId, nickname: nickname, profileUrl: profileUrl, isFollowing: isFollowing)
       Spacer()
-      FollowButtonWithAlertAndApi(userId: userId, buttonStyle: .solid, followState: isFollowing)
+      if userId != MyData.userID {
+        FollowButtonWithAlertAndApi(userId: userId, buttonStyle: .solid, followState: isFollowing)
+      }
     }
     .frame(height: 36)
   }

@@ -13,21 +13,21 @@ struct SettingView: View {
       CustomNavigationBar(title: "환경설정")
       settingViewMainSection
     }.background(Color.odya.background.normal)
-    
-  } // body
-  
+
+  }  // body
+
   var settingViewMainSection: some View {
     ScrollView {
       VStack(spacing: 12) {
         linkToUserInfoEditView
         Divider()
-        
-      } // Main VStack
+
+      }  // Main VStack
       .padding(GridLayout.side)
-    } // Scroll View
+    }  // Scroll View
     .background(Color.odya.elevation.elev2)
-  } // settingViewMainSection
-  
+  }  // settingViewMainSection
+
   private var linkToUserInfoEditView: some View {
     NavigationLink(destination: {
       UserInfoEditView()
@@ -40,11 +40,11 @@ struct SettingView: View {
         Image("direction-right")
       }
     }
-  } // linkToUserInfoEditView
+  }  // linkToUserInfoEditView
 }
 
 struct SettingView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingView()
-    }
+  static var previews: some View {
+    SettingView()
+  }
 }

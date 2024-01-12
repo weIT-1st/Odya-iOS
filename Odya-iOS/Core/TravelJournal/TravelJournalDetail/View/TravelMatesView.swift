@@ -40,5 +40,3 @@ struct TravelMatesView: View {
     .padding(.horizontal, GridLayout.side)
   }
 }
-
-

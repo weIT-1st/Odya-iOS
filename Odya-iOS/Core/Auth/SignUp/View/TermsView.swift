@@ -185,9 +185,10 @@ extension TermsView {
         .task {
           viewModel.getTermsContent(id: terms.id)
         }.padding(.bottom)
-      } else {
-        ProfileView()
       }
+//      else {
+//        ProfileView()
+//      }
     }
     .padding(.horizontal, GridLayout.side)
     .frame(width: UIScreen.main.bounds.width)
