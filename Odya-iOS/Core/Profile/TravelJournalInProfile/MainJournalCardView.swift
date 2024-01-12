@@ -12,11 +12,12 @@ struct MainJournalCardView: View {
   let shadowBoxWidth: CGFloat = 16
   var cardWidth: CGFloat { totalWidth - (shadowBoxWidth * 2) }
   let cardHeight: CGFloat = 280
-  let mates: [TravelMate] = [
-    TravelMate(userId: 1, nickname: "hhh", profileUrl: "", isRegistered: true, isFollowing: true),
-    TravelMate(userId: 2, nickname: "kkk", profileUrl: "", isRegistered: true, isFollowing: true),
-    TravelMate(userId: 3, nickname: "jjj", profileUrl: "", isRegistered: true, isFollowing: true),
-  ]
+  let mates: [TravelMate] = []
+//  let mates: [TravelMate] = [
+//    TravelMate(userId: 1, nickname: "hhh", profileUrl: "", isRegistered: true, isFollowing: true),
+//    TravelMate(userId: 2, nickname: "kkk", profileUrl: "", isRegistered: true, isFollowing: true),
+//    TravelMate(userId: 3, nickname: "jjj", profileUrl: "", isRegistered: true, isFollowing: true),
+//  ]
 
   var body: some View {
     VStack(spacing: 20) {

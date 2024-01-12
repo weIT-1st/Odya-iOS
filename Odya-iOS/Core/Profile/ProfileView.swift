@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-// MARK: Stack View Type
-/// NavigationStack으로 이동할 뷰 타입
-enum StackViewType: Hashable {
+// MARK: Profile Route
+/// 프로필 뷰에서 NavigationStack으로 이동할 뷰 타입
+enum ProfileRoute: Hashable {
   /// 환경설정
   case settingView
   /// 친구관리 뷰
@@ -34,10 +34,14 @@ struct ProfileView: View {
   // navigation stack
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var rootTabManager: RootTabManager
-  @State var path: [StackViewType] = []
+  @State var path = NavigationPath()
 
-  // fullscreen
+  // journal compose
   @State var isShowingJournalComposeView: Bool = false
+  
+  // main journal
+  @State var mainJournalId: Int? = nil
+  @State var mainJournalTitle: String? = nil
 
   // user info
   var userId: Int = -1
@@ -135,7 +139,7 @@ struct ProfileView: View {
 
             // 대표 여행일지
             VStack(spacing: 36) {
-              mainJournalTitle
+              mainJournalSectionTitle
               NoDataInProfileView(message: "대표 여행일지가 없어요.")
               // MainJournalCardView()
             }.padding(.horizontal, GridLayout.side)
@@ -185,14 +189,13 @@ struct ProfileView: View {
           profileVM.initData(
             MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
         }
-
-        // 프로필 뷰에서 필요한 데이터 받아오기
-        Task {
-          await profileVM.fetchDataAsync()
-        }
+      }
+      // 프로필 뷰에서 필요한 데이터 받아오기
+      .task {
+        await profileVM.fetchDataAsync()
       }
       // stackViewType에 따라 이동할 목적지 뷰
-      .navigationDestination(for: StackViewType.self) { stackViewType in
+      .navigationDestination(for: ProfileRoute.self) { stackViewType in
         switch stackViewType {
         case .settingView:
           SettingView().navigationBarBackButtonHidden()
@@ -203,7 +206,7 @@ struct ProfileView: View {
         case .potoRegisterView:
           POTDPickerView().navigationBarBackButtonHidden()
         case .mainJournalRegisterView:
-          Text("main journal register")
+          LinkedTravelJournalView(path: $path, selectedJournalId: $mainJournalId, selectedJournalTitle: $mainJournalTitle, headerTitle: "대표 여행일지")
         case .journalDetail(let journalId, let nickname):
           TravelJournalDetailView(journalId: journalId, nickname: nickname)
             .navigationBarBackButtonHidden()
@@ -222,7 +225,7 @@ extension ProfileView {
       if isMyProfile {
         Spacer()
         IconButton("setting") {
-          path.append(.settingView)
+          path.append(ProfileRoute.settingView)
         }.padding(4)
       } else {
         IconButton("direction-left") {
@@ -241,7 +244,7 @@ extension ProfileView {
   func getSectionTitleView(
     title: String,
     buttonImage: String = "",
-    destinationView: StackViewType? = nil
+    destinationView: ProfileRoute? = nil
   ) -> some View {
     HStack {
       Text(title)

@@ -36,7 +36,7 @@ extension ProfileView {
 
       Button(
         action: {
-          path.append(.potoRegisterView)
+          path.append(ProfileRoute.potoRegisterView)
         },
         label: {
           Text("인생샷 추가")

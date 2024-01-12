@@ -54,7 +54,7 @@ struct LinkedTravelJournalCell: View {
     }
     .background(
       content.visibility == privateVisibility
-        ? Color.odya.background.dimmed_dark : .black.opacity(0.2)
+      ? Color.odya.background.dimmed_dark : Color.odya.blackopacity.baseBlackAlpha20
     )
     .cornerRadius(Radius.medium)
     .background(

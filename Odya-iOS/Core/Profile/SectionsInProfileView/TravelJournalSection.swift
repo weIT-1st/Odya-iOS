@@ -9,7 +9,7 @@ import SwiftUI
 
 extension ProfileView {
 
-  var mainJournalTitle: some View {
+  var mainJournalSectionTitle: some View {
     getSectionTitleView(
       title: "대표 여행일지",
       buttonImage: "pen-s",
@@ -22,7 +22,7 @@ extension ProfileView {
 }
 
 struct BookmarkedJournalListinProfileView: View {
-  @Binding var path: [StackViewType]
+  @Binding var path: NavigationPath
   @EnvironmentObject var VM: JournalsInProfileViewModel
 
   var body: some View {
@@ -40,7 +40,7 @@ struct BookmarkedJournalListinProfileView: View {
 
               Button(action: {
                 path.append(
-                  .journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
+                  ProfileRoute.journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
               }) {
                 BookmarkedJournalCardView(journal)
                   .environmentObject(VM)

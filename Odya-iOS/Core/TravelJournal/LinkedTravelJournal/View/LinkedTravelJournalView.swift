@@ -19,6 +19,9 @@ struct LinkedTravelJournalView: View {
   @Binding var selectedJournalId: Int?
   /// 상위 뷰에 표시될 여행일지 타이틀
   @Binding var selectedJournalTitle: String?
+  
+  /// 헤더 뷰 타이틀
+  let headerTitle: String
 
   // MARK: Body
   var body: some View {
@@ -94,6 +97,7 @@ struct LinkedTravelJournalView: View {
         Text("여행일지를 새로 작성하시겠습니까? 현재 작성 중인 피드 글은 사라집니다.")
       }
     }  // ScrollView
+    .padding(.bottom, 20)
     .background(Color.odya.background.normal)
     .clipped()
   }
@@ -108,7 +112,7 @@ struct LinkedTravelJournalView: View {
       }
       .frame(width: 36, height: 36)
       Spacer()
-      Text("여행일지")
+      Text(headerTitle)
         .h6Style()
         .foregroundColor(.odya.label.normal)
       Spacer()

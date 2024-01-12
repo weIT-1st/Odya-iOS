@@ -13,7 +13,7 @@ extension ProfileView {
   /// 총오댜, 팔로워, 팔로잉 수 오버뷰
   var followTotal: some View {
     Button(action: {
-      path.append(.followHubView)
+      path.append(ProfileRoute.followHubView)
     }) {
       HStack(spacing: 20) {
         Spacer()

@@ -17,7 +17,7 @@ extension ProfileView {
 // MARK: Favorite Place List
 struct FavoritePlaceListView: View {
   @Binding var rootTabViewIdx: Int
-  @Binding var path: [StackViewType]
+  @Binding var path: NavigationPath
   // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
@@ -65,7 +65,7 @@ struct FavoritePlaceListView: View {
     Button(action: {
       dismiss()  // 프로필 뷰 풀스크린 닫기
       // fullScreenManager.closeAll()
-      path = []
+      path.removeLast(path.count)
       rootTabViewIdx = 0  // 메인 뷰로 이동
     }) {
       HStack(spacing: 10) {
