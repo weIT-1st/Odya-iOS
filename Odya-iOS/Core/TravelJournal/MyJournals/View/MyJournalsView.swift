@@ -13,6 +13,7 @@ struct MyJournalsView: View {
   @StateObject var VM = MyJournalsViewModel()
   @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
   @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
+  @StateObject var myReviewsVM = MyReviewListViewModel()
 
   @State private var isShowingRandomMainJournal: Bool = false
   @State private var isShowingComposeView: Bool = false
@@ -29,10 +30,11 @@ struct MyJournalsView: View {
         Color.odya.background.normal
           .ignoresSafeArea()
 
-        //        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
-        //          ProgressView()
-        //            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        //        }
+        /*
+        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
+          ProgressView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }*/
 
         // 작성된 여행일지가 없는 경우
         ScrollView(showsIndicators: false) {
@@ -60,8 +62,12 @@ struct MyJournalsView: View {
                 myTaggedTravelJournalList
               }
 
-              myReviewList
-                .padding(.horizontal, GridLayout.side)
+              if myReviewsVM.isMyReviewsLoading
+                || !myReviewsVM.reviews.isEmpty
+              {
+                myReviewList
+                  .padding(.horizontal, GridLayout.side)
+              }
             }
             .padding(.vertical, 50)
 
@@ -184,16 +190,10 @@ extension MyJournalsView {
     VStack(alignment: .leading, spacing: 0) {
       self.getSectionTitle(title: "내가 쓴 한줄 리뷰")
 
-      ForEach(Array(1...5), id: \.self) { journal in
-        MyReviewCardView(
-          placeName: "해운대 해수욕장", rating: 7, review: "노을뷰가 너무 예뻐요~ 노을뷰가 너무 예뻐요~ 노을뷰가 너무 예뻐요~",
-          date: "2023-08-01".toDate(format: "yyyy-MM-dd")!
-        )
-        .padding(.bottom, 12)
-      }
+      MyReviewListView()
+        .environmentObject(myReviewsVM)
     }
   }
-
 }
 
 struct MyJournalsView_Previews: PreviewProvider {

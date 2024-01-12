@@ -14,7 +14,7 @@ struct RecentSearchCell: View {
 
   // MARK: - Body
   var body: some View {
-    HStack {
+    HStack(spacing: 4) {
       // 최근검색어 버튼
       Button {
         // 검색어 대치
@@ -22,21 +22,22 @@ struct RecentSearchCell: View {
         viewModel.appendRecentSearch()
       } label: {
         Text(searchText)
-          .font(.system(size: 12))
+          .detail1Style()
+          .foregroundColor(.odya.label.assistive)
       }
 
       // 삭제 버튼
       Button {
         viewModel.removeRecentSearch(searchText: searchText)
       } label: {
-        Image(systemName: "xmark")
+        Image("x")
+          .resizable()
+          .renderingMode(.template)
+          .foregroundColor(.odya.label.assistive)
+          .frame(width: 10, height: 10)
       }
-    }
+    } // HStack
     .padding(8)
-    .background(
-      Capsule()
-        .stroke(.black, style: StrokeStyle(lineWidth: 1))
-    )
   }
 }
 

@@ -15,24 +15,33 @@ struct LocationSearchResultCell: View {
 
   // MARK: - Body
   var body: some View {
-    VStack(alignment: .leading, spacing: 4) {
-      // title
-      Text(title)
-        .font(.body)
-      // subtitle
-      Text(subtitle)
-        .font(.system(size: 15))
-        .foregroundColor(.gray)
-
-      Divider()
+    HStack(spacing: 17) {
+      Image("search")
+        .renderingMode(.template)
+        .foregroundColor(.odya.label.assistive)
+        .frame(width: 38, height: 38)
+        .background(
+          Circle()
+            .foregroundColor(.odya.elevation.elev6)
+        )
+      VStack(alignment: .leading, spacing: 8) {
+        // title
+        Text(title)
+          .detail1Style()
+          .foregroundColor(.odya.label.normal)
+        // subtitle
+        Text(subtitle)
+          .detail2Style()
+          .foregroundColor(.odya.label.alternative)
+      }
+      Spacer()
     }
-    .padding(.leading, 8)
   }
 }
 
 // MARK: - Previews
 struct LocationSearchResultCell_Previews: PreviewProvider {
   static var previews: some View {
-    LocationSearchResultCell(title: "", subtitle: "")
+    LocationSearchResultCell(title: "서울대공원", subtitle: "경기 과천시 대공원광장로 102")
   }
 }
