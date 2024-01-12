@@ -174,7 +174,7 @@ struct ContentComposeView: View {
       )
       .foregroundColor(.odya.label.normal)
       .b1Style()
-//      .frame(minHeight: 90, alignment: .top)
+      //      .frame(minHeight: 90, alignment: .top)
     }
     .padding(.horizontal, 12)
     .padding(.vertical, 16)

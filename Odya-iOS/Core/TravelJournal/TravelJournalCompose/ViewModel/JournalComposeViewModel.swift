@@ -50,14 +50,14 @@ class JournalComposeViewModel: ObservableObject {
   // travel journal data
   let journalId: Int
   let composeType: JournalComposeType
-  
+
   var orgTitle: String
   var orgStartDate: Date
   var orgEndDate: Date
   var orgTravelMates: [TravelMate]
   var orgDailyJournals: [DailyJournal]
   var orgPrivacyType: PrivacyType
-  
+
   @Published var title: String
   @Published var startDate: Date
   @Published var endDate: Date
@@ -65,7 +65,7 @@ class JournalComposeViewModel: ObservableObject {
   @Published var dailyJournalList: [DailyTravelJournal]
   @Published var privacyType: PrivacyType
   @Published var pickedJournalIndex: Int? = nil
-  
+
   var duration: Int {
     let calendar = Calendar.current
     let components = calendar.dateComponents([.day], from: startDate, to: endDate)
@@ -74,36 +74,40 @@ class JournalComposeViewModel: ObservableObject {
     }
     return 0
   }
-  
+
   // MARK: Init
-  init(journalId: Int = -1,
-       composeType: JournalComposeType,
-       title: String = "",
-       startDate: Date = Date(), endDate: Date = Date(),
-       travelMates: [TravelMate] = [],
-       dailyJournalList: [DailyJournal] = [],
-       privacyType: PrivacyType = .global) {
+  init(
+    journalId: Int = -1,
+    composeType: JournalComposeType,
+    title: String = "",
+    startDate: Date = Date(), endDate: Date = Date(),
+    travelMates: [TravelMate] = [],
+    dailyJournalList: [DailyJournal] = [],
+    privacyType: PrivacyType = .global
+  ) {
     self.journalId = journalId
     self.composeType = composeType
-    
+
     self.orgTitle = title
     self.orgStartDate = startDate
     self.orgEndDate = endDate
     self.orgTravelMates = travelMates
     self.orgDailyJournals = dailyJournalList
     self.orgPrivacyType = privacyType
-    
+
     self.title = title
     self.startDate = startDate
     self.endDate = endDate
     self.travelMates = travelMates
     self.dailyJournalList = []
     self.privacyType = privacyType
-    
+
     dailyJournalList.forEach {
-      self.dailyJournalList.append(DailyTravelJournal(date: $0.travelDate, dailyJournalId: $0.dailyJournalId, isOriginal: true))
+      self.dailyJournalList.append(
+        DailyTravelJournal(date: $0.travelDate, dailyJournalId: $0.dailyJournalId, isOriginal: true)
+      )
     }
-    
+
   }
 
   // MARK: Functions - travel dates
@@ -297,18 +301,19 @@ class JournalComposeViewModel: ObservableObject {
     guard let idToken = self.idToken else {
       return
     }
-    
+
     journalProvider.requestPublisher(
-      .edit(token: idToken,
-            journalId: journalId,
-            title: title,
-            startDate: startDate.toIntArray(),
-            endDate: endDate.toIntArray(),
-            visibility: privacyType.toString(),
-            travelMateIds: travelMates.map { $0.userId! },
-            travelMateNames: [],
-            travelDuration: duration,
-            newTravelMatesCount: travelMates.count)
+      .edit(
+        token: idToken,
+        journalId: journalId,
+        title: title,
+        startDate: startDate.toIntArray(),
+        endDate: endDate.toIntArray(),
+        visibility: privacyType.toString(),
+        travelMateIds: travelMates.map { $0.userId! },
+        travelMateNames: [],
+        travelDuration: duration,
+        newTravelMatesCount: travelMates.count)
     )
     .filterSuccessfulStatusCodes()
     .sink { apiCompletion in
@@ -323,10 +328,11 @@ class JournalComposeViewModel: ObservableObject {
         }
         print(errorData.message)
       }
-    } receiveValue: { _ in }
+    } receiveValue: { _ in
+    }
     .store(in: &subscription)
   }
-  
+
   // MARK: Functions - daily journal
 
   func canAddMoreDailyJournals() -> Bool {
@@ -344,9 +350,9 @@ class JournalComposeViewModel: ObservableObject {
   func deleteDailyJournal(dailyJournal: DailyTravelJournal) {
     dailyJournalList = dailyJournalList.filter { $0 != dailyJournal }
   }
-  
+
   var isDailyJournalDeleting: Bool = false
-  
+
   func deleteDailyJournalWithApi(dailyJournal: DailyTravelJournal) {
     guard let idToken = idToken else {
       return
@@ -358,7 +364,8 @@ class JournalComposeViewModel: ObservableObject {
 
     isDailyJournalDeleting = true
     journalProvider.requestPublisher(
-      .deleteContent(token: idToken, journalId: self.journalId, contentId: dailyJournal.dailyJournalId)
+      .deleteContent(
+        token: idToken, journalId: self.journalId, contentId: dailyJournal.dailyJournalId)
     )
     .filterSuccessfulStatusCodes()
     .sink { apiCompletion in
@@ -383,9 +390,10 @@ class JournalComposeViewModel: ObservableObject {
             }
           }
         }
-        // other api error handling
+      // other api error handling
       }
-    } receiveValue: { _ in }
+    } receiveValue: { _ in
+    }
     .store(in: &subscription)
   }
 

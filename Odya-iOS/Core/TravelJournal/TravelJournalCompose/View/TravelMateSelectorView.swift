@@ -30,7 +30,6 @@ struct SelectedMateView: View {
   }
 }
 
-
 // MARK: Travel Mate Selector View
 struct TravelMateSelectorView: View {
   @Environment(\.dismiss) var dismiss
@@ -133,10 +132,12 @@ struct TravelMateSelectorView: View {
               selectedTravelMates.removeAll { $0.userId == mate.userId }
             }
           }) {
-            let profileData = ProfileData(profileUrl: mate.profileUrl ?? "",
-                                          profileColor: mate.profileColor)
-            SelectedMateView(nickname: mate.nickname ?? "",
-                             profile: profileData)
+            let profileData = ProfileData(
+              profileUrl: mate.profileUrl ?? "",
+              profileColor: mate.profileColor)
+            SelectedMateView(
+              nickname: mate.nickname ?? "",
+              profile: profileData)
           }
           .padding(.trailing, 13)
         }
@@ -171,10 +172,11 @@ struct TravelMateSelectorView: View {
               if selectedTravelMates.count >= 10 {
                 isShowingTooManyMatesAlert = true
               } else {
-                let mate = TravelMate(userId: user.userId,
-                                      nickname: user.nickname,
-                                      profile: user.profile,
-                                      isFollowing: true)
+                let mate = TravelMate(
+                  userId: user.userId,
+                  nickname: user.nickname,
+                  profile: user.profile,
+                  isFollowing: true)
                 // TODO: isFollowing 값 변경...!!
                 selectedTravelMates.insert(mate, at: 0)
               }

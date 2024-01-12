@@ -16,7 +16,7 @@ enum ReportReason: CaseIterable {
   case copyrightViolation
   case infoLeak
   case other
-  
+
   /// 신고 status: 서버 전송시 사용
   var status: String {
     switch self {
@@ -36,7 +36,7 @@ enum ReportReason: CaseIterable {
       return "OTHER"
     }
   }
-  
+
   /// 신고 value: 뷰에 표시
   var value: String {
     switch self {

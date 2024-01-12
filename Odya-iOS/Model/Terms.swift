@@ -9,20 +9,20 @@ import Foundation
 
 // MARK: - Terms
 struct Terms: Codable {
-    let id: Int
-    let title: String
-    let isRequired: Bool
+  let id: Int
+  let title: String
+  let isRequired: Bool
 
-    enum CodingKeys: String, CodingKey {
-        case id, title
-        case isRequired = "required"
-    }
+  enum CodingKeys: String, CodingKey {
+    case id, title
+    case isRequired = "required"
+  }
 }
 
 typealias TermsList = [Terms]
 
 // MARK: - TermsContent
 struct TermsContent: Codable {
-    let id: Int
-    let content: String
+  let id: Int
+  let content: String
 }

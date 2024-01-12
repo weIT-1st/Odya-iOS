@@ -167,7 +167,8 @@ struct TravelDatePickerView: View {
     .frame(height: 350, alignment: .top)
     .onAppear {
       if let newEndDate = selectedStartDate.addDays(1),
-         newEndDate <= endDateLimit {
+        newEndDate <= endDateLimit
+      {
         selectedEndDate = newEndDate
       } else {
         selectedEndDate = selectedStartDate
@@ -189,7 +190,7 @@ struct DailyJournalDatePicker: View {
 
   var startDate: Date { journalComposeVM.startDate }
   var endDate: Date { journalComposeVM.endDate }
-  
+
   @Environment(\.dismiss) private var dismiss
 
   // MARK: Body
@@ -237,9 +238,10 @@ struct DailyJournalDatePicker: View {
     .padding(15)
     .background(Color.odya.elevation.elev2)
     .cornerRadius(Radius.small)
-    .onAppear { 
+    .onAppear {
       if let pickedIdx = journalComposeVM.pickedJournalIndex,
-         let orgDate = journalComposeVM.dailyJournalList[pickedIdx].date {
+        let orgDate = journalComposeVM.dailyJournalList[pickedIdx].date
+      {
         self.selectedDate = orgDate
       } else {
         self.selectedDate = journalComposeVM.startDate

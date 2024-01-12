@@ -32,33 +32,35 @@ struct TravelJournalComposeView: View {
   @Environment(\.dismiss) var dismiss
 
   // MARK: Init
-  
+
   init() {
     self.journalId = -1
     self.composeType = .create
     self.journalComposeVM = JournalComposeViewModel(composeType: .create)
   }
-  
-  init(journalId: Int,
-       title: String = "",
-       startDate: Date,
-       endDate: Date,
-       mates: [TravelMate],
-       dailyJournals: [DailyJournal],
-       privacyType: PrivacyType) {
+
+  init(
+    journalId: Int,
+    title: String = "",
+    startDate: Date,
+    endDate: Date,
+    mates: [TravelMate],
+    dailyJournals: [DailyJournal],
+    privacyType: PrivacyType
+  ) {
     self.composeType = .edit
     self.journalId = journalId
-    self.journalComposeVM = JournalComposeViewModel(journalId: journalId,
-                                                    composeType: .edit,
-                                                    title: title,
-                                                    startDate: startDate,
-                                                    endDate: endDate,
-                                                    travelMates: mates,
-                                                    dailyJournalList: dailyJournals,
-                                                    privacyType: privacyType)
+    self.journalComposeVM = JournalComposeViewModel(
+      journalId: journalId,
+      composeType: .edit,
+      title: title,
+      startDate: startDate,
+      endDate: endDate,
+      travelMates: mates,
+      dailyJournalList: dailyJournals,
+      privacyType: privacyType)
   }
 
-  
   // MARK: Body
 
   var body: some View {
@@ -66,10 +68,10 @@ struct TravelJournalComposeView: View {
       ZStack {
         Color.odya.background.normal
           .edgesIgnoringSafeArea(.all)
-        
+
         VStack(spacing: 0) {
           headerBar
-          
+
           ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
               TravelJournalInfoEditView()
@@ -85,11 +87,12 @@ struct TravelJournalComposeView: View {
       .onAppear {
         // 여행일지 작성 시 데일리 일정 초기화
         if composeType == .create
-            && journalComposeVM.dailyJournalList.isEmpty {
+          && journalComposeVM.dailyJournalList.isEmpty
+        {
           journalComposeVM.addDailyJournal()
         }
       }
-      
+
     }
   }  // body
 
@@ -99,7 +102,7 @@ struct TravelJournalComposeView: View {
       .frame(height: 8)
       .background(Color.odya.blackopacity.baseBlackAlpha50)
   }
-  
+
   private var headerBar: some View {
     ZStack {
       CustomNavigationBar(title: composeType == .create ? "여행일지 작성하기" : "여행일지 편집하기")
@@ -136,8 +139,10 @@ struct TravelJournalComposeView: View {
 
       VStack(spacing: 8) {
         ForEach(journalComposeVM.dailyJournalList.indices, id: \.self) { index in
-          DailyJournalComposeView(index: index,
-                                  dailyJournal: $journalComposeVM.dailyJournalList[index])
+          DailyJournalComposeView(
+            index: index,
+            dailyJournal: $journalComposeVM.dailyJournalList[index]
+          )
           .environmentObject(journalComposeVM)
         }
       }

@@ -17,7 +17,7 @@ struct UserImage: Codable, Identifiable {
   var placeName: String?
   var journalId: Int?
   var communityId: Int?
-  
+
   enum CodingKeys: String, CodingKey {
     case imageId, imageUrl, placeId, isLifeShot, placeName, journalId, communityId
   }

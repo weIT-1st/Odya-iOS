@@ -15,11 +15,11 @@ struct TravelMate: Codable, Identifiable {
   var profileColor: ProfileColorData? = nil
   var isRegistered: Bool
   var isFollowing: Bool
-  
+
   private enum CodingKeys: String, CodingKey {
     case userId, nickname, profileUrl, isRegistered, isFollowing
   }
-  
+
   init(userId: Int, nickname: String, profile: ProfileData, isFollowing: Bool) {
     self.userId = userId
     self.nickname = nickname
@@ -31,16 +31,16 @@ struct TravelMate: Codable, Identifiable {
 }
 
 extension TravelMate: Equatable {
-    static func == (lhs: TravelMate, rhs: TravelMate) -> Bool {
-        return lhs.userId == rhs.userId
-    }
-    
-    static func != (lhs: TravelMate, rhs: TravelMate) -> Bool {
-        return !(lhs == rhs)
-    }
+  static func == (lhs: TravelMate, rhs: TravelMate) -> Bool {
+    return lhs.userId == rhs.userId
+  }
+
+  static func != (lhs: TravelMate, rhs: TravelMate) -> Bool {
+    return !(lhs == rhs)
+  }
 }
 
 struct travelMateSimple: Codable {
-    var username: String
-    var profileUrl: String?
+  var username: String
+  var profileUrl: String?
 }

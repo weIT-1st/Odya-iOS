@@ -10,23 +10,23 @@ import SwiftUI
 
 private struct DailyJournalHeaderBar: View {
   @EnvironmentObject var journalComposeVM: JournalComposeViewModel
-  
+
   let dailyJournal: DailyTravelJournal
   let dayIndexString: String
   let isOriginal: Bool
-  
+
   @State private var isShowingDeletionAlert: Bool = false
   @State private var isShowingNotEnoughAlert: Bool = false
-  
+
   var body: some View {
     HStack(spacing: 8) {
       Image("sparkle-m")
       Text(dayIndexString)
         .h4Style()
         .foregroundColor(.odya.brand.primary)
-      
+
       Spacer()
-      
+
       Button(action: {
         isShowingDeletionAlert = true
       }) {
@@ -59,7 +59,7 @@ private struct DailyJournalHeaderBar: View {
           Text("삭제된 내용은 복구될 수 없습니다.")
         }
         .alert("최소 1개의 여행일정이 필요합니다.", isPresented: $isShowingNotEnoughAlert) {}
-      
+
       /*/ TODO: 꾹 눌러서 이동하는 기능 추가
       IconButton("menu-hamburger-l") {
         print("이동 버튼 클릭")
@@ -98,23 +98,26 @@ struct DailyJournalComposeView: View {
   }
 
   // MARK: Header bar
-  
+
   private var originalDailyJournal: some View {
-    DailyJournalHeaderBar(dailyJournal: dailyJournal,
-                          dayIndexString: dayIndexString,
-                          isOriginal: true)
+    DailyJournalHeaderBar(
+      dailyJournal: dailyJournal,
+      dayIndexString: dayIndexString,
+      isOriginal: true
+    )
     .environmentObject(journalComposeVM)
     .padding(.horizontal, 20)
     .padding(.vertical, 16)
     .background(Color.odya.elevation.elev2)
     .clipShape(RoundedEdgeShape(edgeType: .top))
   }
-  
+
   private var newDailyJournal: some View {
     VStack(spacing: 0) {
-      DailyJournalHeaderBar(dailyJournal: dailyJournal,
-                            dayIndexString: dayIndexString,
-                            isOriginal: false)
+      DailyJournalHeaderBar(
+        dailyJournal: dailyJournal,
+        dayIndexString: dayIndexString,
+        isOriginal: false)
       ContentComposeView(
         index: index, dailyJournal: $dailyJournal,
         isShowingImagePickerSheet: $isShowingImagePickerSheet

@@ -13,9 +13,9 @@ struct TravelJournalInfoEditView: View {
   @StateObject var followHubVM = FollowHubViewModel()
 
   private let titleCharacterLimit = 20
-  
+
   @State var isDatePickerVisible = false
-  
+
   var body: some View {
     VStack(alignment: .leading, spacing: 24) {
       Text("여행 정보")
@@ -39,7 +39,10 @@ struct TravelJournalInfoEditView: View {
       prompt: Text("여행일지 이름")
         .foregroundColor(.odya.label.assistive)
     )
-    .foregroundColor((journalComposeVM.title == journalComposeVM.orgTitle) ? .odya.label.assistive : .odya.label.normal)
+    .foregroundColor(
+      (journalComposeVM.title == journalComposeVM.orgTitle)
+        ? .odya.label.assistive : .odya.label.normal
+    )
     .h6Style()
     .modifier(
       CustomFieldStyle(height: 45, backgroundColor: .odya.elevation.elev2, radius: Radius.small)
@@ -90,9 +93,9 @@ struct TravelJournalInfoEditView: View {
       travelMatesView
       NavigationLink(destination: {
         TravelMateSelectorView()
-        .environmentObject(journalComposeVM)
-        .environmentObject(followHubVM)
-        .navigationBarHidden(true)
+          .environmentObject(journalComposeVM)
+          .environmentObject(followHubVM)
+          .navigationBarHidden(true)
       }) {
         Image("plus").padding(6)
       }
@@ -104,12 +107,15 @@ struct TravelJournalInfoEditView: View {
     HStack(spacing: 0) {
       ForEach(Array(journalComposeVM.travelMates.prefix(3).enumerated()), id: \.element.id) {
         (index, mate) in
-        let profileData = ProfileData(profileUrl: mate.profileUrl ?? "",
-                                      profileColor: mate.profileColor)
-        ProfileImageView(of: mate.nickname ?? "",
-                         profileData: profileData,
-                         size: .XS)
-          .offset(x: CGFloat(index * -4))
+        let profileData = ProfileData(
+          profileUrl: mate.profileUrl ?? "",
+          profileColor: mate.profileColor)
+        ProfileImageView(
+          of: mate.nickname ?? "",
+          profileData: profileData,
+          size: .XS
+        )
+        .offset(x: CGFloat(index * -4))
       }
 
       if journalComposeVM.travelMates.count > 3 {
