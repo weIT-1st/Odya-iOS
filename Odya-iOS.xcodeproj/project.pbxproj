@@ -191,6 +191,7 @@
 		3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */; };
 		3EBEC3B72A713F4E00998EC6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B62A713F4E00998EC6 /* Profile.swift */; };
 		3EBEC3B92A72AFAB00998EC6 /* ComponentSizeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBEC3B82A72AFAB00998EC6 /* ComponentSizeType.swift */; };
+		3EC49F772B51657400E1A44F /* MainJournalSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EC49F762B51657400E1A44F /* MainJournalSelectorView.swift */; };
 		3ED22F3A2A9853830067DE72 /* TravelMateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */; };
 		3ED22F3C2A9854730067DE72 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */; };
 		3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED22F3D2A98D7070067DE72 /* Follow.swift */; };
@@ -429,6 +430,7 @@
 		3EBEC3B42A6FFC3500998EC6 /* CTAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTAButton.swift; sourceTree = "<group>"; };
 		3EBEC3B62A713F4E00998EC6 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		3EBEC3B82A72AFAB00998EC6 /* ComponentSizeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentSizeType.swift; sourceTree = "<group>"; };
+		3EC49F762B51657400E1A44F /* MainJournalSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainJournalSelectorView.swift; sourceTree = "<group>"; };
 		3ED22F392A9853830067DE72 /* TravelMateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelMateSelectorView.swift; sourceTree = "<group>"; };
 		3ED22F3B2A9854730067DE72 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		3ED22F3D2A98D7070067DE72 /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
@@ -989,6 +991,7 @@
 				3E2F295F2B294EC000FF5357 /* MainJournalCardView.swift */,
 				3E2F29612B294EEB00FF5357 /* BookmarkedJournalCardView.swift */,
 				3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */,
+				3EC49F762B51657400E1A44F /* MainJournalSelectorView.swift */,
 			);
 			path = TravelJournalInProfile;
 			sourceTree = "<group>";
@@ -1002,7 +1005,7 @@
 			path = FavoritePlace;
 			sourceTree = "<group>";
 		};
-        3E414B312ADC15EE00034FBB /* DailyJournalEdit */ = {
+		3E414B312ADC15EE00034FBB /* DailyJournalEdit */ = {
 			isa = PBXGroup;
 			children = (
 				3EB938182AF79D9E0041FE5B /* View */,
@@ -1649,6 +1652,7 @@
 				19DE0AA92B3EB5240079A660 /* PlaceSearchHistoryRouter.swift in Sources */,
 				19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */,
 				3E4670332B1F4F7700B54D0A /* AdditionalSetUpView.swift in Sources */,
+				3EC49F772B51657400E1A44F /* MainJournalSelectorView.swift in Sources */,
 				3E2F29702B29BE7B00FF5357 /* FavoritePlace.swift in Sources */,
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
 				07B221242B491D32006C2B20 /* ReviewComposeView.swift in Sources */,
