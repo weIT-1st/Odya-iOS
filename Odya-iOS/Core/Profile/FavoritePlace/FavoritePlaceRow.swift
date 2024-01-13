@@ -11,11 +11,13 @@ struct FavoritePlaceRow: View {
   @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
   @StateObject var bookmarkManager = FavoritePlaceBookmark()
 
+  let userId: Int
   let placeId: Int
   let placeIdString: String
   @State private var isBookmarked: Bool
 
-  init(favoritePlace: FavoritePlace) {
+  init(userId: Int, favoritePlace: FavoritePlace) {
+    self.userId = userId
     self.placeId = favoritePlace.placeId
     self.placeIdString = favoritePlace.placeIdString
     self._isBookmarked = State(initialValue: favoritePlace.isFavoritePlace)
@@ -42,7 +44,7 @@ struct FavoritePlaceRow: View {
       StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
         bookmarkManager.setBookmarkState(isBookmarked, placeIdString, placeId) { result in
           isBookmarked = result
-          VM.updateFavoritePlaces()
+          VM.updateFavoritePlaces(userId: userId)
         }
       }
     }

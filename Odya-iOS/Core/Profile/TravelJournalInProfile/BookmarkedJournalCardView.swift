@@ -11,6 +11,7 @@ struct BookmarkedJournalCardView: View {
   @EnvironmentObject var VM: JournalsInProfileViewModel
   @StateObject var bookmarkManager = JournalBookmarkManager()
 
+  let userId: Int
   let journalId: Int
   let title: String
   let dateString: String
@@ -18,7 +19,8 @@ struct BookmarkedJournalCardView: View {
   let imageUrl: String
   @State private var isBookmarked: Bool
 
-  init(_ journal: BookmarkedJournalData) {
+  init(userId: Int, _ journal: BookmarkedJournalData) {
+    self.userId = userId
     self.journalId = journal.journalId
     self.title = journal.title
     self.dateString = journal.startDateString
@@ -48,7 +50,7 @@ struct BookmarkedJournalCardView: View {
           StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
             bookmarkManager.setBookmarkState(isBookmarked, journalId) { result in
               isBookmarked = result
-              VM.updateBookmarkedJournals()
+              VM.updateBookmarkedJournals(userId: userId)
             }
           }
         }

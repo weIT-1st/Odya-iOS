@@ -28,8 +28,8 @@ struct ProfileView: View {
   // viewModel
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followButtonVM = FollowButtonViewModel()
-  @ObservedObject var bookmarkedJournalsVM: JournalsInProfileViewModel
-  @ObservedObject var favoritePlacesVM: FavoritePlaceInProfileViewModel
+  @StateObject var bookmarkedJournalsVM = JournalsInProfileViewModel()
+  @StateObject var favoritePlacesVM = FavoritePlaceInProfileViewModel()
 
   // navigation stack
   @Environment(\.dismiss) var dismiss
@@ -44,7 +44,7 @@ struct ProfileView: View {
   @State var mainJournalTitle: String? = nil
 
   // user info
-  var userId: Int = -1
+  var userId: Int = MyData.userID
   var nickname: String = ""
   var profileUrl: String = ""
   var isFollowing: Bool = false
@@ -54,12 +54,12 @@ struct ProfileView: View {
   }
 
   init() {
-    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
-      isMyProfile: true,
-      userId: MyData.userID)
-    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
-      isMyProfile: true,
-      userId: MyData.userID)
+//    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
+//      isMyProfile: true,
+//      userId: MyData.userID)
+//    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
+//      isMyProfile: true,
+//      userId: MyData.userID)
   }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
@@ -67,12 +67,12 @@ struct ProfileView: View {
     self.nickname = nickname
     self.profileUrl = profileUrl
     self.isFollowing = isFollowing
-    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
-      isMyProfile: false,
-      userId: userId)
-    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
-      isMyProfile: false,
-      userId: userId)
+//    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
+//      isMyProfile: false,
+//      userId: userId)
+//    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
+//      isMyProfile: false,
+//      userId: userId)
   }
 
   // MARK: Body
@@ -150,7 +150,7 @@ struct ProfileView: View {
             VStack(spacing: 36) {
               bookmarkedJournalTitle
                 .padding(.horizontal, GridLayout.side)
-              BookmarkedJournalListinProfileView(path: $path)
+              BookmarkedJournalListinProfileView(userId: userId, path: $path)
                 .environmentObject(bookmarkedJournalsVM)
             }
 
@@ -160,6 +160,7 @@ struct ProfileView: View {
             VStack(spacing: 36) {
               favoritePlaceTitle
               FavoritePlaceListView(
+                userId: userId,
                 rootTabViewIdx: $rootTabManager.selectedTab,
                 path: $path
               )
@@ -206,7 +207,7 @@ struct ProfileView: View {
         case .potoRegisterView:
           POTDPickerView().navigationBarBackButtonHidden()
         case .mainJournalRegisterView:
-          LinkedTravelJournalView(path: $path, selectedJournalId: $mainJournalId, selectedJournalTitle: $mainJournalTitle, headerTitle: "대표 여행일지")
+          MainJournalSelectorView(path: $path)
         case .journalDetail(let journalId, let nickname):
           TravelJournalDetailView(journalId: journalId, nickname: nickname)
             .navigationBarBackButtonHidden()

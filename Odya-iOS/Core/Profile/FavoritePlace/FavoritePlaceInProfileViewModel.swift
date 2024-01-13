@@ -21,8 +21,8 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
 
-  let isMyProfile: Bool
-  let userId: Int
+//  let isMyProfile: Bool
+//  let userId: Int
 
   // loadingFlag
   var isFavoritePlacesLoading: Bool = false
@@ -31,11 +31,6 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
   // data
   @Published var favoritePlaces: [FavoritePlace] = []
   @Published var placesCount: Int = -1
-
-  init(isMyProfile: Bool, userId: Int) {
-    self.isMyProfile = isMyProfile
-    self.userId = userId
-  }
 
   // MARK: Fetch Data
 
@@ -50,28 +45,28 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
   }
 
   /// api를 통해 관심장소 리스트, 관심 장소 수를 가져옴
-  func fetchDataAsync() async {
+  func fetchDataAsync(userId: Int) async {
 
-    if isMyProfile {
-      self.getMyFavoritePlaces()
-      self.getMyCount()
-    } else {
+//    if isMyProfile {
+//      self.getMyFavoritePlaces()
+//      self.getMyCount()
+//    } else {
       self.getOthersFavoritePlaces(userId: userId)
       self.getOthersCount(userId: userId)
-    }
+//    }
 
   }
 
-  func updateFavoritePlaces() {
+  func updateFavoritePlaces(userId: Int) {
     initData()
 
-    if isMyProfile {
-      self.getMyFavoritePlaces()
-      self.getMyCount()
-    } else {
+//    if isMyProfile {
+//      self.getMyFavoritePlaces()
+//      self.getMyCount()
+//    } else {
       self.getOthersFavoritePlaces(userId: userId)
       self.getOthersCount(userId: userId)
-    }
+//    }
   }
 
   private func getMyFavoritePlaces() {
@@ -131,13 +126,13 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
   }
 
   // MARK: count
-  func getCount() {
-    if isMyProfile {
-      getMyCount()
-    } else {
-      //      getOthersCount(userId: self.userId)
-      print("do getOthersCount()")
-    }
+  func getCount(userId: Int) {
+//    if isMyProfile {
+//      getMyCount()
+//    } else {
+      getOthersCount(userId: userId)
+//      print("do getOthersCount()")
+//    }
   }
 
   private func getMyCount() {

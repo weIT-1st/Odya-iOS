@@ -22,8 +22,10 @@ extension ProfileView {
 }
 
 struct BookmarkedJournalListinProfileView: View {
-  @Binding var path: NavigationPath
   @EnvironmentObject var VM: JournalsInProfileViewModel
+  
+  let userId: Int
+  @Binding var path: NavigationPath
 
   var body: some View {
     ZStack(alignment: .center) {
@@ -42,14 +44,14 @@ struct BookmarkedJournalListinProfileView: View {
                 path.append(
                   ProfileRoute.journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
               }) {
-                BookmarkedJournalCardView(journal)
+                BookmarkedJournalCardView(userId: userId, journal)
                   .environmentObject(VM)
               }
               .onAppear {
                 if let last = VM.lastIdOfBookmarkedJournals,
                   last == journal.bookmarkId
                 {
-                  VM.fetchMoreSubject.send()
+                  VM.fetchMoreSubject.send(userId)
                 }
               }
 
@@ -59,10 +61,7 @@ struct BookmarkedJournalListinProfileView: View {
         .padding(.leading, GridLayout.side)
       }
     }.task {
-      await VM.fetchDataAsync()
-    }
-    .onDisappear {
-      VM.initData()
+      VM.updateBookmarkedJournals(userId: userId)
     }
   }
 

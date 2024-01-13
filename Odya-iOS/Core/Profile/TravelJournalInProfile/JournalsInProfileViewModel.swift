@@ -21,8 +21,8 @@ class JournalsInProfileViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
 
-  let isMyProfile: Bool
-  let userId: Int
+//  let isMyProfile: Bool
+//  let userId: Int
 
   // loadingFlag
   var isBookmarkedJournalsLoading: Bool = false
@@ -33,21 +33,21 @@ class JournalsInProfileViewModel: ObservableObject {
   // flags for Infinite Scroll
   @Published var lastIdOfBookmarkedJournals: Int? = nil
   var hasNextBookmarkedJournals: Bool = true
-  var fetchMoreSubject = PassthroughSubject<(), Never>()
+  var fetchMoreSubject = PassthroughSubject<(Int), Never>()
 
-  init(isMyProfile: Bool, userId: Int) {
-    self.isMyProfile = isMyProfile
-    self.userId = userId
+  init() {
+//    self.isMyProfile = isMyProfile
+//    self.userId = userId
 
-    fetchMoreSubject.sink { [weak self] _ in
+    fetchMoreSubject.sink { [weak self] userId in
       guard let self = self else {
         return
       }
-      if isMyProfile {
-        self.getMyBookmarkedJournals()
-      } else {
+//      if isMyProfile {
+//        self.getMyBookmarkedJournals()
+//      } else {
         self.getOthersBookmarkedJournals(userId: userId)
-      }
+//      }
     }.store(in: &subscription)
   }
   // MARK: Fetch Data
@@ -64,27 +64,27 @@ class JournalsInProfileViewModel: ObservableObject {
 
   /// api를 통해 여행일지들을 가져옴
   /// 내 여행일지, 즐겨찾기된 여행일지, 테그된 여행일지 가져올 수 있음
-  func fetchDataAsync() async {
-    if isMyProfile {
-      self.getMyBookmarkedJournals()
-    } else {
+  func fetchDataAsync(userId: Int) async {
+//    if isMyProfile {
+//      self.getMyBookmarkedJournals()
+//    } else {
       self.getOthersBookmarkedJournals(userId: userId)
-    }
+//    }
   }
 
   // MARK: Get Bookmarked Journals
 
-  func updateBookmarkedJournals() {
+  func updateBookmarkedJournals(userId: Int) {
     isBookmarkedJournalsLoading = false
     hasNextBookmarkedJournals = true
     lastIdOfBookmarkedJournals = nil
     bookmarkedJournals = []
 
-    if isMyProfile {
-      self.getMyBookmarkedJournals()
-    } else {
+//    if isMyProfile {
+//      self.getMyBookmarkedJournals()
+//    } else {
       self.getOthersBookmarkedJournals(userId: userId)
-    }
+//    }
   }
 
   private func getMyBookmarkedJournals() {

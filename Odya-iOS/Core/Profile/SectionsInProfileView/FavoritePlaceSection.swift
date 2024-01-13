@@ -16,12 +16,15 @@ extension ProfileView {
 
 // MARK: Favorite Place List
 struct FavoritePlaceListView: View {
+  @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
+  // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
+  
+  let userId: Int
   @Binding var rootTabViewIdx: Int
   @Binding var path: NavigationPath
-  // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
+  
   @Environment(\.dismiss) var dismiss
-  @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
-
+  
   var body: some View {
     VStack(spacing: 32) {
       if VM.isFavoritePlacesLoading {
@@ -33,7 +36,7 @@ struct FavoritePlaceListView: View {
       } else {
         ForEach(VM.favoritePlaces, id: \.id) { place in
           VStack(spacing: 0) {
-            FavoritePlaceRow(favoritePlace: place)
+            FavoritePlaceRow(userId: userId, favoritePlace: place)
               .environmentObject(VM)
 
             if let last = VM.favoritePlaces.last,
@@ -52,12 +55,8 @@ struct FavoritePlaceListView: View {
       }
     }
     .task {
-      await VM.fetchDataAsync()
+      VM.updateFavoritePlaces(userId: userId)
     }
-    .onDisappear {
-      VM.initData()
-    }
-
   }
 
   // MARK: More Places Button
