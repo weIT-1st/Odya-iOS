@@ -37,6 +37,7 @@ struct PlaceDetailView: View {
   @StateObject var viewModel = PlaceDetailViewModel()
   @State var showReviewComposeView: Bool = false
   @State var scrollDestination: PlaceDetailContentType = .journal
+  @State var isScrollDestinationChanged: Bool = false
   
   /// Grid columns
   var columns = [GridItem(.flexible(), spacing: 3),
@@ -58,12 +59,15 @@ struct PlaceDetailView: View {
                 
                 VStack(spacing: 48) {
                   travelJournalPart
+                    .id(PlaceDetailContentType.journal)
                   Divider()
                     .padding(.horizontal, GridLayout.side)
                   reviewPart
+                    .id(PlaceDetailContentType.review)
                   Divider()
                     .padding(.horizontal, GridLayout.side)
                   communityPart
+                    .id(PlaceDetailContentType.community)
                 }
                 .padding(.vertical, 24)
                 
@@ -73,8 +77,10 @@ struct PlaceDetailView: View {
             }
           } // ScrollView
           .clipShape(RoundedEdgeShape(edgeType: .top))
-          .onChange(of: scrollDestination) { newValue in
-            proxy.scrollTo(scrollDestination)
+          .onChange(of: isScrollDestinationChanged) { _ in
+            withAnimation {
+              proxy.scrollTo(scrollDestination, anchor: .top)
+            }
           }
           .background(Color.odya.background.normal)
           .toolbar(.hidden)

@@ -10,6 +10,7 @@ import SwiftUI
 struct PlaceDetailContentTypeSelection: View {
   let contentType: PlaceDetailContentType
   @Binding var destination: PlaceDetailContentType
+  @Binding var isDestinationChanged: Bool
 
   var body: some View {
     ZStack(alignment: .center) {
@@ -33,6 +34,7 @@ struct PlaceDetailContentTypeSelection: View {
           .frame(maxWidth: .infinity)
           .onTapGesture {
             destination = type
+            isDestinationChanged.toggle()
           }
         }
       } // HStack
@@ -50,6 +52,6 @@ struct PlaceDetailContentTypeSelection: View {
 
 struct PlaceDetailContentTypeSelection_Previews: PreviewProvider {
   static var previews: some View {
-    PlaceDetailContentTypeSelection(contentType: .review, destination: .constant(.community))
+    PlaceDetailContentTypeSelection(contentType: .review, destination: .constant(.community), isDestinationChanged: .constant(false))
   }
 }

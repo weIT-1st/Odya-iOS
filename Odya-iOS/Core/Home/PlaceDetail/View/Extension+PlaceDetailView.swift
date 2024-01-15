@@ -11,8 +11,7 @@ extension PlaceDetailView {
   // MARK: - TravelJournal
   var travelJournalPart: some View {
     VStack(spacing: 28) {
-      PlaceDetailContentTypeSelection(contentType: .journal, destination: $scrollDestination)
-        .id(PlaceDetailContentType.journal)
+      PlaceDetailContentTypeSelection(contentType: .journal, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       VStack(spacing: 48) {
         VStack(spacing: 36) {
           HStack {
@@ -46,8 +45,7 @@ extension PlaceDetailView {
   // MARK: - Review
   var reviewPart: some View {
     VStack(spacing: 28) {
-      PlaceDetailContentTypeSelection(contentType: .review, destination: $scrollDestination)
-        .id(PlaceDetailContentType.review)
+      PlaceDetailContentTypeSelection(contentType: .review, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       
       VStack(spacing: 24) {
         VStack(spacing: 36) {
@@ -101,8 +99,7 @@ extension PlaceDetailView {
   // MARK: - Community
   var communityPart: some View {
     VStack(spacing: 28) {
-      PlaceDetailContentTypeSelection(contentType: .community, destination: $scrollDestination)
-        .id(PlaceDetailContentType.community)
+      PlaceDetailContentTypeSelection(contentType: .community, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       
       LazyVGrid(columns: columns, spacing: 3) {
         ForEach(viewModel.feedState.content, id: \.communityID) { content in
@@ -124,7 +121,7 @@ extension PlaceDetailView {
             .aspectRatio(1, contentMode: .fit)
             .clipped()
           }
-          .onAppear {
+          .task {
             // 다음 페이지 불러오기
             if content.communityID == viewModel.feedState.lastId {
               viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
