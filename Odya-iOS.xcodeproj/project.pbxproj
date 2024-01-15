@@ -789,6 +789,24 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		194417922B2189EA00423541 /* LinkedTravelJournal */ = {
+			isa = PBXGroup;
+			children = (
+				194417952B218A2900423541 /* View */,
+				194417962B218A3200423541 /* ViewModel */,
+			);
+			path = LinkedTravelJournal;
+			sourceTree = "<group>";
+		};
+		194417952B218A2900423541 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				194417932B218A1C00423541 /* LinkedTravelJournalView.swift */,
+				194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		19385A322B2AC13E000CB6AB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
