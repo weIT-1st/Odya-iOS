@@ -21,6 +21,12 @@ enum ReviewRouter {
   case readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?)
   // 5. 유저 ID 리뷰 조회
   case readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?)
+  // 6. 리뷰 작성 여부 조회
+  case getIfReviewExist(placeId: String)
+  // 7. 리뷰 수 조회
+  case getReviewCount(placeId: String)
+  // 8. 평균 별점 조회
+  case getAverageStarRating(placeId: String)
 }
 
 extension ReviewRouter: TargetType, AccessTokenAuthorizable {
@@ -37,6 +43,12 @@ extension ReviewRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/place-reviews/places/" + "\(placeId)"
     case let .readUserIdReview(userId, _, _, _):
       return "/api/v1/place-reviews/users/" + "\(userId)"
+    case let .getIfReviewExist(placeId):
+      return "/api/v1/place-reviews/\(placeId)"
+    case let .getReviewCount(placeId):
+      return "/api/v1/place-reviews/count/\(placeId)"
+    case let .getAverageStarRating(placeId):
+      return "/api/v1/place-reviews/average/\(placeId)"
     default:
       return "/api/v1/place-reviews"
     }

@@ -21,6 +21,7 @@ final class PlaceDetailViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
+  private lazy var reviewProvider = MoyaProvider<ReviewRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
   
   // google places
@@ -38,6 +39,10 @@ final class PlaceDetailViewModel: ObservableObject {
   }
   
   @Published private(set) var feedState = FeedState()
+  
+  @Published var isReviewExisted: Bool? = nil
+  @Published var reviewCount: Int? = nil
+  @Published var averageStarRating: Double = 0.0
   
   // MARK: - Helper functions
   
@@ -81,6 +86,63 @@ final class PlaceDetailViewModel: ObservableObject {
         if let data = try? response.map(VisitorResponse.self) {
           self.visitorCount = data.count
           self.visitorList = data.visitors
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  func fetchReviewInfo(placeId: String) {
+    fetchIfReviewExist(placeId: placeId)
+    fetchReviewCount(placeId: placeId)
+    fetchAverageStarRating(placeId: placeId)
+  }
+  
+  private func fetchIfReviewExist(placeId id: String) {
+    reviewProvider.requestPublisher(.getIfReviewExist(placeId: id))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("리뷰 작성 여부 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewExistResponse.self) {
+          self.isReviewExisted = data.exist
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  private func fetchReviewCount(placeId id: String) {
+    reviewProvider.requestPublisher(.getReviewCount(placeId: id))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("리뷰 수 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewCountResponse.self) {
+          self.reviewCount = data.count
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  private func fetchAverageStarRating(placeId id: String) {
+    reviewProvider.requestPublisher(.getAverageStarRating(placeId: id))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("평균 별점 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewAverageStarRatingResponse.self) {
+          self.averageStarRating = data.averageStarRating / 2
         }
       }
       .store(in: &subscription)

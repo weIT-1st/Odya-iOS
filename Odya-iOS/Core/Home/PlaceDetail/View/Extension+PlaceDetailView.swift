@@ -54,7 +54,7 @@ extension PlaceDetailView {
               Text("한줄리뷰")
                 .h5Style()
                 .foregroundColor(.odya.label.normal)
-              Text("3.0")
+              Text(String(format: "%.1f", viewModel.averageStarRating))
                 .b2Style()
                 .foregroundColor(.odya.label.assistive)
             }
@@ -64,7 +64,7 @@ extension PlaceDetailView {
                 .b1Style()
                 .foregroundColor(.odya.label.normal)
               HStack(spacing: 4) {
-                Text("20")
+                Text("\(viewModel.reviewCount ?? 0)")
                   .b2Style()
                   .foregroundColor(.odya.brand.primary)
                 Text("개")
@@ -74,23 +74,26 @@ extension PlaceDetailView {
             }
           }
           .padding(.horizontal, GridLayout.side)
-          StarRatingView(rating: .constant(3.0))
+          StarRatingView(rating: $viewModel.averageStarRating)
             .disabled(true)
         } // header
         
-        VStack(spacing: 16) {
-          Text("\(placeInfo.title)의 방문 경험은 어떠셨나요?")
-            .detail2Style()
-            .foregroundColor(.odya.label.normal)
-          CTAButton(isActive: .active, buttonStyle: .ghost, labelText: "리뷰 작성", labelSize: .L) {
-            showReviewComposeView.toggle()
+        if let isReviewExisted = viewModel.isReviewExisted {
+          if !isReviewExisted {
+            VStack(spacing: 16) {
+              Text("\(placeInfo.title)의 방문 경험은 어떠셨나요?")
+                .detail2Style()
+                .foregroundColor(.odya.label.normal)
+              CTAButton(isActive: .active, buttonStyle: .ghost, labelText: "리뷰 작성", labelSize: .L) {
+                showReviewComposeView.toggle()
+              }
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 24)
+            .frame(maxWidth: .infinity)
+            .background(Color.odya.elevation.elev4)
           }
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 24)
-        .frame(maxWidth: .infinity)
-        .background(Color.odya.elevation.elev4)
-        
         // 정렬
       }
     }

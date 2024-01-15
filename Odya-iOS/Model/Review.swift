@@ -31,3 +31,18 @@ struct Review: Codable, Identifiable {
     case starRating, review, createdAt
   }
 }
+
+// MARK: - ReviewExistResponse
+struct ReviewExistResponse: Codable {
+  let exist: Bool
+}
+
+// MARK: - ReviewCountResponse
+struct ReviewCountResponse: Codable {
+  let count: Int
+}
+
+// MARK: - ReviewAverageStarRatingResponse
+struct ReviewAverageStarRatingResponse: Codable {
+  let averageStarRating: Double
+}

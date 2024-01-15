@@ -56,18 +56,17 @@ struct PlaceDetailView: View {
             LazyVStack(pinnedViews: .sectionHeaders) {
               Section {
                 overview
-                
+                  .id(PlaceDetailContentType.journal)
                 VStack(spacing: 48) {
                   travelJournalPart
-                    .id(PlaceDetailContentType.journal)
                   Divider()
                     .padding(.horizontal, GridLayout.side)
-                  reviewPart
                     .id(PlaceDetailContentType.review)
+                  reviewPart
                   Divider()
                     .padding(.horizontal, GridLayout.side)
-                  communityPart
                     .id(PlaceDetailContentType.community)
+                  communityPart
                 }
                 .padding(.vertical, 24)
                 
@@ -78,8 +77,15 @@ struct PlaceDetailView: View {
           } // ScrollView
           .clipShape(RoundedEdgeShape(edgeType: .top))
           .onChange(of: isScrollDestinationChanged) { _ in
-            withAnimation {
-              proxy.scrollTo(scrollDestination, anchor: .top)
+            switch scrollDestination {
+            case .journal:
+              withAnimation {
+                proxy.scrollTo(scrollDestination, anchor: .bottom)
+              }
+            default:
+              withAnimation {
+                proxy.scrollTo(scrollDestination, anchor: .top)
+              }
             }
           }
           .background(Color.odya.background.normal)
@@ -101,6 +107,7 @@ struct PlaceDetailView: View {
       .task {
         viewModel.fetchPlaceImage(placeId: placeInfo.placeId, token: placeInfo.sessionToken)
         viewModel.fetchVisitingUser(placeId: placeInfo.placeId)
+        viewModel.fetchReviewInfo(placeId: placeInfo.placeId)
         viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
       }
     }
