@@ -46,6 +46,7 @@
 		07B221242B491D32006C2B20 /* ReviewComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B221232B491D32006C2B20 /* ReviewComposeView.swift */; };
 		07B221262B491D92006C2B20 /* ReviewComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
+		1906B9802B55271A0043DCF8 /* PlaceReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1906B97F2B55271A0043DCF8 /* PlaceReviewCell.swift */; };
 		192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA02B0D8D7E00BD480E /* ReportView.swift */; };
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
 		192ADAA52B0EF88400BD480E /* CustomLogPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */; };
@@ -282,6 +283,7 @@
 		07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewComposeViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		1906B97F2B55271A0043DCF8 /* PlaceReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceReviewCell.swift; sourceTree = "<group>"; };
 		192ADAA02B0D8D7E00BD480E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLogPlugin.swift; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				07B221232B491D32006C2B20 /* ReviewComposeView.swift */,
 				07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */,
 				072D7BDF2B4977F60045C75B /* StarRatingView.swift */,
+				1906B97F2B55271A0043DCF8 /* PlaceReviewCell.swift */,
 			);
 			path = Review;
 			sourceTree = "<group>";
@@ -785,24 +788,6 @@
 			children = (
 				19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */,
 				19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		194417922B2189EA00423541 /* LinkedTravelJournal */ = {
-			isa = PBXGroup;
-			children = (
-				194417952B218A2900423541 /* View */,
-				194417962B218A3200423541 /* ViewModel */,
-			);
-			path = LinkedTravelJournal;
-			sourceTree = "<group>";
-		};
-		194417952B218A2900423541 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				194417932B218A1C00423541 /* LinkedTravelJournalView.swift */,
-				194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1582,6 +1567,7 @@
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
 				3E26C37F2AF0E80E003607A8 /* DailyJournalViewModel.swift in Sources */,
 				3E4670202B15E90A00B54D0A /* FollowiView.swift in Sources */,
+				1906B9802B55271A0043DCF8 /* PlaceReviewCell.swift in Sources */,
 				3E4670222B15EDA800B54D0A /* MainLoadingView.swift in Sources */,
 				3EE9CA222AB6C8E2003A2E85 /* UserData.swift in Sources */,
 				078496452A84F6A300A490E3 /* FishchipsBar.swift in Sources */,

@@ -40,6 +40,14 @@ final class PlaceDetailViewModel: ObservableObject {
   
   @Published private(set) var feedState = FeedState()
   
+  struct ReviewState {
+    var content: [Review] = []
+    var lastId: Int? = nil
+    var canLoadNextPage = true
+  }
+  
+  @Published private(set) var reviewState = ReviewState()
+  
   @Published var isReviewExisted: Bool? = nil
   @Published var reviewCount: Int? = nil
   @Published var averageStarRating: Double = 0.0
@@ -91,12 +99,14 @@ final class PlaceDetailViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  /// 한줄리뷰 관련 조회
   func fetchReviewInfo(placeId: String) {
     fetchIfReviewExist(placeId: placeId)
     fetchReviewCount(placeId: placeId)
     fetchAverageStarRating(placeId: placeId)
   }
   
+  /// 한줄리뷰 작성 여부 조회
   private func fetchIfReviewExist(placeId id: String) {
     reviewProvider.requestPublisher(.getIfReviewExist(placeId: id))
       .sink { completion in
@@ -114,6 +124,7 @@ final class PlaceDetailViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  /// 한줄리뷰 개수 조회
   private func fetchReviewCount(placeId id: String) {
     reviewProvider.requestPublisher(.getReviewCount(placeId: id))
       .sink { completion in
@@ -131,6 +142,7 @@ final class PlaceDetailViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  /// 리뷰 평균 별점 조회
   private func fetchAverageStarRating(placeId id: String) {
     reviewProvider.requestPublisher(.getAverageStarRating(placeId: id))
       .sink { completion in
@@ -143,6 +155,28 @@ final class PlaceDetailViewModel: ObservableObject {
       } receiveValue: { response in
         if let data = try? response.map(ReviewAverageStarRatingResponse.self) {
           self.averageStarRating = data.averageStarRating / 2
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  func fetchReviewByPlaceId(placeId: String) {
+    guard reviewState.canLoadNextPage else { return }
+    if placeId.isEmpty { return }
+    
+    reviewProvider.requestPublisher(.readPlaceIdReview(placeId: placeId, size: nil, sortType: nil, lastId: reviewState.lastId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 리뷰 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewListResponse.self) {
+          self.reviewState.content = data.content
+          self.reviewState.lastId = data.content.last?.reviewId
+          self.reviewState.canLoadNextPage = data.hasNext
         }
       }
       .store(in: &subscription)
