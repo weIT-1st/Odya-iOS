@@ -7,41 +7,59 @@
 
 import SwiftUI
 
+enum PlaceDetailRoute: Hashable {
+  case feedDetail(id: Int)
+}
+
 struct HomeView: View {
   // MARK: Properties
   @State private var placeInfo = PlaceInfo()
   @State private var showLocationSearchView: Bool = false
   @State private var showPlaceDetailView: Bool = false
 
+  /// 내비게이션 스택 경로
+  @State private var path = NavigationPath()
+  
   // MARK: Body
 
   var body: some View {
-    ZStack(alignment: .top) {
-      MapView()
-        .edgesIgnoringSafeArea(.top)
+    NavigationStack(path: $path) {
+      ZStack(alignment: .top) {
+        MapView()
+          .edgesIgnoringSafeArea(.top)
 
-      if showLocationSearchView {
-        Color.odya.blackopacity.baseBlackAlpha50
-          .onTapGesture {
-            showLocationSearchView.toggle()
-          }
-        LocationSearchView(isPresented: $showLocationSearchView, showPlaceDetail: $showPlaceDetailView)
-          .environmentObject(placeInfo)
-      } else if !showPlaceDetailView {
-        HStack {
-          LocationSearchActivationView()
+        if showLocationSearchView {
+          Color.odya.blackopacity.baseBlackAlpha50
             .onTapGesture {
-              showLocationSearchView = true
+              showLocationSearchView.toggle()
             }
-          Spacer()
-          // TODO: 내 오댜 / 친구 오댜만 보기 버튼
+          LocationSearchView(isPresented: $showLocationSearchView, showPlaceDetail: $showPlaceDetailView)
+            .environmentObject(placeInfo)
+        } else if !showPlaceDetailView {
+          HStack {
+            LocationSearchActivationView()
+              .onTapGesture {
+                showLocationSearchView = true
+              }
+            Spacer()
+            // TODO: 내 오댜 / 친구 오댜만 보기 버튼
+          }
+          .padding(.leading, 23)
         }
-        .padding(.leading, 23)
+        
+        if showPlaceDetailView {
+          PlaceDetailView(isPresented: $showPlaceDetailView, path: $path)
+            .environmentObject(placeInfo)
+            .transition(.move(edge: .bottom))
+            .zIndex(1)
+        }
       }
-    }
-    .transparentFullScreenCover(isPresented: $showPlaceDetailView) {
-      PlaceDetailView(isPresented: $showPlaceDetailView)
-        .environmentObject(placeInfo)
+      .navigationDestination(for: PlaceDetailRoute.self) { route in
+        switch route {
+        case let .feedDetail(communityId):
+          FeedDetailView(path: $path, communityId: communityId)
+        }
+      }
     }
   }
 }

@@ -24,15 +24,12 @@ enum PlaceDetailContentType: Int, CaseIterable {
   }
 }
 
-enum PlaceDetailRoute: Hashable {
-  case feedDetail(id: Int)
-}
-
 /// 장소 상세보기 뷰
 struct PlaceDetailView: View {
   // MARK: Properties
   @EnvironmentObject var placeInfo: PlaceInfo
   @Binding var isPresented: Bool
+  @Binding var path: NavigationPath
   
   @StateObject var viewModel = PlaceDetailViewModel()
   @State var showReviewComposeView: Bool = false
@@ -43,61 +40,51 @@ struct PlaceDetailView: View {
   var columns = [GridItem(.flexible(), spacing: 3),
                  GridItem(.flexible(), spacing: 3),
                  GridItem(.flexible())]
-  /// 내비게이션 스택 경로
-  @State private var path = NavigationPath()
   
   // MARK: Body
   var body: some View {
     VStack(spacing: 24) {
       navigationBar
-      NavigationStack(path: $path) {
-        ScrollViewReader { proxy in
-          ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(pinnedViews: .sectionHeaders) {
-              Section {
-                overview
-                  .id(PlaceDetailContentType.journal)
-                VStack(spacing: 48) {
-                  travelJournalPart
-                  Divider()
-                    .padding(.horizontal, GridLayout.side)
-                    .id(PlaceDetailContentType.review)
-                  reviewPart
-                  Divider()
-                    .padding(.horizontal, GridLayout.side)
-                    .id(PlaceDetailContentType.community)
-                  communityPart
-                }
-                .padding(.vertical, 24)
-                
-              } header: {
-                bottomSheetIndicator
+      ScrollViewReader { proxy in
+        ScrollView(.vertical, showsIndicators: false) {
+          LazyVStack(pinnedViews: .sectionHeaders) {
+            Section {
+              overview
+                .id(PlaceDetailContentType.journal)
+              VStack(spacing: 48) {
+                travelJournalPart
+                Divider()
+                  .padding(.horizontal, GridLayout.side)
+                  .id(PlaceDetailContentType.review)
+                reviewPart
+                Divider()
+                  .padding(.horizontal, GridLayout.side)
+                  .id(PlaceDetailContentType.community)
+                communityPart
               }
-            }
-          } // ScrollView
-          .clipShape(RoundedEdgeShape(edgeType: .top))
-          .onChange(of: isScrollDestinationChanged) { _ in
-            switch scrollDestination {
-            case .journal:
-              withAnimation {
-                proxy.scrollTo(scrollDestination, anchor: .bottom)
-              }
-            default:
-              withAnimation {
-                proxy.scrollTo(scrollDestination, anchor: .top)
-              }
+              .padding(.vertical, 24)
+              
+            } header: {
+              bottomSheetIndicator
             }
           }
-          .background(Color.odya.background.normal)
-          .toolbar(.hidden)
-          .navigationDestination(for: PlaceDetailRoute.self) { route in
-            switch route {
-            case let .feedDetail(communityId):
-              FeedDetailView(path: $path, communityId: communityId)
+        } // ScrollView
+        .clipShape(RoundedEdgeShape(edgeType: .top))
+        .onChange(of: isScrollDestinationChanged) { _ in
+          switch scrollDestination {
+          case .journal:
+            withAnimation {
+              proxy.scrollTo(scrollDestination, anchor: .bottom)
+            }
+          default:
+            withAnimation {
+              proxy.scrollTo(scrollDestination, anchor: .top)
             }
           }
         }
-      } // NavigationStack
+        .background(Color.odya.background.normal)
+        .toolbar(.hidden)
+      }
       .frame(maxWidth: .infinity)
       .sheet(isPresented: $showReviewComposeView) {
         ReviewComposeView(isPresented: $showReviewComposeView, placeId: $placeInfo.placeId)
@@ -116,7 +103,9 @@ struct PlaceDetailView: View {
   private var navigationBar: some View {
     HStack {
       Button {
-        isPresented = false
+        withAnimation {
+          isPresented = false
+        }
       } label: {
         Image("direction-left")
           .frame(width: 36, height: 36)
@@ -220,7 +209,7 @@ struct PlaceDetailView_Previews: PreviewProvider {
   var placeInfo = PlaceInfo()
   
   static var previews: some View {
-    PlaceDetailView(isPresented: .constant(true))
+    PlaceDetailView(isPresented: .constant(true), path: .constant(NavigationPath()))
       .environmentObject(PlaceInfo())
       .background(.green)
   }
