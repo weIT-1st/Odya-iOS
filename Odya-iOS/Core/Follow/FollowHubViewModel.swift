@@ -106,6 +106,11 @@ class FollowHubViewModel: ObservableObject {
     followerUsers = []
   }
   
+  func initSearchData() {
+    initFollowingData()
+    initFollowerData()
+  }
+  
   // MARK: Fetch Follow Users
   
   /// 팔로잉 유저, 팔로워 유저 리스트 첫 번째 페이지를 받아옴
@@ -296,8 +301,7 @@ class FollowHubViewModel: ObservableObject {
   /// 닉네임으로 팔로워/팔로잉 유저 검색
   func searchFollowUsers(
     by nickname: String,
-    userId: Int,
-    completion: @escaping (Bool) -> Void
+    userId: Int
   ) {
     followingSearchResult = []
     followerSearchResult = []
@@ -311,11 +315,7 @@ class FollowHubViewModel: ObservableObject {
     
     searchFollowingUsers(by: nickname, userId: userId) { success in
       if success {
-        self.searchFollowerUsers(by: nickname, userId: userId) { success in
-          if success {
-            completion(true)
-          }
-        }
+        self.searchFollowerUsers(by: nickname, userId: userId) { _ in }
       }
     }
   }

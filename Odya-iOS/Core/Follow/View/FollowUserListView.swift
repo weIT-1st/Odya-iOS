@@ -92,14 +92,13 @@ struct SearchedUserListView: View {
   let userId: Int
   let nameToSearch: String
   
-  @State var searchedFollowingUser: [FollowUserData] = []
-  @State var searchedFollowerUser: [FollowUserData] = []
-  
   var body: some View {
     ScrollView {
       VStack(spacing: 16) {
-        showList(of: searchedFollowingUser, followType: .following)
-        showList(of: searchedFollowerUser, followType: .follower)
+        showList(of: followHubVM.followingSearchResult,
+                 showDeletionButton: false)
+        showList(of: followHubVM.followerSearchResult,
+                 showDeletionButton: userId == MyData.userID)
         
         // 검색 결과를 로딩할 때 나오는 로딩 뷰
         if followHubVM.isLoadingSearchResult {
@@ -110,41 +109,24 @@ struct SearchedUserListView: View {
       }.padding(.horizontal, GridLayout.side)
     }
     .onAppear {
-      followHubVM.searchFollowUsers(by: nameToSearch, userId: userId) { success in
-        if success {
-          searchedFollowingUser = followHubVM.followingSearchResult
-          searchedFollowerUser = followHubVM.followerSearchResult
-        }
-      }
+      followHubVM.searchFollowUsers(by: nameToSearch, userId: userId)
     }
     .onChange(of: nameToSearch) { newValue in
-      followHubVM.searchFollowUsers(by: newValue, userId: userId) { success in
-        if success {
-          searchedFollowingUser = followHubVM.followingSearchResult
-          searchedFollowerUser = followHubVM.followerSearchResult
-        }
-      }
+      followHubVM.searchFollowUsers(by: newValue, userId: userId)
     }
     .refreshable {
-      followHubVM.searchFollowUsers(by: nameToSearch, userId: userId) { success in
-        if success {
-          searchedFollowingUser = followHubVM.followingSearchResult
-          searchedFollowerUser = followHubVM.followerSearchResult
-        }
-      }
+      followHubVM.initSearchData()
+      followHubVM.searchFollowUsers(by: nameToSearch, userId: userId)
     }
   }
 
 
-  private func showList(of users: [FollowUserData], followType: FollowType) -> some View {
+  private func showList(of users: [FollowUserData], showDeletionButton: Bool) -> some View {
     ForEach(users) { user in
-      switch followType {
-      case .following:
-        UserIdentityRowWithFollowing(of: user)
-          .environmentObject(followHubVM)
-      case .follower:
+      if showDeletionButton {
         FollowerUserRowView(of: user)
-          .environmentObject(followHubVM)
+      } else {
+        UserIdentityRowWithFollowing(of: user)
       }
     }
   }
