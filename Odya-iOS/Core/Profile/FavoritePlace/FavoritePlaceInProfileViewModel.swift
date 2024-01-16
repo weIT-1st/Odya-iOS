@@ -21,9 +21,6 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
 
-//  let isMyProfile: Bool
-//  let userId: Int
-
   // loadingFlag
   var isFavoritePlacesLoading: Bool = false
   var isCounting: Bool = false
@@ -46,27 +43,16 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
 
   /// api를 통해 관심장소 리스트, 관심 장소 수를 가져옴
   func fetchDataAsync(userId: Int) async {
+    self.getOthersFavoritePlaces(userId: userId)
+    self.getOthersCount(userId: userId)
 
-//    if isMyProfile {
-//      self.getMyFavoritePlaces()
-//      self.getMyCount()
-//    } else {
-      self.getOthersFavoritePlaces(userId: userId)
-      self.getOthersCount(userId: userId)
-//    }
 
   }
 
   func updateFavoritePlaces(userId: Int) {
     initData()
-
-//    if isMyProfile {
-//      self.getMyFavoritePlaces()
-//      self.getMyCount()
-//    } else {
-      self.getOthersFavoritePlaces(userId: userId)
-      self.getOthersCount(userId: userId)
-//    }
+    self.getOthersFavoritePlaces(userId: userId)
+    self.getOthersCount(userId: userId)
   }
 
   private func getMyFavoritePlaces() {
@@ -127,12 +113,7 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
 
   // MARK: count
   func getCount(userId: Int) {
-//    if isMyProfile {
-//      getMyCount()
-//    } else {
-      getOthersCount(userId: userId)
-//      print("do getOthersCount()")
-//    }
+    getOthersCount(userId: userId)
   }
 
   private func getMyCount() {

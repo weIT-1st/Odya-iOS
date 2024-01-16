@@ -19,7 +19,7 @@ struct LinkedTravelJournalView: View {
   @Binding var selectedJournalId: Int?
   /// 상위 뷰에 표시될 여행일지 타이틀
   @Binding var selectedJournalTitle: String?
-  
+
   /// 헤더 뷰 타이틀
   let headerTitle: String
 
@@ -27,7 +27,7 @@ struct LinkedTravelJournalView: View {
   var body: some View {
     VStack {
       header
-      
+
       ScrollView {
         LazyVStack(spacing: 10) {
           Section {
@@ -75,12 +75,12 @@ struct LinkedTravelJournalView: View {
                   Text("공개된 여행일지만 연동 가능합니다.")
                 }
               }
-              
+
             }
           }
         }.padding(.vertical, 21)
-      } // ScrollView
-    } // VStack
+      }  // ScrollView
+    }  // VStack
     .background(Color.odya.background.normal)
     .toolbar(.hidden)
     .task {
@@ -134,7 +134,7 @@ struct LinkedTravelJournalView: View {
     }
     .padding(.horizontal, 8)
     .frame(height: 56)
-    
+
   }
 }
 

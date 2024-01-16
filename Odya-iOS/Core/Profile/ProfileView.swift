@@ -30,45 +30,45 @@ struct ProfileView: View {
   @StateObject var followButtonVM = FollowButtonViewModel()
   @StateObject var journalsVM = JournalsInProfileViewModel()
   @StateObject var favoritePlacesVM = FavoritePlaceInProfileViewModel()
-  
+
   // navigation stack
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var rootTabManager: RootTabManager
   @State var path = NavigationPath()
-  
+
   // journal compose
   @State var isShowingJournalComposeView: Bool = false
-  
+
   // main journal
   @State var mainJournalId: Int? = nil
   @State var mainJournalTitle: String? = nil
-  
+
   // user info
   var userId: Int = -1
   var nickname: String = ""
   var profileUrl: String = ""
   var isFollowing: Bool = false
-  
+
   var isMyProfile: Bool {
     profileVM.userID == MyData.userID
   }
-  
+
   init() {
     let myData = MyData()
     self.userId = MyData.userID
     self.nickname = myData.nickname
     self.profileUrl = myData.profile.decodeToProileData().profileUrl
   }
-  
+
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
     self.userId = userId
     self.nickname = nickname
     self.profileUrl = profileUrl
     self.isFollowing = isFollowing
   }
-  
+
   // MARK: Body
-  
+
   var body: some View {
     NavigationStack(path: $path) {
       ScrollView(.vertical) {
@@ -85,14 +85,13 @@ struct ProfileView: View {
           BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
             .offset(y: -70)
         )
-        
+
         // 타인의 프로필에서 작성된 여행일지가 없는 경우
         if !isMyProfile
-            && profileVM.statistics.travelJournalCount == 0 {
+          && profileVM.statistics.travelJournalCount == 0
+        {
           NoContentDescriptionView(title: "아직 게시물이 없어요.", withLogo: true)
-        }
-        
-        else {
+        } else {
           VStack(spacing: 20) {
             // 오댜 카운트
             VStack(spacing: 0) {
@@ -102,7 +101,7 @@ struct ProfileView: View {
                 odyaCounter
               }
             }.padding(.horizontal, GridLayout.side)
-            
+
             // 인생샷
             VStack(spacing: 36) {
               POTDTitle
@@ -115,9 +114,9 @@ struct ProfileView: View {
                 NoContentDescriptionView(title: "인생샷이 없어요.", withLogo: false)
               }
             }
-            
+
             divider
-            
+
             // 대표 여행일지
             VStack(spacing: 36) {
               mainJournalSectionTitle
@@ -127,15 +126,16 @@ struct ProfileView: View {
                 let mainJournal = journalsVM.mainJournals[0]
                 Button(action: {
                   path.append(
-                    ProfileRoute.journalDetail(journalId: mainJournal.journalId, nickname: mainJournal.writer.nickname))
+                    ProfileRoute.journalDetail(
+                      journalId: mainJournal.journalId, nickname: mainJournal.writer.nickname))
                 }) {
                   MainJournalCardView(mainJournal: mainJournal)
                 }
               }
             }.padding(.horizontal, GridLayout.side)
-            
+
             divider
-            
+
             // 즐겨찾기 여행일지
             VStack(spacing: 36) {
               bookmarkedJournalTitle
@@ -143,9 +143,9 @@ struct ProfileView: View {
               BookmarkedJournalListinProfileView(userId: userId, path: $path)
                 .environmentObject(journalsVM)
             }
-            
+
             divider
-            
+
             // 관심장소
             VStack(spacing: 36) {
               favoritePlaceTitle
@@ -156,14 +156,14 @@ struct ProfileView: View {
               )
               .environmentObject(favoritePlacesVM)
             }.padding(.horizontal, GridLayout.side)
-            
+
             // 내 커뮤니티 활동으로 가기
             if isMyProfile {
               divider
               linkToMyCommunity
                 .padding(.horizontal, GridLayout.side)
             }
-            
+
           }
           .padding(.top, 20)
           .padding(.bottom, 50)
@@ -193,13 +193,15 @@ struct ProfileView: View {
           SettingView().navigationBarBackButtonHidden()
         case .followHubView:
           isMyProfile
-          ? FollowHubView().navigationBarBackButtonHidden()
-          : FollowHubView(userId: userId).navigationBarBackButtonHidden()
+            ? FollowHubView().navigationBarBackButtonHidden()
+            : FollowHubView(userId: userId).navigationBarBackButtonHidden()
         case .potoRegisterView:
           POTDPickerView().navigationBarBackButtonHidden()
         case .mainJournalRegisterView:
-          MainJournalSelectorView(path: $path,
-                                  orgMainJournal: journalsVM.mainJournals.first)
+          MainJournalSelectorView(
+            path: $path,
+            orgMainJournal: journalsVM.mainJournals.first
+          )
           .environmentObject(journalsVM)
         case .journalDetail(let journalId, let nickname):
           TravelJournalDetailView(journalId: journalId, nickname: nickname)

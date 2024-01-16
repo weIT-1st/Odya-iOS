@@ -9,23 +9,24 @@ import SwiftUI
 
 struct MainJournalCardView: View {
   let totalWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
-  
+
   let journalId: Int
   let mainJournalId: Int
   let title: String
   let dateString: String
   let mates: [travelMateSimple]
   let content: String
-  
+
   init(mainJournal: MainJournalData) {
     self.journalId = mainJournal.journalId
     self.mainJournalId = mainJournal.repJournalId
     self.title = mainJournal.title
-    self.dateString = "\(mainJournal.travelStartDate.dateToString(format: "MM.dd")) ~ \(mainJournal.travelEndDate.dateToString(format: "MM.dd"))"
+    self.dateString =
+      "\(mainJournal.travelStartDate.dateToString(format: "MM.dd")) ~ \(mainJournal.travelEndDate.dateToString(format: "MM.dd"))"
     self.mates = mainJournal.travelMates
     self.content = mainJournal.content
   }
-  
+
   var body: some View {
     VStack(spacing: 20) {
       ZStack(alignment: .leading) {
@@ -38,19 +39,18 @@ struct MainJournalCardView: View {
           Spacer()
         }
       }.frame(width: totalWidth)
-      
+
       journalContent
         .frame(width: totalWidth, height: contentHeight)
     }
   }
 
-
   // MARK: Card
-  
+
   let shadowBoxWidth: CGFloat = 16
   var cardWidth: CGFloat { totalWidth - (shadowBoxWidth * 2) }
   let cardHeight: CGFloat = 280
-  
+
   private var cardView: some View {
     Rectangle()
       .frame(width: cardWidth, height: cardHeight)
@@ -80,7 +80,7 @@ struct MainJournalCardView: View {
         .frame(width: cardWidth)
       }
   }
-  
+
   private var journalTitle: some View {
     Text(title)
       .h6Style()
@@ -116,9 +116,9 @@ struct MainJournalCardView: View {
   }
 
   // MARK: Content
-  
+
   let contentHeight: CGFloat = 100
-  
+
   private var journalContent: some View {
     ZStack {
       RoundedRectangle(cornerRadius: Radius.large)
@@ -135,9 +135,9 @@ struct MainJournalCardView: View {
     }
     .padding(.horizontal, 10)
     .padding(.vertical, 16)
-    
+
   }
-  
+
   // MARK: Shadow
   private var shadowBox: some View {
     RoundedRectangle(cornerRadius: Radius.large)

@@ -18,13 +18,13 @@ extension ProfileView {
 struct FavoritePlaceListView: View {
   @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
   // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
-  
+
   let userId: Int
   @Binding var rootTabViewIdx: Int
   @Binding var path: NavigationPath
-  
+
   @Environment(\.dismiss) var dismiss
-  
+
   var body: some View {
     VStack(spacing: 32) {
       if VM.isFavoritePlacesLoading {

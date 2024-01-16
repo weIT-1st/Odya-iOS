@@ -23,7 +23,6 @@ class JournalsInProfileViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private var subscription = Set<AnyCancellable>()
 
-
   // loadingFlag
   var isMainJournalsLoading: Bool = false
   var isBookmarkedJournalsLoading: Bool = false
@@ -44,10 +43,10 @@ class JournalsInProfileViewModel: ObservableObject {
       guard let self = self else {
         return
       }
-        self.getBookmarkedJournalsByUserId(userId: userId)
+      self.getBookmarkedJournalsByUserId(userId: userId)
     }.store(in: &subscription)
   }
-  
+
   // MARK: Fetch Data
 
   /// Fetch Data를 하기 전 초기화
@@ -75,7 +74,7 @@ class JournalsInProfileViewModel: ObservableObject {
     hasNextBookmarkedJournals = true
     lastIdOfBookmarkedJournals = nil
     bookmarkedJournals = []
-    
+
     self.getBookmarkedJournalsByUserId(userId: userId)
   }
 
@@ -109,22 +108,22 @@ class JournalsInProfileViewModel: ObservableObject {
       }
     }.store(in: &subscription)
   }
-  
+
   // MARK: Get Main Journals
-  
+
   func updateMainJournals(userId: Int) {
     isMainJournalsLoading = false
     mainJournals = []
-    
+
     self.getMainJournalsByUserId(userId: userId)
   }
-  
+
   private func getMainJournalsByUserId(userId: Int) {
     if isMainJournalsLoading {
       return
     }
-    
-//    deleteMainJournal(journalId: 263) { _ in }
+
+    //    deleteMainJournal(journalId: 263) { _ in }
 
     self.isMainJournalsLoading = true
     mainJournalProvider.requestPublisher(
@@ -149,12 +148,14 @@ class JournalsInProfileViewModel: ObservableObject {
       }
     }.store(in: &subscription)
   }
-  
+
   // MARK: Set Main Journal
-  func setMainJournal(orgMainJournalId: Int?,
-                      journalId: Int?,
-                      completion: @escaping () -> Void) {
-    
+  func setMainJournal(
+    orgMainJournalId: Int?,
+    journalId: Int?,
+    completion: @escaping () -> Void
+  ) {
+
     if let newId = journalId {
       createMainJournal(journalId: newId) { success in
         if success {
@@ -172,13 +173,15 @@ class JournalsInProfileViewModel: ObservableObject {
       }
     }
   }
-  
-  private func createMainJournal(journalId: Int,
-                                 completion: @escaping (Bool) -> Void) {
+
+  private func createMainJournal(
+    journalId: Int,
+    completion: @escaping (Bool) -> Void
+  ) {
     if isCreatingMainJournal {
       return
     }
-    
+
     isCreatingMainJournal = true
     mainJournalProvider.requestPublisher(.createMainJournal(journalId: journalId))
       .sink { apiCompletion in
@@ -190,16 +193,19 @@ class JournalsInProfileViewModel: ObservableObject {
           self.processErrorResponse(error)
           completion(false)
         }
-      } receiveValue: { _ in }
+      } receiveValue: { _ in
+      }
       .store(in: &subscription)
   }
-  
-  private func deleteMainJournal(journalId: Int,
-                                 completion: @escaping (Bool) -> Void) {
+
+  private func deleteMainJournal(
+    journalId: Int,
+    completion: @escaping (Bool) -> Void
+  ) {
     if isDeletingMainJournal {
       return
     }
-    
+
     isDeletingMainJournal = true
     mainJournalProvider.requestPublisher(.deleteMainJournal(journalId: journalId))
       .sink { apiCompletion in
@@ -211,10 +217,11 @@ class JournalsInProfileViewModel: ObservableObject {
           self.processErrorResponse(error)
           completion(false)
         }
-      } receiveValue: { _ in }
+      } receiveValue: { _ in
+      }
       .store(in: &subscription)
   }
-  
+
   // MARK: error handling
   private func processErrorResponse(_ error: MoyaError) {
     if let errorData = try? error.response?.map(ErrorData.self) {

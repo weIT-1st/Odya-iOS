@@ -9,26 +9,27 @@ import SwiftUI
 
 struct MainJournalSelectorView: View {
   @EnvironmentObject var VM: JournalsInProfileViewModel
-  
-//  let userId: Int
+
   @Binding var path: NavigationPath
-  
+
   let orgMainJournal: MainJournalData?
-  
+
   @State private var selectedJournalId: Int? = nil
   @State private var selectedJournalTitle: String? = nil
-  
+
   @Environment(\.dismiss) private var dismiss
-  
+
   // 기존 대표 여행일지와 다른 새로운 여행일지를 선택했는지 여부
   var isSelected: Bool {
     orgMainJournal?.journalId ?? nil != selectedJournalId
   }
-  
+
   var body: some View {
     ZStack(alignment: .top) {
-      LinkedTravelJournalView(path: $path, selectedJournalId: $selectedJournalId, selectedJournalTitle: $selectedJournalTitle, headerTitle: "")
-      
+      LinkedTravelJournalView(
+        path: $path, selectedJournalId: $selectedJournalId,
+        selectedJournalTitle: $selectedJournalTitle, headerTitle: "")
+
       headerBar
     }
     .onAppear {
@@ -36,7 +37,7 @@ struct MainJournalSelectorView: View {
       selectedJournalTitle = orgMainJournal?.title ?? nil
     }
   }
-  
+
   private var headerBar: some View {
     HStack {
       IconButton(isSelected ? "x" : "direction-left") {
@@ -53,8 +54,10 @@ struct MainJournalSelectorView: View {
       if isSelected {
         Button {
           // 대표 여행이지 설정 api
-          VM.setMainJournal(orgMainJournalId: orgMainJournal?.journalId ?? nil,
-                            journalId: selectedJournalId) {
+          VM.setMainJournal(
+            orgMainJournalId: orgMainJournal?.journalId ?? nil,
+            journalId: selectedJournalId
+          ) {
             dismiss()
           }
           // 실패 시
@@ -75,5 +78,5 @@ struct MainJournalSelectorView: View {
     .frame(height: 56)
     .background(Color.odya.background.normal)
   }
-  
+
 }

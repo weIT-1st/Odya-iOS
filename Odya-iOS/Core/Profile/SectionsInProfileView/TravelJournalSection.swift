@@ -23,7 +23,7 @@ extension ProfileView {
 
 struct BookmarkedJournalListinProfileView: View {
   @EnvironmentObject var VM: JournalsInProfileViewModel
-  
+
   let userId: Int
   @Binding var path: NavigationPath
 
@@ -42,7 +42,8 @@ struct BookmarkedJournalListinProfileView: View {
 
               Button(action: {
                 path.append(
-                  ProfileRoute.journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
+                  ProfileRoute.journalDetail(
+                    journalId: journal.journalId, nickname: journal.writer.nickname))
               }) {
                 BookmarkedJournalCardView(userId: userId, journal)
                   .environmentObject(VM)
