@@ -20,7 +20,7 @@ extension PlaceDetailView {
               .foregroundColor(.odya.label.normal)
             Spacer()
           }
-          noJournalView
+          NoJournalCardView()
         }
         VStack(spacing: 36) {
           HStack {
@@ -43,25 +43,6 @@ extension PlaceDetailView {
       }
       .padding(.horizontal, GridLayout.side)
     }
-  }
-  
-  private var noJournalView: some View {
-    VStack(spacing: 24) {
-      Image("noJournalImg")
-        .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 112, height: 70)
-      Text("작성된 여행일지가 없어요!")
-        .h6Style()
-        .foregroundColor(.odya.label.normal)
-      CTAButton(isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기", labelSize: .L) {
-        // compose travel journal
-      }
-    }
-    .padding(.vertical, 24)
-    .padding(.horizontal, 10)
-    .background(Color.odya.elevation.elev3)
-    .cornerRadius(16)
   }
   
   // MARK: - Review

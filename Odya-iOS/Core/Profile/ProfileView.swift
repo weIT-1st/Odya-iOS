@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-// MARK: Stack View Type
-/// NavigationStack으로 이동할 뷰 타입
-enum StackViewType: Hashable {
+// MARK: Profile Route
+/// 프로필 뷰에서 NavigationStack으로 이동할 뷰 타입
+enum ProfileRoute: Hashable {
   /// 환경설정
   case settingView
   /// 친구관리 뷰
@@ -28,16 +28,20 @@ struct ProfileView: View {
   // viewModel
   @StateObject var profileVM = ProfileViewModel()
   @StateObject var followButtonVM = FollowButtonViewModel()
-  @ObservedObject var bookmarkedJournalsVM: JournalsInProfileViewModel
-  @ObservedObject var favoritePlacesVM: FavoritePlaceInProfileViewModel
+  @StateObject var journalsVM = JournalsInProfileViewModel()
+  @StateObject var favoritePlacesVM = FavoritePlaceInProfileViewModel()
 
   // navigation stack
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var rootTabManager: RootTabManager
-  @State var path: [StackViewType] = []
+  @State var path = NavigationPath()
 
-  // fullscreen
+  // journal compose
   @State var isShowingJournalComposeView: Bool = false
+
+  // main journal
+  @State var mainJournalId: Int? = nil
+  @State var mainJournalTitle: String? = nil
 
   // user info
   var userId: Int = -1
@@ -50,12 +54,10 @@ struct ProfileView: View {
   }
 
   init() {
-    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
-      isMyProfile: true,
-      userId: MyData.userID)
-    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
-      isMyProfile: true,
-      userId: MyData.userID)
+    let myData = MyData()
+    self.userId = MyData.userID
+    self.nickname = myData.nickname
+    self.profileUrl = myData.profile.decodeToProileData().profileUrl
   }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
@@ -63,12 +65,6 @@ struct ProfileView: View {
     self.nickname = nickname
     self.profileUrl = profileUrl
     self.isFollowing = isFollowing
-    self.bookmarkedJournalsVM = JournalsInProfileViewModel(
-      isMyProfile: false,
-      userId: userId)
-    self.favoritePlacesVM = FavoritePlaceInProfileViewModel(
-      isMyProfile: false,
-      userId: userId)
   }
 
   // MARK: Body
@@ -90,29 +86,17 @@ struct ProfileView: View {
             .offset(y: -70)
         )
 
-        if !isMyProfile && profileVM.statistics.travelJournalCount == 0 {
-          VStack(alignment: .center, spacing: 8) {
-            Spacer()
-            Image("logo-lightgray")
-              .resizable()
-              .renderingMode(.template)
-              .aspectRatio(contentMode: .fit)
-              .frame(height: 43)
-            Text("아직 게시물이 없어요.")
-              .detail1Style()
-            Spacer()
-          }
-          .foregroundColor(.odya.label.assistive)
-          .frame(maxWidth: .infinity)
-          .frame(height: 320)
-        }
-
-        else {
+        // 타인의 프로필에서 작성된 여행일지가 없는 경우
+        if !isMyProfile
+          && profileVM.statistics.travelJournalCount == 0
+        {
+          NoContentDescriptionView(title: "아직 게시물이 없어요.", withLogo: true)
+        } else {
           VStack(spacing: 20) {
             // 오댜 카운트
             VStack(spacing: 0) {
               if profileVM.statistics.travelJournalCount == 0 {
-                emptyOdyaCounter
+                NoJournalCardView()
               } else {
                 odyaCounter
               }
@@ -127,7 +111,7 @@ struct ProfileView: View {
               } else if isMyProfile {  // 내 프로필에서 인생샷 없는 경우
                 emptyPOTDView
               } else {  // 타인의 프로필에서 인생샷 없는 경우
-                NoDataInProfileView(message: "인생샷이 없어요.")
+                NoContentDescriptionView(title: "인생샷이 없어요.", withLogo: false)
               }
             }
 
@@ -135,9 +119,19 @@ struct ProfileView: View {
 
             // 대표 여행일지
             VStack(spacing: 36) {
-              mainJournalTitle
-              NoDataInProfileView(message: "대표 여행일지가 없어요.")
-              // MainJournalCardView()
+              mainJournalSectionTitle
+              if journalsVM.mainJournals.isEmpty {
+                NoContentDescriptionView(title: "대표 여행일지가 없어요.", withLogo: false)
+              } else {
+                let mainJournal = journalsVM.mainJournals[0]
+                Button(action: {
+                  path.append(
+                    ProfileRoute.journalDetail(
+                      journalId: mainJournal.journalId, nickname: mainJournal.writer.nickname))
+                }) {
+                  MainJournalCardView(mainJournal: mainJournal)
+                }
+              }
             }.padding(.horizontal, GridLayout.side)
 
             divider
@@ -146,8 +140,8 @@ struct ProfileView: View {
             VStack(spacing: 36) {
               bookmarkedJournalTitle
                 .padding(.horizontal, GridLayout.side)
-              BookmarkedJournalListinProfileView(path: $path)
-                .environmentObject(bookmarkedJournalsVM)
+              BookmarkedJournalListinProfileView(userId: userId, path: $path)
+                .environmentObject(journalsVM)
             }
 
             divider
@@ -156,6 +150,7 @@ struct ProfileView: View {
             VStack(spacing: 36) {
               favoritePlaceTitle
               FavoritePlaceListView(
+                userId: userId,
                 rootTabViewIdx: $rootTabManager.selectedTab,
                 path: $path
               )
@@ -185,14 +180,14 @@ struct ProfileView: View {
           profileVM.initData(
             MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
         }
-
-        // 프로필 뷰에서 필요한 데이터 받아오기
-        Task {
-          await profileVM.fetchDataAsync()
-        }
+      }
+      // 프로필 뷰에서 필요한 데이터 받아오기
+      .task {
+        await profileVM.fetchDataAsync()
+        journalsVM.fetchDataAsync(userId: userId)
       }
       // stackViewType에 따라 이동할 목적지 뷰
-      .navigationDestination(for: StackViewType.self) { stackViewType in
+      .navigationDestination(for: ProfileRoute.self) { stackViewType in
         switch stackViewType {
         case .settingView:
           SettingView().navigationBarBackButtonHidden()
@@ -203,7 +198,11 @@ struct ProfileView: View {
         case .potoRegisterView:
           POTDPickerView().navigationBarBackButtonHidden()
         case .mainJournalRegisterView:
-          Text("main journal register")
+          MainJournalSelectorView(
+            path: $path,
+            orgMainJournal: journalsVM.mainJournals.first
+          )
+          .environmentObject(journalsVM)
         case .journalDetail(let journalId, let nickname):
           TravelJournalDetailView(journalId: journalId, nickname: nickname)
             .navigationBarBackButtonHidden()
@@ -222,7 +221,7 @@ extension ProfileView {
       if isMyProfile {
         Spacer()
         IconButton("setting") {
-          path.append(.settingView)
+          path.append(ProfileRoute.settingView)
         }.padding(4)
       } else {
         IconButton("direction-left") {
@@ -241,7 +240,7 @@ extension ProfileView {
   func getSectionTitleView(
     title: String,
     buttonImage: String = "",
-    destinationView: StackViewType? = nil
+    destinationView: ProfileRoute? = nil
   ) -> some View {
     HStack {
       Text(title)
@@ -261,7 +260,10 @@ extension ProfileView {
 
   // MARK: Section Divider
   private var divider: some View {
-    Divider().frame(height: 8).background(Color.odya.blackopacity.baseBlackAlpha70)
+    HStack(spacing: 0) {}
+      .frame(maxWidth: .infinity)
+      .frame(height: 8)
+      .background(Color.odya.blackopacity.baseBlackAlpha70)
   }
 }
 

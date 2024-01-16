@@ -40,7 +40,12 @@ extension TravelMate: Equatable {
   }
 }
 
-struct travelMateSimple: Codable {
+struct travelMateSimple: Codable, Identifiable {
+  var id = UUID()
   var username: String
   var profileUrl: String?
+  
+  private enum CodingKeys: String, CodingKey {
+    case username, profileUrl
+  }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 extension ProfileView {
 
-  var mainJournalTitle: some View {
+  var mainJournalSectionTitle: some View {
     getSectionTitleView(
       title: "대표 여행일지",
       buttonImage: "pen-s",
@@ -22,8 +22,10 @@ extension ProfileView {
 }
 
 struct BookmarkedJournalListinProfileView: View {
-  @Binding var path: [StackViewType]
   @EnvironmentObject var VM: JournalsInProfileViewModel
+
+  let userId: Int
+  @Binding var path: NavigationPath
 
   var body: some View {
     ZStack(alignment: .center) {
@@ -32,7 +34,7 @@ struct BookmarkedJournalListinProfileView: View {
           .frame(height: 200)
           .frame(maxWidth: .infinity)
       } else if VM.bookmarkedJournals.isEmpty {
-        NoDataInProfileView(message: "여행일지가 없어요.")
+        NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
       } else {
         ScrollView(.horizontal, showsIndicators: false) {
           LazyHStack(spacing: 8) {
@@ -40,16 +42,17 @@ struct BookmarkedJournalListinProfileView: View {
 
               Button(action: {
                 path.append(
-                  .journalDetail(journalId: journal.journalId, nickname: journal.writer.nickname))
+                  ProfileRoute.journalDetail(
+                    journalId: journal.journalId, nickname: journal.writer.nickname))
               }) {
-                BookmarkedJournalCardView(journal)
+                BookmarkedJournalCardView(userId: userId, journal)
                   .environmentObject(VM)
               }
               .onAppear {
                 if let last = VM.lastIdOfBookmarkedJournals,
                   last == journal.bookmarkId
                 {
-                  VM.fetchMoreSubject.send()
+                  VM.fetchMoreSubject.send(userId)
                 }
               }
 
@@ -59,10 +62,7 @@ struct BookmarkedJournalListinProfileView: View {
         .padding(.leading, GridLayout.side)
       }
     }.task {
-      await VM.fetchDataAsync()
-    }
-    .onDisappear {
-      VM.initData()
+      VM.updateBookmarkedJournals(userId: userId)
     }
   }
 

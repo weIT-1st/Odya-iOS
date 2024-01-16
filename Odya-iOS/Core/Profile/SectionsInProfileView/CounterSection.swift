@@ -13,7 +13,7 @@ extension ProfileView {
   /// 총오댜, 팔로워, 팔로잉 수 오버뷰
   var followTotal: some View {
     Button(action: {
-      path.append(.followHubView)
+      path.append(ProfileRoute.followHubView)
     }) {
       HStack(spacing: 20) {
         Spacer()
@@ -94,36 +94,4 @@ extension ProfileView {
     .cornerRadius(Radius.large)
   }
 
-  /// 작성된 여행일지가 없을 경우의 오댜 여행간 곳, 여행일지 카운트 오버뷰
-  var emptyOdyaCounter: some View {
-    VStack(alignment: .center) {
-      if !profileVM.isFetchingStatistics {
-        Image("noJournalImg")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .padding(.bottom, 10)
-
-        Text("작성된 여행일지가 없어요!")
-          .h6Style()
-          .foregroundColor(.odya.label.normal)
-          .frame(height: 13)
-          .padding(.bottom, 24)
-
-        CTAButton(
-          isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기",
-          labelSize: ComponentSizeType.L,
-          action: { isShowingJournalComposeView = true }
-        )
-        .fullScreenCover(isPresented: $isShowingJournalComposeView) {
-          TravelJournalComposeView()
-            .navigationBarHidden(true)
-        }
-      }
-    }
-    .frame(maxWidth: .infinity)
-    .padding(.vertical, 24)
-    .frame(height: 230)
-    .background(Color.odya.elevation.elev3)
-    .cornerRadius(Radius.large)
-  }
 }

@@ -16,11 +16,14 @@ extension ProfileView {
 
 // MARK: Favorite Place List
 struct FavoritePlaceListView: View {
-  @Binding var rootTabViewIdx: Int
-  @Binding var path: [StackViewType]
-  // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
-  @Environment(\.dismiss) var dismiss
   @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
+  // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
+
+  let userId: Int
+  @Binding var rootTabViewIdx: Int
+  @Binding var path: NavigationPath
+
+  @Environment(\.dismiss) var dismiss
 
   var body: some View {
     VStack(spacing: 32) {
@@ -29,11 +32,11 @@ struct FavoritePlaceListView: View {
           .frame(height: 200)
           .frame(maxWidth: .infinity)
       } else if VM.favoritePlaces.isEmpty {
-        NoDataInProfileView(message: "관심장소가 없어요.")
+        NoContentDescriptionView(title: "관심장소가 없어요.", withLogo: false)
       } else {
         ForEach(VM.favoritePlaces, id: \.id) { place in
           VStack(spacing: 0) {
-            FavoritePlaceRow(favoritePlace: place)
+            FavoritePlaceRow(userId: userId, favoritePlace: place)
               .environmentObject(VM)
 
             if let last = VM.favoritePlaces.last,
@@ -52,12 +55,8 @@ struct FavoritePlaceListView: View {
       }
     }
     .task {
-      await VM.fetchDataAsync()
+      VM.updateFavoritePlaces(userId: userId)
     }
-    .onDisappear {
-      VM.initData()
-    }
-
   }
 
   // MARK: More Places Button
@@ -65,7 +64,7 @@ struct FavoritePlaceListView: View {
     Button(action: {
       dismiss()  // 프로필 뷰 풀스크린 닫기
       // fullScreenManager.closeAll()
-      path = []
+      path.removeLast(path.count)
       rootTabViewIdx = 0  // 메인 뷰로 이동
     }) {
       HStack(spacing: 10) {

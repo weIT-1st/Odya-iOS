@@ -36,10 +36,12 @@ struct MyJournalsView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }*/
 
-        // 작성된 여행일지가 없는 경우
+        // 작성 여행일지가 없는 경우
         ScrollView(showsIndicators: false) {
           if isNoJournals {
-            NoJournalView()
+              NoJournalView(isFullScreen: true)
+              .padding(.bottom, 80)
+              .frame(height: UIScreen.main.bounds.height)
           } else {
 
             LazyVStack(spacing: 50) {

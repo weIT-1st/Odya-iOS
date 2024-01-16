@@ -10,7 +10,7 @@ import SwiftUI
 extension ProfileView {
   var linkToMyCommunity: some View {
     Button(action: {
-      path.append(.myCommunity)
+      path.append(ProfileRoute.myCommunity)
     }) {
       HStack(alignment: .center) {
         Text("내 커뮤니티 활동")

@@ -208,7 +208,7 @@ struct CommunityComposeView: View {
   /// 여행일지 불러오기 버튼
   private var connectTravelJournalButton: some View {
     NavigationLink {
-      LinkedTravelJournalView(path: $path, selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle)
+      LinkedTravelJournalView(path: $path, selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle, headerTitle: "여행일지")
     } label: {
       ZStack {
         HStack(alignment: .center, spacing: 16) {
