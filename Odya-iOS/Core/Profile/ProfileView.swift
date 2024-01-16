@@ -258,7 +258,10 @@ extension ProfileView {
 
   // MARK: Section Divider
   private var divider: some View {
-    Divider().frame(height: 8).background(Color.odya.blackopacity.baseBlackAlpha70)
+    HStack(spacing: 0) {}
+      .frame(maxWidth: .infinity)
+      .frame(height: 8)
+      .background(Color.odya.blackopacity.baseBlackAlpha70)
   }
 }
 
