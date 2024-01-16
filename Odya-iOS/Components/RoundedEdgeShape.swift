@@ -10,6 +10,7 @@ import SwiftUI
 enum EdgeType {
   case top
   case bottom
+  case bubble
 }
 
 struct RoundedEdgeShape: Shape {
@@ -28,6 +29,8 @@ struct RoundedEdgeShape: Shape {
       corners = [.topLeft, .topRight]
     case .bottom:
       corners = [.bottomLeft, .bottomRight]
+    case .bubble:
+      corners = [.topLeft, .topRight, .bottomRight]
     }
 
     // create path

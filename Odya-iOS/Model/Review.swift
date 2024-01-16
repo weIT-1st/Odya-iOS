@@ -23,11 +23,30 @@ struct Review: Codable, Identifiable {
   var starRating: Int
   var review: String
   var createdAt: String
-
+  
+  var createdAtDate: Date {
+    self.createdAt.toDate(format: "yyyy-MM-dd'T'hh:mm:ss")
+  }
+  
   enum CodingKeys: String, CodingKey {
     case reviewId = "id"
     case placeId
     case writer = "userInfo"
     case starRating, review, createdAt
   }
+}
+
+// MARK: - ReviewExistResponse
+struct ReviewExistResponse: Codable {
+  let exist: Bool
+}
+
+// MARK: - ReviewCountResponse
+struct ReviewCountResponse: Codable {
+  let count: Int
+}
+
+// MARK: - ReviewAverageStarRatingResponse
+struct ReviewAverageStarRatingResponse: Codable {
+  let averageStarRating: Double
 }

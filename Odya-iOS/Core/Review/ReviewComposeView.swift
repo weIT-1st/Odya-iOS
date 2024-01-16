@@ -21,7 +21,7 @@ struct ReviewComposeView: View {
       
       VStack(spacing: 16) {
         // 별점
-        StarRatingView(rating: $viewModel.rating)
+        StarRatingView(rating: $viewModel.rating, size: .M)
         contentEditView
       }
       .padding(.horizontal, GridLayout.side)
