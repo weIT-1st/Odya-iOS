@@ -86,21 +86,10 @@ struct ProfileView: View {
             .offset(y: -70)
         )
         
-        if !isMyProfile && profileVM.statistics.travelJournalCount == 0 {
-          VStack(alignment: .center, spacing: 8) {
-            Spacer()
-            Image("logo-lightgray")
-              .resizable()
-              .renderingMode(.template)
-              .aspectRatio(contentMode: .fit)
-              .frame(height: 43)
-            Text("아직 게시물이 없어요.")
-              .detail1Style()
-            Spacer()
-          }
-          .foregroundColor(.odya.label.assistive)
-          .frame(maxWidth: .infinity)
-          .frame(height: 320)
+        // 타인의 프로필에서 작성된 여행일지가 없는 경우
+        if !isMyProfile
+            && profileVM.statistics.travelJournalCount == 0 {
+          NoContentDescriptionView(title: "아직 게시물이 없어요.", withLogo: true)
         }
         
         else {
@@ -108,7 +97,7 @@ struct ProfileView: View {
             // 오댜 카운트
             VStack(spacing: 0) {
               if profileVM.statistics.travelJournalCount == 0 {
-                emptyOdyaCounter
+                NoJournalCardView()
               } else {
                 odyaCounter
               }
