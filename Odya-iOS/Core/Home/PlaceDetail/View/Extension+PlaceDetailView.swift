@@ -29,7 +29,7 @@ extension PlaceDetailView {
               .foregroundColor(.odya.label.normal)
             Spacer()
           }
-          blankLabelView
+          NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
         }
         VStack(spacing: 36) {
           HStack {
@@ -38,7 +38,7 @@ extension PlaceDetailView {
               .foregroundColor(.odya.label.normal)
             Spacer()
           }
-          blankLabelView
+          NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
         }
       }
       .padding(.horizontal, GridLayout.side)
@@ -62,13 +62,6 @@ extension PlaceDetailView {
     .padding(.horizontal, 10)
     .background(Color.odya.elevation.elev3)
     .cornerRadius(16)
-  }
-  
-  private var blankLabelView: some View {
-    Text("여행일지가 없어요.")
-      .b1Style()
-      .foregroundColor(.odya.elevation.elev6)
-      .frame(height: 124)
   }
   
   // MARK: - Review
@@ -127,7 +120,8 @@ extension PlaceDetailView {
         
         // list
         if viewModel.reviewState.content.isEmpty {
-          noReviewContentView
+          NoContentDescriptionView(title: "아직 리뷰가 없어요.", withLogo: true)
+            .frame(height: 280)
         } else {
           // TODO: 더보기, 무한스크롤?
           VStack(spacing: 16) {
@@ -145,28 +139,14 @@ extension PlaceDetailView {
     }
   }
   
-  private var noReviewContentView: some View {
-    VStack(spacing: 8) {
-      Image("logo-lightgray")
-        .resizable()
-        .renderingMode(.template)
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 136, height: 43)
-      Text("아직 리뷰가 없어요.")
-        .detail1Style()
-    }
-    .foregroundColor(.odya.label.assistive)
-    .frame(maxWidth: .infinity)
-    .frame(height: 280)
-  }
-  
   // MARK: - Community
   var communityPart: some View {
     VStack(spacing: 28) {
       PlaceDetailContentTypeSelection(contentType: .community, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       
       if viewModel.feedState.content.isEmpty {
-        noCommunityContentView
+        NoContentDescriptionView(title: "아직 게시물이 없어요.", withLogo: true)
+          .frame(height: 320)
       } else {
         LazyVGrid(columns: columns, spacing: 3) {
           ForEach(viewModel.feedState.content, id: \.communityID) { content in
@@ -198,20 +178,5 @@ extension PlaceDetailView {
         }
       }
     }
-  }
-  
-  private var noCommunityContentView: some View {
-    VStack(spacing: 8) {
-      Image("logo-lightgray")
-        .resizable()
-        .renderingMode(.template)
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 136, height: 43)
-      Text("아직 게시물이 없어요.")
-        .detail1Style()
-    }
-    .foregroundColor(.odya.label.assistive)
-    .frame(maxWidth: .infinity)
-    .frame(height: 320)
   }
 }
