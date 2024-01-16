@@ -112,7 +112,7 @@ struct ProfileView: View {
               } else if isMyProfile {  // 내 프로필에서 인생샷 없는 경우
                 emptyPOTDView
               } else {  // 타인의 프로필에서 인생샷 없는 경우
-                NoDataInProfileView(message: "인생샷이 없어요.")
+                NoContentDescriptionView(title: "인생샷이 없어요.", withLogo: false)
               }
             }
             
@@ -122,7 +122,7 @@ struct ProfileView: View {
             VStack(spacing: 36) {
               mainJournalSectionTitle
               if journalsVM.mainJournals.isEmpty {
-                NoDataInProfileView(message: "대표 여행일지가 없어요.")
+                NoContentDescriptionView(title: "대표 여행일지가 없어요.", withLogo: false)
               } else {
                 let mainJournal = journalsVM.mainJournals[0]
                 Button(action: {

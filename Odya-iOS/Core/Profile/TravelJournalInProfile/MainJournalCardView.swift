@@ -129,7 +129,7 @@ struct MainJournalCardView: View {
           .renderingMode(.template)
         Text(content)
           .detail2Style()
-          .frame(width: totalWidth - 50, height: contentHeight - 30)
+          .frame(width: totalWidth - 50, height: contentHeight - 30, alignment: .topLeading)
           .multilineTextAlignment(.leading)
       }.foregroundColor(.odya.label.assistive)
     }

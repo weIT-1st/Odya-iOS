@@ -32,7 +32,7 @@ struct FavoritePlaceListView: View {
           .frame(height: 200)
           .frame(maxWidth: .infinity)
       } else if VM.favoritePlaces.isEmpty {
-        NoDataInProfileView(message: "관심장소가 없어요.")
+        NoContentDescriptionView(title: "관심장소가 없어요.", withLogo: false)
       } else {
         ForEach(VM.favoritePlaces, id: \.id) { place in
           VStack(spacing: 0) {

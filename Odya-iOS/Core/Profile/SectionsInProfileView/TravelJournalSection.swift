@@ -34,7 +34,7 @@ struct BookmarkedJournalListinProfileView: View {
           .frame(height: 200)
           .frame(maxWidth: .infinity)
       } else if VM.bookmarkedJournals.isEmpty {
-        NoDataInProfileView(message: "여행일지가 없어요.")
+        NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
       } else {
         ScrollView(.horizontal, showsIndicators: false) {
           LazyHStack(spacing: 8) {
