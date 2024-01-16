@@ -16,7 +16,7 @@ enum CommunityRouter {
   // 2. 상세 조회
   case getCommunityDetail(communityId: Int)
   // 3. 전체 목록 조회
-  case getAllCommunity(size: Int?, lastId: Int?, sortType: String?)
+  case getAllCommunity(size: Int?, lastId: Int?, sortType: String?, placeId: String? = nil)
   // 4. 나의 목록 조회
   case getMyCommunity(size: Int?, lastId: Int?, sortType: String?)
   // 5. 친구 목록 조회
@@ -104,11 +104,12 @@ extension CommunityRouter: TargetType, AccessTokenAuthorizable {
       return .uploadMultipart(formData)
     case .getCommunityDetail:
       return .requestPlain
-    case .getAllCommunity(let size, let lastId, let sortType):
+    case .getAllCommunity(let size, let lastId, let sortType, let placeId):
       var params: [String: Any] = [:]
       params["size"] = size
       params["lastId"] = lastId
       params["sortType"] = sortType
+      params["placeId"] = placeId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     case .getMyCommunity(let size, let lastId, let sortType):
       var params: [String: Any] = [:]
