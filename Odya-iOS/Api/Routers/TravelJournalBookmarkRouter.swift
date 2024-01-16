@@ -12,8 +12,10 @@ import Moya
 enum TravelJournalBookmarkRouter {
   // 여행일지 북마크 생성(즐겨찾기 추가)
   case createBookmark(journalId: Int)
-  // 즐겨찾기된 여행일지 목록 조회
-  case getBookmarkedJournals(size: Int?, lastId: Int?)
+  // 즐겨찾기된 여행일지 내 목록 조회
+  case getMyBookmarkedJournals(size: Int?, lastId: Int?)
+  // 즐겨찾기된 여행일지 다른 사용자 목록 조회
+  case getOthersBookmarkedJournals(userId: Int, size: Int?, lastId: Int?)
   // 여행일지 북마크 삭제(즐겨찾기 해제)
   case deleteBookmark(journalId: Int)
 }
@@ -28,8 +30,10 @@ extension TravelJournalBookmarkRouter: TargetType, AccessTokenAuthorizable {
     case let .createBookmark(journalId),
       let .deleteBookmark(journalId):
       return "/api/v1/travel-journal-bookmarks/\(journalId)"
-    case .getBookmarkedJournals:
+    case .getMyBookmarkedJournals:
       return "/api/v1/travel-journal-bookmarks/me"
+    case let .getOthersBookmarkedJournals(userId, _, _):
+      return "/api/v1/travel-journal-bookmarks/\(userId)"
     }
   }
 
@@ -46,7 +50,8 @@ extension TravelJournalBookmarkRouter: TargetType, AccessTokenAuthorizable {
 
   var task: Moya.Task {
     switch self {
-    case let .getBookmarkedJournals(size, lastId):
+    case let .getMyBookmarkedJournals(size, lastId),
+      let .getOthersBookmarkedJournals(_, size, lastId):
       var params: [String: Any] = [:]
       params["size"] = size
       params["lastId"] = lastId

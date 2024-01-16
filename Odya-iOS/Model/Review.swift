@@ -10,8 +10,8 @@ import SwiftUI
 /// 한줄리뷰 response
 // MARK: - Review
 struct ReviewListResponse: Codable {
-    let hasNext: Bool
-    let content: [Review]
+  let hasNext: Bool
+  let content: [Review]
 }
 
 // MARK: - Content

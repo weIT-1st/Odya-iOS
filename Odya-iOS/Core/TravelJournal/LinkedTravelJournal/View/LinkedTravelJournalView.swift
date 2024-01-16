@@ -12,14 +12,14 @@ struct LinkedTravelJournalView: View {
   @Environment(\.dismiss) private var dismiss
   @StateObject private var viewModel = LinkedTravelJournalViewModel()
   @State private var showChangeVisibilityAlert: Bool = false
-  
+
   /// 내비게이션 스택 경로
   @Binding var path: NavigationPath
   /// 선택된 여행일지 아이디
   @Binding var selectedJournalId: Int?
   /// 상위 뷰에 표시될 여행일지 타이틀
   @Binding var selectedJournalTitle: String?
-  
+
   // MARK: Body
   var body: some View {
     ScrollView {
@@ -56,7 +56,7 @@ struct LinkedTravelJournalView: View {
                 }
               }
               .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showChangeVisibilityAlert) {
-                Button("취소", role: .cancel) { }
+                Button("취소", role: .cancel) {}
                 Button {
                   // action: 공개로 변경
                   viewModel.switchVisibilityToPublic(journalId: content.journalId)
@@ -93,11 +93,11 @@ struct LinkedTravelJournalView: View {
       } message: {
         Text("여행일지를 새로 작성하시겠습니까? 현재 작성 중인 피드 글은 사라집니다.")
       }
-    } // ScrollView
+    }  // ScrollView
     .background(Color.odya.background.normal)
     .clipped()
   }
-  
+
   /// 상단 헤더
   private var header: some View {
     HStack {

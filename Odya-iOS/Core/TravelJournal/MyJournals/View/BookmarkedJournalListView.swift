@@ -50,8 +50,11 @@ struct BookmarkedJournalListView: View {
         title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl,
         writer: journal.writer)
     }.overlay {
-      FavoriteJournalCardOverlayMenuView(journalId: journal.journalId)
-        .environmentObject(VM)
+      FavoriteJournalCardOverlayMenuView(
+        journalId: journal.journalId,
+        isBookmarked: journal.isBookmarked
+      )
+      .environmentObject(VM)
     }
   }
 

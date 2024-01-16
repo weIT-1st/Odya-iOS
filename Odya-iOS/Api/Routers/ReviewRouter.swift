@@ -30,11 +30,11 @@ enum ReviewRouter {
 }
 
 extension ReviewRouter: TargetType, AccessTokenAuthorizable {
-  
+
   var baseURL: URL {
     return URL(string: ApiClient.BASE_URL)!
   }
-  
+
   var path: String {
     switch self {
     case let .deleteReview(reviewId):
@@ -66,7 +66,7 @@ extension ReviewRouter: TargetType, AccessTokenAuthorizable {
       return .get
     }
   }
-  
+
   var task: Moya.Task {
     switch self {
     case let .createReview(placeId, rating, review):
@@ -92,18 +92,18 @@ extension ReviewRouter: TargetType, AccessTokenAuthorizable {
       return .requestPlain
     }
   }
-  
+
   var headers: [String: String]? {
     switch self {
     default:
       return ["Content-type": "application/json"]
     }
   }
-  
+
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
   }
-  
+
   var validationType: ValidationType {
     return .successCodes
   }

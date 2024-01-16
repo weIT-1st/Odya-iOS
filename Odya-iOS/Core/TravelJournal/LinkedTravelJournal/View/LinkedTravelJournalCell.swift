@@ -16,10 +16,10 @@ struct LinkedTravelJournalCell: View {
   let privateVisibility = "PRIVATE"
   /// 선택된 여행일지 아이디
   @Binding var selectedId: Int?
-  
+
   /// 날짜 포맷
   let dateFormat: String = "yyyy.MM.dd"
-  
+
   // MARK: Body
   var body: some View {
     ZStack {
@@ -28,7 +28,9 @@ struct LinkedTravelJournalCell: View {
         HStack(alignment: .top) {
           Text(content.title)
             .b1Style()
-            .foregroundColor(content.visibility == privateVisibility ? .odya.label.assistive : .odya.label.alternative)
+            .foregroundColor(
+              content.visibility == privateVisibility
+                ? .odya.label.assistive : .odya.label.alternative)
           Spacer()
           if content.visibility == privateVisibility {
             Image("lock")
@@ -50,19 +52,25 @@ struct LinkedTravelJournalCell: View {
           .stroke(Color.odya.brand.primary, lineWidth: 2)
       }
     }
-    .background(content.visibility == privateVisibility ? Color.odya.background.dimmed_dark : .black.opacity(0.2))
+    .background(
+      content.visibility == privateVisibility
+        ? Color.odya.background.dimmed_dark : .black.opacity(0.2)
+    )
     .cornerRadius(Radius.medium)
     .background(
-      AsyncImage(url: URL(string: content.imageUrl)!, content: { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .clipped()
-          .frame(height: 85)
-          .cornerRadius(Radius.medium)
-      }, placeholder: {
-        ProgressView()
-      })
+      AsyncImage(
+        url: URL(string: content.imageUrl)!,
+        content: { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .clipped()
+            .frame(height: 85)
+            .cornerRadius(Radius.medium)
+        },
+        placeholder: {
+          ProgressView()
+        })
     )
     .frame(height: 85)
     .frame(maxWidth: .infinity)

@@ -76,7 +76,7 @@ struct POTDFullScreen: View {
       Text("\(curImageIdx + 1)/\(images.count)")
         .b2Style()
         .foregroundColor(.odya.label.assistive)
-      
+
       // 메뉴버튼
       if isMyPOTD {
         menuButton

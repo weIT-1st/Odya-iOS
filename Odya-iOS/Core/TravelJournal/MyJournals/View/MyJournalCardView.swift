@@ -110,10 +110,7 @@ struct TravelJournalCardView: View {
   var travelDateString: String
   var locationString: String
   var imageUrl: String
-
-  var isMarked: Bool {
-    bookmarkJournalsVM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
-  }
+  @State private var isBookmarked: Bool
 
   init(journal: TravelJournalData) {
     self.journalId = journal.journalId
@@ -123,6 +120,7 @@ struct TravelJournalCardView: View {
     // TODO: location, placeId
     self.locationString = "해운대 해수욕장"
     self.imageUrl = journal.imageUrl
+    self.isBookmarked = journal.isBookmarked
   }
 
   var body: some View {
@@ -130,8 +128,9 @@ struct TravelJournalCardView: View {
       AsyncImageView(
         url: imageUrl, width: cardWidth, height: cardHeight, cornerRadius: Radius.large)
 
-      StarButton(isActive: isMarked, isYellowWhenActive: true) {
-        bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
+      StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
+        bookmarkManager.setBookmarkState(isBookmarked, journalId) { result in
+          self.isBookmarked = result
           bookmarkJournalsVM.updateBookmarkedJournals()
         }
       }.offset(x: cardWidth / 2 - 25, y: -(cardHeight / 2 - 25))
@@ -323,16 +322,20 @@ struct FavoriteJournalCardOverlayMenuView: View {
   @StateObject var bookmarkManager = JournalBookmarkManager()
 
   let journalId: Int
-  var isMarked: Bool {
-    VM.bookmarkedJournals.contains(where: { $0.journalId == journalId })
+  @State private var isBookmarked: Bool = true
+
+  init(journalId: Int, isBookmarked: Bool) {
+    self.journalId = journalId
+    self.isBookmarked = isBookmarked
   }
 
   var body: some View {
     VStack {
       HStack {
         Spacer()
-        StarButton(isActive: isMarked, isYellowWhenActive: true) {
-          bookmarkManager.setBookmarkState(isMarked, journalId) { _ in
+        StarButton(isActive: isBookmarked, isYellowWhenActive: true) {
+          bookmarkManager.setBookmarkState(isBookmarked, journalId) { result in
+            isBookmarked = result
             VM.updateBookmarkedJournals()
           }
         }
