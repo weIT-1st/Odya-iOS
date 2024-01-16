@@ -34,11 +34,15 @@ struct SelectedMateView: View {
 struct TravelMateSelectorView: View {
   @Environment(\.dismiss) var dismiss
   @EnvironmentObject var travelJournalEditVM: JournalComposeViewModel
-  @EnvironmentObject var followHubVM: FollowHubViewModel
+  @StateObject var followHubVM = FollowHubViewModel()
 
+  let userId: Int = MyData.userID
+  
   @State var selectedTravelMates: [TravelMate] = []
   @State var searchedResults: [FollowUserData] = []
-  @State var displayedFollowingUsers: [FollowUserData] = []
+  var displayedFollowingUsers: [FollowUserData] {
+    searchResultsDisplayed ? followHubVM.followingSearchResult : followHubVM.followingUsers
+  }
 
   @State var nameToSearch: String = ""
   @State var searchResultsDisplayed: Bool = false
@@ -67,35 +71,18 @@ struct TravelMateSelectorView: View {
       .accentColor(Color.odya.brand.primary)
       .onAppear {
         selectedTravelMates = travelJournalEditVM.travelMates
-        followHubVM.initFollowingUsers { result in
-          if result {
-            displayedFollowingUsers = followHubVM.followingUsers
-          }
-        }
-      }
-      .onChange(of: searchResultsDisplayed) { newValue in
-        if newValue == false {
-          displayedFollowingUsers = followHubVM.followingUsers
-        }
+        followHubVM.initFollowingUsers(userId: userId)
       }
       .onChange(of: nameToSearch) { newValue in
         if searchResultsDisplayed {
-          followHubVM.searchFollowingUsers(by: newValue) { success in
-            displayedFollowingUsers = followHubVM.followingSearchResult
-          }
+          followHubVM.searchFollowingUsers(by: newValue, userId: userId) { _ in }
         }
       }
       .refreshable {
         if searchResultsDisplayed {
-          followHubVM.initFollowingUsers { _ in
-            followHubVM.searchFollowingUsers(by: nameToSearch) { success in
-              displayedFollowingUsers = followHubVM.followingSearchResult
-            }
-          }
+          followHubVM.searchFollowingUsers(by: nameToSearch, userId: userId) { _ in }
         } else {
-          followHubVM.initFollowingUsers { _ in
-            displayedFollowingUsers = followHubVM.followingUsers
-          }
+          followHubVM.initFollowingUsers(userId: userId)
         }
       }
       .alert("함께 간 친구는 10명까지 선택 가능합니다.", isPresented: $isShowingTooManyMatesAlert) {

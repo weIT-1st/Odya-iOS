@@ -56,14 +56,14 @@ struct FollowSearchBar: View {
 /// 알 수도 있는 친구 추천을 받을 수 있음
 /// 닉네임을 통해 팔로워/팔로잉를 검색할 수 있음
 struct FollowHubView: View {
-  @ObservedObject var followHubVM: FollowHubViewModel
+  @StateObject var followHubVM = FollowHubViewModel()
   
+  let userId: Int
   var isMyFollowHub: Bool {
-    followHubVM.userID == MyData.userID
+    userId == MyData.userID
   }
   
   /// 화면에 표시되는 리스트 - 팔로워리스트 / 팔로잉리스트 / 검색 결과 리스트
-//  @State var displayedUsers: [FollowUserData] = []
   var displayedUsers: [FollowUserData] {
     switch followHubVM.currentFollowType {
     case .following:
@@ -79,14 +79,8 @@ struct FollowHubView: View {
   /// 검색 결과 표시 여부
   @State var searchResultsDisplayed: Bool = false
 
-  // 내 친구관리 페이지일 경우
-  init() {
-    self.followHubVM = FollowHubViewModel()
-  }
-  
-  // 타인의 친구관리 페이지일 경우
-  init(userId: Int) {
-    self.followHubVM = FollowHubViewModel(userId: userId)
+  init(userId: Int = MyData.userID) {
+    self.userId = userId
   }
   
   // MARK: Body
@@ -95,7 +89,8 @@ struct FollowHubView: View {
       CustomNavigationBar(title: "친구 관리")
       
       FollowSearchBar(
-        promptText: "친구를 찾아보세요!", nameToSearch: $nameToSearch,
+        promptText: "친구를 찾아보세요!",
+        nameToSearch: $nameToSearch,
         searchResultsDisplayed: $searchResultsDisplayed
       )
 
@@ -108,27 +103,13 @@ struct FollowHubView: View {
         // 리스트
         FollowUserListView
           .refreshable {
-            followHubVM.isRefreshing = true
-            switch followHubVM.currentFollowType {
-            case .following:
-              followHubVM.initFollowingUsers { _ in
-//                if result {
-//                  displayedUsers = followHubVM.followingUsers
-//                }
-              }
-            case .follower:
-              followHubVM.initFollowerUsers { _ in
-//                if result {
-//                  displayedUsers = followHubVM.followerUsers
-//                }
-              }
-            }
+            followHubVM.refreshFollowingFollower(userId: userId)
           }
       }
       
       // 닉네임을 검색한 경우, 검색 결과 보기
       else {
-        SearchedUserListView(nameToSearch: nameToSearch)
+        SearchedUserListView(userId: userId, nameToSearch: nameToSearch)
           .padding(.top, 20)
           .environmentObject(followHubVM)
       }
@@ -136,22 +117,12 @@ struct FollowHubView: View {
     } // main VStack
     .background(Color.odya.background.normal)
     .onAppear {
-      followHubVM.initFollowingUsers { success in
-        followHubVM.initFollowerUsers { _ in }
-//        if success {
-//          displayedUsers = followHubVM.followingUsers
-//        }
-      }
+      followHubVM.initFollowingFollower(userId: userId)
     }
     .onDisappear {
       followHubVM.currentFollowType = .following
       nameToSearch = ""
     }
-//    .onChange(of: followHubVM.currentFollowType) { newValue in
-//      displayedUsers =
-//        newValue == .following
-//        ? followHubVM.followingUsers : followHubVM.followerUsers
-//    }
   }
 
   // MARK: Follow Type Toggle

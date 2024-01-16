@@ -53,7 +53,7 @@ extension FollowHubView {
       .padding(.horizontal, GridLayout.side)
       .onAppear {
         if users.last == user {
-          followHubVM.fetchMoreSubject.send()
+          followHubVM.fetchMoreSubject.send(userId)
         }
       }
 
@@ -88,17 +88,19 @@ extension FollowHubView {
 ///  닉네임으로 검색된 팔로워/팔로잉 결과 리스트를 보여주는 뷰
 struct SearchedUserListView: View {
   @EnvironmentObject var followHubVM: FollowHubViewModel
-
+  
+  let userId: Int
   let nameToSearch: String
+  
   @State var searchedFollowingUser: [FollowUserData] = []
   @State var searchedFollowerUser: [FollowUserData] = []
-
+  
   var body: some View {
     ScrollView {
       VStack(spacing: 16) {
         showList(of: searchedFollowingUser, followType: .following)
         showList(of: searchedFollowerUser, followType: .follower)
-
+        
         // 검색 결과를 로딩할 때 나오는 로딩 뷰
         if followHubVM.isLoadingSearchResult {
           Spacer()
@@ -108,7 +110,7 @@ struct SearchedUserListView: View {
       }.padding(.horizontal, GridLayout.side)
     }
     .onAppear {
-      followHubVM.searchFollowUsers(by: nameToSearch) { success in
+      followHubVM.searchFollowUsers(by: nameToSearch, userId: userId) { success in
         if success {
           searchedFollowingUser = followHubVM.followingSearchResult
           searchedFollowerUser = followHubVM.followerSearchResult
@@ -116,7 +118,7 @@ struct SearchedUserListView: View {
       }
     }
     .onChange(of: nameToSearch) { newValue in
-      followHubVM.searchFollowUsers(by: newValue) { success in
+      followHubVM.searchFollowUsers(by: newValue, userId: userId) { success in
         if success {
           searchedFollowingUser = followHubVM.followingSearchResult
           searchedFollowerUser = followHubVM.followerSearchResult
@@ -124,18 +126,15 @@ struct SearchedUserListView: View {
       }
     }
     .refreshable {
-      followHubVM.initFollowingUsers { _ in
-        followHubVM.initFollowerUsers { _ in
-          followHubVM.searchFollowUsers(by: nameToSearch) { success in
-            if success {
-              searchedFollowingUser = followHubVM.followingSearchResult
-              searchedFollowerUser = followHubVM.followerSearchResult
-            }
-          }
+      followHubVM.searchFollowUsers(by: nameToSearch, userId: userId) { success in
+        if success {
+          searchedFollowingUser = followHubVM.followingSearchResult
+          searchedFollowerUser = followHubVM.followerSearchResult
         }
       }
     }
   }
+
 
   private func showList(of users: [FollowUserData], followType: FollowType) -> some View {
     ForEach(users) { user in

@@ -24,39 +24,41 @@ enum FollowSortingType {
 
 enum FollowRouter {
   // 팔로우 실행
-  case create(followingID: Int)
+  case create(followingId: Int)
   // 언팔로우
-  case delete(followingID: Int)
+  case delete(followingId: Int)
   // 팔로워 팔로잉 수 가져오기
-  case count(userID: Int)
+  case count(userId: Int)
   // 팔로잉 리스트 가져오기
   case getFollowing(
-    userID: Int,
+    userId: Int,
     page: Int,
     size: Int,
     sortType: FollowSortingType)
   // 팔로워 리스트 가져오기
   case getFollower(
-    userID: Int,
+    userId: Int,
     page: Int,
     size: Int,
     sortType: FollowSortingType)
   // 닉네임으로 팔로잉 친구 찾기
   case searchFollowingByNickname(
+    userId: Int,
     size: Int? = nil,
     nickname: String,
-    lastID: Int? = nil)
+    lastId: Int? = nil)
   // 닉네임으로 팔로워 친구 찾기
   case searchFollowerByNickname(
+    userId: Int,
     size: Int? = nil,
     nickname: String,
-    lastID: Int? = nil)
+    lastId: Int? = nil)
   // 알 수도 있는 친구
   case suggestUser(
     size: Int,
-    lastID: Int? = nil)
+    lastId: Int? = nil)
   // 해당 장소에 방문한 친구 가져오기
-  case getVisitingUser(placeID: String)
+  case getVisitingUser(placeId: String)
 }
 
 extension FollowRouter: TargetType, AccessTokenAuthorizable {
@@ -68,20 +70,20 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
     switch self {
     case .create, .delete:
       return "/api/v1/follows"
-    case let .count(userID):
-      return "/api/v1/follows/\(userID)/counts"
-    case let .getFollowing(userID, _, _, _):
-      return "/api/v1/follows/\(userID)/followings"
-    case let .getFollower(userID, _, _, _):
-      return "/api/v1/follows/\(userID)/followers"
-    case .searchFollowingByNickname:
-      return "/api/v1/follows/followings/search"
-    case .searchFollowerByNickname:
-      return "/api/v1/follows/followiers/search"
+    case let .count(userId):
+      return "/api/v1/follows/\(userId)/counts"
+    case let .getFollowing(userId, _, _, _):
+      return "/api/v1/follows/\(userId)/followings"
+    case let .getFollower(userId, _, _, _):
+      return "/api/v1/follows/\(userId)/followers"
+    case let .searchFollowingByNickname(userId, _, _, _):
+      return "/api/v1/follows/\(userId)/followings/search"
+    case let .searchFollowerByNickname(userId, _, _, _):
+      return "/api/v1/follows/\(userId)/followers/search"
     case .suggestUser:
       return "/api/v1/follows/may-know"
-    case let .getVisitingUser(placeID):
-      return "/api/v1/follows/" + placeID
+    case let .getVisitingUser(placeId):
+      return "/api/v1/follows/" + placeId
     }
   }
 
@@ -98,9 +100,9 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
 
   var task: Moya.Task {
     switch self {
-    case let .create(followingID),
-      let .delete(followingID):
-      let params = ["followingId": followingID]
+    case let .create(followingId),
+      let .delete(followingId):
+      let params = ["followingId": followingId]
       return .requestParameters(parameters: params, encoding: JSONEncoding.default)
     case let .getFollowing(_, page, size, sortType),
       let .getFollower(_, page, size, sortType):
@@ -110,23 +112,17 @@ extension FollowRouter: TargetType, AccessTokenAuthorizable {
         "sortType": sortType.toString(),
       ]
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-    case let .searchFollowingByNickname(size, nickname, lastID),
-      let .searchFollowerByNickname(size, nickname, lastID):
-      var params: [String: Any] = [:]
-      if let size = size {
-        params["size"] = size
-      }
-      params["nickname"] = nickname
-      if let lastId = lastID {
-        params["lastId"] = lastId
-      }
-      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
-    case let .suggestUser(size, lastID):
+    case let .searchFollowingByNickname(_, size, nickname, lastId),
+      let .searchFollowerByNickname(_, size, nickname, lastId):
       var params: [String: Any] = [:]
       params["size"] = size
-      if let lastId = lastID {
-        params["lastId"] = lastId
-      }
+      params["nickname"] = nickname
+      params["lastId"] = lastId
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    case let .suggestUser(size, lastId):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain

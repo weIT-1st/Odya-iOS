@@ -10,7 +10,6 @@ import SwiftUI
 // MARK: Travel Info Edit Section
 struct TravelJournalInfoEditView: View {
   @EnvironmentObject var journalComposeVM: JournalComposeViewModel
-  @StateObject var followHubVM = FollowHubViewModel()
 
   private let titleCharacterLimit = 20
 
@@ -94,7 +93,6 @@ struct TravelJournalInfoEditView: View {
       NavigationLink(destination: {
         TravelMateSelectorView()
           .environmentObject(journalComposeVM)
-          .environmentObject(followHubVM)
           .navigationBarHidden(true)
       }) {
         Image("plus").padding(6)

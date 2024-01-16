@@ -27,7 +27,7 @@ class FollowButtonViewModel: ObservableObject {
   
   /// 팔로우 실행
   func createFollow(_ followingID: Int) {
-    followProvider.requestPublisher(.create(followingID: followingID))
+    followProvider.requestPublisher(.create(followingId: followingID))
       .sink { completion in
         switch completion {
         case .finished:
@@ -44,7 +44,7 @@ class FollowButtonViewModel: ObservableObject {
   
   /// 언팔로우 실행
   func deleteFollow(_ followingID: Int) {
-    followProvider.requestPublisher(.delete(followingID: followingID))
+    followProvider.requestPublisher(.delete(followingId: followingID))
       .sink { completion in
         switch completion {
         case .finished:

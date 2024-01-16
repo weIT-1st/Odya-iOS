@@ -29,7 +29,6 @@ struct FollowerUserRowView: View {
       }
     }
     .frame(height: 36)
-    
   }
   
   private var followerDeletionButton: some View {
