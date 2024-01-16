@@ -20,6 +20,7 @@ extension PlaceDetailView {
               .foregroundColor(.odya.label.normal)
             Spacer()
           }
+          noJournalView
         }
         VStack(spacing: 36) {
           HStack {
@@ -28,6 +29,7 @@ extension PlaceDetailView {
               .foregroundColor(.odya.label.normal)
             Spacer()
           }
+          blankLabelView
         }
         VStack(spacing: 36) {
           HStack {
@@ -36,10 +38,37 @@ extension PlaceDetailView {
               .foregroundColor(.odya.label.normal)
             Spacer()
           }
+          blankLabelView
         }
       }
       .padding(.horizontal, GridLayout.side)
     }
+  }
+  
+  private var noJournalView: some View {
+    VStack(spacing: 24) {
+      Image("noJournalImg")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 112, height: 70)
+      Text("작성된 여행일지가 없어요!")
+        .h6Style()
+        .foregroundColor(.odya.label.normal)
+      CTAButton(isActive: .active, buttonStyle: .solid, labelText: "여행일지 작성하러가기", labelSize: .L) {
+        // compose travel journal
+      }
+    }
+    .padding(.vertical, 24)
+    .padding(.horizontal, 10)
+    .background(Color.odya.elevation.elev3)
+    .cornerRadius(16)
+  }
+  
+  private var blankLabelView: some View {
+    Text("여행일지가 없어요.")
+      .b1Style()
+      .foregroundColor(.odya.elevation.elev6)
+      .frame(height: 124)
   }
   
   // MARK: - Review
@@ -94,16 +123,21 @@ extension PlaceDetailView {
             .background(Color.odya.elevation.elev4)
           }
         }
-        // 정렬
+        // TODO: 정렬
         
         // list
-        VStack(spacing: 16) {
-          if let myReview = viewModel.myReview {
-            PlaceReviewCell(review: myReview)
-          }
-          ForEach(viewModel.reviewState.content, id: \.reviewId) { review in
-            if review.writer.userID != MyData.userID {
-              PlaceReviewCell(review: review)
+        if viewModel.reviewState.content.isEmpty {
+          noReviewContentView
+        } else {
+          // TODO: 더보기, 무한스크롤?
+          VStack(spacing: 16) {
+            if let myReview = viewModel.myReview {
+              PlaceReviewCell(review: myReview)
+            }
+            ForEach(viewModel.reviewState.content, id: \.reviewId) { review in
+              if review.writer.userID != MyData.userID {
+                PlaceReviewCell(review: review)
+              }
             }
           }
         }
@@ -111,39 +145,73 @@ extension PlaceDetailView {
     }
   }
   
+  private var noReviewContentView: some View {
+    VStack(spacing: 8) {
+      Image("logo-lightgray")
+        .resizable()
+        .renderingMode(.template)
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 136, height: 43)
+      Text("아직 리뷰가 없어요.")
+        .detail1Style()
+    }
+    .foregroundColor(.odya.label.assistive)
+    .frame(maxWidth: .infinity)
+    .frame(height: 280)
+  }
+  
   // MARK: - Community
   var communityPart: some View {
     VStack(spacing: 28) {
       PlaceDetailContentTypeSelection(contentType: .community, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       
-      LazyVGrid(columns: columns, spacing: 3) {
-        ForEach(viewModel.feedState.content, id: \.communityID) { content in
-          NavigationLink(value: PlaceDetailRoute.feedDetail(id: content.communityID)) {
-            // 1:1 ratio image
-            Color.clear.overlay(
-              AsyncImage(url: URL(string: content.communityMainImageURL)!) { phase in
-                switch phase {
-                case .success(let image):
-                  image
-                    .resizable()
-                    .scaledToFill()
-                default:
-                  ProgressView()
+      if viewModel.feedState.content.isEmpty {
+        noCommunityContentView
+      } else {
+        LazyVGrid(columns: columns, spacing: 3) {
+          ForEach(viewModel.feedState.content, id: \.communityID) { content in
+            NavigationLink(value: PlaceDetailRoute.feedDetail(id: content.communityID)) {
+              // 1:1 ratio image
+              Color.clear.overlay(
+                AsyncImage(url: URL(string: content.communityMainImageURL)!) { phase in
+                  switch phase {
+                  case .success(let image):
+                    image
+                      .resizable()
+                      .scaledToFill()
+                  default:
+                    ProgressView()
+                  }
                 }
+              )
+              .frame(maxWidth: .infinity)
+              .aspectRatio(1, contentMode: .fit)
+              .clipped()
+            }
+            .task {
+              // 다음 페이지 불러오기
+              if content.communityID == viewModel.feedState.lastId {
+                viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
               }
-            )
-            .frame(maxWidth: .infinity)
-            .aspectRatio(1, contentMode: .fit)
-            .clipped()
-          }
-          .task {
-            // 다음 페이지 불러오기
-            if content.communityID == viewModel.feedState.lastId {
-              viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
             }
           }
         }
       }
     }
+  }
+  
+  private var noCommunityContentView: some View {
+    VStack(spacing: 8) {
+      Image("logo-lightgray")
+        .resizable()
+        .renderingMode(.template)
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 136, height: 43)
+      Text("아직 게시물이 없어요.")
+        .detail1Style()
+    }
+    .foregroundColor(.odya.label.assistive)
+    .frame(maxWidth: .infinity)
+    .frame(height: 320)
   }
 }
