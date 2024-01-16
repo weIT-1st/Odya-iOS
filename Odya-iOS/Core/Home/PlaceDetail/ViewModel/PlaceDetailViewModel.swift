@@ -52,6 +52,8 @@ final class PlaceDetailViewModel: ObservableObject {
   @Published var reviewCount: Int? = nil
   @Published var averageStarRating: Double = 0.0
   
+  @Published var myReview: Review? = nil
+  
   // MARK: - Helper functions
   
   /// 장소 사진 가져오기
@@ -160,7 +162,7 @@ final class PlaceDetailViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
-  func fetchReviewByPlaceId(placeId: String) {
+  func fetchReviewByPlaceNextPageIfPossible(placeId: String) {
     guard reviewState.canLoadNextPage else { return }
     if placeId.isEmpty { return }
     
@@ -177,6 +179,8 @@ final class PlaceDetailViewModel: ObservableObject {
           self.reviewState.content = data.content
           self.reviewState.lastId = data.content.last?.reviewId
           self.reviewState.canLoadNextPage = data.hasNext
+          
+          self.myReview = self.reviewState.content.filter { $0.writer.userID == MyData.userID }.first
         }
       }
       .store(in: &subscription)

@@ -15,7 +15,7 @@ struct PlaceReviewCell: View {
   init(review: Review) {
     self.review = review
     self.starRateing = Double(review.starRating) / 2
-    self.isMyReview = review.writer.userID == 121
+    self.isMyReview = review.writer.userID == MyData.userID
   }
   
   var body: some View {
@@ -28,11 +28,11 @@ struct PlaceReviewCell: View {
             Text("내가 작성한 리뷰")
               .detail1Style()
               .foregroundColor(.odya.brand.primary)
-              .padding(8)
-              .cornerRadius(12)
+              .padding(.horizontal, 8)
+              .padding(.vertical, 4)
+              .background(Color.clear)
               .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                  .inset(by: 0.5)
+                RoundedEdgeShape(edgeType: .bubble, cornerRadius: 12)
                   .stroke(Color.odya.brand.primary, lineWidth: 1)
               )
             Spacer()
@@ -58,7 +58,7 @@ struct PlaceReviewCell: View {
               .detail2Style()
               .foregroundColor(isMyReview ? .odya.label.r_normal : .odya.label.assistive)
           }
-          Text(review.createdAt)
+          Text(review.createdAtDate.dateToString(format: "yyyy.MM.dd"))
             .detail2Style()
             .foregroundColor(.odya.label.r_assistive)
         }
@@ -69,6 +69,9 @@ struct PlaceReviewCell: View {
         .cornerRadius(Radius.medium)
       }
     }
+    .padding(.horizontal, GridLayout.side)
+    .padding(.vertical, isMyReview ? 10 : 0)
+    .background(isMyReview ? Color.odya.elevation.elev4 : Color.clear)
   }
   
   private let minimumRating: Double = 0.0
@@ -158,6 +161,6 @@ struct PlaceReviewCell: View {
 
 struct PlaceReviewCell_Previews: PreviewProvider {
   static var previews: some View {
-    PlaceReviewCell(review: Review(reviewId: 1, placeId: "", writer: Writer(userID: 121, nickname: "홍길동", profile: ProfileData(profileUrl: "1234"), isFollowing: false), starRating: 7, review: "노을뷰가 너무 예뻐요~노을뷰가 너무 예뻐요~노을뷰가 너무 예뻐요~", createdAt: "2024-01-08T10:33:19"))
+    PlaceReviewCell(review: Review(reviewId: 1, placeId: "", writer: Writer(userID: 121, nickname: "홍길동", profile: ProfileData(profileUrl: "1234"), isFollowing: false), starRating: 7, review: "노을뷰가 너무 예뻐요~노을뷰가 너무 예뻐요~노을뷰가 너무 예뻐요~", createdAt: ""))
   }
 }

@@ -95,6 +95,18 @@ extension PlaceDetailView {
           }
         }
         // 정렬
+        
+        // list
+        VStack(spacing: 16) {
+          if let myReview = viewModel.myReview {
+            PlaceReviewCell(review: myReview)
+          }
+          ForEach(viewModel.reviewState.content, id: \.reviewId) { review in
+            if review.writer.userID != MyData.userID {
+              PlaceReviewCell(review: review)
+            }
+          }
+        }
       }
     }
   }

@@ -24,6 +24,10 @@ struct Review: Codable, Identifiable {
   var review: String
   var createdAt: String
   
+  var createdAtDate: Date {
+    self.createdAt.toDate(format: "yyyy-MM-dd'T'hh:mm:ss")
+  }
+  
   enum CodingKeys: String, CodingKey {
     case reviewId = "id"
     case placeId
