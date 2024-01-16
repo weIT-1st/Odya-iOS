@@ -25,81 +25,82 @@ struct LinkedTravelJournalView: View {
 
   // MARK: Body
   var body: some View {
-    ScrollView {
-      LazyVStack(spacing: 10, pinnedViews: [.sectionHeaders]) {
-        Section {
-          if viewModel.isLoading {
-            ProgressView()
-          } else {
-            ForEach(viewModel.state.content, id: \.journalId) { content in
-              Button {
-                if content.visibility == "PRIVATE" {
-                  // 공개 전환 alert toggle
-                  showChangeVisibilityAlert.toggle()
-                } else {
-                  if selectedJournalId == content.journalId {
-                    selectedJournalId = nil
-                    selectedJournalTitle = nil
-                  } else {
-                    selectedJournalId = content.journalId
-                    selectedJournalTitle = content.title
-                  }
-                }
-              } label: {
-                ZStack {
-                  LinkedTravelJournalCell(content: content, selectedId: $selectedJournalId)
-                    .onAppear {
-                      if viewModel.state.content.last?.journalId == content.journalId {
-                        viewModel.fetchMyJournalListNextPageIfPossible()
-                      }
-                    }
-                  if viewModel.isSwitchProgressing {
-                    ProgressView()
-                  }
-                }
-              }
-              .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showChangeVisibilityAlert) {
-                Button("취소", role: .cancel) {}
+    VStack {
+      header
+      
+      ScrollView {
+        LazyVStack(spacing: 10) {
+          Section {
+            if viewModel.isLoading {
+              ProgressView()
+            } else {
+              ForEach(viewModel.state.content, id: \.journalId) { content in
                 Button {
-                  // action: 공개로 변경
-                  viewModel.switchVisibilityToPublic(journalId: content.journalId)
+                  if content.visibility == "PRIVATE" {
+                    // 공개 전환 alert toggle
+                    showChangeVisibilityAlert.toggle()
+                  } else {
+                    if selectedJournalId == content.journalId {
+                      selectedJournalId = nil
+                      selectedJournalTitle = nil
+                    } else {
+                      selectedJournalId = content.journalId
+                      selectedJournalTitle = content.title
+                    }
+                  }
                 } label: {
-                  Text("변경하기")
-                    .bold()
+                  ZStack {
+                    LinkedTravelJournalCell(content: content, selectedId: $selectedJournalId)
+                      .onAppear {
+                        if viewModel.state.content.last?.journalId == content.journalId {
+                          viewModel.fetchMyJournalListNextPageIfPossible()
+                        }
+                      }
+                    if viewModel.isSwitchProgressing {
+                      ProgressView()
+                    }
+                  }
                 }
-              } message: {
-                Text("공개된 여행일지만 연동 가능합니다.")
+                // 선택된 여행일지가 비공개로 설정되어 있는 경우 alert
+                .alert("해당 날짜의 여행일지를 공개로 변경할까요?", isPresented: $showChangeVisibilityAlert) {
+                  Button("취소", role: .cancel) {}
+                  Button {
+                    // action: 공개로 변경
+                    viewModel.switchVisibilityToPublic(journalId: content.journalId)
+                  } label: {
+                    Text("변경하기")
+                      .bold()
+                  }
+                } message: {
+                  Text("공개된 여행일지만 연동 가능합니다.")
+                }
               }
+              
             }
-
           }
-        } header: {
-          header
-            .padding(.bottom, 21)
-        }
-      }
-      .toolbar(.hidden)
-      .task {
-        viewModel.fetchMyJournalListNextPageIfPossible()
-      }
-      .alert("작성된 여행일지가 없어요!", isPresented: $viewModel.showNoJournalAlert) {
-        Button("취소", role: .cancel) {
-          dismiss()
-        }
-        Button {
-          // action: 여행일지 작성하기
-          path.removeLast(path.count)
-          path.append(FeedRoute.createJournal)
-        } label: {
-          Text("작성하기")
-        }
-      } message: {
-        Text("여행일지를 새로 작성하시겠습니까? 현재 작성 중인 피드 글은 사라집니다.")
-      }
-    }  // ScrollView
-    .padding(.bottom, 20)
+        }.padding(.vertical, 21)
+      } // ScrollView
+    } // VStack
     .background(Color.odya.background.normal)
-    .clipped()
+    .toolbar(.hidden)
+    .task {
+      viewModel.fetchMyJournalListNextPageIfPossible()
+    }
+    // 작성된 여행일지가 없는 경우 alert
+    .alert("작성된 여행일지가 없어요!", isPresented: $viewModel.showNoJournalAlert) {
+      Button("취소", role: .cancel) {
+        dismiss()
+      }
+      Button {
+        // action: 여행일지 작성하기
+        path.removeLast(path.count)
+        path.append(FeedRoute.createJournal)
+      } label: {
+        Text("작성하기")
+      }
+    } message: {
+      Text("여행일지를 새로 작성하시겠습니까? 현재 작성 중인 피드 글은 사라집니다.")
+    }
   }
 
   /// 상단 헤더
@@ -133,7 +134,7 @@ struct LinkedTravelJournalView: View {
     }
     .padding(.horizontal, 8)
     .frame(height: 56)
-    .background(Color.odya.background.normal)
+    
   }
 }
 

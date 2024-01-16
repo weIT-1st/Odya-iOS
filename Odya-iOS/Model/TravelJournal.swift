@@ -195,3 +195,42 @@ class BookmarkedJournalList: Codable {
   var hasNext: Bool
   var content: [BookmarkedJournalData]
 }
+
+// MARK: Main Travel Journal
+
+class MainJournalData: Codable, Identifiable {
+  var id = UUID()
+  var repJournalId: Int
+  var journalId: Int
+  var title: String
+  var content: String
+  var startDateString: String
+  var endDateString: String
+  var mainImageUrl: String
+  var writer: Writer
+  var travelMates: [travelMateSimple]
+
+  var travelStartDate: Date {
+    self.startDateString.toDate(format: "yyyy-MM-dd")!
+  }
+  var travelEndDate: Date {
+    self.endDateString.toDate(format: "yyyy-MM-dd")!
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case repJournalId = "repTravelJournalId"
+    case journalId = "travelJournalId"
+    case title
+    case content
+    case startDateString = "travelStartDate"
+    case endDateString = "travelEndDate"
+    case mainImageUrl = "travelJournalMainImageUrl"
+    case writer
+    case travelMates = "travelCompanionSimpleResponses"
+  }
+}
+
+class MainJournalList: Codable {
+  var hasNext: Bool
+  var content: [MainJournalData]
+}

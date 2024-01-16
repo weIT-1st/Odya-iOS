@@ -8,16 +8,21 @@
 import SwiftUI
 
 struct MainJournalSelectorView: View {
-  @StateObject private var view
+  @EnvironmentObject var VM: JournalsInProfileViewModel
   
+//  let userId: Int
   @Binding var path: NavigationPath
-  @State private var selectedJournalId: Int?
-  @State private var selectedJournalTitle: String?
+  
+  let orgMainJournal: MainJournalData?
+  
+  @State private var selectedJournalId: Int? = nil
+  @State private var selectedJournalTitle: String? = nil
   
   @Environment(\.dismiss) private var dismiss
   
+  // 기존 대표 여행일지와 다른 새로운 여행일지를 선택했는지 여부
   var isSelected: Bool {
-    selectedJournalId != nil
+    orgMainJournal?.journalId ?? nil != selectedJournalId
   }
   
   var body: some View {
@@ -25,6 +30,10 @@ struct MainJournalSelectorView: View {
       LinkedTravelJournalView(path: $path, selectedJournalId: $selectedJournalId, selectedJournalTitle: $selectedJournalTitle, headerTitle: "")
       
       headerBar
+    }
+    .onAppear {
+      selectedJournalId = orgMainJournal?.journalId ?? nil
+      selectedJournalTitle = orgMainJournal?.title ?? nil
     }
   }
   
@@ -43,7 +52,13 @@ struct MainJournalSelectorView: View {
       Spacer()
       if isSelected {
         Button {
-          dismiss()
+          // 대표 여행이지 설정 api
+          VM.setMainJournal(orgMainJournalId: orgMainJournal?.journalId ?? nil,
+                            journalId: selectedJournalId) {
+            dismiss()
+          }
+          // 실패 시
+          // alert를 띄워야 하나
         } label: {
           Text("완료")
             .b1Style()
