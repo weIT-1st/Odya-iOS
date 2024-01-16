@@ -57,6 +57,7 @@ struct PlaceReviewCell: View {
             Text(review.review)
               .detail2Style()
               .foregroundColor(isMyReview ? .odya.label.r_normal : .odya.label.assistive)
+              .frame(maxWidth: .infinity, alignment: .leading)
           }
           Text(review.createdAtDate.dateToString(format: "yyyy.MM.dd"))
             .detail2Style()
