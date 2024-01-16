@@ -9,12 +9,12 @@ import SwiftUI
 
 struct PlaceReviewCell: View {
   let review: Review
-  let starRateing: Double
+  let starRating: Double
   let isMyReview: Bool
   
   init(review: Review) {
     self.review = review
-    self.starRateing = Double(review.starRating) / 2
+    self.starRating = Double(review.starRating) / 2
     self.isMyReview = review.writer.userID == MyData.userID
   }
   
@@ -44,7 +44,7 @@ struct PlaceReviewCell: View {
               Text(review.writer.nickname)
                 .h6Style()
                 .foregroundColor(isMyReview ? .odya.label.r_normal : .odya.label.normal)
-              smallStarRatingView
+              StarRatingView(rating: .constant(starRating), size: .S, isMyReview: isMyReview)
               Spacer()
               Button {
                 
@@ -72,90 +72,6 @@ struct PlaceReviewCell: View {
     .padding(.horizontal, GridLayout.side)
     .padding(.vertical, isMyReview ? 10 : 0)
     .background(isMyReview ? Color.odya.elevation.elev4 : Color.clear)
-  }
-  
-  private let minimumRating: Double = 0.0
-  private let maximumRating: Double = 5.0
-  private let spacing: CGFloat = 1
-  private let starWidth: CGFloat = 17
-  
-  private var smallStarRatingView: some View {
-    HStack(spacing: spacing) {
-      ForEach(0..<Int(starRateing), id: \.self) { _ in
-        filledStarImage
-      }
-      if starRateing != round(starRateing) {
-        halfStarImage
-      }
-      ForEach(0..<Int(maximumRating - starRateing), id: \.self) { _ in
-        emptyStarImage
-      }
-    }
-  }
-  
-  private var filledStarImage: some View {
-    VStack {
-      if isMyReview {
-        Image("star-on")
-          .resizable()
-          .renderingMode(.template)
-          .foregroundColor(.odya.label.r_normal)
-          .frame(width: starWidth, height: starWidth)
-      } else {
-        Image("star-yellow")
-          .resizable()
-          .frame(width: starWidth, height: starWidth)
-      }
-    }
-  }
-  
-  private var halfStarImage: some View {
-    HStack(spacing: 0) {
-      if isMyReview {
-        Image("star-on")
-          .resizable()
-          .renderingMode(.template)
-          .foregroundColor(.odya.label.r_normal)
-          .scaledToFill()
-          .frame(width: starWidth / 2, height: starWidth, alignment: .leading)
-          .clipped()
-        Image("star-off")
-          .resizable()
-          .renderingMode(.template)
-          .foregroundColor(.odya.label.r_normal)
-          .scaledToFill()
-          .frame(width: starWidth / 2, height: starWidth, alignment: .trailing)
-          .clipped()
-      } else {
-        Image("star-yellow")
-          .resizable()
-          .scaledToFill()
-          .frame(width: starWidth / 2, height: starWidth, alignment: .leading)
-          .clipped()
-        Image("star-off")
-          .resizable()
-          .scaledToFill()
-          .frame(width: starWidth / 2, height: starWidth, alignment: .trailing)
-          .clipped()
-      }
-    }
-    .frame(width: starWidth)
-  }
-  
-  private var emptyStarImage: some View {
-    VStack {
-      if isMyReview {
-        Image("star-off")
-          .resizable()
-          .renderingMode(.template)
-          .foregroundColor(.odya.label.r_normal)
-          .frame(width: starWidth, height: starWidth)
-      } else {
-        Image("star-off")
-          .resizable()
-          .frame(width: starWidth, height: starWidth)
-      }
-    }
   }
 }
 

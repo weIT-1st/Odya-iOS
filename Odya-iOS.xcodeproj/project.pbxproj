@@ -624,7 +624,6 @@
 			children = (
 				07B221232B491D32006C2B20 /* ReviewComposeView.swift */,
 				07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */,
-				072D7BDF2B4977F60045C75B /* StarRatingView.swift */,
 				1906B97F2B55271A0043DCF8 /* PlaceReviewCell.swift */,
 			);
 			path = Review;
@@ -1093,6 +1092,7 @@
 				199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */,
 				3E699A872AFF6B6100850E9A /* SparkleIcon.swift */,
 				3E4670342B1FB8CD00B54D0A /* UserIdentityLink.swift */,
+				072D7BDF2B4977F60045C75B /* StarRatingView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";

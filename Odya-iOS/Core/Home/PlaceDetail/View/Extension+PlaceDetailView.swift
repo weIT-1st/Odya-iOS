@@ -74,7 +74,7 @@ extension PlaceDetailView {
             }
           }
           .padding(.horizontal, GridLayout.side)
-          StarRatingView(rating: $viewModel.averageStarRating)
+          StarRatingView(rating: $viewModel.averageStarRating, size: .M)
             .disabled(true)
         } // header
         

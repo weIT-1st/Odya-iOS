@@ -52,4 +52,15 @@ enum ComponentSizeType: String {
             return 24
         }
     }
+  
+  var StarRatingSize: CGFloat {
+    switch self {
+    case .M:  // 한줄리뷰 작성, 장소 상세보기 평균 별점
+      return 40
+    case .S:  // 여행일지, 장소 상세보기 각 리뷰 별점
+      return 17
+    default:
+      return 17
+    }
+  }
 }
