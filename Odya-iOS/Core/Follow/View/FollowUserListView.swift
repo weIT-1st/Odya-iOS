@@ -9,17 +9,11 @@ import SwiftUI
 
 // MARK: Follow User List View
 
-/// 팔로잉/팔로워 리스트 뷰
-/// 일정 구간에서 알 수도 있는 친구 추천하는 뷰를 띄워줌
-struct FollowUserListView: View {
-  @EnvironmentObject var followHubVM: FollowHubViewModel
-  @Binding var displayedUsers: [FollowUserData]
-
-  init(of users: Binding<[FollowUserData]>) {
-    self._displayedUsers = users
-  }
-
-  var body: some View {
+extension FollowHubView {
+  
+  /// 팔로잉/팔로워 리스트 뷰
+  /// 일정 구간에서 알 수도 있는 친구 추천하는 뷰를 띄워줌
+  var FollowUserListView: some View {
     ScrollView {
       VStack(spacing: 16) {
         showList(of: displayedUsers)
@@ -48,10 +42,12 @@ struct FollowUserListView: View {
         switch followHubVM.currentFollowType {
         case .following:
           UserIdentityRowWithFollowing(of: user)
-            .environmentObject(followHubVM)
         case .follower:
-          FollowerUserRowView(of: user)
-            .environmentObject(followHubVM)
+          if isMyFollowHub {
+            FollowerUserRowView(of: user)
+          } else {
+            UserIdentityRowWithFollowing(of: user)
+          }
         }
       }
       .padding(.horizontal, GridLayout.side)

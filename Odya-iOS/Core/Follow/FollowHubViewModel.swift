@@ -105,65 +105,6 @@ class FollowHubViewModel: ObservableObject {
     }.store(in: &subscription)
   }
 
-  // MARK: follow / unfollow
-
-  /// 팔로우 실행
-  func createFollow(_ followingID: Int) {
-    guard self.idToken != nil else {
-      return
-    }
-    
-    if isCreatingFollow {
-      return
-    }
-    
-    isCreatingFollow = true
-    followProvider.requestPublisher(.create(followingID: followingID))
-      .filterSuccessfulStatusCodes()
-      .sink { completion in
-        switch completion {
-        case .finished:
-          self.isCreatingFollow = false
-          // print("create new follow \(followingID)")
-        case .failure(let error):
-          self.isCreatingFollow = false
-          if let errorData = try? error.response?.map(ErrorData.self) {
-            print(errorData.message)
-          }
-        }
-      } receiveValue: { _ in
-      }
-      .store(in: &subscription)
-  }
-
-  /// 언팔로우 실행
-  func deleteFollow(_ followingID: Int) {
-    guard self.idToken != nil else {
-      return
-    }
-    
-    
-    if isDeletingFollow {
-      return
-    }
-    
-    isDeletingFollow = true
-    followProvider.requestPublisher(.delete(followingID: followingID))
-      .sink { completion in
-        switch completion {
-        case .finished:
-          self.isDeletingFollow = false
-          // print("delete follow \(followingID)")
-        case .failure(let error):
-          self.isDeletingFollow = false
-          if let errorData = try? error.response?.map(ErrorData.self) {
-            print(errorData.message)
-          }
-        }
-      } receiveValue: { _ in
-      }
-      .store(in: &subscription)
-  }
 
   // MARK: Fetch Follow Users
 

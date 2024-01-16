@@ -58,8 +58,20 @@ struct FollowSearchBar: View {
 struct FollowHubView: View {
   @ObservedObject var followHubVM: FollowHubViewModel
   
+  var isMyFollowHub: Bool {
+    followHubVM.userID == MyData.userID
+  }
+  
   /// 화면에 표시되는 리스트 - 팔로워리스트 / 팔로잉리스트 / 검색 결과 리스트
-  @State var displayedUsers: [FollowUserData] = []
+//  @State var displayedUsers: [FollowUserData] = []
+  var displayedUsers: [FollowUserData] {
+    switch followHubVM.currentFollowType {
+    case .following:
+      return followHubVM.followingUsers
+    case .follower:
+      return followHubVM.followerUsers
+    }
+  }
   
   /// 검색하려는 닉네임
   @State var nameToSearch: String = ""
@@ -94,22 +106,21 @@ struct FollowHubView: View {
           .padding(.vertical, 20)
         
         // 리스트
-        FollowUserListView(of: $displayedUsers)
-          .environmentObject(followHubVM)
+        FollowUserListView
           .refreshable {
             followHubVM.isRefreshing = true
             switch followHubVM.currentFollowType {
             case .following:
-              followHubVM.initFollowingUsers { result in
-                if result {
-                  displayedUsers = followHubVM.followingUsers
-                }
+              followHubVM.initFollowingUsers { _ in
+//                if result {
+//                  displayedUsers = followHubVM.followingUsers
+//                }
               }
             case .follower:
-              followHubVM.initFollowerUsers { result in
-                if result {
-                  displayedUsers = followHubVM.followerUsers
-                }
+              followHubVM.initFollowerUsers { _ in
+//                if result {
+//                  displayedUsers = followHubVM.followerUsers
+//                }
               }
             }
           }
@@ -127,20 +138,20 @@ struct FollowHubView: View {
     .onAppear {
       followHubVM.initFollowingUsers { success in
         followHubVM.initFollowerUsers { _ in }
-        if success {
-          displayedUsers = followHubVM.followingUsers
-        }
+//        if success {
+//          displayedUsers = followHubVM.followingUsers
+//        }
       }
     }
     .onDisappear {
       followHubVM.currentFollowType = .following
       nameToSearch = ""
     }
-    .onChange(of: followHubVM.currentFollowType) { newValue in
-      displayedUsers =
-        newValue == .following
-        ? followHubVM.followingUsers : followHubVM.followerUsers
-    }
+//    .onChange(of: followHubVM.currentFollowType) { newValue in
+//      displayedUsers =
+//        newValue == .following
+//        ? followHubVM.followingUsers : followHubVM.followerUsers
+//    }
   }
 
   // MARK: Follow Type Toggle

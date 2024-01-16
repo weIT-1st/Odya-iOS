@@ -89,7 +89,7 @@ struct UserIdentityRowWithFollowing: View {
     self.userId = followUser.userId
     self.nickname = followUser.nickname
     self.profileUrl = followUser.profile.profileUrl
-    self.isFollowing = true
+    self.isFollowing = followUser.isFollowing
   }
   
   // Writer
