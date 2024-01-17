@@ -10,8 +10,6 @@ import SwiftUI
 /// 팔로워 리스트의 row 뷰
 /// 팔로워 유저의 프로필사진, 닉네임(팔로우 유저 뷰)과 삭제 버튼 포함
 struct FollowerUserRowView: View {
-  @EnvironmentObject var followHubVM: FollowHubViewModel
-
   let followUser: FollowUserData
   @State private var showingFollwerDeleteAlert: Bool = false
 
@@ -26,7 +24,7 @@ struct FollowerUserRowView: View {
                        profileUrl: followUser.profile.profileUrl,
                        isFollowing: followUser.isFollowing)
       Spacer()
-      if followHubVM.userID == MyData.userID {
+      if followUser.userId != MyData.userID {
         followerDeletionButton
       }
     }

@@ -84,7 +84,7 @@ final class PlaceDetailViewModel: ObservableObject {
   func fetchVisitingUser(placeId: String) {
     if placeId.isEmpty { return }
     
-    followProvider.requestPublisher(.getVisitingUser(placeID: placeId))
+    followProvider.requestPublisher(.getVisitingUser(placeId: placeId))
       .sink { completion in
         switch completion {
         case .finished:
