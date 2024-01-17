@@ -37,9 +37,6 @@ struct FishchipsBar: View {
       }  // HStack
       .padding(.leading, 20)
       .frame(height: 48, alignment: .leading)
-      .onAppear {
-        viewModel.fetchTopicList()
-      }
     }  // ScrollView
   }
 }

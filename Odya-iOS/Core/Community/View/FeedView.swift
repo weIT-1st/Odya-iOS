@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum FeedRoute: Hashable {
+  case detail(Int)
+  case createFeed
+  case createJournal
+}
+
 enum FeedToggleType {
   case all
   case friend
@@ -19,17 +25,19 @@ struct FeedView: View {
   @State private var selectedFeedToggle = FeedToggleType.all
   /// 선택된 토픽 아이디
   @State private var selectedTopicId = -1
-
+  /// 검색뷰 토글
+  @State private var showSearchView = false
+  @State private var path = NavigationPath()
+  
   // MARK: - Body
 
   var body: some View {
-    NavigationView {
+    NavigationStack(path: $path) {
       GeometryReader { _ in
         ZStack(alignment: .bottomTrailing) {
           VStack(spacing: 0) {
             // tool bar
-            // TODO: - 툴바 디자인 변경예정
-            FeedToolBar()
+            feedToolBar
 
             ScrollView(.vertical, showsIndicators: false) {
               // fishchips
@@ -46,9 +54,7 @@ struct FeedView: View {
                 ForEach(viewModel.state.content, id: \.communityID) { content in
                   VStack(spacing: 0) {
                     PostImageView(urlString: content.communityMainImageURL)
-                    NavigationLink {
-                      FeedDetailView(communityId: content.communityID)
-                    } label: {
+                    NavigationLink(value: FeedRoute.detail(content.communityID), label: {
                       PostContentView(
                         communityId: content.communityID,
                         contentText: content.communityContent,
@@ -58,7 +64,7 @@ struct FeedView: View {
                         writer: content.writer,
                         isUserLiked: content.isUserLiked
                       )
-                    }
+                    })
                     .onAppear {
                       if viewModel.state.content.last == content {
                         switch selectedFeedToggle {
@@ -110,13 +116,29 @@ struct FeedView: View {
             }
           }
           .background(Color.odya.background.normal)
-
-          NavigationLink(destination: CommunityComposeView(composeMode: .create), label: {
+          
+          // 피드 작성하기
+          NavigationLink(value: FeedRoute.createFeed) {
             WriteButton()
-          })
+          }
           .padding(20)
+          
+          if showSearchView {
+            FeedUserSearchView(isPresented: $showSearchView)
+          }
         }  // ZStack
         .toolbar(.hidden)
+        .navigationDestination(for: FeedRoute.self) { route in
+          switch route {
+          case let .detail(communityId):
+            FeedDetailView(path: $path, communityId: communityId)
+          case .createFeed:
+            CommunityComposeView(path: $path, composeMode: .create)
+          case .createJournal:
+            TravelJournalComposeView()
+              .navigationBarHidden(true)
+          }
+        }
       }
     }
   }
@@ -131,6 +153,46 @@ struct FeedView: View {
     ]
     UIRefreshControl.appearance().attributedTitle = NSAttributedString(
       string: "피드에 올린 곳 오댜?", attributes: attribute as [NSAttributedString.Key: Any])
+  }
+  
+  /// 툴바
+  private var feedToolBar: some View {
+    HStack(alignment: .center) {
+      // 내 커뮤니티 활동 뷰로 연결
+      NavigationLink {
+        MyCommunityActivityView()
+      } label: {
+        ProfileImageView(profileUrl: MyData().profile, size: .S)
+          .overlay(
+            RoundedRectangle(cornerRadius: 32)
+              .inset(by: 0.5)
+              .stroke(Color.odya.brand.primary, lineWidth: 1)
+          )
+      }
+      .frame(width: 48, height: 48, alignment: .center)
+      .padding(.leading, 13)
+
+      Spacer()
+
+      // search icon
+      Button {
+        showSearchView.toggle()
+      } label: {
+        Image("search")
+          .padding(10)
+          .frame(width: 48, height: 48, alignment: .center)
+      }
+
+      // alarm on/off
+      Button {
+        // action: show alarm
+      } label: {
+        Image("alarm-on")
+          .padding(10)
+          .frame(width: 48, height: 48, alignment: .center)
+      }
+    }  // HStack
+    .frame(height: 56)
   }
 
   /// 토글: 전체글보기, 친구글보기

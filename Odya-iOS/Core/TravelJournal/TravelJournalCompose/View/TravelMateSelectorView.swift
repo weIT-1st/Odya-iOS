@@ -7,19 +7,21 @@
 
 import SwiftUI
 
+// MARK: Selected Mate View
 struct SelectedMateView: View {
-  let mate: FollowUserData
+  let nickname: String
+  let profile: ProfileData
 
   var body: some View {
     VStack(spacing: 12) {
       VStack(spacing: 0) {
-        ProfileImageView(of: mate.nickname, profileData: mate.profile, size: .L)
+        ProfileImageView(of: nickname, profileData: profile, size: .L)
           .padding(.top, 16)
         Image("smallGreyButton-x-filled")
           .offset(x: 27.5, y: -55)
           .frame(width: 0, height: 0)
       }
-      Text(mate.nickname)
+      Text(nickname)
         .detail2Style()
         .foregroundColor(.odya.label.normal)
         .lineLimit(1)
@@ -28,23 +30,13 @@ struct SelectedMateView: View {
   }
 }
 
-// 테스트를 위한 임시 뷰
-struct UserProfileView: View {
-  //  let userData: FollowUserData
-  let userId: Int
-  let nickname: String
-
-  var body: some View {
-    Text(nickname)
-  }
-}
-
+// MARK: Travel Mate Selector View
 struct TravelMateSelectorView: View {
-  @Environment(\.presentationMode) private var presentationMode
+  @Environment(\.dismiss) var dismiss
   @EnvironmentObject var travelJournalEditVM: JournalComposeViewModel
-  @ObservedObject var followHubVM: FollowHubViewModel
+  @EnvironmentObject var followHubVM: FollowHubViewModel
 
-  @State var selectedTravelMates: [FollowUserData] = []
+  @State var selectedTravelMates: [TravelMate] = []
   @State var searchedResults: [FollowUserData] = []
   @State var displayedFollowingUsers: [FollowUserData] = []
 
@@ -54,10 +46,6 @@ struct TravelMateSelectorView: View {
   @State var isShowingTooManyMatesAlert: Bool = false
 
   @State var selectedMatesViewHeight: CGFloat = 16
-
-  init(token: String, userId: Int) {
-    self.followHubVM = FollowHubViewModel()
-  }
 
   var body: some View {
     VStack(spacing: 0) {
@@ -122,7 +110,7 @@ struct TravelMateSelectorView: View {
       CustomNavigationBar(title: "함께 간 친구")
       Button(action: {
         travelJournalEditVM.travelMates = selectedTravelMates
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
       }) {
         Text("완료")
           .b1Style()
@@ -141,10 +129,15 @@ struct TravelMateSelectorView: View {
         ForEach(selectedTravelMates) { mate in
           Button(action: {
             withAnimation {
-              selectedTravelMates.removeAll { $0 == mate }
+              selectedTravelMates.removeAll { $0.userId == mate.userId }
             }
           }) {
-            SelectedMateView(mate: mate)
+            let profileData = ProfileData(
+              profileUrl: mate.profileUrl ?? "",
+              profileColor: mate.profileColor)
+            SelectedMateView(
+              nickname: mate.nickname ?? "",
+              profile: profileData)
           }
           .padding(.trailing, 13)
         }
@@ -166,31 +159,41 @@ struct TravelMateSelectorView: View {
       VStack(spacing: 16) {
         ForEach(displayedFollowingUsers) { user in
           HStack {
-            FollowUserView(user: user)
+            UserIdentityLink(
+              userId: user.userId,
+              nickname: user.nickname,
+              profileUrl: user.profile.profileUrl,
+              isFollowing: true)
             Spacer()
-            IconButton("plus-circle") {
+            CustomIconButton(
+              "plus-circle",
+              color: isSelected(user.userId) ? .odya.label.inactive : .odya.brand.primary
+            ) {
               if selectedTravelMates.count >= 10 {
                 isShowingTooManyMatesAlert = true
               } else {
-                selectedTravelMates.insert(user, at: 0)
+                let mate = TravelMate(
+                  userId: user.userId,
+                  nickname: user.nickname,
+                  profile: user.profile,
+                  isFollowing: true)
+                // TODO: isFollowing 값 변경...!!
+                selectedTravelMates.insert(mate, at: 0)
               }
             }
-            .colorMultiply(
-              selectedTravelMates.contains { mate in
-                mate.userId == user.userId
-              } ? .odya.label.inactive : .odya.brand.primary
-            )
             .frame(height: 36)
-            .disabled(
-              selectedTravelMates.contains { mate in
-                mate.userId == user.userId
-              })
+            .disabled(isSelected(user.userId))
           }.frame(height: 36)
         }
       }.padding(.horizontal, GridLayout.side)
     }
   }
+}
 
+extension TravelMateSelectorView {
+  func isSelected(_ userId: Int) -> Bool {
+    return selectedTravelMates.contains { $0.userId == userId }
+  }
 }
 
 //struct TravelMateSelectorView_Previews: PreviewProvider {
