@@ -12,7 +12,7 @@ struct PlaceTagSearchView: View {
   // MARK: - Properties
   @Binding var placeId: String
   @State private var searchText: String = ""
-  @StateObject private var viewModel = PlaceTagSearchViewModel()
+  @EnvironmentObject var viewModel: PlaceTagSearchViewModel
   
   // MARK: - Body
   var body: some View {
@@ -23,6 +23,9 @@ struct PlaceTagSearchView: View {
         LazyVStack(spacing: 8) {
           ForEach(viewModel.searchResults, id: \.self) { result in
             PlaceTagSearchResultCell(title: result.attributedPrimaryText.string, address: result.attributedSecondaryText?.string ?? "")
+              .onTapGesture {
+                viewModel.selectPlace(placeId: result.placeID)
+              }
             Divider()
           }
         }

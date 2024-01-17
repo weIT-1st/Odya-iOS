@@ -1,18 +1,38 @@
 //
-//  MapView.swift
+//  PlaceTagMapView.swift
 //  Odya-iOS
 //
-//  Created by Jade Yoo on 2023/06/20.
+//  Created by Jade Yoo on 2024/01/17.
 //
 
 import SwiftUI
 import GoogleMaps
 
-struct MapView: UIViewRepresentable {
+struct PlaceTagMapView: UIViewRepresentable {
   // MARK: - Properties
+  
+  @Binding var markers: [GMSMarker]
+  @Binding var selectedMarker: GMSMarker?
+  @Binding var bounds: GMSCoordinateBounds
   
   let mapView = GMSMapView()
   let locationManager = LocationManager.shared
+  
+  private let markerImage: UIImageView = {
+    let imageView = UIImageView(image: UIImage(named: "sparkle-filled"))
+    imageView.layer.shadowColor = UIColor(red: 1, green: 0.83, blue: 0.12, alpha: 1).cgColor
+    imageView.layer.shadowRadius = 9
+    imageView.layer.shadowOpacity = 0.8
+    return imageView
+  }()
+  
+  private let selectedMarkerImage: UIImageView = {
+    let imageView = UIImageView(image: UIImage(named: "sparkle-selected"))
+    imageView.layer.shadowColor = UIColor(red: 1, green: 0.83, blue: 0.12, alpha: 1).cgColor
+    imageView.layer.shadowRadius = 9
+    imageView.layer.shadowOpacity = 0.8
+    return imageView
+  }()
   
   // MARK: - View
   
@@ -37,7 +57,27 @@ struct MapView: UIViewRepresentable {
   }
   
   func updateUIView(_ uiView: UIViewType, context: Context) {
+    uiView.clear()
     
+    markers.forEach { marker in
+      marker.iconView = markerImage
+      marker.map = uiView
+    }
+    
+    selectedMarker?.iconView = selectedMarkerImage
+    selectedMarker?.zIndex = 1
+    selectedMarker?.map = uiView
+    
+    if uiView.selectedMarker != selectedMarker {
+      uiView.selectedMarker = selectedMarker
+    }
+    
+    if !markers.isEmpty {
+      let update = GMSCameraUpdate.fit(bounds, withPadding: 60)
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+        uiView.animate(with: update)
+      })
+    }
   }
   
   func makeCoordinator() -> MapViewCoordinator {
@@ -45,15 +85,15 @@ struct MapView: UIViewRepresentable {
   }
 }
 
-extension MapView {
+extension PlaceTagMapView {
   class MapViewCoordinator: NSObject, GMSMapViewDelegate {
     // MARK: - Properties
     
-    var parent: MapView
+    var parent: PlaceTagMapView
     
     // MARK: - Life cycle
     
-    init(_ parent: MapView) {
+    init(_ parent: PlaceTagMapView) {
       self.parent = parent
     }
     
@@ -66,7 +106,6 @@ extension MapView {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
       
     }
-    
   }
 }
 

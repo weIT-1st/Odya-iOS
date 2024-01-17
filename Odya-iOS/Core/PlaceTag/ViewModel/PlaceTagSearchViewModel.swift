@@ -5,7 +5,9 @@
 //  Created by Jade Yoo on 2023/10/18.
 //
 
+import Combine
 import Foundation
+import GoogleMaps
 import GooglePlaces
 
 final class PlaceTagSearchViewModel: NSObject, ObservableObject {
@@ -13,8 +15,19 @@ final class PlaceTagSearchViewModel: NSObject, ObservableObject {
   
   /// 검색 자동완성 결과
   @Published var searchResults = [GMSAutocompletePrediction]()
+  @Published var markers: [GMSMarker] = []
+  @Published var selectedMarker: GMSMarker? = nil
+  @Published var bounds = GMSCoordinateBounds()
   
   let placeClient = GMSPlacesClient()
+  
+  var coordinateDict: [String: CLLocationCoordinate2D] = [:]
+  private var subscription = Set<AnyCancellable>()
+  
+  override init() {
+    super.init()
+    bind()
+  }
   
   // MARK: - Helper functions
   
@@ -28,6 +41,8 @@ final class PlaceTagSearchViewModel: NSObject, ObservableObject {
                                             filter: .none,
                                             sessionToken: token) { results, error in
       if let results = results {
+        self.markers = []
+        self.coordinateDict = [:]
         self.searchResults = results
       }
       
@@ -35,5 +50,37 @@ final class PlaceTagSearchViewModel: NSObject, ObservableObject {
         print(error.localizedDescription)
       }
     }
+  }
+  
+  func getCoordinateFromPlaceId(placeId: String) {    
+    placeClient.lookUpPlaceID(placeId) { place, error in
+      if let error = error {
+        print("장소 좌표를 찾을 수 없음 \(error.localizedDescription)")
+        return
+      }
+      
+      guard let place = place else {
+        print("장소 정보 존재하지 않음 \(placeId)")
+        return
+      }
+      
+      self.coordinateDict[placeId] = place.coordinate
+      self.markers.append(GMSMarker(position: place.coordinate))
+      self.bounds = self.bounds.includingCoordinate(place.coordinate)
+    }
+  }
+  
+  func selectPlace(placeId: String) {
+    if let coordinate = coordinateDict[placeId] {
+      self.selectedMarker = GMSMarker(position: coordinate)
+    }
+  }
+  
+  func bind() {
+    $searchResults
+      .sink { value in
+        value.forEach { self.getCoordinateFromPlaceId(placeId: $0.placeID) }
+      }
+      .store(in: &subscription)
   }
 }

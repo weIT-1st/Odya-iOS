@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import GoogleMaps
 
 /// 장소 태그하기 뷰
 struct PlaceTagView: View {
   // MARK: Properties
   @State private var showBottomSheet: Bool = false
+  @StateObject private var viewModel = PlaceTagSearchViewModel()
+  
   @Binding var placeId: String    // 장소ID
   
   // MARK: Body
@@ -22,10 +25,10 @@ struct PlaceTagView: View {
       
       ZStack {
         // map
-        MapView()
+        PlaceTagMapView(markers: $viewModel.markers, selectedMarker: $viewModel.selectedMarker, bounds: $viewModel.bounds)
         
         // bottom sheet
-        CustomBottomSheet(content: AnyView(PlaceTagSearchView(placeId: $placeId)))
+        CustomBottomSheet(content: AnyView(PlaceTagSearchView(placeId: $placeId).environmentObject(viewModel)))
       }
     }
     .toolbar(.hidden)
