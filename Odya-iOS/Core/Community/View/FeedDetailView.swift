@@ -111,7 +111,9 @@ struct FeedDetailView: View {
                     
                     // location, comment, heart button
                     HStack {
-                      locationView
+                      if let placeId = viewModel.feedDetail.placeId {
+                        locationView
+                      }
                       Spacer(minLength: 28)
                       HStack(spacing: 12) {
                         CommunityLikeButton(
@@ -157,9 +159,10 @@ struct FeedDetailView: View {
     }
     .fullScreenCover(isPresented: $showEditView) {
       CommunityComposeView(
-        communityId: viewModel.feedDetail.communityID,
+        communityId: viewModel.feedDetail.communityId,
         textContent: viewModel.feedDetail.content,
         privacyType: CommunityPrivacyType(rawValue: viewModel.feedDetail.visibility) ?? .global,
+        placeId: viewModel.feedDetail.placeId,
         travelJournalId: viewModel.feedDetail.travelJournal?.travelJournalID,
         travelJournalTitle: viewModel.feedDetail.travelJournal?.title,
         selectedTopicId: viewModel.feedDetail.topic?.id,
@@ -235,7 +238,7 @@ struct FeedDetailView: View {
         .foregroundColor(Color.odya.label.assistive)
         .frame(width: 24, height: 24)
       // 장소명
-      Text("오이도오이도오이도오이도오이도오이도오이도")
+      Text(viewModel.feedDetail.placeId ?? "")
         .lineLimit(1)
         .multilineTextAlignment(.leading)
         .detail2Style()

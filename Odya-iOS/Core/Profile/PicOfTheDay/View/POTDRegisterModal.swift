@@ -17,7 +17,10 @@ struct POTDRegisterModal: View {
   var imageId: Int { image.imageId }
   var imageUrl: String { image.imageUrl }
   @State private var placeName: String?
-
+  
+  /// 장소 태그하기 뷰 풀스크린 표시 여부
+  @State private var showPlaceTagView: Bool = false
+  
   init(image: UserImage) {
     self.image = image
     self.placeName = image.placeName
@@ -53,27 +56,12 @@ struct POTDRegisterModal: View {
 
   // MARK: Place Tag Button
   private var placeTagButton: some View {
-    NavigationLink {
-      // 장소 태그하기 뷰로 이동
-    } label: {
-      HStack(spacing: 12) {
-        Image("location-m")
-          .colorMultiply(Color.odya.label.assistive)
-        Text(placeName ?? "장소 태그하기")
-          .detail1Style()
-          .foregroundColor(placeName == nil ? .odya.label.assistive : .odya.label.normal)
-        Spacer()
-      }
-      .padding(12)
-      .frame(maxWidth: .infinity)
-      .frame(height: 36)
-      .background(Color.odya.elevation.elev4)
-      .cornerRadius(Radius.small)
-      .overlay(
-        RoundedRectangle(cornerRadius: Radius.small)
-          .inset(by: 0.5)
-          .stroke(Color.odya.line.alternative, lineWidth: 1)
-      )
+    // TODO: 인생샷은 PlaceId가 아니라 PlaceName을 저장
+    PlaceTagButtonWithAction(placeId: placeName) {
+      showPlaceTagView.toggle()
+    }
+    .fullScreenCover(isPresented: $showPlaceTagView) {
+      PlaceTagView(placeId: $placeName)
     }
   }
 

@@ -41,7 +41,7 @@ struct CommunityComposeView: View {
   /// 공개범위
   @State var privacyType: CommunityPrivacyType = .global
   /// 장소 아이디
-  @State var placeId: String = ""
+  @State var placeId: String? = nil
   /// 여행일지 아이디
   @State var travelJournalId: Int? = nil
   @State var travelJournalTitle: String? = nil
@@ -73,7 +73,7 @@ struct CommunityComposeView: View {
   @Binding var path: NavigationPath
   /// 커뮤니티 작성 모드
   let composeMode: CommunityComposeMode
-  
+    
   // MARK: - Body
   
   var body: some View {
@@ -155,9 +155,9 @@ struct CommunityComposeView: View {
                     labelSize: .L) {
             switch composeMode {
             case .create:
-              viewModel.createCommunity(content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: travelJournalId, topicId: selectedTopicId, imageData: imageList)
+              viewModel.createCommunity(content: textContent, visibility: privacyType.rawValue, placeId: placeId, travelJournalId: travelJournalId, topicId: selectedTopicId, imageData: imageList)
             case .edit:
-              viewModel.updateCommunity(communityId: communityId, content: textContent, visibility: privacyType.rawValue, placeId: nil, travelJournalId: travelJournalId, topicId: selectedTopicId, deleteImageIds: deleteImageIdList, updateImageData: imageList)
+              viewModel.updateCommunity(communityId: communityId, content: textContent, visibility: privacyType.rawValue, placeId: placeId, travelJournalId: travelJournalId, topicId: selectedTopicId, deleteImageIds: deleteImageIdList, updateImageData: imageList)
               break
             }
 
@@ -261,30 +261,12 @@ struct CommunityComposeView: View {
     )
   }
   
-  /// 장소 태그하기 내비게이션 링크
+  /// 장소 태그하기 뷰로 이동
   private var placeTagLink: some View {
     NavigationLink {
-      // 장소 태그하기 뷰로 이동
       PlaceTagView(placeId: $placeId)
     } label: {
-      HStack(spacing: 12) {
-        Image("location-m")
-          .colorMultiply(Color.odya.label.assistive)
-        Text("장소 태그하기")
-          .b1Style()
-          .foregroundColor(Color.odya.label.assistive)
-        Spacer()
-      }
-      .padding(12)
-      .frame(maxWidth: .infinity)
-      .frame(height: 48)
-      .background(Color.odya.elevation.elev4)
-      .cornerRadius(Radius.medium)
-      .overlay(
-        RoundedRectangle(cornerRadius: Radius.medium)
-          .inset(by: 0.5)
-          .stroke(Color.odya.line.alternative, lineWidth: 1)
-      )
+      PlaceTagButton(placeId: placeId)
     }
   }
   

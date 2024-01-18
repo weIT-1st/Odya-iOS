@@ -10,7 +10,7 @@ import SwiftUI
 /// 검색창 + 검색결과 뷰
 struct PlaceTagSearchView: View {
   // MARK: - Properties
-  @Binding var placeId: String
+  @Binding var placeId: String?
   @State private var searchText: String = ""
   @EnvironmentObject var viewModel: PlaceTagViewModel
   
@@ -24,7 +24,11 @@ struct PlaceTagSearchView: View {
           ForEach(viewModel.searchResults, id: \.self) { result in
             PlaceTagSearchResultCell(selectedPlaceId: $placeId, title: result.attributedPrimaryText.string, address: result.attributedSecondaryText?.string ?? "", placeId: result.placeID)
               .onTapGesture {
-                placeId = result.placeID
+                if placeId == result.placeID  {
+                  placeId = nil
+                } else {
+                  placeId = result.placeID
+                }
                 viewModel.selectPlace(placeId: result.placeID)
               }
             Divider()

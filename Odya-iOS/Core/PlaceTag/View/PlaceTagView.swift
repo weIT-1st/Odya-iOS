@@ -13,7 +13,7 @@ struct PlaceTagView: View {
   // MARK: Properties
   
   @StateObject private var viewModel = PlaceTagViewModel()
-  @Binding var placeId: String    // 장소ID
+  @Binding var placeId: String?    // 장소ID
   let bottomSheetMaxHeight = (UIScreen.main.bounds.height - 56) / 2 - 34 * 2
   
   // MARK: Body
@@ -24,7 +24,7 @@ struct PlaceTagView: View {
       navigationBar
       
       GeometryReader { proxy in
-        let height = proxy.frame(in: .local).height
+//        let height = proxy.frame(in: .local).height
         VStack(spacing: -34) {
           // map
           ZStack(alignment: .bottomTrailing) {
@@ -73,10 +73,10 @@ struct PlaceTagView: View {
         } label: {
           Text("완료")
             .b1Style()
-            .foregroundColor(self.placeId.isEmpty ? Color.odya.label.assistive : Color.odya.label.normal)
+            .foregroundColor(self.placeId == nil ? Color.odya.label.assistive : Color.odya.label.normal)
             .padding(.horizontal, 4)
         }
-        .disabled(self.placeId.isEmpty)
+        .disabled(self.placeId == nil ? true : false)
       }
       .padding(.trailing, 12)
     }

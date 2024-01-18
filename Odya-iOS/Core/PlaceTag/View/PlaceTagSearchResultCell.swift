@@ -10,7 +10,7 @@ import SwiftUI
 /// 검색 결과인 장소이름, 주소를 표시하는 셀
 struct PlaceTagSearchResultCell: View {
   // MARK: Properties
-  @Binding var selectedPlaceId: String
+  @Binding var selectedPlaceId: String?
   let title: String
   let address: String
   let placeId: String
@@ -24,7 +24,7 @@ struct PlaceTagSearchResultCell: View {
   }
   
   // MARK: Init
-  init(selectedPlaceId: Binding<String>, title: String, address: String, placeId: String) {
+  init(selectedPlaceId: Binding<String?>, title: String, address: String, placeId: String) {
     self._selectedPlaceId = selectedPlaceId
     self.title = title
     self.address = address

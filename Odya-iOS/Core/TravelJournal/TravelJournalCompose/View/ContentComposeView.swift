@@ -26,7 +26,8 @@ struct ContentComposeView: View {
   private let contentCharacterLimit = 200
 
   // place
-
+  @State private var placeId: String? = nil
+  
   // alert
   @State private var isShowingDailyJournalDeleteAlert = false
   @State private var isShowingImagesPermissionDeniedAlert = false
@@ -193,30 +194,11 @@ struct ContentComposeView: View {
   }
 
   private var taggedLocation: some View {
-    HStack(spacing: 0) {
-      Image("location-m")
-        .colorMultiply(.odya.label.assistive)
-      Button(action: {
-        print("장소 태그하기 버튼 클릭")
-      }) {
-        HStack(spacing: 12) {
-          Text("장소 태그하기")
-            .b1Style()
-          Spacer()
-        }
-        .padding(12)
-        .frame(height: 48)
-      }.foregroundColor(.odya.label.assistive)
+    NavigationLink {
+      PlaceTagView(placeId: $placeId)
+    } label: {
+      PlaceTagButton(placeId: placeId)
     }
-    .padding(12)
-    .frame(height: 48)
-    .background(Color.odya.elevation.elev4)
-    .cornerRadius(Radius.medium)
-    .overlay(
-      RoundedRectangle(cornerRadius: Radius.medium)
-        .inset(by: 0.5)
-        .stroke(Color.odya.line.alternative, lineWidth: 1)
-    )
   }
 }
 
