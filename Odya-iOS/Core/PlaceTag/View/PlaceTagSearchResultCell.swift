@@ -10,13 +10,25 @@ import SwiftUI
 /// 검색 결과인 장소이름, 주소를 표시하는 셀
 struct PlaceTagSearchResultCell: View {
   // MARK: Properties
+  @Binding var selectedPlaceId: String
   let title: String
   let address: String
+  let placeId: String
+  
+  var isSelected: Bool {
+    if selectedPlaceId == placeId {
+      return true
+    } else {
+      return false
+    }
+  }
   
   // MARK: Init
-  init(title: String, address: String) {
+  init(selectedPlaceId: Binding<String>, title: String, address: String, placeId: String) {
+    self._selectedPlaceId = selectedPlaceId
     self.title = title
     self.address = address
+    self.placeId = placeId
   }
   
   // MARK: Body
@@ -26,13 +38,13 @@ struct PlaceTagSearchResultCell: View {
         HStack {
           Text(title)
             .b1Style()
-            .foregroundColor(Color.odya.label.normal)
+            .foregroundColor(isSelected ? Color.odya.background.normal : Color.odya.label.normal)
           Spacer()
         }
         HStack {
           Text(address)
             .detail2Style()
-            .foregroundColor(Color.odya.label.alternative)
+            .foregroundColor(isSelected ? Color.odya.background.dimmed_dark : Color.odya.label.alternative)
           Spacer()
         }
       }
@@ -44,11 +56,13 @@ struct PlaceTagSearchResultCell: View {
       } label: {
         Image("system-check-circle")
           .renderingMode(.template)
-          .foregroundColor(Color.odya.system.inactive)
+          .foregroundColor(isSelected ? Color.odya.background.normal : Color.odya.system.inactive)
           .padding(10)
       }
     }
     .padding(.vertical, 12)
     .padding(.horizontal, 8)
+    .background(isSelected ? Color.odya.brand.primary : Color.odya.background.normal)
+    .cornerRadius(Radius.large)
   }
 }

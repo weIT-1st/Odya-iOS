@@ -40,7 +40,7 @@ struct PlaceTagMapView: UIViewRepresentable {
     mapView.delegate = context.coordinator
     mapView.isUserInteractionEnabled = true
     mapView.isMyLocationEnabled = true
-    mapView.settings.myLocationButton = true
+    mapView.settings.myLocationButton = false
     mapView.settings.compassButton = true
     
     // 유저의 현재 위치 가져오기, Camera 위치 설정

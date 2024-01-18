@@ -1,5 +1,5 @@
 //
-//  PlaceTagSearchViewModel.swift
+//  PlaceTagViewModel.swift
 //  Odya-iOS
 //
 //  Created by Jade Yoo on 2023/10/18.
@@ -10,7 +10,7 @@ import Foundation
 import GoogleMaps
 import GooglePlaces
 
-final class PlaceTagSearchViewModel: NSObject, ObservableObject {
+final class PlaceTagViewModel: NSObject, ObservableObject {
   // MARK: - Properties
   
   /// 검색 자동완성 결과
@@ -43,6 +43,7 @@ final class PlaceTagSearchViewModel: NSObject, ObservableObject {
       if let results = results {
         self.markers = []
         self.coordinateDict = [:]
+        self.selectedMarker = nil
         self.searchResults = results
       }
       
@@ -52,7 +53,8 @@ final class PlaceTagSearchViewModel: NSObject, ObservableObject {
     }
   }
   
-  func getCoordinateFromPlaceId(placeId: String) {    
+  /// PlaceId로 좌표 찾기
+  func getCoordinateFromPlaceId(placeId: String) {
     placeClient.lookUpPlaceID(placeId) { place, error in
       if let error = error {
         print("장소 좌표를 찾을 수 없음 \(error.localizedDescription)")
@@ -70,9 +72,12 @@ final class PlaceTagSearchViewModel: NSObject, ObservableObject {
     }
   }
   
+  /// 장소 선택
   func selectPlace(placeId: String) {
     if let coordinate = coordinateDict[placeId] {
-      self.selectedMarker = GMSMarker(position: coordinate)
+      self.selectedMarker = markers.filter {
+        $0.position.latitude == coordinate.latitude && $0.position.longitude == coordinate.longitude
+      }.first
     }
   }
   
