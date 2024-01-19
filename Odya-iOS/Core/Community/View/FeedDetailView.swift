@@ -111,7 +111,7 @@ struct FeedDetailView: View {
                     
                     // location, comment, heart button
                     HStack {
-                      if let placeId = viewModel.feedDetail.placeId {
+                      if let _ = viewModel.feedDetail.placeId {
                         locationView
                       }
                       Spacer(minLength: 28)

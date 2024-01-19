@@ -11,9 +11,12 @@ import GoogleMaps
 /// 장소 태그하기 뷰
 struct PlaceTagView: View {
   // MARK: Properties
-  
+  @Environment(\.dismiss) var dismiss
   @StateObject private var viewModel = PlaceTagViewModel()
   @Binding var placeId: String?    // 장소ID
+  @Binding var placeName: String?  // 장소이름
+  @State private var newPlaceId: String?
+  @State private var newPlaceName: String?
   let bottomSheetMaxHeight = (UIScreen.main.bounds.height - 56) / 2 - 34 * 2
   
   // MARK: Body
@@ -29,6 +32,23 @@ struct PlaceTagView: View {
           // map
           ZStack(alignment: .bottomTrailing) {
             PlaceTagMapView(markers: $viewModel.markers, selectedMarker: $viewModel.selectedMarker, bounds: $viewModel.bounds)
+              .transaction { transaction in
+                transaction.animation = nil
+              }
+            if let newPlaceName {
+              VStack(alignment: .center) {
+                Text(newPlaceName)
+                  .detail1Style()
+                  .foregroundColor(.odya.label.normal)
+                  .padding(.vertical, 8)
+                  .padding(.horizontal, 16)
+                  .background(Color.odya.background.dimmed_system)
+                  .cornerRadius(16)
+                  .frame(maxWidth: .infinity)
+                Spacer()
+              }
+              .padding(.vertical, 20)
+            }
             Button {
               // action: current location
             } label: {
@@ -41,13 +61,13 @@ struct PlaceTagView: View {
                     .foregroundColor(.odya.brand.primary)
                 )
             }
-            .padding(.bottom, 34 + 14)
+            .padding(.bottom, 34 + 20)
             .padding(.horizontal, GridLayout.side)
           }
 //          .frame(maxHeight: .infinity)
           VStack(spacing: 0) {
             bottomSheetIndicator
-            PlaceTagSearchView(placeId: $placeId)
+            PlaceTagSearchView(placeId: $newPlaceId, placeName: $newPlaceName)
               .environmentObject(viewModel)
           }
           .padding(.horizontal, GridLayout.side)
@@ -64,22 +84,30 @@ struct PlaceTagView: View {
   
   /// custom navigation bar
   private var navigationBar: some View {
-    ZStack {
-      CustomNavigationBar(title: "장소 태그하기")
-      HStack {
-        Spacer()
-        Button {
-          // action - 완료
-        } label: {
-          Text("완료")
-            .b1Style()
-            .foregroundColor(self.placeId == nil ? Color.odya.label.assistive : Color.odya.label.normal)
-            .padding(.horizontal, 4)
-        }
-        .disabled(self.placeId == nil ? true : false)
+    HStack {
+      IconButton("direction-left") {
+        dismiss()
       }
-      .padding(.trailing, 12)
+      Spacer()
+      Text("장소 태그하기")
+        .h6Style()
+        .foregroundColor(.odya.label.normal)
+      Spacer()
+      Button {
+        placeId = newPlaceId
+        placeName = newPlaceName
+        dismiss()
+      } label: {
+        Text("완료")
+          .b1Style()
+          .foregroundColor(self.newPlaceId == nil ? Color.clear : Color.odya.label.assistive)
+          .padding(.horizontal, 4)
+      }
+      .disabled(self.newPlaceId == nil ? true : false)
     }
+    .padding(.leading, 8)
+    .padding(.trailing, 12)
+    .frame(height: 56)
   }
   
   private var bottomSheetIndicator: some View {
@@ -149,6 +177,6 @@ struct PlaceTagView: View {
 // MARK: - Previews
 struct PlaceTagView_Previews: PreviewProvider {
   static var previews: some View {
-    PlaceTagView(placeId: .constant(""))
+    PlaceTagView(placeId: .constant(""), placeName: .constant("해운대 해수욕장"))
   }
 }

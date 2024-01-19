@@ -27,6 +27,7 @@ struct ContentEditView: View {
 
   /// 장소 태그하기 뷰 풀스크린 표시 여부
   @State private var showPlaceTagView: Bool = false
+  @State private var placeName: String? = nil
   
   /// 텍스트내용 글자 제한 200자
   private let contentCharacterLimit = 200
@@ -222,11 +223,11 @@ struct ContentEditView: View {
 
   // MARK: Tagged Location
   private var taggedLocation: some View {
-    PlaceTagButtonWithAction(placeId: placeId) {
+    PlaceTagButtonWithAction(placeName: placeName) {
       showPlaceTagView.toggle()
     }
     .fullScreenCover(isPresented: $showPlaceTagView) {
-      PlaceTagView(placeId: $placeId)
+      PlaceTagView(placeId: $placeId, placeName: $placeName)
     }
   }
 }

@@ -42,6 +42,8 @@ struct CommunityComposeView: View {
   @State var privacyType: CommunityPrivacyType = .global
   /// 장소 아이디
   @State var placeId: String? = nil
+  /// 장소 이름
+  @State private var placeName: String? = nil
   /// 여행일지 아이디
   @State var travelJournalId: Int? = nil
   @State var travelJournalTitle: String? = nil
@@ -264,9 +266,9 @@ struct CommunityComposeView: View {
   /// 장소 태그하기 뷰로 이동
   private var placeTagLink: some View {
     NavigationLink {
-      PlaceTagView(placeId: $placeId)
+      PlaceTagView(placeId: $placeId, placeName: $placeName)
     } label: {
-      PlaceTagButton(placeId: placeId)
+      PlaceTagButton(placeName: placeName)
     }
   }
   

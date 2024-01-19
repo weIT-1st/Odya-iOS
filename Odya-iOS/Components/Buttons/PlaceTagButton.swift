@@ -8,15 +8,14 @@
 import SwiftUI
 
 extension View {
-  // TODO: PlaceID -> PlaceName
-  func PlaceTagButtonWithAction(placeId: String?, action: @escaping () -> Void) -> some View {
+  func PlaceTagButtonWithAction(placeName: String?, action: @escaping () -> Void) -> some View {
     Button(action: action) {
       HStack(spacing: 12) {
         Image("location-m")
           .colorMultiply(.odya.label.assistive)
-        Text(placeId ?? "장소 태그하기")
+        Text(placeName ?? "장소 태그하기")
           .b1Style()
-          .foregroundColor(.odya.label.assistive)
+          .foregroundColor(placeName == nil ? .odya.label.assistive : .odya.label.normal)
         Spacer()
       }
       .padding(12)
@@ -33,15 +32,15 @@ extension View {
 }
 
 struct PlaceTagButton: View {
-  let placeId: String?
+  let placeName: String?
   
   var body: some View {
     HStack(spacing: 12) {
       Image("location-m")
         .colorMultiply(.odya.label.assistive)
-      Text(placeId ?? "장소 태그하기")
+      Text(placeName ?? "장소 태그하기")
         .b1Style()
-        .foregroundColor(.odya.label.assistive)
+        .foregroundColor(placeName == nil ? .odya.label.assistive : .odya.label.normal)
       Spacer()
     }
     .padding(12)

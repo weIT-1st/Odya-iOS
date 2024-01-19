@@ -51,9 +51,10 @@ struct PlaceTagSearchResultCell: View {
       
       Spacer()
       
-      Button {
-        // action: 장소 선택
-      } label: {
+      if isSelected {
+        Image("system-check-circle-subtract")
+          .padding(10)
+      } else {
         Image("system-check-circle")
           .renderingMode(.template)
           .foregroundColor(isSelected ? Color.odya.background.normal : Color.odya.system.inactive)

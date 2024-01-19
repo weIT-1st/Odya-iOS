@@ -16,10 +16,10 @@ struct POTDRegisterModal: View {
   let image: UserImage
   var imageId: Int { image.imageId }
   var imageUrl: String { image.imageUrl }
-  @State private var placeName: String?
   
   /// 장소 태그하기 뷰 풀스크린 표시 여부
   @State private var showPlaceTagView: Bool = false
+  @State private var placeName: String?
   
   init(image: UserImage) {
     self.image = image
@@ -57,11 +57,11 @@ struct POTDRegisterModal: View {
   // MARK: Place Tag Button
   private var placeTagButton: some View {
     // TODO: 인생샷은 PlaceId가 아니라 PlaceName을 저장
-    PlaceTagButtonWithAction(placeId: placeName) {
+    PlaceTagButtonWithAction(placeName: placeName) {
       showPlaceTagView.toggle()
     }
     .fullScreenCover(isPresented: $showPlaceTagView) {
-      PlaceTagView(placeId: $placeName)
+      PlaceTagView(placeId: .constant(nil), placeName: $placeName)
     }
   }
 

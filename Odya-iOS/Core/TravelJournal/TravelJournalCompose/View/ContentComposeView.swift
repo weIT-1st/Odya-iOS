@@ -27,6 +27,7 @@ struct ContentComposeView: View {
 
   // place
   @State private var placeId: String? = nil
+  @State private var placeName: String? = nil
   
   // alert
   @State private var isShowingDailyJournalDeleteAlert = false
@@ -195,9 +196,9 @@ struct ContentComposeView: View {
 
   private var taggedLocation: some View {
     NavigationLink {
-      PlaceTagView(placeId: $placeId)
+      PlaceTagView(placeId: $placeId, placeName: $placeName)
     } label: {
-      PlaceTagButton(placeId: placeId)
+      PlaceTagButton(placeName: placeName)
     }
   }
 }

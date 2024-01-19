@@ -11,6 +11,7 @@ import SwiftUI
 struct PlaceTagSearchView: View {
   // MARK: - Properties
   @Binding var placeId: String?
+  @Binding var placeName: String?
   @State private var searchText: String = ""
   @EnvironmentObject var viewModel: PlaceTagViewModel
   
@@ -26,8 +27,10 @@ struct PlaceTagSearchView: View {
               .onTapGesture {
                 if placeId == result.placeID  {
                   placeId = nil
+                  placeName = nil
                 } else {
                   placeId = result.placeID
+                  placeName = result.attributedPrimaryText.string
                 }
                 viewModel.selectPlace(placeId: result.placeID)
               }
@@ -66,7 +69,7 @@ struct PlaceTagSearchView: View {
 // MARK: - Previews
 struct PlaceTagSearchView_Previews: PreviewProvider {
   static var previews: some View {
-    PlaceTagSearchView(placeId: .constant(""))
+    PlaceTagSearchView(placeId: .constant(""), placeName: .constant("해운대 해수욕장"))
   }
 }
 
