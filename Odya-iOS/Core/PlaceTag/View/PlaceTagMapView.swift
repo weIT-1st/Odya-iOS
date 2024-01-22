@@ -91,7 +91,6 @@ struct PlaceTagMapView: UIViewRepresentable {
     myLocationButton.clipsToBounds = true
     let imageView = UIImageView()
     imageView.image = UIImage(named: "gps")?.withRenderingMode(.alwaysTemplate)
-//    imageView.tintColor = UIColor(red: 255/255, green: 212/255, blue: 31/255, alpha: 1)
     myLocationButton.setImage(imageView.image, for: .normal)
     myLocationButton.tintColor = UIColor(red: 255/255, green: 212/255, blue: 31/255, alpha: 1)
     myLocationButton.backgroundColor = UIColor(named: "base-gray-100")

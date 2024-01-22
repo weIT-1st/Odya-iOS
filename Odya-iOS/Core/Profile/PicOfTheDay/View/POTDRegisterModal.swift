@@ -56,7 +56,6 @@ struct POTDRegisterModal: View {
 
   // MARK: Place Tag Button
   private var placeTagButton: some View {
-    // TODO: 인생샷은 PlaceId가 아니라 PlaceName을 저장
     PlaceTagButtonWithAction(placeName: placeName) {
       showPlaceTagView.toggle()
     }
