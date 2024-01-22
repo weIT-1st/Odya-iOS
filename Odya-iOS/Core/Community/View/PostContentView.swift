@@ -66,7 +66,7 @@ struct PostContentView: View {
 
       /// 장소, 좋아요, 댓글
       HStack {
-        if let _ = placeId {
+        if let placeId {
           locationView
         }
         Spacer()

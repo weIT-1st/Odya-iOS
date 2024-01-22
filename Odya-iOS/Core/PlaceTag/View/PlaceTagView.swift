@@ -49,20 +49,6 @@ struct PlaceTagView: View {
               }
               .padding(.vertical, 20)
             }
-            Button {
-              // action: current location
-            } label: {
-              Circle()
-                .foregroundColor(.odya.background.normal)
-                .frame(width: 36, height: 36)
-                .overlay(
-                  Image("gps")
-                    .renderingMode(.template)
-                    .foregroundColor(.odya.brand.primary)
-                )
-            }
-            .padding(.bottom, 34 + 20)
-            .padding(.horizontal, GridLayout.side)
           }
 //          .frame(maxHeight: .infinity)
           VStack(spacing: 0) {
@@ -100,7 +86,7 @@ struct PlaceTagView: View {
       } label: {
         Text("완료")
           .b1Style()
-          .foregroundColor(self.newPlaceId == nil ? Color.clear : Color.odya.label.assistive)
+          .foregroundColor(self.newPlaceId == nil ? Color.odya.label.assistive : Color.odya.brand.primary)
           .padding(.horizontal, 4)
       }
       .disabled(self.newPlaceId == nil ? true : false)

@@ -48,6 +48,9 @@ struct PlaceTagSearchView: View {
         .b1Style()
         .foregroundColor(Color.odya.label.normal)
         .padding(.leading, 20)
+        .onSubmit {
+          viewModel.searchPlace(query: searchText)
+        }
       Spacer()
       Button {
         // action: 검색
