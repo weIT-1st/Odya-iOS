@@ -75,11 +75,15 @@ struct RegisterDefaultInfoView: View {
       Spacer()
       
       // next button
-      CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
+      CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "등록 완료", labelSize: .L) {
         userInfo.birthday = birthday
         userInfo.gender = gender
         // 서버에 회원 등록 진행, 성공 시 회원가입 단계 1 증가
-        signUpVM.signUp()
+        signUpVM.signUp() { success in
+          if success {
+            signUpStep += 1
+          }
+        }
       }
       .padding(.bottom, 45)
     }

@@ -7,48 +7,6 @@
 
 import SwiftUI
 
-/// 사용자 정보를 입력받는 4단계에 대한 인디케이터
-private struct SignUpIndicatorView: View {
-  @Binding var step: Int
-  
-  var body: some View {
-    VStack {
-      backButton
-      stepIndicator
-    }
-  }
-  
-  private var backButton: some View {
-    // 첫 단계 제외 뒤로가기 버튼 표시
-    // TODO: 회원가입 완료 후 토픽 뷰에서 뒤로가기 가능?
-    HStack {
-      Button( action: { step -= 1 }) {
-        Text("뒤로가기")
-          .detail2Style()
-          .foregroundColor(step > 1 ? Color.odya.brand.primary : Color.odya.background.normal)
-          .frame(height: 56)
-      }.disabled(step == 1)
-      Spacer()
-    }.padding(.horizontal, GridLayout.side)
-  }
-  
-  private var stepIndicator: some View {
-    ZStack {
-      Rectangle()
-        .foregroundColor(.odya.system.inactive)
-        .frame(width: UIScreen.main.bounds.width, height: 6)
-      
-      let activeBarLength: CGFloat = (UIScreen.main.bounds.width / 4) * CGFloat(step)
-      HStack(spacing: 0) {
-        Rectangle()
-          .foregroundColor(.odya.brand.primary)
-          .frame(width: activeBarLength, height: 6)
-        Spacer()
-      }.animation(.easeInOut, value: activeBarLength)
-    }
-  }
-}
-
 struct SignUpView: View {
 
   @ObservedObject private var signUpVM: SignUpViewModel
@@ -98,7 +56,14 @@ struct SignUpView: View {
             .environmentObject(signUpVM)
           }
         }
-        
+      case 3:
+        MainLoadingView()
+          .onAppear {
+            /// 로딩화면 타이머
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+              self.authState = .additionalSetupRequired
+            })
+          }
       default:
         LoginView()
           .onAppear{

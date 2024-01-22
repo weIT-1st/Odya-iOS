@@ -42,7 +42,7 @@ class SignUpViewModel: ObservableObject {
   }
   
   // MARK: Sign Up
-  func signUp() {
+  func signUp(completion: @escaping (Bool) -> Void) {
     switch authType {
     case "kakao":
       kakaoRegister(username: userInfo.username,
@@ -56,9 +56,7 @@ class SignUpViewModel: ObservableObject {
           print("카카오로 회원가입 성공")
           // 사용자 정보 초기화
           AppDataManager().initMyData() { success in
-            if success {
-              self.authState = .additionalSetupRequired
-            }
+            completion(success)
           }
         } else {
           print("카카오로 회원가입 실패 - \(errMsg ?? "")")
@@ -77,9 +75,7 @@ class SignUpViewModel: ObservableObject {
           self.idToken = self.userInfo.idToken
           // 사용자 정보 초기화
           AppDataManager().initMyData() { success in
-            if success {
-              self.authState = .additionalSetupRequired
-            }
+            completion(success)
           }
         } else {
           print("애플로 회원가입 실패 - \(errMsg ?? "")")

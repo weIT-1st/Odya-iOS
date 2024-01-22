@@ -28,6 +28,7 @@ struct Odya_iOSApp: App {
   
   @AppStorage("WeITAuthType") var authType: String = ""
   @AppStorage("WeITAuthState") var authState: AuthState = .loggedOut
+  @State private var isShowingAdditionalSetUpView: Bool = false
   
   @State private var isReady: Bool = false
 
@@ -47,8 +48,18 @@ struct Odya_iOSApp: App {
         else {
           switch authState {
           // 로그인 완료 상태
-          case .loggedIn:
+          case .loggedIn,
+              .additionalSetupRequired:
             RootTabView()
+              .onAppear {
+                if authState == .additionalSetupRequired {
+                  isShowingAdditionalSetUpView = true
+                }
+              }
+              .fullScreenCover(isPresented: $isShowingAdditionalSetUpView) {
+                AdditionalSetUpView()
+                  .clearModalBackground()
+              }
             
           // 로그아웃 상태, 로그인 버튼 뷰 나옴
           case .loggedOut:
@@ -67,12 +78,8 @@ struct Odya_iOSApp: App {
             } else {
               ProgressView()
             }
-            
-          case .additionalSetupRequired:
-            AdditionalSetUpView()
           }
         } // if ready
-        
       } // Zstack
       .onAppear {
         /// 자동로그인
