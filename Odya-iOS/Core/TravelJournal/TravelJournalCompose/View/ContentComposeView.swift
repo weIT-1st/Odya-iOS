@@ -26,7 +26,6 @@ struct ContentComposeView: View {
   private let contentCharacterLimit = 200
 
   // place
-  @State private var placeId: String? = nil
   @State private var placeName: String? = nil
   
   // alert
@@ -196,7 +195,7 @@ struct ContentComposeView: View {
 
   private var taggedLocation: some View {
     NavigationLink {
-      PlaceTagView(placeId: $placeId, placeName: $placeName)
+      PlaceTagView(placeId: $dailyJournal.placeId, placeName: $placeName)
     } label: {
       PlaceTagButton(placeName: placeName)
     }
