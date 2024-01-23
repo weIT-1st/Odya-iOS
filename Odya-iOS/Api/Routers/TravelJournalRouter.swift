@@ -200,6 +200,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
         travelJournalContents.append(
           TravelJournalContentRequest(
             content: dailyJournal.content,
+            placeId: dailyJournal.placeId,
             latitudes: dailyJournal.latitudes,
             longitudes: dailyJournal.longitudes,
             travelDate: dailyJournal.date?.toIntArray() ?? [],
