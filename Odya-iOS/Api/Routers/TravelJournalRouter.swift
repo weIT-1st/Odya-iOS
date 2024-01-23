@@ -117,11 +117,11 @@ enum TravelJournalRouter {
   // 여행일지 목록 조회
   case getJournals(token: String, size: Int?, lastId: Int?)
   // 내 여행일지 목록 조회
-  case getMyJournals(token: String, size: Int?, lastId: Int?)
+  case getMyJournals(token: String, size: Int?, lastId: Int?, placeId: String? = nil)
   // 친구 여행일지 목록 조회
-  case getFriendsJournals(token: String, size: Int?, lastId: Int?)
+  case getFriendsJournals(token: String, size: Int?, lastId: Int?, placeId: String? = nil)
   // 추천 여행일지 목록 조회
-  case getRecommendedJournals(token: String, size: Int?, lastId: Int?)
+  case getRecommendedJournals(token: String, size: Int?, lastId: Int?, placeId: String? = nil)
   // 태그된 여행일지 목록 조회
   case getTaggedJournals(token: String, size: Int?, lastId: Int?)
 
@@ -291,9 +291,6 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
       }
       return .uploadMultipart(formData)
     case let .getJournals(_, size, lastId),
-      let .getMyJournals(_, size, lastId),
-      let .getFriendsJournals(_, size, lastId),
-      let .getRecommendedJournals(_, size, lastId),
       let .getTaggedJournals(_, size, lastId),
       let .getBookmarkedJournals(_, size, lastId):
       var params: [String: Any] = [:]
@@ -303,6 +300,18 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
       if let lastId = lastId {
         params["lastId"] = lastId
       }
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    case let .getMyJournals(_, size, lastId, placeId),
+      let .getFriendsJournals(_, size, lastId, placeId),
+      let .getRecommendedJournals(_, size, lastId, placeId):
+      var params: [String: Any] = [:]
+      if let size = size {
+        params["size"] = size
+      }
+      if let lastId = lastId {
+        params["lastId"] = lastId
+      }
+      params["placeId"] = placeId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     case let .updateVisibility(_, _, visibility):
       let params: [String: Any] = ["visibility": visibility]
@@ -317,9 +326,9 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
     case let .create(token, _, _, _, _, _, _, _, _, _, _),
       let .searchById(token, _),
       let .getJournals(token, _, _),
-      let .getMyJournals(token, _, _),
-      let .getFriendsJournals(token, _, _),
-      let .getRecommendedJournals(token, _, _),
+      let .getMyJournals(token, _, _, _),
+      let .getFriendsJournals(token, _, _, _),
+      let .getRecommendedJournals(token, _, _, _),
       let .getTaggedJournals(token, _, _),
       let .edit(token, _, _, _, _, _, _, _, _, _),
       let .editContent(token, _, _, _, _, _, _, _, _, _, _, _),

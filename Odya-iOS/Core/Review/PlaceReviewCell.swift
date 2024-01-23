@@ -12,6 +12,8 @@ struct PlaceReviewCell: View {
   let starRating: Double
   let isMyReview: Bool
   
+  @State private var showUserProfile: Bool = false
+  
   init(review: Review) {
     self.review = review
     self.starRating = Double(review.starRating) / 2
@@ -20,8 +22,19 @@ struct PlaceReviewCell: View {
   
   var body: some View {
     HStack(alignment: .top, spacing: 12) {
-      // profile s
-      ProfileImageView(of: "", profileData: review.writer.profile, size: .S)
+      Button {
+        showUserProfile.toggle()
+      } label: {
+        ProfileImageView(of: "", profileData: review.writer.profile, size: .S)
+      }
+      .disabled(isMyReview)
+      .fullScreenCover(isPresented: $showUserProfile) {
+        let writer = review.writer
+        ProfileView(userId: writer.userID,
+                    nickname: writer.nickname,
+                    profileUrl: writer.profile.profileUrl,
+                    isFollowing: writer.isFollowing ?? false)
+      }
       VStack(alignment: .leading, spacing: 8) {
         if isMyReview {
           HStack {

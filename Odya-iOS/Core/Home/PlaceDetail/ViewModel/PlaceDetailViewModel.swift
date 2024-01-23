@@ -22,7 +22,8 @@ final class PlaceDetailViewModel: ObservableObject {
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private lazy var reviewProvider = MoyaProvider<ReviewRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
-  private var subscription = Set<AnyCancellable>()
+  lazy var journalRouter = MoyaProvider<TravelJournalRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin])
+  var subscription = Set<AnyCancellable>()
   
   // google places
   private let placeClient = GMSPlacesClient()
@@ -54,7 +55,24 @@ final class PlaceDetailViewModel: ObservableObject {
   
   @Published var myReview: Review? = nil
   
+  struct JournalState {
+    var content: [TravelJournalData] = []
+    var lastId: Int? = nil
+    var canLoadNextPage = true
+  }
+  
+  @Published private(set) var friendsJournalState = JournalState()
+  @Published private(set) var recommendedJournalState = JournalState()
+  
   // MARK: - Helper functions
+  
+  func handleErrorData(error: MoyaError) {
+    if let errorData = try? error.response?.map(ErrorData.self) {
+      print("\(errorData.code): \(errorData.message)")
+    } else {
+      print("알 수 없는 오류 발생")
+    }
+  }
   
   /// 장소 사진 가져오기
   func fetchPlaceImage(placeId: String, token: GMSAutocompleteSessionToken?) {
@@ -101,6 +119,7 @@ final class PlaceDetailViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  // MARK: Review
   /// 한줄리뷰 관련 조회
   func fetchReviewInfo(placeId: String) {
     fetchIfReviewExist(placeId: placeId)
@@ -186,6 +205,7 @@ final class PlaceDetailViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  // MARK: Community
   /// 장소 Id로 커뮤니티 조회
   func fetchAllFeedByPlaceNextPageIfPossible(placeId: String) {
     guard feedState.canLoadNextPage else { return }
@@ -208,13 +228,60 @@ final class PlaceDetailViewModel: ObservableObject {
       }
       .store(in: &subscription)
   }
+}
+
+extension PlaceDetailViewModel {
+  // MARK: Travel Journal
+  func fetchTravelJournal(placeId: String) {
+    if placeId.isEmpty { return }
+    fetchMyTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
+    fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
+    fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
+  }
   
-  /// 에러 핸들링
-  func handleErrorData(error: MoyaError) {
-    if let errorData = try? error.response?.map(ErrorData.self) {
-      print("\(errorData.code): \(errorData.message)")
-    } else {
-      print("알 수 없는 오류 발생")
-    }
+  private func fetchMyTravelJournalByPlaceNextPageIfPossible(placeId: String) {
+    
+  }
+  
+  func fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: String) {
+    guard friendsJournalState.canLoadNextPage else { return }
+    
+    journalRouter.requestPublisher(.getFriendsJournals(token: idToken ?? "", size: 5, lastId: friendsJournalState.lastId, placeId: placeId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 상세보기 - 친구 여행일지 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(TravelJournalList.self) {
+          self.friendsJournalState.content += data.content
+          self.friendsJournalState.lastId = data.content.last?.journalId
+          self.friendsJournalState.canLoadNextPage = data.hasNext
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  func fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: String) {
+    guard recommendedJournalState.canLoadNextPage else { return }
+    
+    journalRouter.requestPublisher(.getRecommendedJournals(token: idToken ?? "", size: 5, lastId: recommendedJournalState.lastId, placeId: placeId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 상세보기 - 추천 여행일지 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(TravelJournalList.self) {
+          self.recommendedJournalState.content += data.content
+          self.recommendedJournalState.lastId = data.content.last?.journalId
+          self.recommendedJournalState.canLoadNextPage = data.hasNext
+        }
+      }
+      .store(in: &subscription)
   }
 }

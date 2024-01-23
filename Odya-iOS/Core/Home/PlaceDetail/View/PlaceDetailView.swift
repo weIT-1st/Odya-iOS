@@ -94,6 +94,7 @@ struct PlaceDetailView: View {
       .task {
         viewModel.fetchPlaceImage(placeId: placeInfo.placeId, token: placeInfo.sessionToken)
         viewModel.fetchVisitingUser(placeId: placeInfo.placeId)
+        viewModel.fetchTravelJournal(placeId: placeInfo.placeId)
         viewModel.fetchReviewInfo(placeId: placeInfo.placeId)
         viewModel.fetchReviewByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
         viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)

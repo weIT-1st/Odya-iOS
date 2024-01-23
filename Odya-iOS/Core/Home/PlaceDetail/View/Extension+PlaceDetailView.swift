@@ -14,34 +14,106 @@ extension PlaceDetailView {
       PlaceDetailContentTypeSelection(contentType: .journal, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       VStack(spacing: 48) {
         VStack(spacing: 36) {
-          HStack {
-            Text("나의 여행일지")
-              .h4Style()
-              .foregroundColor(.odya.label.normal)
-            Spacer()
-          }
+          journalTypeTitle(title: "나의 여행일지")
           NoJournalCardView()
         }
         VStack(spacing: 36) {
-          HStack {
-            Text("친구의 여행일지")
-              .h4Style()
-              .foregroundColor(.odya.label.normal)
-            Spacer()
+          journalTypeTitle(title: "친구의 여행일지")
+          if viewModel.friendsJournalState.content.isEmpty {
+            NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
+          } else {
+            LazyHStack(spacing: 8) {
+              ForEach(viewModel.friendsJournalState.content, id: \.id) { content in
+                // TODO: navigation
+                friendsJournalCell(content: content)
+                  .onAppear {
+                    if content.journalId == viewModel.friendsJournalState.lastId {
+                      viewModel.fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                    }
+                  }
+              }
+            }
           }
-          NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
         }
         VStack(spacing: 36) {
-          HStack {
-            Text("추천 여행일지")
-              .h4Style()
-              .foregroundColor(.odya.label.normal)
-            Spacer()
+          journalTypeTitle(title: "추천 여행일지")
+          if viewModel.recommendedJournalState.content.isEmpty {
+            NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
+          } else {
+            LazyHStack(spacing: 8) {
+              ForEach(viewModel.recommendedJournalState.content, id: \.id) { content in
+                // TODO: navigation
+                recommendJournalCell(url: content.imageUrl)
+                  .onAppear {
+                    if content.journalId == viewModel.recommendedJournalState.lastId {
+                      viewModel.fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                    }
+                  }
+              }
+            }
           }
-          NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
         }
       }
       .padding(.horizontal, GridLayout.side)
+    }
+  }
+  
+  private func journalTypeTitle(title: String) -> some View {
+    HStack {
+      Text(title)
+        .h4Style()
+        .foregroundColor(.odya.label.normal)
+      Spacer()
+    }
+  }
+  
+  private func friendsJournalCell(content: TravelJournalData) -> some View {
+    VStack(alignment: .leading) {
+      Text(content.title)
+        .b1Style()
+        .foregroundColor(.odya.label.normal)
+      Spacer()
+      HStack {
+        HStack(spacing: 8) {
+          ProfileImageView(profileUrl: content.writer.profile.profileUrl, size: .S)
+          Text(content.writer.nickname)
+            .b1Style()
+            .foregroundColor(.odya.label.normal)
+        }
+        Spacer()
+        Text(content.travelStartDate.dateToString(format: "yyyy.MM.dd"))
+          .detail2Style()
+          .foregroundColor(.odya.label.assistive)
+      }
+    }
+    .padding(16)
+    .frame(height: 200, alignment: .leading)
+    .background(
+      AsyncImage(url: URL(string: content.imageUrl)!) { image in
+        image
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: 232, height: 200)
+          .clipped()
+      } placeholder: {
+        Color.odya.background.dimmed_system
+          .frame(width: 232, height: 200)
+      }
+    )
+    .cornerRadius(Radius.medium)
+  }
+  
+  private func recommendJournalCell(url: String) -> some View {
+    AsyncImage(url: URL(string: url)!) { image in
+      image
+        .resizable()
+        .aspectRatio(contentMode: .fill)
+        .frame(width: 141, height: 83)
+        .cornerRadius(Radius.medium)
+        .clipped()
+    } placeholder: {
+      ProgressView()
+        .frame(width: 141, height: 83)
     }
   }
   
