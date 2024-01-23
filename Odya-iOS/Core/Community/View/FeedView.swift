@@ -51,15 +51,16 @@ struct FeedView: View {
 
               LazyVStack(spacing: 4) {
                 // posts (무한)
-                ForEach(viewModel.state.content, id: \.communityID) { content in
+                ForEach(viewModel.state.content, id: \.communityId) { content in
                   VStack(spacing: 0) {
                     PostImageView(urlString: content.communityMainImageURL)
-                    NavigationLink(value: FeedRoute.detail(content.communityID), label: {
+                    NavigationLink(value: FeedRoute.detail(content.communityId), label: {
                       PostContentView(
-                        communityId: content.communityID,
+                        communityId: content.communityId,
                         contentText: content.communityContent,
                         commentCount: content.communityCommentCount,
                         likeCount: content.communityLikeCount,
+                        placeId: content.placeId,
                         createDate: content.createdDate,
                         writer: content.writer,
                         isUserLiked: content.isUserLiked

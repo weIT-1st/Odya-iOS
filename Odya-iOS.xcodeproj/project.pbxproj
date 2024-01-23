@@ -46,8 +46,13 @@
 		07B221242B491D32006C2B20 /* ReviewComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B221232B491D32006C2B20 /* ReviewComposeView.swift */; };
 		07B221262B491D92006C2B20 /* ReviewComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */; };
 		07B725FA2A2A591A0024C5E8 /* AppleLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */; };
+		07C8054D2B14CED00042ECAA /* PlaceTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8054C2B14CED00042ECAA /* PlaceTagViewModel.swift */; };
+		07C8054F2B14CF380042ECAA /* PlaceTagSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */; };
+		07C805512B14CF580042ECAA /* PlaceTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C805502B14CF580042ECAA /* PlaceTagView.swift */; };
 		1906B9802B55271A0043DCF8 /* PlaceReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1906B97F2B55271A0043DCF8 /* PlaceReviewCell.swift */; };
 		1906B9822B5670350043DCF8 /* NoContentDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1906B9812B5670350043DCF8 /* NoContentDescriptionView.swift */; };
+		1906B9862B5771E90043DCF8 /* PlaceTagSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1906B9852B5771E90043DCF8 /* PlaceTagSearchResultCell.swift */; };
+		192715462B58E10F00B20A70 /* PlaceTagButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192715452B58E10F00B20A70 /* PlaceTagButton.swift */; };
 		192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA02B0D8D7E00BD480E /* ReportView.swift */; };
 		192ADAA32B0DDFE900BD480E /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */; };
 		192ADAA52B0EF88400BD480E /* CustomLogPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */; };
@@ -77,6 +82,7 @@
 		19BA67E22B4BDE6500213678 /* PlaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67E12B4BDE6500213678 /* PlaceDetailViewModel.swift */; };
 		19BA67E42B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67E32B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift */; };
 		19BA67E62B4CF26800213678 /* Extension+PlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67E52B4CF26800213678 /* Extension+PlaceDetailView.swift */; };
+		19CF1F332B57A9E00010E15B /* PlaceTagMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CF1F322B57A9E00010E15B /* PlaceTagMapView.swift */; };
 		19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F0D2AF4976E00D29B49 /* Color.swift */; };
 		19D17F122AFA00CE00D29B49 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D17F112AFA00CE00D29B49 /* String.swift */; };
 		19DE0AA92B3EB5240079A660 /* PlaceSearchHistoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */; };
@@ -300,8 +306,13 @@
 		07B221252B491D92006C2B20 /* ReviewComposeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewComposeViewModel.swift; sourceTree = "<group>"; };
 		07B725F82A2A50280024C5E8 /* Odya-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Odya-iOS.entitlements"; sourceTree = "<group>"; };
 		07B725F92A2A591A0024C5E8 /* AppleLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginButton.swift; sourceTree = "<group>"; };
+		07C8054C2B14CED00042ECAA /* PlaceTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagViewModel.swift; sourceTree = "<group>"; };
+		07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagSearchView.swift; sourceTree = "<group>"; };
+		07C805502B14CF580042ECAA /* PlaceTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagView.swift; sourceTree = "<group>"; };
 		1906B97F2B55271A0043DCF8 /* PlaceReviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceReviewCell.swift; sourceTree = "<group>"; };
 		1906B9812B5670350043DCF8 /* NoContentDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoContentDescriptionView.swift; sourceTree = "<group>"; };
+		1906B9852B5771E90043DCF8 /* PlaceTagSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagSearchResultCell.swift; sourceTree = "<group>"; };
+		192715452B58E10F00B20A70 /* PlaceTagButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagButton.swift; sourceTree = "<group>"; };
 		192ADAA02B0D8D7E00BD480E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		192ADAA22B0DDFE900BD480E /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		192ADAA42B0EF88400BD480E /* CustomLogPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLogPlugin.swift; sourceTree = "<group>"; };
@@ -331,6 +342,7 @@
 		19BA67E12B4BDE6500213678 /* PlaceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewModel.swift; sourceTree = "<group>"; };
 		19BA67E32B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailContentTypeSelection.swift; sourceTree = "<group>"; };
 		19BA67E52B4CF26800213678 /* Extension+PlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+PlaceDetailView.swift"; sourceTree = "<group>"; };
+		19CF1F322B57A9E00010E15B /* PlaceTagMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTagMapView.swift; sourceTree = "<group>"; };
 		19D17F0D2AF4976E00D29B49 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		19D17F112AFA00CE00D29B49 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		19DE0AA82B3EB5240079A660 /* PlaceSearchHistoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchHistoryRouter.swift; sourceTree = "<group>"; };
@@ -651,6 +663,7 @@
 				07AF2B172A392EEE00D54780 /* LocationSearch */,
 				0784963F2A84F45800A490E3 /* Community */,
 				192ADA9F2B0D8D5C00BD480E /* Report */,
+				07C8054B2B14CDC10042ECAA /* PlaceTag */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -778,6 +791,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		07C8054B2B14CDC10042ECAA /* PlaceTag */ = {
+			isa = PBXGroup;
+			children = (
+				1906B9832B57705E0043DCF8 /* View */,
+				1906B9842B57706B0043DCF8 /* ViewModel */,
+			);
+			path = PlaceTag;
+			sourceTree = "<group>";
+		};
 		07DFFC102A2F6EA6006A2FB9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +822,25 @@
 				3E2F29812B2F274B00FF5357 /* Review.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		1906B9832B57705E0043DCF8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				07C805502B14CF580042ECAA /* PlaceTagView.swift */,
+				07C8054E2B14CF380042ECAA /* PlaceTagSearchView.swift */,
+				1906B9852B5771E90043DCF8 /* PlaceTagSearchResultCell.swift */,
+				19CF1F322B57A9E00010E15B /* PlaceTagMapView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1906B9842B57706B0043DCF8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				07C8054C2B14CED00042ECAA /* PlaceTagViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		192ADA9F2B0D8D5C00BD480E /* Report */ = {
@@ -1176,6 +1217,7 @@
 				0784964F2A9760CF00A490E3 /* FishchipButton.swift */,
 				195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */,
 				3EE1036A2AD483F2004EDCEB /* StarButton.swift */,
+				192715452B58E10F00B20A70 /* PlaceTagButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1411,7 +1453,7 @@
 			};
 			buildConfigurationList = 071FA5192A20A99F00C7B362 /* Build configuration list for PBXProject "Odya-iOS" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -1475,6 +1517,7 @@
 				3E699A882AFF6B6100850E9A /* SparkleIcon.swift in Sources */,
 				3EE9CA1B2AB5D67A003A2E85 /* FollowRouter.swift in Sources */,
 				07589E682AE80B0B00867FAD /* TopicLayout.swift in Sources */,
+				1906B9862B5771E90043DCF8 /* PlaceTagSearchResultCell.swift in Sources */,
 				3EC49F7B2B527CB100E1A44F /* MainTravelJournalRouter.swift in Sources */,
 				197C29A92B171DFA00E6D670 /* SearchedUser.swift in Sources */,
 				3EEBB7CF2A8EB40A00F0049D /* Date.swift in Sources */,
@@ -1506,6 +1549,7 @@
 				192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */,
 				3EB938172AF795A60041FE5B /* NoJournalView.swift in Sources */,
 				19D17F0E2AF4976E00D29B49 /* Color.swift in Sources */,
+				07C805512B14CF580042ECAA /* PlaceTagView.swift in Sources */,
 				3EE1036B2AD483F2004EDCEB /* StarButton.swift in Sources */,
 				19E212AE2B070A77003155C0 /* FollowButtonViewModel.swift in Sources */,
 				19EBA7572AB16BDE000ABBE5 /* TermsRouter.swift in Sources */,
@@ -1537,6 +1581,7 @@
 				3ED22F442AAA355B0067DE72 /* DailyJournalEditViewModel.swift in Sources */,
 				19E212A82B06F376003155C0 /* ReportRouter.swift in Sources */,
 				197C29AD2B171EAE00E6D670 /* FeedUserSearchView.swift in Sources */,
+				192715462B58E10F00B20A70 /* PlaceTagButton.swift in Sources */,
 				3EE9CA1D2AB6C44B003A2E85 /* UserRouter.swift in Sources */,
 				0707A1C22A45A2A100AE6E4D /* MapView.swift in Sources */,
 				19D17F122AFA00CE00D29B49 /* String.swift in Sources */,
@@ -1550,6 +1595,7 @@
 				07A0EC802A3F9333002D36B9 /* RootTabView.swift in Sources */,
 				0761F19B2AD804FA00FB87AA /* Community.swift in Sources */,
 				071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */,
+				07C8054F2B14CF380042ECAA /* PlaceTagSearchView.swift in Sources */,
 				3E2F295D2B284B0900FF5357 /* TravelJournalSection.swift in Sources */,
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
@@ -1607,6 +1653,7 @@
 				07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */,
 				3E2F296E2B29BB0C00FF5357 /* FavoritePlaceRouter.swift in Sources */,
 				3E0589032A276E8C005C29D9 /* SceneDelegate.swift in Sources */,
+				07C8054D2B14CED00042ECAA /* PlaceTagViewModel.swift in Sources */,
 				3E07A65F2B4FE48C00E93B6E /* FullScreenCoverManager.swift in Sources */,
 				3ED22F3A2A9853830067DE72 /* TravelMateSelectorView.swift in Sources */,
 				199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */,
@@ -1669,6 +1716,7 @@
 				3E2F29622B294EEB00FF5357 /* BookmarkedJournalCardView.swift in Sources */,
 				3EEBB7D32A8F50B300F0049D /* TravelDateView.swift in Sources */,
 				3E4670142B13542100B54D0A /* SplashView.swift in Sources */,
+				19CF1F332B57A9E00010E15B /* PlaceTagMapView.swift in Sources */,
 				1906B9822B5670350043DCF8 /* NoContentDescriptionView.swift in Sources */,
 				3E414B302ADC0ED000034FBB /* ContentComposeView.swift in Sources */,
 				3E075C952B23129B0093CACD /* POTDSection.swift in Sources */,

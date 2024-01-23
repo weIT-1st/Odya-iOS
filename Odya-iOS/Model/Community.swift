@@ -19,10 +19,10 @@ struct Feed: Codable {
 }
 
 struct FeedContent: Codable, Equatable {
-  let communityID: Int
+  let communityId: Int
   let communityContent: String
   let communityMainImageURL: String
-  //    let placeID
+  let placeId: String?
   let writer: Writer
   //    let travelJournalSimpleResponse
   let communityCommentCount, communityLikeCount: Int
@@ -30,17 +30,17 @@ struct FeedContent: Codable, Equatable {
   let createdDate: String
 
   enum CodingKeys: String, CodingKey {
-    case communityID = "communityId"
+    case communityId
     case communityContent
     case communityMainImageURL = "communityMainImageUrl"
     case writer, communityCommentCount, communityLikeCount, createdDate
     case isUserLiked
-    //        case placeID = "placeId"
+    case placeId
     //        case travelJournalSimpleResponse
   }
 
   static func == (lhs: FeedContent, rhs: FeedContent) -> Bool {
-    return lhs.communityID == rhs.communityID
+    return lhs.communityId == rhs.communityId
   }
 }
 
@@ -58,9 +58,9 @@ struct Writer: Codable {
 
 // MARK: - FeedDetail
 struct FeedDetail: Codable {
-  let communityID: Int
+  let communityId: Int
   let content, visibility: String
-  let placeID: String?
+  let placeId: String?
   let writer: Writer
   let travelJournal: LinkedTravelJournal?
   let topic: FeedDetailTopic?
@@ -68,14 +68,6 @@ struct FeedDetail: Codable {
   let communityCommentCount, communityLikeCount: Int
   let isUserLiked: Bool
   let createdDate: String
-
-  enum CodingKeys: String, CodingKey {
-    case communityID = "communityId"
-    case content, visibility
-    case placeID = "placeId"
-    case writer, travelJournal, topic, communityContentImages, communityCommentCount,
-      communityLikeCount, isUserLiked, createdDate
-  }
 }
 
 struct CommunityContentImage: Codable {

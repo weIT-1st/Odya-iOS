@@ -25,6 +25,10 @@ struct ContentEditView: View {
   /// 이미지 피커가 현재 화면에 표시되고 있는지 여부
   @Binding var isShowingImagePickerSheet: Bool
 
+  /// 장소 태그하기 뷰 풀스크린 표시 여부
+  @State private var showPlaceTagView: Bool = false
+  @State private var placeName: String? = nil
+  
   /// 텍스트내용 글자 제한 200자
   private let contentCharacterLimit = 200
 
@@ -219,30 +223,12 @@ struct ContentEditView: View {
 
   // MARK: Tagged Location
   private var taggedLocation: some View {
-    HStack(spacing: 0) {
-      Image("location-m")
-        .colorMultiply(.odya.label.assistive)
-      Button(action: {
-        print("장소 태그하기 버튼 클릭")
-      }) {
-        HStack(spacing: 12) {
-          Text("장소 태그하기")
-            .b1Style()
-          Spacer()
-        }
-        .padding(12)
-        .frame(height: 48)
-      }.foregroundColor(.odya.label.assistive)
+    PlaceTagButtonWithAction(placeName: placeName) {
+      showPlaceTagView.toggle()
     }
-    .padding(12)
-    .frame(height: 48)
-    .background(Color.odya.elevation.elev4)
-    .cornerRadius(Radius.medium)
-    .overlay(
-      RoundedRectangle(cornerRadius: Radius.medium)
-        .inset(by: 0.5)
-        .stroke(Color.odya.line.alternative, lineWidth: 1)
-    )
+    .fullScreenCover(isPresented: $showPlaceTagView) {
+      PlaceTagView(placeId: $placeId, placeName: $placeName)
+    }
   }
 }
 
