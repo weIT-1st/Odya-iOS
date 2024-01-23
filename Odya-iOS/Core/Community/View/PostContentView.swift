@@ -18,17 +18,19 @@ struct PostContentView: View {
   let contentText: String
   let commentCount: Int
   @State var likeCount: Int
+  let placeId: String?
   let createDate: String
   let writer: Writer
   @State var isUserLiked: Bool
 
   // MARK: Init
 
-  init(communityId: Int, contentText: String, commentCount: Int, likeCount: Int, createDate: String, writer: Writer, isUserLiked: Bool) {
+  init(communityId: Int, contentText: String, commentCount: Int, likeCount: Int, placeId: String?, createDate: String, writer: Writer, isUserLiked: Bool) {
     self.communityId = communityId
     self.contentText = contentText
     self.commentCount = commentCount
     self.likeCount = likeCount
+    self.placeId = placeId
     self.createDate = createDate
     self.writer = writer
     self.followState = writer.isFollowing ?? false
@@ -64,7 +66,9 @@ struct PostContentView: View {
 
       /// 장소, 좋아요, 댓글
       HStack {
-        locationView
+        if let placeId {
+          locationView
+        }
         Spacer()
         CommunityLikeButton(
           communityId: communityId,
@@ -95,7 +99,7 @@ struct PostContentView: View {
         .foregroundColor(Color.odya.label.assistive)
 
       // 장소명
-      Text("오이도")
+      Text(placeId ?? "")
         .detail2Style()
         .foregroundColor(Color.odya.label.assistive)
     }
@@ -120,7 +124,7 @@ struct PostContentView: View {
 struct PostContentView_Previews: PreviewProvider {
   static var previews: some View {
     PostContentView(
-      communityId: 1, contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, createDate: "2023-01-01",
+      communityId: 1, contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, placeId: "", createDate: "2023-01-01",
       writer: Writer(
         userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false), isUserLiked: true)
   }
