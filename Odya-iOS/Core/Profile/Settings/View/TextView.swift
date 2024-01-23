@@ -10,11 +10,11 @@ import SwiftUI
 struct TextView: View {
   let title: String
   let content: String
-  
+
   var body: some View {
     VStack {
       CustomNavigationBar(title: title)
-      
+
       ScrollView {
         Text(content)
           .detail2Style()
@@ -30,6 +30,6 @@ struct TextView: View {
     .onAppear {
       print(title)
     }
-    
+
   }
 }

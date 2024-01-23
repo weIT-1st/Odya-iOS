@@ -86,10 +86,10 @@ struct ProfileView: View {
             BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
               .offset(y: -70)
           )
-          
+
           // 타인의 프로필에서 작성된 여행일지가 없는 경우
           if !isMyProfile
-              && profileVM.statistics.travelJournalCount == 0
+            && profileVM.statistics.travelJournalCount == 0
           {
             NoContentDescriptionView(title: "아직 게시물이 없어요.", withLogo: true)
           } else {
@@ -102,7 +102,7 @@ struct ProfileView: View {
                   odyaCounter
                 }
               }.padding(.horizontal, GridLayout.side)
-              
+
               // 인생샷
               VStack(spacing: 36) {
                 POTDTitle
@@ -115,9 +115,9 @@ struct ProfileView: View {
                   NoContentDescriptionView(title: "인생샷이 없어요.", withLogo: false)
                 }
               }
-              
+
               divider
-              
+
               // 대표 여행일지
               VStack(spacing: 36) {
                 mainJournalSectionTitle
@@ -134,9 +134,9 @@ struct ProfileView: View {
                   }
                 }
               }.padding(.horizontal, GridLayout.side)
-              
+
               divider
-              
+
               // 즐겨찾기 여행일지
               VStack(spacing: 36) {
                 bookmarkedJournalTitle
@@ -144,9 +144,9 @@ struct ProfileView: View {
                 BookmarkedJournalListinProfileView(userId: userId, path: $path)
                   .environmentObject(journalsVM)
               }
-              
+
               divider
-              
+
               // 관심장소
               VStack(spacing: 36) {
                 favoritePlaceTitle
@@ -157,14 +157,14 @@ struct ProfileView: View {
                 )
                 .environmentObject(favoritePlacesVM)
               }.padding(.horizontal, GridLayout.side)
-              
+
               // 내 커뮤니티 활동으로 가기
               if isMyProfile {
                 divider
                 linkToMyCommunity
                   .padding(.horizontal, GridLayout.side)
               }
-              
+
             }
             .padding(.top, 20)
             .padding(.bottom, 50)
@@ -195,8 +195,8 @@ struct ProfileView: View {
               .navigationBarBackButtonHidden()
           case .followHubView:
             isMyProfile
-            ? FollowHubView().navigationBarBackButtonHidden()
-            : FollowHubView(userId: userId).navigationBarBackButtonHidden()
+              ? FollowHubView().navigationBarBackButtonHidden()
+              : FollowHubView(userId: userId).navigationBarBackButtonHidden()
           case .potoRegisterView:
             POTDPickerView().navigationBarBackButtonHidden()
           case .mainJournalRegisterView:

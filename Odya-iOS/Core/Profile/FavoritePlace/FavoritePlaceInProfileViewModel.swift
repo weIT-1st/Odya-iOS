@@ -46,7 +46,6 @@ class FavoritePlaceInProfileViewModel: ObservableObject {
     self.getOthersFavoritePlaces(userId: userId)
     self.getOthersCount(userId: userId)
 
-
   }
 
   func updateFavoritePlaces(userId: Int) {
