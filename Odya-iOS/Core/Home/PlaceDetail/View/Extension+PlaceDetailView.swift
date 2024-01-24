@@ -122,20 +122,21 @@ extension PlaceDetailView {
     VStack(spacing: 28) {
       PlaceDetailContentTypeSelection(contentType: .review, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       
-      VStack(spacing: 24) {
-        VStack(spacing: 36) {
-          reviewHeader
-          StarRatingView(rating: .constant(reviewVM.averageStarRating), size: .M)
-            .disabled(true)
-        } // header
-        
-        if let isReviewExisted = reviewVM.isReviewExisted {
-          if !isReviewExisted {
-            newReviewTrigger
+      VStack(spacing: 12) {
+        VStack(spacing: 24) {
+          VStack(spacing: 36) {
+            reviewHeader
+            StarRatingView(rating: .constant(reviewVM.averageStarRating), size: .M)
+              .disabled(true)
+          } // header
+          
+          if let isReviewExisted = reviewVM.isReviewExisted {
+            if !isReviewExisted {
+              newReviewTrigger
+            }
           }
+          reviewSortMenu
         }
-        // TODO: 정렬
-        
         // list
         if reviewVM.reviewState.content.isEmpty {
           NoContentDescriptionView(title: "아직 리뷰가 없어요.", withLogo: true)
@@ -157,7 +158,7 @@ extension PlaceDetailView {
       }
     } // VStack
     .onChange(of: reviewVM.needToRefresh) { _ in
-      reviewVM.refreshReviewByPlace(placeId: placeInfo.placeId)
+      reviewVM.refreshAllReviewContent(placeId: placeInfo.placeId, sortType: selectedReviewSortType.sortType)
     }
   }
   
@@ -187,6 +188,28 @@ extension PlaceDetailView {
       }
     }
     .padding(.horizontal, GridLayout.side)
+  }
+  
+  private var reviewSortMenu: some View {
+    HStack(spacing: 8) {
+      Spacer()
+      Menu {
+        ForEach(ReviewSortType.allCases, id: \.self) { item in
+          if item != selectedReviewSortType {
+            Button(item.title) {
+              selectedReviewSortType = item
+              reviewVM.sortReivew(placeId: placeInfo.placeId, sortType: selectedReviewSortType.sortType)
+            }
+          }
+        }
+      } label: {
+        Text(selectedReviewSortType.title)
+          .detail2Style()
+          .foregroundColor(.odya.label.normal)
+        Image("direction-down")
+      }
+    }
+    .padding(.horizontal, 25)
   }
   
   private var newReviewTrigger: some View {

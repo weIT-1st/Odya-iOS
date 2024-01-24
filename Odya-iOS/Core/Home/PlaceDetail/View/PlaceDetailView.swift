@@ -24,6 +24,27 @@ enum PlaceDetailContentType: Int, CaseIterable {
   }
 }
 
+enum ReviewSortType: String, CaseIterable {
+  case latest
+  case highest
+  case lowest
+  
+  var title: String {
+    switch self {
+    case .latest:
+      return "최신순"
+    case .highest:
+      return "별점 높은순"
+    case .lowest:
+      return "별점 낮은순"
+    }
+  }
+  
+  var sortType: String {
+    return self.rawValue.uppercased()
+  }
+}
+
 /// 장소 상세보기 뷰
 struct PlaceDetailView: View {
   // MARK: Properties
@@ -34,6 +55,7 @@ struct PlaceDetailView: View {
   @StateObject var placeDetailVM = PlaceDetailViewModel()
   @StateObject var reviewVM = ReviewViewModel()
   @State var showReviewComposeView: Bool = false
+  @State var selectedReviewSortType: ReviewSortType = .latest
   @State var scrollDestination: PlaceDetailContentType = .journal
   @State var isScrollDestinationChanged: Bool = false
   
@@ -100,8 +122,7 @@ struct PlaceDetailView: View {
         placeDetailVM.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
       }
       .task {
-        reviewVM.fetchReviewInfo(placeId: placeInfo.placeId)
-        reviewVM.fetchReviewByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+        reviewVM.refreshAllReviewContent(placeId: placeInfo.placeId, sortType: selectedReviewSortType.sortType)
       }
     }
   }

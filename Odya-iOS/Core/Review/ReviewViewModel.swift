@@ -118,17 +118,22 @@ final class ReviewViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
-  func refreshReviewByPlace(placeId: String) {
+  func refreshAllReviewContent(placeId: String, sortType: String) {
     fetchReviewInfo(placeId: placeId)
     self.reviewState = ReviewState()
-    fetchReviewByPlaceNextPageIfPossible(placeId: placeId)
+    fetchReviewByPlaceNextPageIfPossible(placeId: placeId, sortType: sortType)
   }
   
-  func fetchReviewByPlaceNextPageIfPossible(placeId: String) {
+  func sortReivew(placeId: String, sortType: String) {
+    self.reviewState = ReviewState()
+    fetchReviewByPlaceNextPageIfPossible(placeId: placeId, sortType: sortType)
+  }
+  
+  func fetchReviewByPlaceNextPageIfPossible(placeId: String, sortType: String) {
     guard reviewState.canLoadNextPage else { return }
     if placeId.isEmpty { return }
     
-    reviewProvider.requestPublisher(.readPlaceIdReview(placeId: placeId, size: nil, sortType: nil, lastId: reviewState.lastId))
+    reviewProvider.requestPublisher(.readPlaceIdReview(placeId: placeId, size: nil, sortType: sortType, lastId: reviewState.lastId))
       .sink { completion in
         switch completion {
         case .finished:
