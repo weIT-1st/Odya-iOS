@@ -26,12 +26,14 @@ extension PlaceDetailView {
               LazyHStack(spacing: 8) {
                 ForEach(placeDetailVM.friendsJournalState.content, id: \.id) { content in
                   // TODO: navigation
-                  friendsJournalCell(content: content)
-                    .onAppear {
-                      if content.journalId == placeDetailVM.friendsJournalState.lastId {
-                        placeDetailVM.fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                  NavigationLink(value: PlaceDetailRoute.journalDetail(id: content.journalId)) {
+                    friendsJournalCell(content: content)
+                      .onAppear {
+                        if content.journalId == placeDetailVM.friendsJournalState.lastId {
+                          placeDetailVM.fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                        }
                       }
-                    }
+                  }
                 }
               }
             }
@@ -45,13 +47,14 @@ extension PlaceDetailView {
             ScrollView(.horizontal, showsIndicators: false) {
               LazyHStack(spacing: 8) {
                 ForEach(placeDetailVM.recommendedJournalState.content, id: \.id) { content in
-                  // TODO: navigation
-                  recommendJournalCell(url: content.imageUrl)
-                    .onAppear {
-                      if content.journalId == placeDetailVM.recommendedJournalState.lastId {
-                        placeDetailVM.fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                  NavigationLink(value: PlaceDetailRoute.journalDetail(id: content.journalId)) {
+                    recommendJournalCell(url: content.imageUrl)
+                      .onAppear {
+                        if content.journalId == placeDetailVM.recommendedJournalState.lastId {
+                          placeDetailVM.fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                        }
                       }
-                    }
+                  }
                 }
               }
             }
@@ -152,17 +155,19 @@ extension PlaceDetailView {
               PlaceReviewCell(review: myReview)
                 .environmentObject(reviewVM)
             }
-            ForEach(reviewVM.reviewState.content.prefix(5), id: \.reviewId) { review in
+            ForEach(reviewVM.reviewState.content.prefix(maxReviewCount), id: \.reviewId) { review in
               if review.writer.userID != MyData.userID {
                 PlaceReviewCell(review: review)
               }
             }
             // 더보기
             if let totalCount = reviewVM.reviewCount {
-              ShowMoreButton(labelText: "\(totalCount - reviewVM.reviewState.content.prefix(5).count)개의 리뷰 더보기") {
-                showFullReviewBottomSheet.toggle()
+              if totalCount > maxReviewCount {
+                ShowMoreButton(labelText: "\(totalCount - reviewVM.reviewState.content.prefix(maxReviewCount).count)개의 리뷰 더보기") {
+                  showFullReviewBottomSheet.toggle()
+                }
+                .padding(.horizontal, GridLayout.side)
               }
-              .padding(.horizontal, GridLayout.side)
             }
           }
         }

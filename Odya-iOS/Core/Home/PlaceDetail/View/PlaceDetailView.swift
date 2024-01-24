@@ -60,6 +60,7 @@ struct PlaceDetailView: View {
   @State var scrollDestination: PlaceDetailContentType = .journal
   @State var isScrollDestinationChanged: Bool = false
   
+  let maxReviewCount: Int = 5
   /// Grid columns
   var columns = [GridItem(.flexible(), spacing: 3),
                  GridItem(.flexible(), spacing: 3),
