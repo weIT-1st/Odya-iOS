@@ -13,42 +13,46 @@ extension PlaceDetailView {
     VStack(spacing: 28) {
       PlaceDetailContentTypeSelection(contentType: .journal, destination: $scrollDestination, isDestinationChanged: $isScrollDestinationChanged)
       VStack(spacing: 48) {
-        VStack(spacing: 36) {
+        VStack(spacing: 32) {
           journalTypeTitle(title: "나의 여행일지")
           NoJournalCardView()
         }
-        VStack(spacing: 36) {
+        VStack(spacing: 32) {
           journalTypeTitle(title: "친구의 여행일지")
           if placeDetailVM.friendsJournalState.content.isEmpty {
             NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
           } else {
-            LazyHStack(spacing: 8) {
-              ForEach(placeDetailVM.friendsJournalState.content, id: \.id) { content in
-                // TODO: navigation
-                friendsJournalCell(content: content)
-                  .onAppear {
-                    if content.journalId == placeDetailVM.friendsJournalState.lastId {
-                      placeDetailVM.fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+            ScrollView(.horizontal, showsIndicators: false) {
+              LazyHStack(spacing: 8) {
+                ForEach(placeDetailVM.friendsJournalState.content, id: \.id) { content in
+                  // TODO: navigation
+                  friendsJournalCell(content: content)
+                    .onAppear {
+                      if content.journalId == placeDetailVM.friendsJournalState.lastId {
+                        placeDetailVM.fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                      }
                     }
-                  }
+                }
               }
             }
           }
         }
-        VStack(spacing: 36) {
+        VStack(spacing: 32) {
           journalTypeTitle(title: "추천 여행일지")
           if placeDetailVM.recommendedJournalState.content.isEmpty {
             NoContentDescriptionView(title: "여행일지가 없어요.", withLogo: false)
           } else {
-            LazyHStack(spacing: 8) {
-              ForEach(placeDetailVM.recommendedJournalState.content, id: \.id) { content in
-                // TODO: navigation
-                recommendJournalCell(url: content.imageUrl)
-                  .onAppear {
-                    if content.journalId == placeDetailVM.recommendedJournalState.lastId {
-                      placeDetailVM.fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+            ScrollView(.horizontal, showsIndicators: false) {
+              LazyHStack(spacing: 8) {
+                ForEach(placeDetailVM.recommendedJournalState.content, id: \.id) { content in
+                  // TODO: navigation
+                  recommendJournalCell(url: content.imageUrl)
+                    .onAppear {
+                      if content.journalId == placeDetailVM.recommendedJournalState.lastId {
+                        placeDetailVM.fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+                      }
                     }
-                  }
+                }
               }
             }
           }
@@ -79,6 +83,7 @@ extension PlaceDetailView {
           Text(content.writer.nickname)
             .b1Style()
             .foregroundColor(.odya.label.normal)
+            .lineLimit(1)
         }
         Spacer()
         Text(content.travelStartDate.dateToString(format: "yyyy.MM.dd"))
@@ -87,7 +92,7 @@ extension PlaceDetailView {
       }
     }
     .padding(16)
-    .frame(height: 200, alignment: .leading)
+    .frame(width: 232, height: 200, alignment: .leading)
     .background(
       AsyncImage(url: URL(string: content.imageUrl)!) { image in
         image
