@@ -143,7 +143,7 @@ final class ReviewViewModel: ObservableObject {
         }
       } receiveValue: { response in
         if let data = try? response.map(ReviewListResponse.self) {
-          self.reviewState.content = data.content
+          self.reviewState.content += data.content
           self.reviewState.lastId = data.content.last?.reviewId
           self.reviewState.canLoadNextPage = data.hasNext
           

@@ -106,6 +106,7 @@
 		19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */; };
 		19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */; };
 		19EBA7722ABC27D8000ABBE5 /* FeedFullCommentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */; };
+		19F9286C2B60D5CF009CDDCB /* ShowMoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F9286B2B60D5CF009CDDCB /* ShowMoreButton.swift */; };
 		3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */; };
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
@@ -364,6 +365,7 @@
 		19EBA7662AB42D1B000ABBE5 /* FeedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCommentView.swift; sourceTree = "<group>"; };
 		19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserInfoView.swift; sourceTree = "<group>"; };
 		19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFullCommentSheet.swift; sourceTree = "<group>"; };
+		19F9286B2B60D5CF009CDDCB /* ShowMoreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreButton.swift; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
 		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthViewModel.swift; sourceTree = "<group>"; };
 		3E0589002A276E84005C29D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1218,6 +1220,7 @@
 				195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */,
 				3EE1036A2AD483F2004EDCEB /* StarButton.swift */,
 				192715452B58E10F00B20A70 /* PlaceTagButton.swift */,
+				19F9286B2B60D5CF009CDDCB /* ShowMoreButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1600,6 +1603,7 @@
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				3E2F296C2B29BAA000FF5357 /* FavoritePlaceInProfileViewModel.swift in Sources */,
+				19F9286C2B60D5CF009CDDCB /* ShowMoreButton.swift in Sources */,
 				3E4670162B13611100B54D0A /* AppIntroductionView.swift in Sources */,
 				19DE0ABA2B43E6FA0079A660 /* RankViewModel.swift in Sources */,
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,

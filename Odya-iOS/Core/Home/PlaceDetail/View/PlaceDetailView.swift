@@ -55,6 +55,7 @@ struct PlaceDetailView: View {
   @StateObject var placeDetailVM = PlaceDetailViewModel()
   @StateObject var reviewVM = ReviewViewModel()
   @State var showReviewComposeView: Bool = false
+  @State var showFullReviewBottomSheet: Bool = false
   @State var selectedReviewSortType: ReviewSortType = .latest
   @State var scrollDestination: PlaceDetailContentType = .journal
   @State var isScrollDestinationChanged: Bool = false

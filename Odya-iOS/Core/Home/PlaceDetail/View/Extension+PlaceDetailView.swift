@@ -147,7 +147,6 @@ extension PlaceDetailView {
           NoContentDescriptionView(title: "아직 리뷰가 없어요.", withLogo: true)
             .frame(height: 280)
         } else {
-          // TODO: 더보기, 무한스크롤?
           VStack(spacing: 16) {
             if let myReview = reviewVM.myReview {
               PlaceReviewCell(review: myReview)
@@ -158,12 +157,36 @@ extension PlaceDetailView {
                 PlaceReviewCell(review: review)
               }
             }
+            // 더보기
+            if let totalCount = reviewVM.reviewCount {
+              ShowMoreButton(labelText: "\(totalCount - reviewVM.reviewState.content.prefix(5).count)개의 리뷰 더보기") {
+                showFullReviewBottomSheet.toggle()
+              }
+              .padding(.horizontal, GridLayout.side)
+            }
           }
         }
       }
     } // VStack
     .onChange(of: reviewVM.needToRefresh) { _ in
       reviewVM.refreshAllReviewContent(placeId: placeInfo.placeId, sortType: selectedReviewSortType.sortType)
+    }
+    .sheet(isPresented: $showFullReviewBottomSheet) {
+      ScrollView(.vertical, showsIndicators: false) {
+        LazyVStack {
+          ForEach(reviewVM.reviewState.content, id: \.id) { review in
+            PlaceReviewCell(review: review)
+              .onAppear {
+                if review.reviewId == reviewVM.reviewState.lastId {
+                  reviewVM.fetchReviewByPlaceNextPageIfPossible(placeId: placeInfo.placeId, sortType: selectedReviewSortType.sortType)
+                }
+              }
+          }
+        }
+        .padding(.vertical, 36)
+      }
+      .background(Color.odya.background.normal)
+      .presentationDetents([.medium, .large])
     }
   }
   
