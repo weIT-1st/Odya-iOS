@@ -48,6 +48,7 @@ final class PlaceDetailViewModel: ObservableObject {
   
   @Published private(set) var friendsJournalState = JournalState()
   @Published private(set) var recommendedJournalState = JournalState()
+  @Published var myJournalList: [TravelJournalData] = []
   
   // MARK: - Helper functions
   
@@ -133,13 +134,26 @@ extension PlaceDetailViewModel {
   // MARK: Travel Journal
   func fetchTravelJournal(placeId: String) {
     if placeId.isEmpty { return }
-    fetchMyTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
+    fetchMyTravelJournalByPlace(placeId: placeId)
     fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
     fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
   }
   
-  private func fetchMyTravelJournalByPlaceNextPageIfPossible(placeId: String) {
-    
+  private func fetchMyTravelJournalByPlace(placeId: String) {
+    journalRouter.requestPublisher(.getMyJournals(token: idToken ?? "", size: 1, lastId: nil, placeId: placeId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 상세보기 - 나의 여행일지 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(TravelJournalList.self) {
+          self.myJournalList = data.content
+        }
+      }
+      .store(in: &subscription)
   }
   
   func fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: String) {

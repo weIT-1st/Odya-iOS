@@ -15,7 +15,14 @@ extension PlaceDetailView {
       VStack(spacing: 48) {
         VStack(spacing: 32) {
           journalTypeTitle(title: "나의 여행일지")
-          NoJournalCardView()
+          if let myJournal = placeDetailVM.myJournalList.first {
+            NavigationLink(value: PlaceDetailRoute.journalDetail(id: myJournal.journalId)) {
+              // TODO: My Journal Card View
+              Text(myJournal.content)
+            }
+          } else {
+            NoJournalCardView()
+          }
         }
         VStack(spacing: 32) {
           journalTypeTitle(title: "친구의 여행일지")
