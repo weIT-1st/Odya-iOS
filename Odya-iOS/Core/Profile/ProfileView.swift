@@ -70,146 +70,149 @@ struct ProfileView: View {
   // MARK: Body
 
   var body: some View {
-    NavigationStack(path: $path) {
-      ScrollView(.vertical) {
-        // 네비게이션 바, 프로필 이미지, 닉네임, 팔로우카운트
-        VStack(spacing: 24) {
-          topNavigationBar
-          Group {
-            profileImgAndNickname
-            followTotal
-          }.padding(.horizontal, GridLayout.side)
-        }
-        // blur처리된 배경화면
-        .background(
-          BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
-            .offset(y: -70)
-        )
-
-        // 타인의 프로필에서 작성된 여행일지가 없는 경우
-        if !isMyProfile
-          && profileVM.statistics.travelJournalCount == 0
-        {
-          NoContentDescriptionView(title: "아직 게시물이 없어요.", withLogo: true)
-        } else {
-          VStack(spacing: 20) {
-            // 오댜 카운트
-            VStack(spacing: 0) {
-              if profileVM.statistics.travelJournalCount == 0 {
-                NoJournalCardView()
-              } else {
-                odyaCounter
-              }
+    NavigationView {
+      NavigationStack(path: $path) {
+        ScrollView(.vertical) {
+          // 네비게이션 바, 프로필 이미지, 닉네임, 팔로우카운트
+          VStack(spacing: 24) {
+            topNavigationBar
+            Group {
+              profileImgAndNickname
+              followTotal
             }.padding(.horizontal, GridLayout.side)
+          }
+          // blur처리된 배경화면
+          .background(
+            BackgroundImageView(imageUrl: profileVM.potdList.first?.imageUrl ?? nil)
+              .offset(y: -70)
+          )
 
-            // 인생샷
-            VStack(spacing: 36) {
-              POTDTitle
-                .padding(.horizontal, GridLayout.side)
-              if !profileVM.potdList.isEmpty {
-                POTDListView($profileVM.potdList, isMyPOTD: isMyProfile)
-              } else if isMyProfile {  // 내 프로필에서 인생샷 없는 경우
-                emptyPOTDView
-              } else {  // 타인의 프로필에서 인생샷 없는 경우
-                NoContentDescriptionView(title: "인생샷이 없어요.", withLogo: false)
-              }
-            }
+          // 타인의 프로필에서 작성된 여행일지가 없는 경우
+          if !isMyProfile
+            && profileVM.statistics.travelJournalCount == 0
+          {
+            NoContentDescriptionView(title: "아직 게시물이 없어요.", withLogo: true)
+          } else {
+            VStack(spacing: 20) {
+              // 오댜 카운트
+              VStack(spacing: 0) {
+                if profileVM.statistics.travelJournalCount == 0 {
+                  NoJournalCardView()
+                } else {
+                  odyaCounter
+                }
+              }.padding(.horizontal, GridLayout.side)
 
-            divider
-
-            // 대표 여행일지
-            VStack(spacing: 36) {
-              mainJournalSectionTitle
-              if journalsVM.mainJournals.isEmpty {
-                NoContentDescriptionView(title: "대표 여행일지가 없어요.", withLogo: false)
-              } else {
-                let mainJournal = journalsVM.mainJournals[0]
-                Button(action: {
-                  path.append(
-                    ProfileRoute.journalDetail(
-                      journalId: mainJournal.journalId, nickname: mainJournal.writer.nickname))
-                }) {
-                  MainJournalCardView(mainJournal: mainJournal)
+              // 인생샷
+              VStack(spacing: 36) {
+                POTDTitle
+                  .padding(.horizontal, GridLayout.side)
+                if !profileVM.potdList.isEmpty {
+                  POTDListView($profileVM.potdList, isMyPOTD: isMyProfile)
+                } else if isMyProfile {  // 내 프로필에서 인생샷 없는 경우
+                  emptyPOTDView
+                } else {  // 타인의 프로필에서 인생샷 없는 경우
+                  NoContentDescriptionView(title: "인생샷이 없어요.", withLogo: false)
                 }
               }
-            }.padding(.horizontal, GridLayout.side)
 
-            divider
-
-            // 즐겨찾기 여행일지
-            VStack(spacing: 36) {
-              bookmarkedJournalTitle
-                .padding(.horizontal, GridLayout.side)
-              BookmarkedJournalListinProfileView(userId: userId, path: $path)
-                .environmentObject(journalsVM)
-            }
-
-            divider
-
-            // 관심장소
-            VStack(spacing: 36) {
-              favoritePlaceTitle
-              FavoritePlaceListView(
-                userId: userId,
-                rootTabViewIdx: $rootTabManager.selectedTab,
-                path: $path
-              )
-              .environmentObject(favoritePlacesVM)
-            }.padding(.horizontal, GridLayout.side)
-
-            // 내 커뮤니티 활동으로 가기
-            if isMyProfile {
               divider
-              linkToMyCommunity
-                .padding(.horizontal, GridLayout.side)
-            }
 
+              // 대표 여행일지
+              VStack(spacing: 36) {
+                mainJournalSectionTitle
+                if journalsVM.mainJournals.isEmpty {
+                  NoContentDescriptionView(title: "대표 여행일지가 없어요.", withLogo: false)
+                } else {
+                  let mainJournal = journalsVM.mainJournals[0]
+                  Button(action: {
+                    path.append(
+                      ProfileRoute.journalDetail(
+                        journalId: mainJournal.journalId, nickname: mainJournal.writer.nickname))
+                  }) {
+                    MainJournalCardView(mainJournal: mainJournal)
+                  }
+                }
+              }.padding(.horizontal, GridLayout.side)
+
+              divider
+
+              // 즐겨찾기 여행일지
+              VStack(spacing: 36) {
+                bookmarkedJournalTitle
+                  .padding(.horizontal, GridLayout.side)
+                BookmarkedJournalListinProfileView(userId: userId, path: $path)
+                  .environmentObject(journalsVM)
+              }
+
+              divider
+
+              // 관심장소
+              VStack(spacing: 36) {
+                favoritePlaceTitle
+                FavoritePlaceListView(
+                  userId: userId,
+                  rootTabViewIdx: $rootTabManager.selectedTab,
+                  path: $path
+                )
+                .environmentObject(favoritePlacesVM)
+              }.padding(.horizontal, GridLayout.side)
+
+              // 내 커뮤니티 활동으로 가기
+              if isMyProfile {
+                divider
+                linkToMyCommunity
+                  .padding(.horizontal, GridLayout.side)
+              }
+
+            }
+            .padding(.top, 20)
+            .padding(.bottom, 50)
           }
-          .padding(.top, 20)
-          .padding(.bottom, 50)
         }
+        .background(Color.odya.background.normal)
+        .onAppear {
+          if userId > 0 {
+            profileVM.initData(userId, nickname, profileUrl)
+          }
+          // 잘못된 유저 아이디인 경우, 유저 데이터 다시 받아오기
+          else {
+            let myData = MyData()
+            profileVM.initData(
+              MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
+          }
+        }
+        // 프로필 뷰에서 필요한 데이터 받아오기
+        .task {
+          await profileVM.fetchDataAsync()
+          journalsVM.fetchDataAsync(userId: userId)
+        }
+        // stackViewType에 따라 이동할 목적지 뷰
+        .navigationDestination(for: ProfileRoute.self) { stackViewType in
+          switch stackViewType {
+          case .settingView:
+            SettingView()
+              .navigationBarBackButtonHidden()
+          case .followHubView:
+            isMyProfile
+              ? FollowHubView().navigationBarBackButtonHidden()
+              : FollowHubView(userId: userId).navigationBarBackButtonHidden()
+          case .potoRegisterView:
+            POTDPickerView().navigationBarBackButtonHidden()
+          case .mainJournalRegisterView:
+            MainJournalSelectorView(
+              path: $path,
+              orgMainJournal: journalsVM.mainJournals.first
+            )
+            .environmentObject(journalsVM)
+          case .journalDetail(let journalId, let nickname):
+            TravelJournalDetailView(journalId: journalId, nickname: nickname)
+              .navigationBarBackButtonHidden()
+          case .myCommunity:
+            MyCommunityActivityView()
+          }
+        }  // navigation destination
       }
-      .background(Color.odya.background.normal)
-      .onAppear {
-        if userId > 0 {
-          profileVM.initData(userId, nickname, profileUrl)
-        }
-        // 잘못된 유저 아이디인 경우, 유저 데이터 다시 받아오기
-        else {
-          let myData = MyData()
-          profileVM.initData(
-            MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
-        }
-      }
-      // 프로필 뷰에서 필요한 데이터 받아오기
-      .task {
-        await profileVM.fetchDataAsync()
-        journalsVM.fetchDataAsync(userId: userId)
-      }
-      // stackViewType에 따라 이동할 목적지 뷰
-      .navigationDestination(for: ProfileRoute.self) { stackViewType in
-        switch stackViewType {
-        case .settingView:
-          SettingView().navigationBarBackButtonHidden()
-        case .followHubView:
-          isMyProfile
-            ? FollowHubView().navigationBarBackButtonHidden()
-            : FollowHubView(userId: userId).navigationBarBackButtonHidden()
-        case .potoRegisterView:
-          POTDPickerView().navigationBarBackButtonHidden()
-        case .mainJournalRegisterView:
-          MainJournalSelectorView(
-            path: $path,
-            orgMainJournal: journalsVM.mainJournals.first
-          )
-          .environmentObject(journalsVM)
-        case .journalDetail(let journalId, let nickname):
-          TravelJournalDetailView(journalId: journalId, nickname: nickname)
-            .navigationBarBackButtonHidden()
-        case .myCommunity:
-          MyCommunityActivityView()
-        }
-      }  // navigation destination
     }
   }
 }
@@ -303,8 +306,8 @@ private struct BackgroundImageView: View {
   }
 }
 
-//struct ProfileView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    ProfileView()
-//  }
-//}
+struct ProfileView_Previews: PreviewProvider {
+  static var previews: some View {
+    ProfileView()
+  }
+}
