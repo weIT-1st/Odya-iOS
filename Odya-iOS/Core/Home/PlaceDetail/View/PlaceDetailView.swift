@@ -31,7 +31,8 @@ struct PlaceDetailView: View {
   @Binding var isPresented: Bool
   @Binding var path: NavigationPath
   
-  @StateObject var viewModel = PlaceDetailViewModel()
+  @StateObject var placeDetailVM = PlaceDetailViewModel()
+  @StateObject var reviewVM = ReviewViewModel()
   @State var showReviewComposeView: Bool = false
   @State var scrollDestination: PlaceDetailContentType = .journal
   @State var isScrollDestinationChanged: Bool = false
@@ -88,16 +89,19 @@ struct PlaceDetailView: View {
       .frame(maxWidth: .infinity)
       .sheet(isPresented: $showReviewComposeView) {
         ReviewComposeView(isPresented: $showReviewComposeView, placeId: $placeInfo.placeId)
+          .environmentObject(reviewVM)
           .presentationDetents([.medium])
           .presentationDragIndicator(.visible)
       }
+      .onAppear {
+        placeDetailVM.fetchPlaceImage(placeId: placeInfo.placeId, token: placeInfo.sessionToken)
+        placeDetailVM.fetchVisitingUser(placeId: placeInfo.placeId)
+        placeDetailVM.fetchTravelJournal(placeId: placeInfo.placeId)
+        placeDetailVM.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+      }
       .task {
-        viewModel.fetchPlaceImage(placeId: placeInfo.placeId, token: placeInfo.sessionToken)
-        viewModel.fetchVisitingUser(placeId: placeInfo.placeId)
-        viewModel.fetchTravelJournal(placeId: placeInfo.placeId)
-        viewModel.fetchReviewInfo(placeId: placeInfo.placeId)
-        viewModel.fetchReviewByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
-        viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+        reviewVM.fetchReviewInfo(placeId: placeInfo.placeId)
+        reviewVM.fetchReviewByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
       }
     }
   }
@@ -131,7 +135,7 @@ struct PlaceDetailView: View {
   
   private var visitorView: some View {
     VStack {
-      if let count = viewModel.visitorCount {
+      if let count = placeDetailVM.visitorCount {
         if count > 0 {
           HStack {
             HStack(spacing: 16) {
@@ -142,7 +146,7 @@ struct PlaceDetailView: View {
             }
             Spacer()
             HStack(spacing: -4) {
-              ForEach(viewModel.visitorList.prefix(3), id: \.id) { visitor in
+              ForEach(placeDetailVM.visitorList.prefix(3), id: \.id) { visitor in
                 ProfileImageView(of: "", profileData: visitor.profile, size: .S)
               }
             }
@@ -161,7 +165,7 @@ struct PlaceDetailView: View {
   /// 장소 사진, 이름, 주소, 다녀간 친구, 관심장소 설정 버튼 포함
   private var overview: some View {
     ZStack(alignment: .bottomTrailing) {
-      if let photo = viewModel.placeImage {
+      if let photo = placeDetailVM.placeImage {
         Image(uiImage: photo)
           .resizable()
           .frame(maxWidth: .infinity)

@@ -12,7 +12,10 @@ struct PlaceReviewCell: View {
   let starRating: Double
   let isMyReview: Bool
   
+  @EnvironmentObject var viewModel: ReviewViewModel
   @State private var showUserProfile: Bool = false
+  @State private var showReviewEidtView: Bool = false
+  @State private var showReportView: Bool = false
   
   init(review: Review) {
     self.review = review
@@ -59,8 +62,20 @@ struct PlaceReviewCell: View {
                 .foregroundColor(isMyReview ? .odya.label.r_normal : .odya.label.normal)
               StarRatingView(rating: .constant(starRating), size: .S, isMyReview: isMyReview)
               Spacer()
-              Button {
-                
+              Menu {
+                if isMyReview {
+                  Button("리뷰 수정") {
+                    showReviewEidtView.toggle()
+                  }
+                  Button("리뷰 삭제") {
+                    viewModel.deleteReview(reviewId: review.reviewId)
+                  }
+                } else {
+                  Button("신고하기") {
+                    print("신고하기 눌림!!")
+                    showReportView.toggle()
+                  }
+                }
               } label: {
                 Image("menu-kebob")
                   .renderingMode(.template)
@@ -86,6 +101,20 @@ struct PlaceReviewCell: View {
     .padding(.horizontal, GridLayout.side)
     .padding(.vertical, isMyReview ? 10 : 0)
     .background(isMyReview ? Color.odya.elevation.elev4 : Color.clear)
+    .fullScreenCover(isPresented: $showReportView) {
+      ReportView(reportTarget: .placeReview,
+                 id: review.reviewId,
+                 isPresented: $showReportView)
+    }
+    .sheet(isPresented: $showReviewEidtView) {
+      ReviewComposeView(isPresented: $showReportView,
+                        placeId: .constant(review.placeId),
+                        reviewId: review.reviewId,
+                        reviewText: review.review, rating: Double(review.starRating) / 2)
+        .environmentObject(viewModel)
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
+    }
   }
 }
 
