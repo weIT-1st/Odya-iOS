@@ -11,13 +11,13 @@ import SwiftUI
 struct RegisterFollowsView: View {
   
   /// 회원가입 단계
-  @Binding var signUpStep: Int
+  @Binding var isModalOn: Bool
   
   /// 사용자 닉네임
   let nickname: String
   
-  init(_ step: Binding<Int>, nickname: String) {
-    self._signUpStep = step
+  init(_ isModalOn: Binding<Bool>, nickname: String) {
+    self._isModalOn = isModalOn
     self.nickname = nickname
   }
   
@@ -47,7 +47,8 @@ struct RegisterFollowsView: View {
       
       // next button
       CTAButton( isActive: .active, buttonStyle: .solid, labelText: "등록 완료", labelSize: .L) {
-        signUpStep += 1
+        self.isModalOn = false
+        
       }
       .padding(.bottom, 45)
     }

@@ -57,8 +57,7 @@ struct Odya_iOSApp: App {
                 }
               }
               .fullScreenCover(isPresented: $isShowingAdditionalSetUpView) {
-                AdditionalSetUpView()
-                  .clearModalBackground()
+                AdditionalSetUpView($isShowingAdditionalSetUpView)
               }
             
           // 로그아웃 상태, 로그인 버튼 뷰 나옴
@@ -66,6 +65,9 @@ struct Odya_iOSApp: App {
             LoginView()
               .environmentObject(appleAuthVM)
               .environmentObject(kakaoAuthVM)
+              .onAppear {
+                appDataManager.idToken = nil
+              }
             
           // 회원가입
           case .unauthorized:
@@ -75,8 +77,9 @@ struct Odya_iOSApp: App {
               } else if authType == "apple" {
                 SignUpView(signUpInfo: appleAuthVM.userInfo)
               }
-            } else {
-              ProgressView()
+            }
+            else {
+              Text("Error. Try again!")
             }
           }
         } // if ready

@@ -182,8 +182,8 @@ extension RegisterTopicsView {
   }
 }
 
-//struct RegisterTopicsView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    RegisterTopicsView(.constant(3), nickname: "길동아밥먹자")
-//  }
-//}
+struct RegisterTopicsView_Previews: PreviewProvider {
+  static var previews: some View {
+    RegisterTopicsView(.constant(3), nickname: "길동아밥먹자")
+  }
+}

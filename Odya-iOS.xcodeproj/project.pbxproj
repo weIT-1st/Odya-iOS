@@ -150,6 +150,7 @@
 		3E309F2C2B3A3813000B18C7 /* MyReviewListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E309F2B2B3A3813000B18C7 /* MyReviewListViewModel.swift */; };
 		3E36EC732A2B596C006008E5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E36EC722A2B596C006008E5 /* MainView.swift */; };
 		3E3A3F3E2B5E9AE600F980B6 /* SignUpIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3A3F3D2B5E9AE600F980B6 /* SignUpIndicatorView.swift */; };
+		3E3A3F402B5F67C100F980B6 /* RegisterUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3A3F3F2B5F67C100F980B6 /* RegisterUserInfoView.swift */; };
 		3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AC2A388AA5002BF519 /* Alamofire */; };
 		3E3EC3B02A388AC0002BF519 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3AF2A388AC0002BF519 /* SwiftyJSON */; };
 		3E3EC3B32A388ADE002BF519 /* webp in Frameworks */ = {isa = PBXBuildFile; productRef = 3E3EC3B22A388ADE002BF519 /* webp */; };
@@ -405,6 +406,7 @@
 		3E309F2B2B3A3813000B18C7 /* MyReviewListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReviewListViewModel.swift; sourceTree = "<group>"; };
 		3E36EC722A2B596C006008E5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		3E3A3F3D2B5E9AE600F980B6 /* SignUpIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpIndicatorView.swift; sourceTree = "<group>"; };
+		3E3A3F3F2B5F67C100F980B6 /* RegisterUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserInfoView.swift; sourceTree = "<group>"; };
 		3E414B2B2AD6941C00034FBB /* AppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataManager.swift; sourceTree = "<group>"; };
 		3E414B2D2ADB283B00034FBB /* TravelJournalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelJournalRouter.swift; sourceTree = "<group>"; };
 		3E414B2F2ADC0ED000034FBB /* ContentComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentComposeView.swift; sourceTree = "<group>"; };
@@ -1039,10 +1041,10 @@
 		3E4670232B1601E500B54D0A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */,
 				3EF7C1EB2A7ABEFB00223366 /* SignUpView.swift */,
 				3E4670152B13611100B54D0A /* AppIntroductionView.swift */,
 				19EBA7582AB16E2C000ABBE5 /* TermsView.swift */,
+				3E3A3F3F2B5F67C100F980B6 /* RegisterUserInfoView.swift */,
 				3EF7C1E72A742D1400223366 /* NicknameView.swift */,
 				3EF7C1E92A758A3200223366 /* DefaultInfoView.swift */,
 				3E4670322B1F4F7700B54D0A /* AdditionalSetUpView.swift */,
@@ -1106,6 +1108,7 @@
 		3E9E98902A8B7A2300909653 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				3E46701B2B147FCC00B54D0A /* SignUpViewModel.swift */,
 				3E4670232B1601E500B54D0A /* View */,
 			);
 			path = SignUp;
@@ -1653,6 +1656,7 @@
 				0784964B2A84F72C00A490E3 /* PostContentView.swift in Sources */,
 				3E2F29602B294EC000FF5357 /* MainJournalCardView.swift in Sources */,
 				3EBEC3A62A6D28AA00998EC6 /* ToggleButton.swift in Sources */,
+				3E3A3F402B5F67C100F980B6 /* RegisterUserInfoView.swift in Sources */,
 				3E25FABB2A8434CC00ADF6E2 /* Binding.swift in Sources */,
 				3E25FAB92A8280AD00ADF6E2 /* UserInfoField.swift in Sources */,
 				19BA67E22B4BDE6500213678 /* PlaceDetailViewModel.swift in Sources */,

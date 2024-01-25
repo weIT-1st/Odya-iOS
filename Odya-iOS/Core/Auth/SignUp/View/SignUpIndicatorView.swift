@@ -10,7 +10,7 @@ import SwiftUI
 /// 사용자 정보를 입력받는 2단계에 대한 인디케이터
 struct SignUpIndicatorView: View {
   @Binding var step: Int
-  
+
   var body: some View {
     VStack {
       backButton
