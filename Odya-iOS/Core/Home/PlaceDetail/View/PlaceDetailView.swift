@@ -126,6 +126,7 @@ struct PlaceDetailView: View {
       }
       .task {
         reviewVM.refreshAllReviewContent(placeId: placeInfo.placeId, sortType: selectedReviewSortType.sortType)
+        bookmarkManager.checkIfFavoritePlace(placeId: placeInfo.placeId)
       }
     }
   }
@@ -225,8 +226,9 @@ struct PlaceDetailView: View {
       .padding(.bottom, 20)
       Button {
         // action: 관심장소 설정/해제
+        bookmarkManager.setBookmarkStateWithPlacdId(placeInfo.placeId)
       } label: {
-        Image("bookmark-off")
+        Image(bookmarkManager.isBookmarked ? "bookmark-yellow" : "bookmark-off")
       }
       .padding(.trailing, 41)
       .padding(.bottom, 31)

@@ -21,7 +21,7 @@ final class PlaceBookmarkManager: ObservableObject {
   var subscription = Set<AnyCancellable>()
   
   var isStateUpdating: Bool = false
-  var isBookmarked: Bool = false
+  @Published var isBookmarked: Bool = false
   
   /// 관심 장소 여부 확인
   func checkIfFavoritePlace(placeId: String) {
@@ -36,27 +36,23 @@ final class PlaceBookmarkManager: ObservableObject {
           self.processErrorResponse(error)
         }
       } receiveValue: { response in
-        
+        if let data = try? response.map(Bool.self) {
+          self.isBookmarked = data
+        }
       }
       .store(in: &subscription)
   }
   
   /// PlaceId(String)만 사용해 북마크 상태 변경
-  func setBookmarkStateWithPlacdId(_ isBookmarked: Bool, _ placeId: String,
-                                   completion: @escaping (Bool) -> Void) {
-    if isBookmarked {
-      deleteBookmarkWithPlaceId(of: placeId) { success in
-        completion(!success)
-      }
+  func setBookmarkStateWithPlacdId(_ placeId: String) {
+    if self.isBookmarked {
+      deleteBookmark(of: placeId)
     } else {
-      createBookmark(of: placeId) { success in
-        completion(success)
-      }
+      createBookmark(of: placeId)
     }
   }
   
-  private func createBookmark(of placeIdStr: String,
-                      completion: @escaping (Bool) -> Void) {
+  private func createBookmark(of placeIdStr: String) {
     if isStateUpdating {
       return
     }
@@ -67,18 +63,16 @@ final class PlaceBookmarkManager: ObservableObject {
         switch apiCompletion {
         case .finished:
           self.isStateUpdating = false
-          completion(true)
+          self.isBookmarked = true
         case .failure(let error):
           self.isStateUpdating = false
           self.processErrorResponse(error)
-          completion(false)
         }
       } receiveValue: { _ in }
       .store(in: &subscription)
   }
   
-  private func deleteBookmarkWithPlaceId(of placeId: String,
-                                         completion: @escaping (Bool) -> Void) {
+  private func deleteBookmark(of placeId: String) {
     if isStateUpdating {
       return
     }
@@ -89,11 +83,10 @@ final class PlaceBookmarkManager: ObservableObject {
         switch apiCompletion {
         case .finished:
           self.isStateUpdating = false
-          completion(true)
+          self.isBookmarked = false
         case .failure(let error):
           self.isStateUpdating = false
           self.processErrorResponse(error)
-          completion(false)
         }
       } receiveValue: { _ in }
       .store(in: &subscription)
