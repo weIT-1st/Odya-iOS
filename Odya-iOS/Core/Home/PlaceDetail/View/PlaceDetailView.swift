@@ -54,6 +54,7 @@ struct PlaceDetailView: View {
   
   @StateObject var placeDetailVM = PlaceDetailViewModel()
   @StateObject var reviewVM = ReviewViewModel()
+  @StateObject var bookmarkManager = PlaceBookmarkManager()
   @State var showReviewComposeView: Bool = false
   @State var showFullReviewBottomSheet: Bool = false
   @State var selectedReviewSortType: ReviewSortType = .latest
