@@ -17,6 +17,8 @@ enum FavoritePlaceRouter {
   case createFavoritePlace(placeId: String)
   // 2. 관심 장소 삭제
   case deleteFavoritePlace(id: Int)
+  // 3. 관심 장소 삭제
+  case deleteFavoritePlaceByPlacdId(placeId: String)
   // 4. 관심 장소 수 조회
   case getMyFavoritePlacesCount
   // 5. 타인의 관심 장소 수 조회
@@ -25,6 +27,8 @@ enum FavoritePlaceRouter {
   case getMyFavoritePlaces(size: Int?, sortType: PlaceSortType?, lastId: Int?)
   // 7. 타인의 관심 장소 리스트 조회
   case getOthersFavoritePlaces(userId: Int, size: Int?, sortType: PlaceSortType?, lastId: Int?)
+  // 8. 관심 장소 확인
+  case getIfMyFavoritePlace(placeId: String)
 }
 
 extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
@@ -38,6 +42,8 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/favorite-places"
     case .deleteFavoritePlace(let id):
       return "/api/v1/favorite-places/\(id)"
+    case .deleteFavoritePlaceByPlacdId(let placeId):
+      return "/api/v1/favorite-places/places/\(placeId)"
     case .getMyFavoritePlacesCount:
       return "/api/v1/favorite-places/counts"
     case .getOthersFavoritePlacesCount(let userId):
@@ -46,6 +52,8 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/favorite-places/list"
     case let .getOthersFavoritePlaces(userId, _, _, _):
       return "/api/v1/favorite-places/list/\(userId)"
+    case .getIfMyFavoritePlace(let placeId):
+      return "/api/v1/favorite-places/\(placeId)"
     }
   }
 
@@ -53,7 +61,7 @@ extension FavoritePlaceRouter: TargetType, AccessTokenAuthorizable {
     switch self {
     case .createFavoritePlace:
       return .post
-    case .deleteFavoritePlace:
+    case .deleteFavoritePlace, .deleteFavoritePlaceByPlacdId:
       return .delete
     default:
       return .get
