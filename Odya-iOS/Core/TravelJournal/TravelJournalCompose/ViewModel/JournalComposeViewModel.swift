@@ -247,6 +247,19 @@ class JournalComposeViewModel: ObservableObject {
       // webp 변환하기
       let images = dailyJournalList.flatMap { $0.selectedImages }
       let webPImages = await webPImageManager.processImages(images: images)
+      
+      // 사진 위치 정보 정리
+      dailyJournalList.indices.forEach { idx in
+        let images = dailyJournalList[idx].selectedImages
+        dailyJournalList[idx].latitudes = images.compactMap {
+          $0.location?.latitude
+        }
+        dailyJournalList[idx].longitudes = images.compactMap {
+          $0.location?.longitude
+        }
+      }
+      
+      debugPrint(dailyJournalList)
 
       // api 호출
       _ = try await createJournalAPI(idToken: idToken, webpImages: webPImages)
