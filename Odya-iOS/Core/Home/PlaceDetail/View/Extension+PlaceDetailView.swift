@@ -17,8 +17,7 @@ extension PlaceDetailView {
           journalTypeTitle(title: "나의 여행일지")
           if let myJournal = placeDetailVM.myJournalList.first {
             NavigationLink(value: PlaceDetailRoute.journalDetail(id: myJournal.journalId)) {
-              // TODO: My Journal Card View
-              Text(myJournal.content)
+              MyPlaceJournalCardView(myJournal: myJournal)
             }
           } else {
             NoJournalCardView()
