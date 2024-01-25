@@ -185,8 +185,8 @@ struct LocationSearchView: View {
     LazyHGrid(rows: rankColumns, spacing: 12) {
       ForEach(0..<rankVM.rankingList.count, id: \.self) { index in
         RankCell(index: index, title: rankVM.rankingList[index])
-          .frame(minWidth: rankVM.rankingList.count >= 5 ? maxGridWidth / 2 : maxGridWidth,
-                 maxWidth: rankVM.rankingList.count >= 5 ? maxGridWidth / 2 : maxGridWidth)
+          .frame(minWidth: rankVM.rankingList.count > 5 ? maxGridWidth / 2 : maxGridWidth,
+                 maxWidth: rankVM.rankingList.count > 5 ? maxGridWidth / 2 : maxGridWidth)
       }
     }
     .padding(.horizontal, GridLayout.side)

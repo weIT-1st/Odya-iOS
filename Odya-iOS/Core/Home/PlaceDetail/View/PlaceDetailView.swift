@@ -193,8 +193,10 @@ struct PlaceDetailView: View {
       if let photo = placeDetailVM.placeImage {
         Image(uiImage: photo)
           .resizable()
+          .aspectRatio(contentMode: .fill)
           .frame(maxWidth: .infinity)
           .frame(height: UIScreen.main.bounds.width * 0.586)
+          .clipped()
           .overlay(
             LinearGradient(
               stops: [
