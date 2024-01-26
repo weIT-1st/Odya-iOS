@@ -99,6 +99,31 @@ struct SearchUserData {
   static var recentSearchUser: [SearchedUserContent]?
 }
 
+/// 여행일지 임시저장
+struct TempTravelJournalData {
+  @UserDefault(key: keyEnum_TempTravelJournal.temporaryJournalExists.rawValue, defaultValue: false)
+  var dataExist: Bool
+  
+  @UserDefault(key: keyEnum_TempTravelJournal.journalId.rawValue, defaultValue: -1)
+  var journalId: Int
+
+  @UserDefault(key: keyEnum_TempTravelJournal.title.rawValue, defaultValue: "")
+  var title: String
+
+  @UserDefault(key: keyEnum_TempTravelJournal.startDate.rawValue, defaultValue: Date())
+  var startDate: Date
+  
+  @UserDefault(key: keyEnum_TempTravelJournal.endDate.rawValue, defaultValue: Date())
+  var endDate: Date
+  
+  @UserDefault(key: keyEnum_TempTravelJournal.mates.rawValue, defaultValue: [String]())
+  var mates: [String]
+  
+  @UserDefault(key: keyEnum_TempTravelJournal.privacyType.rawValue, defaultValue: "")
+  var privacyType
+  
+}
+
 enum keyEnum_MyData: String {
   case userId
   case nickname
@@ -116,4 +141,14 @@ enum keyEnum_APPLE_USER: String {
 enum keyEnum_Search: String {
   case recentSearchText
   case recentSearchUser
+}
+
+enum keyEnum_TempTravelJournal: String {
+  case temporaryJournalExists
+  case journalId
+  case title
+  case startDate
+  case endDate
+  case mates
+  case privacyType
 }
