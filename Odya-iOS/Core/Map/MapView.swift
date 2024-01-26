@@ -18,7 +18,8 @@ struct MapView: UIViewRepresentable {
   
   func makeUIView(context: Context) -> some GMSMapView {
     setupMyLocationButton()
-    
+    setupMapStyle()
+
     mapView.delegate = context.coordinator
     mapView.isUserInteractionEnabled = true
     mapView.isMyLocationEnabled = true
@@ -29,11 +30,6 @@ struct MapView: UIViewRepresentable {
     let location = locationManager.fetchCurrentLocation()
     let camera = GMSCameraPosition(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
     mapView.camera = camera
-    
-    // style
-    if let styleURL = Bundle.main.url(forResource: "TemporaryDarkMapStyle", withExtension: "json") {
-      mapView.mapStyle = try? GMSMapStyle(contentsOfFileURL: styleURL)
-    }
     
     return mapView
   }
@@ -64,6 +60,12 @@ struct MapView: UIViewRepresentable {
     myLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -20).isActive = true
   }
   
+  func setupMapStyle() {
+    if let styleURL = Bundle.main.url(forResource: "TemporaryDarkMapStyle", withExtension: "json") {
+      mapView.mapStyle = try? GMSMapStyle(contentsOfFileURL: styleURL)
+    }
+  }
+  
   func centerMyLocation() {
     let location = locationManager.fetchCurrentLocation()
     let camera = GMSCameraPosition(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
@@ -75,20 +77,16 @@ struct MapView: UIViewRepresentable {
   }
 }
 
+// MARK: - GMSMapViewDelegate
+
 extension MapView {
   class MapViewCoordinator: NSObject, GMSMapViewDelegate {
-    // MARK: - Properties
-    
     var parent: MapView
-    
-    // MARK: - Life cycle
-    
+        
     init(_ parent: MapView) {
       self.parent = parent
     }
-    
-    // MARK: - GMSMapViewDelegate
-    
+        
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
       
     }
