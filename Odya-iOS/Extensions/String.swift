@@ -20,3 +20,18 @@ extension String {
     }
   }
 }
+
+extension String {
+  func toJournalPrivacyType() -> PrivacyType {
+    switch self {
+    case "PUBLIC":
+      return .global
+    case "FRIEND_ONLY":
+      return .friendsOnly
+    case "PRIVATE":
+      return .personal
+    default:
+      return .global
+    }
+  }
+}

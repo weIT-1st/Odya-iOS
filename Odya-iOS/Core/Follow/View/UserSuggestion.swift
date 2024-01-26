@@ -11,8 +11,6 @@ import SwiftUI
 
 /// 알 수도 있는 친구 추천 리스트의 추천된 유저 뷰
 struct SuggestedUserView: View {
-  @EnvironmentObject var followHubVM: FollowHubViewModel
-
   let user: FollowUserData
 
   @State private var followState: Bool = false
@@ -33,30 +31,7 @@ struct SuggestedUserView: View {
                     .foregroundColor(.odya.label.assistive)
                  */
       }.frame(maxHeight: 35)
-
-      FollowButton(isFollowing: followState, buttonStyle: .solid) {
-        if followState == false {  // do following
-          followState = true
-          followHubVM.createFollow(user.userId)
-        } else {  // do unfollowing
-          showUnfollowingAlert = true
-        }
-      }
-      .alert("팔로잉을 취소하시겠습니까?", isPresented: $showUnfollowingAlert) {
-        HStack {
-          Button("취소") {
-            followState = true
-            showUnfollowingAlert = false
-          }
-          Button("삭제") {
-            followState = false
-            followHubVM.deleteFollow(user.userId)
-            showUnfollowingAlert = false
-          }
-        }
-      } message: {
-        Text("팔로잉 취소는 알람이 가지 않으며, 커뮤니티 게시글 등의 구독이 취소됩니다.")
-      }
+      FollowButtonWithAlertAndApi(userId: user.userId, buttonStyle: .solid, followState: false)
     }.frame(width: 96)
   }
 }
@@ -92,7 +67,7 @@ struct UserSuggestionView: View {
           HStack(spacing: 32) {
             ForEach(followHubVM.suggestedUsers) { suggestedUser in
               SuggestedUserView(user: suggestedUser)
-                .environmentObject(followHubVM)
+//                .environmentObject(followHubVM)
             }
           }
         }

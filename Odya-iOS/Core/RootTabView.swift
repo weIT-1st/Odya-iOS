@@ -7,38 +7,50 @@
 
 import SwiftUI
 
+class RootTabManager: ObservableObject {
+  @Published var selectedTab: Int = 0
+}
+
 struct RootTabView: View {
 
-    @EnvironmentObject var alertManager: AlertManager
-    
+//  @EnvironmentObject var alertManager: AlertManager
+  @StateObject var rootTabManager = RootTabManager()
+  // @StateObject var fullScreenManager = FullScreenCoverManager()
+  
   // MARK: Body
 
   var body: some View {
-    TabView {
+    TabView(selection: $rootTabManager.selectedTab) {
       // MARK: 홈
       HomeView()
+        .environmentObject(rootTabManager)
         .tabItem {
           GNBButton(iconImage: "location-m", text: "홈")
-        }
+        }.tag(0)
 
       // MARK: 내추억
       MyJournalsView()
-        .environmentObject(alertManager)
+        .environmentObject(rootTabManager)
+        // .environmentObject(fullScreenManager)
         .tabItem {
           GNBButton(iconImage: "diary", text: "내추억")
-        }
+        }.tag(1)
 
       // MARK: 피드
       FeedView()
+        .environmentObject(rootTabManager)
+        // .environmentObject(fullScreenManager)
         .tabItem {
           GNBButton(iconImage: "messages-off", text: "피드")
-        }
+        }.tag(2)
 
       // MARK: 내정보
       ProfileView()
+        .environmentObject(rootTabManager)
+        // .environmentObject(fullScreenManager)
         .tabItem {
           GNBButton(iconImage: "person-off", text: "내정보")
-        }
+        }.tag(3)
     }.accentColor(.odya.brand.primary)
   }
 }

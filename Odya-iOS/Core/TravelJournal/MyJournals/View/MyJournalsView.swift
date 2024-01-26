@@ -13,9 +13,16 @@ struct MyJournalsView: View {
     @EnvironmentObject var alertManager: AlertManager
     
   @StateObject var VM = MyJournalsViewModel()
+  @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
+  @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
+  @StateObject var myReviewsVM = MyReviewListViewModel()
 
-  // TODO: 즐겨찾기
-  @State private var isOn: Bool = true
+  @State private var isShowingRandomMainJournal: Bool = false
+  @State private var isShowingComposeView: Bool = false
+
+  var isNoJournals: Bool {
+    !VM.isMyJournalsLoading && VM.myJournals.isEmpty
+  }
 
   // MARK: Body
 
@@ -24,52 +31,66 @@ struct MyJournalsView: View {
       ZStack(alignment: .bottomTrailing) {
         Color.odya.background.normal
           .ignoresSafeArea()
-        
-        if VM.isMyJournalsLoading {
+
+        /*
+        if VM.isMyJournalsLoading && VM.myJournals.isEmpty {
           ProgressView()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .frame(alignment: .center)
-        }
-        
-        else if VM.myJournals.isEmpty {
-          NoJournalView()
-        }
-        
-        else {
-          ScrollView(showsIndicators: false) {
-            VStack(spacing: 50) {
+        }*/
+
+        // 작성 여행일지가 없는 경우
+        ScrollView(showsIndicators: false) {
+          if isNoJournals {
+              NoJournalView(isFullScreen: true)
+              .padding(.bottom, 80)
+              .frame(height: UIScreen.main.bounds.height)
+          } else {
+
+            LazyVStack(spacing: 50) {
               headerBar
-              
+                .padding(.horizontal, GridLayout.side)
               randomMainBoard
-              
+                .padding(.horizontal, GridLayout.side)
               myTravelJournalList
-              
-              if !VM.bookmarkedJournals.isEmpty {
+                .padding(.horizontal, GridLayout.side)
+
+              if bookmarkedJournalsVM.isBookmarkedJournalsLoading
+                || !bookmarkedJournalsVM.bookmarkedJournals.isEmpty
+              {
                 myBookmarkedTravelJournalList
               }
-              if !VM.taggedJournals.isEmpty {
+
+              if taggedJournalsVM.isTaggedJournalsLoading
+                || !taggedJournalsVM.taggedJournals.isEmpty
+              {
                 myTaggedTravelJournalList
               }
-              
-              myReviewList
+
+              if myReviewsVM.isMyReviewsLoading
+                || !myReviewsVM.reviews.isEmpty
+              {
+                myReviewList
+                  .padding(.horizontal, GridLayout.side)
+              }
             }
-            .padding(.horizontal, GridLayout.side)
-            .padding(.vertical, 48)
-          } // Scroll View
-          
-          // write button
-          NavigationLink(destination: TravelJournalComposeView().navigationBarHidden(true)) {
-            WriteButton()
-              .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+            .padding(.vertical, 50)
           }
+
+        }  // Scroll View
+
+        // write button
+        if !isNoJournals {
+          WriteButtonWithAction(action: { isShowingComposeView = true })
+            .offset(x: -(GridLayout.side), y: -(GridLayout.side))
+            .fullScreenCover(isPresented: $isShowingComposeView) {
+              TravelJournalComposeView()
+            }
         }
       }  // ZStack
-      .onAppear {
+      .task {
         VM.getMyData()
-        Task {
-          VM.initData()
-          await VM.fetchDataAsync()
-        }
+        VM.initData()
+        await VM.fetchDataAsync()
       }
       .refreshable {
         Task {
@@ -87,119 +108,95 @@ struct MyJournalsView: View {
         .h3Style()
         .foregroundColor(.odya.label.normal)
       Spacer()
-      ProfileImageView(of: VM.nickname, profileData: VM.profile, size: .M)
+      let myData = MyData()
+      ProfileImageView(
+        of: myData.nickname, profileData: myData.profile.decodeToProileData(), size: .M)
     }.padding(.bottom, 20)
+  }
+
+  func getSectionTitle(title: String) -> some View {
+    Text(title)
+      .h4Style()
+      .foregroundColor(.odya.label.normal)
+      .padding(.bottom, 32)
   }
 
   private var randomMainBoard: some View {
     VStack(spacing: 0) {
-      let randomJournal = VM.myJournals.randomElement() ?? VM.myJournals[0]
+      let randomJournal = VM.myJournals.randomElement()
       NavigationLink(
-        destination: TravelJournalDetailView(journalId: randomJournal.journalId)
+        destination: TravelJournalDetailView(journalId: randomJournal?.journalId ?? -1)
           .navigationBarHidden(true)
       ) {
-        RandomJounalCardView(
-          journal: randomJournal)
-      }
+        RandomJounalCardView(journal: randomJournal)
+      }.disabled(randomJournal == nil)
     }
   }
+}
 
-  // MARK: My Travel Journal List
-
+// MARK: My Travel Journal List
+extension MyJournalsView {
   private var myTravelJournalList: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      Text("내 여행일지")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
+    LazyVStack(alignment: .leading, spacing: 0) {
+      self.getSectionTitle(title: "내 여행일지")
 
       ForEach(VM.myJournals, id: \.id) { journal in
         NavigationLink(
-          destination: TravelJournalDetailView(journalId: journal.journalId).navigationBarHidden(
-            true)
+          destination: TravelJournalDetailView(journalId: journal.journalId)
+            .navigationBarHidden(true)
         ) {
           TravelJournalCardView(journal: journal)
+            .environmentObject(bookmarkedJournalsVM)
         }.padding(.bottom, 12)
+          .onAppear {
+            if let last = VM.lastIdOfMyJournals,
+              last == journal.journalId
+            {
+              VM.fetchMoreMyJournalsSubject.send()
+            }
+          }
       }
     }
   }
+}
 
-  // MARK: My Favorite Travel Journal List
-
+// MARK: My Favorite Travel Journal List
+extension MyJournalsView {
   private var myBookmarkedTravelJournalList: some View {
     VStack(alignment: .leading, spacing: 0) {
-      Text("즐겨찾는 여행일지")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
-
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 10) {
-          ForEach(VM.bookmarkedJournals, id: \.id) { journal in
-            NavigationLink(
-              destination: TravelJournalDetailView(journalId: journal.journalId)
-                .navigationBarHidden(true)
-            ) {
-              TravelJournalSmallCardView(
-                title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
-            }.overlay {
-              FavoriteJournalCardOverlayMenuView()
-            }
-          }
-        }
-      }
-
+      self.getSectionTitle(title: "즐겨찾는 여행일지")
+        .padding(.horizontal, GridLayout.side)
+      BookmarkedJournalListView()
+        .environmentObject(bookmarkedJournalsVM)
+        .padding(.leading, GridLayout.side)
     }
   }
+}
 
-  // MARK: My Tagged Travel Journal List
-
+// MARK: My Tagged Travel Journal List
+extension MyJournalsView {
   private var myTaggedTravelJournalList: some View {
-    return VStack(alignment: .leading, spacing: 0) {
-      Text("태그된 여행일지")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
-
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 10) {
-          ForEach(VM.taggedJournals, id: \.id) { journal in
-            NavigationLink(
-              destination: TravelJournalDetailView(journalId: journal.journalId)
-                .navigationBarHidden(true)
-            ) {
-              TravelJournalSmallCardView(
-                title: journal.title, date: journal.travelStartDate, imageUrl: journal.mainImageUrl)
-            }
-            .overlay {
-              TaggedJournalCardOverlayMenuView()
-            }
-          }
-        }
-      }
-
+    VStack(alignment: .leading, spacing: 0) {
+      self.getSectionTitle(title: "태그된 여행일지")
+        .padding(.horizontal, GridLayout.side)
+      TaggedJournalListView()
+        .environmentObject(taggedJournalsVM)
+        .environmentObject(bookmarkedJournalsVM)
+        .padding(.leading, GridLayout.side)
     }
   }
+}
 
-  // MARK: My Review List
-
+// MARK: My Review List
+extension MyJournalsView {
   private var myReviewList: some View {
     VStack(alignment: .leading, spacing: 0) {
-      Text("내가 쓴 한줄 리뷰")
-        .h4Style()
-        .foregroundColor(.odya.label.normal)
-        .padding(.bottom, 32)
+      self.getSectionTitle(title: "내가 쓴 한줄 리뷰")
 
-      ForEach(Array(1...5), id: \.self) { journal in
-        MyReviewCardView(
-          placeName: "해운대 해수욕장", rating: 7, review: "노을뷰가 너무 예뻐요~ 노을뷰가 너무 예뻐요~ 노을뷰가 너무 예뻐요~",
-          date: "2023-08-01".toDate(format: "yyyy-MM-dd")!
-        )
-        .padding(.bottom, 12)
-      }
+      MyReviewListView()
+        .environmentObject(myReviewsVM)
     }
   }
-
 }
 
 struct MyJournalsView_Previews: PreviewProvider {

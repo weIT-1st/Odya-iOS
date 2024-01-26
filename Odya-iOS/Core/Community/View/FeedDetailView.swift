@@ -11,6 +11,8 @@ struct FeedDetailView: View {
   // MARK: Properties
   @Environment(\.presentationMode) var presentationMode
   
+  @Binding var path: NavigationPath
+  
   let testImageUrlString = "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
   
   @StateObject private var viewModel = FeedDetailViewModel()
@@ -20,14 +22,19 @@ struct FeedDetailView: View {
   @State private var showEditView = false
   /// 액션시트 토글
   @State private var showActionSheet = false
+  /// 신고화면 토글
+  @State private var showReportView = false
   /// 커뮤니티 아이디
   let communityId: Int
   
-  // MARK: Init
+  // Comment
+  @State private var commentCount: Int = 0
   
-  init(communityId: Int) {
-    self.communityId = communityId
-  }
+//  // MARK: Init
+//
+//  init(communityId: Int) {
+//    self.communityId = communityId
+//  }
   
   // MARK: Body
   
@@ -65,26 +72,29 @@ struct FeedDetailView: View {
                     Spacer()
                     if viewModel.feedDetail.writer.userID != MyData.userID  {
                       // 팔로우버튼
-                      FollowButton(isFollowing: false, buttonStyle: .ghost) {
-                        // follow
-                      }
+                      let writer = viewModel.feedDetail.writer
+                      FollowButtonWithAlertAndApi(userId: writer.userID, buttonStyle: .ghost, followState: writer.isFollowing ?? false)
                     }
                   }
                   .padding(.top, 16)
                   .padding(.horizontal, GridLayout.side)
                   
                   VStack(spacing: 24) {
-                    // 여행일지
-                    JournalCoverButton(
-                      profileImageUrl: nil,
-                      labelText: "여행일지 더보기",
-                      coverImageUrl: URL(string: testImageUrlString)!,
-                      journalTitle: "2020 컴공과 졸업여행",
-                      isHot: true
-                    ) {
-                      // action
+                    // 여행일지 더보기
+                    if let journal = viewModel.feedDetail.travelJournal {
+                      NavigationLink {
+                        TravelJournalDetailView(journalId: journal.travelJournalID, nickname: viewModel.feedDetail.writer.nickname)
+                          .navigationBarHidden(true)
+                      } label: {
+                        ShowMoreJournalButton(
+                          profile: nil,
+                          labelText: "여행일지 더보기",
+                          coverImageUrl: journal.mainImageURL,
+                          journalTitle: journal.title
+                        )
+                      }
                     }
-                    
+
                     // feed text
                     Text(viewModel.feedDetail?.content ?? "")
                       .detail2Style()
@@ -96,26 +106,23 @@ struct FeedDetailView: View {
                   VStack(spacing: 16) {
                     // tag
                     if viewModel.feedDetail?.topic != nil {
-                      HStack(spacing: 8) {
-                        FishchipButton(
-                          isActive: .active, buttonStyle: .basic, imageName: nil,
-                          labelText: "# \(viewModel.feedDetail?.topic?.topic ?? "")",
-                          labelSize: .S
-                        ) {
-                          // action
-                        }
-                        Spacer()
-                      }
-                      .padding(.horizontal, GridLayout.side)
+                      tagView
                     }
                     
                     // location, comment, heart button
                     HStack {
-                      locationView
+                      if let _ = viewModel.feedDetail.placeId {
+                        locationView
+                      }
                       Spacer(minLength: 28)
                       HStack(spacing: 12) {
+                        CommunityLikeButton(
+                          communityId: communityId,
+                          likeState: viewModel.feedDetail.isUserLiked,
+                          likeCount: viewModel.feedDetail.communityLikeCount,
+                          baseColor: .odya.label.normal
+                        )
                         commentView
-                        likeView
                       }
                     }
                     .frame(maxWidth: .infinity)
@@ -152,13 +159,19 @@ struct FeedDetailView: View {
     }
     .fullScreenCover(isPresented: $showEditView) {
       CommunityComposeView(
-        communityId: viewModel.feedDetail.communityID,
+        communityId: viewModel.feedDetail.communityId,
         textContent: viewModel.feedDetail.content,
         privacyType: CommunityPrivacyType(rawValue: viewModel.feedDetail.visibility) ?? .global,
+        placeId: viewModel.feedDetail.placeId,
+        travelJournalId: viewModel.feedDetail.travelJournal?.travelJournalID,
+        travelJournalTitle: viewModel.feedDetail.travelJournal?.title,
         selectedTopicId: viewModel.feedDetail.topic?.id,
         originalImageList: viewModel.feedDetail.communityContentImages,
         showPhotoPicker: false,
-        composeMode: .edit)
+        path: $path, composeMode: .edit)
+    }
+    .fullScreenCover(isPresented: $showReportView) {
+      ReportView(reportTarget: .community, id: communityId, isPresented: $showReportView)
     }
     .alert(viewModel.alertTitle, isPresented: $viewModel.showAlert) {
       Button {
@@ -211,6 +224,7 @@ struct FeedDetailView: View {
           }
           Button("신고하기", role: .destructive) {
             // action: 신고
+            showReportView.toggle()
           }
         }
       }
@@ -224,7 +238,7 @@ struct FeedDetailView: View {
         .foregroundColor(Color.odya.label.assistive)
         .frame(width: 24, height: 24)
       // 장소명
-      Text("오이도오이도오이도오이도오이도오이도오이도")
+      PlaceNameTextView(placeId: viewModel.feedDetail.placeId)
         .lineLimit(1)
         .multilineTextAlignment(.leading)
         .detail2Style()
@@ -237,33 +251,34 @@ struct FeedDetailView: View {
       Image("comment")
         .frame(width: 24, height: 24)
       // number of comment
-      Text("\(viewModel.feedDetail?.communityCommentCount ?? 0)")
+      Text(commentCount > 99 ? "99+" : "\(commentCount)")
         .detail1Style()
         .foregroundColor(Color.odya.label.normal)
+    }
+    .onAppear {
+      self.commentCount = viewModel.feedDetail.communityCommentCount
     }
   }
   
-  private var likeView: some View {
-    HStack(spacing: 4) {
-      if viewModel.feedDetail.isUserLiked {
-        Image("heart-on-m")
-          .frame(width: 24, height: 24)
-      } else {
-        Image("heart-off-m")
-          .frame(width: 24, height: 24)
+  private var tagView: some View {
+    HStack(spacing: 8) {
+      FishchipButton(
+        isActive: .active, buttonStyle: .basic, imageName: nil,
+        labelText: "# \(viewModel.feedDetail?.topic?.topic ?? "")",
+        labelSize: .S
+      ) {
+        // action
       }
-      // number of heart
-      Text("\(viewModel.feedDetail?.communityLikeCount ?? 0)")
-        .detail1Style()
-        .foregroundColor(Color.odya.label.normal)
+      Spacer()
     }
+    .padding(.horizontal, GridLayout.side)
   }
 }
 
 // MARK: - Preview
 
-struct FeedDetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    FeedDetailView(communityId: 1)
-  }
-}
+//struct FeedDetailView_Previews: PreviewProvider {
+//  static var previews: some View {
+//    FeedDetailView(communityId: 1)
+//  }
+//}

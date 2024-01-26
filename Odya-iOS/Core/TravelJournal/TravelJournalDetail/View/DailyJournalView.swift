@@ -12,12 +12,12 @@ struct DailyJournalView: View {
   @EnvironmentObject var journalDetailVM: TravelJournalDetailViewModel
 
   // journal data
+  let journal: TravelJournalDetailData
   let journalId: Int
   let dailyJournal: DailyJournal
   let dateString: String
   let content: String
-  let placeName: String
-  let placeLoc: String
+  let placeId: String
   var images: [DailyJournalImage] = []
 
   var displayedImages: [DailyJournalImage] {
@@ -33,6 +33,8 @@ struct DailyJournalView: View {
   /// 데일리 일정 내용이 펼쳐져 있는지 여부
   @State private var isExpanded: Bool = false
 
+  @State private var isShowingEditView: Bool = false
+
   /// 데일리 일정 삭제 확인 알림 화면 표시 여부
   @State private var isShowingJournalDeletionAlert: Bool = false
 
@@ -42,19 +44,20 @@ struct DailyJournalView: View {
   /// 데일리 일정 삭제 실패 메시지
   @State private var failureMessage: String = ""
 
-  init(journalId: Int, dailyJournal: DailyJournal) {
-    self.journalId = journalId
+  init(journal: TravelJournalDetailData, dailyJournal: DailyJournal) {
+    self.journal = journal
+    self.journalId = journal.journalId
     self.dailyJournal = dailyJournal
 
     self.dateString = dailyJournal.travelDate.dateToString(format: "yyyy.MM.dd")
     self.content = dailyJournal.content
-    self.placeName = "덕수궁 돌담길"
-    self.placeLoc = "서울특별시 중구"
+    self.placeId = dailyJournal.placeId ?? ""
     self.images = dailyJournal.images
   }
 
   var body: some View {
     VStack(spacing: 16) {
+      // date & menu bar
       HStack(spacing: 10) {
         Button(action: {
           isExpanded.toggle()
@@ -68,16 +71,21 @@ struct DailyJournalView: View {
           }.frame(height: 36)
         }
 
-        Menu {
-          Button("편집하기") {
-            print("edit")
-            journalDetailVM.editedDailyJournal = dailyJournal
+        if journalDetailVM.isMyJournal {
+          Menu {
+            Button("편집하기") {
+              print("edit")
+              isShowingEditView = true
+            }
+            Button("삭제하기", role: .destructive) {
+              isShowingJournalDeletionAlert = true
+            }
+          } label: {
+            IconButton("menu-kebob") {}
           }
-          Button("삭제하기", role: .destructive) {
-            isShowingJournalDeletionAlert = true
+          .fullScreenCover(isPresented: $isShowingEditView) {
+            DailyJournalEditView(journal: journal, editedJournal: dailyJournal)
           }
-        } label: {
-          Image("menu-kebob")
         }
       }
 
@@ -99,8 +107,10 @@ struct DailyJournalView: View {
         ImageGridView(
           images: displayedImages.map { $0.imageUrl }, totalWidth: imageListWidth, spacing: 3)
       }
-
-      placeInfo
+      
+      if !placeId.isEmpty {
+        placeInfo
+      }
     }
     .padding(.bottom, 40)
     .animation(.easeInOut, value: isExpanded)
@@ -165,11 +175,11 @@ struct DailyJournalView: View {
           .renderingMode(.template)
           .resizable()
           .frame(width: 12, height: 12)
-        Text(placeName)
+        PlaceNameTextView(placeId: placeId)
           .detail2Style()
       }.foregroundColor(.odya.brand.primary)
       Spacer()
-      Text(placeLoc)
+      PlaceAddressTextView(placeId: placeId)
         .detail2Style()
         .foregroundColor(.odya.label.assistive)
     }

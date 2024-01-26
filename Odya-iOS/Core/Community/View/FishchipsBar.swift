@@ -17,7 +17,7 @@ struct FishchipsBar: View {
   
   var body: some View {
     ScrollView(.horizontal) {
-      HStack(spacing: 8) {
+      HStack(alignment: .center,spacing: 8) {
         ForEach(viewModel.topicList, id: \.id) { topic in
           FishchipButton(
             isActive: .active,
@@ -37,9 +37,6 @@ struct FishchipsBar: View {
       }  // HStack
       .padding(.leading, 20)
       .frame(height: 48, alignment: .leading)
-      .onAppear {
-        viewModel.fetchTopicList()
-      }
     }  // ScrollView
   }
 }

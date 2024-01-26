@@ -9,74 +9,111 @@ import Foundation
 
 @propertyWrapper
 struct UserDefault<T> {
-    private let key: String
-    private let defaultValue: T
-    
-    init(key: String, defaultValue: T) {
-        self.key = key
-        self.defaultValue = defaultValue
+  private let key: String
+  private let defaultValue: T
+
+  init(key: String, defaultValue: T) {
+    self.key = key
+    self.defaultValue = defaultValue
+  }
+
+  var wrappedValue: T {
+    get {
+      return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
     }
-    
-    var wrappedValue: T {
-        get {
-            return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: key)
-        }
+    set {
+      UserDefaults.standard.set(newValue, forKey: key)
     }
+  }
+}
+
+/// 기본타입이 아닌 값(ex. Struct)을 UserDefaults에 data로 저장한뒤 로드, 저장시마다 인코딩, 디코딩 수행
+@propertyWrapper
+struct CodableUserDefault<T: Codable> {
+  private let key: String
+  private let defaultValue: T?
+
+  init(key: String, defaultValue: T?) {
+    self.key = key
+    self.defaultValue = defaultValue
+  }
+
+  var wrappedValue: T? {
+    get {
+      if let savedData = UserDefaults.standard.object(forKey: key) as? Data {
+        let decoder = JSONDecoder()
+        if let lodedObejct = try? decoder.decode(T.self, from: savedData) {
+          return lodedObejct
+        }
+      }
+      return defaultValue
+    }
+    set {
+      let encoder = JSONEncoder()
+      if let encoded = try? encoder.encode(newValue) {
+        UserDefaults.standard.setValue(encoded, forKey: key)
+      }
+    }
+  }
 }
 
 /// 내 정보
 struct MyData {
-    @UserDefault(key: keyEnum_MyData.userId.rawValue, defaultValue: -1)
-    static var userID: Int  // 다른곳에서 공유해 읽기위해 static으로 변경했습니다
-    
-    @UserDefault(key: keyEnum_MyData.nickname.rawValue, defaultValue: "")
-    var nickname: String
-    
-    @UserDefault(key: keyEnum_MyData.profile.rawValue, defaultValue: "")
-    var profile: String
+  @UserDefault(key: keyEnum_MyData.userId.rawValue, defaultValue: -1)
+  static var userID: Int  // 다른곳에서 공유해 읽기위해 static으로 변경했습니다
+
+  @UserDefault(key: keyEnum_MyData.nickname.rawValue, defaultValue: "")
+  var nickname: String
+
+  @UserDefault(key: keyEnum_MyData.profile.rawValue, defaultValue: "")
+  var profile: String
 }
 
 /// 애플 유저 데이터 저장
 struct AppleUserData {
-    @UserDefault(key: keyEnum_APPLE_USER.isValid.rawValue, defaultValue: false)
-    static var isValid: Bool
-    
-    @UserDefault(key: keyEnum_APPLE_USER.userIdentifier.rawValue, defaultValue: "")
-    static var userIdentifier: String
-    
-    @UserDefault(key: keyEnum_APPLE_USER.familyName.rawValue, defaultValue: "")
-    static var familyName: String
-    
-    @UserDefault(key: keyEnum_APPLE_USER.givenName.rawValue, defaultValue: "")
-    static var givenName: String
+  @UserDefault(key: keyEnum_APPLE_USER.isValid.rawValue, defaultValue: false)
+  static var isValid: Bool
 
-    @UserDefault(key: keyEnum_APPLE_USER.email.rawValue, defaultValue: "")
-    static var email: String
+  @UserDefault(key: keyEnum_APPLE_USER.userIdentifier.rawValue, defaultValue: "")
+  static var userIdentifier: String
+
+  @UserDefault(key: keyEnum_APPLE_USER.familyName.rawValue, defaultValue: "")
+  static var familyName: String
+
+  @UserDefault(key: keyEnum_APPLE_USER.givenName.rawValue, defaultValue: "")
+  static var givenName: String
+
+  @UserDefault(key: keyEnum_APPLE_USER.email.rawValue, defaultValue: "")
+  static var email: String
 }
 
 /// 최근 검색어 저장
 struct SearchData {
-    @UserDefault(key: keyEnum_Search.recentSearchText.rawValue, defaultValue: [String]())
-    static var recentSearchText: [String]
+  @UserDefault(key: keyEnum_Search.recentSearchText.rawValue, defaultValue: [String]())
+  static var recentSearchText: [String]
+}
+
+/// 최근 검색된 유저 저장
+struct SearchUserData {
+  @CodableUserDefault(key: keyEnum_Search.recentSearchUser.rawValue, defaultValue: nil)
+  static var recentSearchUser: [SearchedUserContent]?
 }
 
 enum keyEnum_MyData: String {
-    case userId
-    case nickname
-    case profile
+  case userId
+  case nickname
+  case profile
 }
 
 enum keyEnum_APPLE_USER: String {
-    case isValid
-    case userIdentifier
-    case familyName
-    case givenName
-    case email
+  case isValid
+  case userIdentifier
+  case familyName
+  case givenName
+  case email
 }
 
 enum keyEnum_Search: String {
-    case recentSearchText
+  case recentSearchText
+  case recentSearchUser
 }

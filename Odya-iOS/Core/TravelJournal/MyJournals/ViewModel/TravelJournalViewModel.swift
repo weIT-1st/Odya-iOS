@@ -24,25 +24,29 @@ class MyJournalsViewModel: ObservableObject {
   @Published var profile: ProfileData = MyData().profile.decodeToProileData()
   var userId: Int = MyData.userID
 
-  // loadingFlag
-  @Published var isMyJournalsLoading: Bool = false
-  var isBookmarkedJournalsLoading: Bool = false
-  var isTaggedJournalsLoading: Bool = false
-
-  // travel journals
-  // @Published var randomJournal: TravelJournalData
+  // data
   @Published var myJournals: [TravelJournalData] = []
-  @Published var bookmarkedJournals: [BookmarkedJournalData] = []
-  @Published var taggedJournals: [TaggedJournalData] = []
   // 내가 쓴 한글리뷰 리스트
 
-  // flags for Infinite Scroll
-  var lastIdOfMyJournals: Int? = nil
+  // loading flag
+  @Published var isMyJournalsLoading: Bool = false
+
+  // infinite Scroll
+  @Published var lastIdOfMyJournals: Int? = nil
   var hasNextMyJournals: Bool = true
-  var lastIdOfBookmarkedJournals: Int? = nil
-  var hasNextBookmarkedJournals: Bool = true
-  var lastIdOfTaggedJournals: Int? = nil
-  var hasNextTaggedJournals: Bool = true
+  var fetchMoreMyJournalsSubject = PassthroughSubject<(), Never>()
+
+  init() {
+    fetchMoreMyJournalsSubject
+      .sink { [weak self] _ in
+        guard let self = self,
+          let idToken = self.idToken
+        else {
+          return
+        }
+        self.getMyJournals(idToken: idToken)
+      }.store(in: &subscription)
+  }
 
   // MARK: Get My Data
 
@@ -59,19 +63,12 @@ class MyJournalsViewModel: ObservableObject {
   /// Fetch Data를 하기 전 초기화
   func initData() {
     // travel journals
-    // @Published var randomJournal: TravelJournalData
     myJournals = []
-    bookmarkedJournals = []
-    taggedJournals = []
     // 내가 쓴 한글리뷰 리스트
 
     // flags for Infinite Scroll
     lastIdOfMyJournals = nil
     hasNextMyJournals = true
-    lastIdOfBookmarkedJournals = nil
-    hasNextBookmarkedJournals = true
-    lastIdOfTaggedJournals = nil
-    hasNextTaggedJournals = true
   }
 
   /// api를 통해 여행일지들을 가져옴
@@ -82,8 +79,6 @@ class MyJournalsViewModel: ObservableObject {
     }
 
     getMyJournals(idToken: idToken)
-    getBookmarkedJournals(idToken: idToken)
-    getTaggedJournals(idToken: idToken)
   }
 
   // MARK: Get My Journals
@@ -138,105 +133,4 @@ class MyJournalsViewModel: ObservableObject {
       }
     }.store(in: &subscription)
   }
-
-  // MARK: Get Bookmarked Journals
-
-  private func getBookmarkedJournals(idToken: String) {
-    if isBookmarkedJournalsLoading || !hasNextBookmarkedJournals {
-      return
-    }
-
-    self.isBookmarkedJournalsLoading = true
-    journalProvider.requestPublisher(
-      .getBookmarkedJournals(token: idToken, size: nil, lastId: self.lastIdOfBookmarkedJournals)
-    )
-    .filterSuccessfulStatusCodes()
-    .sink { completion in
-      switch completion {
-      case .finished:
-        self.isBookmarkedJournalsLoading = false
-      case .failure(let error):
-        self.isBookmarkedJournalsLoading = false
-
-        guard let apiError = try? error.response?.map(ErrorData.self) else {
-          // error data decoding error handling
-          // unknown error
-          return
-        }
-
-        if apiError.code == -11000 {
-          self.appDataManager.refreshToken { success in
-            // token error handling
-            if success {
-              self.getMyData()
-              return
-            }
-
-          }
-
-        }
-      // other api error handling
-      }
-    } receiveValue: { response in
-      do {
-        let responseData = try response.map(BookmarkedJournalList.self)
-        self.hasNextBookmarkedJournals = responseData.hasNext
-        self.bookmarkedJournals += responseData.content
-        self.lastIdOfBookmarkedJournals = responseData.content.last?.journalId
-      } catch {
-        return
-      }
-    }.store(in: &subscription)
-  }
-
-  // MARK: Get Tagged Journals
-
-  private func getTaggedJournals(idToken: String) {
-    if isTaggedJournalsLoading || !hasNextTaggedJournals {
-      return
-    }
-
-    self.isTaggedJournalsLoading = true
-    journalProvider.requestPublisher(
-      .getTaggedJournals(token: idToken, size: nil, lastId: self.lastIdOfTaggedJournals)
-    )
-    .filterSuccessfulStatusCodes()
-    .sink { completion in
-      switch completion {
-      case .finished:
-        self.isTaggedJournalsLoading = false
-      case .failure(let error):
-        self.isTaggedJournalsLoading = false
-
-        guard let apiError = try? error.response?.map(ErrorData.self) else {
-          // error data decoding error handling
-          // unknown error
-          return
-        }
-
-        if apiError.code == -11000 {
-          self.appDataManager.refreshToken { success in
-            // token error handling
-            if success {
-              self.getMyData()
-              return
-            }
-
-          }
-
-        }
-      // other api error handling
-      }
-    } receiveValue: { response in
-      do {
-        let responseData = try response.map(TaggedJournalList.self)
-        self.hasNextTaggedJournals = responseData.hasNext
-        self.taggedJournals += responseData.content
-        self.lastIdOfTaggedJournals = responseData.content.last?.journalId
-      } catch {
-        return
-      }
-    }.store(in: &subscription)
-  }
-
 }

@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum FeedRoute: Hashable {
+  case detail(Int)
+  case createFeed
+  case createJournal
+}
+
 enum FeedToggleType {
   case all
   case friend
@@ -19,97 +25,121 @@ struct FeedView: View {
   @State private var selectedFeedToggle = FeedToggleType.all
   /// 선택된 토픽 아이디
   @State private var selectedTopicId = -1
-
+  /// 검색뷰 토글
+  @State private var showSearchView = false
+  @State private var path = NavigationPath()
+  
   // MARK: - Body
 
   var body: some View {
-    NavigationView {
-      ZStack(alignment: .bottomTrailing) {
-        VStack(spacing: 0) {
-          // tool bar
-          // TODO: - 툴바 디자인 변경예정
-          FeedToolBar()
+    NavigationStack(path: $path) {
+      GeometryReader { _ in
+        ZStack(alignment: .bottomTrailing) {
+          VStack(spacing: 0) {
+            // tool bar
+            feedToolBar
 
-          ScrollView(showsIndicators: false) {
-            // fishchips
-            if selectedFeedToggle == .all {
-              FishchipsBar(selectedTopicId: $selectedTopicId)
-            }
-            // toggle
-            feedToggleSelectionView
+            ScrollView(.vertical, showsIndicators: false) {
+              // fishchips
+              if selectedFeedToggle == .all {
+                FishchipsBar(selectedTopicId: $selectedTopicId)
+                  .padding(.bottom, -4)
+              }
+              // toggle
+              feedToggleSelectionView
+                .zIndex(.greatestFiniteMagnitude)
 
-            ScrollView {
               LazyVStack(spacing: 4) {
                 // posts (무한)
-                ForEach(viewModel.state.content, id: \.communityID) { content in
+                ForEach(viewModel.state.content, id: \.communityId) { content in
                   VStack(spacing: 0) {
                     PostImageView(urlString: content.communityMainImageURL)
-                    NavigationLink {
-                      FeedDetailView(communityId: content.communityID)
-                    } label: {
+                    NavigationLink(value: FeedRoute.detail(content.communityId), label: {
                       PostContentView(
+                        communityId: content.communityId,
                         contentText: content.communityContent,
                         commentCount: content.communityCommentCount,
                         likeCount: content.communityLikeCount,
+                        placeId: content.placeId,
                         createDate: content.createdDate,
-                        writer: content.writer
+                        writer: content.writer,
+                        isUserLiked: content.isUserLiked
                       )
-                    }
-                  }
-                  .padding(.bottom, 8)
-                  .onAppear {
-                    if viewModel.state.content.last == content {
-                      switch selectedFeedToggle {
-                      case .all:
-                        if selectedTopicId > 0 {
-                          // 선택된 토픽이 있는 경우
-                          viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
-                        } else {
-                          // 없는경우(전체 조회)
-                          viewModel.fetchAllFeedNextPageIfPossible()
+                    })
+                    .onAppear {
+                      if viewModel.state.content.last == content {
+                        switch selectedFeedToggle {
+                        case .all:
+                          if selectedTopicId > 0 {
+                            // 선택된 토픽이 있는 경우
+                            viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
+                          } else {
+                            // 없는경우(전체 조회)
+                            viewModel.fetchAllFeedNextPageIfPossible()
+                          }
+                        case .friend:
+                          viewModel.fetchFriendFeedNextPageIfPossible()
                         }
-                      case .friend:
-                        viewModel.fetchFriendFeedNextPageIfPossible()
                       }
                     }
                   }
+                  .padding(.bottom, 8)
                 }
               }
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }  // ScrollView
+            .zIndex(0)
+            .refreshable {
+              switch selectedFeedToggle {
+              case .all:
+                if selectedTopicId > 0 {
+                  viewModel.refreshTopicFeed(topicId: selectedTopicId)
+                } else {
+                  viewModel.refreshAllFeed()
+                }
+              case .friend:
+                viewModel.refreshFriendFeed()
+              }
             }
-          }  // ScrollView
-          .refreshable {
-            switch selectedFeedToggle {
-            case .all:
-              if selectedTopicId > 0 {
+            .onAppear {
+              customRefreshControl()
+            }
+            .onChange(of: selectedTopicId) { newValue in
+              if newValue > 0 {
                 viewModel.refreshTopicFeed(topicId: selectedTopicId)
-              } else {
+              } else if newValue == -1 {
                 viewModel.refreshAllFeed()
               }
-            case .friend:
-              viewModel.refreshFriendFeed()
+            }
+            .task {
+              if viewModel.state.content.isEmpty {
+                viewModel.fetchAllFeedNextPageIfPossible()
+              }
             }
           }
-          .onAppear {
-            customRefreshControl()
+          .background(Color.odya.background.normal)
+          
+          // 피드 작성하기
+          NavigationLink(value: FeedRoute.createFeed) {
+            WriteButton()
           }
-          .onChange(of: selectedTopicId) { newValue in
-            if newValue > 0 {
-              viewModel.refreshTopicFeed(topicId: selectedTopicId)
-            } else if newValue == -1 {
-              viewModel.refreshAllFeed()
-            }
+          .padding(20)
+          
+          if showSearchView {
+            FeedUserSearchView(isPresented: $showSearchView)
+          }
+        }  // ZStack
+        .toolbar(.hidden)
+        .navigationDestination(for: FeedRoute.self) { route in
+          switch route {
+          case let .detail(communityId):
+            FeedDetailView(path: $path, communityId: communityId)
+          case .createFeed:
+            CommunityComposeView(path: $path, composeMode: .create)
+          case .createJournal:
+            TravelJournalComposeView()
+              .navigationBarHidden(true)
           }
         }
-        .background(Color.odya.background.normal)
-
-        NavigationLink(destination: CommunityComposeView(composeMode: .create), label: {
-          WriteButton()
-        })
-        .padding(20)
-      }  // ZStack
-      .task {
-        viewModel.fetchAllFeedNextPageIfPossible()
       }
     }
   }
@@ -125,43 +155,84 @@ struct FeedView: View {
     UIRefreshControl.appearance().attributedTitle = NSAttributedString(
       string: "피드에 올린 곳 오댜?", attributes: attribute as [NSAttributedString.Key: Any])
   }
+  
+  /// 툴바
+  private var feedToolBar: some View {
+    HStack(alignment: .center) {
+      // 내 커뮤니티 활동 뷰로 연결
+      NavigationLink {
+        MyCommunityActivityView()
+      } label: {
+        ProfileImageView(profileUrl: MyData().profile, size: .S)
+          .overlay(
+            RoundedRectangle(cornerRadius: 32)
+              .inset(by: 0.5)
+              .stroke(Color.odya.brand.primary, lineWidth: 1)
+          )
+      }
+      .frame(width: 48, height: 48, alignment: .center)
+      .padding(.leading, 13)
+
+      Spacer()
+
+      // search icon
+      Button {
+        showSearchView.toggle()
+      } label: {
+        Image("search")
+          .padding(10)
+          .frame(width: 48, height: 48, alignment: .center)
+      }
+
+      // alarm on/off
+      Button {
+        // action: show alarm
+      } label: {
+        Image("alarm-on")
+          .padding(10)
+          .frame(width: 48, height: 48, alignment: .center)
+      }
+    }  // HStack
+    .frame(height: 56)
+  }
 
   /// 토글: 전체글보기, 친구글보기
   private var feedToggleSelectionView: some View {
-    HStack(spacing: 16) {
+    HStack(alignment: .center, spacing: 16) {
       Spacer()
       Button {
         selectedFeedToggle = .all
         viewModel.refreshAllFeed()
       } label: {
-        HStack(spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
           Circle().frame(width: 4, height: 4)
           Text("전체 보기")
             .detail1Style()
+            .frame(height: 24)
         }
         .foregroundColor(
           selectedFeedToggle == .all ? Color.odya.brand.primary : Color.odya.label.inactive
         )
-        .padding(.bottom, 12)
       }
 
       Button {
         selectedFeedToggle = .friend
         viewModel.refreshFriendFeed()
       } label: {
-        HStack(spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
           Circle().frame(width: 4, height: 4)
           Text("친구글만 보기")
             .detail1Style()
+            .frame(height: 24)
         }
         .foregroundColor(
           selectedFeedToggle == .friend ? Color.odya.brand.primary : Color.odya.label.inactive
         )
-        .padding(.bottom, 12)
       }
     }
     .frame(maxWidth: .infinity)
     .padding(.horizontal, GridLayout.side)
+    .padding(.bottom, 8)
   }
 }
 

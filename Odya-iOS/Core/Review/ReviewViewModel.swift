@@ -2,163 +2,215 @@
 //  ReviewViewModel.swift
 //  Odya-iOS
 //
-//  Created by Jade Yoo on 2023/07/27.
+//  Created by Jade Yoo on 2024/01/06.
 //
 
-import Foundation
 import Combine
+import Moya
+import SwiftUI
 
-class ReviewViewModel: ObservableObject {
-    // MARK: - Properties
-    let testPlaceId = "ChIJE4KVHYqnfDURvqQ3CNzF2Ck" // 테스트 장소 ID
-    
-    @Published var reviewText = ""  // 한줄리뷰 텍스트
-    @Published var showAlert: Bool = false  // Show alert or not
-    @Published var alertTitle: String = ""
-    @Published var alertMessage: String = ""
-    
-    var cancellables = Set<AnyCancellable>()
-    
-    // MARK: - Helper functions
-    
-    /**
-     # createReview
-     - Note: 한줄리뷰 생성
-     - Parameters:
-        - rating: 별점
-        - review: 한줄리뷰 내용
-     */
-    func createReview(rating: String, review: String) {
-        guard let numberOfRating = Int(rating) else {
-            alertTitle = "입력 오류"
-            alertMessage = "숫자만 입력하세요"
-            showAlert = true
-            return
+/// 한줄리뷰 작성 뷰모델
+final class ReviewViewModel: ObservableObject {
+  // MARK: Properties
+  
+  // Networking
+  @AppStorage("WeITAuthToken") var idToken: String?
+  private let logPlugin: PluginType = CustomLogPlugin()
+  private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
+  private lazy var reviewProvider = MoyaProvider<ReviewRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
+  private lazy var reportProvider = MoyaProvider<ReportRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
+  private var subscription = Set<AnyCancellable>()
+  @Published var isProgressing: Bool = false
+  @Published var isPosted: Bool = false
+  @Published var needToRefresh: Bool = false
+  
+  // for view
+  struct ReviewState {
+    var content: [Review] = []
+    var lastId: Int? = nil
+    var canLoadNextPage = true
+  }
+  @Published private(set) var reviewState = ReviewState()
+  
+  @Published var isReviewExisted: Bool? = nil
+  @Published var reviewCount: Int? = nil
+  @Published var averageStarRating: Double = 0.0
+  @Published var myReview: Review? = nil
+  
+  // alert
+  @Published var alertTitle: String = ""
+  @Published var alertMessage: String = ""
+  @Published var showAlert: Bool = false
+  
+  // MARK: Helper functions
+  
+  func handleErrorData(error: MoyaError) {
+    if let errorData = try? error.response?.map(ErrorData.self) {
+      alertTitle = "Error \(errorData.code)"
+      alertMessage = errorData.message
+      showAlert = true
+    } else {
+      alertTitle = "Unknown Error!"
+      alertMessage = "알 수 없는 오류 발생"
+      showAlert = true
+    }
+  }
+  
+  // MARK: Read
+  /// 한줄리뷰 관련 조회
+  func fetchReviewInfo(placeId: String) {
+    fetchIfReviewExist(placeId: placeId)
+    fetchReviewCount(placeId: placeId)
+    fetchAverageStarRating(placeId: placeId)
+  }
+  
+  /// 한줄리뷰 작성 여부 조회
+  private func fetchIfReviewExist(placeId id: String) {
+    reviewProvider.requestPublisher(.getIfReviewExist(placeId: id))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("리뷰 작성 여부 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
         }
-        
-        ReviewApiService.createReview(placeId: testPlaceId, rating: numberOfRating, review: review)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    debugPrint("DEBUG: 리뷰 작성 완료")
-                case .failure(let error):
-                    switch error {
-                    case .http(let errorData):
-                        debugPrint("ERROR: \(errorData.message)")
-                        
-                        self.alertTitle = "리뷰 작성 실패"
-                        self.alertMessage = errorData.message
-                        self.showAlert = true
-                    default:
-                        debugPrint("ERROR: \(error)")
-                        
-                        self.alertTitle = "리뷰 작성 실패"
-                        self.alertMessage = error.localizedDescription
-                        self.showAlert = true
-                    }
-                }
-            } receiveValue: { response in
-                debugPrint(response)
-            }
-            .store(in: &cancellables)
-    }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewExistResponse.self) {
+          self.isReviewExisted = data.exist
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  /// 한줄리뷰 개수 조회
+  private func fetchReviewCount(placeId id: String) {
+    reviewProvider.requestPublisher(.getReviewCount(placeId: id))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("리뷰 수 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewCountResponse.self) {
+          self.reviewCount = data.count
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  /// 리뷰 평균 별점 조회
+  private func fetchAverageStarRating(placeId id: String) {
+    reviewProvider.requestPublisher(.getAverageStarRating(placeId: id))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("평균 별점 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewAverageStarRatingResponse.self) {
+          self.averageStarRating = data.averageStarRating / 2
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  func refreshAllReviewContent(placeId: String, sortType: String) {
+    fetchReviewInfo(placeId: placeId)
+    self.reviewState = ReviewState()
+    fetchReviewByPlaceNextPageIfPossible(placeId: placeId, sortType: sortType)
+  }
+  
+  func sortReivew(placeId: String, sortType: String) {
+    self.reviewState = ReviewState()
+    fetchReviewByPlaceNextPageIfPossible(placeId: placeId, sortType: sortType)
+  }
+  
+  func fetchReviewByPlaceNextPageIfPossible(placeId: String, sortType: String) {
+    guard reviewState.canLoadNextPage else { return }
+    if placeId.isEmpty { return }
     
-    /**
-     # readPlaceIdReview
-     - Note: placeId로 한줄리뷰 가져오기
-     */
-    func readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?) {
-        ReviewApiService.readPlaceIdReview(placeId: placeId, size: size, sortType: sortType, lastId: lastId)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    debugPrint("DEBUG: 리뷰 불러오기 완료")
-                case .failure(let error):
-                    switch error {
-                    case .http(let errorData):
-                        debugPrint("ERROR: \(errorData.message)")
-                    default:
-                        debugPrint("ERROR: \(error)")
-                    }
-                }
-            } receiveValue: { response in
-                let review = response.content
-                debugPrint(review)
-            }
-            .store(in: &cancellables)
-    }
+    reviewProvider.requestPublisher(.readPlaceIdReview(placeId: placeId, size: nil, sortType: sortType, lastId: reviewState.lastId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 리뷰 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(ReviewListResponse.self) {
+          self.reviewState.content += data.content
+          self.reviewState.lastId = data.content.last?.reviewId
+          self.reviewState.canLoadNextPage = data.hasNext
+          
+          self.myReview = self.reviewState.content.filter { $0.writer.userID == MyData.userID }.first
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  // MARK: Create
+  /// 리뷰 생성
+  func createReview(placeId: String, rating: Double, review: String) {
+    isProgressing = true
+    let rating = Int(rating * 2)
     
-    /**
-     # readUserIdReview
-     - Note: userId로 한줄리뷰 가져오기
-     */
-    func readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?) {
-        ReviewApiService.readUserIdReview(userId: userId, size: size, sortType: sortType, lastId: lastId)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    debugPrint("DEBUG: 리뷰 불러오기 완료")
-                case .failure(let error):
-                    switch error {
-                    case .http(let errorData):
-                        debugPrint("ERROR: \(errorData.message)")
-                    default:
-                        debugPrint("ERROR: \(error)")
-                    }
-                }
-            } receiveValue: { response in
-                let review = response.content
-                debugPrint(review)
-            }
-            .store(in: &cancellables)
-    }
+    reviewProvider.requestPublisher(.createReview(placeId: placeId, rating: rating, review: review))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("한줄리뷰 생성 완료")
+          self.isPosted.toggle()
+          self.needToRefresh.toggle()
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+        self.isProgressing = false
+      } receiveValue: { _ in }
+      .store(in: &subscription)
+  }
+  
+  // MARK: Update
+  /// 리뷰 수정
+  func updateReview(reviewId: Int, rating: Double, review: String) {
+    isProgressing = true
+    let rating = Int(rating * 2)
     
-    /**
-     # updateReview
-     - Note: 한줄리뷰 수정
-     */
-    func updateReview(id: Int, rating: Int?, review: String?) {
-        ReviewApiService.updateReview(id: id, rating: rating, review: review)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    debugPrint("DEBUG: 리뷰 수정 완료")
-                case .failure(let error):
-                    switch error {
-                    case .http(let errorData):
-                        debugPrint("ERROR: \(errorData.message)")
-                    default:
-                        debugPrint("ERROR: \(error)")
-                    }
-                }
-            } receiveValue: { response in
-                debugPrint(response)
-            }
-            .store(in: &cancellables)
-
-    }
+    reviewProvider.requestPublisher(.updateReview(id: reviewId, rating: rating, review: review))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("한줄리뷰 수정 완료")
+          self.isPosted.toggle()
+          self.needToRefresh.toggle()
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+        self.isProgressing = false
+      } receiveValue: { _ in }
+      .store(in: &subscription)
+  }
+  
+  // MARK: Delete
+  /// 리뷰 삭제
+  func deleteReview(reviewId: Int) {
+    isProgressing = true
     
-    /**
-     # deleteReveiw
-     - Note: 한줄리뷰 삭제
-     */
-    func deleteReveiw(reviewId: Int) {
-        ReviewApiService.deleteReview(reviewId: reviewId)
-            .sink { completion in
-                switch completion {
-                case .finished:
-                    debugPrint("DEBUG: 리뷰 삭제 완료")
-                case .failure(let error):
-                    switch error {
-                    case .http(let errorData):
-                        debugPrint("ERROR: \(errorData.message)")
-                    default:
-                        debugPrint("ERROR: \(error)")
-                    }
-                }
-            } receiveValue: { response in
-                debugPrint(response)
-            }
-            .store(in: &cancellables)
-    }
+    reviewProvider.requestPublisher(.deleteReview(reviewId: reviewId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("한줄리뷰 삭제 완료")
+          self.needToRefresh.toggle()
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+        self.isProgressing = false
+      } receiveValue: { _ in }
+      .store(in: &subscription)
+  }
 }

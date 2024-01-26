@@ -5,111 +5,106 @@
 //  Created by Jade Yoo on 2023/07/22.
 //
 
-import SwiftUI
-import Alamofire
+import Foundation
+import Moya
 
 // 한줄리뷰 라우터
 // 한줄리뷰 CRUD
+enum ReviewRouter {
+  // 1. 장소리뷰 생셩
+  case createReview(placeId: String, rating: Int, review: String)
+  // 2. 장소리뷰 수정
+  case updateReview(id: Int, rating: Int?, review: String?)
+  // 3. 장소리뷰 삭제
+  case deleteReview(reviewId: Int)
+  // 4. 장소 ID 리뷰 조회
+  case readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?)
+  // 5. 유저 ID 리뷰 조회
+  case readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?)
+  // 6. 리뷰 작성 여부 조회
+  case getIfReviewExist(placeId: String)
+  // 7. 리뷰 수 조회
+  case getReviewCount(placeId: String)
+  // 8. 평균 별점 조회
+  case getAverageStarRating(placeId: String)
+}
 
-enum ReviewRouter: URLRequestConvertible {
-    // MARK: - ID Token 대입
-    
-    var idToken: String {
-        return "Firebase Id Token"
-    }
-    
-    // MARK: - Cases
-    
-    case createReview(placeId: String, rating: Int, review: String)
-    case readPlaceIdReview(placeId: String, size: Int?, sortType: String?, lastId: Int?)
-    case readUserIdReview(userId: Int, size: Int?, sortType: String?, lastId: Int?)
-    case updateReview(id: Int, rating: Int?, review: String?)
-    case deleteReview(reviewId: Int)
-    
-    // MARK: - Properties
-    
-    var baseURL: String {
-        return "https://jayden-bin.kro.kr"
-    }
-    
-    var header: HTTPHeaders {
-        return [.authorization(bearerToken: idToken)]
-    }
-    
-    var endPoint: String {
-        switch self {
-        case let .readPlaceIdReview(placeId, _, _, _):
-            return "/api/v1/place-reviews/places/" + "\(placeId)"
-        case let .readUserIdReview(userId, _, _, _):
-            return "/api/v1/place-reviews/users/" + "\(userId)"
-        case let .deleteReview(reviewId):
-            return "/api/v1/place-reviews/" + "\(reviewId)"
-        default:
-            return "/api/v1/place-reviews"
-        }
-    }
-    
-    var method: HTTPMethod {
-        switch self {
-        case .createReview:
-            return .post
-        case .updateReview:
-            return .patch
-        case .deleteReview:
-            return .delete
-        case .readPlaceIdReview, .readUserIdReview:
-            return .get
-        }
-    }
-    
-    var parameter: Parameters {
-        switch self {
-        case let .createReview(placeId, rating, review):
-            var params = Parameters()
-            params["placeId"] = placeId
-            params["rating"] = rating
-            params["review"] = review
-            return params
-        case let .updateReview(id, rating, review):
-            var params = Parameters()
-            params["id"] = id
-            params["rating"] = rating
-            params["review"] = review
-            return params
-        case .deleteReview(_):
-            let params = Parameters()
-            return params
-        case let .readPlaceIdReview(_, size, sortType, lastId):
-            var params = Parameters()
-            params["size"] = size
-            params["sortType"] = sortType
-            params["lastId"] = lastId
-            return params
-        case let .readUserIdReview(_, size, sortType, lastId):
-            var params = Parameters()
-            params["size"] = size
-            params["sortType"] = sortType
-            params["lastId"] = lastId
-            return params
-        }
-    }
-    
-    // MARK: - URLRequestConvertible
-    func asURLRequest() throws -> URLRequest {
-        let url = URL(string: baseURL)!.appendingPathComponent(endPoint)
-        
-        var request = URLRequest(url: url)
+extension ReviewRouter: TargetType, AccessTokenAuthorizable {
 
-        switch self {
-        case .createReview, .updateReview, .deleteReview:
-            request.httpBody = try JSONEncoding.prettyPrinted.encode(request, with: parameter).httpBody
-        case .readPlaceIdReview, .readUserIdReview:
-            request = try URLEncoding.queryString.encode(request, with: parameter)
-        }
-        
-        request.method = method
-        request.headers = header
-        
-        return request
+  var baseURL: URL {
+    return URL(string: ApiClient.BASE_URL)!
+  }
+
+  var path: String {
+    switch self {
+    case let .deleteReview(reviewId):
+      return "/api/v1/place-reviews/" + "\(reviewId)"
+    case let .readPlaceIdReview(placeId, _, _, _):
+      return "/api/v1/place-reviews/places/" + "\(placeId)"
+    case let .readUserIdReview(userId, _, _, _):
+      return "/api/v1/place-reviews/users/" + "\(userId)"
+    case let .getIfReviewExist(placeId):
+      return "/api/v1/place-reviews/\(placeId)"
+    case let .getReviewCount(placeId):
+      return "/api/v1/place-reviews/count/\(placeId)"
+    case let .getAverageStarRating(placeId):
+      return "/api/v1/place-reviews/average/\(placeId)"
+    default:
+      return "/api/v1/place-reviews"
     }
+  }
+
+  var method: Moya.Method {
+    switch self {
+    case .createReview:
+      return .post
+    case .updateReview:
+      return .patch
+    case .deleteReview:
+      return .delete
+    default:
+      return .get
+    }
+  }
+
+  var task: Moya.Task {
+    switch self {
+    case let .createReview(placeId, rating, review):
+      var params: [String: Any] = [:]
+      params["placeId"] = placeId
+      params["rating"] = rating
+      params["review"] = review
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
+    case let .updateReview(id, rating, review):
+      var params: [String: Any] = [:]
+      params["id"] = id
+      params["rating"] = rating
+      params["review"] = review
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
+    case let .readPlaceIdReview(_, size, sortType, lastId),
+      let .readUserIdReview(_, size, sortType, lastId):
+      var params: [String: Any] = [:]
+      params["size"] = size
+      params["sortType"] = sortType
+      params["lastId"] = lastId
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    default:
+      return .requestPlain
+    }
+  }
+
+  var headers: [String: String]? {
+    switch self {
+    default:
+      return ["Content-type": "application/json"]
+    }
+  }
+
+  var authorizationType: Moya.AuthorizationType? {
+    return .bearer
+  }
+
+  var validationType: ValidationType {
+    return .successCodes
+  }
 }

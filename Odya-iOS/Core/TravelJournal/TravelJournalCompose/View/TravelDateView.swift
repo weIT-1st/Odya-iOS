@@ -40,7 +40,12 @@ struct TravelDatePickerView: View {
   @State private var isStartDatePicked: Bool = true
 
   var endDateLimit: Date {
-    return selectedStartDate.addDays(14) ?? selectedStartDate
+    if let endDate = selectedStartDate.addDays(14) {
+      let today = Date()
+      return endDate > today ? today : endDate
+    } else {
+      return selectedStartDate
+    }
   }
 
   var isDatesValid: Bool {
@@ -152,7 +157,7 @@ struct TravelDatePickerView: View {
     DatePicker(
       "Travel EndDate",
       selection: $selectedEndDate,
-      in: Date() <= endDateLimit ? selectedStartDate...Date() : selectedStartDate...endDateLimit,
+      in: selectedStartDate...endDateLimit,
       displayedComponents: [.date]
     )
     .datePickerStyle(.graphical)
@@ -161,7 +166,13 @@ struct TravelDatePickerView: View {
     .detail2Style()
     .frame(height: 350, alignment: .top)
     .onAppear {
-      selectedEndDate = selectedStartDate.addDays(1) ?? selectedStartDate
+      if let newEndDate = selectedStartDate.addDays(1),
+        newEndDate <= endDateLimit
+      {
+        selectedEndDate = newEndDate
+      } else {
+        selectedEndDate = selectedStartDate
+      }
     }
   }
 }
@@ -173,25 +184,14 @@ struct DailyJournalDatePicker: View {
 
   // MARK: Properties
 
-  @ObservedObject var journalComposeVM: JournalComposeViewModel
-  @Binding var isDatePickerVisible: Bool
+  @EnvironmentObject var journalComposeVM: JournalComposeViewModel
 
-  @State private var selectedDate: Date
+  @State private var selectedDate: Date = Date()
 
-  let startDate: Date
-  let endDate: Date
+  var startDate: Date { journalComposeVM.startDate }
+  var endDate: Date { journalComposeVM.endDate }
 
-  init(journalComposeVM: JournalComposeViewModel, isDatePickerVisible: Binding<Bool>) {
-    self._journalComposeVM = ObservedObject(initialValue: journalComposeVM)
-    self._isDatePickerVisible = isDatePickerVisible
-
-    let pickedJournal = journalComposeVM.dailyJournalList[
-      journalComposeVM.pickedJournalIndex!]
-    self._selectedDate = State(initialValue: pickedJournal.date ?? journalComposeVM.startDate)
-
-    self.startDate = journalComposeVM.startDate
-    self.endDate = journalComposeVM.endDate
-  }
+  @Environment(\.dismiss) private var dismiss
 
   // MARK: Body
 
@@ -211,7 +211,7 @@ struct DailyJournalDatePicker: View {
       HStack {
         Button(action: {
           journalComposeVM.pickedJournalIndex = nil
-          isDatePickerVisible = false
+          dismiss()
         }) {
           Text("취소")
             .b1Style()
@@ -221,9 +221,9 @@ struct DailyJournalDatePicker: View {
         }
 
         Button(action: {
-          journalComposeVM.setJournalDate(selectedDate: selectedDate)
+          journalComposeVM.setJournalDate(newDate: selectedDate)
           journalComposeVM.pickedJournalIndex = nil
-          isDatePickerVisible = false
+          dismiss()
           journalComposeVM.dailyJournalList.sort()
         }) {
           Text("확인")
@@ -238,5 +238,14 @@ struct DailyJournalDatePicker: View {
     .padding(15)
     .background(Color.odya.elevation.elev2)
     .cornerRadius(Radius.small)
+    .onAppear {
+      if let pickedIdx = journalComposeVM.pickedJournalIndex,
+        let orgDate = journalComposeVM.dailyJournalList[pickedIdx].date
+      {
+        self.selectedDate = orgDate
+      } else {
+        self.selectedDate = journalComposeVM.startDate
+      }
+    }
   }
 }
