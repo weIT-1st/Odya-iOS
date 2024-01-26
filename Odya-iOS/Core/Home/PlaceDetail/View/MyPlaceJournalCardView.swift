@@ -149,6 +149,7 @@ struct MyPlaceJournalCardView_Previews: PreviewProvider {
       imageUrl: "1234",
       startDateString: "2023-08-01",
       endDateString: "2023-08-05",
+      placeIds: [],
       writer: Writer(userID: -1, nickname: "닉네임", profile: ProfileData(profileUrl: ""), isFollowing: false),
       visibility: "PUBLIC",
       travelMates: [travelMateSimple(username: "친구이름")], 

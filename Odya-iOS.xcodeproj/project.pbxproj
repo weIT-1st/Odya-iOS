@@ -94,6 +94,8 @@
 		19E212AC2B06F7D4003155C0 /* CommunityLikeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */; };
 		19E212AE2B070A77003155C0 /* FollowButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AD2B070A77003155C0 /* FollowButtonViewModel.swift */; };
 		19E212B02B07289F003155C0 /* CommunityLikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AF2B07289F003155C0 /* CommunityLikeViewModel.swift */; };
+		19E3C1BE2B6244070037A495 /* String+Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1BD2B6244070037A495 /* String+Place.swift */; };
+		19E3C1C02B634BF30037A495 /* PlaceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1BF2B634BF30037A495 /* PlaceTextView.swift */; };
 		19E3C1BA2B61F6470037A495 /* PlaceBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1B92B61F6470037A495 /* PlaceBookmarkManager.swift */; };
 		19E3C1BC2B6203F00037A495 /* MyPlaceJournalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1BB2B6203F00037A495 /* MyPlaceJournalCardView.swift */; };
 		19EBA7532AB16B7D000ABBE5 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 19EBA7522AB16B7D000ABBE5 /* CombineMoya */; };
@@ -358,6 +360,8 @@
 		19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeRouter.swift; sourceTree = "<group>"; };
 		19E212AD2B070A77003155C0 /* FollowButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButtonViewModel.swift; sourceTree = "<group>"; };
 		19E212AF2B07289F003155C0 /* CommunityLikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeViewModel.swift; sourceTree = "<group>"; };
+		19E3C1BD2B6244070037A495 /* String+Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Place.swift"; sourceTree = "<group>"; };
+		19E3C1BF2B634BF30037A495 /* PlaceTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTextView.swift; sourceTree = "<group>"; };
 		19E3C1B92B61F6470037A495 /* PlaceBookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceBookmarkManager.swift; sourceTree = "<group>"; };
 		19E3C1BB2B6203F00037A495 /* MyPlaceJournalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceJournalCardView.swift; sourceTree = "<group>"; };
 		19EBA7562AB16BDE000ABBE5 /* TermsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsRouter.swift; sourceTree = "<group>"; };
@@ -650,6 +654,7 @@
 				19385A3D2B32D10C000CB6AB /* UINavigationController.swift */,
 				19DE0AB22B43D4C50079A660 /* Placeholder.swift */,
 				0773639C2B4AE4B7007F37CA /* TransparentFullScreenCover.swift */,
+				19E3C1BD2B6244070037A495 /* String+Place.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1210,6 +1215,7 @@
 				3E4670342B1FB8CD00B54D0A /* UserIdentityLink.swift */,
 				072D7BDF2B4977F60045C75B /* StarRatingView.swift */,
 				1906B9812B5670350043DCF8 /* NoContentDescriptionView.swift */,
+				19E3C1BF2B634BF30037A495 /* PlaceTextView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1619,6 +1625,7 @@
 				0784964E2A908C1800A490E3 /* RoundedEdgeShape.swift in Sources */,
 				3EBEC3B32A6FF75D00998EC6 /* EditButton.swift in Sources */,
 				3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */,
+				19E3C1C02B634BF30037A495 /* PlaceTextView.swift in Sources */,
 				19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */,
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3E075C912B230A1C0093CACD /* PofileInfoSection.swift in Sources */,
@@ -1650,6 +1657,7 @@
 				3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */,
 				07B221222B491BBB006C2B20 /* PlaceDetailView.swift in Sources */,
 				07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */,
+				19E3C1BE2B6244070037A495 /* String+Place.swift in Sources */,
 				195BF2F92ACE755400E4FEDD /* ShowMoreJournalButton.swift in Sources */,
 				07B221262B491D92006C2B20 /* ReviewViewModel.swift in Sources */,
 				3E414B352ADFDE8500034FBB /* TravelJournalViewModel.swift in Sources */,

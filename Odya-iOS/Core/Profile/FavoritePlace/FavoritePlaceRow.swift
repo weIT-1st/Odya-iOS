@@ -29,11 +29,11 @@ struct FavoritePlaceRow: View {
         .renderingMode(.template)
 
       VStack(alignment: .leading, spacing: 8) {
-        Text("\(placeIdString)")
+        PlaceNameTextView(placeId: placeIdString)
           .b1Style()
           .foregroundColor(.odya.label.normal)
           .frame(height: 12)
-        Text("부산 해운대구")
+        PlaceAddressTextView(placeId: placeIdString)
           .b2Style()
           .foregroundColor(.odya.label.assistive)
           .frame(height: 12)

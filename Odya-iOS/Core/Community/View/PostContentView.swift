@@ -99,7 +99,7 @@ struct PostContentView: View {
         .foregroundColor(Color.odya.label.assistive)
 
       // 장소명
-      Text(placeId ?? "")
+      PlaceNameTextView(placeId: placeId)
         .detail2Style()
         .foregroundColor(Color.odya.label.assistive)
     }

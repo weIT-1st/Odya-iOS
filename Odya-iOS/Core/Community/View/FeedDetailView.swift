@@ -238,7 +238,7 @@ struct FeedDetailView: View {
         .foregroundColor(Color.odya.label.assistive)
         .frame(width: 24, height: 24)
       // 장소명
-      Text(viewModel.feedDetail.placeId ?? "")
+      PlaceNameTextView(placeId: viewModel.feedDetail.placeId)
         .lineLimit(1)
         .multilineTextAlignment(.leading)
         .detail2Style()
