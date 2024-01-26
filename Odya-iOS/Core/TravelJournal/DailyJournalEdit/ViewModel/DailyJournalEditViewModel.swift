@@ -113,6 +113,17 @@ class DailyJournalEditViewModel: ObservableObject {
       let deletedImagesId: [Int] = originalJournal.images.filter { !fetchedImages.contains($0) }.map
       { $0.imageId }
       debugPrint(deletedImagesId)
+      
+      // 사진 위치 정보 정리
+      // TODO: 삭제된 사진의 위치 정보 처리
+      var newLatitudes = latitudes
+      newLatitudes += selectedImages.compactMap {
+        $0.location?.latitude
+      }
+      var newLongitudes = longitudes
+      newLongitudes += selectedImages.compactMap {
+        $0.location?.longitude
+      }
 
       // api 호출
       _ = try await updateDailyJournalAPI(
