@@ -27,6 +27,8 @@ enum UserRouter {
   case getUserStatistics(userId: Int)
   // 10. 사용자 인생샷 조회
   case getPOTDList(userId: Int, size: Int?, lastId: Int?)
+  // 11. 전화번호로 유저 검색
+  case searchUserByPhoneNumber(phoneNumbers: [String])
 }
 
 extension UserRouter: TargetType, AccessTokenAuthorizable {
@@ -54,6 +56,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/users/\(userId)/statistics"
     case let .getPOTDList(userId, _, _):
       return "/api/v1/users/\(userId)/life-shots"
+    case .searchUserByPhoneNumber:
+      return "/api/v1/users/search/phone-number"
     }
   }
 
@@ -96,6 +100,13 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       var params: [String: Any] = [:]
       params["size"] = size
       params["lastId"] = lastId
+      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+    case .searchUserByPhoneNumber(let phoneNumbers) :
+      var params: [String: Any] = [:]
+      // TODO: key 중복으로 하나만 들어감
+      phoneNumbers.enumerated().forEach { (idx, phoneNumber) in
+        params["phoneNumbers\(idx)"] = phoneNumber
+      }
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     default:
       return .requestPlain

@@ -55,8 +55,10 @@ struct RegisterTopicsView: View {
         
         // topic list
         if !isReady {
+          Spacer()
           ProgressView()
             .frame(maxWidth: .infinity)
+          Spacer()
         } else {
           topicsGridView()
         }
