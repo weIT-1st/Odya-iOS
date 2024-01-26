@@ -33,7 +33,6 @@ struct FavoritePlaceRow: View {
           .b1Style()
           .foregroundColor(.odya.label.normal)
           .frame(height: 12)
-        // TODO: place address
         PlaceAddressTextView(placeId: placeIdString)
           .b2Style()
           .foregroundColor(.odya.label.assistive)

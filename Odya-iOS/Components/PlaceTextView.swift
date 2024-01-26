@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// placeId를 placeName으로 변환한 텍스트 뷰
+/// PlaceID 문자열로 장소명을 변환한 텍스트 뷰
 struct PlaceNameTextView: View {
   @State var placeId: String?
   @State private var placeName: String = ""
@@ -26,6 +26,7 @@ struct PlaceNameTextView: View {
   }
 }
 
+/// PlaceID 문자열로 장소 주소를 변환한 텍스트 뷰
 struct PlaceAddressTextView: View {
   @State var placeId: String?
   @State private var placeAddress: String = ""
