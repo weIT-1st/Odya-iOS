@@ -61,26 +61,9 @@ struct FeedCommentView: View {
   
   /// 댓글 더보기 버튼
   private var fullCommentButton: some View {
-    Button {
+    ShowMoreButton(labelText: "\(totalCommentCount - viewModel.state.content.prefix(2).count)개의 댓글 더보기") {
       // action: open bottom sheet
       viewModel.showCommentSheet.toggle()
-    } label: {
-      HStack(spacing: 10) {
-        Text("\(totalCommentCount - viewModel.state.content.prefix(2).count)개의 댓글 더보기")
-          .detail1Style()
-          .foregroundColor(Color.odya.label.assistive)
-        Image("more-off")
-      }
-      .padding(.vertical, 8)
-      .frame(height: 36)
-      .frame(maxWidth: .infinity)
-      .background(Color.odya.elevation.elev3)
-      .cornerRadius(8)
-      .overlay(
-        RoundedRectangle(cornerRadius: 8)
-          .inset(by: 0.5)
-          .stroke(Color.odya.line.alternative, lineWidth: 1)
-      )
     }
     .sheet(isPresented: $viewModel.showCommentSheet) {
       FeedFullCommentSheet(isEditing: false, communityId: communityId)

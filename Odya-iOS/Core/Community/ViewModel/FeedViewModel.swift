@@ -52,7 +52,7 @@ final class FeedViewModel: ObservableObject {
     } receiveValue: { response in
       if let data = try? response.map(Feed.self) {
         self.state.content += data.content
-        self.state.lastId = data.content.last?.communityID
+        self.state.lastId = data.content.last?.communityId
         self.state.canLoadNextPage = data.hasNext
       }
     }
@@ -85,7 +85,7 @@ final class FeedViewModel: ObservableObject {
     } receiveValue: { response in
       if let data = try? response.map(Feed.self) {
         self.state.content += data.content
-        self.state.lastId = data.content.last?.communityID
+        self.state.lastId = data.content.last?.communityId
         self.state.canLoadNextPage = data.hasNext
       }
     }
@@ -115,7 +115,7 @@ final class FeedViewModel: ObservableObject {
       } receiveValue: { response in
         if let data = try? response.map(Feed.self) {
           self.state.content += data.content
-          self.state.lastId = data.content.last?.communityID
+          self.state.lastId = data.content.last?.communityId
           self.state.canLoadNextPage = data.hasNext
           print(self.state.content)
         }

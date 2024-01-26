@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomToggleStyle: ToggleStyle {
     let onColor = Color.odya.brand.primary
-    let offColor = Color.odya.label.inactive
+    let offColor = Color.odya.system.inactive
     let size = CGSize(width: 51, height: 31)
     
     func makeBody(configuration: Configuration) -> some View {

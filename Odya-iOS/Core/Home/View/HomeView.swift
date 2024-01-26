@@ -9,6 +9,7 @@ import SwiftUI
 
 enum PlaceDetailRoute: Hashable {
   case feedDetail(id: Int)
+  case journalDetail(id: Int)
 }
 
 struct HomeView: View {
@@ -58,6 +59,9 @@ struct HomeView: View {
         switch route {
         case let .feedDetail(communityId):
           FeedDetailView(path: $path, communityId: communityId)
+        case let.journalDetail(journalId):
+          TravelJournalDetailView(journalId: journalId)
+            .navigationBarHidden(true)
         }
       }
     }
