@@ -14,7 +14,7 @@ struct MyReviewListView: View {
     LazyVStack(spacing: 12) {
       ForEach(VM.reviews, id: \.id) { review in
         MyReviewCardView(
-          placeName: review.placeId,
+          placeId: review.placeId,
           rating: review.starRating,
           review: review.review,
           date: review.createdAt.toDate()

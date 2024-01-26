@@ -23,7 +23,7 @@ struct RandomJounalCardView: View {
     return
       "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
   }
-  var locationString: String { "해운대 해수욕장" }
+  var placeId: String { journal?.placeIds.first ?? "" }
   var imageUrl: String { journal?.imageUrl ?? "" }
 
   var body: some View {
@@ -80,10 +80,12 @@ struct RandomJounalCardView: View {
           .foregroundColor(.odya.label.assistive)
           .frame(height: 9)
           .padding(.bottom, 16)
-        HStack {
-          Image("location-s")
-          Text(locationString)
-            .detail2Style()
+        if !placeId.isEmpty {
+          HStack {
+            Image("location-s")
+            PlaceNameTextView(placeId: placeId)
+              .detail2Style()
+          }
         }
       }.foregroundColor(.odya.label.normal)
       Spacer()
@@ -108,7 +110,7 @@ struct TravelJournalCardView: View {
   let journalId: Int
   var title: String
   var travelDateString: String
-  var locationString: String
+  var placeId: String
   var imageUrl: String
   @State private var isBookmarked: Bool
 
@@ -117,8 +119,7 @@ struct TravelJournalCardView: View {
     self.title = journal.title
     self.travelDateString =
       "\(journal.travelStartDate.dateToString(format: "yyyy.MM.dd")) ~ \(journal.travelEndDate.dateToString(format: "yyyy.MM.dd"))"
-    // TODO: location, placeId
-    self.locationString = "해운대 해수욕장"
+    self.placeId = journal.placeIds.first ?? ""
     self.imageUrl = journal.imageUrl
     self.isBookmarked = journal.isBookmarked
   }
@@ -155,10 +156,12 @@ struct TravelJournalCardView: View {
           .foregroundColor(.odya.label.assistive)
           .frame(height: 9)
           .padding(.bottom, 16)
-        HStack {
-          Image("location-s")
-          Text(locationString)
-            .detail2Style()
+        if !placeId.isEmpty {
+          HStack {
+            Image("location-s")
+            PlaceNameTextView(placeId: placeId)
+              .detail2Style()
+          }
         }
       }.foregroundColor(.odya.label.normal)
       Spacer()
@@ -237,13 +240,13 @@ struct TravelJournalSmallCardView: View {
 
 /// 내 추억 뷰에서 내가 쓴 한줄리뷰를 보여주기 위한 카드 뷰
 struct MyReviewCardView: View {
-  let placeName: String
+  let placeId: String
   let rating: Int
   let review: String
   let date: String
 
-  init(placeName: String, rating: Int, review: String, date: Date) {
-    self.placeName = placeName
+  init(placeId: String, rating: Int, review: String, date: Date) {
+    self.placeId = placeId
     self.rating = Int(floor(Double(rating) / 2.0))
     self.review = review
     self.date = date.dateToString(format: "yyyy.MM.dd")
@@ -279,7 +282,7 @@ struct MyReviewCardView: View {
 
   private var placeNameText: some View {
     HStack {
-      Text(placeName)
+      PlaceNameTextView(placeId: placeId)
         .b1Style()
         .foregroundColor(.odya.label.normal)
       Spacer()

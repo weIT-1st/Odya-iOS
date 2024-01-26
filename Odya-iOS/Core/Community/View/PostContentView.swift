@@ -66,7 +66,7 @@ struct PostContentView: View {
 
       /// 장소, 좋아요, 댓글
       HStack {
-        if let placeId {
+        if let _ = placeId {
           locationView
         }
         Spacer()
@@ -99,7 +99,7 @@ struct PostContentView: View {
         .foregroundColor(Color.odya.label.assistive)
 
       // 장소명
-      Text(placeId ?? "")
+      PlaceNameTextView(placeId: placeId)
         .detail2Style()
         .foregroundColor(Color.odya.label.assistive)
     }

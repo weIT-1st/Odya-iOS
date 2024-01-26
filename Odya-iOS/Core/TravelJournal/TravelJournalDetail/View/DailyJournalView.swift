@@ -17,7 +17,7 @@ struct DailyJournalView: View {
   let dailyJournal: DailyJournal
   let dateString: String
   let content: String
-  let placeName: String
+  let placeId: String
   let placeLoc: String
   var images: [DailyJournalImage] = []
 
@@ -52,7 +52,8 @@ struct DailyJournalView: View {
 
     self.dateString = dailyJournal.travelDate.dateToString(format: "yyyy.MM.dd")
     self.content = dailyJournal.content
-    self.placeName = "덕수궁 돌담길"
+    self.placeId = dailyJournal.placeId ?? ""
+    // TODO: address
     self.placeLoc = "서울특별시 중구"
     self.images = dailyJournal.images
   }
@@ -109,8 +110,10 @@ struct DailyJournalView: View {
         ImageGridView(
           images: displayedImages.map { $0.imageUrl }, totalWidth: imageListWidth, spacing: 3)
       }
-
-      placeInfo
+      
+      if !placeId.isEmpty {
+        placeInfo
+      }
     }
     .padding(.bottom, 40)
     .animation(.easeInOut, value: isExpanded)
@@ -175,7 +178,7 @@ struct DailyJournalView: View {
           .renderingMode(.template)
           .resizable()
           .frame(width: 12, height: 12)
-        Text(placeName)
+        PlaceNameTextView(placeId: placeId)
           .detail2Style()
       }.foregroundColor(.odya.brand.primary)
       Spacer()
