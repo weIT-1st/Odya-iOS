@@ -258,8 +258,6 @@ class JournalComposeViewModel: ObservableObject {
           $0.location?.longitude
         }
       }
-      
-      debugPrint(dailyJournalList)
 
       // api 호출
       _ = try await createJournalAPI(idToken: idToken, webpImages: webPImages)
