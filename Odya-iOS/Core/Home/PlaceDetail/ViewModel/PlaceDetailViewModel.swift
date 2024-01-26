@@ -21,8 +21,8 @@ final class PlaceDetailViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
-  private lazy var reviewProvider = MoyaProvider<ReviewRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
-  private var subscription = Set<AnyCancellable>()
+  lazy var journalRouter = MoyaProvider<TravelJournalRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin])
+  var subscription = Set<AnyCancellable>()
   
   // google places
   private let placeClient = GMSPlacesClient()
@@ -40,21 +40,25 @@ final class PlaceDetailViewModel: ObservableObject {
   
   @Published private(set) var feedState = FeedState()
   
-  struct ReviewState {
-    var content: [Review] = []
+  struct JournalState {
+    var content: [TravelJournalData] = []
     var lastId: Int? = nil
     var canLoadNextPage = true
   }
   
-  @Published private(set) var reviewState = ReviewState()
-  
-  @Published var isReviewExisted: Bool? = nil
-  @Published var reviewCount: Int? = nil
-  @Published var averageStarRating: Double = 0.0
-  
-  @Published var myReview: Review? = nil
+  @Published private(set) var friendsJournalState = JournalState()
+  @Published private(set) var recommendedJournalState = JournalState()
+  @Published var myJournalList: [TravelJournalData] = []
   
   // MARK: - Helper functions
+  
+  func handleErrorData(error: MoyaError) {
+    if let errorData = try? error.response?.map(ErrorData.self) {
+      print("\(errorData.code): \(errorData.message)")
+    } else {
+      print("알 수 없는 오류 발생")
+    }
+  }
   
   /// 장소 사진 가져오기
   func fetchPlaceImage(placeId: String, token: GMSAutocompleteSessionToken?) {
@@ -101,91 +105,7 @@ final class PlaceDetailViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
-  /// 한줄리뷰 관련 조회
-  func fetchReviewInfo(placeId: String) {
-    fetchIfReviewExist(placeId: placeId)
-    fetchReviewCount(placeId: placeId)
-    fetchAverageStarRating(placeId: placeId)
-  }
-  
-  /// 한줄리뷰 작성 여부 조회
-  private func fetchIfReviewExist(placeId id: String) {
-    reviewProvider.requestPublisher(.getIfReviewExist(placeId: id))
-      .sink { completion in
-        switch completion {
-        case .finished:
-          debugPrint("리뷰 작성 여부 조회 완료")
-        case .failure(let error):
-          self.handleErrorData(error: error)
-        }
-      } receiveValue: { response in
-        if let data = try? response.map(ReviewExistResponse.self) {
-          self.isReviewExisted = data.exist
-        }
-      }
-      .store(in: &subscription)
-  }
-  
-  /// 한줄리뷰 개수 조회
-  private func fetchReviewCount(placeId id: String) {
-    reviewProvider.requestPublisher(.getReviewCount(placeId: id))
-      .sink { completion in
-        switch completion {
-        case .finished:
-          debugPrint("리뷰 수 조회 완료")
-        case .failure(let error):
-          self.handleErrorData(error: error)
-        }
-      } receiveValue: { response in
-        if let data = try? response.map(ReviewCountResponse.self) {
-          self.reviewCount = data.count
-        }
-      }
-      .store(in: &subscription)
-  }
-  
-  /// 리뷰 평균 별점 조회
-  private func fetchAverageStarRating(placeId id: String) {
-    reviewProvider.requestPublisher(.getAverageStarRating(placeId: id))
-      .sink { completion in
-        switch completion {
-        case .finished:
-          debugPrint("평균 별점 조회 완료")
-        case .failure(let error):
-          self.handleErrorData(error: error)
-        }
-      } receiveValue: { response in
-        if let data = try? response.map(ReviewAverageStarRatingResponse.self) {
-          self.averageStarRating = data.averageStarRating / 2
-        }
-      }
-      .store(in: &subscription)
-  }
-  
-  func fetchReviewByPlaceNextPageIfPossible(placeId: String) {
-    guard reviewState.canLoadNextPage else { return }
-    if placeId.isEmpty { return }
-    
-    reviewProvider.requestPublisher(.readPlaceIdReview(placeId: placeId, size: nil, sortType: nil, lastId: reviewState.lastId))
-      .sink { completion in
-        switch completion {
-        case .finished:
-          debugPrint("장소 리뷰 조회 완료")
-        case .failure(let error):
-          self.handleErrorData(error: error)
-        }
-      } receiveValue: { response in
-        if let data = try? response.map(ReviewListResponse.self) {
-          self.reviewState.content = data.content
-          self.reviewState.lastId = data.content.last?.reviewId
-          self.reviewState.canLoadNextPage = data.hasNext
-          
-          self.myReview = self.reviewState.content.filter { $0.writer.userID == MyData.userID }.first
-        }
-      }
-      .store(in: &subscription)
-  }
-  
+  // MARK: Community
   /// 장소 Id로 커뮤니티 조회
   func fetchAllFeedByPlaceNextPageIfPossible(placeId: String) {
     guard feedState.canLoadNextPage else { return }
@@ -208,13 +128,73 @@ final class PlaceDetailViewModel: ObservableObject {
       }
       .store(in: &subscription)
   }
+}
+
+extension PlaceDetailViewModel {
+  // MARK: Travel Journal
+  func fetchTravelJournal(placeId: String) {
+    if placeId.isEmpty { return }
+    fetchMyTravelJournalByPlace(placeId: placeId)
+    fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
+    fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: placeId)
+  }
   
-  /// 에러 핸들링
-  func handleErrorData(error: MoyaError) {
-    if let errorData = try? error.response?.map(ErrorData.self) {
-      print("\(errorData.code): \(errorData.message)")
-    } else {
-      print("알 수 없는 오류 발생")
-    }
+  private func fetchMyTravelJournalByPlace(placeId: String) {
+    journalRouter.requestPublisher(.getMyJournals(token: idToken ?? "", size: 1, lastId: nil, placeId: placeId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 상세보기 - 나의 여행일지 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(TravelJournalList.self) {
+          self.myJournalList = data.content
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  func fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: String) {
+    guard friendsJournalState.canLoadNextPage else { return }
+    
+    journalRouter.requestPublisher(.getFriendsJournals(token: idToken ?? "", size: 5, lastId: friendsJournalState.lastId, placeId: placeId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 상세보기 - 친구 여행일지 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(TravelJournalList.self) {
+          self.friendsJournalState.content += data.content
+          self.friendsJournalState.lastId = data.content.last?.journalId
+          self.friendsJournalState.canLoadNextPage = data.hasNext
+        }
+      }
+      .store(in: &subscription)
+  }
+  
+  func fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: String) {
+    guard recommendedJournalState.canLoadNextPage else { return }
+    
+    journalRouter.requestPublisher(.getRecommendedJournals(token: idToken ?? "", size: 5, lastId: recommendedJournalState.lastId, placeId: placeId))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("장소 상세보기 - 추천 여행일지 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map(TravelJournalList.self) {
+          self.recommendedJournalState.content += data.content
+          self.recommendedJournalState.lastId = data.content.last?.journalId
+          self.recommendedJournalState.canLoadNextPage = data.hasNext
+        }
+      }
+      .store(in: &subscription)
   }
 }

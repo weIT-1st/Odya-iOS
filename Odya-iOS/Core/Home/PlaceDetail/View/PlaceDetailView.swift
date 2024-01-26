@@ -24,6 +24,27 @@ enum PlaceDetailContentType: Int, CaseIterable {
   }
 }
 
+enum ReviewSortType: String, CaseIterable {
+  case latest
+  case highest
+  case lowest
+  
+  var title: String {
+    switch self {
+    case .latest:
+      return "최신순"
+    case .highest:
+      return "별점 높은순"
+    case .lowest:
+      return "별점 낮은순"
+    }
+  }
+  
+  var sortType: String {
+    return self.rawValue.uppercased()
+  }
+}
+
 /// 장소 상세보기 뷰
 struct PlaceDetailView: View {
   // MARK: Properties
@@ -31,11 +52,16 @@ struct PlaceDetailView: View {
   @Binding var isPresented: Bool
   @Binding var path: NavigationPath
   
-  @StateObject var viewModel = PlaceDetailViewModel()
+  @StateObject var placeDetailVM = PlaceDetailViewModel()
+  @StateObject var reviewVM = ReviewViewModel()
+  @StateObject var bookmarkManager = PlaceBookmarkManager()
   @State var showReviewComposeView: Bool = false
+  @State var showFullReviewBottomSheet: Bool = false
+  @State var selectedReviewSortType: ReviewSortType = .latest
   @State var scrollDestination: PlaceDetailContentType = .journal
   @State var isScrollDestinationChanged: Bool = false
   
+  let maxReviewCount: Int = 5
   /// Grid columns
   var columns = [GridItem(.flexible(), spacing: 3),
                  GridItem(.flexible(), spacing: 3),
@@ -88,15 +114,19 @@ struct PlaceDetailView: View {
       .frame(maxWidth: .infinity)
       .sheet(isPresented: $showReviewComposeView) {
         ReviewComposeView(isPresented: $showReviewComposeView, placeId: $placeInfo.placeId)
+          .environmentObject(reviewVM)
           .presentationDetents([.medium])
           .presentationDragIndicator(.visible)
       }
+      .onAppear {
+        placeDetailVM.fetchPlaceImage(placeId: placeInfo.placeId, token: placeInfo.sessionToken)
+        placeDetailVM.fetchVisitingUser(placeId: placeInfo.placeId)
+        placeDetailVM.fetchTravelJournal(placeId: placeInfo.placeId)
+        placeDetailVM.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+      }
       .task {
-        viewModel.fetchPlaceImage(placeId: placeInfo.placeId, token: placeInfo.sessionToken)
-        viewModel.fetchVisitingUser(placeId: placeInfo.placeId)
-        viewModel.fetchReviewInfo(placeId: placeInfo.placeId)
-        viewModel.fetchReviewByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
-        viewModel.fetchAllFeedByPlaceNextPageIfPossible(placeId: placeInfo.placeId)
+        reviewVM.refreshAllReviewContent(placeId: placeInfo.placeId, sortType: selectedReviewSortType.sortType)
+        bookmarkManager.checkIfFavoritePlace(placeId: placeInfo.placeId)
       }
     }
   }
@@ -130,7 +160,7 @@ struct PlaceDetailView: View {
   
   private var visitorView: some View {
     VStack {
-      if let count = viewModel.visitorCount {
+      if let count = placeDetailVM.visitorCount {
         if count > 0 {
           HStack {
             HStack(spacing: 16) {
@@ -141,7 +171,7 @@ struct PlaceDetailView: View {
             }
             Spacer()
             HStack(spacing: -4) {
-              ForEach(viewModel.visitorList.prefix(3), id: \.id) { visitor in
+              ForEach(placeDetailVM.visitorList.prefix(3), id: \.id) { visitor in
                 ProfileImageView(of: "", profileData: visitor.profile, size: .S)
               }
             }
@@ -160,11 +190,13 @@ struct PlaceDetailView: View {
   /// 장소 사진, 이름, 주소, 다녀간 친구, 관심장소 설정 버튼 포함
   private var overview: some View {
     ZStack(alignment: .bottomTrailing) {
-      if let photo = viewModel.placeImage {
+      if let photo = placeDetailVM.placeImage {
         Image(uiImage: photo)
           .resizable()
+          .aspectRatio(contentMode: .fill)
           .frame(maxWidth: .infinity)
           .frame(height: UIScreen.main.bounds.width * 0.586)
+          .clipped()
           .overlay(
             LinearGradient(
               stops: [
@@ -196,8 +228,9 @@ struct PlaceDetailView: View {
       .padding(.bottom, 20)
       Button {
         // action: 관심장소 설정/해제
+        bookmarkManager.setBookmarkStateWithPlacdId(placeInfo.placeId)
       } label: {
-        Image("bookmark-off")
+        Image(bookmarkManager.isBookmarked ? "bookmark-yellow" : "bookmark-off")
       }
       .padding(.trailing, 41)
       .padding(.bottom, 31)

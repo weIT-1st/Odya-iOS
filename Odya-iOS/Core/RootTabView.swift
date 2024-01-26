@@ -22,6 +22,7 @@ struct RootTabView: View {
     TabView(selection: $rootTabManager.selectedTab) {
       // MARK: 홈
       HomeView()
+        .environmentObject(rootTabManager)
         .tabItem {
           GNBButton(iconImage: "location-m", text: "홈")
         }.tag(0)
