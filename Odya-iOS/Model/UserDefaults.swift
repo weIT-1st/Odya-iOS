@@ -122,6 +122,8 @@ struct TempTravelJournalData {
   @UserDefault(key: keyEnum_TempTravelJournal.privacyType.rawValue, defaultValue: "")
   var privacyType
   
+  @UserDefault(key: keyEnum_TempTravelJournal.dailyJournals.rawValue, defaultValue: [String]())
+  var dailyJournals: [String]
 }
 
 enum keyEnum_MyData: String {
@@ -151,4 +153,5 @@ enum keyEnum_TempTravelJournal: String {
   case endDate
   case mates
   case privacyType
+  case dailyJournals
 }

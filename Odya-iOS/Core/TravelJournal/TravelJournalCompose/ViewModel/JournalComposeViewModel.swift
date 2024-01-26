@@ -344,6 +344,7 @@ class JournalComposeViewModel: ObservableObject {
     tempData.endDate = self.endDate
     tempData.mates = self.travelMates.map { $0.encodeToString() }
     tempData.privacyType = self.privacyType.toString()
+    tempData.dailyJournals = self.dailyJournalList.map { $0.encodeToString() }
   }
   
   func loadTemporaryTravelJournal() {
@@ -358,6 +359,7 @@ class JournalComposeViewModel: ObservableObject {
     self.endDate = tempData.endDate
     self.travelMates = tempData.mates.compactMap { $0.decodeToTravelMate() }
     self.privacyType = tempData.privacyType.toJournalPrivacyType()
+    self.dailyJournalList = tempData.dailyJournals.compactMap { $0.decodeToDailyJournal() }
     
     deleteTemporaryTravelJournal()
   }
@@ -372,6 +374,7 @@ class JournalComposeViewModel: ObservableObject {
     tempData.endDate = Date()
     tempData.mates = [String]()
     tempData.privacyType = ""
+    tempData.dailyJournals = [String]()
   }
   
   // MARK: Functions - daily journal

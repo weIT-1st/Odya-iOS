@@ -79,3 +79,47 @@ extension DailyTravelJournal: Comparable {
     return dateL < dateR
   }
 }
+
+// MARK: 데일리 일정 임시저장
+
+struct TempDailyJournal: Codable {
+  var date: Date?
+  var content: String
+  var placeId: String?
+  
+  var dailyJournalId: Int = -1
+  var isOriginal: Bool = false
+  
+  init(from dailyJournal: DailyTravelJournal) {
+    self.date = dailyJournal.date
+    self.content = dailyJournal.content
+    self.placeId = dailyJournal.placeId
+    
+    self.dailyJournalId = dailyJournal.dailyJournalId
+    self.isOriginal = dailyJournal.isOriginal
+  }
+}
+
+extension DailyTravelJournal {
+  func encodeToString() -> String {
+    let tempDailyJournal = TempDailyJournal(from: self)
+    if let encodedData = try? JSONEncoder().encode(tempDailyJournal) {
+      return String(data: encodedData, encoding: .utf8) ?? ""
+    }
+    return ""
+  }
+}
+
+extension String {
+  func decodeToDailyJournal() -> DailyTravelJournal? {
+    if let data = self.data(using: .utf8),
+       let decodedData = try? JSONDecoder().decode(TempDailyJournal.self, from: data) {
+      return DailyTravelJournal(date: decodedData.date,
+                                content: decodedData.content,
+                                placeId: decodedData.placeId,
+                                dailyJournalId: decodedData.dailyJournalId,
+                                isOriginal: decodedData.isOriginal)
+    }
+    return nil
+  }
+}
