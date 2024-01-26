@@ -34,7 +34,7 @@ struct FavoritePlaceRow: View {
           .foregroundColor(.odya.label.normal)
           .frame(height: 12)
         // TODO: place address
-        Text("부산 해운대구")
+        PlaceAddressTextView(placeId: placeIdString)
           .b2Style()
           .foregroundColor(.odya.label.assistive)
           .frame(height: 12)

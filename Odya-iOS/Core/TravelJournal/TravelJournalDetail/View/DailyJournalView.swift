@@ -18,7 +18,6 @@ struct DailyJournalView: View {
   let dateString: String
   let content: String
   let placeId: String
-  let placeLoc: String
   var images: [DailyJournalImage] = []
 
   var displayedImages: [DailyJournalImage] {
@@ -53,8 +52,6 @@ struct DailyJournalView: View {
     self.dateString = dailyJournal.travelDate.dateToString(format: "yyyy.MM.dd")
     self.content = dailyJournal.content
     self.placeId = dailyJournal.placeId ?? ""
-    // TODO: address
-    self.placeLoc = "서울특별시 중구"
     self.images = dailyJournal.images
   }
 
@@ -182,7 +179,7 @@ struct DailyJournalView: View {
           .detail2Style()
       }.foregroundColor(.odya.brand.primary)
       Spacer()
-      Text(placeLoc)
+      PlaceAddressTextView(placeId: placeId)
         .detail2Style()
         .foregroundColor(.odya.label.assistive)
     }

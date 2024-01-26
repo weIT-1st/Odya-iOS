@@ -25,3 +25,23 @@ struct PlaceNameTextView: View {
       }
   }
 }
+
+struct PlaceAddressTextView: View {
+  @State var placeId: String?
+  @State private var placeAddress: String = ""
+  
+  init(placeId: String?) {
+    self._placeId = State(initialValue: placeId)
+  }
+  
+  var body: some View {
+    Text(placeAddress)
+      .lineLimit(1)
+      .truncationMode(.tail)
+      .task {
+        placeId?.placeIdToAddress {
+          placeAddress = $0
+        }
+      }
+  }
+}
