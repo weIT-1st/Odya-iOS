@@ -344,6 +344,50 @@ class JournalComposeViewModel: ObservableObject {
     .store(in: &subscription)
   }
 
+  // MARK: Functions - save temporary
+  
+  func saveTempraryTravelJournal() {
+    var tempData = TempTravelJournalData()
+    tempData.dataExist = true
+    tempData.journalId = self.journalId
+    tempData.title = self.title
+    tempData.startDate = self.startDate
+    tempData.endDate = self.endDate
+    tempData.mates = self.travelMates.map { $0.encodeToString() }
+    tempData.privacyType = self.privacyType.toString()
+    tempData.dailyJournals = self.dailyJournalList.map { $0.encodeToString() }
+  }
+  
+  func loadTemporaryTravelJournal() {
+    let tempData = TempTravelJournalData()
+    
+    if tempData.dataExist == false {
+      return
+    }
+    
+    self.title = tempData.title
+    self.startDate = tempData.startDate
+    self.endDate = tempData.endDate
+    self.travelMates = tempData.mates.compactMap { $0.decodeToTravelMate() }
+    self.privacyType = tempData.privacyType.toJournalPrivacyType()
+    self.dailyJournalList = tempData.dailyJournals.compactMap { $0.decodeToDailyJournal() }
+    
+    deleteTemporaryTravelJournal()
+  }
+  
+  func deleteTemporaryTravelJournal() {
+    var tempData = TempTravelJournalData()
+    
+    tempData.dataExist = false
+    tempData.journalId = -1
+    tempData.title = ""
+    tempData.startDate = Date()
+    tempData.endDate = Date()
+    tempData.mates = [String]()
+    tempData.privacyType = ""
+    tempData.dailyJournals = [String]()
+  }
+  
   // MARK: Functions - daily journal
 
   func canAddMoreDailyJournals() -> Bool {

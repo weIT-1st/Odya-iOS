@@ -199,6 +199,20 @@ struct ContentComposeView: View {
     } label: {
       PlaceTagButton(placeName: placeName)
     }
+    .task {
+      if dailyJournal.placeId != nil && placeName == nil {
+        dailyJournal.placeId?.placeIdToName {
+          self.placeName = $0
+        }
+      }
+    }
+    .onChange(of: dailyJournal.placeId) { newValue in
+      if newValue != nil && placeName == nil {
+        newValue?.placeIdToName {
+          self.placeName = $0
+        }
+      }
+    }
   }
 }
 
