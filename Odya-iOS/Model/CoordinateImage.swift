@@ -6,18 +6,23 @@
 //
 
 import Foundation
+import GoogleMaps
 
 // MARK: - CoordinateImage
 struct CoordinateImage: Decodable {
   let imageId: Int
   let userId: Int
   let imageUrl: String
-  let placeId: String
+  let placeId: String?
   let latitude: Double
   let longitude: Double
   let imageUserType: ImageUserType
-  let journalId: Int
-  let communityId: Int
+  let journalId: Int?
+  let communityId: Int?
+  
+  var marker: GMSMarker {
+    return GMSMarker(position: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+  }
 }
 
 enum ImageUserType: String, Decodable {

@@ -1,5 +1,5 @@
 //
-//  MapView.swift
+//  HomeMapView.swift
 //  Odya-iOS
 //
 //  Created by Jade Yoo on 2023/06/20.
@@ -8,11 +8,20 @@
 import SwiftUI
 import GoogleMaps
 
-struct MapView: UIViewRepresentable {
+struct HomeMapView: UIViewRepresentable {
   // MARK: - Properties
+  @EnvironmentObject var viewModel: HomeViewModel
   
   let mapView = GMSMapView()
   let locationManager = LocationManager.shared
+  
+  private let markerImage: UIImageView = {
+    let imageView = UIImageView(image: UIImage(named: "sparkle-filled"))
+    imageView.layer.shadowColor = UIColor(red: 1, green: 0.83, blue: 0.12, alpha: 1).cgColor
+    imageView.layer.shadowRadius = 9
+    imageView.layer.shadowOpacity = 0.8
+    return imageView
+  }()
   
   // MARK: - View
   
@@ -35,7 +44,10 @@ struct MapView: UIViewRepresentable {
   }
   
   func updateUIView(_ uiView: UIViewType, context: Context) {
-    
+    viewModel.images.forEach {
+      $0.marker.iconView = markerImage
+      $0.marker.map = uiView
+    }
   }
   
   func setupMyLocationButton() {
@@ -79,11 +91,11 @@ struct MapView: UIViewRepresentable {
 
 // MARK: - GMSMapViewDelegate
 
-extension MapView {
+extension HomeMapView {
   class MapViewCoordinator: NSObject, GMSMapViewDelegate {
-    var parent: MapView
+    var parent: HomeMapView
         
-    init(_ parent: MapView) {
+    init(_ parent: HomeMapView) {
       self.parent = parent
     }
         
@@ -91,10 +103,22 @@ extension MapView {
       
     }
     
-    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-      
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+      return true
     }
     
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+      let visibleRegion = parent.mapView.projection.visibleRegion()
+      let northEast = visibleRegion.farRight
+      let southWest = visibleRegion.nearLeft
+      
+      print("Home Map - idleAt: \(northEast) ~ \(southWest)")
+      parent.viewModel.fetchCoordinateImages(
+        leftLong: southWest.longitude,
+        bottomLat: southWest.latitude,
+        rightLong: northEast.longitude,
+        topLat: northEast.latitude)
+    }
   }
 }
 

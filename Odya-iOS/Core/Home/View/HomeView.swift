@@ -14,6 +14,8 @@ enum PlaceDetailRoute: Hashable {
 
 struct HomeView: View {
   // MARK: Properties
+  @StateObject private var viewModel = HomeViewModel()
+  
   @State private var placeInfo = PlaceInfo()
   @State private var showLocationSearchView: Bool = false
   @State private var showPlaceDetailView: Bool = false
@@ -26,7 +28,8 @@ struct HomeView: View {
   var body: some View {
     NavigationStack(path: $path) {
       ZStack(alignment: .top) {
-        MapView()
+        HomeMapView()
+          .environmentObject(viewModel)
           .edgesIgnoringSafeArea(.top)
 
         if showLocationSearchView {

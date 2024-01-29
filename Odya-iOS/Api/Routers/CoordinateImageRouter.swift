@@ -14,7 +14,7 @@ enum CoordinateImageRouter {
                            bottomLatitude: Double,
                            rightLongitude: Double,
                            topLatitude: Double,
-                           size: Int)
+                           size: Int?)
 }
 
 extension CoordinateImageRouter: TargetType, AccessTokenAuthorizable {

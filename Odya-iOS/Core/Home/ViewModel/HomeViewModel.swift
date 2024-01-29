@@ -18,7 +18,7 @@ final class HomeViewModel: ObservableObject {
   private let logPlugin: PluginType = CustomLogPlugin()
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   // providers
-  private lazy var followProvider = MoyaProvider<CoordinateImageRouter>(
+  private lazy var imageProvider = MoyaProvider<CoordinateImageRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   var subscription = Set<AnyCancellable>()
 
@@ -26,8 +26,23 @@ final class HomeViewModel: ObservableObject {
   
   // MARK: Helper functions
   
-  func fetchCoordinateImages() {
+  func fetchCoordinateImages(leftLong: Double, bottomLat: Double, rightLong: Double, topLat: Double) {
+    subscription.forEach { $0.cancel() }
     
+    imageProvider.requestPublisher(.getCoordinateImages(leftLongitude: leftLong, bottomLatitude: bottomLat, rightLongitude: rightLong, topLatitude: topLat, size: nil))
+      .sink { completion in
+        switch completion {
+        case .finished:
+          debugPrint("좌표 이미지 조회 완료")
+        case .failure(let error):
+          self.handleErrorData(error: error)
+        }
+      } receiveValue: { response in
+        if let data = try? response.map([CoordinateImage].self) {
+          self.images = data
+        }
+      }
+      .store(in: &subscription)
   }
   
   func handleErrorData(error: MoyaError) {
