@@ -46,8 +46,16 @@ struct HomeMapView: UIViewRepresentable {
   func updateUIView(_ uiView: UIViewType, context: Context) {
     uiView.clear()
     
-    viewModel.images.forEach {
-      $0.marker.map = uiView
+    if viewModel.selectedImageUserType == .user {
+      viewModel.images.filter {
+        $0.imageUserType == .user
+      }.forEach {
+        $0.marker.map = uiView
+      }
+    } else {
+      viewModel.images.forEach {
+        $0.marker.map = uiView
+      }
     }
   }
   

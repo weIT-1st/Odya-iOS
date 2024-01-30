@@ -23,6 +23,7 @@ final class HomeViewModel: ObservableObject {
   var subscription = Set<AnyCancellable>()
 
   @Published var images = [CoordinateImage]()
+  @Published var selectedImageUserType: ImageUserType = .friend
   
   // MARK: Helper functions
   

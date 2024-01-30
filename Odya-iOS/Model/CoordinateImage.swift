@@ -31,4 +31,15 @@ enum ImageUserType: String, Decodable {
   case user = "USER"
   case friend = "FRIEND"
   case other = "OTHER"
+  
+  func getNext() -> Self {
+    switch self {
+    case .user:
+      return .friend
+    case .friend:
+      return .user
+    case .other:
+      return .other
+    }
+  }
 }

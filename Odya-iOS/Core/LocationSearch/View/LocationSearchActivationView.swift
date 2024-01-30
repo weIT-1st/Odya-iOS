@@ -20,7 +20,7 @@ struct LocationSearchActivationView: View {
         .frame(width: 24, height: 24)
     }
     .padding(.horizontal, 13)
-    .padding(.vertical, 6)
+    .padding(.vertical, 10)
     .background(Color.odya.elevation.elev1)
     .cornerRadius(22)
   }
