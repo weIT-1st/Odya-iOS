@@ -21,7 +21,9 @@ struct CoordinateImage: Decodable {
   let communityId: Int?
   
   var marker: GMSMarker {
-    return GMSMarker(position: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+    let temp = GMSMarker(position: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+    temp.iconView = CustomMarkerIconView(frame: .zero, urlString: imageUrl)
+    return temp
   }
 }
 

@@ -64,6 +64,7 @@
 		194417942B218A1C00423541 /* LinkedTravelJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417932B218A1C00423541 /* LinkedTravelJournalView.swift */; };
 		194417982B218A4A00423541 /* LinkedTravelJournalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */; };
 		1944179A2B21C0B500423541 /* LinkedTravelJournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194417992B21C0B500423541 /* LinkedTravelJournalViewModel.swift */; };
+		194894BB2B68819E00D8A7FE /* CustomMarkerIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194894BA2B68819E00D8A7FE /* CustomMarkerIconView.swift */; };
 		195BF2F72ACE525A00E4FEDD /* CommunityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */; };
 		195BF2F92ACE755400E4FEDD /* ShowMoreJournalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */; };
 		19683AFB2B0304B9003D6013 /* CommunityCommentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */; };
@@ -77,6 +78,7 @@
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
 		199EB76F2AF0A904004EF4B1 /* CommunityComposeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB76E2AF0A904004EF4B1 /* CommunityComposeViewModel.swift */; };
+		19A738AA2B6883200071FFE9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 19A738A92B6883200071FFE9 /* Kingfisher */; };
 		19BA67DD2B4B819D00213678 /* PlaceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67DC2B4B819D00213678 /* PlaceInfo.swift */; };
 		19BA67DF2B4B8FB800213678 /* TemporaryDarkMapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 19BA67DE2B4B8FB800213678 /* TemporaryDarkMapStyle.json */; };
 		19BA67E22B4BDE6500213678 /* PlaceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA67E12B4BDE6500213678 /* PlaceDetailViewModel.swift */; };
@@ -333,6 +335,7 @@
 		194417932B218A1C00423541 /* LinkedTravelJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalView.swift; sourceTree = "<group>"; };
 		194417972B218A4A00423541 /* LinkedTravelJournalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalCell.swift; sourceTree = "<group>"; };
 		194417992B21C0B500423541 /* LinkedTravelJournalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedTravelJournalViewModel.swift; sourceTree = "<group>"; };
+		194894BA2B68819E00D8A7FE /* CustomMarkerIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarkerIconView.swift; sourceTree = "<group>"; };
 		195BF2F62ACE525A00E4FEDD /* CommunityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRouter.swift; sourceTree = "<group>"; };
 		195BF2F82ACE755400E4FEDD /* ShowMoreJournalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreJournalButton.swift; sourceTree = "<group>"; };
 		19683AFA2B0304B9003D6013 /* CommunityCommentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCommentRouter.swift; sourceTree = "<group>"; };
@@ -545,6 +548,7 @@
 				19EBA7552AB16B7D000ABBE5 /* Moya in Frameworks */,
 				3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */,
 				3E8F818F2A81127600FA167E /* GoogleMaps in Frameworks */,
+				19A738AA2B6883200071FFE9 /* Kingfisher in Frameworks */,
 				3EBEC3912A6B1C2600998EC6 /* FirebaseAuth in Frameworks */,
 				19EBA7532AB16B7D000ABBE5 /* CombineMoya in Frameworks */,
 				3E8F81932A8112A500FA167E /* GoogleMapsBase in Frameworks */,
@@ -559,6 +563,7 @@
 			isa = PBXGroup;
 			children = (
 				0707A1C12A45A2A100AE6E4D /* HomeMapView.swift */,
+				194894BA2B68819E00D8A7FE /* CustomMarkerIconView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1466,6 +1471,7 @@
 				19EBA7522AB16B7D000ABBE5 /* CombineMoya */,
 				19EBA7542AB16B7D000ABBE5 /* Moya */,
 				3E46702C2B160F6500B54D0A /* Lottie */,
+				19A738A92B6883200071FFE9 /* Kingfisher */,
 			);
 			productName = "Odya-iOS";
 			productReference = 071FA51E2A20A99F00C7B362 /* Odya-iOS.app */;
@@ -1505,6 +1511,7 @@
 				3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */,
 				3E46702B2B160F6500B54D0A /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				19A738A82B6883200071FFE9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
 			projectDirPath = "";
@@ -1622,6 +1629,7 @@
 				192715462B58E10F00B20A70 /* PlaceTagButton.swift in Sources */,
 				3EE9CA1D2AB6C44B003A2E85 /* UserRouter.swift in Sources */,
 				0707A1C22A45A2A100AE6E4D /* HomeMapView.swift in Sources */,
+				194894BB2B68819E00D8A7FE /* CustomMarkerIconView.swift in Sources */,
 				19D17F122AFA00CE00D29B49 /* String.swift in Sources */,
 				3E3A3F3A2B5D240C00F980B6 /* TextView.swift in Sources */,
 				19E212AC2B06F7D4003155C0 /* CommunityLikeRouter.swift in Sources */,
@@ -2035,6 +2043,14 @@
 				minimumVersion = 7.2.0;
 			};
 		};
+		19A738A82B6883200071FFE9 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 7.10.0;
+			};
+		};
 		19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya";
@@ -2094,6 +2110,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		19A738A92B6883200071FFE9 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19A738A82B6883200071FFE9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		19EBA7522AB16B7D000ABBE5 /* CombineMoya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */;

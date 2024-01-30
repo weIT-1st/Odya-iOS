@@ -44,8 +44,9 @@ struct HomeMapView: UIViewRepresentable {
   }
   
   func updateUIView(_ uiView: UIViewType, context: Context) {
+    uiView.clear()
+    
     viewModel.images.forEach {
-      $0.marker.iconView = markerImage
       $0.marker.map = uiView
     }
   }
