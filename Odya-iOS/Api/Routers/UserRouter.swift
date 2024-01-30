@@ -102,12 +102,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     case .searchUserByPhoneNumber(let phoneNumbers) :
-      var params: [String: Any] = [:]
-      // TODO: key 중복으로 하나만 들어감
-      phoneNumbers.enumerated().forEach { (idx, phoneNumber) in
-        params["phoneNumbers\(idx)"] = phoneNumber
-      }
-      return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
+      var params: [String: Any] = ["phoneNumbers" : phoneNumbers]
+      return .requestParameters(parameters: params, encoding: URLEncoding(destination: .queryString, arrayEncoding: .noBrackets))
     default:
       return .requestPlain
     }
