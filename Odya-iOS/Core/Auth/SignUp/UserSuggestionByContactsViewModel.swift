@@ -35,8 +35,10 @@ class UserSuggestionByContactsViewModel: ObservableObject {
   var contacts: [Contact] = []
   @Published var suggestedUsers: [FollowUserData] = []
   
-  var contactIdx: Int = 0
-  var newSuggestionCount: Int = 0
+  var contactIdx: Int = 0 // 유저 검색한 마지막 연락처 인덱스
+  var newSuggestionCount: Int = 0 // 초기 및 스크롤 한 번으로 추가되는 추천 팔로우 수 최대 10
+  
+  var suggestMoreSubject = PassthroughSubject<(), Never>()
   
   var isLoading: Bool = false
   
@@ -46,6 +48,13 @@ class UserSuggestionByContactsViewModel: ObservableObject {
       self.contacts = result
       self.suggestUsers()
     }
+    
+    suggestMoreSubject.sink { [weak self] _ in
+      guard let self = self else { return }
+      if !self.isLoading {
+        self.suggestUsers()
+      }
+    }.store(in: &subscription)
   }
   
   // MARK: search user by contacts

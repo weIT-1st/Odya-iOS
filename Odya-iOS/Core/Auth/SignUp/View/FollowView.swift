@@ -31,6 +31,12 @@ private struct UserSuggestionByContactsView: View {
           HStack(spacing: 32) {
             ForEach(VM.suggestedUsers) { suggestedUser in
               SuggestedUserView(user: suggestedUser)
+                .onAppear {
+                  if let last = VM.suggestedUsers.last,
+                     last.id == suggestedUser.id {
+                    VM.suggestMoreSubject.send()
+                  }
+                }
             }
           }
         }.padding(.leading, GridLayout.side)
