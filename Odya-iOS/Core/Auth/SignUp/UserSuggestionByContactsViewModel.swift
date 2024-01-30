@@ -16,6 +16,10 @@ struct Contact {
   var phoneNumber: String
 }
 
+enum ContactsError: Error {
+  case accessDenied
+}
+
 class UserSuggestionByContactsViewModel: ObservableObject {
   
   // Moya
@@ -52,7 +56,6 @@ class UserSuggestionByContactsViewModel: ObservableObject {
       let lastIdx = min(self.contactIdx + 30, self.contacts.count - 1)
       let phoneNumbers: [String] = contacts[self.contactIdx + 1...lastIdx]
         .compactMap { self.getValidPhoneNumber(phoneNumber: $0.phoneNumber) }
-      debugPrint(phoneNumbers)
       self.contactIdx = lastIdx
       searchUsersByContactsApi(phoneNumbers: phoneNumbers) {
         if self.newSuggestionCount >= 10 {
@@ -80,7 +83,6 @@ class UserSuggestionByContactsViewModel: ObservableObject {
       .sink { apiCompletion in
         switch apiCompletion {
         case .finished:
-          print("finish")
           self.isLoading = false
         case .failure(let error):
           self.isLoading = false
@@ -99,33 +101,47 @@ class UserSuggestionByContactsViewModel: ObservableObject {
   
   // MARK: get contacts from device
   private func getContacts(completion: @escaping ([Contact]) -> Void) {
-    let store = CNContactStore()
-    var contacts: [Contact] = []
-    
-    // 연락처에 요청할 항목
-    let keys = [CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-    // Request 생성
-    let request = CNContactFetchRequest(keysToFetch: keys)
-    // 연락처 읽을 때 정렬해서 읽어오도록 설정
-    request.sortOrder = CNContactSortOrder.userDefault
-    
-    // 권한체크
-    store.requestAccess(for: .contacts) { granted, error in
-      guard granted else { return }
-      do {
-        // 연락처 데이터 획득
-        try store.enumerateContacts(with: request) { (contact, stop) in
-          guard let phoneNumber = contact.phoneNumbers.first?.value.stringValue else { return }
-          let id = contact.identifier
-          
-          let contactToAdd = Contact(id: id, phoneNumber: phoneNumber)
-          contacts.append(contactToAdd)
+    DispatchQueue.global().async {
+      let store = CNContactStore()
+      var contacts: [Contact] = []
+      
+      // 연락처에 요청할 항목
+      let keys = [CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+      // Request 생성
+      let request = CNContactFetchRequest(keysToFetch: keys)
+      // 연락처 읽을 때 정렬해서 읽어오도록 설정
+      request.sortOrder = CNContactSortOrder.userDefault
+      
+      // 권한체크
+      store.requestAccess(for: .contacts) { granted, error in
+        guard granted else {
+          // 권한이 없을 때의 처리
+          DispatchQueue.main.async {
+            completion([])
+          }
+          return
         }
-      } catch let error {
-        print(error.localizedDescription)
+        do {
+          // 연락처 데이터 획득
+          try store.enumerateContacts(with: request) { contact, stop in
+            guard let phoneNumber = contact.phoneNumbers.first?.value.stringValue else { return }
+            let id = contact.identifier
+            
+            let contactToAdd = Contact(id: id, phoneNumber: phoneNumber)
+            contacts.append(contactToAdd)
+          }
+          // 완료 후 메인 스레드에서 결과 전달
+          DispatchQueue.main.async {
+            completion(contacts)
+          }
+        } catch let error {
+          print(error.localizedDescription)
+          // 에러가 발생했을 때의 처리
+          DispatchQueue.main.async {
+            completion([])
+          }
+        }
       }
-
-      completion(contacts)
     }
   }
   
