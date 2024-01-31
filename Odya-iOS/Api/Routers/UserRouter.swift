@@ -19,6 +19,8 @@ enum UserRouter {
   case updateUserNickname(newNickname: String)
   // 5. 사용자 프로필 사진 변경
   case updateUserProfileImage(profileImg: (data: Data, name: String)?)
+  // 6. FCM 토큰 변경
+  case updateFCMToken(newToken: String)
   // 7. 회원탈퇴
   case deleteUser
   // 8. 유저 검색
@@ -46,6 +48,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/users/information"
     case .updateUserProfileImage:
       return "/api/v1/users/profile"
+    case .updateFCMToken:
+      return "/api/v1/users/fcm-token"
     case .deleteUser:
       return "/api/v1/users"
     case .searchUser:
@@ -62,7 +66,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
     case .updateUserEmailAddress,
       .updateUserPhoneNumber,
       .updateUserNickname,
-      .updateUserProfileImage:
+      .updateUserProfileImage,
+      .updateFCMToken:
       return .patch
     case .deleteUser:
       return .delete
@@ -86,6 +91,9 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
           provider: .data(profileImg.data), name: "profile", fileName: "\(profileImg.name)",
           mimeType: "image/webp"))
       return .uploadMultipart(formData)
+    case .updateFCMToken(let newToken):
+      let params: [String : Any] = ["fcmToken" : newToken]
+      return .requestParameters(parameters: params, encoding: JSONEncoding.prettyPrinted)
     case .searchUser(let size, let lastId, let nickname):
       var params: [String: Any] = [:]
       params["size"] = size

@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // firebase SDK 초기화
     FirebaseApp.configure()
     
+    // MARK: -- FCM Noti
+    
     // 원격 알림 등록
     UNUserNotificationCenter.current().delegate = self
     
@@ -40,12 +42,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     )
     
     application.registerForRemoteNotifications()
-    
+
     // 메세징 델리겟, 메시지 대리자 설정
     Messaging.messaging().delegate = self
-    
-    // 푸시 포그라운드 설정
-    UNUserNotificationCenter.current().delegate = self
+
+//    // 푸시 포그라운드 설정
+//    UNUserNotificationCenter.current().delegate = self
     
     
     // MARK: -- Kakao
@@ -91,14 +93,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
+//extension AppDelegate: MessagingDelegate {
+//  // FCM 등록 토큰을 받았을 떄, 토큰 갱신 모니터링
+//  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+//    print("AppDelegate - fcm 토큰 받음")
+//    print("AppDelegate = token: \(String(describing: fcmToken ))")
+//    if let fcmToken = fcmToken {
+//      AlertManager().updateFCMToken(newToken: fcmToken)
+//    } else {
+//      print("fcm token error: token is invalid")
+//    }
+//  }
+//  
+//}
+
 extension AppDelegate: MessagingDelegate {
-  
+
   // FCM 등록 토큰을 받았을 떄, 토큰 갱신 모니터링
   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
     print("AppDelegate - fcm 토큰 받음")
     print("AppDelegate = token: \(String(describing: fcmToken ))")
   }
-  
+
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
@@ -108,7 +124,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     print("willPresent: \(userInfo)")
     completionHandler([.banner, .sound, .badge])
   }
-  
+
   // 푸시메시지를 받았을 때
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     let userInfo = response.notification.request.content.userInfo
