@@ -93,39 +93,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 }
 
-//extension AppDelegate: MessagingDelegate {
-//  // FCM 등록 토큰을 받았을 떄, 토큰 갱신 모니터링
-//  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//    print("AppDelegate - fcm 토큰 받음")
-//    print("AppDelegate = token: \(String(describing: fcmToken ))")
-//    if let fcmToken = fcmToken {
-//      AlertManager().updateFCMToken(newToken: fcmToken)
-//    } else {
-//      print("fcm token error: token is invalid")
-//    }
-//  }
-//  
-//}
-
 extension AppDelegate: MessagingDelegate {
 
   // FCM 등록 토큰을 받았을 떄, 토큰 갱신 모니터링
   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
     print("AppDelegate - fcm 토큰 받음")
     print("AppDelegate = token: \(String(describing: fcmToken ))")
+    if let fcmToken = fcmToken {
+      AlertManager().updateFCMToken(newToken: fcmToken)
+    } else {
+      print("fcm token error: token is invalid")
+    }
+
   }
 
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
   // 포그라운드에서 푸시 메시지를 받았을 때
+  // 백그라운드에서 올 때는...? (알림 뜨는 건 확인)
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     let userInfo = notification.request.content.userInfo
     print("willPresent: \(userInfo)")
     completionHandler([.banner, .sound, .badge])
   }
 
-  // 푸시메시지를 받았을 때
+  // 푸시메시지를 받았을 때, 알림을 클릭했을 때 호출됨
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     let userInfo = response.notification.request.content.userInfo
     print("didRequest \(userInfo)")
