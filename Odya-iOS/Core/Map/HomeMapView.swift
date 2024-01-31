@@ -15,26 +15,14 @@ struct HomeMapView: UIViewRepresentable {
   
   let mapView = GMSMapView()
   let locationManager = LocationManager.shared
-  private var clusterManager: GMUClusterManager!
-  
-  // MARK: - Init
-  
-  init() {
-    let iconGenerator = GMUDefaultClusterIconGenerator()
-    let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
-    let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
-    clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
-    clusterManager.cluster()
-  }
   
   // MARK: - View
   
   func makeUIView(context: Context) -> some GMSMapView {
     setupMyLocationButton()
     setupMapStyle()
-    
+
     mapView.delegate = context.coordinator
-    clusterManager.setMapDelegate(context.coordinator)
     mapView.isUserInteractionEnabled = true
     mapView.isMyLocationEnabled = true
     mapView.settings.myLocationButton = false
@@ -50,20 +38,20 @@ struct HomeMapView: UIViewRepresentable {
   
   func updateUIView(_ uiView: UIViewType, context: Context) {
     uiView.clear()
+    context.coordinator.clusterManager.clearItems()
     
     if viewModel.selectedImageUserType == .user {
       viewModel.images.filter {
         $0.imageUserType == .user
       }.forEach {
-        $0.marker.map = uiView
-        clusterManager.add($0.marker)
+        context.coordinator.clusterManager.add($0.marker)
       }
     } else {
       viewModel.images.forEach {
-        $0.marker.map = uiView
-        clusterManager.add($0.marker)
+        context.coordinator.clusterManager.add($0.marker)
       }
     }
+    context.coordinator.clusterManager.cluster()
   }
   
   func setupMyLocationButton() {
@@ -110,9 +98,21 @@ struct HomeMapView: UIViewRepresentable {
 extension HomeMapView {
   class MapViewCoordinator: NSObject, GMSMapViewDelegate, GMUClusterRendererDelegate {
     var parent: HomeMapView
+    var clusterManager: GMUClusterManager!
     
     init(_ parent: HomeMapView) {
       self.parent = parent
+      super.init()
+      setupClusterManager()
+    }
+    
+    func setupClusterManager() {
+      let iconGenerator = GMUDefaultClusterIconGenerator()
+      let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
+      let renderer = GMUDefaultClusterRenderer(mapView: parent.mapView, clusterIconGenerator: iconGenerator)
+      renderer.delegate = self
+      clusterManager = GMUClusterManager(map: parent.mapView, algorithm: algorithm, renderer: renderer)
+      clusterManager.setMapDelegate(self)
     }
     
     // MARK: GMSMapViewDelegate
@@ -123,7 +123,7 @@ extension HomeMapView {
       // check if a cluster icon was tapped
       if marker.userData is GMUCluster {
         // zoom in on tapped cluster
-        mapView.animate(toZoom: 30)
+        mapView.animate(toZoom: mapView.camera.zoom + 1)
         print("Did tap cluster")
         return true
       }
@@ -137,7 +137,6 @@ extension HomeMapView {
       let northEast = visibleRegion.farRight
       let southWest = visibleRegion.nearLeft
       
-      print("Home Map - idleAt: \(northEast) ~ \(southWest)")
       parent.viewModel.fetchCoordinateImages(
         leftLong: southWest.longitude,
         bottomLat: southWest.latitude,
@@ -145,28 +144,30 @@ extension HomeMapView {
         topLat: northEast.latitude)
     }
     
-    // MARK: GMUClusterRendererDelegate
-    func renderer(_ renderer: GMUClusterRenderer, markerFor object: Any) -> GMSMarker? {
-      print(#function)
-      switch object {
-      case let item as GMSMarker:
-        return item
-      case let cluster as GMUCluster:
-        let count = cluster.count
-        print("Cluster count: \(count)")
-        let marker = GMSMarker()
-        let label = UILabel()
-        guard let firstItem = cluster.items.first as? GMSMarker else { return marker }
-        label.text = "\(count)"
-        label.textColor = .blue
-        label.font = .systemFont(ofSize: 15, weight: .heavy)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        marker.iconView = label
-        marker.position = firstItem.position
-        return marker
-      default:
-        return nil
-      }
-    }
+//    // MARK: GMUClusterRendererDelegate
+//    func renderer(_ renderer: GMUClusterRenderer, markerFor object: Any) -> GMSMarker? {
+//      print("🔥 renderer")
+//      switch object {
+//      case let item as GMSMarker:
+//        return item
+//      case let cluster as GMUCluster:
+//        let count = cluster.count
+//        print("Cluster count: \(count)")
+//        let marker = GMSMarker()
+//        
+//        let label = UILabel()
+////        guard let firstItem = cluster.items.first as? GMSMarker else { return marker }
+//        label.text = "\(count)"
+//        label.textColor = .blue
+//        label.font = .systemFont(ofSize: 15, weight: .heavy)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        marker.iconView = label
+//        marker.position = cluster.position
+////        marker.position = firstItem.position
+//        return marker
+//      default:
+//        return nil
+//      }
+//    }
   }
 }
