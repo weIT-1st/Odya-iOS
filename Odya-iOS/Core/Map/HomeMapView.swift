@@ -39,16 +39,23 @@ struct HomeMapView: UIViewRepresentable {
   func updateUIView(_ uiView: UIViewType, context: Context) {
     uiView.clear()
     context.coordinator.clusterManager.clearItems()
+    var coordinates = [CLLocationCoordinate2D]()
     
     if viewModel.selectedImageUserType == .user {
       viewModel.images.filter {
         $0.imageUserType == .user
       }.forEach {
-        context.coordinator.clusterManager.add($0.marker)
+        let marker = $0.marker
+        marker.position.variateForEqual(coordinates: coordinates)
+        coordinates.append(marker.position)
+        context.coordinator.clusterManager.add(marker)
       }
     } else {
       viewModel.images.forEach {
-        context.coordinator.clusterManager.add($0.marker)
+        let marker = $0.marker
+        marker.position.variateForEqual(coordinates: coordinates)
+        coordinates.append(marker.position)
+        context.coordinator.clusterManager.add(marker)
       }
     }
     context.coordinator.clusterManager.cluster()
@@ -107,7 +114,7 @@ extension HomeMapView {
     }
     
     func setupClusterManager() {
-      let iconGenerator = GMUDefaultClusterIconGenerator()
+      let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [10000], backgroundColors: [UIColor(named: "base-yellow-50")!])
       let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
       let renderer = GMUDefaultClusterRenderer(mapView: parent.mapView, clusterIconGenerator: iconGenerator)
       renderer.delegate = self
@@ -118,11 +125,8 @@ extension HomeMapView {
     // MARK: GMSMapViewDelegate
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-      // center the map on tapped marker
-      mapView.animate(toLocation: marker.position)
-      // check if a cluster icon was tapped
       if marker.userData is GMUCluster {
-        // zoom in on tapped cluster
+        mapView.animate(toLocation: marker.position)
         mapView.animate(toZoom: mapView.camera.zoom + 1)
         print("Did tap cluster")
         return true
@@ -143,31 +147,5 @@ extension HomeMapView {
         rightLong: northEast.longitude,
         topLat: northEast.latitude)
     }
-    
-//    // MARK: GMUClusterRendererDelegate
-//    func renderer(_ renderer: GMUClusterRenderer, markerFor object: Any) -> GMSMarker? {
-//      print("🔥 renderer")
-//      switch object {
-//      case let item as GMSMarker:
-//        return item
-//      case let cluster as GMUCluster:
-//        let count = cluster.count
-//        print("Cluster count: \(count)")
-//        let marker = GMSMarker()
-//        
-//        let label = UILabel()
-////        guard let firstItem = cluster.items.first as? GMSMarker else { return marker }
-//        label.text = "\(count)"
-//        label.textColor = .blue
-//        label.font = .systemFont(ofSize: 15, weight: .heavy)
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        marker.iconView = label
-//        marker.position = cluster.position
-////        marker.position = firstItem.position
-//        return marker
-//      default:
-//        return nil
-//      }
-//    }
   }
 }

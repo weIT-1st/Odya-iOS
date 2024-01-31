@@ -74,6 +74,7 @@
 		197C29A92B171DFA00E6D670 /* SearchedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29A82B171DFA00E6D670 /* SearchedUser.swift */; };
 		197C29AD2B171EAE00E6D670 /* FeedUserSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29AC2B171EAE00E6D670 /* FeedUserSearchView.swift */; };
 		197C29AF2B17227500E6D670 /* FeedUserSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29AE2B17227500E6D670 /* FeedUserSearchViewModel.swift */; };
+		197D6FA02B6A26AE005DA0BB /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6F9F2B6A26AE005DA0BB /* CLLocationCoordinate2D.swift */; };
 		199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */; };
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
@@ -346,6 +347,7 @@
 		197C29A82B171DFA00E6D670 /* SearchedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUser.swift; sourceTree = "<group>"; };
 		197C29AC2B171EAE00E6D670 /* FeedUserSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserSearchView.swift; sourceTree = "<group>"; };
 		197C29AE2B17227500E6D670 /* FeedUserSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserSearchViewModel.swift; sourceTree = "<group>"; };
+		197D6F9F2B6A26AE005DA0BB /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeView.swift; sourceTree = "<group>"; };
 		199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
@@ -668,6 +670,7 @@
 				19DE0AB22B43D4C50079A660 /* Placeholder.swift */,
 				0773639C2B4AE4B7007F37CA /* TransparentFullScreenCover.swift */,
 				19E3C1BD2B6244070037A495 /* String+Place.swift */,
+				197D6F9F2B6A26AE005DA0BB /* CLLocationCoordinate2D.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1728,6 +1731,7 @@
 				3E2F29762B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift in Sources */,
 				3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */,
 				3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */,
+				197D6FA02B6A26AE005DA0BB /* CLLocationCoordinate2D.swift in Sources */,
 				3EE9CA352AC3C2E8003A2E85 /* TravelJournal.swift in Sources */,
 				3EF54A032A5BE992006562F8 /* AuthRouter.swift in Sources */,
 				3EF549AC2A45C39D006562F8 /* ThemeTestView.swift in Sources */,
