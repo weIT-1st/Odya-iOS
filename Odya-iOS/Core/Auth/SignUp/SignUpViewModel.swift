@@ -28,11 +28,14 @@ class SignUpViewModel: ObservableObject {
   let kakaoAccessToken: String
   
   /// 회원가입 단계
-  @Published var step: Int = -1
+  @Published var step: SignUpStep = .appIntro
   
   /// 회원가입 데이터
   @Published var userInfo: SignUpInfo
   @Published var favoriteTopicIds: [Int] = []
+  
+  // 회원가입 완료 여부
+  @Published var authorized: Bool = false
   
   // MARK: Init
   init(userInfo: SignUpInfo,
@@ -54,14 +57,11 @@ class SignUpViewModel: ObservableObject {
                     termsIdList: userInfo.termsIdList) { (success, errMsg) in
         if success {
           print("카카오로 회원가입 성공")
-          // 사용자 정보 초기화
-          AppDataManager().initMyData() { success in
-            if success {
-              self.authState = .additionalSetupRequired
-            }
-          }
+          self.authorized = true
         } else {
           print("카카오로 회원가입 실패 - \(errMsg ?? "")")
+          self.authType = ""
+          self.authState = .loggedOut
         }
       }
     case "apple":
@@ -74,15 +74,11 @@ class SignUpViewModel: ObservableObject {
                     termsIdList: userInfo.termsIdList) { (success, errMsg) in
         if success {
           print("애플로 회원가입 성공")
-          self.idToken = self.userInfo.idToken
-          // 사용자 정보 초기화
-          AppDataManager().initMyData() { success in
-            if success {
-              self.authState = .additionalSetupRequired
-            }
-          }
+          self.authorized = true
         } else {
           print("애플로 회원가입 실패 - \(errMsg ?? "")")
+          self.authType = ""
+          self.authState = .loggedOut
         }
       }
     default:
@@ -111,7 +107,7 @@ class SignUpViewModel: ObservableObject {
         if self.kakaoAccessToken != "" {
           KakaoAuthViewModel().doServerLogin(token: self.kakaoAccessToken) { (success, token) in
             if success {
-              self.idToken = token
+              self.userInfo.idToken = token
               completion(true, "")
               return
             }

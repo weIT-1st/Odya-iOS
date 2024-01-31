@@ -33,7 +33,7 @@ class UserInfoEditViewModel: ObservableObject {
   // loading flag
   var isFetching: Bool = false
   var isUpdatingNickname: Bool = false
-  var isDeletingUser: Bool = false
+  @Published var isDeletingUser: Bool = false
   
   init() {
     self.fetchMyData()
@@ -121,12 +121,12 @@ class UserInfoEditViewModel: ObservableObject {
     }
     
     isDeletingUser = true
-    appDataManager.deleteMyData()
     userProvider.requestPublisher(.deleteUser)
       .sink { completion in
         self.isDeletingUser = false
         switch completion {
         case .finished:
+          self.appDataManager.deleteMyData()
           self.idToken = nil
           self.authType = ""
           self.authState = .loggedOut

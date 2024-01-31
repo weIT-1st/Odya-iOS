@@ -250,14 +250,16 @@ extension ProfileView {
         .h4Style()
         .foregroundColor(.odya.label.normal)
       Spacer()
-      CustomIconButton(
-        buttonImage,
-        color: isMyProfile ? .odya.label.normal : .clear
-      ) {
-        if let destinationView = destinationView {
-          path.append(destinationView)
-        }
-      }.disabled(!isMyProfile)
+      if buttonImage != "" {
+        CustomIconButton(
+          buttonImage,
+          color: isMyProfile ? .odya.label.normal : .clear
+        ) {
+          if let destinationView = destinationView {
+            path.append(destinationView)
+          }
+        }.disabled(!isMyProfile)
+      }
     }
   }
 
