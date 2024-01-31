@@ -24,13 +24,15 @@ final class HomeViewModel: ObservableObject {
 
   @Published var images = [CoordinateImage]()
   @Published var selectedImageUserType: ImageUserType = .friend
-  
+  /// 선택된 마커의 장소 아이디
+  let selectedPlaceId = PassthroughSubject<String, Never>()
+
   // MARK: Helper functions
   
   func fetchCoordinateImages(leftLong: Double, bottomLat: Double, rightLong: Double, topLat: Double) {
     subscription.forEach { $0.cancel() }
     
-    imageProvider.requestPublisher(.getCoordinateImages(leftLongitude: leftLong, bottomLatitude: bottomLat, rightLongitude: rightLong, topLatitude: topLat, size: nil))
+    imageProvider.requestPublisher(.getCoordinateImages(leftLongitude: leftLong, bottomLatitude: bottomLat, rightLongitude: rightLong, topLatitude: topLat, size: 50))
       .sink { completion in
         switch completion {
         case .finished:

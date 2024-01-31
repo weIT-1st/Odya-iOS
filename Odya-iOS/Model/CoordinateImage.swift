@@ -23,6 +23,7 @@ struct CoordinateImage: Decodable {
   var marker: GMSMarker {
     let temp = GMSMarker(position: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
     temp.iconView = CustomMarkerIconView(frame: .zero, urlString: imageUrl)
+    temp.userData = placeId
     return temp
   }
 }

@@ -57,6 +57,7 @@ struct LocationSearchView: View {
               let title = result.attributedPrimaryText.string
               let subtitle = result.attributedSecondaryText?.string ?? ""
               Button {
+                searchVM.appendRecentSearch()
                 searchVM.savePlaceSearchHistory()
                 placeInfo.setValue(title: title, address: subtitle, placeId: result.placeID, token: searchVM.placeToken)
                 isPresented = false

@@ -114,7 +114,7 @@ extension HomeMapView {
     }
     
     func setupClusterManager() {
-      let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [10000], backgroundColors: [UIColor(named: "base-yellow-50")!])
+      let iconGenerator = GMUDefaultClusterIconGenerator(buckets: [100], backgroundColors: [UIColor(named: "base-yellow-50")!])
       let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
       let renderer = GMUDefaultClusterRenderer(mapView: parent.mapView, clusterIconGenerator: iconGenerator)
       renderer.delegate = self
@@ -130,9 +130,11 @@ extension HomeMapView {
         mapView.animate(toZoom: mapView.camera.zoom + 1)
         print("Did tap cluster")
         return true
+      } else {
+        if let placeId = marker.userData as? String {
+          parent.viewModel.selectedPlaceId.send(placeId)
+        }
       }
-      
-      print("Did tap a normal marker")
       return false
     }
     

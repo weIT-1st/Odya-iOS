@@ -31,6 +31,12 @@ struct HomeView: View {
         HomeMapView()
           .environmentObject(viewModel)
           .edgesIgnoringSafeArea(.top)
+          .onReceive(viewModel.selectedPlaceId) { placeId in
+            placeInfo.setValue(placeId: placeId)
+            withAnimation {
+              showPlaceDetailView = true
+            }
+          }
 
         if showLocationSearchView {
           Color.odya.blackopacity.baseBlackAlpha50
