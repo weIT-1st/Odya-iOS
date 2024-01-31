@@ -31,7 +31,7 @@ struct TermsView: View {
   @StateObject var viewModel = TermsViewModel()
   
   /// 회원가입 단계
-  @Binding var signUpStep: Int
+  @Binding var signUpStep: SignUpStep
   
   /// 사용자가 동의한 terms 리스트
   @Binding var termsList: [Int]
@@ -62,7 +62,7 @@ struct TermsView: View {
     return (termsList.contains(viewModel.requiredList) && !viewModel.requiredList.isEmpty) ? .active : .inactive
   }
   
-  init(_ signUpStep: Binding<Int>, myTermsIdList: Binding<[Int]>) {
+  init(_ signUpStep: Binding<SignUpStep>, myTermsIdList: Binding<[Int]>) {
     self._signUpStep = signUpStep
     self._termsList = myTermsIdList
   }
@@ -180,15 +180,12 @@ extension TermsView {
         ) {
           termsList.append(terms.id)
           showSheet = false
-          signUpStep += 1
+          signUpStep.nextStep()
         }
         .task {
           viewModel.getTermsContent(id: terms.id)
         }.padding(.bottom)
       }
-//      else {
-//        ProfileView()
-//      }
     }
     .padding(.horizontal, GridLayout.side)
     .frame(width: UIScreen.main.bounds.width)
@@ -200,6 +197,6 @@ extension TermsView {
 
 struct TermsView_Previews: PreviewProvider {
   static var previews: some View {
-    TermsView(.constant(2), myTermsIdList: .constant([1, 2, 3]))
+    TermsView(.constant(.terms), myTermsIdList: .constant([1, 2, 3]))
   }
 }
