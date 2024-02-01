@@ -19,6 +19,11 @@ extension String {
       return self
     }
   }
+  
+  /// 글자단위 줄바꿈위해
+  func splitCharacter() -> String {
+    return self.split(separator: "").joined(separator: "\u{200B}")
+  }
 }
 
 extension String {
