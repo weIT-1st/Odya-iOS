@@ -11,6 +11,8 @@ enum FeedRoute: Hashable {
   case detail(Int)
   case createFeed
   case createJournal
+  case activity
+  case notification
 }
 
 enum FeedToggleType {
@@ -138,6 +140,10 @@ struct FeedView: View {
           case .createJournal:
             TravelJournalComposeView()
               .navigationBarHidden(true)
+          case .activity:
+            MyCommunityActivityView()
+          case .notification:
+            FeedNotificationView()
           }
         }
       }
@@ -160,9 +166,7 @@ struct FeedView: View {
   private var feedToolBar: some View {
     HStack(alignment: .center) {
       // 내 커뮤니티 활동 뷰로 연결
-      NavigationLink {
-        MyCommunityActivityView()
-      } label: {
+      NavigationLink(value: FeedRoute.activity) {
         ProfileImageView(profileUrl: MyData().profile, size: .S)
           .overlay(
             RoundedRectangle(cornerRadius: 32)
@@ -185,9 +189,7 @@ struct FeedView: View {
       }
 
       // alarm on/off
-      Button {
-        // action: show alarm
-      } label: {
+      NavigationLink(value: FeedRoute.notification) {
         Image("alarm-on")
           .padding(10)
           .frame(width: 48, height: 48, alignment: .center)
