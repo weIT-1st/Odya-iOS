@@ -62,4 +62,31 @@ extension String {
       }
     }
   }
+  
+  func placeIdToCoordinate(completion: @escaping (CLLocationCoordinate2D) -> Void) {
+    let currentLocation = LocationManager.shared.fetchCurrentLocation().coordinate
+    if self.isEmpty {
+      completion(currentLocation)
+    }
+    
+    let placeClient = GMSPlacesClient()
+    let field: GMSPlaceField = GMSPlaceField(rawValue: UInt(GMSPlaceField.coordinate.rawValue))
+    
+    Task {
+      do {
+        let result = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<CLLocationCoordinate2D, Error>) in
+          placeClient.fetchPlace(fromPlaceID: self, placeFields: field, sessionToken: nil) { place, error in
+            if let error = error {
+              continuation.resume(throwing: error)
+            } else {
+              continuation.resume(returning: place?.coordinate ?? currentLocation)
+            }
+          }
+        }
+        completion(result)
+      } catch {
+        completion(currentLocation)
+      }
+    }
+  }
 }

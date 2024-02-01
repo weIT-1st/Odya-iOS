@@ -73,6 +73,10 @@
 		197C29A92B171DFA00E6D670 /* SearchedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29A82B171DFA00E6D670 /* SearchedUser.swift */; };
 		197C29AD2B171EAE00E6D670 /* FeedUserSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29AC2B171EAE00E6D670 /* FeedUserSearchView.swift */; };
 		197C29AF2B17227500E6D670 /* FeedUserSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29AE2B17227500E6D670 /* FeedUserSearchViewModel.swift */; };
+		197D6FA02B6A26AE005DA0BB /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6F9F2B6A26AE005DA0BB /* CLLocationCoordinate2D.swift */; };
+		197D6FA32B6B2CB3005DA0BB /* FeedNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA22B6B2CB3005DA0BB /* FeedNotificationView.swift */; };
+		197D6FA52B6B2E46005DA0BB /* FeedNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA42B6B2E46005DA0BB /* FeedNotificationViewModel.swift */; };
+		197D6FA72B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA62B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift */; };
 		199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */; };
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
@@ -342,6 +346,10 @@
 		197C29A82B171DFA00E6D670 /* SearchedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUser.swift; sourceTree = "<group>"; };
 		197C29AC2B171EAE00E6D670 /* FeedUserSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserSearchView.swift; sourceTree = "<group>"; };
 		197C29AE2B17227500E6D670 /* FeedUserSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserSearchViewModel.swift; sourceTree = "<group>"; };
+		197D6F9F2B6A26AE005DA0BB /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
+		197D6FA22B6B2CB3005DA0BB /* FeedNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationView.swift; sourceTree = "<group>"; };
+		197D6FA42B6B2E46005DA0BB /* FeedNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationViewModel.swift; sourceTree = "<group>"; };
+		197D6FA62B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailJournalMapView.swift; sourceTree = "<group>"; };
 		199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeView.swift; sourceTree = "<group>"; };
 		199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
@@ -559,6 +567,9 @@
 			isa = PBXGroup;
 			children = (
 				0707A1C12A45A2A100AE6E4D /* MapView.swift */,
+				0707A1C12A45A2A100AE6E4D /* HomeMapView.swift */,
+				197D6FA62B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift */,
+				194894BA2B68819E00D8A7FE /* CustomMarkerIconView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1706,6 +1717,7 @@
 				3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */,
 				3E2F29762B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift in Sources */,
 				3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */,
+				197D6FA72B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift in Sources */,
 				3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */,
 				3EE9CA352AC3C2E8003A2E85 /* TravelJournal.swift in Sources */,
 				3EF54A032A5BE992006562F8 /* AuthRouter.swift in Sources */,
@@ -1913,7 +1925,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1937,7 +1949,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.15;
+				MARKETING_VERSION = 0.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1959,7 +1971,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
@@ -1983,7 +1995,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.15;
+				MARKETING_VERSION = 0.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
