@@ -73,6 +73,8 @@
 		197C29A92B171DFA00E6D670 /* SearchedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29A82B171DFA00E6D670 /* SearchedUser.swift */; };
 		197C29AD2B171EAE00E6D670 /* FeedUserSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29AC2B171EAE00E6D670 /* FeedUserSearchView.swift */; };
 		197C29AF2B17227500E6D670 /* FeedUserSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197C29AE2B17227500E6D670 /* FeedUserSearchViewModel.swift */; };
+		197D6FA32B6B2CB3005DA0BB /* FeedNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA22B6B2CB3005DA0BB /* FeedNotificationView.swift */; };
+		197D6FA52B6B2E46005DA0BB /* FeedNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA42B6B2E46005DA0BB /* FeedNotificationViewModel.swift */; };
 		199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */; };
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
@@ -342,6 +344,8 @@
 		197C29A82B171DFA00E6D670 /* SearchedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedUser.swift; sourceTree = "<group>"; };
 		197C29AC2B171EAE00E6D670 /* FeedUserSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserSearchView.swift; sourceTree = "<group>"; };
 		197C29AE2B17227500E6D670 /* FeedUserSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserSearchViewModel.swift; sourceTree = "<group>"; };
+		197D6FA22B6B2CB3005DA0BB /* FeedNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationView.swift; sourceTree = "<group>"; };
+		197D6FA42B6B2E46005DA0BB /* FeedNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationViewModel.swift; sourceTree = "<group>"; };
 		199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeView.swift; sourceTree = "<group>"; };
 		199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
@@ -717,6 +721,7 @@
 				19683AFC2B030B8B003D6013 /* Comment */,
 				197C29B02B172B0500E6D670 /* Search */,
 				19385A302B2AC102000CB6AB /* MyActivity */,
+				197D6FA12B6B2C89005DA0BB /* Notification */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -941,6 +946,15 @@
 				197C29AE2B17227500E6D670 /* FeedUserSearchViewModel.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		197D6FA12B6B2C89005DA0BB /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				197D6FA22B6B2CB3005DA0BB /* FeedNotificationView.swift */,
+				197D6FA42B6B2E46005DA0BB /* FeedNotificationViewModel.swift */,
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		199EB6F92AE2202A004EF4B1 /* CommunityCompose */ = {
@@ -1651,6 +1665,7 @@
 				0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */,
 				199EB76F2AF0A904004EF4B1 /* CommunityComposeViewModel.swift in Sources */,
 				3E26C3782AF0E7EC003607A8 /* TravelJournalDetailView.swift in Sources */,
+				197D6FA32B6B2CB3005DA0BB /* FeedNotificationView.swift in Sources */,
 				19683B002B031244003D6013 /* CommunityComment.swift in Sources */,
 				3ED8DBB22B10C10500D7CF7F /* ImageRouter.swift in Sources */,
 				1944179A2B21C0B500423541 /* LinkedTravelJournalViewModel.swift in Sources */,
@@ -1664,6 +1679,7 @@
 				3E4670352B1FB8CD00B54D0A /* UserIdentityLink.swift in Sources */,
 				19EBA75F2AB2E332000ABBE5 /* TermsViewModel.swift in Sources */,
 				07A0EC7A2A3F8014002D36B9 /* AppleSignInManager.swift in Sources */,
+				197D6FA52B6B2E46005DA0BB /* FeedNotificationViewModel.swift in Sources */,
 				19BA67E42B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift in Sources */,
 				3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */,
 				07B221222B491BBB006C2B20 /* PlaceDetailView.swift in Sources */,
