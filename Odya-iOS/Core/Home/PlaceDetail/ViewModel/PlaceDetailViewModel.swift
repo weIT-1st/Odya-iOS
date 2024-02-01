@@ -71,14 +71,18 @@ final class PlaceDetailViewModel: ObservableObject {
         return
       }
       if let place {
-        let photoMetadata: GMSPlacePhotoMetadata = place.photos![0]
-        self.placeClient.loadPlacePhoto(photoMetadata) { photo, error in
-          if let error {
-            print("Error loading photo metadata: \(error.localizedDescription)")
-                    return
-          } else {
-            self.placeImage = photo
+        if let photoMetadata = place.photos?.first {
+          self.placeClient.loadPlacePhoto(photoMetadata) { photo, error in
+            if let error {
+              print("Error loading photo metadata: \(error.localizedDescription)")
+                      return
+            } else {
+              self.placeImage = photo
+            }
           }
+        } else {
+          // 장소 사진 데이터가 없는 경우
+          self.placeImage = UIImage()
         }
       }
     }

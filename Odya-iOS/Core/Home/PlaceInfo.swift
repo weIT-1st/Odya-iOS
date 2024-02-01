@@ -14,10 +14,27 @@ final class PlaceInfo: ObservableObject {
   var placeId: String = ""
   var sessionToken: GMSAutocompleteSessionToken?
   
-  func setValue(title: String, address: String, placeId: String, token: GMSAutocompleteSessionToken) {
+  func setValue(title: String, address: String, placeId: String, token: GMSAutocompleteSessionToken?) {
     self.title = title
     self.address = address
     self.placeId = placeId
     self.sessionToken = token
+  }
+  
+  func setValue(placeId: String) {
+    self.placeId = placeId
+    self.sessionToken = nil
+    self.title = ""
+    self.address = ""
+    placeId.placeIdToName { name in
+      DispatchQueue.main.async {
+        self.title = name
+      }
+    }
+    placeId.placeIdToAddress { address in
+      DispatchQueue.main.async {
+        self.address = address
+      }
+    }
   }
 }

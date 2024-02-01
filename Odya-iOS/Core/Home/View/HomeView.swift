@@ -14,6 +14,8 @@ enum PlaceDetailRoute: Hashable {
 
 struct HomeView: View {
   // MARK: Properties
+  @StateObject private var viewModel = HomeViewModel()
+  
   @State private var placeInfo = PlaceInfo()
   @State private var showLocationSearchView: Bool = false
   @State private var showPlaceDetailView: Bool = false
@@ -26,8 +28,15 @@ struct HomeView: View {
   var body: some View {
     NavigationStack(path: $path) {
       ZStack(alignment: .top) {
-        MapView()
+        HomeMapView()
+          .environmentObject(viewModel)
           .edgesIgnoringSafeArea(.top)
+          .onReceive(viewModel.selectedPlaceId) { placeId in
+            placeInfo.setValue(placeId: placeId)
+            withAnimation {
+              showPlaceDetailView = true
+            }
+          }
 
         if showLocationSearchView {
           Color.odya.blackopacity.baseBlackAlpha50
@@ -43,9 +52,12 @@ struct HomeView: View {
                 showLocationSearchView = true
               }
             Spacer()
-            // TODO: 내 오댜 / 친구 오댜만 보기 버튼
+            imageTypeToggle(selection: viewModel.selectedImageUserType) {
+              viewModel.selectedImageUserType = viewModel.selectedImageUserType.getNext()
+            }
           }
           .padding(.leading, 23)
+          .padding(.trailing, 16)
         }
         
         if showPlaceDetailView {
@@ -65,6 +77,20 @@ struct HomeView: View {
         }
       }
     }
+  }
+  
+  private func imageTypeToggle(selection: ImageUserType, action: @escaping () -> Void) -> some View {
+    Button(action: action) {
+      Text(selection.getNext() == .user ? "내 오댜만 보기" : "친구 오댜도 보기")
+        .detail1Style()
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .foregroundColor(selection.getNext() == .user ?
+                        .odya.brand.primary : .odya.background.normal)
+        .background(selection.getNext() == .user ?
+                    Color.odya.background.normal : Color.odya.brand.primary)
+    }
+    .clipShape(Capsule())
   }
 }
 
