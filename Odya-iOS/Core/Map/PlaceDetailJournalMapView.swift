@@ -28,15 +28,10 @@ struct PlaceDetailJournalMapView: UIViewRepresentable {
   func makeUIView(context: Context) -> some GMSMapView {
     setupMapStyle()
 
-//    mapView.delegate = context.coordinator
     mapView.isUserInteractionEnabled = false
     mapView.isMyLocationEnabled = false
     mapView.settings.myLocationButton = false
     mapView.settings.compassButton = false
-    
-//    let location = locationManager.fetchCurrentLocation()
-//    let camera = GMSCameraPosition(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
-//    mapView.camera = camera
     
     return mapView
   }
@@ -75,23 +70,4 @@ struct PlaceDetailJournalMapView: UIViewRepresentable {
       mapView.mapStyle = try? GMSMapStyle(contentsOfFileURL: styleURL)
     }
   }
-  
-//  func makeCoordinator() -> MapViewCoordinator {
-//    return MapViewCoordinator(self)
-//  }
 }
-
-// MARK: - MapViewCoordinator
-
-//extension PlaceDetailJournalMapView {
-//  class MapViewCoordinator: NSObject, GMSMapViewDelegate {
-//    var parent: PlaceDetailMapView
-//    
-//    init(_ parent: PlaceDetailMapView) {
-//      self.parent = parent
-//    }
-//    
-//    // MARK: GMSMapViewDelegate
-//        
-//  }
-//}
