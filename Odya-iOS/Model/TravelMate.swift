@@ -40,6 +40,26 @@ extension TravelMate: Equatable {
   }
 }
 
+extension TravelMate {
+  func encodeToString() -> String {
+    if let encodedData = try? JSONEncoder().encode(self) {
+      return String(data: encodedData, encoding: .utf8) ?? ""
+    }
+    return ""
+  }
+}
+
+extension String {
+  func decodeToTravelMate() -> TravelMate? {
+    if let data = self.data(using: .utf8),
+       let decodedData = try? JSONDecoder().decode(TravelMate.self, from: data) {
+      return decodedData
+    }
+    return nil
+  }
+}
+
+
 struct travelMateSimple: Codable, Identifiable {
   var id = UUID()
   var username: String

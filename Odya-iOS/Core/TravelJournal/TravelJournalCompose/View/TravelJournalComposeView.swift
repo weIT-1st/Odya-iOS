@@ -18,6 +18,7 @@ struct TravelJournalComposeView: View {
 
   @State private var isDismissAlertVisible = false
   @State private var isRegisterAlertVisible = false
+  @State private var isGetTempDataAlertVisible = false
 
   private var privacyTypeToggleOffset: CGFloat {
     switch journalComposeVM.privacyType {
@@ -86,11 +87,29 @@ struct TravelJournalComposeView: View {
         }
       }
       .onAppear {
+        // 임시저장 중인 여행일지 불러오기
+        let tempData = TempTravelJournalData()
+        if tempData.dataExist {
+          if composeType == .create && tempData.journalId == -1
+              || (composeType == .edit && tempData.journalId == journalId) {
+            isGetTempDataAlertVisible = true
+          }
+        }
+        
         // 여행일지 작성 시 데일리 일정 초기화
         if composeType == .create
-          && journalComposeVM.dailyJournalList.isEmpty
-        {
+          && journalComposeVM.dailyJournalList.isEmpty {
           journalComposeVM.addDailyJournal()
+        }
+      }
+      .alert("작성 중인 여행일지가 있습니다.", isPresented: $isGetTempDataAlertVisible) {
+        Button("취소", role: .cancel) {
+          journalComposeVM.deleteTemporaryTravelJournal()
+          isGetTempDataAlertVisible = false
+        }
+        Button("불러오기") {
+          journalComposeVM.loadTemporaryTravelJournal()
+          isGetTempDataAlertVisible = false
         }
       }
 
@@ -116,7 +135,10 @@ struct TravelJournalComposeView: View {
       // 뒤로가기 버튼 클릭 시 alert
       .confirmationDialog("", isPresented: $isDismissAlertVisible) {
         // TODO: 임시저장
-        // Button("임시저장") { print("임시저장 클릭") }
+        Button("임시저장") {
+          journalComposeVM.saveTempraryTravelJournal()
+          dismiss()
+        }
         Button("작성취소", role: .destructive) {
           print("작성취소 클릭")
           dismiss()

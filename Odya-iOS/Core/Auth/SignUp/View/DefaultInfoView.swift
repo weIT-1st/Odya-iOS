@@ -14,11 +14,10 @@ struct RegisterDefaultInfoView: View {
   
   @EnvironmentObject var signUpVM: SignUpViewModel // signUp() 사용하기 위함..
   
+  @Binding var signUpStep: Int
+  
   /// 생일 및 성별 유효성 검사
   @StateObject var validatorApi = AuthValidatorApiViewModel()
-  
-  /// 회원가입 단계
-  @Binding var signUpStep: Int
   
   /// 회원가입할 사용자 정보
   @Binding var userInfo: SignUpInfo
@@ -75,10 +74,12 @@ struct RegisterDefaultInfoView: View {
       Spacer()
       
       // next button
-      CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "다음으로", labelSize: .L) {
+      CTAButton( isActive: isNextButtonActive, buttonStyle: .solid, labelText: "등록 완료", labelSize: .L) {
         userInfo.birthday = birthday
         userInfo.gender = gender
-        // 서버에 회원 등록 진행, 성공 시 회원가입 단계 1 증가
+        
+        // 서버에 회원 등록 진행, 성공 시 authState = .additionalSetup
+        signUpVM.step.nextStep() // loading 화면 띄우기
         signUpVM.signUp()
       }
       .padding(.bottom, 45)

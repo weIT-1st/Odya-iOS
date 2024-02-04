@@ -12,7 +12,7 @@ import SwiftUI
 /// 3개의 설명 뷰를 모두 확인하면 signUpStep이 1 커지고 회원가입을 시작함
 struct AppIntroductionView: View {
   /// 회원가입 단계
-  @Binding var signUpStep: Int
+  @Binding var signUpStep: SignUpStep
   
   /// 앱 설명 단계
   @State private var introStep: Int = 1
@@ -30,7 +30,7 @@ struct AppIntroductionView: View {
                                          "place-illust",
                                          "route-illust"]
   
-  init(_ signUpStep: Binding<Int>) {
+  init(_ signUpStep: Binding<SignUpStep>) {
     self._signUpStep = signUpStep
   }
   
@@ -58,7 +58,7 @@ struct AppIntroductionView: View {
                 labelSize: .L) {
         // 마지막 앱설명 단계일 경우 회원가입 단계가 다음으로 넘어감
         if introStep == 3 {
-          signUpStep += 1
+          signUpStep.nextStep()
         } else {
           introStep += 1
         }

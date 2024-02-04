@@ -53,8 +53,14 @@ struct UserInfoEditView: View {
 
   var body: some View {
     VStack {
-      CustomNavigationBar(title: "회원정보 수정")
-      userInfoEditViewMainSection
+      if VM.isDeletingUser {
+        ProgressView()
+      }
+      
+      else {
+        CustomNavigationBar(title: "회원정보 수정")
+        userInfoEditViewMainSection
+      }
     }.background(Color.odya.background.normal)
   }
 

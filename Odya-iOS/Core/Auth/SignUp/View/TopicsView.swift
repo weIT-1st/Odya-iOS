@@ -55,8 +55,10 @@ struct RegisterTopicsView: View {
         
         // topic list
         if !isReady {
+          Spacer()
           ProgressView()
             .frame(maxWidth: .infinity)
+          Spacer()
         } else {
           topicsGridView()
         }
@@ -106,21 +108,29 @@ struct RegisterTopicsView: View {
   
   // MARK: Title
   private var titleText: some View {
-    VStack(alignment: .leading, spacing: 10) {
+    VStack(alignment: .leading, spacing: 20) {
       VStack(alignment: .leading, spacing: 0) {
         HStack(spacing: 0) {
           Text(nickname)
             .foregroundColor(.odya.brand.primary)
-          Text("님의")
+          Text("님은")
             .foregroundColor(.odya.label.normal)
         }
-        Text("관심 키워드를 알려주세요!")
+        Text("어떤 여행을 좋아하시나요?")
           .foregroundColor(.odya.label.normal)
-      }.h3Style()
+      }
+      .h3Style()
+      .frame(height: 49)
+      
+      Text("취향을 선택하고 나에게 맞는 홈을 받아보세요")
+        .b2Style()
+        .foregroundColor(.odya.label.normal)
+        .frame(height: 12)
       
       Text("최소 3개 이상")
         .b2Style()
         .foregroundColor(.odya.label.assistive)
+        .frame(height: 12)
       
       Spacer()
     }
@@ -182,8 +192,8 @@ extension RegisterTopicsView {
   }
 }
 
-//struct RegisterTopicsView_Previews: PreviewProvider {
-//  static var previews: some View {
-//    RegisterTopicsView(.constant(3), nickname: "길동아밥먹자")
-//  }
-//}
+struct RegisterTopicsView_Previews: PreviewProvider {
+  static var previews: some View {
+    RegisterTopicsView(.constant(3), nickname: "길동아밥먹자")
+  }
+}

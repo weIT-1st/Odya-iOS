@@ -78,6 +78,7 @@ struct Odya_iOSApp: App {
   
   @AppStorage("WeITAuthType") var authType: String = ""
   @AppStorage("WeITAuthState") var authState: AuthState = .loggedOut
+  @State private var isShowingAdditionalSetUpView: Bool = false
   
   @State private var isReady: Bool = false
 
@@ -97,14 +98,26 @@ struct Odya_iOSApp: App {
         else {
           switch authState {
           // 로그인 완료 상태
-          case .loggedIn:
+          case .loggedIn,
+              .additionalSetupRequired:
             RootTabView()
+              .onAppear {
+                if authState == .additionalSetupRequired {
+                  isShowingAdditionalSetUpView = true
+                }
+              }
+              .fullScreenCover(isPresented: $isShowingAdditionalSetUpView) {
+                AdditionalSetUpView($isShowingAdditionalSetUpView)
+              }
             
           // 로그아웃 상태, 로그인 버튼 뷰 나옴
           case .loggedOut:
             LoginView()
               .environmentObject(appleAuthVM)
               .environmentObject(kakaoAuthVM)
+              .onAppear {
+                appDataManager.idToken = nil
+              }
             
           // 회원가입
           case .unauthorized:
@@ -114,15 +127,12 @@ struct Odya_iOSApp: App {
               } else if authType == "apple" {
                 SignUpView(signUpInfo: appleAuthVM.userInfo)
               }
-            } else {
-              ProgressView()
             }
-            
-          case .additionalSetupRequired:
-            AdditionalSetUpView()
+            else {
+              Text("Error. Try again!")
+            }
           }
         } // if ready
-        
       } // Zstack
       .onAppear {
         /// 자동로그인

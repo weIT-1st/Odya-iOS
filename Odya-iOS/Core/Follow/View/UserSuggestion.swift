@@ -26,13 +26,13 @@ struct SuggestedUserView: View {
           .foregroundColor(.odya.label.normal)
           .lineLimit(1)
         /* 개발 보류... !!
-                Text("함께 아는 친구 n명")
-                    .detail2Style()
-                    .foregroundColor(.odya.label.assistive)
-                 */
+        Text("함께 아는 친구 n명")
+            .detail2Style()
+            .foregroundColor(.odya.label.assistive)
+         */
       }.frame(maxHeight: 35)
       FollowButtonWithAlertAndApi(userId: user.userId, buttonStyle: .solid, followState: false)
-    }.frame(width: 96)
+    }.frame(width: 96, height: 137)
   }
 }
 

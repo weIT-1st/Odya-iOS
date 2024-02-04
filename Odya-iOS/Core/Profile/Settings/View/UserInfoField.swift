@@ -21,10 +21,11 @@ enum UserInfoField: String, CaseIterable {
       let nicknamePredicate = NSPredicate(format: "SELF MATCHES %@", nicknameRegex)
       return nicknamePredicate.evaluate(with: value)
     case .phoneNumber:
+      return value.validatePhoneNumber()
       // 010-숫자4개-숫자4개 형식
-      let phoneNumberRegex = "010-([0-9]{4})-([0-9]{4})"
-      let phoneNumberPredicate = NSPredicate(format: "SELF MATCHES %@", phoneNumberRegex)
-      return phoneNumberPredicate.evaluate(with: value)
+//      let phoneNumberRegex = "010-([0-9]{4})-([0-9]{4})"
+//      let phoneNumberPredicate = NSPredicate(format: "SELF MATCHES %@", phoneNumberRegex)
+//      return phoneNumberPredicate.evaluate(with: value)
     case .email:
       // 로컬부분(@앞부분)은 대문자, 소문자, 숫자, 특수문자 모두 가능
       // 도메인 부분(@뒷부분)은 '.' 앞으로는 대문자 소문자 숫자 '.','-' 가능, '.' 뒤로는 대문자 소문자만 가능하며 2~64자
