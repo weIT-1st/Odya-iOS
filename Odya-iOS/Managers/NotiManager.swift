@@ -1,5 +1,5 @@
 //
-//  AlertManager.swift
+//  NotiManager.swift
 //  Odya-iOS
 //
 //  Created by Heeoh Son on 2023/11/06.
@@ -10,10 +10,7 @@ import Moya
 import Combine
 import CombineMoya
 
-class AlertManager: ObservableObject {
-//    @Published var showAlertOfTravelJournalCreation: Bool = false
-//    @Published var showFailureAlertOfTravelJournalCreation: Bool = false
-  
+class NotiManager: ObservableObject {
   @AppStorage("WeITAuthToken") var idToken: String?
   private let logPlugin: PluginType = CustomLogPlugin()
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
@@ -22,6 +19,21 @@ class AlertManager: ObservableObject {
   private var subscription = Set<AnyCancellable>()
   
   var isUpdating: Bool = false
+  
+  func sendLocalNoti(notiMsg: String) {
+    let notiContent = UNMutableNotificationContent()
+    notiContent.title = NSString.localizedUserNotificationString(forKey: "ODYA", arguments: nil)
+    notiContent.body = NSString.localizedUserNotificationString(forKey: notiMsg, arguments: nil)
+    notiContent.sound = UNNotificationSound.default
+    let request = UNNotificationRequest(identifier: UUID().uuidString, content: notiContent, trigger: nil)
+    let center = UNUserNotificationCenter.current()
+    center.add(request) { (error : Error?) in
+      if let theError = error {
+        // Handle any errors
+        print(theError)
+      }
+    }
+  }
   
   func updateFCMToken(newToken: String) {
     if isUpdating {

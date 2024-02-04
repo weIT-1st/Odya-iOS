@@ -32,8 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: -- FCM Noti
     
-    // 원격 알림 등록
     UNUserNotificationCenter.current().delegate = self
+    application.registerForRemoteNotifications()
     
     let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
     UNUserNotificationCenter.current().requestAuthorization(
@@ -41,13 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       completionHandler: { _, _ in }
     )
     
-    application.registerForRemoteNotifications()
-
+  
     // 메세징 델리겟, 메시지 대리자 설정
     Messaging.messaging().delegate = self
-
-//    // 푸시 포그라운드 설정
-//    UNUserNotificationCenter.current().delegate = self
     
     
     // MARK: -- Kakao
@@ -81,6 +77,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     Messaging.messaging().apnsToken = deviceToken
   }
   
+  /// fcm 토큰 등록 실패
+  func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
+      print("Remote notification is unavailable: \(error.localizedDescription)")
+  }
+  
   // MARK: SceneDelegate
   /// sceneDelegate 연결
   func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -100,7 +102,7 @@ extension AppDelegate: MessagingDelegate {
     print("AppDelegate - fcm 토큰 받음")
     print("AppDelegate = token: \(String(describing: fcmToken ))")
     if let fcmToken = fcmToken {
-      AlertManager().updateFCMToken(newToken: fcmToken)
+      NotiManager().updateFCMToken(newToken: fcmToken)
     } else {
       print("fcm token error: token is invalid")
     }

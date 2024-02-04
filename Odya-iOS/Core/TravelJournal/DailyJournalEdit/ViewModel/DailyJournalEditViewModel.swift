@@ -103,6 +103,9 @@ class DailyJournalEditViewModel: ObservableObject {
     }
 
     updatingDailyJournalsId.append(journalId)
+    
+    // 일정 수정 중 노티 보내기
+    NotiManager().sendLocalNoti(notiMsg: "여행일지 일정을 수정 중입니다.")
 
     do {
       // webp 변환하기
@@ -124,7 +127,7 @@ class DailyJournalEditViewModel: ObservableObject {
       newLongitudes += selectedImages.compactMap {
         $0.location?.longitude
       }
-
+      
       // api 호출
       _ = try await updateDailyJournalAPI(
         idToken: idToken,
@@ -138,21 +141,18 @@ class DailyJournalEditViewModel: ObservableObject {
 
       self.updatingDailyJournalsId = self.updatingDailyJournalsId.filter { $0 != journalId }
       // print("여행일지 수정 성공")
+      // 수정 완료 노티 보내기
+      NotiManager().sendLocalNoti(notiMsg: "여행일지 알정울 성공적으로 수정하였습니다.")
     } catch {
       self.updatingDailyJournalsId = self.updatingDailyJournalsId.filter { $0 != journalId }
-      if let myError = error as? MyError {
-        switch myError {
-        case .apiError(let errorData):
-          print("API Error Code: \(errorData.code), Message: \(errorData.message)")
-        case .unknown(let message):
-          print("Unknown error: \(message)")
-
-        default:
-          print("Error: something error during Updating journal")
-        }
-      } else {
-        print("An unexpected error occurred: \(error)")
+      // 수정 실패 노티 보내기
+      NotiManager().sendLocalNoti(notiMsg: "여행일지 알정 수정을 실패하였습니다.")
+      guard let myError = error as? MyError else {
+        print("update travel daily journal error response decoding error")
+        debugPrint(error)
+        return
       }
+      print(myError)
     }
   }
 

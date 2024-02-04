@@ -215,7 +215,7 @@ struct TravelJournalComposeView: View {
             switch composeType {
             case .create:
               Task {
-                await journalComposeVM.registerTravelJournal() { _,_  in }
+                await journalComposeVM.registerTravelJournal()
               }
             case .edit:
               journalComposeVM.updateTravelJournal(journalId: journalId)
