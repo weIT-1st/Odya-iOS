@@ -21,7 +21,7 @@ final class PlaceDetailViewModel: ObservableObject {
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
   private lazy var communityProvider = MoyaProvider<CommunityRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
-  lazy var journalRouter = MoyaProvider<TravelJournalRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin])
+  lazy var journalProvider = MoyaProvider<TravelJournalRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin])
   var subscription = Set<AnyCancellable>()
   
   // google places
@@ -49,7 +49,6 @@ final class PlaceDetailViewModel: ObservableObject {
   @Published private(set) var friendsJournalState = JournalState()
   @Published private(set) var recommendedJournalState = JournalState()
   @Published var myJournalList: [TravelJournalData] = []
-  @Published var myDailyJournals: [DailyJournal] = []
   
   // MARK: - Helper functions
   
@@ -145,7 +144,7 @@ extension PlaceDetailViewModel {
   }
   
   private func fetchMyTravelJournalByPlace(placeId: String) {
-    journalRouter.requestPublisher(.getMyJournals(token: idToken ?? "", size: 1, lastId: nil, placeId: placeId))
+    journalProvider.requestPublisher(.getMyJournals(token: idToken ?? "", size: 1, lastId: nil, placeId: placeId))
       .sink { completion in
         switch completion {
         case .finished:
@@ -156,26 +155,6 @@ extension PlaceDetailViewModel {
       } receiveValue: { response in
         if let data = try? response.map(TravelJournalList.self) {
           self.myJournalList = data.content
-          if let journalId = data.content.first?.journalId {
-            self.fetchMyTravelJournalDetail(journalId: journalId)
-          }
-        }
-      }
-      .store(in: &subscription)
-  }
-  
-  private func fetchMyTravelJournalDetail(journalId: Int) {
-    journalRouter.requestPublisher(.searchById(token: idToken ?? "", journalId: journalId))
-      .sink { completion in
-        switch completion {
-        case .finished:
-          break
-        case .failure(let error):
-          self.handleErrorData(error: error)
-        }
-      } receiveValue: { response in
-        if let data = try? response.map(TravelJournalDetailData.self) {
-          self.myDailyJournals = data.dailyJournals
         }
       }
       .store(in: &subscription)
@@ -184,7 +163,7 @@ extension PlaceDetailViewModel {
   func fetchFriendsTravelJournalByPlaceNextPageIfPossible(placeId: String) {
     guard friendsJournalState.canLoadNextPage else { return }
     
-    journalRouter.requestPublisher(.getFriendsJournals(token: idToken ?? "", size: 5, lastId: friendsJournalState.lastId, placeId: placeId))
+    journalProvider.requestPublisher(.getFriendsJournals(token: idToken ?? "", size: 5, lastId: friendsJournalState.lastId, placeId: placeId))
       .sink { completion in
         switch completion {
         case .finished:
@@ -205,7 +184,7 @@ extension PlaceDetailViewModel {
   func fetchRecommendedTravelJournalByPlaceNextPageIfPossible(placeId: String) {
     guard recommendedJournalState.canLoadNextPage else { return }
     
-    journalRouter.requestPublisher(.getRecommendedJournals(token: idToken ?? "", size: 5, lastId: recommendedJournalState.lastId, placeId: placeId))
+    journalProvider.requestPublisher(.getRecommendedJournals(token: idToken ?? "", size: 5, lastId: recommendedJournalState.lastId, placeId: placeId))
       .sink { completion in
         switch completion {
         case .finished:

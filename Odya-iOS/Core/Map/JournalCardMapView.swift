@@ -58,9 +58,12 @@ struct JournalCardMapView: UIViewRepresentable {
         }
         return
       } else {
+        uiView.mapType = .none
         return
       }
     }
+    
+    uiView.mapType = .normal
     
     var bounds = GMSCoordinateBounds()
     let path = GMSMutablePath()

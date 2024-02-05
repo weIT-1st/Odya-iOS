@@ -100,8 +100,8 @@
 		19E212AC2B06F7D4003155C0 /* CommunityLikeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */; };
 		19E212AE2B070A77003155C0 /* FollowButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AD2B070A77003155C0 /* FollowButtonViewModel.swift */; };
 		19E212B02B07289F003155C0 /* CommunityLikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E212AF2B07289F003155C0 /* CommunityLikeViewModel.swift */; };
+		19E30D7A2B70C3A100CE68A8 /* MainJournalCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E30D792B70C3A100CE68A8 /* MainJournalCardViewModel.swift */; };
 		19E3C1BA2B61F6470037A495 /* PlaceBookmarkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1B92B61F6470037A495 /* PlaceBookmarkManager.swift */; };
-		19E3C1BC2B6203F00037A495 /* MyPlaceJournalCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1BB2B6203F00037A495 /* MyPlaceJournalCardView.swift */; };
 		19E3C1BE2B6244070037A495 /* String+Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1BD2B6244070037A495 /* String+Place.swift */; };
 		19E3C1C02B634BF30037A495 /* PlaceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1BF2B634BF30037A495 /* PlaceTextView.swift */; };
 		19E3C1C22B63A3E70037A495 /* CoordinateImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E3C1C12B63A3E70037A495 /* CoordinateImageRouter.swift */; };
@@ -378,8 +378,8 @@
 		19E212AB2B06F7D4003155C0 /* CommunityLikeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeRouter.swift; sourceTree = "<group>"; };
 		19E212AD2B070A77003155C0 /* FollowButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButtonViewModel.swift; sourceTree = "<group>"; };
 		19E212AF2B07289F003155C0 /* CommunityLikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityLikeViewModel.swift; sourceTree = "<group>"; };
+		19E30D792B70C3A100CE68A8 /* MainJournalCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainJournalCardViewModel.swift; sourceTree = "<group>"; };
 		19E3C1B92B61F6470037A495 /* PlaceBookmarkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceBookmarkManager.swift; sourceTree = "<group>"; };
-		19E3C1BB2B6203F00037A495 /* MyPlaceJournalCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPlaceJournalCardView.swift; sourceTree = "<group>"; };
 		19E3C1BD2B6244070037A495 /* String+Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Place.swift"; sourceTree = "<group>"; };
 		19E3C1BF2B634BF30037A495 /* PlaceTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTextView.swift; sourceTree = "<group>"; };
 		19E3C1C12B63A3E70037A495 /* CoordinateImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateImageRouter.swift; sourceTree = "<group>"; };
@@ -831,7 +831,6 @@
 				07B221212B491BBB006C2B20 /* PlaceDetailView.swift */,
 				19BA67E52B4CF26800213678 /* Extension+PlaceDetailView.swift */,
 				19BA67E32B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift */,
-				19E3C1BB2B6203F00037A495 /* MyPlaceJournalCardView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1115,6 +1114,7 @@
 			isa = PBXGroup;
 			children = (
 				3E2F295F2B294EC000FF5357 /* MainJournalCardView.swift */,
+				19E30D792B70C3A100CE68A8 /* MainJournalCardViewModel.swift */,
 				3E2F29612B294EEB00FF5357 /* BookmarkedJournalCardView.swift */,
 				3E2F29632B2952CF00FF5357 /* JournalsInProfileViewModel.swift */,
 				3EC49F762B51657400E1A44F /* MainJournalSelectorView.swift */,
@@ -1644,7 +1644,6 @@
 				07589E6E2AF021E300867FAD /* TopicListViewModel.swift in Sources */,
 				3EF549A62A430ECD006562F8 /* Shadow.swift in Sources */,
 				3E26C3802AF0E80E003607A8 /* BottomSheetViewModel.swift in Sources */,
-				19E3C1BC2B6203F00037A495 /* MyPlaceJournalCardView.swift in Sources */,
 				3EBEC3B72A713F4E00998EC6 /* Profile.swift in Sources */,
 				19EBA75D2AB2D38F000ABBE5 /* Terms.swift in Sources */,
 				19DE0AB52B43E3D60079A660 /* RankCell.swift in Sources */,
@@ -1720,6 +1719,7 @@
 				19BA67E42B4BF5D400213678 /* PlaceDetailContentTypeSelection.swift in Sources */,
 				3E075C8C2B2256CB0093CACD /* UserImage.swift in Sources */,
 				07B221222B491BBB006C2B20 /* PlaceDetailView.swift in Sources */,
+				19E30D7A2B70C3A100CE68A8 /* MainJournalCardViewModel.swift in Sources */,
 				07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */,
 				19E3C1BE2B6244070037A495 /* String+Place.swift in Sources */,
 				19E3C1C22B63A3E70037A495 /* CoordinateImageRouter.swift in Sources */,
