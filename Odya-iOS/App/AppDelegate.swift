@@ -73,17 +73,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return false
   }
   
-  // MARK: register FCM token
+  // MARK: Firebase
   /// FCM 토큰이 등록 되었을 때, apns 토큰이랑 연결시켜줌
   func application(_ application: UIApplication,
                    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    // noti
     Messaging.messaging().apnsToken = deviceToken
+    
+    // APN
+    Auth.auth().setAPNSToken(deviceToken, type: .prod)
   }
   
   /// fcm 토큰 등록 실패
   func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
       print("Remote notification is unavailable: \(error.localizedDescription)")
+  }
+  
+  func application(_ application: UIApplication,
+      didReceiveRemoteNotification notification: [AnyHashable : Any],
+      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    if Auth.auth().canHandleNotification(notification) {
+      completionHandler(.noData)
+      return
+    }
+    // This notification is not auth related; it should be handled separately.
   }
   
   // MARK: SceneDelegate

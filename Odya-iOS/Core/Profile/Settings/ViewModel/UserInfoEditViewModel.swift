@@ -24,6 +24,7 @@ class UserInfoEditViewModel: ObservableObject {
   private lazy var authPlugin = AccessTokenPlugin { [self] _ in idToken ?? "" }
   private lazy var userProvider = MoyaProvider<UserRouter>(
     session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin, authPlugin])
+  private lazy var userAuthInfoProvider = MoyaProvider<UserRouter>(session: Session(interceptor: AuthInterceptor.shared), plugins: [logPlugin])
   private var subscription = Set<AnyCancellable>()
   
   // user info
@@ -108,8 +109,10 @@ class UserInfoEditViewModel: ObservableObject {
     // Change language code to korean.
     Auth.auth().languageCode = "kr";
     
+    let NumberOnlyStr = "+82 " + newNumber.replacingOccurrences(of: "-", with: "")
+
     PhoneAuthProvider.provider()
-      .verifyPhoneNumber(newNumber, uiDelegate: nil) { verificationID, error in
+      .verifyPhoneNumber(NumberOnlyStr, uiDelegate: nil) { verificationID, error in
         if let error = error {
           debugPrint(error)
           completion(false)
@@ -142,36 +145,48 @@ class UserInfoEditViewModel: ObservableObject {
       verificationCode: verificationCode
     )
     
-    let currentUser = Auth.auth().currentUser
-    currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-      if let error = error {
-        print(error)
-        completion(false)
-        return
-      }
+//    Auth.auth().signIn(with: credential) { authData, error in
+//      if let error = error {
+//        print(error)
+//        completion(false)
+//        return
+//      }
       
-      guard let token = idToken else {
-        completion(false)
-        return
-      }
-      
-      self.updatePhoneNumberApi(token: token) { success in
-        if success {
-          self.phoneNumber = newNumber
-          self.isVerificationInProgress = false
-          completion(true)
-        } else {
-          self.isVerificationInProgress = false
+      // 성공시 CurrentUser IDTokenRefresh처리
+      let currentUser = Auth.auth().currentUser
+      currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+        if let error = error {
+          print(error)
           completion(false)
+          return
         }
+        
+        guard let token = idToken else {
+          completion(false)
+          return
+        }
+        
+        self.updatePhoneNumberApi(token: token) { success in
+          if success {
+            self.phoneNumber = newNumber
+            self.isVerificationInProgress = false
+            completion(true)
+          } else {
+            self.isVerificationInProgress = false
+            completion(false)
+          }
+        }
+        
       }
-      
-    }
+//    }
+    
+    
   }
   
   private func updatePhoneNumberApi(token: String,
                                     completion: @escaping (Bool) -> Void) {
-    userProvider.requestPublisher(.updateUserPhoneNumber(token: token))
+//    self.tokenToEditInfo = token
+    userAuthInfoProvider.requestPublisher(.updateUserPhoneNumber(token: token))
       .sink { apiCompletion in
         switch apiCompletion {
         case .finished:
