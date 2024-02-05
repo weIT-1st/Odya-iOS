@@ -9,6 +9,7 @@ import SwiftUI
 import Moya
 import Combine
 import CombineMoya
+import FirebaseAuth
 
 class UserInfoEditViewModel: ObservableObject {
   // token
@@ -34,6 +35,8 @@ class UserInfoEditViewModel: ObservableObject {
   var isFetching: Bool = false
   var isUpdatingNickname: Bool = false
   @Published var isDeletingUser: Bool = false
+  
+  @Published var isVerificationInProgress: Bool = false
   
   init() {
     self.fetchMyData()
@@ -99,6 +102,90 @@ class UserInfoEditViewModel: ObservableObject {
       .store(in: &subscription)
   }
   
+  // MARK: Update PhoneNumber
+  func getVerificationCode(newNumber: String,
+                           completion: @escaping (Bool) -> Void) {
+    // Change language code to korean.
+    Auth.auth().languageCode = "kr";
+    
+    PhoneAuthProvider.provider()
+      .verifyPhoneNumber(newNumber, uiDelegate: nil) { verificationID, error in
+        if let error = error {
+          debugPrint(error)
+          completion(false)
+          return
+        }
+        
+        guard let verificationID = verificationID  else {
+          completion(false)
+          return
+        }
+        
+        // 인증번호 저장, SMS 앱으로 전환 등 앱이 종료되었을 경우를 위해 디바이스 저장
+        UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
+        
+        self.isVerificationInProgress = true
+        completion(true)
+      }
+  }
+  
+  func verifyAndUpdatePhoneNumber(newNumber: String,
+                                  verificationCode: String,
+                                  completion: @escaping (Bool) -> Void) {
+    guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID") else {
+      completion(false)
+      return
+    }
+    
+    let credential = PhoneAuthProvider.provider().credential(
+      withVerificationID: verificationID,
+      verificationCode: verificationCode
+    )
+    
+    let currentUser = Auth.auth().currentUser
+    currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+      if let error = error {
+        print(error)
+        completion(false)
+        return
+      }
+      
+      guard let token = idToken else {
+        completion(false)
+        return
+      }
+      
+      self.updatePhoneNumberApi(token: token) { success in
+        if success {
+          self.phoneNumber = newNumber
+          self.isVerificationInProgress = false
+          completion(true)
+        } else {
+          self.isVerificationInProgress = false
+          completion(false)
+        }
+      }
+      
+    }
+  }
+  
+  private func updatePhoneNumberApi(token: String,
+                                    completion: @escaping (Bool) -> Void) {
+    userProvider.requestPublisher(.updateUserPhoneNumber(token: token))
+      .sink { apiCompletion in
+        switch apiCompletion {
+        case .finished:
+          completion(true)
+        case .failure(let error):
+          self.processErrorResponse(error)
+          completion(false)
+        }
+        
+      } receiveValue: { _ in }
+      .store(in: &subscription)
+  }
+
+  
   // MARK: Logout
   @MainActor
   func logout() {
@@ -139,5 +226,14 @@ class UserInfoEditViewModel: ObservableObject {
         }
       } receiveValue: { _ in }
       .store(in: &subscription)
+  }
+  
+  // MARK: error handling
+  private func processErrorResponse(_ error: MoyaError) {
+    if let errorData = try? error.response?.map(ErrorData.self) {
+      print("ERROR: In User Edit VM with \(errorData.message)")
+    } else {  // unknown error
+      print("ERROR: \(error.localizedDescription)")
+    }
   }
 }

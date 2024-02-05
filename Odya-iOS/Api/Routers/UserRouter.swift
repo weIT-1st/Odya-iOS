@@ -12,9 +12,9 @@ enum UserRouter {
   // 1. 사용자 정보 조회
   case getUserInfo
   // 2. 이메일 변경
-  case updateUserEmailAddress(newEmailAddr: String)
+  case updateUserEmailAddress(token: String) // token: VALID ID TOKEN WITH VALID EMAIL
   // 3. 전화번호 변경
-  case updateUserPhoneNumber(newPhoneNumber: String)
+  case updateUserPhoneNumber(token: String) // token: VALID ID TOKEN WITH VALID PHONE NUMBER
   // 4. 닉네임 변경
   case updateUserNickname(newNickname: String)
   // 5. 사용자 프로필 사진 변경

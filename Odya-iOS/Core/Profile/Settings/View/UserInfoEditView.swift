@@ -190,6 +190,9 @@ struct PhoneNumberEditSection: View {
   private var isValid: Bool {
     UserInfoField.phoneNumber.isValid(value: newPhoneNumber)
   }
+  private var isVerificationButtonActive: Bool {
+    VM.isVerificationInProgress && !verificationCode.isEmpty
+  }
 
   @State var isShowAlert: Bool = false
   @State var alertMessage: String = ""
@@ -210,9 +213,11 @@ struct PhoneNumberEditSection: View {
         ) {
           validatorApi.validatePhonenumber(phoneNumber: newPhoneNumber) { result in
             if result {
-              // TODO: 인증 절차
-              alertMessage = "인증번호가 전송되었습니다"
-              isShowAlert = true
+              // 인증 번호 전송
+              VM.getVerificationCode(newNumber: newPhoneNumber) { success in
+                alertMessage = success ? "인증번호가 발송 되었습니다." : "인증에 실패하였습니다. 다시 시도해주세요."
+                isShowAlert = true
+              }
             } else {
               alertMessage = "이미 존재하는 번호입니다"
               isShowAlert = true
@@ -224,7 +229,7 @@ struct PhoneNumberEditSection: View {
 
       HStack {  // 인증번호 입력
         TextField("인증번호를 입력해주세요", text: $verificationCode)
-          .foregroundColor(verificationCode == "" ? .odya.label.inactive : .odya.label.normal)
+          .foregroundColor(isVerificationButtonActive ? .odya.label.normal : .odya.label.inactive)
           .b1Style()
           .modifier(CustomFieldStyle())
 
@@ -234,15 +239,14 @@ struct PhoneNumberEditSection: View {
           isActive: true
         ) {
           // TODO: 인증번호 확인절차
-          // 인증 성공
-          VM.phoneNumber = newPhoneNumber
-          alertMessage = "인증되었습니다\n휴대폰 번호가 \(newPhoneNumber)으로 변경되었습니다"
-          isShowAlert = true
-
-          // 인증 실패
-          //          alertMessage = "인증에 실패하였습니다"
-          //          isShowAlert = true
+          VM.verifyAndUpdatePhoneNumber(newNumber: newPhoneNumber,
+                                        verificationCode: verificationCode) { success in
+            alertMessage = success ? "인증되었습니다.\n휴대폰 번호가 \(newPhoneNumber)으로 변경되었습니다" : "인증에 실패하였습니다. 다시 시도해주세요."
+            isShowAlert = true
+            verificationCode = ""
+          }
         }
+        .disabled(!isVerificationButtonActive)
       }
     }.onChange(of: userPhoneNumber) { newValue in
       newPhoneNumber = newValue ?? ""
