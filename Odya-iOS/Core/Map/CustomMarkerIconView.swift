@@ -37,6 +37,17 @@ class CustomMarkerIconView: UIView {
     }
   }
   
+  var radius: CGFloat {
+    switch sparkle {
+    case .small:
+      return 8
+    case .medium:
+      return 2.62687
+    case .large:
+      return 4
+    }
+  }
+  
   private lazy var placeImageView: UIImageView = {
     let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageWidth, height: imageWidth))
     imageView.contentMode = .scaleAspectFill
@@ -80,7 +91,7 @@ class CustomMarkerIconView: UIView {
     let processor = ResizingImageProcessor(
       referenceSize: CGSize(width: placeImageView.frame.size.width,
                             height: placeImageView.frame.size.height))
-    |> RoundCornerImageProcessor(cornerRadius: Radius.medium)
+    |> RoundCornerImageProcessor(cornerRadius: radius)
     
     placeImageView.kf.setImage(
       with: URL(string: urlString),
