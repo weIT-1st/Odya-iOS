@@ -49,7 +49,7 @@ final class PlaceDetailViewModel: ObservableObject {
   @Published private(set) var friendsJournalState = JournalState()
   @Published private(set) var recommendedJournalState = JournalState()
   @Published var myJournalList: [TravelJournalData] = []
-  @Published var myJournalImageCoordinate: [CLLocationCoordinate2D] = []
+  @Published var myDailyJournals: [DailyJournal] = []
   
   // MARK: - Helper functions
   
@@ -175,20 +175,7 @@ extension PlaceDetailViewModel {
         }
       } receiveValue: { response in
         if let data = try? response.map(TravelJournalDetailData.self) {
-          let latitudes = data.dailyJournals.map { $0.latitudes }.joined().compactMap { $0 }
-          let longitudes = data.dailyJournals.map { $0.longitudes }.joined().compactMap { $0 }
-          var coordinates = [CLLocationCoordinate2D]()
-          let count = min(latitudes.count, longitudes.count)
-          
-          for i in 0..<count {
-              let latitude = latitudes[i]
-              let longitude = longitudes[i]
-              
-              let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-              coordinates.append(coordinate)
-          }
-          
-          self.myJournalImageCoordinate = coordinates
+          self.myDailyJournals = data.dailyJournals
         }
       }
       .store(in: &subscription)

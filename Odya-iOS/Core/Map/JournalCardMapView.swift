@@ -11,17 +11,10 @@ import GoogleMaps
 struct JournalCardMapView: UIViewRepresentable {
   // MARK: - Properties
   let placeId: String
-  @Binding var coordinates: [CLLocationCoordinate2D]
+  let size: SparkleMapMarker
+  @Binding var dailyJournals: [DailyJournal]
   
   let mapView = GMSMapView()
-  
-  private let markerImage: UIImageView = {
-    let imageView = UIImageView(image: UIImage(named: "sparkle-filled-s"))
-    imageView.layer.shadowColor = UIColor(red: 1, green: 0.83, blue: 0.12, alpha: 1).cgColor
-    imageView.layer.shadowRadius = 9
-    imageView.layer.shadowOpacity = 0.8
-    return imageView
-  }()
   
   // MARK: - View
   
@@ -37,6 +30,21 @@ struct JournalCardMapView: UIViewRepresentable {
   }
   
   func updateUIView(_ uiView: UIViewType, context: Context) {
+    let latitudes = dailyJournals.map { $0.latitudes }.joined().compactMap { $0 }
+    let longitudes = dailyJournals.map { $0.longitudes }.joined().compactMap { $0 }
+    var coordinates = [CLLocationCoordinate2D]()
+    let count = min(latitudes.count, longitudes.count)
+    
+    for i in 0..<count {
+        let latitude = latitudes[i]
+        let longitude = longitudes[i]
+        
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        coordinates.append(coordinate)
+    }
+    
+    let imageUrls = dailyJournals.map { $0.images }.joined().compactMap { $0.imageUrl }
+    
     uiView.clear()
     
     if coordinates.isEmpty {
@@ -52,16 +60,16 @@ struct JournalCardMapView: UIViewRepresentable {
     
     var bounds = GMSCoordinateBounds()
     let path = GMSMutablePath()
-    
-    coordinates.forEach { coordinate in
-      let marker = GMSMarker(position: coordinate)
-      marker.iconView = markerImage
-      marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
+        
+    for i in 0..<min(coordinates.count, imageUrls.count) {
+      let marker = GMSMarker(position: coordinates[i])
+      marker.iconView = CustomMarkerIconView(frame: .zero, urlString: imageUrls[i], sparkle: size)
+      marker.groundAnchor = CGPoint(x: 0.5, y: 0.75)
       marker.map = uiView
-      path.add(coordinate)
-      bounds = bounds.includingCoordinate(coordinate)
+      path.add(coordinates[i])
+      bounds = bounds.includingCoordinate(coordinates[i])
     }
-    
+        
     let polyline = GMSPolyline(path: path)
     polyline.strokeColor = UIColor(red: 1, green: 0.83, blue: 0.12, alpha: 1)
     polyline.strokeWidth = 1.31343

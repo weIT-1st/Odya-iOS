@@ -18,7 +18,7 @@ struct MyPlaceJournalCardView: View {
   
   let placeId: String
   let myJournal: TravelJournalData
-  @Binding var coordinates: [CLLocationCoordinate2D]
+  @Binding var dailyJournals: [DailyJournal]
   
   // MARK: Body
   var body: some View {
@@ -39,7 +39,7 @@ struct MyPlaceJournalCardView: View {
   
   // MARK: Card
   private var cardView: some View {
-    JournalCardMapView(placeId: placeId, coordinates: $coordinates)
+    JournalCardMapView(placeId: placeId, size: .medium, dailyJournals: $dailyJournals)
       .frame(width: cardWidth, height: cardHeight)
       .cornerRadius(Radius.large)
       .overlay {
