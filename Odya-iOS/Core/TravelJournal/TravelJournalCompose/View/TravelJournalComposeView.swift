@@ -10,6 +10,7 @@ import SwiftUI
 struct TravelJournalComposeView: View {
   // MARK: Properties
 
+  // @EnvironmentObject var alertManager: AlertManager
   @ObservedObject var journalComposeVM: JournalComposeViewModel
 
   let journalId: Int

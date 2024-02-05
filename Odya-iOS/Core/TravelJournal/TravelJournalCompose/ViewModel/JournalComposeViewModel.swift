@@ -46,6 +46,7 @@ class JournalComposeViewModel: ObservableObject {
 
   // loading flag
   var isJournalCreating: Bool = false
+  var showCompletePopup: Bool = false
 
   // travel journal data
   let journalId: Int
@@ -224,6 +225,7 @@ class JournalComposeViewModel: ObservableObject {
             continuation.resume(throwing: MyError.apiError(errorData))
           } catch {
             print("여행일지 작성 성공")
+            self.showCompletePopup = true
             continuation.resume(returning: true)  // 여행일지 작성 성공
           }
 
@@ -235,13 +237,15 @@ class JournalComposeViewModel: ObservableObject {
     }
   }
 
-  func registerTravelJournal() async {
-    print("여행일지 등록하기 버튼 클릭")
+    func registerTravelJournal() async {
     guard let idToken = idToken else {
       return
     }
 
     self.isJournalCreating = true
+      
+    // 등록 중 노티 보내기
+    NotiManager().sendLocalNoti(notiMsg: "\(title) 여행일지를 등록 중입니다.")
 
     do {
       // webp 변환하기
@@ -261,24 +265,15 @@ class JournalComposeViewModel: ObservableObject {
 
       // api 호출
       _ = try await createJournalAPI(idToken: idToken, webpImages: webPImages)
-
+      
       self.isJournalCreating = false
-      // print("여행일지 등록 성공")
+      // 등록 완료 노티 보내기
+      NotiManager().sendLocalNoti(notiMsg: "\(title) 여행일지를 성공적으로 등록하였습니다.")
+      
     } catch {
       self.isJournalCreating = false
-      if let myError = error as? MyError {
-        switch myError {
-        case .apiError(let errorData):
-          print("API Error Code: \(errorData.code), Message: \(errorData.message)")
-        case .unknown(let message):
-          print("Unknown error: \(message)")
-
-        default:
-          print("Error: something error during Creating journal")
-        }
-      } else {
-        print("An unexpected error occurred: \(error)")
-      }
+      // 등록 실패 노티 보내기
+      NotiManager().sendLocalNoti(notiMsg: "\(title) 여행일지 등록을 실패하였습니다.")
     }
 
     // other api error handling
@@ -312,7 +307,10 @@ class JournalComposeViewModel: ObservableObject {
     guard let idToken = self.idToken else {
       return
     }
-
+    
+    // 등록 중 노티 보내기
+    NotiManager().sendLocalNoti(notiMsg: "\(title) 여행일지를 수정 중입니다.")
+    
     journalProvider.requestPublisher(
       .edit(
         token: idToken,
@@ -330,8 +328,12 @@ class JournalComposeViewModel: ObservableObject {
     .sink { apiCompletion in
       switch apiCompletion {
       case .finished:
-        print("success")
+        // print("success")
+        // 등록 완료 노티 보내기
+        NotiManager().sendLocalNoti(notiMsg: "\(self.title) 여행일지를 성공적으로 수정하였습니다.")
       case .failure(let error):
+        // 등록 실패 노티 보내기
+        NotiManager().sendLocalNoti(notiMsg: "\(self.title) 여행일지 수정을 실패하였습니다.")
         guard let errorData = try? error.response?.map(ErrorData.self) else {
           print("update travel journal error response decoding error")
           debugPrint(error)

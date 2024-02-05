@@ -10,6 +10,8 @@ import SwiftUI
 /// 내 추억 뷰
 struct MyJournalsView: View {
 
+//    @EnvironmentObject var alertManager: AlertManager
+    
   @StateObject var VM = MyJournalsViewModel()
   @StateObject var bookmarkedJournalsVM = BookmarkedJournalListViewModel()
   @StateObject var taggedJournalsVM = TaggedJournalListViewModel()
@@ -72,7 +74,6 @@ struct MyJournalsView: View {
               }
             }
             .padding(.vertical, 50)
-
           }
 
         }  // Scroll View
