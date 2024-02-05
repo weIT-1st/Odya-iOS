@@ -13,6 +13,7 @@ class RootTabManager: ObservableObject {
 
 struct RootTabView: View {
 
+//  @EnvironmentObject var alertManager: AlertManager
   @StateObject var rootTabManager = RootTabManager()
   // @StateObject var fullScreenManager = FullScreenCoverManager()
   
