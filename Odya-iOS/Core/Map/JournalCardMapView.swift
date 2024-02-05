@@ -1,5 +1,5 @@
 //
-//  PlaceDetailJournalMapView.swift
+//  JournalCardMapView.swift
 //  Odya-iOS
 //
 //  Created by Jade Yoo on 2024/02/01.
@@ -8,7 +8,7 @@
 import SwiftUI
 import GoogleMaps
 
-struct PlaceDetailJournalMapView: UIViewRepresentable {
+struct JournalCardMapView: UIViewRepresentable {
   // MARK: - Properties
   let placeId: String
   @Binding var coordinates: [CLLocationCoordinate2D]
@@ -51,13 +51,21 @@ struct PlaceDetailJournalMapView: UIViewRepresentable {
     }
     
     var bounds = GMSCoordinateBounds()
+    let path = GMSMutablePath()
     
     coordinates.forEach { coordinate in
       let marker = GMSMarker(position: coordinate)
       marker.iconView = markerImage
+      marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
       marker.map = uiView
+      path.add(coordinate)
       bounds = bounds.includingCoordinate(coordinate)
     }
+    
+    let polyline = GMSPolyline(path: path)
+    polyline.strokeColor = UIColor(red: 1, green: 0.83, blue: 0.12, alpha: 1)
+    polyline.strokeWidth = 1.31343
+    polyline.map = uiView
     
     let update = GMSCameraUpdate.fit(bounds, withPadding: 60)
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {

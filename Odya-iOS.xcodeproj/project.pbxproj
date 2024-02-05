@@ -77,7 +77,7 @@
 		197D6FA02B6A26AE005DA0BB /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6F9F2B6A26AE005DA0BB /* CLLocationCoordinate2D.swift */; };
 		197D6FA32B6B2CB3005DA0BB /* FeedNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA22B6B2CB3005DA0BB /* FeedNotificationView.swift */; };
 		197D6FA52B6B2E46005DA0BB /* FeedNotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA42B6B2E46005DA0BB /* FeedNotificationViewModel.swift */; };
-		197D6FA72B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA62B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift */; };
+		197D6FA72B6B7FF1005DA0BB /* JournalCardMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197D6FA62B6B7FF1005DA0BB /* JournalCardMapView.swift */; };
 		199EB6FB2AE22056004EF4B1 /* CommunityComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */; };
 		199EB6FD2AE221D5004EF4B1 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */; };
 		199EB6FF2AE254DE004EF4B1 /* SquareAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */; };
@@ -356,7 +356,7 @@
 		197D6F9F2B6A26AE005DA0BB /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		197D6FA22B6B2CB3005DA0BB /* FeedNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationView.swift; sourceTree = "<group>"; };
 		197D6FA42B6B2E46005DA0BB /* FeedNotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedNotificationViewModel.swift; sourceTree = "<group>"; };
-		197D6FA62B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailJournalMapView.swift; sourceTree = "<group>"; };
+		197D6FA62B6B7FF1005DA0BB /* JournalCardMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCardMapView.swift; sourceTree = "<group>"; };
 		199EB6FA2AE22056004EF4B1 /* CommunityComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityComposeView.swift; sourceTree = "<group>"; };
 		199EB6FC2AE221D5004EF4B1 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		199EB6FE2AE254DE004EF4B1 /* SquareAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareAsyncImage.swift; sourceTree = "<group>"; };
@@ -578,9 +578,7 @@
 		0708FC2E2A40D2CD00D152CF /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				0707A1C12A45A2A100AE6E4D /* MapView.swift */,
-				0707A1C12A45A2A100AE6E4D /* HomeMapView.swift */,
-				197D6FA62B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift */,
+				197D6FA62B6B7FF1005DA0BB /* JournalCardMapView.swift */,
 				0707A1C12A45A2A100AE6E4D /* HomeMapView.swift */,
 				194894BA2B68819E00D8A7FE /* CustomMarkerIconView.swift */,
 			);
@@ -1762,7 +1760,7 @@
 				3EBEC3AF2A6E74DE00998EC6 /* ButtonStyles.swift in Sources */,
 				3E2F29762B2AE98F00FF5357 /* TravelJournalBookmarkRouter.swift in Sources */,
 				3E26C3862AF3956F003607A8 /* TravelMatesView.swift in Sources */,
-				197D6FA72B6B7FF1005DA0BB /* PlaceDetailJournalMapView.swift in Sources */,
+				197D6FA72B6B7FF1005DA0BB /* JournalCardMapView.swift in Sources */,
 				3ED22F3E2A98D7070067DE72 /* Follow.swift in Sources */,
 				197D6FA02B6A26AE005DA0BB /* CLLocationCoordinate2D.swift in Sources */,
 				3EE9CA352AC3C2E8003A2E85 /* TravelJournal.swift in Sources */,
