@@ -39,7 +39,7 @@ struct MyPlaceJournalCardView: View {
   
   // MARK: Card
   private var cardView: some View {
-    JournalCardMapView(placeId: placeId, size: .medium, dailyJournals: $dailyJournals)
+    JournalCardMapView(size: .medium, dailyJournals: $dailyJournals)
       .frame(width: cardWidth, height: cardHeight)
       .cornerRadius(Radius.large)
       .overlay {

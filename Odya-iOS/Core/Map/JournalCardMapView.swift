@@ -10,7 +10,6 @@ import GoogleMaps
 
 struct JournalCardMapView: UIViewRepresentable {
   // MARK: - Properties
-  let placeId: String
   let size: SparkleMapMarker
   @Binding var dailyJournals: [DailyJournal]
   
@@ -49,13 +48,18 @@ struct JournalCardMapView: UIViewRepresentable {
     
     if coordinates.isEmpty {
       // 사진 좌표가 없을 때, placeId의 좌표로 카메라 이동
-      placeId.placeIdToCoordinate { coordinate in
-        let camera = GMSCameraPosition(target: coordinate, zoom: 15)
-        DispatchQueue.main.async {
-          uiView.camera = camera
+      let firstPlaceId = dailyJournals.map { $0.placeId }.first ?? ""
+      if let placeId = firstPlaceId {
+        placeId.placeIdToCoordinate { coordinate in
+          let camera = GMSCameraPosition(target: coordinate, zoom: 15)
+          DispatchQueue.main.async {
+            uiView.camera = camera
+          }
         }
+        return
+      } else {
+        return
       }
-      return
     }
     
     var bounds = GMSCoordinateBounds()
