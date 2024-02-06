@@ -20,8 +20,8 @@ class MyJournalsViewModel: ObservableObject {
 
   // user info
   @AppStorage("WeITAuthToken") var idToken: String?
-  @Published var nickname: String = MyData().nickname
-  @Published var profile: ProfileData = MyData().profile.decodeToProileData()
+  @Published var nickname: String = MyData.nickname
+  @Published var profile: ProfileData = MyData.profile.decodeToProileData()
   var userId: Int = MyData.userID
 
   // data
@@ -52,9 +52,8 @@ class MyJournalsViewModel: ObservableObject {
 
   /// user defaults에서 유저 정보 가져옴
   func getMyData() {
-    let myData = MyData()
-    self.nickname = myData.nickname
-    self.profile = myData.profile.decodeToProileData()
+    self.nickname = MyData.nickname
+    self.profile = MyData.profile.decodeToProileData()
     self.userId = MyData.userID
   }
 

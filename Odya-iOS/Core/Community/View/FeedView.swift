@@ -167,7 +167,7 @@ struct FeedView: View {
     HStack(alignment: .center) {
       // 내 커뮤니티 활동 뷰로 연결
       NavigationLink(value: FeedRoute.activity) {
-        ProfileImageView(profileUrl: MyData().profile, size: .S)
+        ProfileImageView(of: MyData.nickname, profileData: MyData.profile.decodeToProileData(), size: .S)
           .overlay(
             RoundedRectangle(cornerRadius: 32)
               .inset(by: 0.5)
