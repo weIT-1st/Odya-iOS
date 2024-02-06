@@ -121,6 +121,7 @@
 		19EBA7722ABC27D8000ABBE5 /* FeedFullCommentSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */; };
 		19F9286C2B60D5CF009CDDCB /* ShowMoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19F9286B2B60D5CF009CDDCB /* ShowMoreButton.swift */; };
 		19FF88BC2B68CF0B00FA6B46 /* GoogleMapsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 19FF88BB2B68CF0B00FA6B46 /* GoogleMapsUtils */; };
+		19FF920C2B71C66000D07212 /* JournalDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FF920B2B71C66000D07212 /* JournalDetailMapView.swift */; };
 		3E0588FD2A276E64005C29D9 /* KakaoLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */; };
 		3E0588FF2A276E76005C29D9 /* KakaoAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */; };
 		3E0589012A276E84005C29D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0589002A276E84005C29D9 /* AppDelegate.swift */; };
@@ -396,6 +397,7 @@
 		19EBA7682AB437C6000ABBE5 /* FeedUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUserInfoView.swift; sourceTree = "<group>"; };
 		19EBA7712ABC27D8000ABBE5 /* FeedFullCommentSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedFullCommentSheet.swift; sourceTree = "<group>"; };
 		19F9286B2B60D5CF009CDDCB /* ShowMoreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreButton.swift; sourceTree = "<group>"; };
+		19FF920B2B71C66000D07212 /* JournalDetailMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailMapView.swift; sourceTree = "<group>"; };
 		3E0588FC2A276E64005C29D9 /* KakaoLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginButton.swift; sourceTree = "<group>"; };
 		3E0588FE2A276E76005C29D9 /* KakaoAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthViewModel.swift; sourceTree = "<group>"; };
 		3E0589002A276E84005C29D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -578,9 +580,10 @@
 		0708FC2E2A40D2CD00D152CF /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				197D6FA62B6B7FF1005DA0BB /* JournalCardMapView.swift */,
 				0707A1C12A45A2A100AE6E4D /* HomeMapView.swift */,
 				194894BA2B68819E00D8A7FE /* CustomMarkerIconView.swift */,
+				197D6FA62B6B7FF1005DA0BB /* JournalCardMapView.swift */,
+				19FF920B2B71C66000D07212 /* JournalDetailMapView.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -1695,6 +1698,7 @@
 				3EF54A092A5BE9DA006562F8 /* ApiService.swift in Sources */,
 				192ADAA12B0D8D7E00BD480E /* ReportView.swift in Sources */,
 				19EBA7672AB42D1B000ABBE5 /* FeedCommentView.swift in Sources */,
+				19FF920C2B71C66000D07212 /* JournalDetailMapView.swift in Sources */,
 				071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */,
 				3EEBB7D12A8F3A8500F0049D /* DailyJournalEditView.swift in Sources */,
 				19DE0AB32B43D4C50079A660 /* Placeholder.swift in Sources */,

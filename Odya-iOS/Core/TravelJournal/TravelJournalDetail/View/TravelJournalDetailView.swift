@@ -94,7 +94,7 @@ struct TravelJournalDetailView: View {
     ZStack {
       GeometryReader { geometry in
         let dailyJournals = journalDetailVM.journalDetail?.dailyJournals ?? []
-        JournalCardMapView(size: .large, dailyJournals: .constant(dailyJournals))
+        JournalDetailMapView(size: .large, dailyJournals: .constant(dailyJournals))
 
         headerBar
 
