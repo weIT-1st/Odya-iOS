@@ -55,7 +55,7 @@ struct FeedView: View {
                 // posts (무한)
                 ForEach(viewModel.state.content, id: \.communityId) { content in
                   VStack(spacing: 0) {
-                    PostImageView(urlString: content.communityMainImageURL)
+                    PostImageView(urlString: content.communityMainImageURL, simpleTravelJournal: content.travelJournalSimpleResponse)
                     NavigationLink(value: FeedRoute.detail(content.communityId), label: {
                       PostContentView(
                         communityId: content.communityId,

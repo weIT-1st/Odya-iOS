@@ -24,7 +24,7 @@ struct FeedContent: Codable, Equatable {
   let communityMainImageURL: String
   let placeId: String?
   let writer: Writer
-  //    let travelJournalSimpleResponse
+  let travelJournalSimpleResponse: TravelJournalSimpleResponse?
   let communityCommentCount, communityLikeCount: Int
   let isUserLiked: Bool
   let createdDate: String
@@ -36,7 +36,7 @@ struct FeedContent: Codable, Equatable {
     case writer, communityCommentCount, communityLikeCount, createdDate
     case isUserLiked
     case placeId
-    //        case travelJournalSimpleResponse
+    case travelJournalSimpleResponse
   }
 
   static func == (lhs: FeedContent, rhs: FeedContent) -> Bool {
@@ -53,6 +53,17 @@ struct Writer: Codable {
   enum CodingKeys: String, CodingKey {
     case userID = "userId"
     case nickname, profile, isFollowing
+  }
+}
+
+struct TravelJournalSimpleResponse: Codable {
+  let travelJournalId: Int
+  let title: String
+  let mainImageURL: String?
+  
+  enum CodingKeys: String, CodingKey {
+    case travelJournalId, title
+    case mainImageURL = "mainImageUrl"
   }
 }
 

@@ -10,11 +10,12 @@ import SwiftUI
 struct PostImageView: View {
   // MARK: Properties
   let urlString: String
+  let simpleTravelJournal: TravelJournalSimpleResponse?
 
   // MARK: - Body
 
   var body: some View {
-    ZStack {
+    ZStack(alignment: .bottom) {
       // image
       AsyncImage(
         url: URL(string: urlString)!,
@@ -37,15 +38,25 @@ struct PostImageView: View {
         }
       )
 
-      // default image
-      //      Image("logo-rect")
-
       // 여행일지 연동
-      HStack {
-
+      if let journal = simpleTravelJournal {
+        HStack {
+          Image("diary")
+            .frame(width: 24, height: 24)
+          Text(journal.title)
+            .detail1Style()
+            .foregroundColor(.odya.label.normal)
+          Spacer()
+          Image("direction-right")
+        }
+        .padding(.leading, 17)
+        .padding(.trailing, 13)
+        .frame(maxWidth: .infinity)
+        .frame(height: 50)
+        .background(Color.odya.background.dimmed_system)
+        .clipShape(RoundedEdgeShape(edgeType: .top))
       }
     }
-    //    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width, alignment: .center)
     .clipShape(RoundedEdgeShape(edgeType: .top))
   }
 }
