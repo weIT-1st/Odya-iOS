@@ -100,7 +100,7 @@ enum TravelJournalRouter {
                      latitudes: [Double],
                      longitudes: [Double],
                      date: [Int],
-                     images: [(data: Data, name: String)])
+                     images: [(data: Data, imageName: String)])
   // 여행일지 데일리 일정 삭제
   case deleteContent(token: String, journalId: Int, contentId: Int)
   // 여행일지 데일리 일정 수정
@@ -276,7 +276,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
         latitudes: latitudes,
         longitudes: longitudes,
         travelDate: date,
-        contentImageNames: images.map { $0.name + ".webp" })
+        contentImageNames: images.map { $0.imageName })
       var formData: [MultipartFormData] = []
       do {
         let travelJournalJSONData = try JSONEncoder().encode(newTravelJournalContent)
@@ -289,7 +289,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
           formData.append(
             MultipartFormData(
               provider: .data(image.data), name: "travel-journal-content-image",
-              fileName: "\(image.name)", mimeType: "image/webp"))
+              fileName: "\(image.imageName)", mimeType: "image/webp"))
         }
       } catch {
         print("JSON 인코딩 에러: \(error)")
@@ -382,6 +382,10 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
 
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
+  }
+  
+  var validationType: ValidationType {
+    return .successCodes
   }
 
 }

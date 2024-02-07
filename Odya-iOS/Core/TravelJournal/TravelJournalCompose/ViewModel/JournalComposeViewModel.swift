@@ -111,7 +111,7 @@ class JournalComposeViewModel: ObservableObject {
 
   }
 
-  // MARK: Functions - travel dates
+  // MARK: travel dates
 
   func setTravelDates(startDate: Date, endDate: Date) {
     self.startDate = startDate
@@ -124,81 +124,84 @@ class JournalComposeViewModel: ObservableObject {
     }
   }
 
-  // MARK: Functions - register
+  // MARK: validate
 
+  private func validateDailyJounral(_ dailyJournal: DailyTravelJournal) -> (Bool, String) {
+    if dailyJournal.isOriginal {
+      return (true, "")
+    }
+    
+    // date
+    guard let date = dailyJournal.date else {
+      return (false, "여행 콘텐츠 날짜는 여행 일정 내에 포함되어야 합니다.")
+    }
+    if date < startDate || date > endDate {
+      return (false, "여행 콘텐츠 날짜는 여행 일정 내에 포함되어야 합니다.")
+    }
+
+    // images
+    // 여행 일지 콘텐츠의 이미지 제목 개수가 15개를 초과하는 경우
+    if dailyJournal.selectedImages.count > 15
+        || dailyJournal.selectedImages.contains(where: { $0.imageName == "" }){
+      return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
+    }
+    
+    // 여행 일지 콘텐츠의 이미지 제목이 비어있는 경우
+    if dailyJournal.selectedImages.contains(where: { $0.imageName == "" }) {
+      return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
+    }
+    
+    return (true, "")
+  }
+  
+  
   func validateTravelJournal() -> (Bool, String) {
     // 제목이 20자가 넘는 경우
     if title.isEmpty || title.countCharacters() > 20 {
       return (false, "여행 일지 제목은 최소 1자, 최대 20자까지 입력 가능합니다.")
     }
+    
+    // 여행 일지의 시작일이 여행 일지의 종료일보다 늦을 경우
+    if startDate > endDate {
+      return (false, "여행 기간이 유효하지 않습니다. 시작 날짜를 종료 날짜 이전으로 설정해주세요.")
+    }
+    
+    // 여행 일자가 15일 초과인 경우
+    if duration > 15 {
+      return (false, "여행 일정을 15일 이내로 설정해주세요.")
+    }
+    
+    // 여행 친구가 10명 초과인 경우
+    if travelMates.count > 10 {
+      return (false, "함께 간 친구는 최대 10명까지 등록 가능합니다.")
+    }
+    
     // 여행 일지 콘텐츠가 15개 초과인 경우
     if dailyJournalList.count > 15 {
       return (false, "여행 일지 콘텐츠는 최대 15개까지 등록 가능합니다.")
     }
-
-    // 여행 일지 콘텐츠의 이미지 제목이 비어있는 경우
-    if dailyJournalList.contains(where: { dailyJournal in
-      dailyJournal.selectedImages.contains { $0.imageName == "" }
-    }) {
-      return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
+    
+    // 여행 일자보다 콘텐츠의 개수가 많을 경우
+    if duration < dailyJournalList.count {
+      return (false, "하루에 한 개의 콘텐츠만 등록 가능합니다.")
     }
-    // 여행 일지 콘텐츠의 이미지 제목 개수가 15개를 초과하는 경우
-    if dailyJournalList.contains(where: { $0.selectedImages.count > 15 }) {
-      return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
-    }
-    // 여행 이미지가 비어있는 경우
-
-    // 여행 일지 콘텐츠의 이미지 이름 개수와 실제 이미지 개수가 다를 경우
 
     // 여행 이미지가 225개를 초과하는 경우
     if dailyJournalList.map({ $0.selectedImages.count }).reduce(0, +) > 225 {
       return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
     }
 
-    // 여행 이미지 리사이징이 제대로 처리 안된 경우
-    if dailyJournalList.flatMap({ $0.selectedImages }).contains(where: {
-      max($0.image.size.width, $0.image.size.height) > 1024
-    }) {
-      return (false, "여행일지 이미지 업로드 중 오류가 발생하였습니다.")
+    for dailyJournal in dailyJournalList {
+      let ret = self.validateDailyJounral(dailyJournal)
+      if ret.0 == false {
+        return ret
+      }
     }
-
-    // 여행 일지의 시작일이 여행 일지의 종료일보다 늦을 경우
-    if startDate > endDate {
-      return (false, "여행 기간이 유효하지 않습니다. 시작 날짜를 종료 날짜 이전으로 설정해주세요.")
-    }
-    // 여행 일자보다 콘텐츠의 개수가 많을 경우
-    if duration < dailyJournalList.count {
-      return (false, "하루에 한 개의 콘텐츠만 등록 가능합니다.")
-    }
-    // 여행 콘텐츠 일자가 여행 시작일보다 이전이거나 여행 종료일보다 이후일 경우
-    if dailyJournalList.contains(where: {
-      guard let date = $0.date else { return true }
-      if date < startDate || date > endDate { return true }
-      return false
-    }) {
-      return (false, "여행 콘텐츠 일자가 여행 일정을 벗어납니다.")
-    }
-    // 여행 일자가 15일 초과인 경우
-    if duration > 15 {
-      return (false, "여행 일정을 15일 이내로 설정해주세요.")
-    }
-
-    // 여행 친구 아이디가 등록되지 않은 사용자인 경우
-
-    // 여행 친구가 10명 초과인 경우
-    if travelMates.count > 10 {
-      return (false, "함께 간 친구는 최대 10명까지 등록 가능합니다.")
-    }
-
-    // 여행 일지 콘텐츠의 이름이 실제 이미지 파일 이름과 일치하지 않는 경우
-
-    // 위도와 경도 중에 하나만 null인 경우
-    // 위도와 경도의 개수가 다를 경우
-    // 유효하지 않은 장소 id인 경우
     return (true, "")
   }
 
-  func createJournalAPI(idToken: String, webpImages: [(data: Data, name: String)]) async throws
+  // MARK: create
+  private func createJournalAPI(idToken: String, webpImages: [(data: Data, name: String)]) async throws
     -> Bool
   {
     // API 호출
@@ -237,16 +240,16 @@ class JournalComposeViewModel: ObservableObject {
     }
   }
 
-    func registerTravelJournal() async {
+  func registerTravelJournal() async {
     guard let idToken = idToken else {
       return
     }
-
+    
     self.isJournalCreating = true
-      
+    
     // 등록 중 노티 보내기
     NotiManager().sendLocalNoti(notiMsg: "\(title) 여행일지를 등록 중입니다.")
-
+    
     do {
       // webp 변환하기
       let images = dailyJournalList.flatMap { $0.selectedImages }
@@ -262,7 +265,7 @@ class JournalComposeViewModel: ObservableObject {
           $0.location?.longitude
         }
       }
-
+      
       // api 호출
       _ = try await createJournalAPI(idToken: idToken, webpImages: webPImages)
       
@@ -275,42 +278,76 @@ class JournalComposeViewModel: ObservableObject {
       // 등록 실패 노티 보내기
       NotiManager().sendLocalNoti(notiMsg: "\(title) 여행일지 등록을 실패하였습니다.")
     }
-
-    // other api error handling
-    //  1-3 실패 - 제목이 20자가 넘는 경우
-    //  1-4 실패 - 여행 일지 콘텐츠가 15개 초과인 경우
-    //  1-5 실패 - 여행 일지 콘텐츠의 이미지 제목이 비어있는 경우
-    //  1-6 실패 - 여행 일지 콘텐츠의 이미지 제목 개수가 15개를 초과하는 경우
-    //  1-7 실패 - 여행 이미지가 비어있는 경우
-    //  1-8 실패 - 여행 이미지가 225개를 초과하는 경우
-    //  1-9 실패 - 여행 일지의 시작일이 여행 일지의 종료일보다 늦을 경우
-    //  1-10 실패 - 여행 일지 콘텐츠의 이미지 이름 개수와 실제 이미지 개수가 다를 경우
-    //  1-11 실패 - 여행 일자보다 콘텐츠의 개수가 많을 경우
-    //  1-12 실패 - 여행 콘텐츠 일자가 여행 시작일보다 이전이거나 여행 종료일보다 이후일 경우
-    //  1-13 실패 - 여행 일자가 15일 초과인 경우
-    //  1-14 실패 - 여행 친구 아이디가 등록되지 않은 사용자인 경우
-    //  1-15 실패 - 여행 친구가 10명 초과인 경우
-    //  1-16 실패 - 여행 일지 콘텐츠의 이름이 실제 이미지 파일 이름과 일치하지 않는 경우
-    //  1-17 실패 - 위도와 경도 중에 하나만 null인 경우
-    //  1-18 실패 - 위도와 경도의 개수가 다를 경우
-    //  1-19 실패 - 유효하지 않은 장소 id인 경우
-    //  1-20 실패 - 여행 일지 콘텐츠 이미지 저장에 실패하는 경우
-    //  1-21 실패 - 여행 일지를 등록하려는 사용자가 없는 경우
-    //  1-22 실패 - 유효하지 않은 토큰일 경우
-    //            }
-    //        } receiveValue: { _ in
-    //        }.store(in: &subscription)
-
   }
+  
+  // MARK: update
 
-  func updateTravelJournal(journalId: Int) {
+  func updateTravelJournal(journalId: Int) async {
     guard let idToken = self.idToken else {
       return
     }
     
+    var publishers: [AnyPublisher<Response, MoyaError>] = []
+    
     // 등록 중 노티 보내기
     NotiManager().sendLocalNoti(notiMsg: "\(title) 여행일지를 수정 중입니다.")
     
+    publishers.append(updateTravelJournalApi(idToken: idToken))
+    
+    // add daily journals
+    let newDailyJournals = dailyJournalList.filter { !$0.isOriginal }
+    
+    for dailyJournal in newDailyJournals {
+      // webp 변환하기
+      let webpImageList = await webPImageManager.processImages(images: dailyJournal.selectedImages)
+
+      // 사진 위치 정보 정리
+      let latitudes = dailyJournal.selectedImages.compactMap {
+        $0.location?.latitude
+      }
+      let longitudes = dailyJournal.selectedImages.compactMap {
+        $0.location?.longitude
+      }
+      
+      publishers.append(addDailyJournalWithApi(idToken: idToken,
+                                               dailyJournal: dailyJournal,
+                                               webpImages: webpImageList,
+                                               latitudes: latitudes,
+                                               longitudes: longitudes))
+    }
+      
+    
+    // delete daily journals
+    let leftOrgJournalIds = Set(dailyJournalList.filter{ $0.isOriginal }.map{ $0.dailyJournalId })
+    let deletedJournals = orgDailyJournals.filter{ !leftOrgJournalIds.contains($0.dailyJournalId) }
+    
+    for dailyJournal in deletedJournals {
+      publishers.append(deleteDailyJournalsWithApi(idToken: idToken,
+                                                   dailyJournalId: dailyJournal.dailyJournalId))
+    }
+    
+    // api response
+    Publishers.MergeMany(Array(publishers))
+    .sink { apiCompletion in
+      switch apiCompletion {
+      case .finished:
+        // 등록 완료 노티 보내기
+        NotiManager().sendLocalNoti(notiMsg: "\(self.title) 여행일지를 성공적으로 수정하였습니다.")
+      case .failure(let error):
+        // 등록 실패 노티 보내기
+        NotiManager().sendLocalNoti(notiMsg: "\(self.title) 여행일지 수정을 실패하였습니다.")
+        guard let errorData = try? error.response?.map(ErrorData.self) else {
+          print("update travel journal error response decoding error")
+          debugPrint(error)
+          return
+        }
+        print(errorData.message)
+      }
+    } receiveValue: { _ in }
+    .store(in: &subscription)
+  }
+  
+  private func updateTravelJournalApi(idToken: String) -> AnyPublisher<Response, MoyaError> {
     journalProvider.requestPublisher(
       .edit(
         token: idToken,
@@ -324,29 +361,37 @@ class JournalComposeViewModel: ObservableObject {
         travelDuration: duration,
         newTravelMatesCount: travelMates.count)
     )
-    .filterSuccessfulStatusCodes()
-    .sink { apiCompletion in
-      switch apiCompletion {
-      case .finished:
-        // print("success")
-        // 등록 완료 노티 보내기
-        NotiManager().sendLocalNoti(notiMsg: "\(self.title) 여행일지를 성공적으로 수정하였습니다.")
-      case .failure(let error):
-        // 등록 실패 노티 보내기
-        NotiManager().sendLocalNoti(notiMsg: "\(self.title) 여행일지 수정을 실패하였습니다.")
-        guard let errorData = try? error.response?.map(ErrorData.self) else {
-          print("update travel journal error response decoding error")
-          debugPrint(error)
-          return
-        }
-        print(errorData.message)
-      }
-    } receiveValue: { _ in
-    }
-    .store(in: &subscription)
+    .eraseToAnyPublisher()
+  }
+  
+  private func addDailyJournalWithApi(idToken: String, 
+                                      dailyJournal: DailyTravelJournal,
+                                      webpImages: [(data: Data, imageName: String)],
+                                      latitudes: [Double],
+                                      longitudes: [Double]) -> AnyPublisher<Response, MoyaError> {
+    journalProvider.requestPublisher(
+      .createContent(token: idToken,
+                     journalId: journalId,
+                     content: dailyJournal.content,
+                     placeId: dailyJournal.placeId,
+                     latitudes: latitudes,
+                     longitudes: longitudes,
+                     date: dailyJournal.date?.toIntArray() ?? [],
+                     images: webpImages)
+    ).eraseToAnyPublisher()
   }
 
-  // MARK: Functions - save temporary
+  private func deleteDailyJournalsWithApi(idToken: String,
+                                          dailyJournalId: Int) -> AnyPublisher<Response, MoyaError> {
+    journalProvider.requestPublisher(
+      .deleteContent(
+        token: idToken,
+        journalId: journalId,
+        contentId: dailyJournalId)
+    ).eraseToAnyPublisher()
+  }
+
+  // MARK: save temporary
   
   func saveTempraryTravelJournal() {
     var tempData = TempTravelJournalData()
@@ -390,7 +435,7 @@ class JournalComposeViewModel: ObservableObject {
     tempData.dailyJournals = [String]()
   }
   
-  // MARK: Functions - daily journal
+  // MARK: daily journal
 
   func canAddMoreDailyJournals() -> Bool {
     return dailyJournalList.count < duration
@@ -407,51 +452,4 @@ class JournalComposeViewModel: ObservableObject {
   func deleteDailyJournal(dailyJournal: DailyTravelJournal) {
     dailyJournalList = dailyJournalList.filter { $0 != dailyJournal }
   }
-
-  var isDailyJournalDeleting: Bool = false
-
-  func deleteDailyJournalWithApi(dailyJournal: DailyTravelJournal) {
-    guard let idToken = idToken else {
-      return
-    }
-
-    if isDailyJournalDeleting {
-      return
-    }
-
-    isDailyJournalDeleting = true
-    journalProvider.requestPublisher(
-      .deleteContent(
-        token: idToken, journalId: self.journalId, contentId: dailyJournal.dailyJournalId)
-    )
-    .filterSuccessfulStatusCodes()
-    .sink { apiCompletion in
-      switch apiCompletion {
-      case .finished:
-        self.isDailyJournalDeleting = false
-        self.deleteDailyJournal(dailyJournal: dailyJournal)
-      case .failure(let error):
-        self.isDailyJournalDeleting = false
-        guard let apiError = try? error.response?.map(ErrorData.self) else {
-          // error data decoding error handling
-          // unknown error
-          return
-        }
-
-        if apiError.code == -11000 {
-          self.appDataManager.refreshToken { success in
-            // token error handling
-            if success {
-              self.deleteDailyJournalWithApi(dailyJournal: dailyJournal)
-              return
-            }
-          }
-        }
-      // other api error handling
-      }
-    } receiveValue: { _ in
-    }
-    .store(in: &subscription)
-  }
-
 }

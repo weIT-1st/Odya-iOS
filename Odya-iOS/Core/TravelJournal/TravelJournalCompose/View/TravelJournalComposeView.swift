@@ -243,7 +243,9 @@ struct TravelJournalComposeView: View {
                 await journalComposeVM.registerTravelJournal()
               }
             case .edit:
-              journalComposeVM.updateTravelJournal(journalId: journalId)
+              Task {
+                await journalComposeVM.updateTravelJournal(journalId: journalId)
+              }
             }
             dismiss()
           } else {
