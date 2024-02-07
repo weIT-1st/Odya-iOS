@@ -18,7 +18,8 @@ struct Feed: Codable {
   let content: [FeedContent]
 }
 
-struct FeedContent: Codable, Equatable {
+struct FeedContent: Codable, Equatable, Identifiable {
+  let id = UUID()
   let communityId: Int
   let communityContent: String
   let communityMainImageURL: String

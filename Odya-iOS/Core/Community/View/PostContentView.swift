@@ -25,47 +25,51 @@ struct PostContentView: View {
 
   // MARK: Init
 
-  init(communityId: Int, contentText: String, commentCount: Int, likeCount: Int, placeId: String?, createDate: String, writer: Writer, isUserLiked: Bool) {
-    self.communityId = communityId
-    self.contentText = contentText
-    self.commentCount = commentCount
-    self.likeCount = likeCount
-    self.placeId = placeId
-    self.createDate = createDate
-    self.writer = writer
-    self.followState = writer.isFollowing ?? false
-    self.isUserLiked = isUserLiked
+  init(post: FeedContent) {
+    self.communityId = post.communityId
+    self.contentText = post.communityContent
+    self.commentCount = post.communityCommentCount
+    self._likeCount = State(initialValue: post.communityLikeCount)
+    self.placeId = post.placeId
+    self.createDate = post.createdDate
+    self.writer = post.writer
+    self.followState = post.writer.isFollowing ?? false
+    self._isUserLiked = State(initialValue: post.isUserLiked)
   }
-
+  
   // MARK: Body
 
   var body: some View {
     VStack {
-      // 유저 정보
-      HStack {
-        FeedUserInfoView(
-          profileImageSize: .S,
-          writer: writer,
-          createDate: createDate
-        )
-        Spacer()
-        // 팔로우버튼
-        if writer.userID != MyData.userID {
-          FollowButtonWithAlertAndApi(userId: writer.userID, buttonStyle: .ghost, followState: writer.isFollowing ?? false)
+      NavigationLink(value: FeedRoute.detail(communityId)) {
+        VStack {
+          // 유저 정보
+          HStack {
+            FeedUserInfoView(
+              profileImageSize: .S,
+              writer: writer,
+              createDate: createDate
+            )
+            Spacer()
+            // 팔로우버튼
+            if writer.userID != MyData.userID {
+              FollowButtonWithAlertAndApi(userId: writer.userID, buttonStyle: .ghost, followState: writer.isFollowing ?? false)
+            }
+          }
+          .frame(height: 32)
+
+          // 게시글 내용
+          Text(contentText)
+            .detail2Style()
+            .multilineTextAlignment(.leading)
+            .foregroundColor(Color.odya.label.normal)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
+            .lineLimit(2)
         }
       }
-      .frame(height: 32)
-
-      // 게시글 내용
-      Text(contentText)
-        .detail2Style()
-        .multilineTextAlignment(.leading)
-        .foregroundColor(Color.odya.label.normal)
-        .frame(maxWidth: .infinity, alignment: .topLeading)
-        .lineLimit(2)
 
       /// 장소, 좋아요, 댓글
-      HStack {
+      HStack(spacing: 12) {
         if let _ = placeId {
           locationView
         }
@@ -76,13 +80,12 @@ struct PostContentView: View {
           likeCount: likeCount,
           baseColor: Color.odya.label.assistive
         )
-        .padding(.trailing, 12)
         commentView
       }
-      .padding(8)
+      .padding(.horizontal, 8)
+      .frame(height: 40)
       .background(Color.odya.elevation.elev3)
       .cornerRadius(Radius.medium)
-      .frame(height: 40)
 
     }  // VStack
     .padding(.vertical, 16)
@@ -117,15 +120,5 @@ struct PostContentView: View {
         .detail1Style()
         .foregroundColor(Color.odya.label.assistive)
     }
-  }
-}
-
-// MARK: - Preview
-struct PostContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    PostContentView(
-      communityId: 1, contentText: "커뮤니티 게시글 내용", commentCount: 99, likeCount: 99, placeId: "", createDate: "2023-01-01",
-      writer: Writer(
-        userID: 1, nickname: "홍길동", profile: ProfileData(profileUrl: ""), isFollowing: false), isUserLiked: true)
   }
 }

@@ -69,16 +69,25 @@ struct CommunityLikeButton: View {
           }
 
         } label: {
-          if likeState {
-            Image(likeImageName.rawValue)
-          } else {
-            Image(likeImageName.rawValue)
-              .renderingMode(.template)
-              .foregroundColor(baseColor)
-          }
+          Rectangle()
+            .foregroundColor(.clear)
+            .frame(width: 24, height: 40)
+            .overlay(
+              if likeState {
+                Image(likeImageName.rawValue)
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .frame(width: 24, height: 40)
+              } else {
+                Image(likeImageName.rawValue)
+                  .resizable()
+                  .renderingMode(.template)
+                  .aspectRatio(contentMode: .fit)
+                  .frame(width: 24, height: 40)
+                  .foregroundColor(baseColor)
+              }
+            )
         }
-        .padding(6)
-        .frame(width: 24, height: 24)
         
         // 좋아요 수
         Text(likeCount > 99 ? "99+" : "\(likeCount)")

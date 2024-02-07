@@ -43,50 +43,40 @@ struct FeedView: View {
             feedToolBar
 
             ScrollView(.vertical, showsIndicators: false) {
-              // fishchips
-              if selectedFeedToggle == .all {
-                FishchipsBar(selectedTopicId: $selectedTopicId)
-                  .padding(.bottom, -4)
-              }
-              // toggle
-              feedToggleSelectionView
-                .zIndex(.greatestFiniteMagnitude)
-
               LazyVStack(spacing: 4) {
+                // fishchips
+                if selectedFeedToggle == .all {
+                  FishchipsBar(selectedTopicId: $selectedTopicId)
+                    .padding(.bottom, -4)
+                    .zIndex(2)
+                }
+                // toggle
+                feedToggleSelectionView
+                  .zIndex(.greatestFiniteMagnitude)
+                
                 // posts (무한)
-                ForEach(viewModel.state.content, id: \.communityId) { content in
+                ForEach(viewModel.state.content, id: \.id) { content in
                   VStack(spacing: 0) {
                     postImageView(imageUrl: content.communityMainImageURL, simpleTravelJournal: content.travelJournalSimpleResponse)
-                    NavigationLink(value: FeedRoute.detail(content.communityId), label: {
-                      PostContentView(
-                        communityId: content.communityId,
-                        contentText: content.communityContent,
-                        commentCount: content.communityCommentCount,
-                        likeCount: content.communityLikeCount,
-                        placeId: content.placeId,
-                        createDate: content.createdDate,
-                        writer: content.writer,
-                        isUserLiked: content.isUserLiked
-                      )
-                    })
-                    .onAppear {
-                      if viewModel.state.content.last == content {
-                        switch selectedFeedToggle {
-                        case .all:
-                          if selectedTopicId > 0 {
-                            // 선택된 토픽이 있는 경우
-                            viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
-                          } else {
-                            // 없는경우(전체 조회)
-                            viewModel.fetchAllFeedNextPageIfPossible()
-                          }
-                        case .friend:
-                          viewModel.fetchFriendFeedNextPageIfPossible()
+                    PostContentView(post: content)
+                  }
+                  .padding(.bottom, 8)
+                  .onAppear {
+                    if viewModel.state.content.last == content {
+                      switch selectedFeedToggle {
+                      case .all:
+                        if selectedTopicId > 0 {
+                          // 선택된 토픽이 있는 경우
+                          viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
+                        } else {
+                          // 없는경우(전체 조회)
+                          viewModel.fetchAllFeedNextPageIfPossible()
                         }
+                      case .friend:
+                        viewModel.fetchFriendFeedNextPageIfPossible()
                       }
                     }
                   }
-                  .padding(.bottom, 8)
                 }
               }
             }  // ScrollView
