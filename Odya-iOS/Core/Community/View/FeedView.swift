@@ -13,6 +13,7 @@ enum FeedRoute: Hashable {
   case createJournal
   case activity
   case notification
+  case journalDetail(Int)
 }
 
 enum FeedToggleType {
@@ -55,7 +56,7 @@ struct FeedView: View {
                 // posts (무한)
                 ForEach(viewModel.state.content, id: \.communityId) { content in
                   VStack(spacing: 0) {
-                    PostImageView(urlString: content.communityMainImageURL, simpleTravelJournal: content.travelJournalSimpleResponse)
+                    postImageView(imageUrl: content.communityMainImageURL, simpleTravelJournal: content.travelJournalSimpleResponse)
                     NavigationLink(value: FeedRoute.detail(content.communityId), label: {
                       PostContentView(
                         communityId: content.communityId,
@@ -144,6 +145,9 @@ struct FeedView: View {
             MyCommunityActivityView()
           case .notification:
             FeedNotificationView()
+          case let .journalDetail(journalId):
+            TravelJournalDetailView(journalId: journalId)
+              .navigationBarHidden(true)
           }
         }
       }
@@ -235,6 +239,55 @@ struct FeedView: View {
     .frame(maxWidth: .infinity)
     .padding(.horizontal, GridLayout.side)
     .padding(.bottom, 8)
+  }
+  
+  /// 게시글 이미지, 연결된 여행일지
+  func postImageView(imageUrl: String, simpleTravelJournal: TravelJournalSimpleResponse?) -> some View {
+    ZStack(alignment: .bottom) {
+      // image
+      AsyncImage(
+        url: URL(string: imageUrl)!,
+        content: { image in
+          image.resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(
+              // 화면 너비와 같음
+              width: UIScreen.main.bounds.width,
+              height: UIScreen.main.bounds.width
+            )
+            .clipped()
+        },
+        placeholder: {
+          ProgressView()
+            .frame(
+              width: UIScreen.main.bounds.width,
+              height: UIScreen.main.bounds.width
+            )
+        }
+      )
+
+      // 여행일지 연동
+      if let journal = simpleTravelJournal {
+        NavigationLink(value: FeedRoute.journalDetail(journal.travelJournalId)) {
+          HStack {
+            Image("diary")
+              .frame(width: 24, height: 24)
+            Text(journal.title)
+              .detail1Style()
+              .foregroundColor(.odya.label.normal)
+            Spacer()
+            Image("direction-right")
+          }
+          .padding(.leading, 17)
+          .padding(.trailing, 13)
+          .frame(maxWidth: .infinity)
+          .frame(height: 50)
+          .background(Color.odya.background.dimmed_system)
+          .clipShape(RoundedEdgeShape(edgeType: .top))
+        }
+      }
+    }
+    .clipShape(RoundedEdgeShape(edgeType: .top))
   }
 }
 
