@@ -19,6 +19,8 @@ struct TravelJournalComposeView: View {
   @State private var isDismissAlertVisible = false
   @State private var isRegisterAlertVisible = false
   @State private var isGetTempDataAlertVisible = false
+  @State private var isRegisterErrorAlertVisible = false
+  @State private var errorMsg : String = ""
 
   private var privacyTypeToggleOffset: CGFloat {
     switch journalComposeVM.privacyType {
@@ -134,7 +136,6 @@ struct TravelJournalComposeView: View {
       }
       // 뒤로가기 버튼 클릭 시 alert
       .confirmationDialog("", isPresented: $isDismissAlertVisible) {
-        // TODO: 임시저장
         Button("임시저장") {
           journalComposeVM.saveTempraryTravelJournal()
           dismiss()
@@ -232,7 +233,9 @@ struct TravelJournalComposeView: View {
         Button("등록") {
           isRegisterAlertVisible = false
           // 검사
-          if journalComposeVM.validateTravelJournal() {
+          var validateResult: Bool
+          (validateResult, errorMsg) = journalComposeVM.validateTravelJournal()
+          if validateResult {
             // api
             switch composeType {
             case .create:
@@ -243,9 +246,16 @@ struct TravelJournalComposeView: View {
               journalComposeVM.updateTravelJournal(journalId: journalId)
             }
             dismiss()
+          } else {
+            isRegisterErrorAlertVisible = true
           }
         }
       }
+      // 등록하기 진행 중 에러 발생 시 alert
+      .alert(errorMsg, isPresented: $isRegisterErrorAlertVisible) {
+        Button("확인", role: .cancel) {}
+      }
+
     }
     .padding(.horizontal, 20)
     .background(Color.odya.background.normal)

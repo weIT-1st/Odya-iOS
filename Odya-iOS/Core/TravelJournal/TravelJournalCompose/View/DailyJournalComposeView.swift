@@ -46,12 +46,13 @@ private struct DailyJournalHeaderBar: View {
                 isShowingNotEnoughAlert = true
               } else {
                 print("delete daily journal \(dailyJournal)")
+                // TODO: 등록하기 눌렀을 때 삭제 api 진행
                 // original -> delete api
-                if isOriginal {
-                  journalComposeVM.deleteDailyJournalWithApi(dailyJournal: dailyJournal)
-                } else {
+//                if isOriginal {
+//                  journalComposeVM.deleteDailyJournalWithApi(dailyJournal: dailyJournal)
+//                } else {
                   journalComposeVM.deleteDailyJournal(dailyJournal: dailyJournal)
-                }
+//                }
               }
             }
           }

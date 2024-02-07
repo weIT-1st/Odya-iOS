@@ -126,25 +126,25 @@ class JournalComposeViewModel: ObservableObject {
 
   // MARK: Functions - register
 
-  func validateTravelJournal() -> Bool {
+  func validateTravelJournal() -> (Bool, String) {
     // 제목이 20자가 넘는 경우
-    if title.count > 20 {
-      return false
+    if title.isEmpty || title.countCharacters() > 20 {
+      return (false, "여행 일지 제목은 최소 1자, 최대 20자까지 입력 가능합니다.")
     }
     // 여행 일지 콘텐츠가 15개 초과인 경우
     if dailyJournalList.count > 15 {
-      return false
+      return (false, "여행 일지 콘텐츠는 최대 15개까지 등록 가능합니다.")
     }
 
     // 여행 일지 콘텐츠의 이미지 제목이 비어있는 경우
     if dailyJournalList.contains(where: { dailyJournal in
       dailyJournal.selectedImages.contains { $0.imageName == "" }
     }) {
-      return false
+      return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
     }
     // 여행 일지 콘텐츠의 이미지 제목 개수가 15개를 초과하는 경우
     if dailyJournalList.contains(where: { $0.selectedImages.count > 15 }) {
-      return false
+      return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
     }
     // 여행 이미지가 비어있는 경우
 
@@ -152,23 +152,23 @@ class JournalComposeViewModel: ObservableObject {
 
     // 여행 이미지가 225개를 초과하는 경우
     if dailyJournalList.map({ $0.selectedImages.count }).reduce(0, +) > 225 {
-      return false
+      return (false, "여행 일지 콘텐츠 이미지는 최소 1개, 최대 15개까지 등록 가능합니다.")
     }
 
     // 여행 이미지 리사이징이 제대로 처리 안된 경우
     if dailyJournalList.flatMap({ $0.selectedImages }).contains(where: {
       max($0.image.size.width, $0.image.size.height) > 1024
     }) {
-      return false
+      return (false, "여행일지 이미지 업로드 중 오류가 발생하였습니다.")
     }
 
     // 여행 일지의 시작일이 여행 일지의 종료일보다 늦을 경우
     if startDate > endDate {
-      return false
+      return (false, "여행 기간이 유효하지 않습니다. 시작 날짜를 종료 날짜 이전으로 설정해주세요.")
     }
     // 여행 일자보다 콘텐츠의 개수가 많을 경우
     if duration < dailyJournalList.count {
-      return false
+      return (false, "하루에 한 개의 콘텐츠만 등록 가능합니다.")
     }
     // 여행 콘텐츠 일자가 여행 시작일보다 이전이거나 여행 종료일보다 이후일 경우
     if dailyJournalList.contains(where: {
@@ -176,18 +176,18 @@ class JournalComposeViewModel: ObservableObject {
       if date < startDate || date > endDate { return true }
       return false
     }) {
-      return false
+      return (false, "여행 콘텐츠 일자가 여행 일정을 벗어납니다.")
     }
     // 여행 일자가 15일 초과인 경우
     if duration > 15 {
-      return false
+      return (false, "여행 일정을 15일 이내로 설정해주세요.")
     }
 
     // 여행 친구 아이디가 등록되지 않은 사용자인 경우
 
     // 여행 친구가 10명 초과인 경우
     if travelMates.count > 10 {
-      return false
+      return (false, "함께 간 친구는 최대 10명까지 등록 가능합니다.")
     }
 
     // 여행 일지 콘텐츠의 이름이 실제 이미지 파일 이름과 일치하지 않는 경우
@@ -195,7 +195,7 @@ class JournalComposeViewModel: ObservableObject {
     // 위도와 경도 중에 하나만 null인 경우
     // 위도와 경도의 개수가 다를 경우
     // 유효하지 않은 장소 id인 경우
-    return true
+    return (true, "")
   }
 
   func createJournalAPI(idToken: String, webpImages: [(data: Data, name: String)]) async throws

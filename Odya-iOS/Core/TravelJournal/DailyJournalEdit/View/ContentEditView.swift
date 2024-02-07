@@ -215,7 +215,7 @@ struct ContentEditView: View {
         .stroke(Color.odya.line.alternative, lineWidth: 1)
     )
     .onChange(of: content) { newValue in
-      if newValue.count > contentCharacterLimit {
+      if newValue.countCharacters() > contentCharacterLimit {
         content = String(newValue.prefix(contentCharacterLimit))
       }
     }
