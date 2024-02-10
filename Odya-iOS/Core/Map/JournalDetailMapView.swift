@@ -70,9 +70,12 @@ struct JournalDetailMapView: UIViewRepresentable {
     
     var bounds = GMSCoordinateBounds()
     let path = GMSMutablePath()
-        
+    var coordinateSet = [CLLocationCoordinate2D]()
+    
     for i in 0..<min(coordinates.count, imageUrls.count) {
       let marker = GMSMarker(position: coordinates[i])
+      marker.position.variateForEqual(coordinates: coordinateSet)
+      coordinateSet.append(marker.position)
       marker.iconView = CustomMarkerIconView(frame: .zero, urlString: imageUrls[i], sparkle: size)
       marker.groundAnchor = CGPoint(x: 0.5, y: 0.75)
       context.coordinator.clusterManager.add(marker)
