@@ -8,23 +8,13 @@
 import SwiftUI
 
 struct MainJournalCardView: View {
+  @StateObject private var viewModel = MainJournalCardViewModel()
+  
   let totalWidth: CGFloat = UIScreen.main.bounds.width - (GridLayout.side * 2)
-
   let journalId: Int
-  let mainJournalId: Int
-  let title: String
-  let dateString: String
-  let mates: [travelMateSimple]
-  let content: String
-
-  init(mainJournal: MainJournalData) {
-    self.journalId = mainJournal.journalId
-    self.mainJournalId = mainJournal.repJournalId
-    self.title = mainJournal.title
-    self.dateString =
-      "\(mainJournal.travelStartDate.dateToString(format: "MM.dd")) ~ \(mainJournal.travelEndDate.dateToString(format: "MM.dd"))"
-    self.mates = mainJournal.travelMates
-    self.content = mainJournal.content
+  
+  init(journalId: Int) {
+    self.journalId = journalId
   }
 
   var body: some View {
@@ -41,7 +31,12 @@ struct MainJournalCardView: View {
       }.frame(width: totalWidth)
 
       journalContent
-        .frame(width: totalWidth, height: contentHeight)
+    }
+    .onAppear {
+      viewModel.fetchTravelJournalDetail(journalId: journalId)
+    }
+    .onChange(of: journalId) { newValue in
+      viewModel.fetchTravelJournalDetail(journalId: newValue)
     }
   }
 
@@ -52,9 +47,8 @@ struct MainJournalCardView: View {
   let cardHeight: CGFloat = 280
 
   private var cardView: some View {
-    Rectangle()
+    JournalCardMapView(size: .medium, dailyJournals: $viewModel.myDailyJournals)
       .frame(width: cardWidth, height: cardHeight)
-      .foregroundColor(.odya.brand.primary)
       .cornerRadius(Radius.large)
       .overlay {
         LinearGradient(
@@ -82,60 +76,54 @@ struct MainJournalCardView: View {
   }
 
   private var journalTitle: some View {
-    Text(title)
+    Text(viewModel.title)
       .h6Style()
       .foregroundColor(.odya.label.normal)
       .frame(maxWidth: .infinity, alignment: .leading)
   }
 
   private var journalDate: some View {
-    Text(dateString)
+    Text(viewModel.dateString)
       .detail2Style()
       .foregroundColor(.odya.label.assistive)
   }
 
   private var travelMates: some View {
     HStack(spacing: 0) {
-      let displayedMates = mates.prefix(2)
-      ForEach(Array(displayedMates.enumerated()), id: \.element.id) { index, mate in
-        if let url = mate.profileUrl {
-          ProfileImageView(profileUrl: url, size: .S)
-            .offset(x: index == 1 ? -8 : 0)
+      HStack(spacing: -8) {
+        ForEach(viewModel.mates.prefix(2), id: \.id) { mate in
+          if let url = mate.profileUrl {
+            ProfileImageView(profileUrl: url, size: .S)
+          }
         }
       }
 
-      if mates.count > 2 {
+      if viewModel.mates.count > 2 {
         Text("더보기")
           .detail2Style()
           .foregroundColor(.odya.label.normal)
           .padding(.vertical, 10)
           .padding(.horizontal, 12)
-          .offset(x: -8)
       }
     }
   }
 
   // MARK: Content
-
-  let contentHeight: CGFloat = 100
-
+  
   private var journalContent: some View {
-    ZStack {
-      RoundedRectangle(cornerRadius: Radius.large)
-        .foregroundColor(.odya.elevation.elev4)
-        .frame(width: totalWidth, height: contentHeight, alignment: .top)
-      HStack(alignment: .top, spacing: 10) {
-        Image("pen-s")
-          .renderingMode(.template)
-        Text(content)
-          .detail2Style()
-          .frame(width: totalWidth - 50, height: contentHeight - 30, alignment: .topLeading)
-          .multilineTextAlignment(.leading)
-      }.foregroundColor(.odya.label.assistive)
+    HStack(alignment: .top, spacing: 12) {
+      Image("pen-s")
+        .renderingMode(.template)
+      Text(viewModel.content)
+        .detail2Style()
+        .multilineTextAlignment(.leading)
+        .lineLimit(3)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
     }
-    .padding(.horizontal, 10)
-    .padding(.vertical, 16)
-
+    .foregroundColor(.odya.label.assistive)
+    .padding(16)
+    .background(Color.odya.elevation.elev4)
+    .cornerRadius(Radius.large)
   }
 
   // MARK: Shadow

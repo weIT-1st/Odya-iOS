@@ -19,7 +19,7 @@ struct PlaceTagMapView: UIViewRepresentable {
   let locationManager = LocationManager.shared
   
   private let markerImage: UIImageView = {
-    let imageView = UIImageView(image: UIImage(named: "sparkle-filled"))
+    let imageView = UIImageView(image: UIImage(named: "sparkle-filled-l"))
     imageView.layer.shadowColor = UIColor(red: 1, green: 0.83, blue: 0.12, alpha: 1).cgColor
     imageView.layer.shadowRadius = 9
     imageView.layer.shadowOpacity = 0.8

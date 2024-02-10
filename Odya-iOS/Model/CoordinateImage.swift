@@ -22,7 +22,7 @@ struct CoordinateImage: Decodable {
   
   var marker: GMSMarker {
     let temp = GMSMarker(position: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-    temp.iconView = CustomMarkerIconView(frame: .zero, urlString: imageUrl)
+    temp.iconView = CustomMarkerIconView(frame: .zero, urlString: imageUrl, sparkle: .small)
     temp.userData = placeId
     return temp
   }
@@ -41,6 +41,23 @@ enum ImageUserType: String, Decodable {
       return .user
     case .other:
       return .other
+    }
+  }
+}
+
+enum SparkleMapMarker {
+  case small
+  case medium
+  case large
+  
+  var imageName: String {
+    switch self {
+    case .small:
+      return "sparkle-filled-s"
+    case .medium:
+      return "sparkle-filled-m"
+    case .large:
+      return "sparkle-filled-l"
     }
   }
 }
