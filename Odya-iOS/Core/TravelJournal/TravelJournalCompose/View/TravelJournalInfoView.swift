@@ -47,7 +47,7 @@ struct TravelJournalInfoEditView: View {
       CustomFieldStyle(height: 45, backgroundColor: .odya.elevation.elev2, radius: Radius.small)
     )
     .onChange(of: journalComposeVM.title) { newValue in
-      if newValue.count > titleCharacterLimit {
+      if newValue.countCharacters() > titleCharacterLimit {
         journalComposeVM.title = String(newValue.prefix(titleCharacterLimit))
       }
     }

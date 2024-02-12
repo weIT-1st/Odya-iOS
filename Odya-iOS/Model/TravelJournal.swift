@@ -35,7 +35,7 @@ extension DailyJournalImage: Equatable {
 struct DailyJournal: Identifiable, Codable {
   var id = UUID()
   var dailyJournalId: Int
-  var content: String
+  var content: String?
   var placeId: String?
   var latitudes: [Double]
   var longitudes: [Double]
@@ -101,7 +101,7 @@ struct TravelJournalData: Codable, Identifiable {
   var id = UUID()
   var journalId: Int
   var title: String
-  var content: String
+  var content: String?
   var imageUrl: String
   var startDateString: String
   var endDateString: String

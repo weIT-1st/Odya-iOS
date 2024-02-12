@@ -2188,6 +2188,7 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
 		19FF88BB2B68CF0B00FA6B46 /* GoogleMapsUtils */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19FF88BA2B68CF0B00FA6B46 /* XCRemoteSwiftPackageReference "google-maps-ios-utils" */;
