@@ -130,7 +130,7 @@ struct ProfileView: View {
                       ProfileRoute.journalDetail(
                         journalId: mainJournal.journalId, nickname: mainJournal.writer.nickname))
                   }) {
-                    MainJournalCardView(mainJournal: mainJournal)
+                    MainJournalCardView(journalId: mainJournal.journalId)
                   }
                 }
               }.padding(.horizontal, GridLayout.side)
