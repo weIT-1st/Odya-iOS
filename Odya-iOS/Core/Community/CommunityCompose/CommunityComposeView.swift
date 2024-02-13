@@ -38,6 +38,7 @@ struct CommunityComposeView: View {
   var communityId: Int = -1
   /// 게시글 텍스트
   @State var textContent: String = ""
+  private let maxContentLimit = 200
   /// 공개범위
   @State var privacyType: CommunityPrivacyType = .global
   /// 장소 아이디
@@ -175,6 +176,11 @@ struct CommunityComposeView: View {
     .onAppear {
       PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
         self.photoAccessStatus = status
+      }
+    }
+    .onChange(of: textContent) { newValue in
+      if newValue.countCharacters() > maxContentLimit {
+        textContent = String(newValue.prefix(maxContentLimit))
       }
     }
     .sheet(isPresented: $showPhotoPicker) {
