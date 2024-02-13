@@ -64,7 +64,7 @@ struct TravelJournalDetailView: View {
 
   init(journalId: Int, nickname: String = "") {
     self.journalId = journalId
-    self.writerNickname = (MyData().nickname == nickname) ? "" : nickname
+    self.writerNickname = (MyData.nickname == nickname) ? "" : nickname
   }
   //  init(journal: TravelJournalData) {
   //    self.journalId = journal.journalId

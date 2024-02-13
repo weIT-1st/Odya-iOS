@@ -79,8 +79,8 @@ struct FeedCommentView: View {
       viewModel.showFullCommentSheet.toggle()
     } label: {
       HStack(alignment: .center, spacing: 16) {
-        ProfileImageView(of: MyData().nickname,
-                         profileData: MyData().profile.decodeToProileData(),
+        ProfileImageView(of: MyData.nickname,
+                         profileData: MyData.profile.decodeToProileData(),
                          size: .XS)
 
         Text("댓글을 입력해주세요")

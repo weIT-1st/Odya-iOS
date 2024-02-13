@@ -54,10 +54,9 @@ struct ProfileView: View {
   }
 
   init() {
-    let myData = MyData()
     self.userId = MyData.userID
-    self.nickname = myData.nickname
-    self.profileUrl = myData.profile.decodeToProileData().profileUrl
+    self.nickname = MyData.nickname
+    self.profileUrl = MyData.profile.decodeToProileData().profileUrl
   }
 
   init(userId: Int, nickname: String, profileUrl: String, isFollowing: Bool) {
@@ -177,9 +176,8 @@ struct ProfileView: View {
           }
           // 잘못된 유저 아이디인 경우, 유저 데이터 다시 받아오기
           else {
-            let myData = MyData()
             profileVM.initData(
-              MyData.userID, myData.nickname, myData.profile.decodeToProileData().profileUrl)
+              MyData.userID, MyData.nickname, MyData.profile.decodeToProileData().profileUrl)
           }
         }
         // 프로필 뷰에서 필요한 데이터 받아오기

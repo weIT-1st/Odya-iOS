@@ -13,8 +13,6 @@ struct FeedDetailView: View {
   
   @Binding var path: NavigationPath
   
-  let testImageUrlString = "https://plus.unsplash.com/premium_photo-1680127400635-c3db2f499694?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-  
   @StateObject private var viewModel = FeedDetailViewModel()
   /// 탭뷰 사진 인덱스
   @State private var imageIndex: Int = 0
@@ -29,12 +27,6 @@ struct FeedDetailView: View {
   
   // Comment
   @State private var commentCount: Int = 0
-  
-//  // MARK: Init
-//
-//  init(communityId: Int) {
-//    self.communityId = communityId
-//  }
   
   // MARK: Body
   
@@ -125,9 +117,9 @@ struct FeedDetailView: View {
                         commentView
                       }
                     }
-                    .frame(maxWidth: .infinity)
                     .padding(.horizontal, 18)
                     .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity)
                   }
                   .frame(maxWidth: .infinity)
                   
@@ -157,18 +149,10 @@ struct FeedDetailView: View {
     .task {
       viewModel.fetchFeedDetail(id: communityId)
     }
-    .fullScreenCover(isPresented: $showEditView) {
-      CommunityComposeView(
-        communityId: viewModel.feedDetail.communityId,
-        textContent: viewModel.feedDetail.content,
-        privacyType: CommunityPrivacyType(rawValue: viewModel.feedDetail.visibility) ?? .global,
-        placeId: viewModel.feedDetail.placeId,
-        travelJournalId: viewModel.feedDetail.travelJournal?.travelJournalID,
-        travelJournalTitle: viewModel.feedDetail.travelJournal?.title,
-        selectedTopicId: viewModel.feedDetail.topic?.id,
-        originalImageList: viewModel.feedDetail.communityContentImages,
-        showPhotoPicker: false,
-        path: $path, composeMode: .edit)
+    .navigationDestination(isPresented: $showEditView) {
+      if let feedDetail = viewModel.feedDetail {
+        CommunityComposeView(path: $path, feedDetail: feedDetail)
+      }
     }
     .fullScreenCover(isPresented: $showReportView) {
       ReportView(reportTarget: .community, id: communityId, isPresented: $showReportView)

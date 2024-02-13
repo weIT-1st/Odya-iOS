@@ -107,7 +107,7 @@ struct ReportView: View {
       .foregroundColor(.clear)
       .frame(width: 1, height: 15)
       .background(Color.odya.line.normal)
-      Text(MyData().nickname)
+      Text(MyData.nickname)
         .b2Style()
         .foregroundColor(.odya.label.normal)
       Spacer()

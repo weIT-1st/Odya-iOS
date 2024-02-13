@@ -68,8 +68,8 @@ struct JournalCardMapView: UIViewRepresentable {
     var bounds = GMSCoordinateBounds()
     let path = GMSMutablePath()
     var index = 0
-    var markerCount = min(coordinates.count, imageUrls.count)
-    var interval: Int = markerCount / maxMarkerCount
+    let markerCount = min(coordinates.count, imageUrls.count)
+    let interval: Int = markerCount / maxMarkerCount
     
     for i in 0..<markerCount {
       if i == index {

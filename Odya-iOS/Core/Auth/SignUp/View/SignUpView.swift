@@ -72,8 +72,7 @@ struct SignUpView: View {
               if signUpVM.authorized {
                 
                 // nickname -> additonal Set Up View 에서 사용됨
-                var myData = MyData()
-                myData.nickname = signUpVM.userInfo.nickname
+                MyData.nickname = signUpVM.userInfo.nickname
                 
                 signUpVM.idToken = signUpVM.userInfo.idToken
                 AppDataManager().initMyData() { _ in }
@@ -90,8 +89,7 @@ struct SignUpView: View {
           .onChange(of: signUpVM.authorized) { newValue in
             if newValue == true && self.authState == .unauthorized {
               // nickname -> additonal Set Up View 에서 사용됨
-              var myData = MyData()
-              myData.nickname = signUpVM.userInfo.nickname
+              MyData.nickname = signUpVM.userInfo.nickname
               
               signUpVM.idToken = signUpVM.userInfo.idToken
               AppDataManager().initMyData() { _ in }

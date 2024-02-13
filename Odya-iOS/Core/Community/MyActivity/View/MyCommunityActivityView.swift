@@ -123,7 +123,7 @@ struct MyCommunityActivityView: View {
   private var description: some View {
     VStack(spacing: 8) {
       HStack(spacing: 0) {
-        Text("\(MyData().nickname)")
+        Text("\(MyData.nickname)")
           .b1Style()
           .foregroundColor(.odya.brand.primary)
         Text(" 님의 모든 활동을")

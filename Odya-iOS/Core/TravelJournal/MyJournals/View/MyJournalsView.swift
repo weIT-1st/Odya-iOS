@@ -108,9 +108,8 @@ struct MyJournalsView: View {
         .h3Style()
         .foregroundColor(.odya.label.normal)
       Spacer()
-      let myData = MyData()
       ProfileImageView(
-        of: myData.nickname, profileData: myData.profile.decodeToProileData(), size: .M)
+        of: MyData.nickname, profileData: MyData.profile.decodeToProileData(), size: .M)
     }.padding(.bottom, 20)
   }
 
