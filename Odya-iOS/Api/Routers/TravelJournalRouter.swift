@@ -93,6 +93,14 @@ enum TravelJournalRouter {
     travelMateNames: [String],
     travelDuration: Int,
     newTravelMatesCount: Int)
+  // 여해일지 데일리 일정 추가
+  case createContent(token: String, journalId: Int,
+                     content: String,
+                     placeId: String?,
+                     latitudes: [Double],
+                     longitudes: [Double],
+                     date: [Int],
+                     images: [(data: Data, imageName: String)])
   // 여행일지 데일리 일정 삭제
   case deleteContent(token: String, journalId: Int, contentId: Int)
   // 여행일지 데일리 일정 수정
@@ -148,7 +156,8 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
       return "/api/v1/travel-journals"
     case let .searchById(_, journalId),
       let .edit(_, journalId, _, _, _, _, _, _, _, _),
-      let .delete(_, journalId):
+      let .delete(_, journalId),
+      let .createContent(_, journalId, _, _, _, _, _, _):
       return "/api/v1/travel-journals/\(journalId)"
     case let .editContent(_, journalId, contentId, _, _, _, _, _, _, _, _, _),
       let .deleteContent(_, journalId, contentId):
@@ -175,7 +184,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
 
   var method: Moya.Method {
     switch self {
-    case .create, .createBookmark:
+    case .create, .createBookmark, .createContent:
       return .post
     case .edit, .editContent:
       return .put
@@ -190,7 +199,6 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
 
   var task: Moya.Task {
     switch self {
-    // TODO: Create, Edit, EditContent
     case let .create(
       _, title, startDate, endDate, visibility, travelMateIds, travelMateNames, dailyJournals,
       travelDuration, imagesTotalCount, images):
@@ -256,6 +264,33 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
           MultipartFormData(
             provider: .data(travelJournalJSONData), name: "travel-journal-update",
             fileName: "travel-journal", mimeType: "application/json"))
+      } catch {
+        print("JSON 인코딩 에러: \(error)")
+      }
+      return .uploadMultipart(formData)
+    case let .createContent(_, _, content, placeId, latitudes, longitudes, date, images):
+      let newTravelJournalContent =
+      TravelJournalContentRequest(
+        content: content,
+        placeId: placeId,
+        latitudes: latitudes,
+        longitudes: longitudes,
+        travelDate: date,
+        contentImageNames: images.map { $0.imageName })
+      var formData: [MultipartFormData] = []
+      do {
+        let travelJournalJSONData = try JSONEncoder().encode(newTravelJournalContent)
+        formData.append(
+          MultipartFormData(
+            provider: .data(travelJournalJSONData), name: "travel-journal-content",
+            fileName: "travel-journal-content", mimeType: "application/json"))
+
+        for image in images {
+          formData.append(
+            MultipartFormData(
+              provider: .data(image.data), name: "travel-journal-content-image",
+              fileName: "\(image.imageName)", mimeType: "image/webp"))
+        }
       } catch {
         print("JSON 인코딩 에러: \(error)")
       }
@@ -333,6 +368,7 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
       let .getTaggedJournals(token, _, _),
       let .edit(token, _, _, _, _, _, _, _, _, _),
       let .editContent(token, _, _, _, _, _, _, _, _, _, _, _),
+      let .createContent(token, _, _, _, _, _, _, _),
       let .delete(token, _),
       let .deleteContent(token, _, _),
       let .deleteTravelMates(token, _),
@@ -346,6 +382,10 @@ extension TravelJournalRouter: TargetType, AccessTokenAuthorizable {
 
   var authorizationType: Moya.AuthorizationType? {
     return .bearer
+  }
+  
+  var validationType: ValidationType {
+    return .successCodes
   }
 
 }

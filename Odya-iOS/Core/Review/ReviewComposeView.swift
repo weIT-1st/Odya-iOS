@@ -88,7 +88,7 @@ struct ReviewComposeView: View {
   }
   
   private func validate() -> Bool {
-    if reviewText.count > 30 {
+    if reviewText.countCharacters() > 30 {
       DispatchQueue.main.async {
         self.reviewText.removeLast()
       }
@@ -96,7 +96,7 @@ struct ReviewComposeView: View {
     
     if reviewText.isEmpty || rating == 0.0 {
       return false
-    } else if reviewText.count > 30 {
+    } else if reviewText.countCharacters() > 30 {
       return false
     } else {
       return true

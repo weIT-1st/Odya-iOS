@@ -35,7 +35,7 @@ struct DailyJournalEditView: View {
   init(journal: TravelJournalDetailData, editedJournal: DailyJournal) {
     self.journalEditVM = DailyJournalEditViewModel(journal: journal, dailyJournal: editedJournal)
     self._date = State(initialValue: editedJournal.travelDate)
-    self._content = State(initialValue: editedJournal.content)
+    self._content = State(initialValue: editedJournal.content ?? "")
     self._placeId = State(initialValue: editedJournal.placeId)
     self._latitudes = State(initialValue: editedJournal.latitudes)
     self._longitudes = State(initialValue: editedJournal.longitudes)

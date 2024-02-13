@@ -93,9 +93,8 @@ struct TravelJournalDetailView: View {
   var body: some View {
     ZStack {
       GeometryReader { geometry in
-        // TODO: map
-        Color.odya.elevation.elev4
-          .ignoresSafeArea()
+        let dailyJournals = journalDetailVM.journalDetail?.dailyJournals ?? []
+        JournalDetailMapView(size: .large, dailyJournals: .constant(dailyJournals))
 
         headerBar
 

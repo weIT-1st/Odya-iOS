@@ -49,3 +49,16 @@ extension String {
       .evaluate(with: self)
   }
 }
+
+// MARK: count
+extension String {
+  func countCharacters() -> Int {
+    var count = 0
+    for scalar in self.unicodeScalars {
+      // 이모지(Emoji)는 스칼라 값이 1,2로 구성되어 있습니다.
+      // 나머지는 모두 1로 계산합니다.
+      count += scalar.value > 0xFFFF ? 2 : 1
+    }
+    return count
+  }
+}

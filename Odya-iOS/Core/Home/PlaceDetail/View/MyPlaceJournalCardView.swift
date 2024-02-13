@@ -109,7 +109,7 @@ struct MyPlaceJournalCardView: View {
     HStack(alignment: .top, spacing: 12) {
       Image("pen-s")
         .renderingMode(.template)
-      Text(myJournal.content)
+      Text(myJournal.content ?? "")
         .detail2Style()
         .multilineTextAlignment(.leading)
         .lineLimit(3)
