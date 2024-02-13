@@ -32,7 +32,7 @@ struct SuggestedUserView: View {
          */
       }.frame(maxHeight: 35)
       FollowButtonWithAlertAndApi(userId: user.userId, buttonStyle: .solid, followState: false)
-    }.frame(width: 96, height: 137)
+    }.frame(width: 96)
   }
 }
 
@@ -54,6 +54,7 @@ struct UserSuggestionView: View {
           ProgressView()
           Spacer()
         }
+        .frame(height: 137)
       } else if followHubVM.suggestedUsers.isEmpty {  // 추천 친구 없음
         HStack {
           Spacer()
@@ -78,7 +79,7 @@ struct UserSuggestionView: View {
     .padding(.vertical, 28)
     .background(Color.odya.elevation.elev2)
     .cornerRadius(Radius.medium)
-    .onAppear {
+    .task {
       followHubVM.getSuggestion { _ in }
     }
   }

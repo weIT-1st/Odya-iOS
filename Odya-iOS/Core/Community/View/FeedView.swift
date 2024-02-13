@@ -25,6 +25,8 @@ struct FeedView: View {
   // MARK: Properties
 
   @StateObject private var viewModel = FeedViewModel()
+  @StateObject var followHubVM = FollowHubViewModel()
+  
   @State private var selectedFeedToggle = FeedToggleType.all
   /// 선택된 토픽 아이디
   @State private var selectedTopicId = -1
@@ -55,10 +57,17 @@ struct FeedView: View {
                   .zIndex(.greatestFiniteMagnitude)
                 
                 // posts (무한)
-                ForEach(viewModel.state.content, id: \.id) { content in
-                  VStack(spacing: 0) {
-                    postImageView(imageUrl: content.communityMainImageURL, simpleTravelJournal: content.travelJournalSimpleResponse)
-                    PostContentView(post: content)
+                ForEach(Array(zip(viewModel.state.content, viewModel.state.content.indices)), id: \.0.id) { content, index in
+                  LazyVStack(spacing: 8) {
+                    VStack(spacing: 0) {
+                      postImageView(imageUrl: content.communityMainImageURL, simpleTravelJournal: content.travelJournalSimpleResponse)
+                      PostContentView(post: content)
+                    }
+
+                    // 알 수도 있는 친구
+                    if index % 10 == 0 && index > 0 {
+                      userSuggestion
+                    }
                   }
                   .padding(.bottom, 8)
                   .onAppear {
@@ -229,6 +238,12 @@ struct FeedView: View {
     .frame(maxWidth: .infinity)
     .padding(.horizontal, GridLayout.side)
     .padding(.bottom, 8)
+  }
+  
+  /// 알 수도 있는 친구
+  private var userSuggestion: some View {
+    UserSuggestionView()
+      .environmentObject(followHubVM)
   }
   
   /// 게시글 이미지, 연결된 여행일지

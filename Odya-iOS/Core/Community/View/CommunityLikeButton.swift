@@ -72,20 +72,8 @@ struct CommunityLikeButton: View {
           Rectangle()
             .foregroundColor(.clear)
             .frame(width: 24, height: 40)
-            .overlay(
-              if likeState {
-                Image(likeImageName.rawValue)
-                  .resizable()
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: 24, height: 40)
-              } else {
-                Image(likeImageName.rawValue)
-                  .resizable()
-                  .renderingMode(.template)
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: 24, height: 40)
-                  .foregroundColor(baseColor)
-              }
+            .background(
+              likeImage(state: likeState)
             )
         }
         
@@ -98,4 +86,13 @@ struct CommunityLikeButton: View {
         likeImageName = likeState ? HeartImage.sOn : HeartImage.mOff
       }
     }
+  
+  private func likeImage(state: Bool) -> some View {
+    Image(likeImageName.rawValue)
+      .resizable()
+      .renderingMode(state ? .original : .template)
+      .foregroundColor(state ? .clear : baseColor)
+      .aspectRatio(contentMode: .fit)
+      .frame(width: 24, height: 40)
+  }
 }
