@@ -76,7 +76,27 @@ struct CommunityComposeView: View {
   @Binding var path: NavigationPath
   /// 커뮤니티 작성 모드
   let composeMode: CommunityComposeMode
-    
+  
+  // MARK: - Init
+  init(path: Binding<NavigationPath>) {
+    self._path = path
+    self.composeMode = .create
+  }
+  
+  init(path: Binding<NavigationPath>, feedDetail: FeedDetail) {
+    self._path = path
+    self.composeMode = .edit
+    self.communityId = feedDetail.communityId
+    self._textContent = State(initialValue: feedDetail.content)
+    self._privacyType = State(initialValue: CommunityPrivacyType(rawValue: feedDetail.visibility) ?? .global)
+    self._placeId = State(initialValue: feedDetail.placeId)
+    self._travelJournalId = State(initialValue: feedDetail.travelJournal?.travelJournalID)
+    self._travelJournalTitle = State(initialValue: feedDetail.travelJournal?.title)
+    self._selectedTopicId = State(initialValue: feedDetail.topic?.id)
+    self._originalImageList = State(initialValue: feedDetail.communityContentImages)
+    self._showPhotoPicker = State(initialValue: false)
+  }
+  
   // MARK: - Body
   
   var body: some View {

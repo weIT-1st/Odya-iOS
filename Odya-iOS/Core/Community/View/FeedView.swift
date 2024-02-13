@@ -136,7 +136,7 @@ struct FeedView: View {
           case let .detail(communityId):
             FeedDetailView(path: $path, communityId: communityId)
           case .createFeed:
-            CommunityComposeView(path: $path, composeMode: .create)
+            CommunityComposeView(path: $path)
           case .createJournal:
             TravelJournalComposeView()
               .navigationBarHidden(true)
