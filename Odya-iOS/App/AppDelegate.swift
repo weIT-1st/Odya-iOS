@@ -126,4 +126,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     print("didRequest \(userInfo)")
     completionHandler()
   }
+  
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    print("didReceiveRemoteNotification \(userInfo)")
+    completionHandler(.noData)
+  }
 }
