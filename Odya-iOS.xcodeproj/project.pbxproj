@@ -59,6 +59,11 @@
 		192ADAA72B0F0FE200BD480E /* CommunityLikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192ADAA62B0F0FE200BD480E /* CommunityLikeButton.swift */; };
 		192D66CF2B7DBA3200CDE9D2 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D66CE2B7DBA3200CDE9D2 /* NotificationService.swift */; };
 		192D66D32B7DBA3200CDE9D2 /* NotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 192D66CC2B7DBA3200CDE9D2 /* NotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		192D66DC2B7DF8A700CDE9D2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 192D66DB2B7DF8A700CDE9D2 /* Realm */; };
+		192D66DE2B7DF8A700CDE9D2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 192D66DD2B7DF8A700CDE9D2 /* RealmSwift */; };
+		192D66E02B7DF8C600CDE9D2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 192D66DF2B7DF8C600CDE9D2 /* Realm */; };
+		192D66E22B7DF8C600CDE9D2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 192D66E12B7DF8C600CDE9D2 /* RealmSwift */; };
+		192D66E42B7DFBA800CDE9D2 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D66E32B7DFBA800CDE9D2 /* NotificationData.swift */; };
 		19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */; };
 		19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */; };
 		19385A382B2C07C3000CB6AB /* MyCommunityCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */; };
@@ -366,6 +371,9 @@
 		192D66CC2B7DBA3200CDE9D2 /* NotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		192D66CE2B7DBA3200CDE9D2 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		192D66D02B7DBA3200CDE9D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		192D66D82B7DF67A00CDE9D2 /* NotificationServiceExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationServiceExtensionRelease.entitlements; sourceTree = "<group>"; };
+		192D66D92B7DF69E00CDE9D2 /* NotificationServiceExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationServiceExtensionDebug.entitlements; sourceTree = "<group>"; };
+		192D66E32B7DFBA800CDE9D2 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityView.swift; sourceTree = "<group>"; };
 		19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityViewModel.swift; sourceTree = "<group>"; };
 		19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityCommentCell.swift; sourceTree = "<group>"; };
@@ -591,8 +599,10 @@
 				3E8F81912A81128100FA167E /* GooglePlaces in Frameworks */,
 				3E3EC3B32A388ADE002BF519 /* webp in Frameworks */,
 				3E8F81952A8112AB00FA167E /* GoogleMapsCore in Frameworks */,
+				192D66DC2B7DF8A700CDE9D2 /* Realm in Frameworks */,
 				19EBA7552AB16B7D000ABBE5 /* Moya in Frameworks */,
 				3E3EC3AD2A388AA5002BF519 /* Alamofire in Frameworks */,
+				192D66DE2B7DF8A700CDE9D2 /* RealmSwift in Frameworks */,
 				3E8F818F2A81127600FA167E /* GoogleMaps in Frameworks */,
 				19FF88BC2B68CF0B00FA6B46 /* GoogleMapsUtils in Frameworks */,
 				19A738AA2B6883200071FFE9 /* Kingfisher in Frameworks */,
@@ -607,6 +617,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				192D66E22B7DF8C600CDE9D2 /* RealmSwift in Frameworks */,
+				192D66E02B7DF8C600CDE9D2 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,10 +953,21 @@
 		192D66CD2B7DBA3200CDE9D2 /* NotificationServiceExtension */ = {
 			isa = PBXGroup;
 			children = (
+				192D66E52B7DFBAD00CDE9D2 /* Model */,
+				192D66D92B7DF69E00CDE9D2 /* NotificationServiceExtensionDebug.entitlements */,
+				192D66D82B7DF67A00CDE9D2 /* NotificationServiceExtensionRelease.entitlements */,
 				192D66CE2B7DBA3200CDE9D2 /* NotificationService.swift */,
 				192D66D02B7DBA3200CDE9D2 /* Info.plist */,
 			);
 			path = NotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		192D66E52B7DFBAD00CDE9D2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				192D66E32B7DFBA800CDE9D2 /* NotificationData.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		19385A302B2AC102000CB6AB /* MyActivity */ = {
@@ -1556,6 +1579,8 @@
 				3E46702C2B160F6500B54D0A /* Lottie */,
 				19A738A92B6883200071FFE9 /* Kingfisher */,
 				19FF88BB2B68CF0B00FA6B46 /* GoogleMapsUtils */,
+				192D66DB2B7DF8A700CDE9D2 /* Realm */,
+				192D66DD2B7DF8A700CDE9D2 /* RealmSwift */,
 			);
 			productName = "Odya-iOS";
 			productReference = 071FA51E2A20A99F00C7B362 /* Odya-iOS.app */;
@@ -1574,6 +1599,10 @@
 			dependencies = (
 			);
 			name = NotificationServiceExtension;
+			packageProductDependencies = (
+				192D66DF2B7DF8C600CDE9D2 /* Realm */,
+				192D66E12B7DF8C600CDE9D2 /* RealmSwift */,
+			);
 			productName = NotificationServiceExtension;
 			productReference = 192D66CC2B7DBA3200CDE9D2 /* NotificationServiceExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1617,6 +1646,7 @@
 				3E46702B2B160F6500B54D0A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				19A738A82B6883200071FFE9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				19FF88BA2B68CF0B00FA6B46 /* XCRemoteSwiftPackageReference "google-maps-ios-utils" */,
+				192D66DA2B7DF8A700CDE9D2 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 071FA51F2A20A99F00C7B362 /* Products */;
 			projectDirPath = "";
@@ -1917,6 +1947,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				192D66E42B7DFBA800CDE9D2 /* NotificationData.swift in Sources */,
 				192D66CF2B7DBA3200CDE9D2 /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2153,6 +2184,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtensionDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2185,6 +2217,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtensionRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2251,6 +2284,14 @@
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 7.2.0;
+			};
+		};
+		192D66DA2B7DF8A700CDE9D2 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
 			};
 		};
 		19A738A82B6883200071FFE9 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
@@ -2328,6 +2369,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		192D66DB2B7DF8A700CDE9D2 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 192D66DA2B7DF8A700CDE9D2 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		192D66DD2B7DF8A700CDE9D2 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 192D66DA2B7DF8A700CDE9D2 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		192D66DF2B7DF8C600CDE9D2 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 192D66DA2B7DF8A700CDE9D2 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		192D66E12B7DF8C600CDE9D2 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 192D66DA2B7DF8A700CDE9D2 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
 		19A738A92B6883200071FFE9 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 19A738A82B6883200071FFE9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
