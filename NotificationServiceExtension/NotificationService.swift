@@ -26,6 +26,8 @@ class NotificationService: UNNotificationServiceExtension {
     
     if let bestAttemptContent = bestAttemptContent {
       // Modify the notification content here...
+      print("Data payload 확인: \(bestAttemptContent.userInfo)")
+      
       saveNotificationData(userInfo: bestAttemptContent.userInfo)
 
       bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
@@ -42,8 +44,6 @@ class NotificationService: UNNotificationServiceExtension {
   }
   
   private func saveNotificationData(userInfo data: [AnyHashable: Any]) {
-    let original = realm.objects(NotificationData.self)
-    print(original)
     guard let eventType = data["eventType"] as? String, let userName = data["userName"] as? String, let notifiedAt = data["notifiedAt"] as? String else { return }
     
     let communityId = data["communityId"] as? Int
@@ -74,5 +74,9 @@ class NotificationService: UNNotificationServiceExtension {
     } catch {
       print("알림 데이터 저장 실패")
     }
+    
+    let read = realm.objects(NotificationData.self)
+    print("Realm:")
+    print(read)
   }
 }
