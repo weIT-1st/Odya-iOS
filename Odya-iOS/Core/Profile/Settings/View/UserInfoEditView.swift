@@ -196,6 +196,7 @@ struct PhoneNumberEditSection: View {
 
   @State var isShowAlert: Bool = false
   @State var alertMessage: String = ""
+  @State var isGettingVerificationCode: Bool = false
 
   @StateObject var validatorApi = AuthValidatorApiViewModel()
 
@@ -209,7 +210,7 @@ struct PhoneNumberEditSection: View {
 
         UserInfoEditButton(
           buttonText: "변경",
-          isActive: isEditing && isValid
+          isActive: isEditing && isValid && !isGettingVerificationCode
         ) {
           validatorApi.validatePhonenumber(phoneNumber: newPhoneNumber) { result in
             if result {
@@ -223,6 +224,7 @@ struct PhoneNumberEditSection: View {
               isShowAlert = true
               newPhoneNumber = userPhoneNumber ?? ""
             }
+            isGettingVerificationCode = false
           }
         }.alert(alertMessage, isPresented: $isShowAlert) { Button("확인", role: .cancel) {} }
       }
@@ -239,9 +241,13 @@ struct PhoneNumberEditSection: View {
           isActive: true
         ) {
           // TODO: 인증번호 확인절차
-          VM.verifyAndUpdatePhoneNumber(newNumber: newPhoneNumber,
-                                        verificationCode: verificationCode) { success in
+          VM.verifyAndUpdatePhoneNumber(verificationCode: verificationCode) { success in
             alertMessage = success ? "인증되었습니다.\n휴대폰 번호가 \(newPhoneNumber)으로 변경되었습니다" : "인증에 실패하였습니다. 다시 시도해주세요."
+            if success {
+              VM.phoneNumber = newPhoneNumber
+            } else {
+              newPhoneNumber = userPhoneNumber ?? ""
+            }
             isShowAlert = true
             verificationCode = ""
           }

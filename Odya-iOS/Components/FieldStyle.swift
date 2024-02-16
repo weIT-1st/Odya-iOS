@@ -39,7 +39,7 @@ struct UserInfoTextField: View {
     var body: some View {
         HStack {
             TextField(newInfo == "" ? infoField.textFieldDefaultMessage() : newInfo, text: $newInfo)
-                .foregroundColor(isInfoEditing ? .odya.label.normal : .odya.label.inactive)
+                .foregroundColor(info != newInfo ? .odya.label.normal : .odya.label.inactive)
                 .b1Style()
                 
             if isInfoEditing {

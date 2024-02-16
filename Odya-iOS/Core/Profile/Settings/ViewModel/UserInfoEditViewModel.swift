@@ -132,60 +132,53 @@ class UserInfoEditViewModel: ObservableObject {
       }
   }
   
-  func verifyAndUpdatePhoneNumber(newNumber: String,
-                                  verificationCode: String,
+  func verifyAndUpdatePhoneNumber(verificationCode: String,
                                   completion: @escaping (Bool) -> Void) {
     guard let verificationID = UserDefaults.standard.string(forKey: "authVerificationID") else {
       completion(false)
       return
     }
     
-    let credential = PhoneAuthProvider.provider().credential(
+    let phoneAuthCredential = PhoneAuthProvider.provider().credential(
       withVerificationID: verificationID,
       verificationCode: verificationCode
     )
     
-//    Auth.auth().signIn(with: credential) { authData, error in
-//      if let error = error {
-//        print(error)
-//        completion(false)
-//        return
-//      }
-      
-      // 성공시 CurrentUser IDTokenRefresh처리
-      let currentUser = Auth.auth().currentUser
-      currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-        if let error = error {
-          print(error)
-          completion(false)
-          return
-        }
-        
-        guard let token = idToken else {
-          completion(false)
-          return
-        }
-        
-        self.updatePhoneNumberApi(token: token) { success in
-          if success {
-            self.phoneNumber = newNumber
-            self.isVerificationInProgress = false
-            completion(true)
-          } else {
-            self.isVerificationInProgress = false
-            completion(false)
-          }
-        }
-        
+    // 이미 Apple 로그인을 통해 인증된 사용자에게 전화번호 인증 정보를 연결합니다.
+    Auth.auth().currentUser?.updatePhoneNumber(phoneAuthCredential) { error in
+      if let error = error {
+        debugPrint(error)
+        completion(false)
+        return
       }
-//    }
-    
-    
+      
+      Auth.auth().currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
+        // 유효하지 않은 idToken
+        if let error = error {
+          print("Error: \(error.localizedDescription)")
+          completion(false)
+          return
+        }
+        
+        // 유효하지 않은 idToken
+        guard let idToken = idToken else {
+          print("Error: Invalid Token")
+          completion(false)
+          return
+        }
+        
+        // 성공적으로 전화번호가 인증되고 사용자 계정에 연결되었습니다.
+        self.updatePhoneNumberApi(token: idToken) { result in
+          self.isVerificationInProgress = false
+          completion(result)
+          return
+        }
+      }
+    }
   }
   
   private func updatePhoneNumberApi(token: String,
                                     completion: @escaping (Bool) -> Void) {
-//    self.tokenToEditInfo = token
     userAuthInfoProvider.requestPublisher(.updateUserPhoneNumber(token: token))
       .sink { apiCompletion in
         switch apiCompletion {
