@@ -234,7 +234,7 @@ struct PhoneNumberEditSection: View {
       if VM.isVerificationInProgress {
         HStack {  // 인증번호 입력
           TextField("인증번호를 입력해주세요", text: $verificationCode)
-            .foregroundColor(isVerificationButtonActive ? .odya.label.normal : .odya.label.inactive)
+            .foregroundColor(.odya.label.normal)
             .b1Style()
             .modifier(CustomFieldStyle())
           
@@ -339,11 +339,16 @@ struct EmailEditSection: View {
               VM.verifyEmailAddress(address: newEmail) { (success, msg) in
                 alertMessage = msg
                 isShowAlert = true
+                if !success {
+                  newEmail = userEmail ?? ""
+                  newEmailDomain = ""
+                }
               }
             } else {
               alertMessage = "이미 존재하는 이메일입니다"
               isShowAlert = true
               newEmail = userEmail ?? ""
+              newEmailDomain = ""
             }
           }
         }.alert(alertMessage, isPresented: $isShowAlert) { Button("확인", role: .cancel) {} }
@@ -364,8 +369,10 @@ struct EmailEditSection: View {
             alertMessage = msg
             if success {
               VM.email = newEmail
-            } else {
+              newEmailDomain = ""
+            } else if msg != "이메일 주소가 아직 인증되지 않았습니다. 이메일을 확인해주세요." {
               newEmail = userEmail ?? ""
+              newEmailDomain = ""
             }
             isShowAlert = true
           }

@@ -215,6 +215,11 @@ class UserInfoEditViewModel: ObservableObject {
             return
           }
           
+          if error.code == AuthErrorCode.emailAlreadyInUse.rawValue {
+            completion(false, "이미 사용 중인 이메일 주소입니다.")
+            return
+          }
+          
           print(error)
           completion(false, "인증 이메일 전송을 실패하였습니다. 다시 시도해주세요.")
           return
