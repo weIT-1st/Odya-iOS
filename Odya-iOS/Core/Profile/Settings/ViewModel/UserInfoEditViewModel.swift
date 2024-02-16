@@ -38,6 +38,7 @@ class UserInfoEditViewModel: ObservableObject {
   @Published var isDeletingUser: Bool = false
   
   @Published var isVerificationInProgress: Bool = false
+  @Published var isEmailVerificationInProgress: Bool = false
   
   init() {
     self.fetchMyData()
@@ -69,6 +70,14 @@ class UserInfoEditViewModel: ObservableObject {
           self.nickname = responseData.nickname
           self.email = responseData.email
           self.phoneNumber = responseData.phoneNumber
+          
+          // 전화번호 형식 맞추기
+          if let originalNumber = responseData.phoneNumber {
+            let trimmedNumber = originalNumber.hasPrefix("+82") ? "0" + originalNumber.dropFirst(3) : originalNumber
+            let formattedNumber = "\(trimmedNumber.prefix(3))-\(trimmedNumber.dropFirst(3).prefix(4))-\(trimmedNumber.suffix(4))"
+            self.phoneNumber = formattedNumber
+          }
+          
         } catch {
           print("UserData decoding error")
           return
@@ -192,7 +201,110 @@ class UserInfoEditViewModel: ObservableObject {
       } receiveValue: { _ in }
       .store(in: &subscription)
   }
-
+  
+  // MARK: Update Email Address
+  
+  @MainActor
+  func verifyEmailAddress(address: String,
+                          completion: @escaping (Bool, String) -> Void) {
+    if let user = Auth.auth().currentUser {
+      user.updateEmail(to: address) { error in
+        if let error = error as NSError? {
+          if error.code == AuthErrorCode.requiresRecentLogin.rawValue {
+            completion(false, "재로그인 후 다시 시도해주세요.")
+            return
+          }
+          
+          print(error)
+          completion(false, "인증 이메일 전송을 실패하였습니다. 다시 시도해주세요.")
+          return
+        }
+        
+        user.sendEmailVerification { error in
+          if let error = error {
+            print(error)
+            completion(false, "인증 이메일 전송을 실패하였습니다. 다시 시도해주세요.")
+            return
+          }
+          
+          self.isEmailVerificationInProgress = true
+          completion(true, "인증 이메일이 성공적으로 전송되었습니다. 이메일을 확인해주세요.")
+          return
+        }
+      }
+    } else {
+      completion(false, "재로그인 후 다시 시도해주세요.")
+      return
+    }
+  }
+  
+  func verifyAndUpdateEmailAddress(completion: @escaping (Bool, String) -> Void) {
+    guard let user = Auth.auth().currentUser else {
+      completion(false, "이메일 인증 중 오류가 발생했습니다. 다시 시도해주세요")
+      self.isEmailVerificationInProgress = false
+      return
+    }
+    
+    user.reload() { (error) in
+      if let error = error {
+        print("Error reloading user: \(error.localizedDescription)")
+        completion(false, "이메일 인증 중 오류가 발생했습니다. 다시 시도해주세요")
+        self.isEmailVerificationInProgress = false
+        return
+      }
+      
+      if !user.isEmailVerified {
+        // 이메일 인증이 아직 완료되지 않음.
+        print("Email not verified yet.")
+        completion(false, "이메일 주소가 아직 인증되지 않았습니다. 이메일을 확인해주세요.")
+        return
+      }
+      
+      user.getIDTokenForcingRefresh(true) { idToken, error in
+        // 유효하지 않은 idToken
+        if let error = error {
+          print("Error: \(error.localizedDescription)")
+          completion(false, "이메일 인증 중 오류가 발생했습니다. 다시 시도해주세요")
+          self.isEmailVerificationInProgress = false
+          return
+        }
+        
+        // 유효하지 않은 idToken
+        guard let idToken = idToken else {
+          print("Error: Invalid Token")
+          completion(false, "이메일 인증 중 오류가 발생했습니다. 다시 시도해주세요")
+          self.isEmailVerificationInProgress = false
+          return
+        }
+        
+        // 이메일 인증이 완료되었음. 서버에 API 요청을 보냄.
+        self.updateEmailAddressApi(token: idToken) { success in
+          if success {
+            completion(true, "이메일 주소가 인증되었습니다.")
+            self.isEmailVerificationInProgress = false
+          } else {
+            completion(false, "이메일 주소가 아직 인증되지 않았습니다. 이메일을 확인해주세요.")
+          }
+        }
+      }
+    }
+  }
+  
+  private func updateEmailAddressApi(token: String,
+                                    completion: @escaping (Bool) -> Void) {
+    userAuthInfoProvider.requestPublisher(.updateUserEmailAddress(token: token))
+      .sink { apiCompletion in
+        switch apiCompletion {
+        case .finished:
+          completion(true)
+        case .failure(let error):
+          self.processErrorResponse(error)
+          completion(false)
+        }
+        
+      } receiveValue: { _ in }
+      .store(in: &subscription)
+  }
   
   // MARK: Logout
   @MainActor

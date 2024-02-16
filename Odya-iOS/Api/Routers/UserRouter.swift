@@ -119,7 +119,8 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
 
   var headers: [String: String]? {
     switch self {
-    case .updateUserPhoneNumber(let token):
+    case .updateUserPhoneNumber(let token),
+        .updateUserEmailAddress(let token):
       return ["Authorization": "Bearer \(token)"]
     default:
       return ["Content-type": "application/json"]

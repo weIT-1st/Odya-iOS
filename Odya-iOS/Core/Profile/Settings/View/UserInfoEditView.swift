@@ -193,6 +193,8 @@ struct PhoneNumberEditSection: View {
   private var isVerificationButtonActive: Bool {
     VM.isVerificationInProgress && !verificationCode.isEmpty
   }
+  
+  @State var isVerificationButtonClicked : Bool = false
 
   @State var isShowAlert: Bool = false
   @State var alertMessage: String = ""
@@ -207,7 +209,7 @@ struct PhoneNumberEditSection: View {
           info: userPhoneNumber ?? "",
           newInfo: $newPhoneNumber,
           infoField: .phoneNumber)
-
+        
         UserInfoEditButton(
           buttonText: "변경",
           isActive: isEditing && isValid && !isGettingVerificationCode
@@ -228,35 +230,39 @@ struct PhoneNumberEditSection: View {
           }
         }.alert(alertMessage, isPresented: $isShowAlert) { Button("확인", role: .cancel) {} }
       }
-
-      HStack {  // 인증번호 입력
-        TextField("인증번호를 입력해주세요", text: $verificationCode)
-          .foregroundColor(isVerificationButtonActive ? .odya.label.normal : .odya.label.inactive)
-          .b1Style()
-          .modifier(CustomFieldStyle())
-
-        // TODO: 인증번호 확인 버튼 활성화 조건 체크
-        UserInfoEditButton(
-          buttonText: "확인",
-          isActive: true
-        ) {
-          // TODO: 인증번호 확인절차
-          VM.verifyAndUpdatePhoneNumber(verificationCode: verificationCode) { success in
-            alertMessage = success ? "인증되었습니다.\n휴대폰 번호가 \(newPhoneNumber)으로 변경되었습니다" : "인증에 실패하였습니다. 다시 시도해주세요."
-            if success {
-              VM.phoneNumber = newPhoneNumber
-            } else {
-              newPhoneNumber = userPhoneNumber ?? ""
+      
+      if VM.isVerificationInProgress {
+        HStack {  // 인증번호 입력
+          TextField("인증번호를 입력해주세요", text: $verificationCode)
+            .foregroundColor(isVerificationButtonActive ? .odya.label.normal : .odya.label.inactive)
+            .b1Style()
+            .modifier(CustomFieldStyle())
+          
+          // TODO: 인증번호 확인 버튼 활성화 조건 체크
+          UserInfoEditButton(
+            buttonText: "확인",
+            isActive: true
+          ) {
+            isVerificationButtonClicked = true
+            // TODO: 인증번호 확인절차
+            VM.verifyAndUpdatePhoneNumber(verificationCode: verificationCode) { success in
+              alertMessage = success ? "인증되었습니다.\n휴대폰 번호가 \(newPhoneNumber)으로 변경되었습니다" : "인증에 실패하였습니다. 다시 시도해주세요."
+              if success {
+                VM.phoneNumber = newPhoneNumber
+              } else {
+                newPhoneNumber = userPhoneNumber ?? ""
+              }
+              isShowAlert = true
+              verificationCode = ""
             }
-            isShowAlert = true
-            verificationCode = ""
           }
-        }
-        .disabled(!isVerificationButtonActive)
+          .disabled(!isVerificationButtonActive || isVerificationButtonClicked)
+        }.animation(.easeInOut, value: VM.isVerificationInProgress)
       }
     }.onChange(of: userPhoneNumber) { newValue in
       newPhoneNumber = newValue ?? ""
     }
+    
   }
 }  // PhoneNumberEditSection
 
@@ -283,7 +289,7 @@ struct EmailEditSection: View {
   @StateObject var validatorApi = AuthValidatorApiViewModel()
 
   var body: some View {
-    VStack(spacing: 16) {
+    VStack(alignment: .center, spacing: 16) {
       UserInfoTextField(
         info: userEmail ?? "",
         newInfo: $newEmail,
@@ -296,8 +302,8 @@ struct EmailEditSection: View {
             let components = newEmail.components(separatedBy: "@")
             newEmail = components[0] + newEmailDomain
           }
-          Button("@google.com") {
-            newEmailDomain = "@google.com"
+          Button("@gmail.com") {
+            newEmailDomain = "@gmail.com"
             let components = newEmail.components(separatedBy: "@")
             newEmail = components[0] + newEmailDomain
           }
@@ -330,10 +336,10 @@ struct EmailEditSection: View {
         ) {
           validatorApi.validateEmail(email: newEmail) { result in
             if result {
-              VM.email = newEmail
-              // TODO: 변경 api 호출
-              alertMessage = "변경되었습니다"
-              isShowAlert = true
+              VM.verifyEmailAddress(address: newEmail) { (success, msg) in
+                alertMessage = msg
+                isShowAlert = true
+              }
             } else {
               alertMessage = "이미 존재하는 이메일입니다"
               isShowAlert = true
@@ -345,6 +351,27 @@ struct EmailEditSection: View {
 
     }.onChange(of: userEmail) { newValue in
       newEmail = newValue ?? ""
+    }
+    
+    if VM.isEmailVerificationInProgress {
+      HStack {
+        Spacer()
+        CTAButton(isActive: .active,
+                  buttonStyle: .solid,
+                  labelText: "인증완료",
+                  labelSize: .L) {
+          VM.verifyAndUpdateEmailAddress() { (success, msg) in
+            alertMessage = msg
+            if success {
+              VM.email = newEmail
+            } else {
+              newEmail = userEmail ?? ""
+            }
+            isShowAlert = true
+          }
+        }
+        Spacer()
+      }
     }
   }
 }
