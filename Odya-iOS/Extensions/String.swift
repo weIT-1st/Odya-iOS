@@ -11,9 +11,11 @@ extension String {
   
   /// 날짜형식 데이터 String -> Date -> 상대날짜 String으로 변환
   func toCustomRelativeDateString() -> String {
-    if let result = self.toDate(format: "yyyy-MM-dd HH:mm:ss")?.toRelativeString() {
-      return result
-    } else if let result = self.toDate(format: "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")?.toRelativeString() {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    dateFormatter.locale = Locale(identifier: "ko-KR")
+    
+    if let result = dateFormatter.date(from: self)?.toRelativeString() {
       return result
     } else {
       return self
