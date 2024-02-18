@@ -15,7 +15,7 @@ struct FeedNotificationView: View {
       CustomNavigationBar(title: "알림")
       ScrollView(.vertical) {
         LazyVStack(spacing: 20) {
-          ForEach(viewModel.dummyData, id: \.id) { noti in
+          ForEach(viewModel.notificationList, id: \._id) { noti in
             // TODO: Navigation Link
             notificationContentCell(content: noti)
             Divider()
@@ -25,20 +25,20 @@ struct FeedNotificationView: View {
         .padding(.horizontal, GridLayout.side)
       }
     }
-    .onAppear {
-      viewModel.getDummy()
-      viewModel.getDummy()
+    .background(Color.odya.background.normal)
+    .task {
+      viewModel.readSavedNotifications()
     }
     .toolbar(.hidden)
   }
   
   // cell
-  private func notificationContentCell(content: TestNotification) -> some View {
+  private func notificationContentCell(content: NotificationData) -> some View {
     HStack(alignment: .top, spacing: 10) {
-      // profile
       ProfileImageView(of: "", profileData: content.profileData, size: .S)
       // content
-      switch content.eventType {
+      let event = NotificationEventType(rawValue: content.eventType)
+      switch event {
       case .followingCommunity:
         (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("를 작성했습니다"))
       case .followingTravelJournal:
@@ -51,18 +51,22 @@ struct FeedNotificationView: View {
         (boldText(content.userName) + regularText(" 님께 ") + coloredText(content.emphasizedWord) + regularText("를 받았습니다"))
       case .followerAdd:
         (boldText(content.userName) + regularText(" 님이 회원님을 ") + coloredText(content.emphasizedWord) + regularText("했습니다"))
+      case .none:
+        Spacer()
       }
       Spacer()
       // image
-      AsyncImage(url: URL(string: content.contentImage)) { image in
-        image
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(width: 50, height: 50)
-          .clipped()
-      } placeholder: {
-        ProgressView()
-          .frame(width: 50, height: 50)
+      if let imageUrl = content.contentImage {
+        AsyncImage(url: URL(string: imageUrl)) { image in
+          image
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 50, height: 50)
+            .clipped()
+        } placeholder: {
+          ProgressView()
+            .frame(width: 50, height: 50)
+        }
       }
     }
   }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0707A1C22A45A2A100AE6E4D /* HomeMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707A1C12A45A2A100AE6E4D /* HomeMapView.swift */; };
 		0707A1C42A45A37100AE6E4D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0707A1C32A45A37100AE6E4D /* HomeView.swift */; };
+		07083A9C2B819539003CAA5A /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07083A9B2B819539003CAA5A /* NotificationData.swift */; };
 		0708FC2D2A40D2C100D152CF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708FC2C2A40D2C100D152CF /* LocationManager.swift */; };
 		071FA5222A20A99F00C7B362 /* Odya_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5212A20A99F00C7B362 /* Odya_iOSApp.swift */; };
 		071FA5242A20A99F00C7B362 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071FA5232A20A99F00C7B362 /* LoginView.swift */; };
@@ -318,6 +319,7 @@
 /* Begin PBXFileReference section */
 		0707A1C12A45A2A100AE6E4D /* HomeMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMapView.swift; sourceTree = "<group>"; };
 		0707A1C32A45A37100AE6E4D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		07083A9B2B819539003CAA5A /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
 		0708FC2C2A40D2C100D152CF /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		071FA51E2A20A99F00C7B362 /* Odya-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Odya-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		071FA5212A20A99F00C7B362 /* Odya_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Odya_iOSApp.swift; sourceTree = "<group>"; };
@@ -918,6 +920,7 @@
 				3E2F296F2B29BE7B00FF5357 /* FavoritePlace.swift */,
 				3E2F29812B2F274B00FF5357 /* Review.swift */,
 				19E3C1C32B63A6670037A495 /* CoordinateImage.swift */,
+				07083A9B2B819539003CAA5A /* NotificationData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1892,6 +1895,7 @@
 				1906B9802B55271A0043DCF8 /* PlaceReviewCell.swift in Sources */,
 				3E4670222B15EDA800B54D0A /* MainLoadingView.swift in Sources */,
 				3EE9CA222AB6C8E2003A2E85 /* UserData.swift in Sources */,
+				07083A9C2B819539003CAA5A /* NotificationData.swift in Sources */,
 				078496452A84F6A300A490E3 /* FishchipsBar.swift in Sources */,
 				0784964B2A84F72C00A490E3 /* PostContentView.swift in Sources */,
 				3E2F29602B294EC000FF5357 /* MainJournalCardView.swift in Sources */,
@@ -2187,21 +2191,21 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtensionDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 7V2ZG69KPK;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationServiceExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS.NotificationServiceExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2220,21 +2224,21 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtensionRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_TEAM = 7V2ZG69KPK;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationServiceExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS.NotificationServiceExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
