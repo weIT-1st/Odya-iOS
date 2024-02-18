@@ -126,6 +126,21 @@ struct TempTravelJournalData {
   var dailyJournals: [String]
 }
 
+/// 알림 설정
+struct NotiSetting {
+  @UserDefault(key: keyEnum_NotiSetting.all.rawValue, defaultValue: true)
+  static var allEnabled: Bool
+
+  @UserDefault(key: keyEnum_NotiSetting.feedOdya.rawValue, defaultValue: true)
+  static var feetOdyaEnabled: Bool
+  
+  @UserDefault(key: keyEnum_NotiSetting.feedComment.rawValue, defaultValue: true)
+  static var feetCommentEnabled: Bool
+  
+  @UserDefault(key: keyEnum_NotiSetting.marketing.rawValue, defaultValue: true)
+  static var marketingEnabled: Bool
+}
+
 enum keyEnum_MyData: String {
   case userId
   case nickname
@@ -154,4 +169,12 @@ enum keyEnum_TempTravelJournal: String {
   case mates
   case privacyType
   case dailyJournals
+}
+
+
+enum keyEnum_NotiSetting: String {
+  case all
+  case feedOdya
+  case feedComment
+  case marketing
 }

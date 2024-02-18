@@ -34,3 +34,20 @@ struct CustomToggleStyle: ToggleStyle {
         }
     }
 }
+
+// MARK: Noti Setting Toggle
+struct NotiToggleButton: View {
+  @Binding var notiSetting: NotificationSetting
+  
+  var body: some View {
+    Toggle(isOn: $notiSetting.isOn) {
+      HStack {
+        Spacer()
+        Text(notiSetting.title)
+          .b1Style()
+          .foregroundColor(.odya.label.assistive)
+          .padding(.trailing, 24)
+      }.frame(height: 36)
+    }.toggleStyle(CustomToggleStyle())
+  }
+}

@@ -134,8 +134,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     let userInfo = notification.request.content.userInfo
     print("willPresent: \(userInfo)")
-    completionHandler([.banner, .sound, .badge])
-  }
+    if notification.request.content.title == "팔로우 알림" {
+      print("팔로우 알림")
+      completionHandler([])
+    } else {
+      completionHandler([.banner, .sound, .badge])
+    }  }
 
   // 푸시메시지를 받았을 때, 알림을 클릭했을 때 호출됨
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

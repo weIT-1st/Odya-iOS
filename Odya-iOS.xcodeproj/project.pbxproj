@@ -200,6 +200,7 @@
 		3E800EBF2A3DAD7D001EA4C4 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */; };
 		3E800EC32A3E15D9001EA4C4 /* ImageGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */; };
 		3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */; };
+		3E861D4C2B821D9900590BF3 /* NotiSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E861D4B2B821D9900590BF3 /* NotiSetting.swift */; };
 		3E8F818F2A81127600FA167E /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8F818E2A81127600FA167E /* GoogleMaps */; };
 		3E8F81912A81128100FA167E /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8F81902A81128100FA167E /* GooglePlaces */; };
 		3E8F81932A8112A500FA167E /* GoogleMapsBase in Frameworks */ = {isa = PBXBuildFile; productRef = 3E8F81922A8112A500FA167E /* GoogleMapsBase */; };
@@ -473,6 +474,7 @@
 		3E800EBE2A3DAD7D001EA4C4 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIImage.swift; path = "Odya-iOS/Extensions/UIImage.swift"; sourceTree = SOURCE_ROOT; };
 		3E800EC22A3E15D9001EA4C4 /* ImageGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridView.swift; sourceTree = "<group>"; };
 		3E800EC42A3E16D4001EA4C4 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
+		3E861D4B2B821D9900590BF3 /* NotiSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiSetting.swift; sourceTree = "<group>"; };
 		3E9E988D2A84C9A400909653 /* AuthValidatorApiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthValidatorApiViewModel.swift; sourceTree = "<group>"; };
 		3E9E98922A8B7C7300909653 /* UserInfoValidatorRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoValidatorRouter.swift; sourceTree = "<group>"; };
 		3EB938142AF531780041FE5B /* AsyncImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
@@ -870,6 +872,7 @@
 				3E2F296F2B29BE7B00FF5357 /* FavoritePlace.swift */,
 				3E2F29812B2F274B00FF5357 /* Review.swift */,
 				19E3C1C32B63A6670037A495 /* CoordinateImage.swift */,
+				3E861D4B2B821D9900590BF3 /* NotiSetting.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1605,6 +1608,7 @@
 				3EEBB7CF2A8EB40A00F0049D /* Date.swift in Sources */,
 				3EE9CA282AC19758003A2E85 /* FollowUserListView.swift in Sources */,
 				3E2F296A2B29BA7600FF5357 /* FavoritePlaceRow.swift in Sources */,
+				3E861D4C2B821D9900590BF3 /* NotiSetting.swift in Sources */,
 				3ED22F692AB5B3860067DE72 /* FollowerUserRowView.swift in Sources */,
 				3EEBB7D92A94CD6D00F0049D /* JournalComposeViewModel.swift in Sources */,
 				07589E702AF023C200867FAD /* TopicRouter.swift in Sources */,
@@ -2005,7 +2009,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ODYA-Development-Profile-240131";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ODYA-Development-Profile-240215";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2052,7 +2056,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ODYA-Development-Profile-240131";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ODYA-AppStore-Profile-240215";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2181,11 +2185,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
-		};
-		3E11AFD02B13216200AFD288 /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
 		};
 		19FF88BB2B68CF0B00FA6B46 /* GoogleMapsUtils */ = {
 			isa = XCSwiftPackageProductDependency;
