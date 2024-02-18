@@ -40,17 +40,17 @@ struct FeedNotificationView: View {
       let event = NotificationEventType(rawValue: content.eventType)
       switch event {
       case .followingCommunity:
-        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("를 작성했습니다"))
+        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("를 작성했습니다")) + dateText(content.notifiedAt)
       case .followingTravelJournal:
-        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("를 작성했습니다"))
+        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("를 작성했습니다")) + dateText(content.notifiedAt)
       case .travelJournalTag:
-        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("에서 회원님을 태그했습니다"))
+        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("에서 회원님을 태그했습니다")) + dateText(content.notifiedAt)
       case .communityComment:
-        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("을 남겼습니다 : \(content.commentContent ?? "")"))
+        (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("을 남겼습니다 : \(content.commentContent ?? "")")) + dateText(content.notifiedAt)
       case .communityLike:
-        (boldText(content.userName) + regularText(" 님께 ") + coloredText(content.emphasizedWord) + regularText("를 받았습니다"))
+        (boldText(content.userName) + regularText(" 님께 ") + coloredText(content.emphasizedWord) + regularText("를 받았습니다")) + dateText(content.notifiedAt)
       case .followerAdd:
-        (boldText(content.userName) + regularText(" 님이 회원님을 ") + coloredText(content.emphasizedWord) + regularText("했습니다"))
+        (boldText(content.userName) + regularText(" 님이 회원님을 ") + coloredText(content.emphasizedWord) + regularText("했습니다")) + dateText(content.notifiedAt)
       case .none:
         Spacer()
       }
@@ -90,6 +90,13 @@ struct FeedNotificationView: View {
     return Text(text.splitCharacter())
       .foregroundColor(.odya.brand.primary)
       .font(Font.notoSansKRStyle(b1))
+  }
+  
+  private func dateText(_ text: String) -> Text {
+    let detail2 = LogoFontStyle(size: 12, weight: .regular, lineHeight: 1.5)
+    return Text(" ·  \(text.toCustomRelativeDateString())")
+      .foregroundColor(.odya.label.assistive)
+      .font(Font.notoSansKRStyle(detail2))
   }
 }
 
