@@ -47,7 +47,7 @@ extension Date {
   func toRelativeString() -> String {
     var dateToString = ""
     // 방금전: 3시간
-    if self.timeIntervalSinceNow < 3 * 60 * 60 {
+    if -self.timeIntervalSinceNow < 3 * 60 * 60 {
       dateToString = "방금전"
     } else if self.year == Date.now.year && self.month == Date.now.month && self.day == Date.now.day {
       // 오늘
