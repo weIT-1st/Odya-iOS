@@ -11,6 +11,7 @@ import GooglePlaces
 import KakaoSDKCommon
 import KakaoSDKAuth
 import FirebaseCore
+import FirebaseAuth
 import FirebaseMessaging
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     FirebaseApp.configure()
     
     // MARK: -- FCM Noti
-    
     UNUserNotificationCenter.current().delegate = self
     application.registerForRemoteNotifications()
     
@@ -40,14 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       options: authOptions,
       completionHandler: { _, _ in }
     )
-    
   
     // 메세징 델리겟, 메시지 대리자 설정
     Messaging.messaging().delegate = self
     
     
     // MARK: -- Kakao
-    
     // kakao SDK 초기화
     KakaoSDK.initSDK(appKey: kakaoApiKey as! String)
     
@@ -59,28 +57,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     return true
   }
-  
-  // MARK: Kakao Login
-  
+
+  // MARK: Kakao Login  
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-    if (AuthApi.isKakaoTalkLoginUrl(url)) {
+    // 카카오 커스텀 스키마 리디렉션 URL을 처리
+	if (AuthApi.isKakaoTalkLoginUrl(url)) {
       return AuthController.handleOpenUrl(url: url)
+    }
+    
+    // 파이어베이스 커스텀 스키마 리디렉션 URL을 처리
+    if Auth.auth().canHandle(url) {
+      return true
     }
     
     return false
   }
   
-  // MARK: register FCM token
+  // MARK: Firebase
   /// FCM 토큰이 등록 되었을 때, apns 토큰이랑 연결시켜줌
   func application(_ application: UIApplication,
                    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    // noti
     Messaging.messaging().apnsToken = deviceToken
+    
+    // APN
+    Auth.auth().setAPNSToken(deviceToken, type: .prod)
   }
   
   /// fcm 토큰 등록 실패
   func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
       print("Remote notification is unavailable: \(error.localizedDescription)")
+  }
+  
+  func application(_ application: UIApplication,
+      didReceiveRemoteNotification notification: [AnyHashable : Any],
+      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    if Auth.auth().canHandleNotification(notification) {
+      completionHandler(.noData)
+      return
+    }
+    // This notification is not auth related; it should be handled separately.
   }
   
   // MARK: SceneDelegate

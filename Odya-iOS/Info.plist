@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSContactsUsageDescription</key>
-	<string>주소록 접근 권한이 필요합니다.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>사용자의 위치 정보를 사용합니다.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>사용자의 위치 정보를 사용합니다.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>사용자의 위치 정보를 사용합니다.</string>
+  <key>NSContactsUsageDescription</key>
+    <string>주소록 접근 권한이 필요합니다.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>사용자의 위치 정보를 사용합니다.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>사용자의 위치 정보를 사용합니다.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>사용자의 위치 정보를 사용합니다.</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>ko</string>
@@ -22,6 +22,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakao${KAKAO_NATIVE_APP_KEY}</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app-1-825301591452-ios-a8efacb44cd957b0ce5459</string>
 			</array>
 		</dict>
 	</array>
