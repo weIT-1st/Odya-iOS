@@ -134,12 +134,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     let userInfo = notification.request.content.userInfo
     print("willPresent: \(userInfo)")
-    if notification.request.content.title == "팔로우 알림" {
-      print("팔로우 알림")
-      completionHandler([])
-    } else {
+    if NotiSetting.allEnabled {
       completionHandler([.banner, .sound, .badge])
-    }  }
+    } else {
+      let title = notification.request.content.title
+      switch title {
+      case "오댜 알림":
+        NotiSetting.feetOdyaEnabled ? completionHandler([.banner, .sound, .badge]) : completionHandler([])
+      case "댓글 알림":
+        NotiSetting.feetOdyaEnabled ? completionHandler([.banner, .sound, .badge]) : completionHandler([])
+      default:
+        completionHandler([])
+      }
+    }
+  }                          
 
   // 푸시메시지를 받았을 때, 알림을 클릭했을 때 호출됨
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
