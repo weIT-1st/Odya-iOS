@@ -69,16 +69,13 @@ struct CommunityLikeButton: View {
           }
 
         } label: {
-          if likeState {
-            Image(likeImageName.rawValue)
-          } else {
-            Image(likeImageName.rawValue)
-              .renderingMode(.template)
-              .foregroundColor(baseColor)
-          }
+          Rectangle()
+            .foregroundColor(.clear)
+            .frame(width: 24, height: 40)
+            .background(
+              likeImage(state: likeState)
+            )
         }
-        .padding(6)
-        .frame(width: 24, height: 24)
         
         // 좋아요 수
         Text(likeCount > 99 ? "99+" : "\(likeCount)")
@@ -89,4 +86,13 @@ struct CommunityLikeButton: View {
         likeImageName = likeState ? HeartImage.sOn : HeartImage.mOff
       }
     }
+  
+  private func likeImage(state: Bool) -> some View {
+    Image(likeImageName.rawValue)
+      .resizable()
+      .renderingMode(state ? .original : .template)
+      .foregroundColor(state ? .clear : baseColor)
+      .aspectRatio(contentMode: .fit)
+      .frame(width: 24, height: 40)
+  }
 }

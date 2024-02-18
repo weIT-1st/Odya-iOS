@@ -50,7 +50,7 @@ struct DailyJournalView: View {
     self.dailyJournal = dailyJournal
 
     self.dateString = dailyJournal.travelDate.dateToString(format: "yyyy.MM.dd")
-    self.content = dailyJournal.content
+    self.content = dailyJournal.content ?? ""
     self.placeId = dailyJournal.placeId ?? ""
     self.images = dailyJournal.images
   }

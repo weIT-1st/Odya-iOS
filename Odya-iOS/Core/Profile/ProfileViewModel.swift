@@ -49,10 +49,9 @@ class ProfileViewModel: ObservableObject {
   // MARK: Init
 
   init() {
-    let myData = MyData()
     self.userID = MyData.userID
-    self.nickname = myData.nickname
-    self.profileUrl = myData.profile.decodeToProileData().profileUrl
+    self.nickname = MyData.nickname
+    self.profileUrl = MyData.profile.decodeToProileData().profileUrl
 
     initFetchMorePOTDSubject()
   }
@@ -127,8 +126,7 @@ class ProfileViewModel: ObservableObject {
           self.isUpdatingProfileImg = false
           self.appDataManager.initMyData { success in
             if success {
-              let myData = MyData()
-              self.profileUrl = myData.profile.decodeToProileData().profileUrl
+              self.profileUrl = MyData.profile.decodeToProileData().profileUrl
             }
           }
         case .failure(let error):

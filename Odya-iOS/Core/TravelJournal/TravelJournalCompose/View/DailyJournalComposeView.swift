@@ -8,6 +8,8 @@
 import Photos
 import SwiftUI
 
+// MARK: Header bar
+
 private struct DailyJournalHeaderBar: View {
   @EnvironmentObject var journalComposeVM: JournalComposeViewModel
 
@@ -46,12 +48,7 @@ private struct DailyJournalHeaderBar: View {
                 isShowingNotEnoughAlert = true
               } else {
                 print("delete daily journal \(dailyJournal)")
-                // original -> delete api
-                if isOriginal {
-                  journalComposeVM.deleteDailyJournalWithApi(dailyJournal: dailyJournal)
-                } else {
-                  journalComposeVM.deleteDailyJournal(dailyJournal: dailyJournal)
-                }
+                journalComposeVM.deleteDailyJournal(dailyJournal: dailyJournal)
               }
             }
           }
@@ -69,9 +66,10 @@ private struct DailyJournalHeaderBar: View {
   }
 }
 
+// MARK: Daily Journal Compose View
+
 struct DailyJournalComposeView: View {
 
-  // MARK: Properties
   @EnvironmentObject var journalComposeVM: JournalComposeViewModel
 
   let index: Int
@@ -87,8 +85,6 @@ struct DailyJournalComposeView: View {
     return dayIndex == 0 ? "Day " : "Day \(dayIndex)"
   }
 
-  // MARK: Body
-
   var body: some View {
     if dailyJournal.isOriginal {
       originalDailyJournal
@@ -96,8 +92,6 @@ struct DailyJournalComposeView: View {
       newDailyJournal
     }
   }
-
-  // MARK: Header bar
 
   private var originalDailyJournal: some View {
     DailyJournalHeaderBar(

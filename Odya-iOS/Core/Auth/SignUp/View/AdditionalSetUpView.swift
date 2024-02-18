@@ -22,7 +22,7 @@ struct AdditionalSetUpView: View {
   @State private var step: Int = 1
   
   /// 사용자 닉네임
-  @State private var nickname: String = MyData().nickname
+  @State private var nickname: String = MyData.nickname
   
   init(_ isModalOn: Binding<Bool>) {
     self._isModalOn = isModalOn

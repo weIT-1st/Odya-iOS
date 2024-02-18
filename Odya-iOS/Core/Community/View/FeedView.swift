@@ -13,6 +13,7 @@ enum FeedRoute: Hashable {
   case createJournal
   case activity
   case notification
+  case journalDetail(Int)
 }
 
 enum FeedToggleType {
@@ -24,6 +25,8 @@ struct FeedView: View {
   // MARK: Properties
 
   @StateObject private var viewModel = FeedViewModel()
+  @StateObject var followHubVM = FollowHubViewModel()
+  
   @State private var selectedFeedToggle = FeedToggleType.all
   /// 선택된 토픽 아이디
   @State private var selectedTopicId = -1
@@ -42,50 +45,47 @@ struct FeedView: View {
             feedToolBar
 
             ScrollView(.vertical, showsIndicators: false) {
-              // fishchips
-              if selectedFeedToggle == .all {
-                FishchipsBar(selectedTopicId: $selectedTopicId)
-                  .padding(.bottom, -4)
-              }
-              // toggle
-              feedToggleSelectionView
-                .zIndex(.greatestFiniteMagnitude)
-
               LazyVStack(spacing: 4) {
+                // fishchips
+                if selectedFeedToggle == .all {
+                  FishchipsBar(selectedTopicId: $selectedTopicId)
+                    .padding(.bottom, -4)
+                    .zIndex(2)
+                }
+                // toggle
+                feedToggleSelectionView
+                  .zIndex(.greatestFiniteMagnitude)
+                
                 // posts (무한)
-                ForEach(viewModel.state.content, id: \.communityId) { content in
-                  VStack(spacing: 0) {
-                    PostImageView(urlString: content.communityMainImageURL)
-                    NavigationLink(value: FeedRoute.detail(content.communityId), label: {
-                      PostContentView(
-                        communityId: content.communityId,
-                        contentText: content.communityContent,
-                        commentCount: content.communityCommentCount,
-                        likeCount: content.communityLikeCount,
-                        placeId: content.placeId,
-                        createDate: content.createdDate,
-                        writer: content.writer,
-                        isUserLiked: content.isUserLiked
-                      )
-                    })
-                    .onAppear {
-                      if viewModel.state.content.last == content {
-                        switch selectedFeedToggle {
-                        case .all:
-                          if selectedTopicId > 0 {
-                            // 선택된 토픽이 있는 경우
-                            viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
-                          } else {
-                            // 없는경우(전체 조회)
-                            viewModel.fetchAllFeedNextPageIfPossible()
-                          }
-                        case .friend:
-                          viewModel.fetchFriendFeedNextPageIfPossible()
-                        }
-                      }
+                ForEach(Array(zip(viewModel.state.content, viewModel.state.content.indices)), id: \.0.id) { content, index in
+                  LazyVStack(spacing: 8) {
+                    VStack(spacing: 0) {
+                      postImageView(imageUrl: content.communityMainImageURL, simpleTravelJournal: content.travelJournalSimpleResponse)
+                      PostContentView(post: content)
+                    }
+
+                    // 알 수도 있는 친구
+                    if index % 10 == 0 && index > 0 {
+                      userSuggestion
                     }
                   }
                   .padding(.bottom, 8)
+                  .onAppear {
+                    if viewModel.state.content.last == content {
+                      switch selectedFeedToggle {
+                      case .all:
+                        if selectedTopicId > 0 {
+                          // 선택된 토픽이 있는 경우
+                          viewModel.fetchTopicFeedNextPageIfPossible(topicId: selectedTopicId)
+                        } else {
+                          // 없는경우(전체 조회)
+                          viewModel.fetchAllFeedNextPageIfPossible()
+                        }
+                      case .friend:
+                        viewModel.fetchFriendFeedNextPageIfPossible()
+                      }
+                    }
+                  }
                 }
               }
             }  // ScrollView
@@ -136,7 +136,7 @@ struct FeedView: View {
           case let .detail(communityId):
             FeedDetailView(path: $path, communityId: communityId)
           case .createFeed:
-            CommunityComposeView(path: $path, composeMode: .create)
+            CommunityComposeView(path: $path)
           case .createJournal:
             TravelJournalComposeView()
               .navigationBarHidden(true)
@@ -144,6 +144,9 @@ struct FeedView: View {
             MyCommunityActivityView()
           case .notification:
             FeedNotificationView()
+          case let .journalDetail(journalId):
+            TravelJournalDetailView(journalId: journalId)
+              .navigationBarHidden(true)
           }
         }
       }
@@ -167,7 +170,7 @@ struct FeedView: View {
     HStack(alignment: .center) {
       // 내 커뮤니티 활동 뷰로 연결
       NavigationLink(value: FeedRoute.activity) {
-        ProfileImageView(profileUrl: MyData().profile, size: .S)
+        ProfileImageView(of: MyData.nickname, profileData: MyData.profile.decodeToProileData(), size: .S)
           .overlay(
             RoundedRectangle(cornerRadius: 32)
               .inset(by: 0.5)
@@ -235,6 +238,61 @@ struct FeedView: View {
     .frame(maxWidth: .infinity)
     .padding(.horizontal, GridLayout.side)
     .padding(.bottom, 8)
+  }
+  
+  /// 알 수도 있는 친구
+  private var userSuggestion: some View {
+    UserSuggestionView()
+      .environmentObject(followHubVM)
+  }
+  
+  /// 게시글 이미지, 연결된 여행일지
+  func postImageView(imageUrl: String, simpleTravelJournal: TravelJournalSimpleResponse?) -> some View {
+    ZStack(alignment: .bottom) {
+      // image
+      AsyncImage(
+        url: URL(string: imageUrl)!,
+        content: { image in
+          image.resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(
+              // 화면 너비와 같음
+              width: UIScreen.main.bounds.width,
+              height: UIScreen.main.bounds.width
+            )
+            .clipped()
+        },
+        placeholder: {
+          ProgressView()
+            .frame(
+              width: UIScreen.main.bounds.width,
+              height: UIScreen.main.bounds.width
+            )
+        }
+      )
+
+      // 여행일지 연동
+      if let journal = simpleTravelJournal {
+        NavigationLink(value: FeedRoute.journalDetail(journal.travelJournalId)) {
+          HStack {
+            Image("diary")
+              .frame(width: 24, height: 24)
+            Text(journal.title)
+              .detail1Style()
+              .foregroundColor(.odya.label.normal)
+            Spacer()
+            Image("direction-right")
+          }
+          .padding(.leading, 17)
+          .padding(.trailing, 13)
+          .frame(maxWidth: .infinity)
+          .frame(height: 50)
+          .background(Color.odya.background.dimmed_system)
+          .clipShape(RoundedEdgeShape(edgeType: .top))
+        }
+      }
+    }
+    .clipShape(RoundedEdgeShape(edgeType: .top))
   }
 }
 

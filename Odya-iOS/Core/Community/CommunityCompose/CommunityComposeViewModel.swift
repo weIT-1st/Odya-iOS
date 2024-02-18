@@ -46,7 +46,6 @@ final class CommunityComposeViewModel: ObservableObject {
       .sink { completion in
         switch completion {
         case .finished:
-          // print("커뮤니티 생성 완료")
           // 등록 완료 노티 보내기
           NotiManager().sendLocalNoti(notiMsg: "피드를 성공적으로 등록하였습니다.")
           self.isSubmitted = true

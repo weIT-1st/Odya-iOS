@@ -89,10 +89,9 @@ class AppDataManager: ObservableObject {
       } receiveValue: { response in
         do {
           let responseData = try response.map(UserData.self)
-          var myData = MyData()
           MyData.userID = responseData.userID ?? -1
-          myData.nickname = responseData.nickname
-          myData.profile = responseData.profileData.encodeToString()
+          MyData.nickname = responseData.nickname
+          MyData.profile = responseData.profileData.encodeToString()
         } catch {
           // decoding error handling
         }
@@ -103,8 +102,7 @@ class AppDataManager: ObservableObject {
   
   func deleteMyData() {
     MyData.userID = -1
-    var myData = MyData()
-    myData.nickname = ""
-    myData.profile = ""
+    MyData.nickname = ""
+    MyData.profile = ""
   }
 }

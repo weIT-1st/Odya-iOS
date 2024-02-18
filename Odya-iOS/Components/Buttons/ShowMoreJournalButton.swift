@@ -13,14 +13,12 @@ struct ShowMoreJournalButton: View {
   let labelText: String?
   let coverImageUrl: String
   let journalTitle: String
-  let isHot: Bool
   
-  init(profile: ProfileData?, labelText: String, coverImageUrl: String, journalTitle: String, isHot: Bool = false) {
+  init(profile: ProfileData?, labelText: String, coverImageUrl: String, journalTitle: String) {
     self.profile = profile
     self.labelText = labelText
     self.coverImageUrl = coverImageUrl
     self.journalTitle = journalTitle
-    self.isHot = isHot
   }
   
   var body: some View {
@@ -49,17 +47,6 @@ struct ShowMoreJournalButton: View {
         Text(journalTitle)
           .detail1Style()
           .foregroundColor(Color.odya.label.alternative)
-        // hot
-        if isHot {
-          Text("HOT🔥")
-            .font(.custom("NotoSansKR-Bold", size: 8))
-            .foregroundColor(Color.odya.label.alternative)
-            .padding(4)
-            .background(
-              RoundedRectangle(cornerRadius: Radius.small)
-                .foregroundColor(Color.odya.system.warning)
-            )
-        }
       }
     }
     .padding(.horizontal, 20)

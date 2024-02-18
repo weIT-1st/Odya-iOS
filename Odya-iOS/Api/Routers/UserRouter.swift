@@ -12,9 +12,9 @@ enum UserRouter {
   // 1. 사용자 정보 조회
   case getUserInfo
   // 2. 이메일 변경
-  case updateUserEmailAddress(newEmailAddr: String)
+  case updateUserEmailAddress(token: String)
   // 3. 전화번호 변경
-  case updateUserPhoneNumber(newPhoneNumber: String)
+  case updateUserPhoneNumber(token: String)
   // 4. 닉네임 변경
   case updateUserNickname(newNickname: String)
   // 5. 사용자 프로필 사진 변경
@@ -110,7 +110,7 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
       params["lastId"] = lastId
       return .requestParameters(parameters: params, encoding: URLEncoding.queryString)
     case .searchUserByPhoneNumber(let phoneNumbers) :
-      var params: [String: Any] = ["phoneNumbers" : phoneNumbers]
+      let params: [String: Any] = ["phoneNumbers" : phoneNumbers]
       return .requestParameters(parameters: params, encoding: URLEncoding(destination: .queryString, arrayEncoding: .noBrackets))
     default:
       return .requestPlain
@@ -119,6 +119,9 @@ extension UserRouter: TargetType, AccessTokenAuthorizable {
 
   var headers: [String: String]? {
     switch self {
+    case .updateUserPhoneNumber(let token),
+        .updateUserEmailAddress(let token):
+      return ["Authorization": "Bearer \(token)"]
     default:
       return ["Content-type": "application/json"]
     }

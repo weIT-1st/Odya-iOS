@@ -68,8 +68,8 @@ struct FeedFullCommentSheet: View {
   /// 댓글 입력 텍스트필드
   private var commentTextField: some View {
     HStack(alignment: .center, spacing: 16) {
-      ProfileImageView(of: MyData().nickname,
-                       profileData: MyData().profile.decodeToProileData(),
+      ProfileImageView(of: MyData.nickname,
+                       profileData: MyData.profile.decodeToProileData(),
                        size: ComponentSizeType.XS)
 
       TextField("댓글을 입력해주세요", text: $viewModel.newCommentText)
