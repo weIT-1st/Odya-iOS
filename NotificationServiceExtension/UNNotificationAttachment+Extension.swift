@@ -39,7 +39,12 @@ extension UNNotificationAttachment {
     // 이미지 데이터 저장
     do {
       let fileURL = directoryURL.appendingPathComponent(fileName)
-      try jpegData.write(to: fileURL)
+      print("🔥 fileURL: \(fileURL)")
+      try jpegData.write(to: fileURL, options: .noFileProtection)
+      
+      let flag = fileManager.fileExists(atPath: fileURL.path)
+      print("🔥 fileExists: \(flag)")
+      
       let attachment = try UNNotificationAttachment(identifier: identifier, url: fileURL, options: options)
       return attachment
     } catch {

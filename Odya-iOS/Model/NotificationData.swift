@@ -5,7 +5,7 @@
 //  Created by Jade Yoo on 2024/02/18.
 //
 
-import Foundation
+import SwiftUI
 import RealmSwift
 
 enum NotificationEventType: String {
@@ -54,6 +54,31 @@ class NotificationData: Object {
     case .none:
       return ""
     }
+  }
+  
+  var thumbnailImage: Image? {
+    let fileManager = FileManager.default
+    guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS") else {
+      return nil
+    }
+    
+    let directoryURL = container.appendingPathComponent("Thumbnails")
+    
+    guard let fileName = contentImage?.split(separator: "/").last?.replacingOccurrences(of: ".webp", with: ".jpeg") else {
+      return nil
+    }
+    
+    let fileURL = directoryURL.appendingPathComponent(fileName, conformingTo: .jpeg)
+
+    let flag = fileManager.fileExists(atPath: fileURL.path)
+    print("🥲 fileExists: \(flag)")
+
+    guard let uiImage = UIImage(contentsOfFile: fileURL.path) else {
+      print("🔥 이미지 변환 실패")
+      return nil
+    }
+    
+    return Image(uiImage: uiImage)
   }
   
   convenience init(eventType: String, userName: String, notifiedAt: String, communityId: Int? = nil, travelJournalId: Int? = nil, followerId: Int? = nil, commentContent: String? = nil, contentImage: String? = nil, userProfileUrl: String? = nil, profileColorHex: String? = nil) {

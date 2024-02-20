@@ -56,19 +56,40 @@ struct FeedNotificationView: View {
       }
       Spacer()
       // image
-      if let imageUrl = content.contentImage {
-        AsyncImage(url: URL(string: imageUrl)) { image in
-          image
+      if let _ = content.contentImage {
+        if let contentImage = content.thumbnailImage {
+          contentImage
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: 50, height: 50)
             .clipped()
-        } placeholder: {
-          ProgressView()
-            .frame(width: 50, height: 50)
+        } else {
+          defaultContentImage
         }
       }
+
+//      if let imageUrl = content.contentImage {
+//        AsyncImage(url: URL(string: imageUrl)) { image in
+//          image
+//            .resizable()
+//            .aspectRatio(contentMode: .fill)
+//            .frame(width: 50, height: 50)
+//            .clipped()
+//        } placeholder: {
+//          ProgressView()
+//            .frame(width: 50, height: 50)
+//        }
+//      }
     }
+  }
+  
+  private var defaultContentImage: some View {
+    Image("logo-lightgray")
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .padding(12)
+      .frame(width: 50, height: 50)
+      .background(Color.odya.background.dimmed_dark)
   }
   
   private func boldText(_ text: String) -> Text {

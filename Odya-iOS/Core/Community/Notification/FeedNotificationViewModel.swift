@@ -29,6 +29,19 @@ final class FeedNotificationViewModel: ObservableObject {
     self.notificationList = Array(tasks)
     
     setAllNotificationsRead()
+    
+    let fileManager = FileManager.default
+    guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS") else {
+      return
+    }
+    let directoryURL = container.appendingPathComponent("Thumbnails")
+    
+    do {
+      let fileURLs = try fileManager.contentsOfDirectory(atPath: directoryURL.path)
+      print("앱 그룹 내부 폴더 \(fileURLs)")
+    } catch {
+      print("Error reading directory \(error)")
+    }
   }
   
   /// 알림을 모두 읽은 상태로 설정
