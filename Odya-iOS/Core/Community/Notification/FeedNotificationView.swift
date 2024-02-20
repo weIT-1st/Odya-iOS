@@ -35,7 +35,7 @@ struct FeedNotificationView: View {
   // cell
   private func notificationContentCell(content: NotificationData) -> some View {
     HStack(alignment: .top, spacing: 10) {
-      ProfileImageView(of: "", profileData: content.profileData, size: .S)
+      ProfileImageView(profileUrl: content.userProfileUrl ?? "", size: .S)
       // content
       let event = NotificationEventType(rawValue: content.eventType)
       switch event {

@@ -64,6 +64,8 @@
 		192D66E02B7DF8C600CDE9D2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 192D66DF2B7DF8C600CDE9D2 /* Realm */; };
 		192D66E22B7DF8C600CDE9D2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 192D66E12B7DF8C600CDE9D2 /* RealmSwift */; };
 		192D66E42B7DFBA800CDE9D2 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D66E32B7DFBA800CDE9D2 /* NotificationData.swift */; };
+		192D66E72B844F6800CDE9D2 /* NotificationIconState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D66E62B844F6800CDE9D2 /* NotificationIconState.swift */; };
+		192D66E92B8452DC00CDE9D2 /* NotificationIconState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192D66E82B8452DC00CDE9D2 /* NotificationIconState.swift */; };
 		19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */; };
 		19385A362B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */; };
 		19385A382B2C07C3000CB6AB /* MyCommunityCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */; };
@@ -376,6 +378,8 @@
 		192D66D82B7DF67A00CDE9D2 /* NotificationServiceExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationServiceExtensionRelease.entitlements; sourceTree = "<group>"; };
 		192D66D92B7DF69E00CDE9D2 /* NotificationServiceExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationServiceExtensionDebug.entitlements; sourceTree = "<group>"; };
 		192D66E32B7DFBA800CDE9D2 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
+		192D66E62B844F6800CDE9D2 /* NotificationIconState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationIconState.swift; sourceTree = "<group>"; };
+		192D66E82B8452DC00CDE9D2 /* NotificationIconState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationIconState.swift; sourceTree = "<group>"; };
 		19385A332B2AC16A000CB6AB /* MyCommunityActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityView.swift; sourceTree = "<group>"; };
 		19385A352B2AF08F000CB6AB /* MyCommunityActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityActivityViewModel.swift; sourceTree = "<group>"; };
 		19385A372B2C07C2000CB6AB /* MyCommunityCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCommunityCommentCell.swift; sourceTree = "<group>"; };
@@ -923,6 +927,7 @@
 				3E2F29812B2F274B00FF5357 /* Review.swift */,
 				19E3C1C32B63A6670037A495 /* CoordinateImage.swift */,
 				07083A9B2B819539003CAA5A /* NotificationData.swift */,
+				192D66E82B8452DC00CDE9D2 /* NotificationIconState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -971,6 +976,7 @@
 			isa = PBXGroup;
 			children = (
 				192D66E32B7DFBA800CDE9D2 /* NotificationData.swift */,
+				192D66E62B844F6800CDE9D2 /* NotificationIconState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1796,6 +1802,7 @@
 				3E9E98932A8B7C7300909653 /* UserInfoValidatorRouter.swift in Sources */,
 				3EBEC3A82A6D483400998EC6 /* CheckboxButton.swift in Sources */,
 				3E2F296C2B29BAA000FF5357 /* FavoritePlaceInProfileViewModel.swift in Sources */,
+				192D66E92B8452DC00CDE9D2 /* NotificationIconState.swift in Sources */,
 				3E1124A02B64501D007F3549 /* UserSuggestionByContactsViewModel.swift in Sources */,
 				19F9286C2B60D5CF009CDDCB /* ShowMoreButton.swift in Sources */,
 				3E4670162B13611100B54D0A /* AppIntroductionView.swift in Sources */,
@@ -1955,6 +1962,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				192D66E72B844F6800CDE9D2 /* NotificationIconState.swift in Sources */,
 				192D66E42B7DFBA800CDE9D2 /* NotificationData.swift in Sources */,
 				192D66CF2B7DBA3200CDE9D2 /* NotificationService.swift in Sources */,
 			);
@@ -2196,9 +2204,11 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtensionDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = 7V2ZG69KPK;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -2215,6 +2225,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS.NotificationServiceExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ODYA-NSE-Development-Profile-240219";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -2229,9 +2240,11 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtensionRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 22;
-				DEVELOPMENT_TEAM = 7V2ZG69KPK;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -2248,6 +2261,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS.NotificationServiceExtension";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ODYA-NSE-AppStore-Profile-240219";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -2413,11 +2427,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 19EBA7512AB16B7D000ABBE5 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
-		};
-		3E11AFD02B13216200AFD288 /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3EBEC38F2A6B1C2600998EC6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
 		};
 		19FF88BB2B68CF0B00FA6B46 /* GoogleMapsUtils */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -16,7 +16,7 @@ class NotificationService: UNNotificationServiceExtension {
   private var realm: Realm {
     let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS")
     let realmURL = container?.appendingPathComponent("default.realm")
-    let config = Realm.Configuration(fileURL: realmURL, schemaVersion: 1)
+    let config = Realm.Configuration(fileURL: realmURL, schemaVersion: 2)
     return try! Realm(configuration: config)
   }
   
@@ -47,7 +47,7 @@ class NotificationService: UNNotificationServiceExtension {
     let communityId = Int(data["communityId"] as? String ?? "")
     let travelJournalId = Int(data["travelJournalId"] as? String ?? "")
     let followerId = Int(data["followerId"] as? String ?? "")
-    let commentContent = data["commentContent"] as? String
+    let commentContent = data["content"] as? String
     let contentImage = data["contentImage"] as? String
     let userProfileUrl = data["userProfileUrl"] as? String
     let profileColorHex = data["profileColorHex"] as? String
@@ -71,6 +71,31 @@ class NotificationService: UNNotificationServiceExtension {
       }
     } catch {
       print("알림 데이터 저장 실패")
+      return
+    }
+    
+    updateIconState()
+  }
+  
+  private func updateIconState() {
+    if let state = realm.objects(NotificationIconState.self).first {
+      // update
+      do {
+        try realm.write {
+          state.unreadNotificationExists = true
+        }
+      } catch {
+        print("알림 아이콘 상태 업데이트 실패")
+      }
+    } else {
+      let newState = NotificationIconState(unreadNotificationExists: true)
+      do {
+        try realm.write {
+          realm.add(newState)
+        }
+      } catch {
+        print("알림 아이콘 상태 저장 실패")
+      }
     }
   }
 }

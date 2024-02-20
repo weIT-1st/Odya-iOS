@@ -14,7 +14,7 @@ final class FeedNotificationViewModel: ObservableObject {
   private var realm: Realm {
     let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS")
     let realmURL = container?.appendingPathComponent("default.realm")
-    let config = Realm.Configuration(fileURL: realmURL, schemaVersion: 1)
+    let config = Realm.Configuration(fileURL: realmURL, schemaVersion: 2)
     return try! Realm(configuration: config)
   }
   
@@ -27,5 +27,20 @@ final class FeedNotificationViewModel: ObservableObject {
     let tasks = realm.objects(NotificationData.self).sorted(byKeyPath: "notifiedAt", ascending: false)
     print(tasks)
     self.notificationList = Array(tasks)
+    
+    setAllNotificationsRead()
+  }
+  
+  /// 알림을 모두 읽은 상태로 설정
+  private func setAllNotificationsRead() {
+    if let state = realm.objects(NotificationIconState.self).first {
+      do {
+        try realm.write {
+          state.unreadNotificationExists = false
+        }
+      } catch {
+        debugPrint("알림 아이콘 상태 변경 실패")
+      }
+    }
   }
 }
