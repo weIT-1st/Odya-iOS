@@ -29,6 +29,25 @@ class NotificationService: UNNotificationServiceExtension {
       print("Data payload 확인: \(bestAttemptContent.userInfo)")
       saveNotificationData(userInfo: bestAttemptContent.userInfo)
       
+      // handle image
+      guard let contentImage = bestAttemptContent.userInfo["contentImage"] as? String else {
+        contentHandler(bestAttemptContent)
+        return
+      }
+      
+      let imageURL = URL(string: contentImage)!
+      
+      // 이미지 다운로드
+      guard let imageData = try? Data(contentsOf: imageURL) else {
+        contentHandler(bestAttemptContent)
+        return
+      }
+      
+      guard let attachment = UNNotificationAttachment.saveImageToDisk(identifier: contentImage, data: imageData) else {
+        contentHandler(bestAttemptContent)
+        return
+      }
+      bestAttemptContent.attachments = [attachment]
       contentHandler(bestAttemptContent)
     }
   }
