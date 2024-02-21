@@ -24,27 +24,25 @@ class NotificationService: UNNotificationServiceExtension {
     self.contentHandler = contentHandler
     bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
     
+    print("didReceive!!")
     if let bestAttemptContent = bestAttemptContent {
       // Modify the notification content here...
       print("Data payload 확인: \(bestAttemptContent.userInfo)")
       
-      if !NotiSetting.allEnabled {
+      // 알림 설정 따라 저장되는 알림 거르기
+      if NotiSetting.allEnabled {
+        saveNotificationData(userInfo: bestAttemptContent.userInfo)
+      } else {
         let title = bestAttemptContent.title
-        switch title {
-        case "오댜 알림":
-          if !NotiSetting.feetOdyaEnabled {
-            return
-          }
-        case "댓글 알림":
-          if !NotiSetting.feetOdyaEnabled {
-            return
-          }
-        default:
-          return
+        if title == "오댜 알림" 
+            && NotiSetting.feedOdyaEnabled {
+          saveNotificationData(userInfo: bestAttemptContent.userInfo)
+        }
+        else if title == "댓글 알림"
+            && NotiSetting.feedCommentEnabled {
+          saveNotificationData(userInfo: bestAttemptContent.userInfo)
         }
       }
-      
-      saveNotificationData(userInfo: bestAttemptContent.userInfo)
       contentHandler(bestAttemptContent)
     }
   }

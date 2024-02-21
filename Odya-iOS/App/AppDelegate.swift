@@ -140,9 +140,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       let title = notification.request.content.title
       switch title {
       case "오댜 알림":
-        NotiSetting.feetOdyaEnabled ? completionHandler([.banner, .sound, .badge]) : completionHandler([])
+        NotiSetting.feedOdyaEnabled ? completionHandler([.banner, .sound, .badge]) : completionHandler([])
       case "댓글 알림":
-        NotiSetting.feetOdyaEnabled ? completionHandler([.banner, .sound, .badge]) : completionHandler([])
+        NotiSetting.feedCommentEnabled ? completionHandler([.banner, .sound, .badge]) : completionHandler([])
       default:
         completionHandler([])
       }

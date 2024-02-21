@@ -24,10 +24,10 @@ struct NotificationSetting: Identifiable {
       self.isOn = NotiSetting.allEnabled
     case .feedOdya:
       self.title = "커뮤니티 좋아요 알람"
-      self.isOn = NotiSetting.feetOdyaEnabled
+      self.isOn = NotiSetting.feedOdyaEnabled
     case .feedComment:
       self.title = "커뮤니티 댓글 알람"
-      self.isOn = NotiSetting.feetCommentEnabled
+      self.isOn = NotiSetting.feedCommentEnabled
     case .marketing:
       self.title = "마케팅 알람"
       self.isOn = NotiSetting.marketingEnabled
@@ -40,26 +40,54 @@ struct NotificationSetting: Identifiable {
     case .all:
       NotiSetting.allEnabled = isOn
     case .feedOdya:
-      NotiSetting.feetOdyaEnabled = isOn
+      NotiSetting.feedOdyaEnabled = isOn
     case .feedComment:
-      NotiSetting.feetCommentEnabled = isOn
+      NotiSetting.feedCommentEnabled = isOn
     case .marketing:
       NotiSetting.marketingEnabled = isOn
     }
   }
 }
 
+// MARK: User Defaults (App Group)
+@propertyWrapper
+struct UserDefaultAppGroup<T> {
+  private let key: String
+  private let defaultValue: T
+  private var container: UserDefaults
+
+  init(key: String, defaultValue: T, suiteName: String?) {
+    self.key = key
+    self.defaultValue = defaultValue
+    if let suiteName = suiteName,
+        let userDefaults = UserDefaults(suiteName: suiteName) {
+      self.container = userDefaults
+    } else {
+      self.container = UserDefaults.standard
+    }
+  }
+
+  var wrappedValue: T {
+    get {
+      return container.object(forKey: key) as? T ?? defaultValue
+    }
+    set {
+      container.set(newValue, forKey: key)
+    }
+  }
+}
+
 struct NotiSetting {
-  @UserDefault(key: keyEnum_NotiSetting.all.rawValue, defaultValue: true)
+  @UserDefaultAppGroup(key: keyEnum_NotiSetting.all.rawValue, defaultValue: true, suiteName: "group.com.weit.Odya-iOS")
   static var allEnabled: Bool
 
-  @UserDefault(key: keyEnum_NotiSetting.feedOdya.rawValue, defaultValue: true)
-  static var feetOdyaEnabled: Bool
+  @UserDefaultAppGroup(key: keyEnum_NotiSetting.feedOdya.rawValue, defaultValue: true, suiteName: "group.com.weit.Odya-iOS")
+  static var feedOdyaEnabled: Bool
   
-  @UserDefault(key: keyEnum_NotiSetting.feedComment.rawValue, defaultValue: true)
-  static var feetCommentEnabled: Bool
+  @UserDefaultAppGroup(key: keyEnum_NotiSetting.feedComment.rawValue, defaultValue: true, suiteName: "group.com.weit.Odya-iOS")
+  static var feedCommentEnabled: Bool
   
-  @UserDefault(key: keyEnum_NotiSetting.marketing.rawValue, defaultValue: true)
+  @UserDefaultAppGroup(key: keyEnum_NotiSetting.marketing.rawValue, defaultValue: true, suiteName: "group.com.weit.Odya-iOS")
   static var marketingEnabled: Bool
 }
 
