@@ -15,6 +15,8 @@
 
 default_platform(:ios)
 
+xcode_select "/Applications/Xcode-15.0.1.app"
+
 platform :ios do
   # 에러처리
   error do |lane, exception, options|
@@ -73,9 +75,10 @@ platform :ios do
       scheme: "Odya-iOS",
       export_method: "app-store",
       export_options: {
-	      provisioningProfiles: {
-	       "com.weit.Odya-iOS" => "ODYA-AppStore-Profile-240131"
-	      }
+	provisioningProfiles: {
+	  "com.weit.Odya-iOS" => "ODYA-AppStore-Profile-240215",
+	  "com.weit.Odya-iOS.NotificationServiceExtension" => "ODYA-NSE-AppStore-Profile-240219"
+	}
       }
     )
     
