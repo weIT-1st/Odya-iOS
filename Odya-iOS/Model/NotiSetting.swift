@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 /// 알람 세부 설정
 struct NotificationSetting: Identifiable {
@@ -46,4 +47,25 @@ struct NotificationSetting: Identifiable {
       NotiSetting.marketingEnabled = isOn
     }
   }
+}
+
+struct NotiSetting {
+  @UserDefault(key: keyEnum_NotiSetting.all.rawValue, defaultValue: true)
+  static var allEnabled: Bool
+
+  @UserDefault(key: keyEnum_NotiSetting.feedOdya.rawValue, defaultValue: true)
+  static var feetOdyaEnabled: Bool
+  
+  @UserDefault(key: keyEnum_NotiSetting.feedComment.rawValue, defaultValue: true)
+  static var feetCommentEnabled: Bool
+  
+  @UserDefault(key: keyEnum_NotiSetting.marketing.rawValue, defaultValue: true)
+  static var marketingEnabled: Bool
+}
+
+enum keyEnum_NotiSetting: String {
+  case all
+  case feedOdya
+  case feedComment
+  case marketing
 }

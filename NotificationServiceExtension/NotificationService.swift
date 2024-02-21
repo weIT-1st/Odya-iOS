@@ -27,8 +27,24 @@ class NotificationService: UNNotificationServiceExtension {
     if let bestAttemptContent = bestAttemptContent {
       // Modify the notification content here...
       print("Data payload 확인: \(bestAttemptContent.userInfo)")
-      saveNotificationData(userInfo: bestAttemptContent.userInfo)
       
+      if !NotiSetting.allEnabled {
+        let title = bestAttemptContent.title
+        switch title {
+        case "오댜 알림":
+          if !NotiSetting.feetOdyaEnabled {
+            return
+          }
+        case "댓글 알림":
+          if !NotiSetting.feetOdyaEnabled {
+            return
+          }
+        default:
+          return
+        }
+      }
+      
+      saveNotificationData(userInfo: bestAttemptContent.userInfo)
       contentHandler(bestAttemptContent)
     }
   }
