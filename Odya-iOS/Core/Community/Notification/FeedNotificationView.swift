@@ -71,28 +71,17 @@ struct FeedNotificationView: View {
       }
       Spacer()
       // image
-      if let contentImage = content.thumbnailImage {
-        contentImage
-          .resizable()
-          .aspectRatio(contentMode: .fill)
-          .frame(width: 50, height: 50)
-          .clipped()
-      } else {
-        defaultContentImage
+      if let _ = content.contentImage {
+        if let contentImage = content.thumbnailImage {
+          contentImage
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 50, height: 50)
+            .clipped()
+        } else {
+          defaultContentImage
+        }
       }
-
-//      if let imageUrl = content.contentImage {
-//        AsyncImage(url: URL(string: imageUrl)) { image in
-//          image
-//            .resizable()
-//            .aspectRatio(contentMode: .fill)
-//            .frame(width: 50, height: 50)
-//            .clipped()
-//        } placeholder: {
-//          ProgressView()
-//            .frame(width: 50, height: 50)
-//        }
-//      }
     }
   }
   
