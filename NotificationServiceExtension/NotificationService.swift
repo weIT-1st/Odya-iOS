@@ -5,6 +5,7 @@
 //  Created by Jade Yoo on 2024/02/15.
 //
 
+import UIKit
 import UserNotifications
 import RealmSwift
 
@@ -43,7 +44,7 @@ class NotificationService: UNNotificationServiceExtension {
         return
       }
       
-      guard let attachment = UNNotificationAttachment.saveImageToDisk(identifier: contentImage, data: imageData) else {
+      guard let attachment = UNNotificationAttachment.attachImageData(identifier: contentImage, data: imageData) else {
         contentHandler(bestAttemptContent)
         return
       }
@@ -68,7 +69,13 @@ class NotificationService: UNNotificationServiceExtension {
     let followerId = Int(data["followerId"] as? String ?? "")
     let commentContent = data["content"] as? String
     let contentImage = data["contentImage"] as? String
+    if let contentImage {
+      saveImageToDisk(imageURL: contentImage)
+    }
     let userProfileUrl = data["userProfileUrl"] as? String
+    if let userProfileUrl {
+      saveImageToDisk(imageURL: userProfileUrl)
+    }
     let profileColorHex = data["profileColorHex"] as? String
     
     let savedData = NotificationData(
@@ -116,5 +123,32 @@ class NotificationService: UNNotificationServiceExtension {
         print("알림 아이콘 상태 저장 실패")
       }
     }
+  }
+  
+  private func saveImageToDisk(imageURL imageURLString: String) {
+    let fileManager = FileManager.default
+    guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS") else {
+      return
+    }
+    
+    let thumbnailURL = container.appendingPathComponent("Thumbnails")
+    // 썸네일 디렉토리가 없으면 생성
+    if !fileManager.fileExists(atPath: thumbnailURL.path) {
+      do {
+        try fileManager.createDirectory(at: thumbnailURL, withIntermediateDirectories: false)
+      } catch {
+        print("Failed to create folder")
+        return
+      }
+    }
+    
+    let imageURL = URL(string: imageURLString)!
+    let fileName = imageURL.lastPathComponent
+    guard let data = try? Data(contentsOf: imageURL) else {
+      return
+    }
+    
+    let fileURL = thumbnailURL.appendingPathComponent(fileName)
+    fileManager.createFile(atPath: fileURL.path, contents: data)
   }
 }

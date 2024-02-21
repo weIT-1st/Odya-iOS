@@ -9,23 +9,9 @@ import UIKit
 import UserNotifications
 
 extension UNNotificationAttachment {
-  static func saveImageToDisk(identifier: String, data: Data, options: [AnyHashable : Any]? = nil) -> UNNotificationAttachment? {
+  static func attachImageData(identifier: String, data: Data, options: [AnyHashable : Any]? = nil) -> UNNotificationAttachment? {
     let fileManager = FileManager.default
-    guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS") else {
-      return nil
-    }
-    
-    let directoryURL = container.appendingPathComponent("Thumbnails")
-    
-    // 썸네일 디렉토리가 없으면 생성
-    if !fileManager.fileExists(atPath: directoryURL.path) {
-      do {
-        try fileManager.createDirectory(at: directoryURL, withIntermediateDirectories: true)
-      } catch {
-        print("Failed to create folder")
-        return nil
-      }
-    }
+    let documentURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
     
     // 이미지 파일 이름 수정
     guard let fileName = identifier.split(separator: "/").last?.replacingOccurrences(of: ".webp", with: ".jpeg") else {
@@ -36,16 +22,12 @@ extension UNNotificationAttachment {
       return nil
     }
     
+    let attachmentURL = documentURL.appendingPathComponent(fileName)
+    fileManager.createFile(atPath: attachmentURL.path, contents: jpegData)
+    
     // 이미지 데이터 저장
     do {
-      let fileURL = directoryURL.appendingPathComponent(fileName)
-      print("🔥 fileURL: \(fileURL)")
-      try jpegData.write(to: fileURL, options: .noFileProtection)
-      
-      let flag = fileManager.fileExists(atPath: fileURL.path)
-      print("🔥 fileExists: \(flag)")
-      
-      let attachment = try UNNotificationAttachment(identifier: identifier, url: fileURL, options: options)
+      let attachment = try UNNotificationAttachment(identifier: identifier, url: attachmentURL, options: options)
       return attachment
     } catch {
       print("Failed to save image to disk with \(error.localizedDescription)")

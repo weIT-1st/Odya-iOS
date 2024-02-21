@@ -32,10 +32,25 @@ struct FeedNotificationView: View {
     .toolbar(.hidden)
   }
   
+  private let profileSize = ComponentSizeType.S.ProfileImageSize
   // cell
   private func notificationContentCell(content: NotificationData) -> some View {
     HStack(alignment: .top, spacing: 10) {
-      ProfileImageView(profileUrl: content.userProfileUrl ?? "", size: .S)
+      // profile
+      if let profileImage = content.profileImage {
+        profileImage
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: profileSize, height: profileSize)
+          .clipped()
+          .background(Color.odya.system.inactive)
+          .cornerRadius(profileSize / 2)
+      } else {
+        Image("profile")
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: profileSize, height: profileSize)
+      }
       // content
       let event = NotificationEventType(rawValue: content.eventType)
       switch event {
@@ -56,16 +71,14 @@ struct FeedNotificationView: View {
       }
       Spacer()
       // image
-      if let _ = content.contentImage {
-        if let contentImage = content.thumbnailImage {
-          contentImage
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 50, height: 50)
-            .clipped()
-        } else {
-          defaultContentImage
-        }
+      if let contentImage = content.thumbnailImage {
+        contentImage
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: 50, height: 50)
+          .clipped()
+      } else {
+        defaultContentImage
       }
 
 //      if let imageUrl = content.contentImage {

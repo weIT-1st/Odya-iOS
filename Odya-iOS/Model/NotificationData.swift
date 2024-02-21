@@ -56,25 +56,26 @@ class NotificationData: Object {
     }
   }
   
+  var profileImage: Image? {
+    guard let path = getImageFilePath(imageURL: userProfileUrl) else {
+      return nil
+    }
+
+    guard let uiImage = UIImage(contentsOfFile: path) else {
+      debugPrint("이미지 변환 실패")
+      return nil
+    }
+    
+    return Image(uiImage: uiImage)
+  }
+  
   var thumbnailImage: Image? {
-    let fileManager = FileManager.default
-    guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS") else {
+    guard let path = getImageFilePath(imageURL: contentImage) else {
       return nil
     }
-    
-    let directoryURL = container.appendingPathComponent("Thumbnails")
-    
-    guard let fileName = contentImage?.split(separator: "/").last?.replacingOccurrences(of: ".webp", with: ".jpeg") else {
-      return nil
-    }
-    
-    let fileURL = directoryURL.appendingPathComponent(fileName, conformingTo: .jpeg)
 
-    let flag = fileManager.fileExists(atPath: fileURL.path)
-    print("🥲 fileExists: \(flag)")
-
-    guard let uiImage = UIImage(contentsOfFile: fileURL.path) else {
-      print("🔥 이미지 변환 실패")
+    guard let uiImage = UIImage(contentsOfFile: path) else {
+      debugPrint("이미지 변환 실패")
       return nil
     }
     
@@ -93,5 +94,26 @@ class NotificationData: Object {
     self.contentImage = contentImage
     self.userProfileUrl = userProfileUrl
     self.profileColorHex = profileColorHex
+  }
+  
+  func getImageFilePath(imageURL: String?) -> String? {
+    guard let imageURLString = imageURL else {
+      return nil
+    }
+    
+    let fileManager = FileManager.default
+    guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS") else {
+      return nil
+    }
+    
+    let directoryURL = container.appendingPathComponent("Thumbnails")
+    let fileName = URL(string: imageURLString)!.lastPathComponent
+    let fileURL = directoryURL.appendingPathComponent(fileName, conformingTo: .webP)
+    
+    if !fileManager.fileExists(atPath: fileURL.path) {
+      return nil
+    }
+    
+    return fileURL.path
   }
 }
