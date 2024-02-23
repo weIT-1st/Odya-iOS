@@ -315,6 +315,7 @@ class UserInfoEditViewModel: ObservableObject {
   @MainActor
   func logout() {
     appDataManager.deleteMyData()
+    appDataManager.deleteLocalDB()
     switch authType {
     case "kakao":
       KakaoAuthViewModel().kakaoLogout()
@@ -339,6 +340,7 @@ class UserInfoEditViewModel: ObservableObject {
         switch completion {
         case .finished:
           self.appDataManager.deleteMyData()
+          self.appDataManager.deleteLocalDB()
           self.idToken = nil
           self.authType = ""
           self.authState = .loggedOut

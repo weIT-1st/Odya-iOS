@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 enum FeedRoute: Hashable {
   case detail(Int)
@@ -116,6 +117,7 @@ struct FeedView: View {
               if viewModel.state.content.isEmpty {
                 viewModel.fetchAllFeedNextPageIfPossible()
               }
+              viewModel.getNotificationState()
             }
           }
           .background(Color.odya.background.normal)
@@ -193,7 +195,7 @@ struct FeedView: View {
 
       // alarm on/off
       NavigationLink(value: FeedRoute.notification) {
-        Image("alarm-on")
+        Image(viewModel.unreadNotificationExists ? "alarm-on" : "alarm-off")
           .padding(10)
           .frame(width: 48, height: 48, alignment: .center)
       }

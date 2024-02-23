@@ -7,6 +7,7 @@
 
 import Combine
 import Moya
+import RealmSwift
 import SwiftUI
 
 final class FeedViewModel: ObservableObject {
@@ -27,8 +28,17 @@ final class FeedViewModel: ObservableObject {
     var canLoadNextPage = true
   }
   
-  @Published private(set) var state = FeedState()
+  /// realm
+  private var realm: Realm {
+    let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS")
+    let realmURL = container?.appendingPathComponent("default.realm")
+    let config = Realm.Configuration(fileURL: realmURL, schemaVersion: 2)
+    return try! Realm(configuration: config)
+  }
   
+  @Published private(set) var state = FeedState()
+  @Published var unreadNotificationExists: Bool = false
+    
   // MARK: - Read
   
   /// 커뮤니티 전체게시글 조회
@@ -128,5 +138,18 @@ final class FeedViewModel: ObservableObject {
   func refreshTopicFeed(topicId: Int) {
     self.state = FeedState()
     fetchTopicFeedNextPageIfPossible(topicId: topicId)
+  }
+  
+  func getNotificationState() {
+    if let state = realm.objects(NotificationIconState.self).first {
+      self.unreadNotificationExists = state.unreadNotificationExists
+    } else {
+      self.unreadNotificationExists = false
+    }
+    
+    realm.objectWillChange.sink {
+      self.getNotificationState()
+    }
+    .store(in: &subscription)
   }
 }

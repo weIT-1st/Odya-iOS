@@ -9,6 +9,7 @@ import Combine
 import CombineMoya
 import FirebaseAuth
 import Moya
+import RealmSwift
 import SwiftUI
 
 class AppDataManager: ObservableObject {
@@ -22,6 +23,14 @@ class AppDataManager: ObservableObject {
   
   // token
   @AppStorage("WeITAuthToken") var idToken: String?
+  
+  // realm
+  private var realm: Realm {
+    let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS")
+    let realmURL = container?.appendingPathComponent("default.realm")
+    let config = Realm.Configuration(fileURL: realmURL, schemaVersion: 2)
+    return try! Realm(configuration: config)
+  }
   
   // MARK: Refresh Token
   
@@ -104,5 +113,11 @@ class AppDataManager: ObservableObject {
     MyData.userID = -1
     MyData.nickname = ""
     MyData.profile = ""
+  }
+  
+  func deleteLocalDB() {
+    try? realm.write {
+      realm.deleteAll()
+    }
   }
 }
