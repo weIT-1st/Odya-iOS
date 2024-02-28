@@ -17,14 +17,6 @@ enum SettingRoute: Hashable {
   case openSourceView
 }
 
-// MARK: Notification Setting
-/// 알람 세부 설정
-struct NotificationSetting: Identifiable {
-  let id = UUID()
-  let title: String
-  var isOn: Bool = false
-}
-
 // MARK: Setting Row Cell
 struct SettingRowCell<Content: View>: View {
   let hasDivider: Bool
@@ -54,12 +46,13 @@ struct SettingView: View {
   //  @StateObject var termsVM = TermsViewModel()
   let locationManager = CLLocationManager()
 
-  @State private var isAllNotiOn: Bool = false
-  @State private var notificationSettings: [NotificationSetting] = [
-    NotificationSetting(title: "커뮤니티 좋아요 알람"),
-    NotificationSetting(title: "커뮤니티 댓글 알람"),
-    NotificationSetting(title: "마케팅 알람"),
+  @State private var notiAllSetting = NotificationSetting(.all)
+  @State private var notiDetailSettings: [NotificationSetting] = [
+    NotificationSetting(.feedOdya),
+    NotificationSetting(.feedComment),
+    NotificationSetting(.marketing),
   ]
+  
   var isLocationTrackingOn: Bool {
     switch locationManager.authorizationStatus {
     case .authorizedAlways, .authorizedWhenInUse:
@@ -191,36 +184,61 @@ extension SettingView {
 extension SettingView {
   var notiSettingView: some View {
     VStack(alignment: .trailing, spacing: 16) {
+      // 알림 파트 타이틀 및 전체 알람 설정 토글
       HStack {
         settingRowTitle("알림설정")
         Spacer()
-        Toggle(isOn: $isAllNotiOn) {
-          HStack {
-            Spacer()
-            Text("전체 알람")
-              .b1Style()
-              .foregroundColor(.odya.label.assistive)
-              .padding(.trailing, 24)
-          }.frame(height: 36)
-        }.toggleStyle(CustomToggleStyle())
-      }
-
-      ForEach(notificationSettings.indices, id: \.self) { index in
-        Toggle(isOn: $notificationSettings[index].isOn) {
-          HStack {
-            Spacer()
-            Text(notificationSettings[index].title)
-              .b2Style()
-              .foregroundColor(.odya.label.assistive)
-              .padding(.trailing, 24)
+        ZStack(alignment: .trailing) {
+          NotiToggleButton(notiSetting: $notiAllSetting)
+          Button(action : {
+            // 전체 알람 설정값에 따라 디테일 설정값 자동으로 변경
+            setAll(!notiAllSetting.isOn)
+          }) {
+            HStack {}
+              .frame(width: 51, height: 31)
+              .contentShape(Rectangle()) // hit testing 영역 제외 방지용
           }
-          .frame(height: 36)
         }
-        .toggleStyle(CustomToggleStyle())
+        .animation(.default, value: notiAllSetting.isOn)
+        .onChange(of: notiAllSetting.isOn) { _ in
+          notiAllSetting.setEnabled()
+        }
+      }
+      
+      // 디테일 알람 설정 토글
+      ForEach(notiDetailSettings.indices, id: \.self) { index in
+        NotiToggleButton(notiSetting: $notiDetailSettings[index])
+        .onChange(of: notiDetailSettings[index].isOn) { newValue in
+          notiDetailSettings[index].setEnabled()
+          
+          // 전체 알람이 켜져있는 상태에서 디테일 설정을 끄면 전체 알람 자동으로 Off
+          if newValue == false && notiAllSetting.isOn {
+            notiAllSetting.isOn = false
+          }
+          
+          // 디테일 설정값이 모두 켜져있다면 전체 알람 자동으로 On
+          if isAllOn() {
+            notiAllSetting.isOn = true
+          }
+        }
       }
     }
   }
-
+  
+  /// 전체 알람 설정 변경 시 디테일 설정값도 같이 변경
+  private func setAll(_ isEnabled: Bool) {
+    notiAllSetting.isOn = isEnabled
+    for index in notiDetailSettings.indices {
+      withAnimation {
+        notiDetailSettings[index].isOn = isEnabled
+      }
+    }
+  }
+  
+  /// 디테일 설정값이 모두 켜져있는지 확인
+  private func isAllOn() -> Bool {
+    return notiDetailSettings.filter{ $0.isOn == false }.isEmpty
+  }
 }
 
 // MARK: Location Tracking Consent View
