@@ -32,10 +32,25 @@ struct FeedNotificationView: View {
     .toolbar(.hidden)
   }
   
+  private let profileSize = ComponentSizeType.S.ProfileImageSize
   // cell
   private func notificationContentCell(content: NotificationData) -> some View {
     HStack(alignment: .top, spacing: 10) {
-      ProfileImageView(of: "", profileData: content.profileData, size: .S)
+      // profile
+      if let profileImage = content.profileImage {
+        profileImage
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: profileSize, height: profileSize)
+          .clipped()
+          .background(Color.odya.system.inactive)
+          .cornerRadius(profileSize / 2)
+      } else {
+        Image("profile")
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: profileSize, height: profileSize)
+      }
       // content
       let event = NotificationEventType(rawValue: content.eventType)
       switch event {
@@ -56,19 +71,27 @@ struct FeedNotificationView: View {
       }
       Spacer()
       // image
-      if let imageUrl = content.contentImage {
-        AsyncImage(url: URL(string: imageUrl)) { image in
-          image
+      if let _ = content.contentImage {
+        if let contentImage = content.thumbnailImage {
+          contentImage
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: 50, height: 50)
             .clipped()
-        } placeholder: {
-          ProgressView()
-            .frame(width: 50, height: 50)
+        } else {
+          defaultContentImage
         }
       }
     }
+  }
+  
+  private var defaultContentImage: some View {
+    Image("logo-lightgray")
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .padding(12)
+      .frame(width: 50, height: 50)
+      .background(Color.odya.background.dimmed_dark)
   }
   
   private func boldText(_ text: String) -> Text {

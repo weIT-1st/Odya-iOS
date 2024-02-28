@@ -5,7 +5,7 @@
 //  Created by Jade Yoo on 2024/02/18.
 //
 
-import Foundation
+import SwiftUI
 import RealmSwift
 
 enum NotificationEventType: String {
@@ -56,6 +56,32 @@ class NotificationData: Object {
     }
   }
   
+  var profileImage: Image? {
+    guard let path = getImageFilePath(imageURL: userProfileUrl) else {
+      return nil
+    }
+
+    guard let uiImage = UIImage(contentsOfFile: path) else {
+      debugPrint("이미지 변환 실패")
+      return nil
+    }
+    
+    return Image(uiImage: uiImage)
+  }
+  
+  var thumbnailImage: Image? {
+    guard let path = getImageFilePath(imageURL: contentImage) else {
+      return nil
+    }
+
+    guard let uiImage = UIImage(contentsOfFile: path) else {
+      debugPrint("이미지 변환 실패")
+      return nil
+    }
+    
+    return Image(uiImage: uiImage)
+  }
+  
   convenience init(eventType: String, userName: String, notifiedAt: String, communityId: Int? = nil, travelJournalId: Int? = nil, followerId: Int? = nil, commentContent: String? = nil, contentImage: String? = nil, userProfileUrl: String? = nil, profileColorHex: String? = nil) {
     self.init()
     self.eventType = eventType
@@ -68,5 +94,26 @@ class NotificationData: Object {
     self.contentImage = contentImage
     self.userProfileUrl = userProfileUrl
     self.profileColorHex = profileColorHex
+  }
+  
+  func getImageFilePath(imageURL: String?) -> String? {
+    guard let imageURLString = imageURL else {
+      return nil
+    }
+    
+    let fileManager = FileManager.default
+    guard let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.weit.Odya-iOS") else {
+      return nil
+    }
+    
+    let directoryURL = container.appendingPathComponent("Thumbnails")
+    let fileName = URL(string: imageURLString)!.lastPathComponent
+    let fileURL = directoryURL.appendingPathComponent(fileName, conformingTo: .webP)
+    
+    if !fileManager.fileExists(atPath: fileURL.path) {
+      return nil
+    }
+    
+    return fileURL.path
   }
 }
