@@ -7,50 +7,46 @@
 
 import SwiftUI
 
-class RootTabManager: ObservableObject {
-  @Published var selectedTab: Int = 0
-}
-
 struct RootTabView: View {
 
 //  @EnvironmentObject var alertManager: AlertManager
-  @StateObject var rootTabManager = RootTabManager()
+  @EnvironmentObject var appState: AppState
   // @StateObject var fullScreenManager = FullScreenCoverManager()
   
   // MARK: Body
 
   var body: some View {
-    TabView(selection: $rootTabManager.selectedTab) {
+    TabView(selection: $appState.activeTab) {
       // MARK: 홈
       HomeView()
-        .environmentObject(rootTabManager)
+        .environmentObject(appState)
         .tabItem {
-          GNBButton(iconImage: "location-m", text: "홈")
-        }.tag(0)
+          GNBButton(iconImage: Tab.home.symbolImage, text: Tab.home.title)
+        }.tag(Tab.home)
 
       // MARK: 내추억
       MyJournalsView()
-        .environmentObject(rootTabManager)
+        .environmentObject(appState)
         // .environmentObject(fullScreenManager)
         .tabItem {
-          GNBButton(iconImage: "diary", text: "내추억")
-        }.tag(1)
+          GNBButton(iconImage: Tab.journal.symbolImage, text: Tab.journal.title)
+        }.tag(Tab.journal)
 
       // MARK: 피드
       FeedView()
-        .environmentObject(rootTabManager)
+        .environmentObject(appState)
         // .environmentObject(fullScreenManager)
         .tabItem {
-          GNBButton(iconImage: "messages-off", text: "피드")
-        }.tag(2)
+          GNBButton(iconImage: Tab.feed.symbolImage, text: Tab.feed.title)
+        }.tag(Tab.feed)
 
       // MARK: 내정보
       ProfileView()
-        .environmentObject(rootTabManager)
+        .environmentObject(appState)
         // .environmentObject(fullScreenManager)
         .tabItem {
-          GNBButton(iconImage: "person-off", text: "내정보")
-        }.tag(3)
+          GNBButton(iconImage: Tab.profile.symbolImage, text: Tab.profile.title)
+        }.tag(Tab.profile)
     }.accentColor(.odya.brand.primary)
   }
 }

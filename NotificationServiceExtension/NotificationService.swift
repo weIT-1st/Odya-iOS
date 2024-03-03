@@ -45,7 +45,9 @@ class NotificationService: UNNotificationServiceExtension {
         }
       }
       */
-
+      
+      saveNotificationData(userInfo: bestAttemptContent.userInfo)
+      
       // handle image
       guard let contentImage = bestAttemptContent.userInfo["contentImage"] as? String else {
         contentHandler(bestAttemptContent)

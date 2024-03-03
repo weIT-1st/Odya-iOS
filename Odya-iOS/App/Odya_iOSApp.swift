@@ -101,6 +101,7 @@ struct Odya_iOSApp: App {
           case .loggedIn,
               .additionalSetupRequired:
             RootTabView()
+              .environmentObject(appDelegate.appState)
               .onAppear {
                 if authState == .additionalSetupRequired {
                   isShowingAdditionalSetUpView = true

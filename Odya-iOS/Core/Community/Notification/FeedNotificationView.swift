@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FeedNotificationView: View {
   @StateObject private var viewModel = FeedNotificationViewModel()
+  @EnvironmentObject var appState: AppState
   
   var body: some View {
     VStack(spacing: 0) {
@@ -16,8 +17,23 @@ struct FeedNotificationView: View {
       ScrollView(.vertical) {
         LazyVStack(spacing: 20) {
           ForEach(viewModel.notificationList, id: \._id) { noti in
-            // TODO: Navigation Link
             notificationContentCell(content: noti)
+              .onTapGesture {
+                switch noti.event {
+                case .followingCommunity, .communityComment, .communityLike:
+                  if let id = noti.communityId {
+                    appState.feedNavStack.append(.detail(id))
+                  }
+                case .followingTravelJournal, .travelJournalTag:
+                  if let id = noti.travelJournalId {
+                    appState.feedNavStack.append(.journalDetail(id))
+                  }
+                case .followerAdd:
+                  appState.activeTab = .profile
+                case .none:
+                  break
+                }
+              }
             Divider()
           }
         }
@@ -52,8 +68,7 @@ struct FeedNotificationView: View {
           .frame(width: profileSize, height: profileSize)
       }
       // content
-      let event = NotificationEventType(rawValue: content.eventType)
-      switch event {
+      switch content.event {
       case .followingCommunity:
         (boldText(content.userName) + regularText(" 님이 ") + coloredText(content.emphasizedWord) + regularText("를 작성했습니다")) + dateText(content.notifiedAt)
       case .followingTravelJournal:

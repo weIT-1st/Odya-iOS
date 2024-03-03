@@ -15,7 +15,8 @@ import FirebaseAuth
 import FirebaseMessaging
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  
+  var appState: AppState = .init()
+
   // MARK: did Finish Launching
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -153,6 +154,35 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     let userInfo = response.notification.request.content.userInfo
     print("didRequest \(userInfo)")
+    routeViewPath(with: userInfo)
     completionHandler()
+  }
+  
+  func routeViewPath(with userInfo: [AnyHashable: Any]) {
+    guard let eventType = userInfo["eventType"] as? String else { return }
+    let communityId = Int(userInfo["communityId"] as? String ?? "")
+    let travelJournalId = Int(userInfo["travelJournalId"] as? String ?? "")
+        
+    guard let notiEventType = NotificationEventType(rawValue: eventType) else {
+      appState.activeTab = .feed
+      return
+    }
+    
+    switch notiEventType {
+    case .followingCommunity, .communityComment, .communityLike:
+      if let communityId {
+        appState.feedNavStack.append(.notification)
+        appState.feedNavStack.append(.detail(communityId))
+      }
+      appState.activeTab = .feed
+    case .followingTravelJournal, .travelJournalTag:
+      if let travelJournalId {
+        appState.feedNavStack.append(.notification)
+        appState.feedNavStack.append(.journalDetail(travelJournalId))
+      }
+      appState.activeTab = .feed
+    case .followerAdd:
+      appState.activeTab = .profile
+    }
   }
 }

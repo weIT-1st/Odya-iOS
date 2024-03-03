@@ -41,7 +41,7 @@ struct PostContentView: View {
 
   var body: some View {
     VStack {
-      NavigationLink(value: FeedRoute.detail(communityId)) {
+      NavigationLink(value: FeedStack.detail(communityId)) {
         VStack {
           // 유저 정보
           HStack {

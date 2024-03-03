@@ -10,11 +10,10 @@ import SwiftUI
 struct LinkedTravelJournalView: View {
   // MARK: Properties
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject var appState: AppState
   @StateObject private var viewModel = LinkedTravelJournalViewModel()
   @State private var showChangeVisibilityAlert: Bool = false
 
-  /// 내비게이션 스택 경로
-  @Binding var path: NavigationPath
   /// 선택된 여행일지 아이디
   @Binding var selectedJournalId: Int?
   /// 상위 뷰에 표시될 여행일지 타이틀
@@ -93,8 +92,8 @@ struct LinkedTravelJournalView: View {
       }
       Button {
         // action: 여행일지 작성하기
-        path.removeLast(path.count)
-        path.append(FeedRoute.createJournal)
+        appState.feedNavStack.removeLast(appState.feedNavStack.count)
+        appState.feedNavStack.append(.createJournal)
       } label: {
         Text("작성하기")
       }

@@ -8,15 +8,6 @@
 import SwiftUI
 import RealmSwift
 
-enum FeedRoute: Hashable {
-  case detail(Int)
-  case createFeed
-  case createJournal
-  case activity
-  case notification
-  case journalDetail(Int)
-}
-
 enum FeedToggleType {
   case all
   case friend
@@ -24,7 +15,8 @@ enum FeedToggleType {
 
 struct FeedView: View {
   // MARK: Properties
-
+  @EnvironmentObject var appState: AppState
+  
   @StateObject private var viewModel = FeedViewModel()
   @StateObject var followHubVM = FollowHubViewModel()
   
@@ -33,12 +25,11 @@ struct FeedView: View {
   @State private var selectedTopicId = -1
   /// 검색뷰 토글
   @State private var showSearchView = false
-  @State private var path = NavigationPath()
   
   // MARK: - Body
 
   var body: some View {
-    NavigationStack(path: $path) {
+    NavigationStack(path: $appState.feedNavStack) {
       GeometryReader { _ in
         ZStack(alignment: .bottomTrailing) {
           VStack(spacing: 0) {
@@ -123,7 +114,7 @@ struct FeedView: View {
           .background(Color.odya.background.normal)
           
           // 피드 작성하기
-          NavigationLink(value: FeedRoute.createFeed) {
+          NavigationLink(value: FeedStack.createFeed) {
             WriteButton()
           }
           .padding(20)
@@ -133,12 +124,12 @@ struct FeedView: View {
           }
         }  // ZStack
         .toolbar(.hidden)
-        .navigationDestination(for: FeedRoute.self) { route in
+        .navigationDestination(for: FeedStack.self) { route in
           switch route {
           case let .detail(communityId):
-            FeedDetailView(path: $path, communityId: communityId)
+            FeedDetailView(communityId: communityId)
           case .createFeed:
-            CommunityComposeView(path: $path)
+            CommunityComposeView()
           case .createJournal:
             TravelJournalComposeView()
               .navigationBarHidden(true)
@@ -171,7 +162,7 @@ struct FeedView: View {
   private var feedToolBar: some View {
     HStack(alignment: .center) {
       // 내 커뮤니티 활동 뷰로 연결
-      NavigationLink(value: FeedRoute.activity) {
+      NavigationLink(value: FeedStack.activity) {
         ProfileImageView(of: MyData.nickname, profileData: MyData.profile.decodeToProileData(), size: .S)
           .overlay(
             RoundedRectangle(cornerRadius: 32)
@@ -194,7 +185,7 @@ struct FeedView: View {
       }
 
       // alarm on/off
-      NavigationLink(value: FeedRoute.notification) {
+      NavigationLink(value: FeedStack.notification) {
         Image(viewModel.unreadNotificationExists ? "alarm-on" : "alarm-off")
           .padding(10)
           .frame(width: 48, height: 48, alignment: .center)
@@ -275,7 +266,7 @@ struct FeedView: View {
 
       // 여행일지 연동
       if let journal = simpleTravelJournal {
-        NavigationLink(value: FeedRoute.journalDetail(journal.travelJournalId)) {
+        NavigationLink(value: FeedStack.journalDetail(journal.travelJournalId)) {
           HStack {
             Image("diary")
               .frame(width: 24, height: 24)
