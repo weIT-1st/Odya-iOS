@@ -33,7 +33,7 @@ struct ProfileView: View {
 
   // navigation stack
   @Environment(\.dismiss) var dismiss
-  @EnvironmentObject var rootTabManager: RootTabManager
+  @EnvironmentObject var appState: AppState
   @State var path = NavigationPath()
 
   // journal compose
@@ -151,7 +151,6 @@ struct ProfileView: View {
                 favoritePlaceTitle
                 FavoritePlaceListView(
                   userId: userId,
-                  rootTabViewIdx: $rootTabManager.selectedTab,
                   path: $path
                 )
                 .environmentObject(favoritePlacesVM)

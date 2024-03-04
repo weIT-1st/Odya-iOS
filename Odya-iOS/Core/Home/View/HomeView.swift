@@ -70,7 +70,7 @@ struct HomeView: View {
       .navigationDestination(for: PlaceDetailRoute.self) { route in
         switch route {
         case let .feedDetail(communityId):
-          FeedDetailView(path: $path, communityId: communityId)
+          FeedDetailView(communityId: communityId)
         case let.journalDetail(journalId):
           TravelJournalDetailView(journalId: journalId)
             .navigationBarHidden(true)

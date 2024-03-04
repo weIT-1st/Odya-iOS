@@ -18,9 +18,9 @@ extension ProfileView {
 struct FavoritePlaceListView: View {
   @EnvironmentObject var VM: FavoritePlaceInProfileViewModel
   // @EnvironmentObject var fullScreenManager: FullScreenCoverManager
-
+  @EnvironmentObject var appState: AppState
+  
   let userId: Int
-  @Binding var rootTabViewIdx: Int
   @Binding var path: NavigationPath
 
   @Environment(\.dismiss) var dismiss
@@ -65,7 +65,7 @@ struct FavoritePlaceListView: View {
       dismiss()  // 프로필 뷰 풀스크린 닫기
       // fullScreenManager.closeAll()
       path.removeLast(path.count)
-      rootTabViewIdx = 0  // 메인 뷰로 이동
+      appState.activeTab = .home  // 메인 뷰로 이동
     }) {
       HStack(spacing: 10) {
         Text("\(VM.placesCount - 4)개의 관심장소 더보기")

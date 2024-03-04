@@ -33,6 +33,7 @@ enum CommunityComposeMode {
 struct CommunityComposeView: View {
   // MARK: Properties
   @Environment(\.presentationMode) var presentationMode
+  @EnvironmentObject var appState: AppState
   
   /// 커뮤니티 아이디
   var communityId: Int = -1
@@ -72,19 +73,15 @@ struct CommunityComposeView: View {
   /// 탭뷰 Dot indicator 높이
   private let dotIndicatorHeight: CGFloat = 44
 
-  /// 내비게이션 스택 경로
-  @Binding var path: NavigationPath
   /// 커뮤니티 작성 모드
   let composeMode: CommunityComposeMode
   
   // MARK: - Init
-  init(path: Binding<NavigationPath>) {
-    self._path = path
+  init() {
     self.composeMode = .create
   }
   
-  init(path: Binding<NavigationPath>, feedDetail: FeedDetail) {
-    self._path = path
+  init(feedDetail: FeedDetail) {
     self.composeMode = .edit
     self.communityId = feedDetail.communityId
     self._textContent = State(initialValue: feedDetail.content)
@@ -236,7 +233,7 @@ struct CommunityComposeView: View {
   /// 여행일지 불러오기 버튼
   private var connectTravelJournalButton: some View {
     NavigationLink {
-      LinkedTravelJournalView(path: $path, selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle, headerTitle: "여행일지")
+      LinkedTravelJournalView(selectedJournalId: $travelJournalId, selectedJournalTitle: $travelJournalTitle, headerTitle: "여행일지")
     } label: {
       ZStack {
         HStack(alignment: .center, spacing: 16) {

@@ -27,7 +27,7 @@ struct MainJournalSelectorView: View {
   var body: some View {
     ZStack(alignment: .top) {
       LinkedTravelJournalView(
-        path: $path, selectedJournalId: $selectedJournalId,
+        selectedJournalId: $selectedJournalId,
         selectedJournalTitle: $selectedJournalTitle, headerTitle: "")
 
       headerBar

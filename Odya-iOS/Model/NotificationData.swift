@@ -36,8 +36,11 @@ class NotificationData: Object {
     return ProfileData(profileUrl: userProfileUrl ?? "", profileColor: ProfileColorData(colorHex: profileColorHex ?? "000000"))
   }
   
+  var event: NotificationEventType? {
+    return NotificationEventType(rawValue: eventType)
+  }
+  
   var emphasizedWord: String {
-    let event = NotificationEventType(rawValue: eventType)
     switch event {
     case .followingCommunity:
       return "피드"

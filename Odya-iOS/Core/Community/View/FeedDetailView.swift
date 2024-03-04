@@ -10,8 +10,7 @@ import SwiftUI
 struct FeedDetailView: View {
   // MARK: Properties
   @Environment(\.presentationMode) var presentationMode
-  
-  @Binding var path: NavigationPath
+  @EnvironmentObject var appState: AppState
   
   @StateObject private var viewModel = FeedDetailViewModel()
   /// 탭뷰 사진 인덱스
@@ -151,7 +150,7 @@ struct FeedDetailView: View {
     }
     .navigationDestination(isPresented: $showEditView) {
       if let feedDetail = viewModel.feedDetail {
-        CommunityComposeView(path: $path, feedDetail: feedDetail)
+        CommunityComposeView(feedDetail: feedDetail)
       }
     }
     .fullScreenCover(isPresented: $showReportView) {

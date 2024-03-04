@@ -19,6 +19,9 @@
 		07310DAF2A6BB0CD0047E972 /* ReviewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DAE2A6BB0CD0047E972 /* ReviewRouter.swift */; };
 		07310DB62A7286380047E972 /* ReviewApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07310DB52A7286380047E972 /* ReviewApiService.swift */; };
 		0732948A2A2C9975008E1026 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073294892A2C9975008E1026 /* UserDefaults.swift */; };
+		07347B8B2B94B72C0072D3C5 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07347B8A2B94B72C0072D3C5 /* AppState.swift */; };
+		07347B8E2B94C2800072D3C5 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07347B8D2B94C2800072D3C5 /* Tab.swift */; };
+		07347B902B94C3E90072D3C5 /* NavStacks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07347B8F2B94C3E90072D3C5 /* NavStacks.swift */; };
 		07589E682AE80B0B00867FAD /* TopicLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E672AE80B0B00867FAD /* TopicLayout.swift */; };
 		07589E6A2AE9345100867FAD /* AuthInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E692AE9345100867FAD /* AuthInterceptor.swift */; };
 		07589E6C2AEFC7F300867FAD /* FeedDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07589E6B2AEFC7F300867FAD /* FeedDetailViewModel.swift */; };
@@ -336,6 +339,9 @@
 		07310DAE2A6BB0CD0047E972 /* ReviewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewRouter.swift; sourceTree = "<group>"; };
 		07310DB52A7286380047E972 /* ReviewApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApiService.swift; sourceTree = "<group>"; };
 		073294892A2C9975008E1026 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		07347B8A2B94B72C0072D3C5 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		07347B8D2B94C2800072D3C5 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
+		07347B8F2B94C3E90072D3C5 /* NavStacks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavStacks.swift; sourceTree = "<group>"; };
 		07589E672AE80B0B00867FAD /* TopicLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicLayout.swift; sourceTree = "<group>"; };
 		07589E692AE9345100867FAD /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		07589E6B2AEFC7F300867FAD /* FeedDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewModel.swift; sourceTree = "<group>"; };
@@ -703,6 +709,7 @@
 		071FA52F2A20ADA400C7B362 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				07347B8C2B94C26F0072D3C5 /* AppState */,
 				071FA5212A20A99F00C7B362 /* Odya_iOSApp.swift */,
 				3E0589002A276E84005C29D9 /* AppDelegate.swift */,
 				3E0589022A276E8C005C29D9 /* SceneDelegate.swift */,
@@ -785,6 +792,16 @@
 				1906B97F2B55271A0043DCF8 /* PlaceReviewCell.swift */,
 			);
 			path = Review;
+			sourceTree = "<group>";
+		};
+		07347B8C2B94C26F0072D3C5 /* AppState */ = {
+			isa = PBXGroup;
+			children = (
+				07347B8A2B94B72C0072D3C5 /* AppState.swift */,
+				07347B8D2B94C2800072D3C5 /* Tab.swift */,
+				07347B8F2B94C3E90072D3C5 /* NavStacks.swift */,
+			);
+			path = AppState;
 			sourceTree = "<group>";
 		};
 		0761F1972AD8043F00FB87AA /* ViewModel */ = {
@@ -1820,6 +1837,7 @@
 				3ED8DBB02B10A7ED00D7CF7F /* PhotoLibraryAuthorizatiionChecker.swift in Sources */,
 				19E3C1C02B634BF30037A495 /* PlaceTextView.swift in Sources */,
 				19683AFE2B030BEE003D6013 /* CommentViewModel.swift in Sources */,
+				07347B902B94C3E90072D3C5 /* NavStacks.swift in Sources */,
 				3EBEC3A22A6C38EC00998EC6 /* ComponetsTestView.swift in Sources */,
 				3E075C912B230A1C0093CACD /* PofileInfoSection.swift in Sources */,
 				3ED22F652AAE3BFD0067DE72 /* FollowHubViewModel.swift in Sources */,
@@ -1908,6 +1926,7 @@
 				07AF2B192A392F0500D54780 /* LocationSearchView.swift in Sources */,
 				19385A342B2AC16A000CB6AB /* MyCommunityActivityView.swift in Sources */,
 				3EBEC3B52A6FFC3500998EC6 /* CTAButton.swift in Sources */,
+				07347B8E2B94C2800072D3C5 /* Tab.swift in Sources */,
 				3E07A6612B500A8500E93B6E /* FavoritePlaceBookmarkManager.swift in Sources */,
 				3E26C37F2AF0E80E003607A8 /* DailyJournalViewModel.swift in Sources */,
 				3E4670202B15E90A00B54D0A /* FollowView.swift in Sources */,
@@ -1955,6 +1974,7 @@
 				3EEBB7CD2A8E259800F0049D /* TravelJournalComposeView.swift in Sources */,
 				07B221242B491D32006C2B20 /* ReviewComposeView.swift in Sources */,
 				3EF54A052A5BE9A8006562F8 /* Response.swift in Sources */,
+				07347B8B2B94B72C0072D3C5 /* AppState.swift in Sources */,
 				3E800EC52A3E16D4001EA4C4 /* PhotoPickerView.swift in Sources */,
 				0773639D2B4AE4B7007F37CA /* TransparentFullScreenCover.swift in Sources */,
 				19EBA7692AB437C6000ABBE5 /* FeedUserInfoView.swift in Sources */,
@@ -2121,10 +2141,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Odya-iOS/Odya-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_ASSET_PATHS = "\"Odya-iOS/Preview Content\"";
-				DEVELOPMENT_TEAM = 7V2ZG69KPK;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -2150,6 +2172,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.weit.Odya-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ODYA-Development-Profile-240215";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2213,7 +2236,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -2249,7 +2272,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 7V2ZG69KPK;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
